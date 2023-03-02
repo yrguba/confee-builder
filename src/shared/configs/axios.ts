@@ -1,12 +1,12 @@
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
-import { auth_secret, http } from 'shared/constanst';
+import { secrets, http } from 'shared/constanst';
 import { TokenService } from 'shared/services';
 
 const config: AxiosRequestConfig = {
     baseURL: `${http.url}`,
 };
-
+console.log(http.url);
 const $axios = axios.create(config);
 
 $axios.interceptors.request.use(async (config: any) => {
@@ -34,7 +34,7 @@ $axios.interceptors.response.use(
         if (error.response.status === 401 && error.config && currentTokens && !error.config._isRetry) {
             originalRequest._isRetry = true;
             try {
-                const additional = { grant_type: 'refresh_token', ...auth_secret };
+                const additional = { grant_type: 'refresh_token', ...secrets.auth };
                 const res: any = await $axios.post('/auth/oauth/token', { refresh_token: currentTokens.refresh_token, ...additional });
                 if (res.data) {
                     const { access_token, refresh_token } = res.data;

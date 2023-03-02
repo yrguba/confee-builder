@@ -2,7 +2,7 @@
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
 
   "package": {
-    "productName": "confee",
+    "productName": "Confee",
     "version": "../package.json"
   },
 
@@ -132,7 +132,7 @@
     },
     "windows": [
       {
-        "title": "confee",
+        "title": "Confee",
         "label": "main",
         "minWidth": 600,
         "minHeight": 600,
