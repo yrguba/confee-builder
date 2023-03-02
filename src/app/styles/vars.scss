@@ -1,0 +1,28 @@
+:root {
+  --border-radius: 8px;
+  --transition: .5s;
+  --scale: 0.99
+}
+
+
+:root[data-theme="light"] {
+  --background-color: #fafafa;
+}
+
+:root[data-theme="dark"] {
+  --background-color: #150E41;
+  --background-color2: #1A202C;
+  --background-color3: #232B38;
+  --global-background-color: #393E46;
+
+  --primary-color: #7B57C8;
+  --secondary-color: #2B2763;
+  --error-color: #FF4B4B;
+
+  --title-color: #FFFFFF;
+  --subtitle-color: #718096;
+
+  --border-color:#40417A;
+
+  --box-shadow-error: 0 0 6px 0 var(--error-color);
+}

@@ -1,0 +1,159 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+
+  "package": {
+    "productName": "confee",
+    "version": "../package.json"
+  },
+
+  "build": {
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "cross-env BROWSER=none npm run start",
+    "devPath": "http://localhost:3000",
+    "distDir": "../build"
+  },
+
+  "tauri": {
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "confee.tauri",
+      "publisher": "Unknown Publisher",
+      "copyright": "Copyright Notice",
+      "icon": [
+        "icons/logo.ico"
+      ],
+      "resources": [],
+      "externalBin": [],
+      "category": "DeveloperTool",
+      "shortDescription": "",
+      "longDescription": "",
+      "deb": {
+        "depends": []
+      },
+      "macOS": {
+        "frameworks": [],
+        "minimumSystemVersion": "",
+        "exceptionDomain": "",
+        "signingIdentity": null,
+        "entitlements": null
+      },
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "allowlist": {
+      "all": false,
+      "clipboard": {
+        "all": false,
+        "readText": false,
+        "writeText": false
+      },
+      "dialog": {
+        "all": false,
+        "ask": false,
+        "confirm": false,
+        "message": false,
+        "open": false,
+        "save": false
+      },
+      "fs": {
+        "all": true,
+        "scope": ["**"]
+      },
+      "globalShortcut": {
+        "all": false
+      },
+      "http": {
+        "all": false,
+        "request": false,
+        "scope": []
+      },
+      "notification": {
+        "all": true
+      },
+      "os": {
+        "all": true
+      },
+      "path": {
+        "all": true
+      },
+      "process": {
+        "all": false,
+        "exit": false,
+        "relaunch": true,
+        "relaunchDangerousAllowSymlinkMacos": false
+      },
+      "protocol": {
+        "all": false,
+        "asset": false,
+        "assetScope": []
+      },
+      "shell": {
+        "all": false,
+        "execute": false,
+        "open": ".*",
+        "scope": [],
+        "sidecar": false
+      },
+      "window": {
+        "all": false,
+        "center": false,
+        "close": true,
+        "create": false,
+        "hide": false,
+        "maximize": true,
+        "minimize": true,
+        "print": false,
+        "requestUserAttention": false,
+        "setAlwaysOnTop": false,
+        "setCursorGrab": false,
+        "setCursorIcon": false,
+        "setCursorPosition": false,
+        "setCursorVisible": false,
+        "setDecorations": true,
+        "setFocus": true,
+        "setFullscreen": true,
+        "setIcon": false,
+        "setMaxSize": false,
+        "setMinSize": false,
+        "setPosition": false,
+        "setResizable": false,
+        "setSize": true,
+        "setSkipTaskbar": false,
+        "setTitle": false,
+        "show": false,
+        "startDragging": true,
+        "unmaximize": true,
+        "unminimize": true
+      }
+    },
+    "windows": [
+      {
+        "title": "confee",
+        "label": "main",
+        "minWidth": 600,
+        "minHeight": 600,
+        "resizable": true,
+        "fullscreen": false,
+        "visible": true,
+        "decorations": true,
+        "alwaysOnTop": false
+      }
+    ],
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://prod.hoolichat.ru/api/v1/files/desktop_upload{{target}}/{{current_version}}",
+        "https://dev.hoolichat.ru/api/v1/files/desktop_upload{{target}}/{{current_version}}"
+      ],
+      "dialog": false,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDZERkZDNzZCMTc0M0E4MUMKUldRY3FFTVhhOGYvYlY2WUVKclBKWlZuNHBjMW1yQzBic2IySGg3TW43cGV2bCttS0tLZFlhRDEK"
+    },
+    "security": {
+      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+    }
+  }
+}

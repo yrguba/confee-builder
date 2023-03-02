@@ -1,0 +1,61 @@
+.wrapper {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  will-change: transform;
+  text-align: center;
+  position: relative;
+  overflow-x: hidden;
+
+&:hover {
+    transform: scale(var(--scale));
+  }
+}
+
+.content{
+  display: flex;
+  align-items: center;
+  padding: 4px 16px;
+  white-space: nowrap;
+  color: var(--title-color);
+}
+
+.disabled {
+  background-color: var(--secondary-color);
+  pointer-events: none;
+  cursor: default;
+}
+
+.error {
+}
+
+
+.loading {
+  pointer-events: none;
+  cursor: default;
+}
+
+.loadingAnimation{
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 45px;
+  transform: skewX(-45deg); // Наклон
+  left: -150%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4));
+  animation: flareAnimation 2s infinite linear;
+}
+
+@keyframes flareAnimation {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 150%;
+  }
+}

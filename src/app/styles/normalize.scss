@@ -1,0 +1,35 @@
+@import "~normalize.css/normalize.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+html {
+  scroll-behavior: smooth;
+  font-family: 'Poppins', sans-serif;
+  a, button {
+    all: unset;
+    cursor: pointer;
+  }
+
+  input {
+    all: unset;
+  }
+
+  ::placeholder {
+    color: var(--subtitle-color);
+  }
+  input[type=password]::-ms-reveal,
+  input[type=password]::-ms-clear
+  {
+    display: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: inherit;        /* цвет дорожки */
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--subtitle-color);    /* цвет плашки */
+    border-radius: 20px;       /* закругления плашки *//* padding вокруг плашки */
+  }
+}

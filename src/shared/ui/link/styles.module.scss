@@ -1,0 +1,15 @@
+.link {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.loading {
+}
+
+.error {
+}
