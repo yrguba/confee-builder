@@ -6,27 +6,26 @@ import InternalInput from './input';
 import Password from './password';
 import Search from './search';
 import styles from './styles.module.scss';
-import { BaseProps, GetInputPropsReturned, InputAttrs } from './types';
+import { InputComponentProps, GetInputPropsReturned } from './types';
 
 const cx = cnBind.bind(styles);
 
-export const getProps = (props: InputAttrs & BaseProps): GetInputPropsReturned => {
-    const { isLoading, isError, $size, ...inputAttrs } = props;
-    const baseProps = { isLoading, isError, $size };
+export const getBase = (props: InputComponentProps): GetInputPropsReturned => {
+    const { loading, error, size, ...inputAttrs } = props;
+    const inputProps = { loading, error, size };
 
-    return { baseProps, inputAttrs };
-};
-
-export const wrapperClasses = (props: BaseProps) =>
-    cn(
+    const classes = cn(
         cx('wrapper', {
-            loading: props.isLoading,
-            error: props.isError,
-            [`size-${props.$size}`]: props.$size,
+            loading: props.loading,
+            error: props.error,
+            [`size-${props.size}`]: props.size,
         })
     );
 
-type CompoundedComponent = ForwardRefExoticComponent<any> & {
+    return { classes, inputProps, inputAttrs };
+};
+
+type CompoundedComponent = ForwardRefExoticComponent<InputComponentProps> & {
     Password: typeof Password;
     Search: typeof Search;
 };

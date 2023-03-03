@@ -6,22 +6,24 @@ export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
 
 export type InputValue = InputAttrs['value'];
 
-export interface BaseProps {
-    isLoading?: boolean;
-    isError?: boolean;
-    $size?: 's' | 'm' | 'l' | 'xl';
+export interface InputProps {
+    loading?: boolean;
+    disabled?: boolean;
+    error?: boolean;
+    size?: number | 's' | 'm' | 'l' | 'xl';
 }
 
-export interface InputProps extends InputAttrs, BaseProps {}
+export type InputComponentProps = InputAttrs & InputProps;
 
-export interface PasswordProps extends InputAttrs, BaseProps {}
+export interface PasswordProps extends InputComponentProps {}
 
-export interface SearchProps extends InputAttrs, BaseProps {
+export interface SearchProps extends InputComponentProps {
     debounceDelay?: number;
     debounceCallback?: (arg: InputValue) => void;
 }
 
 export type GetInputPropsReturned = {
-    baseProps: BaseProps;
+    classes: string;
+    inputProps: InputProps;
     inputAttrs: InputAttrs;
 };

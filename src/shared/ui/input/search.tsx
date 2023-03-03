@@ -6,14 +6,12 @@ import Icons from './icons';
 import styles from './styles.module.scss';
 import { SearchProps } from './types';
 
-import { wrapperClasses, getProps } from './index';
+import { getBase } from './index';
 
 const Input = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
     const { debounceDelay, debounceCallback, ...other } = props;
 
-    const { baseProps, inputAttrs } = getProps(other);
-
-    const classes = wrapperClasses(baseProps);
+    const { classes, inputAttrs } = getBase(other);
 
     useDebounce(
         () => {
