@@ -11,8 +11,6 @@ function useModal(modal: Modal): ModalHookReturned {
         setIsOpen(!isOpen);
     }
 
-    const open = () => setIsOpen(true);
-    const close = () => setIsOpen(false);
     return { isOpen, toggle, name: modal };
 }
 
