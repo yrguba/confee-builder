@@ -1,0 +1,11 @@
+@import "./src/app/styles";
+
+.menu{
+@include flex-column;
+
+  .item{
+    @include flex(flex-start);
+    width: 100%;
+    cursor: pointer;
+  }
+}

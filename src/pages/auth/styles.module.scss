@@ -1,8 +1,7 @@
+@import "./src/app/styles";
+
 .auth{
-  width: 100%;
-  height: 100vh;
+  @include box-size(100%, 100vh);
+  @include flex;
   background-color: var(--background-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

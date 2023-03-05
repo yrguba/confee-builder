@@ -1,3 +1,5 @@
+@import "./src/app/styles";
+
 .wrapper {
   height: 30px;
   display: flex;
@@ -11,18 +13,19 @@
   text-align: center;
   position: relative;
   overflow-x: hidden;
-
-&:hover {
-    transform: scale(var(--scale));
-  }
+  @include btn-actions
 }
 
-.content{
+.content {
   display: flex;
   align-items: center;
   padding: 4px 16px;
   white-space: nowrap;
   color: var(--title-color);
+}
+
+.active {
+  box-shadow: var(--box-shadow-active);
 }
 
 .disabled {
@@ -40,7 +43,7 @@
   cursor: default;
 }
 
-.loadingAnimation{
+.loadingAnimation {
   position: absolute;
   top: 0;
   height: 100%;
@@ -58,4 +61,24 @@
   100% {
     left: 150%;
   }
+}
+
+.size-s {
+  width: 200px;
+  height: 30px;
+}
+
+.size-m {
+  width: 264px;
+  height: 40px;
+}
+
+.size-l {
+  width: 100%;
+  height: 48px;
+}
+
+.size-xl {
+  width: 100%;
+  height: 48px;
 }

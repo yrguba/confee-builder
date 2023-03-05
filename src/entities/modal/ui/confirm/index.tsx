@@ -1,17 +1,9 @@
 import React from 'react';
 
-import { Button } from '../../../../shared/ui';
-import { Modal, useModal } from '../../index';
+import styles from './styles.module.scss';
 
 function ConfirmModal(props: any) {
-    const confirmModal = useModal('confirm');
-
-    return (
-        <div>
-            <Modal {...confirmModal} />
-            <Button onClick={confirmModal.toggle}>open</Button>
-        </div>
-    );
+    return <div className={styles.confirm}>ConfirmModal</div>;
 }
 
 export default ConfirmModal;

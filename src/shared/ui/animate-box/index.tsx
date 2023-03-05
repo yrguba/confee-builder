@@ -1,14 +1,12 @@
 import { motion, AnimatePresence, AnimationProps, AnimatePresenceProps, MotionProps } from 'framer-motion';
 import React, { ReactNode, HTMLAttributes } from 'react';
 
-import { visibleHidden } from './variants';
-
-type AnimateVariant = 'visible-hidden';
+import { visibleHidden, AnimationVariant, autoHeight } from './variants';
 
 type Props = {
     children: ReactNode;
     isVisible: boolean;
-    variant?: AnimateVariant;
+    animationVariant?: AnimationVariant;
     presence?: boolean;
     presenceProps?: AnimatePresenceProps;
 } & HTMLAttributes<HTMLDivElement> &
@@ -16,14 +14,15 @@ type Props = {
     MotionProps;
 
 function AnimateBox(props: Props) {
-    const { children, isVisible, variant = 'visible-hidden', presence = false, presenceProps, ...motionDivAttrs } = props;
+    const { children, isVisible, animationVariant = 'visible-hidden', presence = true, presenceProps, ...motionDivAttrs } = props;
 
     const variantDictionary = {
         'visible-hidden': visibleHidden,
+        'auto-height': autoHeight,
     };
 
     const motionDiv = (
-        <motion.div {...variantDictionary[variant]} {...motionDivAttrs}>
+        <motion.div {...variantDictionary[animationVariant]} {...motionDivAttrs}>
             {children}
         </motion.div>
     );
