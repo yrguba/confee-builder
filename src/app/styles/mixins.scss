@@ -11,13 +11,25 @@
 }
 
 @mixin flex-column($justify: center,  $align: center, $gap: 12px) {
-  @include flex($justify,  $align, $gap);
+  @include flex($justify, $align, $gap);
   flex-direction: column;
   background-color: #7B57C8;
 }
 
-@mixin position($position: absolute, $top: 0, $left: 0){
+@mixin position($position: absolute, $top: 0, $left: 0) {
   position: $position;
   top: $top;
   left: $left;
+}
+
+
+@mixin btn-actions() {
+  will-change: transform;
+  transition: all .5s;
+  &:hover {
+    transform: scale(1.02);
+  }
+  &:active{
+    transform: scale(0.98);
+  }
 }
