@@ -1,8 +1,7 @@
-import cn from 'classnames';
-import cnBind from 'classnames/bind';
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { useStyles } from 'shared/hooks';
 import { Button, Icons, AnimateBox } from 'shared/ui';
 
 import Confirm from './confirm';
@@ -35,11 +34,7 @@ function Modal(props: Props) {
         onClose && onClose();
     };
 
-    const classes = cn(
-        cnBind.bind(styles)('modal', {
-            //
-        })
-    );
+    const classes = useStyles('modal');
 
     return modal_root
         ? ReactDOM.createPortal(

@@ -16,7 +16,7 @@ type Props = {
     MotionProps;
 
 function AnimateBox(props: Props) {
-    const { children, isVisible, variant = 'visible-hidden', presence = false, presenceProps, ...motionDivAttrs } = props;
+    const { children, isVisible, variant = 'visible-hidden', presence = true, presenceProps, ...motionDivAttrs } = props;
 
     const variantDictionary = {
         'visible-hidden': visibleHidden,

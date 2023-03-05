@@ -30,7 +30,7 @@ function NestedPagesTabsWidget() {
         <div className={styles.wrapper}>
             <div className={styles.buttons}>
                 {buttons.map((btn) => (
-                    <Button isDisabled={isPending} isLoading={isPending && pressedBtn === btn.id} key={btn.id} onClick={() => buttonClick(btn.id, btn.path)}>
+                    <Button disabled={isPending} loading={isPending && pressedBtn === btn.id} key={btn.id} onClick={() => buttonClick(btn.id, btn.path)}>
                         {btn.text}
                     </Button>
                 ))}

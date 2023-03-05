@@ -1,21 +1,11 @@
-import React, { ReactNode } from 'react';
-
-import { Dropdown } from 'shared/ui';
+import React from 'react';
 
 import styles from './styles.module.scss';
 
-type Props = {
-    children: ReactNode;
-};
+type Props = {};
 
 function MessageMenu(props: Props) {
-    const { children } = props;
-
-    return (
-        <div>
-            <div onClick={() => console.log('wdad')}>{children}</div>
-        </div>
-    );
+    return <div className={styles.menu}>MessageMenu</div>;
 }
 
 export default MessageMenu;
