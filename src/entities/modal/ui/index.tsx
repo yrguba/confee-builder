@@ -1,8 +1,7 @@
-import cn from 'classnames';
-import cnBind from 'classnames/bind';
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { useStyles } from 'shared/hooks';
 import { Button, Icons, AnimateBox } from 'shared/ui';
 
 import Confirm from './confirm';
@@ -30,33 +29,27 @@ function Modal(props: Props) {
         },
     };
 
-    const close = (e: MouseEvent) => {
-        e.stopPropagation();
-        e.preventDefault();
+    const close = () => {
         toggle();
         onClose && onClose();
     };
 
-    const classes = cn(
-        cnBind.bind(styles)('modal', {
-            //
-        })
-    );
+    const classes = useStyles(styles, 'modal');
 
     return modal_root
         ? ReactDOM.createPortal(
-              <AnimateBox isVisible={isOpen} presence className={styles.mask} onClick={(e) => close(e)}>
+              <AnimateBox isVisible={isOpen} presence className={styles.mask} onClick={close}>
                   <div className={classes} onClick={(e) => e.stopPropagation()}>
                       <div className={styles.header}>
                           <div className={styles.header__title}>{headerText || dictionary[name].title}</div>
-                          <div className={styles.header__closeIcon} onClick={(e) => close(e)}>
+                          <div className={styles.header__closeIcon} onClick={close}>
                               <Icons.Base variants="close" />
                           </div>
                       </div>
                       <div className={styles.content}>{dictionary[name].element}</div>
                       {footer && (
                           <div className={styles.footer}>
-                              <Button onClick={(e) => close(e)}>{closeText || 'отмена'}</Button>
+                              <Button onClick={close}>{closeText || 'отмена'}</Button>
                               <Button onClick={onOk}>{okText || 'готово'}</Button>
                           </div>
                       )}

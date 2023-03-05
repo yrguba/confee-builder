@@ -1,16 +1,14 @@
-@import "src/app";
+@import "src/app/styles";
 
 .globalWrapper {
-  width: 100%;
-  height: 100vh;
+  @include box-size(100%, 100vh);
   display: flex;
   justify-content: center;
   background-color: var(--global-background-color);
 }
 
 .pagesWrapper {
-  height: 100%;
-  width: 100%;
+  @include box-size(100%, 100%);
 
   @media screen and (min-width: 1680px) {
     width: 1680px

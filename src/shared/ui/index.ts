@@ -1,10 +1,11 @@
 import AnimateBox from './animate-box';
 import Button from './button';
+import Dropdown, { DropdownProps } from './dropdown';
 import * as Icons from './icons';
 import Input from './input';
 import Link from './link';
 import Spinner from './spinner';
 import Title from './title';
-import * as Types from './types';
 
-export { Button, Input, Spinner, Title, Link, AnimateBox, Icons, Types };
+export { Button, Input, Spinner, Title, Link, AnimateBox, Dropdown, Icons };
+export type { DropdownProps };

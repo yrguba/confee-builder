@@ -1,5 +1,5 @@
 import React, { useState, useTransition } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { RoutesNames } from 'shared/enums';
 import { Button } from 'shared/ui';
@@ -8,8 +8,9 @@ import styles from './styles.module.scss';
 
 function NestedPagesTabsWidget() {
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
-    const [pressedBtn, setPressedBtn] = useState<number | null>(null);
+    const [activeBtn, setActiveBtn] = useState<number | null>(null);
 
     const [isPending, startTransition] = useTransition();
 
@@ -22,7 +23,7 @@ function NestedPagesTabsWidget() {
     ];
 
     const buttonClick = (id: number, path: string) => {
-        setPressedBtn(id);
+        setActiveBtn(id);
         startTransition(() => navigate(path));
     };
 
@@ -30,7 +31,13 @@ function NestedPagesTabsWidget() {
         <div className={styles.wrapper}>
             <div className={styles.buttons}>
                 {buttons.map((btn) => (
-                    <Button isDisabled={isPending} isLoading={isPending && pressedBtn === btn.id} key={btn.id} onClick={() => buttonClick(btn.id, btn.path)}>
+                    <Button
+                        active={pathname.split('/').pop() === btn.path}
+                        disabled={isPending}
+                        loading={isPending && activeBtn === btn.id}
+                        key={btn.id}
+                        onClick={() => buttonClick(btn.id, btn.path)}
+                    >
                         {btn.text}
                     </Button>
                 ))}

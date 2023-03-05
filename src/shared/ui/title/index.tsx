@@ -4,16 +4,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
 
 import styles from './styles.module.scss';
+import { AnimateBox } from '../index';
 
 type Props = {
     children: string | number | undefined;
     secondary?: boolean;
     isLoading?: boolean;
     isError?: boolean;
+    animation?: boolean;
 };
 
 function Title(props: Props) {
-    const { children, secondary, isLoading, isError, ...other } = props;
+    const { children, secondary, isLoading, isError, animation = false, ...other } = props;
 
     const cx = cnBind.bind(styles);
 
@@ -25,14 +27,14 @@ function Title(props: Props) {
         })
     );
 
-    return (
-        <AnimatePresence initial={false}>
-            {children && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={classes} {...other}>
-                    {children}
-                </motion.div>
-            )}
-        </AnimatePresence>
+    return animation ? (
+        <AnimateBox isVisible={!!children} className={classes} {...other}>
+            {children}
+        </AnimateBox>
+    ) : (
+        <div className={classes} {...other}>
+            {children}
+        </div>
     );
 }
 

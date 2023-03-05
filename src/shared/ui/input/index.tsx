@@ -8,14 +8,12 @@ import Search from './search';
 import styles from './styles.module.scss';
 import { InputComponentProps, GetInputPropsReturned } from './types';
 
-const cx = cnBind.bind(styles);
-
 export const getBase = (props: InputComponentProps): GetInputPropsReturned => {
     const { loading, error, size, ...inputAttrs } = props;
     const inputProps = { loading, error, size };
 
     const classes = cn(
-        cx('wrapper', {
+        cnBind.bind(styles)('wrapper', {
             loading: props.loading,
             error: props.error,
             [`size-${props.size}`]: props.size,

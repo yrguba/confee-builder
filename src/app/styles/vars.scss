@@ -1,7 +1,6 @@
 :root {
   --border-radius: 8px;
   --transition: .5s;
-  --scale: 0.99
 }
 
 
@@ -22,7 +21,8 @@
   --title-color: #FFFFFF;
   --subtitle-color: #718096;
 
-  --border-color:#40417A;
+  --border-color: #40417A;
 
+  --box-shadow-active: 0 0 6px 0 var(--title-color);
   --box-shadow-error: 0 0 6px 0 var(--error-color);
 }
