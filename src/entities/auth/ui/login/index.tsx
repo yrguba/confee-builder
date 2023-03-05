@@ -17,7 +17,6 @@ function LoginForm(props: Props) {
     const { register, handleSubmit, isLoading, errors } = props;
 
     const disabledBtn = errors.login || errors.password;
-    const errorText = errors.password?.message || errors.root?.message;
 
     return (
         <form onSubmit={handleSubmit} className={styles.login}>
@@ -28,11 +27,10 @@ function LoginForm(props: Props) {
             </div>
 
             <div className={styles.inputGroup}>
-                <Title secondary>Введите Ваш корпоративный логин</Title>
-                <Input size="l" placeholder="Логин" {...register('login')} error={!!errors.login} />
-                <Title isError>{errors.login ? String(errors.login.message) : ''}</Title>
+                <Title secondary>Введите пароль</Title>
+                <Input.Password size="l" placeholder="Пароль" {...register('password')} error={!!errors.password} />
+                <Title isError>{errors.password ? String(errors.password.message) : ''}</Title>
             </div>
-
             <Button type="submit" isDisabled={!!disabledBtn} isLoading={isLoading}>
                 Отправить
             </Button>

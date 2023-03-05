@@ -1,7 +1,5 @@
 import { InputHTMLAttributes } from 'react';
 
-export type IconVariants = 'hiddenPass' | 'visiblePass' | 'search' | null;
-
 export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
 
 export type InputValue = InputAttrs['value'];

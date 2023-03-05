@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react';
 
 import { useDebounce } from 'shared/hooks';
+import { Icons } from 'shared/ui';
 
-import Icons from './icons';
 import styles from './styles.module.scss';
 import { SearchProps } from './types';
 
@@ -24,7 +24,7 @@ const Input = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
     return (
         <div className={classes}>
             <input onFocus={(event) => event.target.removeAttribute('readOnly')} readOnly ref={ref} className={styles.input} {...inputAttrs} />
-            <Icons variants="search" />
+            <Icons.Input variants="search" />
         </div>
     );
 });

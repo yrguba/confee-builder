@@ -4,9 +4,9 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
-type State = {};
+type Store = {};
 
-const viewerStore = create<State>()(
+const viewerStore = create<Store>()(
     devtools(
         immer((set) => ({
             //
@@ -14,4 +14,6 @@ const viewerStore = create<State>()(
     )
 );
 
-export default useCreateSelectors(viewerStore);
+const useViewerStore = useCreateSelectors(viewerStore);
+
+export default useViewerStore;
