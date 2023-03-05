@@ -1,18 +1,21 @@
-import React, { ReactNode, ButtonHTMLAttributes, useRef, MouseEvent } from 'react';
+import React, { ReactNode, useRef } from 'react';
 
 import { useToggle, useClickAway, useStyles } from 'shared/hooks';
 import { AnimateBox } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { AnimationVariant } from '../animate-box/variants';
 
-type Props = {
+export type DropdownProps = {
     children: ReactNode;
+    content?: ReactNode;
     trigger?: 'left-click' | 'right-click' | 'hover';
     position?: 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+    animationVariant?: AnimationVariant;
+};
 
-function Dropdown(props: Props) {
-    const { children, trigger = 'left-click', position = 'right-center' } = props;
+function Dropdown(props: DropdownProps) {
+    const { children, content, trigger = 'left-click', position = 'left-bottom', animationVariant = 'visible-hidden' } = props;
 
     const ref = useRef(null);
 
@@ -22,7 +25,7 @@ function Dropdown(props: Props) {
         isOpen && toggle();
     });
 
-    const classes = useStyles('body', {
+    const classes = useStyles(styles, 'body', {
         [`position-${position}`]: position,
     });
 
@@ -40,8 +43,8 @@ function Dropdown(props: Props) {
             onMouseLeave={trigger === 'hover' ? () => toggle() : undefined}
         >
             {children}
-            <AnimateBox className={classes} isVisible={isOpen} presence onClick={(e) => e.stopPropagation()}>
-                <div>wdwdadwadawd</div>
+            <AnimateBox animationVariant={animationVariant} className={classes} isVisible={isOpen} presence onClick={(e) => e.stopPropagation()}>
+                {content}
             </AnimateBox>
         </div>
     );

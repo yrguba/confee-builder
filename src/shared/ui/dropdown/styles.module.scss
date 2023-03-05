@@ -12,6 +12,7 @@
   color: #fafafa;
   @include box-size(150px, 200px);
   background-color: #7B57C8;
+  overflow: hidden;
 }
 
 @mixin position($top, $left, $transform){

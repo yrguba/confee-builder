@@ -16,12 +16,16 @@
   @include btn-actions
 }
 
-.content{
+.content {
   display: flex;
   align-items: center;
   padding: 4px 16px;
   white-space: nowrap;
   color: var(--title-color);
+}
+
+.active {
+  box-shadow: var(--box-shadow-active);
 }
 
 .disabled {
@@ -39,7 +43,7 @@
   cursor: default;
 }
 
-.loadingAnimation{
+.loadingAnimation {
   position: absolute;
   top: 0;
   height: 100%;
@@ -59,19 +63,22 @@
   }
 }
 
-.size-s{
+.size-s {
   width: 200px;
   height: 30px;
 }
-.size-m{
+
+.size-m {
   width: 264px;
   height: 40px;
 }
-.size-l{
+
+.size-l {
   width: 100%;
   height: 48px;
 }
-.size-xl{
+
+.size-xl {
   width: 100%;
   height: 48px;
 }

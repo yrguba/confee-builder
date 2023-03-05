@@ -1,3 +1,4 @@
-import MessageMenu from './ui/message';
+import * as menuDropdownTypes from './model/types';
+import DropdownMenu from './ui';
 
-export { MessageMenu };
+export { DropdownMenu, menuDropdownTypes };

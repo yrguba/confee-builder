@@ -34,7 +34,7 @@ function Modal(props: Props) {
         onClose && onClose();
     };
 
-    const classes = useStyles('modal');
+    const classes = useStyles(styles, 'modal');
 
     return modal_root
         ? ReactDOM.createPortal(
