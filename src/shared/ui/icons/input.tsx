@@ -1,12 +1,10 @@
 import React from 'react';
 
-import { IconVariants } from './types';
-
 type Props = {
-    variants: IconVariants;
+    variants: 'hiddenPass' | 'visiblePass' | 'search';
 };
 
-function Icons(props: Props) {
+function Input(props: Props) {
     const { variants } = props;
 
     switch (variants) {
@@ -60,4 +58,4 @@ function Icons(props: Props) {
     }
 }
 
-export default Icons;
+export default Input;

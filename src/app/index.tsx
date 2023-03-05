@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 
 import Routing from 'pages';
 import { useTheme } from 'shared/hooks';
-
 import './index.scss';
 
 const queryClient = new QueryClient();
