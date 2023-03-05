@@ -1,19 +1,17 @@
 import React, { forwardRef } from 'react';
 
 import { useDebounce } from 'shared/hooks';
+import { Icons } from 'shared/ui';
 
-import Icons from './icons';
 import styles from './styles.module.scss';
 import { SearchProps } from './types';
 
-import { wrapperClasses, getProps } from './index';
+import { getBase } from './index';
 
 const Input = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
     const { debounceDelay, debounceCallback, ...other } = props;
 
-    const { baseProps, inputAttrs } = getProps(other);
-
-    const classes = wrapperClasses(baseProps);
+    const { classes, inputAttrs } = getBase(other);
 
     useDebounce(
         () => {
@@ -26,7 +24,7 @@ const Input = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
     return (
         <div className={classes}>
             <input onFocus={(event) => event.target.removeAttribute('readOnly')} readOnly ref={ref} className={styles.input} {...inputAttrs} />
-            <Icons variants="search" />
+            <Icons.Input variants="search" />
         </div>
     );
 });

@@ -1,17 +1,16 @@
 import React, { forwardRef, useState } from 'react';
 
-import Icons from './icons';
+import { Icons } from 'shared/ui';
+
 import styles from './styles.module.scss';
 import { PasswordProps } from './types';
 
-import { wrapperClasses, getProps } from './index';
+import { getBase } from './index';
 
 const Input = forwardRef<HTMLInputElement, PasswordProps>((props, ref) => {
     const [showPass, toggleShowPass] = useState<boolean>(false);
 
-    const { baseProps, inputAttrs } = getProps(props);
-
-    const classes = wrapperClasses(baseProps);
+    const { classes, inputAttrs } = getBase(props);
 
     return (
         <div className={classes}>
@@ -24,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, PasswordProps>((props, ref) => {
                 {...inputAttrs}
             />
             <div onClick={() => toggleShowPass((prev) => !prev)}>
-                <Icons variants={showPass ? 'visiblePass' : 'hiddenPass'} />
+                <Icons.Input variants={showPass ? 'visiblePass' : 'hiddenPass'} />
             </div>
         </div>
     );

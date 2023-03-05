@@ -1,14 +1,12 @@
 import React, { forwardRef } from 'react';
 
 import styles from './styles.module.scss';
-import { InputProps } from './types';
+import { InputComponentProps } from './types';
 
-import { getProps, wrapperClasses } from '.';
+import { getBase } from '.';
 
-const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-    const { baseProps, inputAttrs } = getProps(props);
-
-    const classes = wrapperClasses(baseProps);
+const Input = forwardRef<HTMLInputElement, InputComponentProps>((props, ref) => {
+    const { classes, inputAttrs } = getBase(props);
 
     return (
         <div className={classes}>
