@@ -1,12 +1,12 @@
 import { motion, AnimatePresence, AnimationProps, AnimatePresenceProps, MotionProps } from 'framer-motion';
 import React, { ReactNode, HTMLAttributes } from 'react';
 
-import { visibleHidden, AnimationVariant, autoHeight } from './variants';
+import { visibleHidden, AnimationVariants, autoHeight } from './animation-variants';
 
 type Props = {
     children: ReactNode;
     isVisible: boolean;
-    animationVariant?: AnimationVariant;
+    animationVariant?: AnimationVariants;
     presence?: boolean;
     presenceProps?: AnimatePresenceProps;
 } & HTMLAttributes<HTMLDivElement> &
@@ -21,8 +21,10 @@ function AnimateBox(props: Props) {
         'auto-height': autoHeight,
     };
 
+    const variant = variantDictionary[animationVariant];
+
     const motionDiv = (
-        <motion.div {...variantDictionary[animationVariant]} {...motionDivAttrs}>
+        <motion.div {...variant} {...motionDivAttrs}>
             {children}
         </motion.div>
     );

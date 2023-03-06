@@ -1,0 +1,10 @@
+@import "./src/app/styles";
+
+.list {
+  @include box-size(100%, 60%);
+  overflow-y: auto;
+  overflow-x: hidden;
+  direction: rtl;
+  position: relative;
+  border-radius: var(--border-radius);
+}
