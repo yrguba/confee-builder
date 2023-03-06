@@ -1,36 +1,29 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { useStyles } from 'shared/hooks';
 import { Button, Icons, AnimateBox } from 'shared/ui';
 
-import Confirm from './confirm';
 import styles from './styles.module.scss';
-import { ModalHookReturned } from '../hooks/useModal';
+import { ModalHookReturnedType } from './useModal';
 
 type Props = {
+    children: ReactNode;
     onOk?: () => void;
     onClose?: () => void;
     footer?: boolean;
     headerText?: string;
     okText?: string;
     closeText?: string;
-} & ModalHookReturned;
+} & ModalHookReturnedType;
 
 function Modal(props: Props) {
-    const { isOpen, toggle, name, onOk, onClose, closeText, okText, headerText, footer = true } = props;
+    const { isOpen, open, close, children, onOk, onClose, closeText, okText, headerText, footer = true } = props;
 
     const modal_root = document.querySelector('#modal-root');
 
-    const dictionary = {
-        confirm: {
-            title: 'Подтвердите действия',
-            element: <Confirm />,
-        },
-    };
-
-    const close = () => {
-        toggle();
+    const closeClick = () => {
+        close();
         onClose && onClose();
     };
 
@@ -38,18 +31,18 @@ function Modal(props: Props) {
 
     return modal_root
         ? ReactDOM.createPortal(
-              <AnimateBox isVisible={isOpen} presence className={styles.mask} onClick={close}>
+              <AnimateBox isVisible={isOpen} presence className={styles.mask} onClick={closeClick}>
                   <div className={classes} onClick={(e) => e.stopPropagation()}>
                       <div className={styles.header}>
-                          <div className={styles.header__title}>{headerText || dictionary[name].title}</div>
-                          <div className={styles.header__closeIcon} onClick={close}>
+                          <div className={styles.header__title}>{headerText}</div>
+                          <div className={styles.header__closeIcon} onClick={closeClick}>
                               <Icons.Base variants="close" />
                           </div>
                       </div>
-                      <div className={styles.content}>{dictionary[name].element}</div>
+                      <div className={styles.content}>{children}</div>
                       {footer && (
                           <div className={styles.footer}>
-                              <Button onClick={close}>{closeText || 'отмена'}</Button>
+                              <Button onClick={closeClick}>{closeText || 'отмена'}</Button>
                               <Button onClick={onOk}>{okText || 'готово'}</Button>
                           </div>
                       )}
