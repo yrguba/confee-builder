@@ -10,7 +10,7 @@ const Input = forwardRef<HTMLInputElement, InputComponentProps>((props, ref) => 
 
     return (
         <div className={classes}>
-            <input onFocus={(event) => event.target.removeAttribute('readOnly')} readOnly ref={ref} className={styles.input} {...inputAttrs} />
+            <input ref={ref} className={styles.input} {...inputAttrs} />
         </div>
     );
 });

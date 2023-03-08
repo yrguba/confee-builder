@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
 
     return (
         <div className={classes}>
-            <input onFocus={(event) => event.target.removeAttribute('readOnly')} readOnly ref={ref} className={styles.input} {...inputAttrs} />
+            <input ref={ref} className={styles.input} {...inputAttrs} />
             <Icons variants="search" />
         </div>
     );

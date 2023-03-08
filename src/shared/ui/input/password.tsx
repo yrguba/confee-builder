@@ -13,14 +13,7 @@ const Input = forwardRef<HTMLInputElement, PasswordProps>((props, ref) => {
 
     return (
         <div className={classes}>
-            <input
-                onFocus={(event) => event.target.removeAttribute('readOnly')}
-                type={showPass ? 'text' : 'password'}
-                readOnly
-                ref={ref}
-                className={styles.input}
-                {...inputAttrs}
-            />
+            <input type={showPass ? 'text' : 'password'} ref={ref} className={styles.input} {...inputAttrs} />
             <div onClick={() => toggleShowPass((prev) => !prev)}>
                 <Icons variants={showPass ? 'visiblePass' : 'hiddenPass'} />
             </div>
