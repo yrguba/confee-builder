@@ -1,7 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 
-import { Icons } from 'shared/ui';
-
+import Icons from './icons';
 import styles from './styles.module.scss';
 import { PasswordProps } from './types';
 
@@ -23,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, PasswordProps>((props, ref) => {
                 {...inputAttrs}
             />
             <div onClick={() => toggleShowPass((prev) => !prev)}>
-                <Icons.Input variants={showPass ? 'visiblePass' : 'hiddenPass'} />
+                <Icons variants={showPass ? 'visiblePass' : 'hiddenPass'} />
             </div>
         </div>
     );

@@ -4,7 +4,7 @@ type Props = {
     variants: 'hiddenPass' | 'visiblePass' | 'search';
 };
 
-function Input(props: Props) {
+function Icons(props: Props) {
     const { variants } = props;
 
     switch (variants) {
@@ -58,4 +58,4 @@ function Input(props: Props) {
     }
 }
 
-export default Input;
+export default Icons;

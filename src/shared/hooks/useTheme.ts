@@ -10,8 +10,8 @@ function useTheme(theme?: keyof typeof ThemesNames) {
             if (themeFromStorage) {
                 document.documentElement.dataset.theme = themeFromStorage;
             } else {
-                document.documentElement.dataset.theme = ThemesNames.dark;
-                await UniversalStorage.set(StorageObjectsNames.theme, ThemesNames.dark);
+                document.documentElement.dataset.theme = ThemesNames.light;
+                await UniversalStorage.set(StorageObjectsNames.theme, ThemesNames.light);
             }
         });
     }

@@ -2,8 +2,9 @@ import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { useStyles } from 'shared/hooks';
-import { Button, Icons, Box } from 'shared/ui';
+import { Button, Box } from 'shared/ui';
 
+import Icons from './icons';
 import styles from './styles.module.scss';
 import { ModalHookReturnedType } from './useModal';
 
@@ -36,7 +37,7 @@ function Modal(props: Props) {
                       <div className={styles.header}>
                           <div className={styles.header__title}>{headerText}</div>
                           <div className={styles.header__closeIcon} onClick={closeClick}>
-                              <Icons.Base variants="close" />
+                              <Icons variants="close" />
                           </div>
                       </div>
                       <div className={styles.content}>{children}</div>
