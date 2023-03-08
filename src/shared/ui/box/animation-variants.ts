@@ -1,4 +1,4 @@
-export type AnimationVariant = 'visible-hidden' | 'auto-height';
+export type AnimationVariants = 'visible-hidden' | 'auto-height';
 
 export const visibleHidden = {
     initial: { opacity: 0 },
