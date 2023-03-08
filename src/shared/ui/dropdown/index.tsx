@@ -1,17 +1,17 @@
 import React, { ReactNode, useRef } from 'react';
 
 import { useToggle, useClickAway, useStyles } from 'shared/hooks';
-import { AnimateBox } from 'shared/ui';
+import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { AnimationVariant } from '../animate-box/variants';
+import { AnimationVariants } from '../box/animation-variants';
 
 export type DropdownProps = {
     children: ReactNode;
     content?: ReactNode;
     trigger?: 'left-click' | 'right-click' | 'hover';
     position?: 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
-    animationVariant?: AnimationVariant;
+    animationVariant?: AnimationVariants;
 };
 
 function Dropdown(props: DropdownProps) {
@@ -43,9 +43,9 @@ function Dropdown(props: DropdownProps) {
             onMouseLeave={trigger === 'hover' ? () => toggle() : undefined}
         >
             {children}
-            <AnimateBox animationVariant={animationVariant} className={classes} isVisible={isOpen} presence onClick={(e) => e.stopPropagation()}>
+            <Box.Animate animationVariant={animationVariant} className={classes} isVisible={isOpen} presence onClick={(e) => e.stopPropagation()}>
                 {content}
-            </AnimateBox>
+            </Box.Animate>
         </div>
     );
 }

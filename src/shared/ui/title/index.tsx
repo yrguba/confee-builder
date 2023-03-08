@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
 
 import styles from './styles.module.scss';
-import { AnimateBox } from '../index';
+import { Box } from '../index';
 
 type Props = {
     children: string | number | undefined;
@@ -28,9 +28,9 @@ function Title(props: Props) {
     );
 
     return animation ? (
-        <AnimateBox isVisible={!!children} className={classes} {...other}>
+        <Box.Animate isVisible={!!children} className={classes} {...other}>
             {children}
-        </AnimateBox>
+        </Box.Animate>
     ) : (
         <div className={classes} {...other}>
             {children}

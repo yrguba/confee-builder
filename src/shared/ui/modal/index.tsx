@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { useStyles } from 'shared/hooks';
-import { Button, Icons, AnimateBox } from 'shared/ui';
+import { Button, Icons, Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { ModalHookReturnedType } from './useModal';
@@ -31,7 +31,7 @@ function Modal(props: Props) {
 
     return modal_root
         ? ReactDOM.createPortal(
-              <AnimateBox isVisible={isOpen} presence className={styles.mask} onClick={closeClick}>
+              <Box.Animate isVisible={isOpen} presence className={styles.mask} onClick={closeClick}>
                   <div className={classes} onClick={(e) => e.stopPropagation()}>
                       <div className={styles.header}>
                           <div className={styles.header__title}>{headerText}</div>
@@ -47,7 +47,7 @@ function Modal(props: Props) {
                           </div>
                       )}
                   </div>
-              </AnimateBox>,
+              </Box.Animate>,
               modal_root
           )
         : null;
