@@ -15,7 +15,7 @@ html {
   }
 
   ::placeholder {
-    color: var(--subtitle-color);
+    color: var(--text-1);
   }
 
   input[type=password]::-ms-reveal,
@@ -33,7 +33,19 @@ html {
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--subtitle-color);
+    background-color: var(--text-1);
     border-radius: 20px;
+  }
+
+  border-style: none;
+
+
+  //npm
+  .react-switch-handle {
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

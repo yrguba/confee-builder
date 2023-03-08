@@ -4,8 +4,8 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import { RoutesNames } from 'shared/enums';
 import { TokenService } from 'shared/services';
 
-import authRoutes from './auth/routes';
-import mainRouters from './main/routes';
+import authRoutes from './auth';
+import mainRouters from './main';
 
 function Routing() {
     const [isAuth, toggle] = useState<boolean>(true);

@@ -1,15 +1,10 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
-import { LoginWidget } from 'widgets/auth';
+import { RoutesNames } from 'shared/enums';
 
-import styles from './styles.module.scss';
+import AuthPage from './page';
 
-function AuthPage() {
-    return (
-        <div className={styles.auth}>
-            <LoginWidget />
-        </div>
-    );
-}
+const authRoutes = <Route path={RoutesNames.auth.base} element={<AuthPage />} />;
 
-export default AuthPage;
+export default authRoutes;

@@ -6,7 +6,8 @@ import Link from './link';
 import Modal from './modal';
 import useModal from './modal/useModal';
 import Spinner from './spinner';
+import Switch from './switch';
 import Title from './title';
 
-export { Button, Input, Spinner, Title, Link, Modal, useModal, Dropdown, Box };
+export { Button, Input, Spinner, Title, Link, Modal, useModal, Dropdown, Box, Switch };
 export type { DropdownProps };

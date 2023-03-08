@@ -1,28 +1,25 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { lazy } from 'react';
+import { Route } from 'react-router-dom';
 
-import { HeaderWidget } from 'widgets/header';
-import { LeftSidebarWidget } from 'widgets/left-sidebar';
-import { NestedPagesTabsWidget } from 'widgets/nested-pages-tabs';
+import { RoutesNames } from 'shared/enums';
 
-import styles from './styles.module.scss';
-import Wrapper from '../wrapper';
+import InfoNestedPage from './nested-pages/info';
+import MainPage from './page';
 
-function MainPage() {
-    return (
-        <Wrapper>
-            <div className={styles.main}>
-                <div className={styles.leftSidebar}>
-                    <LeftSidebarWidget />
-                </div>
-                <div className={styles.mainColumn}>
-                    <HeaderWidget />
-                    <NestedPagesTabsWidget />
-                    <Outlet />
-                </div>
-            </div>
-        </Wrapper>
-    );
-}
+const ChatMessagesNestedPage = lazy(() => import('./nested-pages/chat-messages'));
+const FavoritesNestedPage = lazy(() => import('./nested-pages/favorites'));
+const CalendarNestedPage = lazy(() => import('./nested-pages/calendar'));
+const TasksNestedPage = lazy(() => import('./nested-pages/tasks'));
 
-export default MainPage;
+const mainRouters = (
+    <Route path={RoutesNames.main.base} element={<MainPage />}>
+        <Route index element={<InfoNestedPage />} />
+        <Route path={RoutesNames.main.info} element={<InfoNestedPage />} />
+        <Route path={RoutesNames.main.chat_messages} element={<ChatMessagesNestedPage />} />
+        <Route path={RoutesNames.main.favorites} element={<FavoritesNestedPage />} />
+        <Route path={RoutesNames.main.calendar} element={<CalendarNestedPage />} />
+        <Route path={RoutesNames.main.tasks} element={<TasksNestedPage />} />
+    </Route>
+);
+
+export default mainRouters;

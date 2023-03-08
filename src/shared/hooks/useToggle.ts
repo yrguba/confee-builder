@@ -1,17 +1,17 @@
 import { useState } from 'react';
 
-function useToggle(): [isOpen: boolean, toggle: (arg?: boolean) => void] {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+function useToggle(defaultValue = false): [isOpen: boolean, toggle: (arg?: boolean) => void] {
+    const [value, setValue] = useState<boolean>(defaultValue);
 
     const toggle = (arg?: boolean) => {
         if (arg) {
-            setIsOpen(arg);
+            setValue(arg);
         } else {
-            setIsOpen((prev) => !prev);
+            setValue((prev) => !prev);
         }
     };
 
-    return [isOpen, toggle];
+    return [value, toggle];
 }
 
 export default useToggle;
