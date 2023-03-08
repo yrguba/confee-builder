@@ -20,7 +20,7 @@ function Box(props: BoxProps) {
     );
 
     return (
-        <SkeletonTheme baseColor="var(--skeleton-base-color)" highlightColor="var(--skeleton-highlight-color)">
+        <SkeletonTheme width="90%" baseColor="var(--skeleton-base-color)" highlightColor="var(--skeleton-highlight-color)">
             <div {...other}>
                 {load}
                 {err}

@@ -1,20 +1,17 @@
 @import "./src/app/styles";
 
-.error{
+.error {
   @include box-size(100%, 100%);
   @include flex;
   font-size: 18px;
   color: var(--error-color);
-  box-shadow: var(--box-shadow-error)inset;
+  box-shadow: var(--box-shadow-error) inset;
 }
 
-.loading{
+.loading {
   @include box-size(100%, 100%);
   font-size: 18px;
   color: var(--error-color);
-  box-shadow: var(--box-shadow-active)inset ;
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
+  box-shadow: var(--box-shadow-active) inset;
+  overflow: hidden;
 }
