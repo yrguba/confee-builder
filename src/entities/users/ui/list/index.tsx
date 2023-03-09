@@ -14,7 +14,7 @@ function UsersList(props: Props) {
     const { list, loading, error } = props;
 
     return (
-        <Box skeletonCount={100} className={styles.list} loading>
+        <Box skeletonCount={100} className={styles.list}>
             {list && list.map((user) => <UserCard key={user.id} user={user} />)}
         </Box>
     );

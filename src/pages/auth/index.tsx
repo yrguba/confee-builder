@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import { RoutesNames } from 'shared/enums';
+import { routing_tree } from 'shared/routing';
 
 import AuthPage from './page';
 
-const authRoutes = <Route path={RoutesNames.auth.base} element={<AuthPage />} />;
+const authRoutes = <Route path={routing_tree.auth.base} element={<AuthPage />} />;
 
 export default authRoutes;

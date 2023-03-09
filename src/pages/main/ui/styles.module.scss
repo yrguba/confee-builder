@@ -1,0 +1,27 @@
+@import "../../../app/styles/index";
+
+.page {
+  @include box-size(100%, 100%);
+  @include flex-column;
+  gap: 1px;
+
+  .header {
+    @include box-size(100%, 60px);
+    background-color: #7B57C8;
+  }
+
+  .main {
+    @include flex;
+    width: 100%;
+    flex: 1;
+    gap: 2px;
+
+    .sidebar {
+      @include box-size(300px, 100%);
+    }
+
+    .nestedPages {
+      @include box-size(calc(100% - 300px), 100%);
+    }
+  }
+}

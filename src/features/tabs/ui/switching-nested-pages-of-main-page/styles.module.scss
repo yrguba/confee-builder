@@ -1,0 +1,31 @@
+@import "./src/app/styles";
+
+.tabs {
+  @include flex;
+  gap: 32px;
+
+  .tab {
+    @include flex;
+    @include btn-actions;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--icon-inactive);
+
+    svg {
+      transition: all var(--transition);
+      fill: var(--icon-inactive)
+    }
+
+    transition: all var(--transition);
+  }
+
+  .active {
+    color: var(--main-active);
+
+    svg {
+      fill: var(--main-active);
+    }
+  }
+}

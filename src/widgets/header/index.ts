@@ -1,3 +1,3 @@
-import HeaderWidget from './ui';
+import Header from './ui';
 
-export { HeaderWidget };
+export { Header };

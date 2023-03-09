@@ -1,0 +1,8 @@
+@import "./src/app/styles";
+
+.sidebar {
+  @include box-size(100%, 100%);
+  display: flex;
+  justify-content: center;
+  background-color: var(--bg-2);
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
-import { RoutesNames } from 'shared/enums';
+import { routing_tree } from 'shared/routing';
 import { TokenService } from 'shared/services';
 
 import authRoutes from './auth';
@@ -19,14 +19,14 @@ function Routing() {
     const privateRoutes = (
         <Routes>
             {mainRouters}
-            <Route path="*" element={<Navigate to={RoutesNames.main.base} replace />} />
+            <Route path="*" element={<Navigate to={routing_tree.main.base} replace />} />
         </Routes>
     );
 
     const publicRoutes = (
         <Routes>
             {authRoutes}
-            <Route path="*" element={<Navigate to={RoutesNames.auth.base} replace />} />
+            <Route path="*" element={<Navigate to={routing_tree.auth.base} replace />} />
         </Routes>
     );
 

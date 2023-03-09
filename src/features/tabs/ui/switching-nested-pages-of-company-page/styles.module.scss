@@ -1,0 +1,7 @@
+@import "./src/app/styles";
+
+.tabs {
+  @include flex;
+  margin-left: 20px;
+  gap: 8px;
+}

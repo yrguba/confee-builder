@@ -1,24 +1,19 @@
 import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
-import { RoutesNames } from 'shared/enums';
+import { routing_tree } from 'shared/routing';
 
-import InfoNestedPage from './nested-pages/info';
-import MainPage from './page';
+import companyRouters from './nested-pages/company';
+import MainPage from './ui';
 
-const ChatMessagesNestedPage = lazy(() => import('./nested-pages/chat-messages'));
-const FavoritesNestedPage = lazy(() => import('./nested-pages/favorites'));
-const CalendarNestedPage = lazy(() => import('./nested-pages/calendar'));
-const TasksNestedPage = lazy(() => import('./nested-pages/tasks'));
+const ChatsNestedPage = lazy(() => import('./nested-pages/chats/ui'));
+const TasksNestedPage = lazy(() => import('./nested-pages/tasks/ui'));
 
 const mainRouters = (
-    <Route path={RoutesNames.main.base} element={<MainPage />}>
-        <Route index element={<InfoNestedPage />} />
-        <Route path={RoutesNames.main.info} element={<InfoNestedPage />} />
-        <Route path={RoutesNames.main.chat_messages} element={<ChatMessagesNestedPage />} />
-        <Route path={RoutesNames.main.favorites} element={<FavoritesNestedPage />} />
-        <Route path={RoutesNames.main.calendar} element={<CalendarNestedPage />} />
-        <Route path={RoutesNames.main.tasks} element={<TasksNestedPage />} />
+    <Route path={routing_tree.main.base} element={<MainPage />}>
+        {companyRouters}
+        <Route path={routing_tree.main.chats.base} element={<ChatsNestedPage />} />
+        <Route path={routing_tree.main.tasks.base} element={<TasksNestedPage />} />
     </Route>
 );
 
