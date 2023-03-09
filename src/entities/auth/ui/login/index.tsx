@@ -13,7 +13,7 @@ type Props = {
     errors: FieldErrors<{ login: baseTypes.Error; password: baseTypes.Error }>;
 };
 
-function LoginForm(props: Props) {
+function Login(props: Props) {
     const { register, handleSubmit, isLoading, errors } = props;
 
     const disabledBtn = errors.login || errors.password;
@@ -43,4 +43,4 @@ function LoginForm(props: Props) {
     );
 }
 
-export default LoginForm;
+export default Login;

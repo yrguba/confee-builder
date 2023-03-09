@@ -5,7 +5,7 @@ import { DropdownProps, Dropdown } from 'shared/ui';
 
 type Props = {} & DropdownProps;
 
-function MessageDropdownMenuFeature(props: Props) {
+function MessageDropdownMenu(props: Props) {
     const { children } = props;
 
     const items: menuDropdownTypes.MenuItem[] = [
@@ -25,4 +25,4 @@ function MessageDropdownMenuFeature(props: Props) {
     );
 }
 
-export default MessageDropdownMenuFeature;
+export default MessageDropdownMenu;

@@ -1,5 +1,6 @@
 @import "./src/app/styles";
 
+
 .tabs {
   @include flex;
   gap: 32px;
@@ -12,6 +13,7 @@
     font-size: 16px;
     cursor: pointer;
     color: var(--icon-inactive);
+    white-space: nowrap;
 
     svg {
       transition: all var(--transition);

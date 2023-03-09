@@ -1,3 +1,3 @@
-import SearchMessagesFeature from './ui/messages';
+import SearchMessages from './ui/messages';
 
-export { SearchMessagesFeature };
+export { SearchMessages };

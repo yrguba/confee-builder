@@ -12,10 +12,11 @@ type Props = {
     isLoading?: boolean;
     isError?: boolean;
     animation?: boolean;
+    size?: number;
 };
 
 function Title(props: Props) {
-    const { children, secondary, isLoading, isError, animation = false, ...other } = props;
+    const { children, secondary, isLoading, isError, animation = false, size, ...other } = props;
 
     const cx = cnBind.bind(styles);
 
@@ -28,11 +29,11 @@ function Title(props: Props) {
     );
 
     return animation ? (
-        <Box.Animate isVisible={!!children} className={classes} {...other}>
+        <Box.Animate isVisible={!!children} style={{ fontSize: size }} className={classes} {...other}>
             {children}
         </Box.Animate>
     ) : (
-        <div className={classes} {...other}>
+        <div className={classes} style={{ fontSize: size }} {...other}>
             {children}
         </div>
     );

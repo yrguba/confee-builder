@@ -5,18 +5,18 @@ import { SwitchingNestedPagesOfCompanyPage } from 'features/tabs';
 
 import styles from './styles.module.scss';
 
-function Subheader() {
+function HeaderForCompanyPage() {
     const { pathname } = useLocation();
     const suffixPath: any = pathname.split('/').pop();
 
-    const dictionary: Record<string, any> = {
-        company: <SwitchingNestedPagesOfCompanyPage />,
-    };
     return (
-        <div className={styles.subheader}>
-            <div className={styles.tabs}>{dictionary[suffixPath]}</div>
+        <div className={styles.header}>
+            <div className={styles.tabs}>
+                yy
+                {/* <SwitchingNestedPagesOfCompanyPage /> */}
+            </div>
         </div>
     );
 }
 
-export default Subheader;
+export default HeaderForCompanyPage;

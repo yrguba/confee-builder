@@ -1,8 +1,7 @@
 @import "./src/app/styles";
 
-.subheader {
+.header {
   @include box-size(100%, 56px);
   @include flex(flex-start);
   background-color: var(--bg-2);
-  overflow-x: auto;
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import { useTheme } from 'shared/hooks';
 import { Switch } from 'shared/ui';
 
-function SwitchThemesFeature() {
+function SwitchThemes() {
     const [theme, setTheme] = useTheme();
 
     const onChange = (checked: boolean) => {
@@ -47,4 +47,4 @@ function SwitchThemesFeature() {
     );
 }
 
-export default SwitchThemesFeature;
+export default SwitchThemes;

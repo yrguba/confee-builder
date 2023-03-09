@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { ViewerCard, useViewerStore, viewerApi } from 'entities/viewer';
+import { Card, useViewerStore, viewerApi } from 'entities/viewer';
 
-function ViewerCardFeature() {
+function ViewerCard() {
     const { data, isLoading } = viewerApi.handleGetViewer();
-    console.log('data', data?.data?.name);
 
-    return <ViewerCard />;
+    return <Card avatar="" name={data?.data?.name || ''} />;
 }
 
-export default ViewerCardFeature;
+export default ViewerCard;

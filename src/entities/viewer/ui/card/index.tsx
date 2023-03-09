@@ -1,9 +1,25 @@
 import React from 'react';
 
+import { Avatar, Title } from 'shared/ui';
+
 import styles from './styles.module.scss';
 
-function ViewerCard() {
-    return <div className={styles.viewerCard}>ss</div>;
+type Props = {
+    avatar: string;
+    name: string;
+};
+
+function Card(props: Props) {
+    const { avatar, name } = props;
+
+    return (
+        <div className={styles.card}>
+            <Title secondary size={14}>
+                {name}
+            </Title>
+            <Avatar size={31} />
+        </div>
+    );
 }
 
-export default ViewerCard;
+export default Card;

@@ -1,3 +1,4 @@
+import Avatar from './avatar';
 import Box from './box';
 import Button from './button';
 import Dropdown, { DropdownProps } from './dropdown';
@@ -10,5 +11,5 @@ import Spinner from './spinner';
 import Switch from './switch';
 import Title from './title';
 
-export { Button, Input, Icons, Spinner, Title, Link, Modal, useModal, Dropdown, Box, Switch };
+export { Button, Input, Icons, Spinner, Title, Link, Modal, useModal, Dropdown, Box, Switch, Avatar };
 export type { DropdownProps };

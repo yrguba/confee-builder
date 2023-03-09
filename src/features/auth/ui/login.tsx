@@ -2,13 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import { LoginForm, authYup, authApi } from 'entities/auth';
+import { Login, authYup, authApi } from 'entities/auth';
 import { ErrorsNames } from 'shared/enums';
 import { TokenService } from 'shared/services';
 
 type LoginFormType = authYup.LoginType;
 
-function LoginFeature() {
+function LoginForm() {
     const {
         register,
         handleSubmit,
@@ -39,7 +39,7 @@ function LoginFeature() {
         handleLogin({ username: data.login, password: data.password }, { onSuccess, onError });
     };
 
-    return <LoginForm register={register} handleSubmit={handleSubmit(onsubmit)} isLoading={isLoading} errors={errors} />;
+    return <Login register={register} handleSubmit={handleSubmit(onsubmit)} isLoading={isLoading} errors={errors} />;
 }
 
-export default LoginFeature;
+export default LoginForm;

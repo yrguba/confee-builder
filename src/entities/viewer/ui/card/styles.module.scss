@@ -1,3 +1,6 @@
-.viewer-card{
+@import "./src/app/styles";
 
+.card {
+  @include flex;
+  gap: 12px;
 }

@@ -1,16 +1,14 @@
 import React from 'react';
 
-import { Subheader } from 'widgets/subheader';
+import { HeaderForCompanyPage } from 'widgets/headers';
 
 import styles from './styles.module.scss';
 
 function CompanyPage() {
     return (
         <div className={styles.page}>
-            <div>
-                <Subheader />
-                CompanyNestedPage
-            </div>
+            <HeaderForCompanyPage />
+            CompanyNestedPage
         </div>
     );
 }

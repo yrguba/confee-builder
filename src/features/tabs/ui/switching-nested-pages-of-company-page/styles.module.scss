@@ -1,7 +1,10 @@
 @import "./src/app/styles";
 
 .tabs {
-  @include flex;
+  @include flex(flex-start);
+
   margin-left: 20px;
   gap: 8px;
+flex-shrink: 0;
+  background-color: #7B57C8;
 }

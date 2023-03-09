@@ -11,7 +11,8 @@
   border-radius: var(--border-radius);
   color: #fafafa;
   @include box-size(150px, 200px);
-  background-color: #7B57C8;
+  background-color: var(--bg-1);
+
   overflow: hidden;
 }
 

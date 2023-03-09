@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { Header } from 'widgets/header';
+import { HeaderForMainPage } from 'widgets/headers';
 import { SidebarWidget } from 'widgets/sidebar';
 
 import styles from './styles.module.scss';
@@ -12,7 +12,7 @@ function MainPage() {
         <Wrapper>
             <div className={styles.page}>
                 <div className={styles.header}>
-                    <Header />
+                    <HeaderForMainPage />
                 </div>
                 <div className={styles.main}>
                     <div className={styles.sidebar}>

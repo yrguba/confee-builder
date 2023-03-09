@@ -1,3 +1,3 @@
-import SwitchThemesFeature from './ui/theme';
+import SwitchThemes from './ui/theme';
 
-export { SwitchThemesFeature };
+export { SwitchThemes };
