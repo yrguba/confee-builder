@@ -4,10 +4,10 @@ import { baseTypes } from 'shared/types';
 import { Avatar, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { userTypes } from '../..';
+import { chatTypes } from '../..';
 
 type Props = {
-    user: userTypes.User;
+    user: any;
 } & baseTypes.ComponentProps;
 
 function Card(props: Props) {

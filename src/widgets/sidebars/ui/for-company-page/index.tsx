@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SearchUsers } from 'features/search';
-import { UsersList } from 'features/users';
+import { UsersList } from 'features/user';
 
 import styles from './styles.module.scss';
 

@@ -4,20 +4,16 @@ import { baseTypes } from 'shared/types';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { userTypes, Card } from '../..';
+import { chatTypes, Card } from '../..';
 
 type Props = {
-    list: userTypes.User[] | baseTypes.Empty;
+    list: any;
 } & baseTypes.ComponentProps;
 
 function List(props: Props) {
     const { list, loading, error } = props;
 
-    return (
-        <Box skeletonCount={100} loading={loading} className={styles.list}>
-            {list && list.map((user) => <Card key={user.id} user={user} />)}
-        </Box>
-    );
+    return <div>w</div>;
 }
 
 export default List;

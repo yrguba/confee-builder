@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { List, usersApi } from 'entities/users';
+import { List, userApi } from 'entities/users';
 
 function UsersList() {
-    const { data, isLoading } = usersApi.handleGetUsers();
+    const { data, isLoading } = userApi.handleGetUsers();
 
     return <List list={data?.data} loading={isLoading} />;
 }
