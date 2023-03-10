@@ -12,8 +12,7 @@ function HeaderForCompanyPage() {
     return (
         <div className={styles.header}>
             <div className={styles.tabs}>
-                yy
-                {/* <SwitchingNestedPagesOfCompanyPage /> */}
+                <SwitchingNestedPagesOfCompanyPage />
             </div>
         </div>
     );

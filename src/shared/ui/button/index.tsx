@@ -16,7 +16,7 @@ type Props = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 function Button(props: Props) {
-    const { children, disabled, loading, error, size = 'm', active, circle, ...other } = props;
+    const { children, disabled, loading, error, size, active, circle, ...other } = props;
 
     const classes = useStyles(styles, 'wrapper', {
         circle,
@@ -24,6 +24,7 @@ function Button(props: Props) {
         disabled,
         loading,
         error,
+        [`size-circle-m`]: circle && !size,
         [`size-circle-${size}`]: circle && size,
         [`size-${size}`]: !circle && size,
     });

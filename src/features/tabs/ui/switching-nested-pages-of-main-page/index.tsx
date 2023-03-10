@@ -13,8 +13,6 @@ type Routing = keyof typeof routing_tree.main;
 type Tab = tabsTypes.Tab<Routing>;
 
 function SwitchingNestedPagesOfMainPage() {
-    const wrapperRef = useRef(null);
-
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const suffixPath = pathname.split('/').pop();
@@ -23,8 +21,8 @@ function SwitchingNestedPagesOfMainPage() {
 
     const tabs: Tab[] = [
         { id: 0, text: 'Компания', icon: <TabsIcons variants="company" />, path: 'company', breakpoint: 500 },
-        { id: 1, text: 'Чаты и каналы', icon: <TabsIcons variants="chats" />, path: 'chats', breakpoint: 600 },
-        { id: 2, text: 'Задачи', icon: <TabsIcons variants="tasks" />, path: 'tasks', breakpoint: 800 },
+        { id: 1, text: 'Чаты и каналы', icon: <TabsIcons variants="chats" />, path: 'chats', breakpoint: 700 },
+        { id: 2, text: 'Задачи', icon: <TabsIcons variants="tasks" />, path: 'tasks', breakpoint: 750 },
     ];
 
     const { itemsInRow, itemsInDropdown } = useRowAndDropdown<Tab>(tabs);
@@ -47,7 +45,7 @@ function SwitchingNestedPagesOfMainPage() {
     );
 
     return (
-        <div className={styles.tabs} ref={wrapperRef}>
+        <div className={styles.tabs}>
             {itemsInRow.map((tab) => item(tab))}
             {itemsInDropdown.length ? (
                 <Dropdown
