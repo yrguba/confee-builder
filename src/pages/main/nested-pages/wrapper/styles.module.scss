@@ -1,12 +1,13 @@
 @import "../../../../app/styles/index";
 
 .page{
-  @include box-size(100%,100%);
+  @include box-size(100%, 100%);
   @include flex;
   gap: 2px;
 
   .sidebar{
     @include box-size(300px,100%);
+    @include flex;
   }
 
   .mainColumn{
@@ -15,6 +16,7 @@
 
     .header{
       @include box-size(100%,56px);
+      @include flex;
     }
 
     .outlet{
@@ -22,6 +24,4 @@
       height: calc(100% - 56px);
     }
   }
-
-
 }
