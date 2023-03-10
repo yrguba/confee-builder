@@ -7,16 +7,17 @@ import styles from './styles.module.scss';
 import { chatTypes } from '../..';
 
 type Props = {
-    user: any;
+    chat: any;
 } & baseTypes.ComponentProps;
 
 function Card(props: Props) {
-    const { user } = props;
+    const { chat } = props;
 
     return (
         <div className={styles.userCard}>
-            <Avatar name={user.name} size={32} />
-            <Title width={200}>{user.name}</Title>
+            <Avatar name={chat.name} size={32} />
+            <Title width={200}>{chat.name}</Title>
+            <Title width={200}>{chat.lastMsg}</Title>
         </div>
     );
 }

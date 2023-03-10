@@ -4,6 +4,7 @@ import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
 import useInput from './useInput';
 import useRowAndDropdown from './useRowAndDropdown';
+import useSelected from './useSelected';
 import useSize from './useSize';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
@@ -22,4 +23,5 @@ export {
     useSize,
     useMedia,
     useRowAndDropdown,
+    useSelected,
 };

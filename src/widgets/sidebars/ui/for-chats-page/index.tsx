@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ChatsList } from 'features/chat';
 import { SearchChats } from 'features/search';
 
 import styles from './styles.module.scss';
@@ -10,7 +11,9 @@ function SidebarForChatsPage() {
             <div className={styles.search}>
                 <SearchChats />
             </div>
-            <div className={styles.list}>dwa</div>
+            <div className={styles.list}>
+                <ChatsList />
+            </div>
         </div>
     );
 }

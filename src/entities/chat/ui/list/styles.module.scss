@@ -2,7 +2,7 @@
 
 .list {
   @include box-size(100%, 100%);
-  @include flex-column(flex-start, center);
+  @include flex-column(flex-start, flex-start);
   overflow-y: auto;
   overflow-x: hidden;
   border-radius: var(--border-radius);
