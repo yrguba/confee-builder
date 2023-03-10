@@ -1,9 +1,9 @@
 import React from 'react';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 import AnimateBox from './animate-box';
 import styles from './styles.module.scss';
 import { BoxProps } from './types';
+import { Spinner } from '../index';
 
 function Box(props: BoxProps) {
     const { children, loading, error, disabled, skeletonCount = 10, ...other } = props;
@@ -15,18 +15,16 @@ function Box(props: BoxProps) {
     );
     const load = (
         <AnimateBox isVisible={!!loading} className={styles.loading}>
-            <Skeleton count={skeletonCount} />
+            <Spinner />
         </AnimateBox>
     );
 
     return (
-        <SkeletonTheme baseColor="var(--skeleton-base-color)" highlightColor="var(--skeleton-highlight-color)">
-            <div {...other}>
-                {load}
-                {err}
-                {!load && !error && children}
-            </div>
-        </SkeletonTheme>
+        <div {...other}>
+            {load}
+            {err}
+            {!loading && !error && children}
+        </div>
     );
 }
 

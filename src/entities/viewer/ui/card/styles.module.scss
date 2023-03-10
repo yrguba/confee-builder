@@ -1,6 +1,7 @@
 @import "./src/app/styles";
 
 .card {
-  @include flex;
+  @include flex(flex-end);
   gap: 12px;
+  width: 200px;
 }

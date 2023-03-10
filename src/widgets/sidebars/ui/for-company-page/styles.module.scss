@@ -2,7 +2,17 @@
 
 .sidebar {
   @include box-size(100%, 100%);
-  display: flex;
-  justify-content: center;
+  @include flex-column(flex-start, center, 20);
   background-color: var(--bg-2);
+
+  .search {
+    @include box-size(100%, 40px);
+    @include flex;
+    margin-top: 8px;
+  }
+
+  .list {
+    width: 100%;
+    height: calc(100vh - 150px);
+  }
 }

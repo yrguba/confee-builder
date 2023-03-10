@@ -6,7 +6,7 @@ import { useCreateSelectors } from 'shared/hooks';
 
 type Store = {};
 
-const usersStore = create<Store>()(
+const userStore = create<Store>()(
     devtools(
         immer((set) => ({
             //
@@ -14,6 +14,6 @@ const usersStore = create<Store>()(
     )
 );
 
-const useUsersStore = useCreateSelectors(usersStore);
+const useUserStore = useCreateSelectors(userStore);
 
-export default useUsersStore;
+export default useUserStore;

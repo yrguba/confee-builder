@@ -24,7 +24,7 @@ function AnimateBox(props: Props) {
     const variant = variantDictionary[animationVariant];
 
     const motionDiv = (
-        <motion.div {...variant} {...motionDivAttrs}>
+        <motion.div style={{ overflow: 'hidden' }} {...variant} {...motionDivAttrs}>
             {children}
         </motion.div>
     );
