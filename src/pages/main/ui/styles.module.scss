@@ -12,7 +12,7 @@
 
   .main {
     @include flex;
-    width: 100%;
+    @include box-size(100%, 100%);
     flex: 1;
     gap: 2px;
 
@@ -20,7 +20,7 @@
       @include box-size(300px, 100%);
     }
 
-    .nestedPages {
+    .outlet {
       @include box-size(calc(100% - 300px), 100%);
     }
   }

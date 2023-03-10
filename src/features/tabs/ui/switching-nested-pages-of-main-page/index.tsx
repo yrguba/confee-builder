@@ -15,7 +15,6 @@ type Tab = tabsTypes.Tab<Routing>;
 function SwitchingNestedPagesOfMainPage() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const suffixPath = pathname.split('/').pop();
 
     const [isPending, startTransition] = useTransition();
 
@@ -29,7 +28,7 @@ function SwitchingNestedPagesOfMainPage() {
 
     const classes = (path: Routing) => {
         return useStyles(styles, 'tab', {
-            active: suffixPath === path,
+            active: pathname.includes(path),
         });
     };
 

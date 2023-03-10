@@ -14,7 +14,6 @@ type Tab = tabsTypes.Tab<Routing>;
 function SwitchingNestedPagesOfCompanyPage() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const suffixPath = pathname.split('/').pop();
 
     const [isPending, startTransition] = useTransition();
 
@@ -33,9 +32,9 @@ function SwitchingNestedPagesOfCompanyPage() {
 
     const item = (tab: Tab) => (
         <Button
-            active={suffixPath === tab.path}
+            active={pathname.includes(tab.path)}
             disabled={isPending}
-            loading={isPending && suffixPath === tab.path}
+            loading={isPending && pathname.includes(tab.path)}
             key={tab.id}
             onClick={() => buttonClick(tab.id, tab.path)}
         >

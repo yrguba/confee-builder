@@ -18,7 +18,7 @@ function MainPage() {
                     <div className={styles.sidebar}>
                         <SidebarWidget />
                     </div>
-                    <div className={styles.nestedPages}>
+                    <div className={styles.outlet}>
                         <Outlet />
                     </div>
                 </div>

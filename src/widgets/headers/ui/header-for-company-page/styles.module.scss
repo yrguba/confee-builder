@@ -1,7 +1,7 @@
 @import "./src/app/styles";
 
 .header {
-  @include box-size(100%, 56px);
+  @include box-size(100%, 100%);
   @include flex(flex-start);
   background-color: var(--bg-2);
 }
