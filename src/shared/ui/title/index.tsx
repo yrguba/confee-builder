@@ -30,11 +30,11 @@ function Title(props: Props) {
     );
 
     return animation ? (
-        <Box.Animate isVisible={!!children} style={{ width: width || 'auto', fontSize: size }} className={classes} {...other}>
+        <Box.Animate isVisible={!!children} style={{ width: width || 'auto', fontSize: size, height: size ? size + 4 : 20 }} className={classes} {...other}>
             {children}
         </Box.Animate>
     ) : (
-        <div className={classes} style={{ width: width || 'auto', fontSize: size }} {...other}>
+        <div className={classes} style={{ width: width || 'auto', fontSize: size, height: size ? size + 4 : 20 }} {...other}>
             {children}
         </div>
     );

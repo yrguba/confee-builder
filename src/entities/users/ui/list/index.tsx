@@ -14,7 +14,7 @@ function List(props: Props) {
     const { list, loading, error } = props;
 
     return (
-        <Box skeletonCount={100} className={styles.list}>
+        <Box skeletonCount={100} loading={loading} className={styles.list}>
             {list && list.map((user) => <UserCard key={user.id} user={user} />)}
         </Box>
     );
