@@ -1,9 +1,11 @@
 import React from 'react';
 
-import styles from './styles.module.scss';
+import { HeaderForCompanyPage } from '../../../../../widgets/headers';
+import { SidebarForCompanyPage } from '../../../../../widgets/sidebars';
+import Wrapper from '../../wrapper';
 
 function TasksPage() {
-    return <div className={styles.page}>TasksPage</div>;
+    return <Wrapper sidebar={<SidebarForCompanyPage />} header={<HeaderForCompanyPage />} />;
 }
 
 export default TasksPage;

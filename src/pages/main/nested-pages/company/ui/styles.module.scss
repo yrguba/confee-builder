@@ -1,12 +1,5 @@
+@import "./src/app/styles";
+
 .page{
-  width: 100%;
-  height: 100%;
 
-  .header{
-    height: 56px;
-  }
-
-  .outlet{
-    height: calc(100% - 56px);
-  }
 }

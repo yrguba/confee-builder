@@ -1,4 +1,4 @@
-import HeaderForCompanyPage from './ui/header-for-company-page';
-import HeaderForMainPage from './ui/header-for-main-page';
+import HeaderForCompanyPage from './ui/for-company-page';
+import HeaderForMainPage from './ui/for-main-page';
 
 export { HeaderForMainPage, HeaderForCompanyPage };

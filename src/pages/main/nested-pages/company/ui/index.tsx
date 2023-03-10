@@ -1,21 +1,12 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 
 import { HeaderForCompanyPage } from 'widgets/headers';
+import { SidebarForCompanyPage } from 'widgets/sidebars';
 
-import styles from './styles.module.scss';
+import Wrapper from '../../wrapper';
 
 function CompanyPage() {
-    return (
-        <div className={styles.page}>
-            <div className={styles.header}>
-                <HeaderForCompanyPage />
-            </div>
-            <div className={styles.outlet}>
-                <Outlet />
-            </div>
-        </div>
-    );
+    return <Wrapper sidebar={<SidebarForCompanyPage />} header={<HeaderForCompanyPage />} />;
 }
 
 export default CompanyPage;

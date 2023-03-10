@@ -10,18 +10,10 @@
     background-color: #7B57C8;
   }
 
-  .main {
+  .outlet {
     @include flex;
     @include box-size(100%, 100%);
     flex: 1;
     gap: 2px;
-
-    .sidebar {
-      @include box-size(300px, 100%);
-    }
-
-    .outlet {
-      @include box-size(calc(100% - 300px), 100%);
-    }
   }
 }
