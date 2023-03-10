@@ -5,4 +5,5 @@ export type Tab<T> = {
     text: string;
     icon?: ReactNode;
     path: T;
+    breakpoint: number;
 };

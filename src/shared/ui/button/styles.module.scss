@@ -13,8 +13,12 @@
   will-change: transform;
   text-align: center;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
   @include btn-actions
+}
+
+.circle{
+  border-radius: 50%;
 }
 
 .content {
@@ -86,4 +90,24 @@
 .size-xl {
   width: 100%;
   height: 48px;
+}
+
+.size-circle-s {
+  width: 30px;
+  height: 30px;
+}
+
+.size-circle-m {
+  width: 40px;
+  height: 40px;
+}
+
+.size-circle-l {
+  width: 50px;
+  height: 50px;
+}
+
+.size-circle-xl {
+  width: 60px;
+  height: 60px;
 }

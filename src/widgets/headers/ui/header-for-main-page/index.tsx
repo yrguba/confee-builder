@@ -12,9 +12,9 @@ function HeaderForMainPage() {
             <div className={styles.logo}>
                 <Icons variants="logo" />
             </div>
-            {/* <div className={styles.tabs}> */}
-            <SwitchingNestedPagesOfMainPage />
-            {/* </div> */}
+            <div className={styles.tabs}>
+                <SwitchingNestedPagesOfMainPage />
+            </div>
             <div className={styles.viewer}>
                 <ViewerCard />
             </div>

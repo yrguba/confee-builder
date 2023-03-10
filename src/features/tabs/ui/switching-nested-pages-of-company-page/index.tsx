@@ -17,7 +17,7 @@ function SwitchingNestedPagesOfCompanyPage() {
 
     const [isPending, startTransition] = useTransition();
 
-    const tabs: Tab[] = [
+    const tabs: any = [
         { id: 0, text: 'Сообщения ', path: 'messages' },
         { id: 1, text: 'Избранное', path: 'favorites' },
         { id: 2, text: 'Задачи', path: 'tasks' },
@@ -30,7 +30,7 @@ function SwitchingNestedPagesOfCompanyPage() {
 
     return (
         <div className={styles.tabs}>
-            {tabs.map((btn) => (
+            {tabs.map((btn: any) => (
                 <Button
                     active={suffixPath === btn.path}
                     disabled={isPending}

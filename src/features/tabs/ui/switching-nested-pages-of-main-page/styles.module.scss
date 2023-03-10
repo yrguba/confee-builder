@@ -1,33 +1,36 @@
 @import "./src/app/styles";
 
-
 .tabs {
   @include flex;
   gap: 32px;
+}
+.tabsInDropdown{
+  @include flex-column(_, flex-start);
+  gap: 8px;
+}
 
-  .tab {
-    @include flex;
-    @include btn-actions;
-    gap: 10px;
-    font-weight: 600;
-    font-size: 16px;
-    cursor: pointer;
-    color: var(--icon-inactive);
-    white-space: nowrap;
+.tab {
+  @include flex;
+  @include btn-actions;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--icon-inactive);
+  white-space: nowrap;
 
-    svg {
-      transition: all var(--transition);
-      fill: var(--icon-inactive)
-    }
-
+  svg {
     transition: all var(--transition);
+    fill: var(--icon-inactive)
   }
 
-  .active {
-    color: var(--main-active);
+  transition: all var(--transition);
+}
 
-    svg {
-      fill: var(--main-active);
-    }
+.active {
+  color: var(--main-active);
+
+  svg {
+    fill: var(--main-active);
   }
 }
