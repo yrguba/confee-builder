@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper {
   width: 264px;
   height: 40px;
   display: flex;
@@ -7,7 +7,7 @@
   padding-left: 20px;
   padding-right: 12px;
   border-radius: var(--border-radius);
-  border: 1px solid var(--stroke-1);
+  border: 1px solid var(--border-color);
   background-color: var(--background-color);
   transition: all var(--transition);
 
@@ -35,19 +35,22 @@ input:-webkit-autofill:focus {
   box-shadow: var(--box-shadow-error);
 }
 
-.size-s{
-  width: 200px;
+.size-s {
+  width: calc(200px - 32px);
   height: 30px;
 }
-.size-m{
-  width: 264px;
+
+.size-m {
+  width: calc(264px - 32px);
   height: 40px;
 }
-.size-l{
-  width: 320px;
+
+.size-l {
+  width: calc(320px - 32px);
   height: 48px;
 }
-.size-xl{
-  width: 360px;
+
+.size-xl {
+  width: calc(360px - 32px);
   height: 58px;
 }

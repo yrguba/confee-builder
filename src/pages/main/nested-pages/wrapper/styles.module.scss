@@ -1,7 +1,7 @@
 @import "../../../../app/styles/index";
 
 .page{
-  @include box-size(100%,100%);
+  @include box-size(100%, 100%);
   @include flex;
   gap: 2px;
 
@@ -22,6 +22,4 @@
       height: calc(100% - 56px);
     }
   }
-
-
 }

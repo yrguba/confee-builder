@@ -24,7 +24,7 @@ function Box(props: BoxProps) {
             <div {...other}>
                 {load}
                 {err}
-                {!load && !error && children}
+                {!loading && !error && children}
             </div>
         </SkeletonTheme>
     );

@@ -10,7 +10,7 @@ type Props = {
     list: usersTypes.User[] | baseTypes.Empty;
 } & baseTypes.ComponentProps;
 
-function UsersList(props: Props) {
+function List(props: Props) {
     const { list, loading, error } = props;
 
     return (
@@ -20,4 +20,4 @@ function UsersList(props: Props) {
     );
 }
 
-export default UsersList;
+export default List;

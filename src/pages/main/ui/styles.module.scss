@@ -12,8 +12,7 @@
 
   .outlet {
     @include flex;
-    @include box-size(100%, 100%);
+    @include box-size(100%, calc(100% - 60px));
     flex: 1;
-    gap: 2px;
   }
 }

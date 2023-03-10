@@ -6,6 +6,12 @@
   white-space: nowrap;
 }
 
+.hiddenWithDots{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .secondary {
   color: var(--text-1);
 }

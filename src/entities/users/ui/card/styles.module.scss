@@ -1,3 +1,7 @@
-.userCard{
-  direction:ltr;
+@import "./src/app/styles";
+
+.userCard {
+  @include flex;
+  gap: 12px;
+  margin-left: 20px;
 }

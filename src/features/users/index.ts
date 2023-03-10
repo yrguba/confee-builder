@@ -1,3 +1,3 @@
-import UsersListFeature from './ui/list';
+import UsersList from './ui/list';
 
-export { UsersListFeature };
+export { UsersList };

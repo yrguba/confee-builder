@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { UsersList, usersApi } from 'entities/users';
+import { List, usersApi } from 'entities/users';
 
-function UsersListFeature() {
+function UsersList() {
     const { data, isLoading } = usersApi.handleGetUsers();
 
-    return <UsersList list={data?.data} loading={isLoading} />;
+    return <List list={data?.data} loading={isLoading} />;
 }
 
-export default UsersListFeature;
+export default UsersList;
