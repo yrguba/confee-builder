@@ -8,13 +8,13 @@ import { userTypes, Card } from '../..';
 
 type Props = {
     list: userTypes.User[] | baseTypes.Empty;
-} & baseTypes.ComponentProps;
+} & baseTypes.Statuses;
 
 function List(props: Props) {
     const { list, loading, error } = props;
 
     return (
-        <Box skeletonCount={100} loading={loading} className={styles.list}>
+        <Box loading={loading} className={styles.list}>
             {list && list.map((user) => <Card key={user.id} user={user} />)}
         </Box>
     );

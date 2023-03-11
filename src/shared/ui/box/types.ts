@@ -1,11 +1,11 @@
 import { AnimationProps, MotionProps } from 'framer-motion';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import { baseTypes } from '../../types';
 
 export type BoxProps = {
-    skeletonCount?: number;
+    children?: ReactNode;
 } & HTMLAttributes<HTMLDivElement> &
-    baseTypes.ComponentProps;
+    baseTypes.Statuses;
 
 export type BoxAnimateProps = {} & BoxProps & AnimationProps & MotionProps;

@@ -6,7 +6,6 @@
 }
 
 .body {
-  @include box-size(150px, 200px);
   padding: 8px;
   border: 1px solid var(--title-color);
   border-radius: var(--border-radius);

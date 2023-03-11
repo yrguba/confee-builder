@@ -9,7 +9,7 @@ import { chatTypes, Card } from '../..';
 
 type Props = {
     list: any;
-} & baseTypes.ComponentProps;
+} & baseTypes.Statuses;
 
 function List(props: Props) {
     const { list, loading, error } = props;

@@ -6,7 +6,7 @@ import { BoxProps } from './types';
 import { Spinner } from '../index';
 
 function Box(props: BoxProps) {
-    const { children, loading, error, disabled, skeletonCount = 10, ...other } = props;
+    const { children, loading, error, disabled, ...other } = props;
 
     const err = (
         <AnimateBox isVisible={!!error} className={styles.error}>

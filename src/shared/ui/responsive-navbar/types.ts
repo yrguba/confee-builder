@@ -12,4 +12,7 @@ export type Props = {
     itemsInRow: Item<any, any>[];
     itemsInDropdown: Item<any, any>[];
     item: (arg: Item<any, any>) => ReactNode;
+    rowGap?: number;
+    columnGap?: number;
+    btnRadius?: number;
 };

@@ -1,0 +1,70 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include flex;
+  @include btn-actions;
+  padding: 4px 16px;
+  flex-shrink: 0;
+  background-color: inherit;
+  color: var(--text-0);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.active {
+  background-color: var(--main-active);
+  color: var(--white);
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.error {
+}
+
+
+.size-s {
+  width: 200px;
+  height: 30px;
+}
+
+.size-m {
+  width: 264px;
+  height: 40px;
+}
+
+.size-l {
+  width: 100%;
+  height: 48px;
+}
+
+.size-xl {
+  width: 100%;
+  height: 48px;
+}
+
+.size-circle-s {
+  width: 30px;
+  height: 30px;
+}
+
+.size-circle-m {
+  width: 40px;
+  height: 40px;
+}
+
+.size-circle-l {
+  width: 50px;
+  height: 50px;
+}
+
+.size-circle-xl {
+  width: 60px;
+  height: 60px;
+}

@@ -8,7 +8,7 @@ import { chatTypes } from '../..';
 
 type Props = {
     chat: any;
-} & baseTypes.ComponentProps;
+} & baseTypes.Statuses;
 
 function Card(props: Props) {
     const { chat } = props;

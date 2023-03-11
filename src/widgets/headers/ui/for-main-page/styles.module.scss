@@ -6,19 +6,20 @@
   background-color: var(--bg-2);
 
   .logo{
-    @include box-size(280px, 100%);
+    @include box-size(280px, auto);
     @include flex(flex-start);
     margin-left: 20px;
   }
 
   .nav{
     @include flex(flex-start);
-    margin-left: 20px;
+    flex: 1;
   }
 
   .viewer{
     @include flex(flex-end);
+    width: 200px;
     margin-right: 20px;
-    width: 150px;
+    flex-shrink: 0;
   }
 }
