@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { SwitchingNestedPagesOfCompanyPage } from 'features/tabs';
+import { CompanyPageNavigation } from 'features/navbars';
 
 import styles from './styles.module.scss';
 
 function HeaderForCompanyPage() {
     return (
         <div className={styles.header}>
-            <div className={styles.tabs}>
-                <SwitchingNestedPagesOfCompanyPage />
+            <div className={styles.nav}>
+                <CompanyPageNavigation />
             </div>
         </div>
     );

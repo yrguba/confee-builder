@@ -4,7 +4,7 @@ type Props = {
     variants: 'company' | 'chats' | 'tasks';
 };
 
-function TabsIcons(props: Props) {
+function Icons(props: Props) {
     const { variants } = props;
 
     switch (variants) {
@@ -34,4 +34,4 @@ function TabsIcons(props: Props) {
     }
 }
 
-export default TabsIcons;
+export default Icons;
