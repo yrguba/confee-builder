@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 
 import { routing_tree } from 'shared/routing';
 
@@ -12,11 +12,11 @@ const TasksNestedPage = lazy(() => import('./nested-pages/tasks'));
 
 const companyRouters = (
     <Route path={routing_tree.main.company.base} element={<CompanyPage />}>
-        <Route index element={<MessagesPage />} />
         <Route path={routing_tree.main.company.messages} element={<MessagesPage />} />
         <Route path={routing_tree.main.company.favorites} element={<FavoritesPage />} />
         <Route path={routing_tree.main.company.tasks} element={<TasksNestedPage />} />
         <Route path={routing_tree.main.company.info} element={<InfoPage />} />
+        {/* <Route path={routing_tree.main.company.path} element={<Navigate to={routing_tree.main.company.messages} replace />} /> */}
     </Route>
 );
 

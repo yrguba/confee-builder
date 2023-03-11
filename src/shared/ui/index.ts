@@ -5,7 +5,6 @@ import * as ButtonTypes from './button/types';
 import { Dropdown, DropdownTypes } from './dropdown';
 import Icons from './icons';
 import Input from './input';
-import Link from './link';
 import * as Loading from './loading';
 import Modal from './modal';
 import useModal from './modal/useModal';
@@ -15,5 +14,5 @@ import Spinner from './spinner';
 import Switch from './switch';
 import Title from './title';
 
-export { Button, Input, Icons, Spinner, Title, Link, Modal, useModal, Dropdown, Box, Switch, Avatar, ResponsiveNavbar, Loading };
+export { Button, Input, Icons, Spinner, Title, Modal, useModal, Dropdown, Box, Switch, Avatar, ResponsiveNavbar, Loading };
 export type { DropdownTypes, ResponsiveNavbarTypes, ButtonTypes };

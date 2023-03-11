@@ -29,7 +29,6 @@ function Dropdown(props: DropdownBaseProps) {
     return (
         <div
             ref={ref}
-            style={{ padding: items ? 0 : 8 }}
             className={styles.wrapper}
             onClick={trigger === 'left-click' ? open : undefined}
             onContextMenu={trigger === 'right-click' ? open : undefined}
@@ -37,7 +36,14 @@ function Dropdown(props: DropdownBaseProps) {
             onMouseLeave={trigger === 'hover' ? () => toggle() : undefined}
         >
             {children}
-            <Box.Animate animationVariant={animationVariant} className={classes} isVisible={isOpen} presence onClick={(e) => e.stopPropagation()}>
+            <Box.Animate
+                animationVariant={animationVariant}
+                className={classes}
+                isVisible={isOpen}
+                presence
+                onClick={(e) => e.stopPropagation()}
+                style={{ padding: items ? 0 : 12 }}
+            >
                 {items ? <Menu items={items} /> : content}
             </Box.Animate>
         </div>

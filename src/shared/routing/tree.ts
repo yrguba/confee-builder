@@ -6,6 +6,7 @@ const routing_tree = {
         base: '/main',
         company: {
             base: 'company',
+            path: '/main/company',
             messages: 'messages',
             favorites: 'favorites',
             tasks: 'tasks',
@@ -13,9 +14,11 @@ const routing_tree = {
         },
         chats: {
             base: 'chats',
+            path: '/main/chats',
         },
         tasks: {
             base: 'tasks',
+            path: '/main/tasks',
         },
     },
 };

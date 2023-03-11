@@ -3,8 +3,9 @@
 
 .wrapper {
   @include box-size(100%, 100%);
-  @include flex-column();
-  margin: 12px 0;
+  @include flex-column(flex-start);
+  padding: 12px 0;
+  background-color: var(--bg-03);
 
   .item {
     padding: 0 12px;
