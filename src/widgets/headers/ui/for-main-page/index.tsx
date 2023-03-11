@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SwitchingNestedPagesOfMainPage } from 'features/tabs';
+import { MainPageNavigation } from 'features/navbars';
 import { ViewerCard } from 'features/viewer';
 import { Icons } from 'shared/ui';
 
@@ -12,8 +12,8 @@ function HeaderForMainPage() {
             <div className={styles.logo}>
                 <Icons variants="logo" />
             </div>
-            <div className={styles.tabs}>
-                <SwitchingNestedPagesOfMainPage />
+            <div className={styles.nav}>
+                <MainPageNavigation />
             </div>
             <div className={styles.viewer}>
                 <ViewerCard />
