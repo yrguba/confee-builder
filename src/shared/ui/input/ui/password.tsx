@@ -2,9 +2,8 @@ import React, { forwardRef, useState } from 'react';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
-import { PasswordProps } from './types';
-
-import { getBase } from './index';
+import { getBase } from '../index';
+import { PasswordProps } from '../types';
 
 const Input = forwardRef<HTMLInputElement, PasswordProps>((props, ref) => {
     const [showPass, toggleShowPass] = useState<boolean>(false);

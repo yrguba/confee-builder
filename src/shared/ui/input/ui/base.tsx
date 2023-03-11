@@ -1,11 +1,10 @@
 import React, { forwardRef } from 'react';
 
 import styles from './styles.module.scss';
-import { InputComponentProps } from './types';
+import { getBase } from '..';
+import { InputComponentProps } from '../types';
 
-import { getBase } from '.';
-
-const Input = forwardRef<HTMLInputElement, InputComponentProps>((props, ref) => {
+const InputBase = forwardRef<HTMLInputElement, InputComponentProps>((props, ref) => {
     const { classes, inputAttrs } = getBase(props);
 
     return (
@@ -15,4 +14,4 @@ const Input = forwardRef<HTMLInputElement, InputComponentProps>((props, ref) => 
     );
 });
 
-export default Input;
+export default InputBase;

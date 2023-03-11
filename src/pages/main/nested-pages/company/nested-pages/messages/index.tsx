@@ -1,10 +1,16 @@
 import React from 'react';
 
+import { MessageDropdownMenu } from 'features/menu-dropdown';
+
 import styles from './styles.module.scss';
-import { Avatar } from '../../../../../../shared/ui';
+import { Avatar, Dropdown } from '../../../../../../shared/ui';
 
 function MessagesPage() {
-    return <div className={styles.page}>MessagesPage</div>;
+    return (
+        <div className={styles.page}>
+            <MessageDropdownMenu>dwa</MessageDropdownMenu>
+        </div>
+    );
 }
 
 export default MessagesPage;

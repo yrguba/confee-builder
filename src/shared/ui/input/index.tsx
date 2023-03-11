@@ -2,11 +2,11 @@ import cn from 'classnames';
 import cnBind from 'classnames/bind';
 import React, { ForwardRefExoticComponent } from 'react';
 
-import InternalInput from './input';
-import Password from './password';
-import Search from './search';
-import styles from './styles.module.scss';
 import { InputComponentProps, GetInputPropsReturned } from './types';
+import InputBase from './ui/base';
+import Password from './ui/password';
+import Search from './ui/search';
+import styles from './ui/styles.module.scss';
 
 export const getBase = (props: InputComponentProps): GetInputPropsReturned => {
     const { loading, error, size, ...inputAttrs } = props;
@@ -28,7 +28,7 @@ type CompoundedComponent = ForwardRefExoticComponent<InputComponentProps> & {
     Search: typeof Search;
 };
 
-const Input = InternalInput as CompoundedComponent;
+const Input = InputBase as CompoundedComponent;
 
 Input.Password = Password;
 Input.Search = Search;

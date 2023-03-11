@@ -1,16 +1,14 @@
 @import "./src/app/styles";
 
-
 .wrapper {
   position: relative;
 }
 
 .body {
-  padding: 8px;
-  border: 1px solid var(--title-color);
-  border-radius: var(--border-radius);
-  color: #fafafa;
-  background-color: var(--bg-1);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  color:var(--text-0);
+  background-color: var(--bg-03);
   overflow: hidden;
 
 }

@@ -4,9 +4,8 @@ import { useDebounce } from 'shared/hooks';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
-import { SearchProps } from './types';
-
-import { getBase } from './index';
+import { getBase } from '../index';
+import { SearchProps } from '../types';
 
 const Input = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
     const { debounceDelay, debounceCallback, ...other } = props;
