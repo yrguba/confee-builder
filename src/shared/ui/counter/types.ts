@@ -1,3 +1,5 @@
-export type Props = {
-    number: number;
+export type CounterProps = {
+    children: number;
+    height?: number;
+    maxVisibleNumber?: number;
 };

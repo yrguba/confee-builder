@@ -1,24 +1,14 @@
-.title {
-  display: flex;
-  align-items: center;
-  color: var(--text-0);
-  margin: 6px 0;
-  line-height: 12px;
-  font-weight: 500;
-  white-space: nowrap;
-}
+@import "./src/app/styles";
 
-.hiddenWithDots{
-  text-overflow: ellipsis;
+.wrapper {
   overflow: hidden;
-  white-space: nowrap;
+  @include flex;
+  min-width: 12px;
+  background-color: #F1EDFA;
+  color: var(--main-active);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 12px;
 }
 
-.secondary {
-  color: var(--text-1);
-}
-
-.error {
-  color: var(--red);
-}
 

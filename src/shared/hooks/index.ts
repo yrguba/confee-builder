@@ -1,4 +1,4 @@
-import { useDebounce, useClickAway, useScrolling, useMedia } from 'react-use';
+import { useDebounce, useClickAway, useScrolling, useMedia, usePrevious } from 'react-use';
 
 import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
@@ -24,4 +24,5 @@ export {
     useMedia,
     useRowAndDropdown,
     useSelected,
+    usePrevious,
 };
