@@ -27,12 +27,14 @@ function LoginForm() {
     };
 
     const onError = ({ response }: any) => {
-        const currentError: string = response.data.error;
-        Object.entries(ErrorsNames).forEach(([key, value]: any) => {
-            if (currentError === `invalid_${key}`) {
-                setError(key, { message: value });
-            }
-        });
+        setError('login', { message: 'Неверный логин или пароль' });
+        setError('password', { message: 'Неверный логин или пароль' });
+        // const currentError: string = response.data.error;
+        // Object.entries(ErrorsNames).forEach(([key, value]: any) => {
+        //     if (currentError === `invalid_${key}`) {
+        //         setError(key, { message: value });
+        //     }
+        // });
     };
 
     const onsubmit = async (data: LoginFormType) => {

@@ -1,0 +1,13 @@
+@import "../../../../app/styles/index";
+
+.tabs {
+  @include flex(flex-start);
+  margin-left: 20px;
+  gap: 8px;
+}
+
+.tabsInDropdown{
+  @include flex-column(_, flex-start);
+  //padding: 12px;
+  gap: 8px;
+}

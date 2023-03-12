@@ -2,7 +2,7 @@ import React, { lazy } from 'react';
 
 const companyRouters = {};
 // (
-// <Route path={routing_tree.main.company.base} element={<CompanyPage />}>
+// <Route path={routing_tree.main.company.dropdown} element={<CompanyPage />}>
 //     <Route index element={<MessagesPage />} />
 //     <Route path={routing_tree.main.company.messages} element={<MessagesPage />} />
 //     <Route path={routing_tree.main.company.favorites} element={<FavoritesPage />} />

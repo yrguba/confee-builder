@@ -1,12 +1,10 @@
-import { ReactNode } from 'react';
-
 export type Empty = undefined | null | '';
 
-export type ComponentProps = {
-    children?: ReactNode;
+export type Statuses = {
+    active?: boolean;
     loading?: boolean;
     disabled?: boolean;
-    error?: string;
+    error?: boolean;
 };
 
 export type Error = {

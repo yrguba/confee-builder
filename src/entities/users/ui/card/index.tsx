@@ -8,7 +8,7 @@ import { userTypes } from '../..';
 
 type Props = {
     user: userTypes.User;
-} & baseTypes.ComponentProps;
+} & baseTypes.Statuses;
 
 function Card(props: Props) {
     const { user } = props;

@@ -1,27 +1,28 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, ReactNode } from 'react';
+
+import { baseTypes } from '../../types';
 
 export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
 
 export type InputValue = InputAttrs['value'];
 
-export interface InputProps {
-    loading?: boolean;
-    disabled?: boolean;
-    error?: boolean;
-    size?: number | 's' | 'm' | 'l' | 'xl';
-}
+type Size = number | 's' | 'm' | 'l' | 'xl';
 
-export type InputComponentProps = InputAttrs & InputProps;
+type Shared = {
+    size?: Size;
+} & InputAttrs &
+    baseTypes.Statuses;
 
-export interface PasswordProps extends InputComponentProps {}
+export type WrapperProps = {
+    children: ReactNode;
+    size?: Size;
+} & baseTypes.Statuses;
 
-export interface SearchProps extends InputComponentProps {
+export type BaseInputProps = {} & Shared;
+
+export type PasswordInputProps = {} & Shared;
+
+export type SearchInputProps = {
     debounceDelay?: number;
     debounceCallback?: (arg: InputValue) => void;
-}
-
-export type GetInputPropsReturned = {
-    classes: string;
-    inputProps: InputProps;
-    inputAttrs: InputAttrs;
-};
+} & Shared;

@@ -8,6 +8,7 @@
   .sidebar{
     @include box-size(300px,100%);
     @include flex;
+    background-color: var(--bg-01);
   }
 
   .mainColumn{
@@ -17,6 +18,7 @@
     .header{
       @include box-size(100%,56px);
       @include flex;
+      background-color: var(--bg-01);
     }
 
     .outlet{

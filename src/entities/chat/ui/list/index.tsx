@@ -4,12 +4,9 @@ import { useSelected } from 'shared/hooks';
 import { baseTypes } from 'shared/types';
 import { Box } from 'shared/ui';
 
-import styles from './styles.module.scss';
-import { chatTypes, Card } from '../..';
-
 type Props = {
     list: any;
-} & baseTypes.ComponentProps;
+} & baseTypes.Statuses;
 
 function List(props: Props) {
     const { list, loading, error } = props;
@@ -36,11 +33,11 @@ function List(props: Props) {
             {arr.map((i: any) => (
                 <Fragment key={i.id}>
                     <div onClick={() => click(i)}>{i.name}</div>
-                    <Box.Animate animationVariant="auto-height" isVisible={openTabs.includes(i.id)}>
+                    <Box.Animated animationVariant="auto-height" visible={openTabs.includes(i.id)}>
                         {i.items.map((b: any, index: number) => (
                             <div key={index}>{b.name}</div>
                         ))}
-                    </Box.Animate>
+                    </Box.Animated>
                 </Fragment>
             ))}
         </div>
