@@ -8,7 +8,7 @@ import { Button, ResponsiveNavbar, ResponsiveNavbarTypes } from 'shared/ui';
 import Icons from './icons';
 
 type Routing = keyof typeof routing_tree.main;
-type Item = ResponsiveNavbarTypes.Item<Routing, any>;
+type Item = ResponsiveNavbarTypes.ResponsiveNavbarItem<Routing, any>;
 
 function MainPageNavigation() {
     const navigate = useNavigate();

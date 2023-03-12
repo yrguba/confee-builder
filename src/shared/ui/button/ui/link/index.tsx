@@ -3,10 +3,10 @@ import React from 'react';
 import { useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { Glare } from '../../../loading';
-import { ButtonLinkProps } from '../../types';
+import Glare from '../../../loading-indicator/ui/glare';
+import { LinkButtonProps } from '../../types';
 
-function ButtonLink(props: ButtonLinkProps) {
+function LinkButton(props: LinkButtonProps) {
     const { children, disabled, loading, error, fontSize, fontWeight, active, prefixIcon, suffixIcon, gap, ...other } = props;
 
     const classes = useStyles(styles, 'wrapper', {
@@ -26,4 +26,4 @@ function ButtonLink(props: ButtonLinkProps) {
     );
 }
 
-export default ButtonLink;
+export default LinkButton;

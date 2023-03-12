@@ -3,10 +3,10 @@ import React from 'react';
 import { useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { Glare } from '../../../loading';
-import { ButtonCircleProps } from '../../types';
+import Glare from '../../../loading-indicator/ui/glare';
+import { CircleButtonProps } from '../../types';
 
-function ButtonCircle(props: ButtonCircleProps) {
+function CircleButton(props: CircleButtonProps) {
     const { children, disabled, loading, error, radius, active, ...other } = props;
 
     const classes = useStyles(styles, 'wrapper', {
@@ -23,4 +23,4 @@ function ButtonCircle(props: ButtonCircleProps) {
     );
 }
 
-export default ButtonCircle;
+export default CircleButton;

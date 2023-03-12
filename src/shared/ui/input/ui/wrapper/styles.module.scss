@@ -1,0 +1,56 @@
+.wrapper {
+  width: 264px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  transition: all var(--transition);
+
+  &:focus {
+    box-shadow: var(--stroke-2);
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--title-color);
+  -webkit-box-shadow: 0 0 0 40rem var(--background-color) inset;
+}
+
+.input {
+  width: 90%;
+  height: 100%;
+  font-size: 18px;
+  color: var(--text-0);
+}
+
+.error {
+  border: 1px solid var(--red);
+  box-shadow: var(--box-shadow-error);
+}
+
+.size-s {
+  width: calc(200px - 32px);
+  height: 30px;
+}
+
+.size-m {
+  width: calc(264px - 32px);
+  height: 40px;
+}
+
+.size-l {
+  width: calc(320px - 32px);
+  height: 48px;
+}
+
+.size-xl {
+  width: calc(360px - 32px);
+  height: 58px;
+}

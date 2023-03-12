@@ -1,0 +1,24 @@
+.title {
+  display: flex;
+  align-items: center;
+  color: var(--text-0);
+  margin: 6px 0;
+  line-height: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.hiddenWithDots{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.secondary {
+  color: var(--text-1);
+}
+
+.error {
+  color: var(--red);
+}
+

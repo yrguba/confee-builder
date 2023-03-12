@@ -1,13 +1,7 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React from 'react';
 
 import styles from './styles.module.scss';
-
-type Props = {
-    size?: number;
-    name?: string;
-    img?: string;
-    circle?: boolean;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+import { Props } from '../types';
 
 function Avatar(props: Props) {
     const { size = 20, name, img, circle = true } = props;

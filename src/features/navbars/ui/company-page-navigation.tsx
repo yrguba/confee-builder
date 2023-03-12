@@ -6,7 +6,7 @@ import { routing_tree } from 'shared/routing';
 import { Button, ResponsiveNavbar, ResponsiveNavbarTypes } from 'shared/ui';
 
 type Routing = keyof typeof routing_tree.main.company;
-type Item = ResponsiveNavbarTypes.Item<Routing, any>;
+type Item = ResponsiveNavbarTypes.ResponsiveNavbarItem<Routing, any>;
 
 function CompanyPageNavigation() {
     const navigate = useNavigate();

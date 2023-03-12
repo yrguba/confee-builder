@@ -4,7 +4,6 @@ import { Navigate, Route } from 'react-router-dom';
 import { routing_tree } from 'shared/routing';
 
 import companyRouters from './nested-pages/company';
-import CompanyPage from './nested-pages/company/ui';
 import MainPage from './ui';
 
 const ChatsNestedPage = lazy(() => import('./nested-pages/chats/ui'));

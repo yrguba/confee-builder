@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { baseTypes } from 'shared/types';
 
-import { AnimationVariants } from '../box/animation-variants';
+import { AnimationVariants } from '../box/types';
 
 export type DropdownMenuItem = {
     id: number;

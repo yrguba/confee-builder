@@ -1,15 +1,16 @@
 import React, { ForwardRefExoticComponent } from 'react';
 
-import AnimateBox from './animate-box';
-import InternalBox from './box';
-import { BoxProps } from './types';
+import * as BoxTypes from './types';
+import Animated from './ui/animated';
+import Base from './ui/base';
 
-type CompoundedComponent = ForwardRefExoticComponent<BoxProps> & {
-    Animate: typeof AnimateBox;
+type CompoundedComponent = ForwardRefExoticComponent<BoxTypes.BaseBoxProps> & {
+    Animated: typeof Animated;
 };
 
-const Box = InternalBox as CompoundedComponent;
+const Box = Base as CompoundedComponent;
 
-Box.Animate = AnimateBox;
+Box.Animated = Animated;
 
+export { BoxTypes };
 export default Box;

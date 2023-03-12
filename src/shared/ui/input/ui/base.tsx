@@ -1,16 +1,16 @@
 import React, { forwardRef } from 'react';
 
-import styles from './styles.module.scss';
-import { getBase } from '..';
-import { InputComponentProps } from '../types';
+import styles from './wrapper/styles.module.scss';
+import Wrapper from './wrapper/wrapper';
+import { BaseInputProps } from '../types';
 
-const InputBase = forwardRef<HTMLInputElement, InputComponentProps>((props, ref) => {
-    const { classes, inputAttrs } = getBase(props);
+const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
+    const { active, loading, error, size, disabled, ...other } = props;
 
     return (
-        <div className={classes}>
-            <input ref={ref} className={styles.input} {...inputAttrs} />
-        </div>
+        <Wrapper loading={loading} error={error} size={size} disabled={disabled} active={active}>
+            <input ref={ref} className={styles.input} {...other} />
+        </Wrapper>
     );
 });
 

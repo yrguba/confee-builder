@@ -36,16 +36,16 @@ function Dropdown(props: DropdownBaseProps) {
             onMouseLeave={trigger === 'hover' ? () => toggle() : undefined}
         >
             {children}
-            <Box.Animate
+            <Box.Animated
                 animationVariant={animationVariant}
                 className={classes}
-                isVisible={isOpen}
+                visible={isOpen}
                 presence
                 onClick={(e) => e.stopPropagation()}
                 style={{ padding: items ? 0 : 12 }}
             >
                 {items ? <Menu items={items} /> : content}
-            </Box.Animate>
+            </Box.Animated>
         </div>
     );
 }

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-export type ModalHookReturnedType = { isOpen: boolean; open: () => void; close: () => void };
+import { UseModalReturned } from './types';
 
-function useModal(): ModalHookReturnedType {
+function useModal(): UseModalReturned {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const open = () => setIsOpen(true);

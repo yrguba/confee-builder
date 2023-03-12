@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import { routing_tree } from 'shared/routing';
 

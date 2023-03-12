@@ -1,5 +1,3 @@
-export type AnimationVariants = 'visible-hidden' | 'auto-height';
-
 export const visibleHidden = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },

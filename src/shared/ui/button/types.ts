@@ -11,7 +11,7 @@ export type ButtonBaseProps = {
     size?: number | 's' | 'm' | 'l' | 'xl';
 } & SharedProps;
 
-export type ButtonLinkProps = {
+export type LinkButtonProps = {
     fontSize?: number;
     fontWeight?: 400 | 500 | 600 | 700 | 800 | 900;
     prefixIcon?: ReactNode;
@@ -19,6 +19,6 @@ export type ButtonLinkProps = {
     gap?: number;
 } & SharedProps;
 
-export type ButtonCircleProps = {
+export type CircleButtonProps = {
     radius?: number;
 } & SharedProps;

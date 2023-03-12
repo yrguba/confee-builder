@@ -1,18 +1,28 @@
-import Avatar from './avatar';
-import Box from './box';
-import Button from './button';
-import * as ButtonTypes from './button/types';
-import { Dropdown, DropdownTypes } from './dropdown';
-import Icons from './icons';
-import Input from './input';
-import * as Loading from './loading';
-import Modal from './modal';
-import useModal from './modal/useModal';
-import ResponsiveNavbar from './responsive-navbar';
-import * as ResponsiveNavbarTypes from './responsive-navbar/types';
-import Spinner from './spinner';
-import Switch from './switch';
-import Title from './title';
+import Avatar, { AvatarTypes } from './avatar';
+import Box, { BoxTypes } from './box';
+import Button, { ButtonTypes } from './button';
+import Counter, { CounterTypes } from './counter';
+import Dropdown, { DropdownTypes } from './dropdown';
+import Icons, { IconsTypes } from './icons';
+import Input, { InputTypes } from './input';
+import LoadingIndicator, { LoadingIndicatorTypes } from './loading-indicator';
+import Modal, { ModalTypes, useModal } from './modal';
+import ResponsiveNavbar, { ResponsiveNavbarTypes } from './responsive-navbar';
+import Switch, { SwitchTypes } from './switch';
+import Title, { TitleTypes } from './title';
 
-export { Button, Input, Icons, Spinner, Title, Modal, useModal, Dropdown, Box, Switch, Avatar, ResponsiveNavbar, Loading };
-export type { DropdownTypes, ResponsiveNavbarTypes, ButtonTypes };
+export { Avatar, Box, Button, Counter, Dropdown, Icons, Input, LoadingIndicator, Title, Modal, useModal, Switch, ResponsiveNavbar };
+export type {
+    AvatarTypes,
+    BoxTypes,
+    ButtonTypes,
+    CounterTypes,
+    DropdownTypes,
+    IconsTypes,
+    InputTypes,
+    LoadingIndicatorTypes,
+    TitleTypes,
+    ModalTypes,
+    SwitchTypes,
+    ResponsiveNavbarTypes,
+};
