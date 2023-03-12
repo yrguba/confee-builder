@@ -1,0 +1,31 @@
+@import "../../../../app/styles/index";
+
+.error {
+  @include box-size(100%, 100%);
+  @include flex;
+  font-size: 18px;
+  color: var(--error-color);
+  box-shadow: var(--box-shadow-error) inset;
+}
+
+.loading {
+  @include box-size(100%, 100%);
+  @include flex;
+  font-size: 18px;
+  color: var(--error-color);
+  box-shadow: var(--box-shadow-active) inset;
+  overflow: hidden;
+  animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: var(--box-shadow-active) inset;
+  }
+  70% {
+    box-shadow: var(--box-shadow-cuccess) inset;
+  }
+  100% {
+    box-shadow: var(--box-shadow-active) inset;
+  }
+}

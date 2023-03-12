@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export type Item<Path, Icon> = {
+export type ResponsiveNavbarItem<Path, Icon> = {
     id: number;
     text: string;
     icon?: Icon;
@@ -8,8 +8,11 @@ export type Item<Path, Icon> = {
     breakpoint: number;
 };
 
-export type Props = {
-    itemsInRow: Item<any, any>[];
-    itemsInDropdown: Item<any, any>[];
-    item: (arg: Item<any, any>) => ReactNode;
+export type ResponsiveNavbarProps = {
+    itemsInRow: ResponsiveNavbarItem<any, any>[];
+    itemsInDropdown: ResponsiveNavbarItem<any, any>[];
+    item: (arg: ResponsiveNavbarItem<any, any>) => ReactNode;
+    rowGap?: number;
+    columnGap?: number;
+    btnRadius?: number;
 };

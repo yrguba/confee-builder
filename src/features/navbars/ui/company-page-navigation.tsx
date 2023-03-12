@@ -6,17 +6,17 @@ import { routing_tree } from 'shared/routing';
 import { Button, ResponsiveNavbar, ResponsiveNavbarTypes } from 'shared/ui';
 
 type Routing = keyof typeof routing_tree.main.company;
-type Item = ResponsiveNavbarTypes.Item<Routing, any>;
+type Item = ResponsiveNavbarTypes.ResponsiveNavbarItem<Routing, any>;
 
 function CompanyPageNavigation() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
     const items: Item[] = [
-        { id: 0, text: 'Сообщения ', path: 'messages', breakpoint: 500 },
-        { id: 1, text: 'Избранное', path: 'favorites', breakpoint: 615 },
-        { id: 2, text: 'Задачи', path: 'tasks', breakpoint: 710 },
-        { id: 3, text: 'Информация', path: 'info', breakpoint: 800 },
+        { id: 0, text: 'Сообщения ', path: 'messages', breakpoint: 520 },
+        { id: 1, text: 'Избранное', path: 'favorites', breakpoint: 640 },
+        { id: 2, text: 'Задачи', path: 'tasks', breakpoint: 735 },
+        { id: 3, text: 'Информация esf', path: 'info', breakpoint: 830 },
     ];
 
     const [isPending, startTransition] = useTransition();

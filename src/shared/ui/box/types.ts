@@ -1,11 +1,22 @@
-import { AnimationProps, MotionProps } from 'framer-motion';
-import { HTMLAttributes } from 'react';
+import { AnimatePresenceProps, AnimationProps, MotionProps } from 'framer-motion';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import { baseTypes } from '../../types';
 
-export type BoxProps = {
-    skeletonCount?: number;
-} & HTMLAttributes<HTMLDivElement> &
-    baseTypes.ComponentProps;
+export type AnimationVariants = 'visible-hidden' | 'auto-height';
 
-export type BoxAnimateProps = {} & BoxProps & AnimationProps & MotionProps;
+type Shared = {
+    children: ReactNode;
+} & HTMLAttributes<HTMLDivElement> &
+    baseTypes.Statuses;
+
+export type AnimatedBoxProps = {
+    visible: boolean;
+    animationVariant?: AnimationVariants;
+    presence?: boolean;
+    presenceProps?: AnimatePresenceProps;
+} & Shared &
+    AnimationProps &
+    MotionProps;
+
+export type BaseBoxProps = {} & Shared;

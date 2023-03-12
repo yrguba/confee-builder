@@ -1,43 +1,5 @@
-import cn from 'classnames';
-import cnBind from 'classnames/bind';
-import React from 'react';
+import * as TitleTypes from './types';
+import Title from './ui';
 
-import styles from './styles.module.scss';
-import { Box } from '../index';
-
-type Props = {
-    children: string | number | undefined;
-    secondary?: boolean;
-    isLoading?: boolean;
-    isError?: boolean;
-    animation?: boolean;
-    size?: number;
-    width?: number;
-};
-
-function Title(props: Props) {
-    const { children, secondary, isLoading, isError, animation = false, size, width, ...other } = props;
-
-    const cx = cnBind.bind(styles);
-
-    const classes = cn(
-        cx('title', {
-            hiddenWithDots: width,
-            secondary,
-            loading: isLoading,
-            error: isError,
-        })
-    );
-
-    return animation ? (
-        <Box.Animate isVisible={!!children} style={{ width: width || 'auto', fontSize: size, height: size ? size + 4 : 20 }} className={classes} {...other}>
-            {children}
-        </Box.Animate>
-    ) : (
-        <div className={classes} style={{ width: width || 'auto', fontSize: size, height: size ? size + 4 : 20 }} {...other}>
-            {children}
-        </div>
-    );
-}
-
+export { TitleTypes };
 export default Title;
