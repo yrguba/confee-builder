@@ -12,9 +12,9 @@ function HeaderForMainPage() {
             <div className={styles.logo}>
                 <Icons variants="logo" />
             </div>
-            <Box.Animated presenceProps={{ mode: 'wait' }} visible className={styles.nav}>
+            <div className={styles.nav}>
                 <MainPageNavigation />
-            </Box.Animated>
+            </div>
             <div className={styles.viewer}>
                 <ViewerCard />
             </div>

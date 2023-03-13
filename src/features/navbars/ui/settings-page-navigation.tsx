@@ -1,8 +1,10 @@
 import React, { useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { authApi } from 'entities/auth';
 import { routing_tree } from 'shared/routing';
-import { Button, Navbar, NavbarTypes } from 'shared/ui';
+import { TokenService } from 'shared/services';
+import { Button, Navbar, NavbarTypes, ModalTypes, useModal, Modal } from 'shared/ui';
 
 import Icons from './icons';
 
@@ -12,6 +14,10 @@ type Item = NavbarTypes.BaseItem<Routing, any>;
 function SettingsPageNavigation() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
+    const [isPending, startTransition] = useTransition();
+    const confirmModal = useModal();
+
+    const { mutate: handleLogout } = authApi.handleLogout();
 
     const items: Item[] = [
         { id: 0, text: 'Профиль', icon: 'company', path: 'profile' },
@@ -19,7 +25,23 @@ function SettingsPageNavigation() {
         { id: 2, text: 'Выход из учетной записи', icon: 'tasks', path: '/' },
     ];
 
-    const [isPending, startTransition] = useTransition();
+    const logout = () => {
+        handleLogout(null, {
+            onSuccess: () => {
+                TokenService.remove().then((res) => {
+                    window.location.reload();
+                });
+            },
+        });
+    };
+
+    const onClick = (item: Item) => {
+        if (item.path === '/') {
+            confirmModal.open();
+        } else {
+            startTransition(() => navigate(item.path));
+        }
+    };
 
     const item = (item: Item) => (
         <Button.Link
@@ -27,7 +49,7 @@ function SettingsPageNavigation() {
             disabled={isPending}
             loading={isPending && pathname.includes(item.path)}
             key={item.id}
-            onClick={() => startTransition(() => navigate(item.path))}
+            onClick={() => onClick(item)}
             prefixIcon={<Icons variants={item.icon} />}
             fontSize={16}
             fontWeight={600}
@@ -36,7 +58,14 @@ function SettingsPageNavigation() {
         </Button.Link>
     );
 
-    return <Navbar items={items} item={item} direction="column" gap={24} />;
+    return (
+        <>
+            <Modal onOk={logout} width={319} {...confirmModal}>
+                Вы уверены, что хотите выйти из аккаунта?
+            </Modal>
+            <Navbar items={items} item={item} direction="column" gap={24} />
+        </>
+    );
 }
 
 export default SettingsPageNavigation;
