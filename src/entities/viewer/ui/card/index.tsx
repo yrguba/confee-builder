@@ -14,7 +14,7 @@ function Card(props: Props) {
 
     return (
         <div className={styles.card}>
-            <Title secondary size={14}>
+            <Title align="right" width={100} secondary size={14}>
                 {name}
             </Title>
             <Avatar size={31} />

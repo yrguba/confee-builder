@@ -6,4 +6,5 @@ export type Props = {
     animation?: boolean;
     size?: number;
     width?: number;
+    align?: 'left' | 'center' | 'right';
 };
