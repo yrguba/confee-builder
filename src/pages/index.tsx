@@ -6,6 +6,7 @@ import { TokenService } from 'shared/services';
 
 import authRoutes from './auth';
 import mainRouters from './main';
+import settingsRouters from './settings';
 
 function Routing() {
     const [isAuth, toggle] = useState<boolean>(true);
@@ -19,6 +20,7 @@ function Routing() {
     const privateRoutes = (
         <Routes>
             {mainRouters}
+            {settingsRouters}
             <Route path="*" element={<Navigate to={routing_tree.main.base} replace />} />
         </Routes>
     );

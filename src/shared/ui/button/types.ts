@@ -9,6 +9,7 @@ type SharedProps = {
 
 export type ButtonBaseProps = {
     size?: number | 's' | 'm' | 'l' | 'xl';
+    inActive?: boolean;
 } & SharedProps;
 
 export type LinkButtonProps = {

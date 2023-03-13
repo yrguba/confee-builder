@@ -7,11 +7,11 @@ import Icons, { IconsTypes } from './icons';
 import Input, { InputTypes } from './input';
 import LoadingIndicator, { LoadingIndicatorTypes } from './loading-indicator';
 import Modal, { ModalTypes, useModal } from './modal';
-import ResponsiveNavbar, { ResponsiveNavbarTypes } from './responsive-navbar';
+import Navbar, { NavbarTypes } from './navbar';
 import Switch, { SwitchTypes } from './switch';
 import Title, { TitleTypes } from './title';
 
-export { Avatar, Box, Button, Counter, Dropdown, Icons, Input, LoadingIndicator, Title, Modal, useModal, Switch, ResponsiveNavbar };
+export { Avatar, Box, Button, Counter, Dropdown, Icons, Input, LoadingIndicator, Title, Modal, useModal, Switch, Navbar };
 export type {
     AvatarTypes,
     BoxTypes,
@@ -24,5 +24,5 @@ export type {
     TitleTypes,
     ModalTypes,
     SwitchTypes,
-    ResponsiveNavbarTypes,
+    NavbarTypes,
 };
