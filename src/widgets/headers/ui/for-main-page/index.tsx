@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MainPageNavigation } from 'features/navbars';
 import { ViewerCard } from 'features/viewer';
-import { Icons } from 'shared/ui';
+import { Icons, Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -12,9 +12,9 @@ function HeaderForMainPage() {
             <div className={styles.logo}>
                 <Icons variants="logo" />
             </div>
-            <div className={styles.nav}>
+            <Box.Animated presenceProps={{ mode: 'wait' }} visible className={styles.nav}>
                 <MainPageNavigation />
-            </div>
+            </Box.Animated>
             <div className={styles.viewer}>
                 <ViewerCard />
             </div>

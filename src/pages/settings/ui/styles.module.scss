@@ -13,6 +13,7 @@
   .mainRow {
     @include flex;
     @include box-size(100%, calc(100% - 60px));
+    gap: 1px;
 
     .sidebar {
       @include box-size(var(--sidebar-base-width), 100%);

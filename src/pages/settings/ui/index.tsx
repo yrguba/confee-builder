@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { Box } from 'shared/ui';
 import { HeaderForSettingsPage } from 'widgets/headers';
 import { SidebarForSettingsPage } from 'widgets/sidebars';
 
@@ -14,14 +15,14 @@ function SettingsPage() {
                 <div className={styles.header}>
                     <HeaderForSettingsPage />
                 </div>
-                <div className={styles.mainRow}>
+                <Box.Animated presenceProps={{ mode: 'wait' }} visible className={styles.mainRow}>
                     <div className={styles.sidebar}>
                         <SidebarForSettingsPage />
                     </div>
                     <div className={styles.outlet}>
                         <Outlet />
                     </div>
-                </div>
+                </Box.Animated>
             </div>
         </Wrapper>
     );
