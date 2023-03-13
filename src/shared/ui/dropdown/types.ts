@@ -8,7 +8,7 @@ export type DropdownMenuItem = {
     id: number;
     title: string;
     icon?: ReactNode;
-    onclick: () => void;
+    onclick?: () => void;
 };
 
 export type DropdownBaseProps = {
@@ -18,4 +18,5 @@ export type DropdownBaseProps = {
     animationVariant?: AnimationVariants;
     items?: DropdownMenuItem[];
     content?: ReactNode;
+    openCloseTrigger?: (arg: boolean) => void;
 } & baseTypes.Statuses;

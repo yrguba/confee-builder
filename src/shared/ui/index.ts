@@ -8,10 +8,11 @@ import Input, { InputTypes } from './input';
 import LoadingIndicator, { LoadingIndicatorTypes } from './loading-indicator';
 import Modal, { ModalTypes, useModal } from './modal';
 import Navbar, { NavbarTypes } from './navbar';
+import Select, { SelectTypes } from './select';
 import Switch, { SwitchTypes } from './switch';
 import Title, { TitleTypes } from './title';
 
-export { Avatar, Box, Button, Counter, Dropdown, Icons, Input, LoadingIndicator, Title, Modal, useModal, Switch, Navbar };
+export { Avatar, Box, Button, Counter, Dropdown, Icons, Input, LoadingIndicator, Title, Modal, useModal, Switch, Navbar, Select };
 export type {
     AvatarTypes,
     BoxTypes,
@@ -25,4 +26,5 @@ export type {
     ModalTypes,
     SwitchTypes,
     NavbarTypes,
+    SelectTypes,
 };

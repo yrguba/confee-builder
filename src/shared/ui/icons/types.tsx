@@ -1,5 +1,8 @@
 export type BaseIconsProps = {
-    variants: 'logo';
+    variants: 'arrow-right' | 'arrow-down';
+    rotate?: number;
+    color?: string;
+    active?: boolean;
 };
 
 export type LogoIconsProps = {
