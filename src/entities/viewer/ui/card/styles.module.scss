@@ -3,4 +3,5 @@
 .card {
   @include flex(flex-end);
   gap: 12px;
+  cursor: pointer;
 }

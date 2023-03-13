@@ -1,19 +1,15 @@
 import React from 'react';
 
-import { MainPageNavigation } from 'features/navbars';
 import { ViewerCard } from 'features/viewer';
-import { Icons, Box } from 'shared/ui';
+import { Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-function HeaderForMainPage() {
+function HeaderForSettingsPage() {
     return (
         <div className={styles.header}>
             <div className={styles.logo}>
                 <Icons variants="logo" />
-            </div>
-            <div className={styles.nav}>
-                <MainPageNavigation />
             </div>
             <div className={styles.viewer}>
                 <ViewerCard />
@@ -22,4 +18,4 @@ function HeaderForMainPage() {
     );
 }
 
-export default HeaderForMainPage;
+export default HeaderForSettingsPage;

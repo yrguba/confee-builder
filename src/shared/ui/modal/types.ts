@@ -10,4 +10,5 @@ export type ModalProps = {
     headerText?: string;
     okText?: string;
     closeText?: string;
+    width?: number;
 } & UseModalReturned;

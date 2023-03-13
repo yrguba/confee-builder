@@ -2,6 +2,11 @@ const routing_tree = {
     auth: {
         base: '/auth',
     },
+    settings: {
+        base: '/settings',
+        profile: 'profile',
+        privacy: 'privacy',
+    },
     main: {
         base: '/main',
         company: {

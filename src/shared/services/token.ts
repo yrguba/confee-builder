@@ -34,7 +34,7 @@ class TokenService {
 
     async remove() {
         await UniversalStorage.remove(StorageObjectsNames.access_token);
-        await UniversalStorage.remove(StorageObjectsNames.access_token);
+        await UniversalStorage.remove(StorageObjectsNames.refresh_token);
     }
 }
 

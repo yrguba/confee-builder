@@ -1,8 +1,8 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import { Button, Dropdown } from '../../index';
-import { ResponsiveNavbarProps } from '../types';
+import { Button, Dropdown } from '../../../index';
+import { ResponsiveNavbarProps } from '../../types';
 
 function ResponsiveNavbar(props: ResponsiveNavbarProps) {
     const { itemsInRow, itemsInDropdown, item, rowGap, columnGap, btnRadius = 32 } = props;
