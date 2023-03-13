@@ -22,6 +22,7 @@
     .outlet {
       @include flex;
       @include box-size(calc(100% - 300px),100%);
+      background-color: var(--bg-0);
     }
   }
 }

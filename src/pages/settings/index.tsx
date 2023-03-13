@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 
 import { routing_tree } from 'shared/routing';
 
@@ -12,6 +12,7 @@ const settingsRouters = (
     <Route path={routing_tree.settings.base} element={<SettingsPage />}>
         <Route path={routing_tree.settings.profile} element={<ProfilePage />} />
         <Route path={routing_tree.settings.privacy} element={<PrivacyPage />} />
+        <Route path={routing_tree.settings.base} element={<Navigate to={routing_tree.settings.profile} replace />} />
     </Route>
 );
 

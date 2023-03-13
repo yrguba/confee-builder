@@ -3,10 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useRowAndDropdown } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
-import { Button, ResponsiveNavbar, ResponsiveNavbarTypes } from 'shared/ui';
+import { Button, Navbar, NavbarTypes } from 'shared/ui';
 
 type Routing = keyof typeof routing_tree.main.company;
-type Item = ResponsiveNavbarTypes.ResponsiveNavbarItem<Routing, any>;
+type Item = NavbarTypes.ResponsiveItem<Routing, any>;
 
 function CompanyPageNavigation() {
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ function CompanyPageNavigation() {
         </Button>
     );
 
-    return <ResponsiveNavbar itemsInDropdown={itemsInDropdown} itemsInRow={itemsInRow} item={item} />;
+    return <Navbar.Responsive itemsInDropdown={itemsInDropdown} itemsInRow={itemsInRow} item={item} />;
 }
 
 export default CompanyPageNavigation;
