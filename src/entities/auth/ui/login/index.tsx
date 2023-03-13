@@ -37,7 +37,7 @@ function Login(props: Props) {
             </div>
 
             <Button size="l" type="submit" active={!disabledBtn} disabled={!!disabledBtn} loading={isLoading}>
-                Отправить
+                Войти
             </Button>
         </form>
     );
