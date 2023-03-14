@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 import { MessageDropdownMenu } from 'features/menu-dropdown';
-import { Button, Counter, Select, Icons, SelectTypes } from 'shared/ui';
+import { MessageMenu } from 'features/message';
+import { Reactions, Button, Counter, Select, Icons, SelectTypes, Dropdown } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -11,12 +12,17 @@ function MessagesPage() {
     const [a, seta] = useState<number>(500);
 
     const items = [
-        { id: 0, title: '12121' },
-        { id: 1, title: '12121' },
-        { id: 2, title: '12121' },
-        { id: 3, title: '12121' },
-        { id: 4, title: '12121' },
+        { name: 'aaaa', avatar: 'https://i.postimg.cc/W4Zh77jn/3440x1440.jpg' },
+        { name: 'aaaa', avatar: 'https://i.postimg.cc/W4Zh77jn/3440x1440.jpg' },
+        { name: 'aaaa', avatar: 'https://i.postimg.cc/W4Zh77jn/3440x1440.jpg' },
+
+        // { name: 'aaaa', avatar: 'https://postimg.cc/kVnJJK26' },
     ];
+
+    const item = {
+        name: 'aaaa',
+        avatar: 'https://postimg.cc/kVnJJK26',
+    };
 
     return (
         <div className={styles.page}>
@@ -25,7 +31,9 @@ function MessagesPage() {
             {/* <Counter height={26} maxVisibleNumber={500}> */}
             {/*    {a} */}
             {/* </Counter> */}
-            <Select items={items} />
+            {/* <MessageMenu>wdad</MessageMenu> */}
+            <Reactions.Counter maxAvatars={3} emoji="1f423" items={items} onClick={(data) => console.log(data)} />
+            {/* <Select items={items} /> */}
             {/* <MessageDropdownMenu>dwa</MessageDropdownMenu> */}
         </div>
     );

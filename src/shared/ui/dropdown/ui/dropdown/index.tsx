@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useToggle, useClickAway, useStyles } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { DropdownBaseProps } from '../../types';
-import Menu from '../menu';
 
 function Dropdown(props: DropdownBaseProps) {
-    const { children, openCloseTrigger, content, items, trigger = 'left-click', position = 'left-bottom', animationVariant = 'visible-hidden' } = props;
+    const { children, openCloseTrigger, content, trigger = 'left-click', position = 'left-bottom', animationVariant = 'visible-hidden' } = props;
 
     const ref = useRef(null);
 
@@ -41,7 +40,7 @@ function Dropdown(props: DropdownBaseProps) {
         >
             {children}
             <Box.Animated animationVariant={animationVariant} className={classes} visible={isOpen} presence onClick={(e) => e.stopPropagation()}>
-                {items ? <Menu items={items} /> : content}
+                {content}
             </Box.Animated>
         </div>
     );
