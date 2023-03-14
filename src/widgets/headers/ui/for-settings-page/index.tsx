@@ -9,7 +9,7 @@ function HeaderForSettingsPage() {
     return (
         <div className={styles.header}>
             <div className={styles.logo}>
-                <Icons variants="logo" />
+                <Icons.Logo variants="confee" />
             </div>
             <div className={styles.viewer}>
                 <ViewerCard />
