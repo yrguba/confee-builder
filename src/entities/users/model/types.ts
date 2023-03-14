@@ -1,3 +1,5 @@
+export type UserStatuses = 'in-office' | 'home-work' | 'business-trip' | 'vacation' | 'sick-leave' | 'meeting' | 'not-available';
+
 export type User = {
     id: number;
     name: string;

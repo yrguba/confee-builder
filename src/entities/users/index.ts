@@ -3,5 +3,6 @@ import useUserStore from './model/store';
 import * as userTypes from './model/types';
 import Card from './ui/card';
 import List from './ui/list';
+import UserStatus from './ui/status';
 
-export { useUserStore, userTypes, userApi, Card, List };
+export { useUserStore, userTypes, userApi, Card, List, UserStatus };
