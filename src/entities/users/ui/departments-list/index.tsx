@@ -4,13 +4,13 @@ import { baseTypes } from 'shared/types';
 import { Box, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { userTypes, Card } from '../..';
+import { userTypes, UserCardView } from '../..';
 
 type Props = {
     list: userTypes.User[] | baseTypes.Empty;
 } & baseTypes.Statuses;
 
-function List(props: Props) {
+function DepartmentsListView(props: Props) {
     const { list, loading, error } = props;
 
     const otdel = [
@@ -33,7 +33,7 @@ function List(props: Props) {
                         {department.items.map((division) => (
                             <Collapse key={division.id} openByClickingOnArrow titleClassName={styles.divisionTitle} title={division.name}>
                                 <div className={styles.usersList}>
-                                    {division?.users && division?.users.map((user: any) => <Card key={user.id} user={user} />)}
+                                    {division?.users && division?.users.map((user: any) => <UserCardView key={user.id} user={user} />)}
                                 </div>
                             </Collapse>
                         ))}
@@ -43,4 +43,4 @@ function List(props: Props) {
     );
 }
 
-export default List;
+export default DepartmentsListView;

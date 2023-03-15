@@ -9,10 +9,10 @@ type Props = {
     status: UserStatuses;
 } & baseTypes.Statuses;
 
-function UserStatus(props: Props) {
+function UserStatusView(props: Props) {
     const { status } = props;
 
     return <div>{status}</div>;
 }
 
-export default UserStatus;
+export default UserStatusView;

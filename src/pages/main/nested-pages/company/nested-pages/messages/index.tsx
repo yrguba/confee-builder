@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { UserStatus } from 'entities/users';
 import { MessageDropdownMenu } from 'features/menu-dropdown';
 import { MessageMenu } from 'features/message';
 import { Reactions, Button, Counter, Select, Icons, SelectTypes, Dropdown } from 'shared/ui';
@@ -34,7 +33,7 @@ function MessagesPage() {
             {/* </Counter> */}
             {/* <MessageMenu>wdad</MessageMenu> */}
             {/* <Reactions.Counter maxAvatars={3} emoji="1f423" items={items} onClick={(data) => console.log(data)} /> */}
-            <UserStatus status="business-trip" />
+
             {/* <Select items={items} /> */}
             {/* <MessageDropdownMenu>dwa</MessageDropdownMenu> */}
         </div>

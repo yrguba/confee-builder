@@ -10,7 +10,7 @@ type Props = {
     user: userTypes.User;
 } & baseTypes.Statuses;
 
-function Card(props: Props) {
+function UserCardView(props: Props) {
     const { user } = props;
 
     return (
@@ -21,4 +21,4 @@ function Card(props: Props) {
     );
 }
 
-export default Card;
+export default UserCardView;

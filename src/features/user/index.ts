@@ -1,3 +1,3 @@
-import UsersList from './ui/list';
+import UsersList from './ui/departments-list';
 
 export { UsersList };

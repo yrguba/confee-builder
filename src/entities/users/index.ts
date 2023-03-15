@@ -1,8 +1,8 @@
 import * as userApi from './model/api';
 import useUserStore from './model/store';
 import * as userTypes from './model/types';
-import Card from './ui/card';
-import List from './ui/list';
-import UserStatus from './ui/status';
+import UserCardView from './ui/card';
+import DepartmentsListView from './ui/departments-list';
+import UserStatusView from './ui/status';
 
-export { useUserStore, userTypes, userApi, Card, List, UserStatus };
+export { useUserStore, userTypes, userApi, UserCardView, DepartmentsListView, UserStatusView };
