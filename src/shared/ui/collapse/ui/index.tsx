@@ -7,7 +7,7 @@ import { Box } from '../../index';
 import { CollapseProps } from '../types';
 
 function Collapse(props: CollapseProps) {
-    const { title, children, titleClassName, onTitleClick, openByClickingOnArrow } = props;
+    const { title, children, titleClassName, onTitleClick, openByClickingOnArrow, activeAnimate } = props;
     const [visible, toggle] = useToggle();
 
     const headerClick = () => {
@@ -29,7 +29,7 @@ function Collapse(props: CollapseProps) {
                     {title}
                 </div>
                 <div className={styles.arrow} onClick={arrowClick}>
-                    <Icons.ArrowAnimated variants="rotate" />
+                    <Icons.ArrowAnimated animateDeg={90} initialDeg={0} activeAnimate={visible} variants="rotate" />
                 </div>
             </div>
 

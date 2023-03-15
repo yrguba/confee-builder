@@ -11,7 +11,8 @@
   }
 
   .list {
-    width: 90%;
+    @include flex(flex-start, flex-start);
+    width: 100%;
     height: calc(100vh - 150px);
     overflow-y: auto;
   }

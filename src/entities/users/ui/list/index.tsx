@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { baseTypes } from 'shared/types';
-import { Box, Icons, Title, Collapse } from 'shared/ui';
+import { Box, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { userTypes, Card } from '../..';
-import { useSelected } from '../../../../shared/hooks';
 
 type Props = {
     list: userTypes.User[] | baseTypes.Empty;
@@ -33,7 +32,9 @@ function List(props: Props) {
                     <Collapse key={department.id} openByClickingOnArrow titleClassName={styles.departmentTitle} title={department.name}>
                         {department.items.map((division) => (
                             <Collapse key={division.id} openByClickingOnArrow titleClassName={styles.divisionTitle} title={division.name}>
-                                {division?.users && division?.users.map((user: any) => <Card key={user.id} user={user} />)}
+                                <div className={styles.usersList}>
+                                    {division?.users && division?.users.map((user: any) => <Card key={user.id} user={user} />)}
+                                </div>
                             </Collapse>
                         ))}
                     </Collapse>

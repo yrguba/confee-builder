@@ -13,5 +13,6 @@ export type ArrowAnimatedProps = {
     variants: 'rotate' | 'visible';
     initialDeg?: number;
     animateDeg?: number;
+    activeAnimate?: boolean;
     color?: string;
 };
