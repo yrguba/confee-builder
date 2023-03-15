@@ -8,3 +8,10 @@ export type BaseIconsProps = {
 export type LogoIconsProps = {
     variants: 'confee' | 'tfn';
 };
+
+export type ArrowAnimatedProps = {
+    variants: 'rotate' | 'visible';
+    initialDeg?: number;
+    animateDeg?: number;
+    color?: string;
+};
