@@ -15,7 +15,7 @@ function Collapse(props: CollapseProps) {
     };
 
     const titleClick = () => {
-        onTitleClick && onTitleClick();
+        onTitleClick && onTitleClick(title);
     };
 
     const arrowClick = () => {

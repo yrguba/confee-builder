@@ -1,6 +1,7 @@
 @import "./src/app/styles";
 
 .userCard {
-  @include flex;
+  @include flex(flex-start);
+  width: 100%;
   gap: 12px;
 }

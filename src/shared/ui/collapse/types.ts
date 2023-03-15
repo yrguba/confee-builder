@@ -5,6 +5,6 @@ export type CollapseProps = {
     titleClassName?: string;
     children: ReactNode;
     openByClickingOnArrow?: boolean;
-    onTitleClick?: () => void;
+    onTitleClick?: (arg: string) => void;
     activeAnimate?: boolean;
 };

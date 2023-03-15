@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SearchUsers } from 'features/search';
-import { UsersList } from 'features/user';
+import { DepartmentsList } from 'features/user';
 
 import styles from './styles.module.scss';
 
@@ -12,7 +12,7 @@ function SidebarForCompanyPage() {
                 <SearchUsers />
             </div>
             <div className={styles.list}>
-                <UsersList />
+                <DepartmentsList />
             </div>
         </div>
     );

@@ -12,6 +12,9 @@ const routing_tree = {
         company: {
             base: 'company',
             path: '/main/company',
+            department: 'department',
+            division: 'division',
+            user: 'user',
             messages: 'messages',
             favorites: 'favorites',
             tasks: 'tasks',

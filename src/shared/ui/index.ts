@@ -1,5 +1,6 @@
 import Avatar, { AvatarTypes } from './avatar';
 import Box, { BoxTypes } from './box';
+import Breadcrumb, { BreadcrumbTypes } from './breadcrumb';
 import Button, { ButtonTypes } from './button';
 import Collapse, { CollapseTypes } from './collapse';
 import Counter, { CounterTypes } from './counter';
@@ -14,7 +15,25 @@ import Select, { SelectTypes } from './select';
 import Switch, { SwitchTypes } from './switch';
 import Title, { TitleTypes } from './title';
 
-export { Avatar, Box, Button, Counter, Dropdown, Icons, Input, Collapse, LoadingIndicator, Title, Modal, useModal, Switch, Navbar, Select, Reactions };
+export {
+    Avatar,
+    Box,
+    Button,
+    Counter,
+    Dropdown,
+    Icons,
+    Input,
+    Collapse,
+    LoadingIndicator,
+    Title,
+    Modal,
+    useModal,
+    Switch,
+    Navbar,
+    Select,
+    Reactions,
+    Breadcrumb,
+};
 export type {
     AvatarTypes,
     BoxTypes,
@@ -31,4 +50,5 @@ export type {
     SelectTypes,
     ReactionsTypes,
     CollapseTypes,
+    BreadcrumbTypes,
 };
