@@ -6,7 +6,11 @@ interface IUseSelected {
     excludeCallback?: (arg: any) => void;
 }
 
-function useSelected({ multiple, exclude, excludeCallback }: IUseSelected) {
+function useSelected({
+    multiple,
+    exclude,
+    excludeCallback,
+}: IUseSelected): [arr: any[], fn: (arg: any) => void, clear: () => void, installAll: (arg: any) => void] {
     const [arr, setArr] = useState<any>([]);
 
     function fn<T extends { id: any }>(item: any) {

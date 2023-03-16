@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Box } from 'shared/ui';
-import { HeaderForMainPage } from 'widgets/headers';
+import { HeaderMainPage } from 'widgets/main-page';
 
 import styles from './styles.module.scss';
 import Wrapper from '../../wrapper';
@@ -12,7 +12,7 @@ function MainPage() {
         <Wrapper>
             <div className={styles.page}>
                 <div className={styles.header}>
-                    <HeaderForMainPage />
+                    <HeaderMainPage />
                 </div>
                 <Box.Animated presenceProps={{ mode: 'wait' }} visible className={styles.outlet}>
                     <Outlet />

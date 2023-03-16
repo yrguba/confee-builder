@@ -1,13 +1,13 @@
 .wrapper {
-  width: 264px;
+  width: calc(264px - 32px);
   height: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-left: 20px;
+  padding-left: 12px;
   padding-right: 12px;
   border-radius: var(--border-radius);
-  border: 1px solid var(--stroke-2);
+  border: 1px solid var(--stroke-1);
   background-color: var(--background-color);
   transition: all var(--transition);
 
@@ -28,6 +28,7 @@ input:-webkit-autofill:focus {
   height: 100%;
   font-size: 18px;
   color: var(--text-0);
+
 }
 
 .error {
@@ -36,21 +37,21 @@ input:-webkit-autofill:focus {
 }
 
 .size-s {
-  width: calc(200px - 32px);
+  width: calc(200px - 24px);
   height: 30px;
 }
 
 .size-m {
-  width: calc(264px - 32px);
+  width: calc(264px - 24px);
   height: 40px;
 }
 
 .size-l {
-  width: calc(320px - 32px);
+  width: calc(320px - 24px);
   height: 48px;
 }
 
 .size-xl {
-  width: calc(360px - 32px);
+  width: calc(360px - 24px);
   height: 58px;
 }

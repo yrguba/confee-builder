@@ -23,7 +23,7 @@ function LoginForm() {
     const onSuccess = async (response: any) => {
         const { access_token, refresh_token } = response.data;
         await TokenService.save({ access_token, refresh_token });
-        window.location.href = '/main';
+        window.location.href = '/info';
     };
 
     const onError = ({ response }: any) => {

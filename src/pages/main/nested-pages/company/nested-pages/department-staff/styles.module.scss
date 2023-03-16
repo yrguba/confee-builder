@@ -1,0 +1,15 @@
+@import "./src/app/styles";
+
+.page {
+  @include box-size(100%, 100%);
+  @include flex-column(flex-start);
+
+  .header {
+    @include box-size(96%, 46px);
+  }
+
+  .maiRow {
+    @include flex(center, flex-start);
+    @include box-size(96%, calc(100% - 46px));
+  }
+}

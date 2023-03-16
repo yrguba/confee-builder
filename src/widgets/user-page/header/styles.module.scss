@@ -1,0 +1,11 @@
+@import "./src/app/styles";
+
+.header {
+  @include box-size(100%, 100%);
+  @include flex(flex-start);
+  background-color: var(--bg-01);
+
+  .nav{
+    margin-left: 20px;
+  }
+}

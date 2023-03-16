@@ -1,0 +1,32 @@
+@import "./src/app/styles";
+
+.wrapper{
+  @include flex;
+  margin: 0;
+  gap: 5px;
+}
+
+@mixin btnPagination{
+  @include flex;
+  border-radius: 2px;
+  border: 1px solid var(--stroke-2);
+}
+
+.item{
+  @include btnPagination;
+  @include box-size(auto, 32px);
+  min-width: 32px;
+}
+.link{
+  @include flex;
+  @include box-size(100%, 100%);
+}
+
+.arrows{
+  @include btnPagination;
+  @include box-size(32px, 32px)
+}
+
+.active{
+  border: 1px solid var(--main-active);
+}

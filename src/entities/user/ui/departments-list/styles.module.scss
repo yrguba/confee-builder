@@ -1,0 +1,30 @@
+@import "./src/app/styles";
+
+.list {
+  @include box-size(272px, auto);
+  @include flex-column(flex-start, flex-start);
+  padding-left: 20px;
+  gap: 10px;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+}
+
+.usersList {
+  @include flex-column;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.departmentTitle {
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--text-0);
+}
+
+.divisionTitle {
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--text-1);
+}
+
+

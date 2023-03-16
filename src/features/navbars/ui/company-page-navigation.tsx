@@ -1,40 +1,50 @@
-import React, { useTransition } from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useRowAndDropdown } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
-import { Button, Navbar, NavbarTypes } from 'shared/ui';
-
-type Routing = keyof typeof routing_tree.main.company;
-type Item = NavbarTypes.ResponsiveItem<Routing, any>;
+import { Breadcrumb, BreadcrumbTypes } from 'shared/ui';
 
 function CompanyPageNavigation() {
     const navigate = useNavigate();
+    const params = useParams();
     const { pathname } = useLocation();
 
-    const items: Item[] = [
-        { id: 0, text: 'Сообщения ', path: 'messages', breakpoint: 520 },
-        { id: 1, text: 'Избранное', path: 'favorites', breakpoint: 640 },
-        { id: 2, text: 'Задачи', path: 'tasks', breakpoint: 735 },
-        { id: 3, text: 'Информация esf', path: 'info', breakpoint: 830 },
-    ];
+    const items: any = Object.keys(params).map((i) => {
+        if (i.includes('department')) {
+            return { id: 1, path: 'department', name: params[i] };
+        }
+        if (i.includes('division')) {
+            return { id: 3, path: 'division', name: params[i] };
+        }
+        if (i.includes('user')) {
+            return { id: 4, path: `user/${params[i]}`, name: params[i] };
+        }
+    });
 
-    const [isPending, startTransition] = useTransition();
-    const { itemsInRow, itemsInDropdown } = useRowAndDropdown<Item>(items);
+    useEffect(() => {
+        const lastPath = pathname.split('/').pop();
 
-    const item = (item: Item) => (
-        <Button
-            active={pathname.includes(item.path)}
-            disabled={isPending}
-            loading={isPending && pathname.includes(item.path)}
-            key={item.id}
-            onClick={() => startTransition(() => navigate(item.path))}
-        >
-            {item.text}
-        </Button>
-    );
+        const enpnt = ['messages', 'favorites', 'tasks', 'info'];
+        if (lastPath && enpnt.includes(lastPath)) {
+            items.push({ id: 5, path: routing_tree.main.company.base, name: lastPath });
+        }
+    }, [pathname]);
 
-    return <Navbar.Responsive itemsInDropdown={itemsInDropdown} itemsInRow={itemsInRow} item={item} />;
+    const itemClick = (item: BreadcrumbTypes.BreadcrumbItem) => {
+        const basePath = '/info/company';
+        if (item.path.includes('department')) {
+            navigate(`${basePath}/department/${item.name}`);
+        }
+        if (item.path.includes('division')) {
+            navigate(`${basePath}/department/${params.department_name}/division/${item.name}`);
+        }
+        if (item.path.includes('user')) {
+            navigate(`${basePath}/department/${params.departament_name}/division/${params.division_name}/user/${item.name}/info`);
+        }
+    };
+
+    return <Breadcrumb items={[{ id: 0, path: routing_tree.main.company.base, name: 'Компания' }, ...items]} onClick={(item) => itemClick(item)} />;
 }
 
 export default CompanyPageNavigation;
