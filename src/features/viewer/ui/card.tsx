@@ -12,7 +12,7 @@ function ViewerCard() {
     const switchingRoute = () => {
         const basePath = pathname.split('/')[1];
         if (basePath === 'main') navigate('/settings');
-        if (basePath === 'settings') navigate('/main');
+        if (basePath === 'settings') navigate('/info');
     };
 
     return <Card avatar="" name={data?.data?.name || ''} onClick={switchingRoute} />;

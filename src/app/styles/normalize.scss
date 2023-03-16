@@ -16,7 +16,8 @@ html {
   }
 
   ::placeholder {
-    color: var(--text-1);
+    color: var(--stroke-1);
+    font-size: 14px;
   }
 
   input[type=password]::-ms-reveal,

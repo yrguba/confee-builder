@@ -1,4 +1,4 @@
 import DepartmentsList from './ui/departments-list';
-import { UsersListView } from '../../entities/user';
+import UsersList from './ui/users-list';
 
-export { DepartmentsList, UsersListView };
+export { DepartmentsList, UsersList };
