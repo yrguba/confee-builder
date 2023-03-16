@@ -5,7 +5,7 @@ import { Button, Dropdown } from '../../../index';
 import { ResponsiveNavbarProps } from '../../types';
 
 function ResponsiveNavbar(props: ResponsiveNavbarProps) {
-    const { itemsInRow, itemsInDropdown, item, rowGap, columnGap, btnRadius = 32 } = props;
+    const { itemsInRow, dropDownProps, itemsInDropdown, item, rowGap = 8, columnGap = 8, btnRadius = 32 } = props;
 
     const baseIcon = (
         <svg
@@ -20,16 +20,16 @@ function ResponsiveNavbar(props: ResponsiveNavbarProps) {
             <path d="M4 10h24a2 2 0 000-4H4a2 2 0 000 4zm24 4H4a2 2 0 000 4h24a2 2 0 000-4zm0 8H4a2 2 0 000 4h24a2 2 0 000-4z" />
         </svg>
     );
-
     return (
-        <div className={styles.tabs} style={{ gap: rowGap }}>
+        <div className={styles.tabs} style={{ columnGap }}>
             {itemsInRow.map((tab) => item(tab))}
             {itemsInDropdown.length ? (
                 <Dropdown
                     animationVariant="auto-height"
                     position="bottom-center"
+                    {...dropDownProps}
                     content={
-                        <div style={{ gap: columnGap }} className={styles.tabsInDropdown}>
+                        <div style={{ rowGap }} className={styles.tabsInDropdown}>
                             {itemsInDropdown.map((i) => item(i))}
                         </div>
                     }
