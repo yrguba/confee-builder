@@ -1,15 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Fragment } from 'react';
 
 import styles from './styles.module.scss';
 import { BreadcrumbProps } from '../types';
 
 function Breadcrumb(props: BreadcrumbProps) {
-    const { items } = props;
-    console.log(items);
+    const { items, onClick } = props;
+
     return (
         <div className={styles.wrapper}>
             {items.map((i, index: number) => (
-                <span key={index}>daw</span>
+                <Fragment key={index}>
+                    <div className={styles.item} onClick={() => onClick(i)}>
+                        {i.name}
+                    </div>
+                    {index + 2 <= items.length && <div>/</div>}
+                </Fragment>
             ))}
         </div>
     );

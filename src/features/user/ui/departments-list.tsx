@@ -15,6 +15,7 @@ function DepartmentsList() {
     const divisionClick = (data: any) => {
         navigate(`department/${data.department}/division/${data.division}`);
     };
+
     const userClick = (data: any) => {
         navigate(`department/${data.department}/division/${data.division}/user/${data.user.id}/info`);
     };

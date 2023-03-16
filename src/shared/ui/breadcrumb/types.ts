@@ -1,5 +1,7 @@
 export type BreadcrumbItem = {
     id: number;
+    path: string;
+    name: string;
 };
 
 export type BreadcrumbProps = {
