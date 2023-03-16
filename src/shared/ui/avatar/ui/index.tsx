@@ -57,7 +57,9 @@ function Avatar(props: Props) {
             style={{
                 borderRadius: circle ? '50%' : 8,
                 width: size,
+                minWidth: size,
                 height: size,
+                minHeight: size,
                 fontSize: size - size / 2,
                 background: `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)`,
             }}

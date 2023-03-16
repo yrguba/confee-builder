@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
+import { SizeWarningPage } from 'pages/warning';
+import { useWindowSize } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
 import { TokenService } from 'shared/services';
 
@@ -10,6 +12,8 @@ import settingsRouters from './settings';
 
 function Routing() {
     const [isAuth, toggle] = useState<boolean>(true);
+
+    const { width, height } = useWindowSize();
 
     useEffect(() => {
         TokenService.checkAuth().then((res) => {
@@ -31,8 +35,16 @@ function Routing() {
             <Route path="*" element={<Navigate to={routing_tree.auth.base} replace />} />
         </Routes>
     );
+    console.log(height);
+    const getRouting = () => {
+        console.log(height);
+        if (width < 1015) return <SizeWarningPage size={{ width, height }} error="width" />;
+        if (height < 1035) return <SizeWarningPage size={{ width, height }} error="height" />;
+        if (isAuth) return privateRoutes;
+        return publicRoutes;
+    };
 
-    return isAuth ? privateRoutes : publicRoutes;
+    return getRouting();
 }
 
 export default Routing;

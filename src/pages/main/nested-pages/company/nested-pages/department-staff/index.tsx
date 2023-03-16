@@ -22,7 +22,7 @@ function DepartmentPage() {
                 <Box.Animated
                     presenceProps={{ initial: false }}
                     initial={{ height: '96%' }}
-                    animate={{ height: selectedUsers.length ? '80%' : '96%' }}
+                    animate={{ height: selectedUsers.length ? '76%' : '96%' }}
                     transition={{ duration: 1 }}
                     visible
                     className={styles.info}
