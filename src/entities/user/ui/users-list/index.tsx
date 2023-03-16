@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { baseTypes } from 'shared/types';
-import { Box, Button, Collapse } from 'shared/ui';
+import { Button, Pagination, PaginationTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { User } from '../../model/types';
@@ -9,10 +9,11 @@ import UserCardView from '../card';
 
 type Props = {
     users: User[] | baseTypes.Empty;
+    pageClick: PaginationTypes.PageClick;
 } & baseTypes.Statuses;
 
 function UsersListView(props: Props) {
-    const { users } = props;
+    const { users, pageClick } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -29,7 +30,7 @@ function UsersListView(props: Props) {
             <div className={styles.list}>
                 {users &&
                     users.map((user) => (
-                        <div className={styles.item}>
+                        <div key={user.id} className={styles.item}>
                             <div className={styles.content}>
                                 <div className={styles.usersColumn}>
                                     <UserCardView user={user} size="m" />
@@ -43,8 +44,9 @@ function UsersListView(props: Props) {
                         </div>
                     ))}
             </div>
-
-            <div>pagination</div>
+            <div className={styles.pagination}>
+                <Pagination pageCount={70} pageClick={pageClick} />
+            </div>
         </div>
     );
 }

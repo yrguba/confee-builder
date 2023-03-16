@@ -3,10 +3,10 @@ import { Navigate, Route } from 'react-router-dom';
 
 import { routing_tree } from 'shared/routing';
 
+import InfoPage from './nested-pages/info';
 import UserPage from './ui';
 
 const MessagesPage = lazy(() => import('./nested-pages/messages'));
-const InfoPage = lazy(() => import('./nested-pages/info'));
 const FavoritesPage = lazy(() => import('./nested-pages/favorites'));
 const TasksNestedPage = lazy(() => import('./nested-pages/tasks'));
 

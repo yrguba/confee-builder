@@ -10,6 +10,7 @@ import Input, { InputTypes } from './input';
 import LoadingIndicator, { LoadingIndicatorTypes } from './loading-indicator';
 import Modal, { ModalTypes, useModal } from './modal';
 import Navbar, { NavbarTypes } from './navbar';
+import Pagination, { PaginationTypes } from './pagination';
 import Reactions, { ReactionsTypes } from './reactions';
 import Select, { SelectTypes } from './select';
 import Switch, { SwitchTypes } from './switch';
@@ -33,6 +34,7 @@ export {
     Select,
     Reactions,
     Breadcrumb,
+    Pagination,
 };
 export type {
     AvatarTypes,
@@ -51,4 +53,5 @@ export type {
     ReactionsTypes,
     CollapseTypes,
     BreadcrumbTypes,
+    PaginationTypes,
 };

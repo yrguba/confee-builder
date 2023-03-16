@@ -6,7 +6,11 @@ import { UsersListView, userApi } from 'entities/user';
 function UsersList() {
     const { data, isLoading, isError } = userApi.handleGetUsers();
 
-    return <UsersListView users={data?.data} />;
+    const pageClick = (page: number) => {
+        console.log(page);
+    };
+
+    return <UsersListView users={data?.data} pageClick={pageClick} />;
 }
 
 export default UsersList;

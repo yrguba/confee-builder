@@ -17,7 +17,7 @@ html {
 
   ::placeholder {
     color: var(--stroke-1);
-    font-size: 14px;
+    font-size: 12px;
   }
 
   input[type=password]::-ms-reveal,
@@ -48,6 +48,10 @@ html {
 
   border-style: none;
 
+
+  li{
+    list-style-type: none;
+  }
 
   //npm
   .react-switch-handle {

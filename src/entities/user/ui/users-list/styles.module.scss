@@ -51,6 +51,10 @@
       }
     }
   }
+  .pagination{
+    @include box-size(96%, 60px);
+    @include flex(flex-end, flex-end);
+  }
 }
 
 .usersColumn {

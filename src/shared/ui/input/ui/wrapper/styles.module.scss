@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-left: 20px;
+  padding-left: 12px;
   padding-right: 12px;
   border-radius: var(--border-radius);
   border: 1px solid var(--stroke-1);
@@ -29,9 +29,6 @@ input:-webkit-autofill:focus {
   font-size: 18px;
   color: var(--text-0);
 
-  .placeholder{
-    font-size: 5px;
-  }
 }
 
 .error {
@@ -40,21 +37,21 @@ input:-webkit-autofill:focus {
 }
 
 .size-s {
-  width: calc(200px - 32px);
+  width: calc(200px - 24px);
   height: 30px;
 }
 
 .size-m {
-  width: calc(264px - 32px);
+  width: calc(264px - 24px);
   height: 40px;
 }
 
 .size-l {
-  width: calc(320px - 32px);
+  width: calc(320px - 24px);
   height: 48px;
 }
 
 .size-xl {
-  width: calc(360px - 32px);
+  width: calc(360px - 24px);
   height: 58px;
 }
