@@ -35,9 +35,8 @@ function Routing() {
             <Route path="*" element={<Navigate to={routing_tree.auth.base} replace />} />
         </Routes>
     );
-    console.log(height);
+
     const getRouting = () => {
-        console.log(height);
         if (width < 1015) return <SizeWarningPage size={{ width, height }} error="width" />;
         if (height < 1035) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (isAuth) return privateRoutes;

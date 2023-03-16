@@ -64,6 +64,7 @@
 
 .roleColumn {
   @include flex(flex-start);
+  color: var(--text-1);
   flex: 1;
 }
 
