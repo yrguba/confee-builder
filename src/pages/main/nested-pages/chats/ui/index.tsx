@@ -2,8 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Box } from 'shared/ui';
-import { HeaderForChatsPage } from 'widgets/headers';
-import { SidebarForChatsPage } from 'widgets/sidebars';
+import { SidebarChatsPage, HeaderChatsPage } from 'widgets/chats-page';
 
 import styles from './styles.module.scss';
 
@@ -11,11 +10,11 @@ function ChatsPage() {
     return (
         <Box.Animated visible className={styles.page}>
             <div className={styles.sidebar}>
-                <SidebarForChatsPage />
+                <SidebarChatsPage />
             </div>
             <div className={styles.mainColumn}>
                 <div className={styles.header}>
-                    <HeaderForChatsPage />
+                    <HeaderChatsPage />
                 </div>
                 <div className={styles.outlet}>
                     <Outlet />

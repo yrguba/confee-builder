@@ -5,5 +5,6 @@ import * as userTypes from './model/types';
 import UserCardView from './ui/card';
 import DepartmentsListView from './ui/departments-list';
 import UserStatusView from './ui/status';
+import UsersListView from './ui/users-list';
 
-export { userMethods, useUserStore, userTypes, userApi, UserCardView, DepartmentsListView, UserStatusView };
+export { userMethods, useUserStore, userTypes, userApi, UserCardView, DepartmentsListView, UserStatusView, UsersListView };

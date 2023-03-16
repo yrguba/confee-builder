@@ -2,7 +2,8 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Box } from 'shared/ui';
-import { HeaderForCompanyPage, HeaderForUserPage } from 'widgets/headers';
+import { BreadcrumbCompanyPage } from 'widgets/company-page';
+import { HeaderUserPage } from 'widgets/user-page';
 
 import styles from './styles.module.scss';
 
@@ -10,10 +11,10 @@ function UserPage() {
     return (
         <Box.Animated visible className={styles.page}>
             <div className={styles.header}>
-                <HeaderForUserPage />
+                <HeaderUserPage />
             </div>
-            <div className={styles.headerBreadcrumb}>
-                <HeaderForCompanyPage />
+            <div className={styles.breadcrumb}>
+                <BreadcrumbCompanyPage />
             </div>
             <div className={styles.mainRow}>
                 <Outlet />

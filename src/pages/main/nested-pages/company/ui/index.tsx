@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Box } from 'shared/ui';
-import { SidebarForCompanyPage } from 'widgets/sidebars';
+import { SidebarCompanyPage } from 'widgets/company-page';
 
 import styles from './styles.module.scss';
 
@@ -10,7 +10,7 @@ function CompanyPage() {
     return (
         <Box.Animated visible className={styles.page}>
             <div className={styles.sidebar}>
-                <SidebarForCompanyPage />
+                <SidebarCompanyPage />
             </div>
             <div className={styles.mainColumn}>
                 <Outlet />
