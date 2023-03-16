@@ -1,12 +1,11 @@
 export type BaseIconsProps = {
-    variants: 'arrow-right' | 'arrow-down';
-    rotate?: number;
+    variants: 'exit';
     color?: string;
-    active?: boolean;
 };
 
 export type LogoIconsProps = {
     variants: 'confee' | 'tfn';
+    color?: string;
 };
 
 export type ArrowAnimatedProps = {

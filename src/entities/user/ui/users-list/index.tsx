@@ -10,10 +10,12 @@ import UserCardView from '../card';
 type Props = {
     users: User[] | baseTypes.Empty;
     pageClick: PaginationTypes.PageClick;
+    setSelectedUser: (arg: User) => void;
+    selectedUsersId: number[];
 } & baseTypes.Statuses;
 
 function UsersListView(props: Props) {
-    const { users, pageClick } = props;
+    const { users, pageClick, setSelectedUser, selectedUsersId } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -38,7 +40,9 @@ function UsersListView(props: Props) {
                                 <div className={styles.roleColumn}>разраб</div>
                                 <div className={styles.statusesColumn}>статусы</div>
                                 <div className={styles.btnColumn}>
-                                    <Button size="m">Выбрать</Button>
+                                    <Button active={selectedUsersId.includes(user.id)} onClick={() => setSelectedUser(user)} size="m">
+                                        {selectedUsersId.includes(user.id) ? 'Выбран' : 'Выбрать'}
+                                    </Button>
                                 </div>
                             </div>
                         </div>

@@ -9,7 +9,16 @@
   }
 
   .maiRow {
-    @include flex(center, flex-start);
+    @include flex-column( flex-start, flex-start, 14);
     @include box-size(96%, calc(100% - 46px));
+
+    .selectedUsers{
+      width: 100%;
+    }
+
+    .info{
+      @include flex;
+      width: 100%;
+    }
   }
 }

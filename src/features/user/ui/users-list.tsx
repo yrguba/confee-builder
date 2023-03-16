@@ -1,16 +1,24 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 
-import { UsersListView, userApi } from 'entities/user';
+import { UsersListView, userApi, useUserStore } from 'entities/user';
 
 function UsersList() {
     const { data, isLoading, isError } = userApi.handleGetUsers();
+    const setSelectedUser = useUserStore.use.setSelectedUsers();
+    const selectedUser = useUserStore.use.selectedUsers();
 
     const pageClick = (page: number) => {
         console.log(page);
     };
-
-    return <UsersListView users={data?.data} pageClick={pageClick} />;
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        const getUser: any = data?.data?.filter((i, index) => {
+            if (index < 20) return i;
+        });
+        setUsers(getUser);
+    }, [data]);
+    console.log(users);
+    return <UsersListView users={users} pageClick={pageClick} setSelectedUser={setSelectedUser} selectedUsersId={selectedUser.map((user) => user.id)} />;
 }
 
 export default UsersList;
