@@ -4,12 +4,27 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
-type Store = {};
+import { User } from './types';
+
+type Store = {
+    selectedUsers: User[];
+    setSelectedUsers: (arg: User) => void;
+    clearSelectedUsers: () => void;
+};
 
 const userStore = create<Store>()(
     devtools(
         immer((set) => ({
-            //
+            selectedUsers: [],
+            setSelectedUsers: (user) =>
+                set((state) => {
+                    const foundUserIndex = state.selectedUsers.findIndex((i) => i.id === user.id);
+                    foundUserIndex === -1 ? state.selectedUsers.push(user) : state.selectedUsers.splice(foundUserIndex, 1);
+                }),
+            clearSelectedUsers: () =>
+                set((state) => {
+                    state.selectedUsers = [];
+                }),
         }))
     )
 );

@@ -1,7 +1,7 @@
 @import "./src/app/styles";
 
 .wrapper {
-  @include box-size(100%, 100%);
+  @include box-size(100%, 209px);
   @include flex-column(flex-start);
   background-color: var(--bg-01);
   border-radius: 20px;

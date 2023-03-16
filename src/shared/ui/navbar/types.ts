@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import { DropdownBaseProps } from '../dropdown/types';
+
 type Shared = {
     item: (arg: any) => ReactNode;
 };
@@ -28,4 +30,5 @@ export type ResponsiveNavbarProps = {
     rowGap?: number;
     columnGap?: number;
     btnRadius?: number;
+    dropDownProps?: DropdownBaseProps;
 } & Shared;

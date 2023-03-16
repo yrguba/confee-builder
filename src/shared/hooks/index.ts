@@ -2,6 +2,7 @@ import { useDebounce, useClickAway, useScrolling, useMedia, usePrevious } from '
 
 import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
+import useEnding from './useEnding';
 import useInput from './useInput';
 import useRowAndDropdown from './useRowAndDropdown';
 import useSelected from './useSelected';
@@ -25,4 +26,5 @@ export {
     useRowAndDropdown,
     useSelected,
     usePrevious,
+    useEnding,
 };
