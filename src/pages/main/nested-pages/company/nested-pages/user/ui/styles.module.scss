@@ -1,0 +1,24 @@
+@import "./src/app/styles";
+
+.page {
+  @include box-size(100%, 100%);
+  @include flex-column;
+  //gap: 2px;
+
+  .header {
+    @include box-size(100%, 54px);
+    @include flex;
+    background-color: var(--bg-01);
+  }
+
+  .breadcrumb{
+    @include box-size(100%, 49px);
+    @include flex;
+    background-color: inherit;
+  }
+
+  .mainRow {
+    @include box-size(100%, calc(100% - 54px - 49px));
+    background-color: var(--bg-0);
+  }
+}

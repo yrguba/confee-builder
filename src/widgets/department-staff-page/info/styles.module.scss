@@ -1,0 +1,25 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include box-size(100%, 90%);
+  @include flex-column(flex-start);
+  background-color: var(--bg-01);
+  border-radius: 20px;
+
+  .header{
+    @include flex(space-between);
+    @include box-size(96%, 8%);
+    column-gap: 12px;
+    flex-wrap: wrap;
+
+    .name{
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--text-0);
+    }
+  }
+
+  .list{
+    @include box-size(100%, 90%);
+  }
+}

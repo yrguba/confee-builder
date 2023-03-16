@@ -8,10 +8,13 @@ const routing_tree = {
         privacy: 'privacy',
     },
     main: {
-        base: '/main',
+        base: '/info',
         company: {
             base: 'company',
-            path: '/main/company',
+            path: '/info/company',
+            department: 'department',
+            division: 'division',
+            user: 'user',
             messages: 'messages',
             favorites: 'favorites',
             tasks: 'tasks',
@@ -19,11 +22,11 @@ const routing_tree = {
         },
         chats: {
             base: 'chats',
-            path: '/main/chats',
+            path: '/info/chats',
         },
         tasks: {
             base: 'tasks',
-            path: '/main/tasks',
+            path: '/info/tasks',
         },
     },
 };

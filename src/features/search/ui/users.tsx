@@ -2,8 +2,14 @@ import React from 'react';
 
 import { Input } from 'shared/ui';
 
-function SearchUsers() {
-    return <Input.Search size="m" />;
+type Props = {
+    placeholder?: string;
+};
+
+function SearchUsers(props: Props) {
+    const { placeholder } = props;
+
+    return <Input.Search placeholder={placeholder} size="m" />;
 }
 
 export default SearchUsers;

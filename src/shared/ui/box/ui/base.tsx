@@ -14,7 +14,7 @@ function Base(props: BaseBoxProps) {
         </Animated>
     );
     const load = (
-        <Animated visible={!!loading} className={styles.loading}>
+        <Animated presence={false} visible={!!loading} className={styles.loading}>
             <LoadingIndicator visible />
         </Animated>
     );
