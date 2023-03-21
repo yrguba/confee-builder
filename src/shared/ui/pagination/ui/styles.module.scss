@@ -15,6 +15,7 @@
 .item{
   @include btnPagination;
   @include box-size(auto, 32px);
+  color: var(--text-1);
   min-width: 32px;
 }
 .link{
@@ -24,7 +25,8 @@
 
 .arrows{
   @include btnPagination;
-  @include box-size(32px, 32px)
+  @include box-size(32px, 32px);
+  color: var(--text-1);
 }
 
 .active{

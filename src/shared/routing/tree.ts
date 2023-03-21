@@ -8,7 +8,7 @@ const routing_tree = {
         privacy: 'privacy',
     },
     main: {
-        base: '/info',
+        base: '/main',
         company: {
             base: 'company',
             path: '/info/company',

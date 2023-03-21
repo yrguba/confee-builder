@@ -32,7 +32,7 @@ function CompanyPageNavigation() {
     }, [pathname]);
 
     const itemClick = (item: BreadcrumbTypes.BreadcrumbItem) => {
-        const basePath = '/info/company';
+        const basePath = '/main/company';
         if (item.path.includes('department')) {
             navigate(`${basePath}/department/${item.name}`);
         }
