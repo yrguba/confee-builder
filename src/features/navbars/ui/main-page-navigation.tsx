@@ -38,7 +38,7 @@ function MainPageNavigation() {
         </Button.Link>
     );
 
-    return <Navbar.Responsive itemsInDropdown={itemsInDropdown} itemsInRow={itemsInRow} item={item} rowGap={30} />;
+    return <Navbar.Responsive itemsInDropdown={itemsInDropdown} itemsInRow={itemsInRow} item={item} columnGap={30} />;
 }
 
 export default MainPageNavigation;
