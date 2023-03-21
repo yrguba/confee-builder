@@ -3,14 +3,14 @@
   height: $height;
 }
 
-@mixin flex($justify: center,  $align: center, $gap: 12) {
+@mixin flex($justify: center,  $align: center, $gap: 0) {
   display: flex;
   justify-content: $justify;
   align-items: $align;
   gap: $gap * 1px;
 }
 
-@mixin flex-column($justify: center,  $align: center, $gap: 12) {
+@mixin flex-column($justify: center,  $align: center, $gap: 0) {
   @include flex($justify, $align, $gap);
   flex-direction: column;
 }

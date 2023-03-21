@@ -1,0 +1,25 @@
+@import "../../../../app/styles/index";
+
+
+.avatar {
+  @include flex;
+  color: #fafafa;
+  border-radius: 50%;
+  white-space: nowrap;
+
+  img{
+  }
+
+  svg{
+    fill: #fafafa;
+  }
+}
+
+.avatarBc{
+  width: 100%;
+  height: 100%;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+

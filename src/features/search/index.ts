@@ -1,3 +1,5 @@
-import SearchMessagesFeature from './ui/messages';
+import SearchChats from './ui/chats';
+import SearchMessages from './ui/messages';
+import SearchUsers from './ui/users';
 
-export { SearchMessagesFeature };
+export { SearchMessages, SearchUsers, SearchChats };

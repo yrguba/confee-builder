@@ -1,3 +1,3 @@
-import ViewerCardFeature from './ui/card';
+import ViewerCard from './ui/card';
 
-export { ViewerCardFeature };
+export { ViewerCard };

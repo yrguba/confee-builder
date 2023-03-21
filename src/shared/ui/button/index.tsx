@@ -1,38 +1,19 @@
-import { motion } from 'framer-motion';
-import React, { ReactNode, ButtonHTMLAttributes, memo } from 'react';
+import React, { ForwardRefExoticComponent } from 'react';
 
-import { useStyles } from 'shared/hooks';
+import * as ButtonTypes from './types';
+import Base from './ui/base';
+import Circle from './ui/circle';
+import Link from './ui/link';
 
-import styles from './styles.module.scss';
+type CompoundedComponent = ForwardRefExoticComponent<ButtonTypes.ButtonBaseProps> & {
+    Link: typeof Link;
+    Circle: typeof Circle;
+};
 
-type Props = {
-    children: ReactNode;
-    active?: boolean;
-    disabled?: boolean;
-    loading?: boolean;
-    error?: boolean;
-    size?: number | 's' | 'm' | 'l' | 'xl';
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+const Button = Base as CompoundedComponent;
 
-function Button(props: Props) {
-    const { children, disabled, loading, error, size, active, ...other } = props;
+Button.Circle = Circle;
+Button.Link = Link;
 
-    const classes = useStyles(styles, 'wrapper', {
-        active,
-        disabled,
-        loading,
-        error,
-        [`size-${size}`]: size,
-    });
-
-    return (
-        <button className={classes} {...other}>
-            <motion.div className={styles.content}>
-                {children}
-                {loading && <span className={styles.loadingAnimation} />}
-            </motion.div>
-        </button>
-    );
-}
-
+export { ButtonTypes };
 export default Button;

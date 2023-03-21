@@ -134,8 +134,8 @@
       {
         "title": "Confee",
         "label": "main",
-        "minWidth": 600,
-        "minHeight": 600,
+        "minWidth": 1015,
+        "minHeight": 1035,
         "resizable": true,
         "fullscreen": false,
         "visible": true,
@@ -146,6 +146,7 @@
     "updater": {
       "active": true,
       "endpoints": [
+        "http://[::1]:8001/test/{{target}}/{{current_version}}",
         "https://prod.hoolichat.ru/api/v1/files/desktop_upload{{target}}/{{current_version}}",
         "https://dev.hoolichat.ru/api/v1/files/desktop_upload{{target}}/{{current_version}}"
       ],

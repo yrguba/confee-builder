@@ -1,0 +1,17 @@
+@import "./src/app/styles";
+
+.userCard {
+  @include flex(flex-start);
+  width: 100%;
+  gap: 12px;
+
+  .infoColumn{
+    @include flex-column(center, flex-start);
+
+    .email{
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--text-1);
+    }
+  }
+}

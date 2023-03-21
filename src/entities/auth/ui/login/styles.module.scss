@@ -2,8 +2,12 @@
 
 .login {
   @include flex-column(center, flex-start, 30);
-}
 
-.inputGroup {
-  height: 80px;
+  .inputGroup {
+    height: 80px;
+  }
+
+  button{
+    margin-top: 70px;
+  }
 }

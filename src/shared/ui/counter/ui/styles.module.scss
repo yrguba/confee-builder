@@ -1,0 +1,14 @@
+@import "./src/app/styles";
+
+.wrapper {
+  overflow: hidden;
+  @include flex;
+  min-width: 12px;
+  background-color: #F1EDFA;
+  color: var(--main-active);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 12px;
+}
+
+

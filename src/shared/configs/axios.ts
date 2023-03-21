@@ -37,16 +37,18 @@ $axios.interceptors.response.use(
                 const additional = { grant_type: 'refresh_token', ...secrets.auth };
                 const res: any = await $axios.post('/auth/oauth/token', { refresh_token: currentTokens.refresh_token, ...additional });
                 if (res.data) {
+                    alert('refer');
+                    console.log(res);
                     const { access_token, refresh_token } = res.data;
                     await TokenService.save({ access_token, refresh_token });
                 } else {
                     await TokenService.remove();
-                    window.location.reload();
+                    // window.location.reload();
                 }
                 return await $axios.request(originalRequest);
             } catch (err) {
                 await TokenService.remove();
-                window.location.reload();
+                // window.location.reload();
                 return null;
             }
         }
