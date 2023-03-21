@@ -1,0 +1,24 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include box-size(100%, auto);
+
+  .header {
+    @include box-size(100%, 100%);
+    @include flex(flex-start);
+    cursor: pointer;
+
+    .title {
+      width: 90%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .arrow{
+      @include flex;
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+}

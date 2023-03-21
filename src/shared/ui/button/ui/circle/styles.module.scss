@@ -1,0 +1,31 @@
+@import "./src/app/styles";
+
+.wrapper {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  background-color: var(--icon-inactive);
+  border-radius: 50%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  @include btn-actions;
+
+  svg{
+    fill: var(--white) ;
+  }
+}
+
+.active {
+  background-color: var(--main-active);
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.error {
+}

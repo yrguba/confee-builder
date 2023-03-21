@@ -1,15 +1,10 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
-import { LoginWidget } from 'widgets/auth';
+import { routing_tree } from 'shared/routing';
 
-import styles from './styles.module.scss';
+import AuthPage from './ui';
 
-function AuthPage() {
-    return (
-        <div className={styles.auth}>
-            <LoginWidget />
-        </div>
-    );
-}
+const authRoutes = <Route path={routing_tree.auth.base} element={<AuthPage />} />;
 
-export default AuthPage;
+export default authRoutes;

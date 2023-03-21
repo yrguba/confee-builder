@@ -1,10 +1,9 @@
 import React from 'react';
 
-import styles from './styles.module.scss';
+import styles from './ui/styles.module.scss';
 
 function TasksNestedPage() {
-    console.log('  InfoNestedPage');
-    return <div className={styles.tasks}>TasksNestedPage</div>;
+    return <div className={styles.page}>TasksNestedPage</div>;
 }
 
 export default TasksNestedPage;

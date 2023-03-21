@@ -1,3 +1,7 @@
-.viewer-card{
+@import "./src/app/styles";
 
+.card {
+  @include flex(flex-end);
+  gap: 12px;
+  cursor: pointer;
 }

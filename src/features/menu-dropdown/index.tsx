@@ -1,3 +1,3 @@
-import MessageDropdownMenuFeature from './ui/message';
+import MessageDropdownMenu from './ui/message';
 
-export { MessageDropdownMenuFeature };
+export { MessageDropdownMenu };

@@ -1,3 +1,3 @@
-import LoginFeature from './ui/login';
+import LoginForm from './ui/login';
 
-export { LoginFeature };
+export { LoginForm };

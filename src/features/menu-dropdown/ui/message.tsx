@@ -1,28 +1,27 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-import { menuDropdownTypes, DropdownMenu } from 'entities/menu-dropdown';
-import { DropdownProps, Dropdown } from 'shared/ui';
+import { DropdownTypes, Dropdown } from 'shared/ui';
 
-type Props = {} & DropdownProps;
+import Icons from './icons';
 
-function MessageDropdownMenuFeature(props: Props) {
+type Props = {
+    children: ReactNode;
+};
+
+function MessageDropdownMenu(props: Props) {
     const { children } = props;
 
-    const items: menuDropdownTypes.MenuItem[] = [
-        { id: 0, title: '11111111' },
-        { id: 1, title: '22222222' },
-        { id: 2, title: '22222222' },
-        { id: 3, title: '22222222' },
-        { id: 4, title: '22222222' },
-        { id: 5, title: '22222222' },
-        { id: 6, title: '22222222' },
+    const items: any = [
+        { id: 0, title: 'Ответить в обсуждении', onclick: () => console.log('wdad'), icon: <Icons variants="leftArrow" /> },
+        { id: 1, title: 'Редактировать задачу', onclick: () => console.log('wdad'), icon: <Icons variants="leftArrow" /> },
+        { id: 2, title: 'Упомянуть автора', onclick: () => console.log('wdad'), icon: <Icons variants="@" /> },
     ];
 
     return (
-        <Dropdown animationVariant="auto-height" trigger="left-click" position="top-center" content={<DropdownMenu items={items} />}>
+        <Dropdown animationVariant="auto-height" trigger="left-click" position="top-center" content={<div>s</div>}>
             {children}
         </Dropdown>
     );
 }
 
-export default MessageDropdownMenuFeature;
+export default MessageDropdownMenu;

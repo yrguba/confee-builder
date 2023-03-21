@@ -1,10 +1,31 @@
-import { useDebounce, useClickAway } from 'react-use';
+import { useDebounce, useClickAway, useScrolling, useMedia, usePrevious, useWindowSize } from 'react-use';
 
 import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
+import useEnding from './useEnding';
 import useInput from './useInput';
+import useRowAndDropdown from './useRowAndDropdown';
+import useSelected from './useSelected';
+import useSize from './useSize';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
 import useToggle from './useToggle';
 
-export { useTheme, useInput, useCreateSelectors, useCrypto, useDebounce, useToggle, useClickAway, useStyles };
+export {
+    useTheme,
+    useInput,
+    useCreateSelectors,
+    useCrypto,
+    useDebounce,
+    useToggle,
+    useClickAway,
+    useStyles,
+    useScrolling,
+    useSize,
+    useMedia,
+    useRowAndDropdown,
+    useSelected,
+    usePrevious,
+    useEnding,
+    useWindowSize,
+};

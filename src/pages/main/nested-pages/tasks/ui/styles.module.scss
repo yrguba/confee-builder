@@ -1,0 +1,29 @@
+@import "./src/app/styles";
+
+.page{
+  @include box-size(100%, 100%);
+  @include flex;
+  gap: 2px;
+
+  .sidebar{
+    @include box-size(300px,100%);
+    @include flex;
+    background-color: var(--bg-01);
+  }
+
+  .mainColumn{
+    @include flex-column;
+    @include box-size(calc(100% - 300px),100%);
+
+    .header{
+      @include box-size(100%,56px);
+      @include flex;
+      background-color: var(--bg-01);
+    }
+
+    .outlet{
+      width: 100%;
+      height: calc(100% - 56px);
+    }
+  }
+}

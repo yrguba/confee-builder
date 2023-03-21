@@ -1,12 +1,21 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ViewerCard, useViewerStore, viewerApi } from 'entities/viewer';
+import { Card, useViewerStore, viewerApi } from 'entities/viewer';
 
-function ViewerCardFeature() {
+function ViewerCard() {
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
+
     const { data, isLoading } = viewerApi.handleGetViewer();
-    console.log('data', data?.data?.name);
 
-    return <ViewerCard />;
+    const switchingRoute = () => {
+        const basePath = pathname.split('/')[1];
+        if (basePath === 'main') navigate('/settings');
+        if (basePath === 'settings') navigate('/info');
+    };
+
+    return <Card avatar="" name={data?.data?.name || ''} onClick={switchingRoute} />;
 }
 
-export default ViewerCardFeature;
+export default ViewerCard;

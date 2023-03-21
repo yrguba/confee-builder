@@ -1,0 +1,79 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include box-size(100%, 100%);
+  @include flex-column(flex-start, flex-start);
+  gap: 10px;
+  overflow: hidden;
+
+  .header {
+    @include box-size(100%, 60px);
+    @include flex;
+    border-bottom: 1px dashed var(--stroke-1);
+
+    .content {
+      @include flex(flex-start);
+      @include box-size(96%, 100%);
+      font-weight: 400;
+      font-size: 16px;
+      color: var(--text-1);
+
+      button {
+        @include box-size(89px, 40px);
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .list {
+    @include flex-column(flex-start, flex-start);
+    gap: 12px;
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .item {
+      @include flex;
+      width: 100%;
+      min-height: 80px;
+      border-bottom: 1px dashed var(--stroke-1);
+      overflow-x: auto;
+
+      .content {
+        @include flex(flex-start);
+        @include box-size(96%, 100%);
+
+        button {
+          @include box-size(89px, 40px);
+        }
+      }
+    }
+  }
+  .pagination{
+    @include box-size(96%, 60px);
+    @include flex(flex-end, flex-end);
+  }
+}
+
+.usersColumn {
+  @include flex(flex-start);
+  flex: 4;
+}
+
+.roleColumn {
+  @include flex(flex-start);
+  color: var(--text-1);
+  flex: 1;
+}
+
+.statusesColumn {
+  @include flex(flex-start);
+  flex: 2;
+}
+
+.btnColumn {
+  @include flex(flex-end);
+  flex: 1;
+}

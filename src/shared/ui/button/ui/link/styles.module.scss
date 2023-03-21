@@ -1,0 +1,35 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include flex;
+  @include btn-actions;
+  gap: 8px;
+  flex-shrink: 0;
+  background-color: inherit;
+  color:  var(--icon-inactive);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  white-space: nowrap;
+  svg{
+    transition: all var(--transition);
+    fill: var(--icon-inactive) ;
+  }
+}
+
+.active {
+
+  color: var(--main-active);
+  svg{
+    fill: var(--main-active) ;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.error {
+}

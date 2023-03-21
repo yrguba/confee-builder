@@ -1,28 +1,21 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { lazy } from 'react';
+import { Navigate, Route } from 'react-router-dom';
 
-import { HeaderWidget } from 'widgets/header';
-import { LeftSidebarWidget } from 'widgets/left-sidebar';
-import { NestedPagesTabsWidget } from 'widgets/nested-pages-tabs';
+import { routing_tree } from 'shared/routing';
 
-import styles from './styles.module.scss';
-import Wrapper from '../wrapper';
+import companyRouters from './nested-pages/company';
+import MainPage from './ui';
 
-function MainPage() {
-    return (
-        <Wrapper>
-            <div className={styles.main}>
-                <div className={styles.leftSidebar}>
-                    <LeftSidebarWidget />
-                </div>
-                <div className={styles.mainColumn}>
-                    <HeaderWidget />
-                    <NestedPagesTabsWidget />
-                    <Outlet />
-                </div>
-            </div>
-        </Wrapper>
-    );
-}
+const ChatsNestedPage = lazy(() => import('./nested-pages/chats/ui'));
+const TasksNestedPage = lazy(() => import('./nested-pages/tasks/ui'));
 
-export default MainPage;
+const mainRouters = (
+    <Route path={routing_tree.main.base} element={<MainPage />}>
+        {companyRouters}
+        <Route path={routing_tree.main.chats.base} element={<ChatsNestedPage />} />
+        <Route path={routing_tree.main.tasks.base} element={<TasksNestedPage />} />
+        <Route path={routing_tree.main.base} element={<Navigate to={routing_tree.main.company.base} replace />} />
+    </Route>
+);
+
+export default mainRouters;

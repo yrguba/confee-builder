@@ -10,18 +10,27 @@ html {
     cursor: pointer;
   }
 
+  //input
   input {
     all: unset;
   }
 
   ::placeholder {
-    color: var(--subtitle-color);
+    color: var(--stroke-1);
+    font-size: 12px;
   }
 
   input[type=password]::-ms-reveal,
   input[type=password]::-ms-clear {
     display: none;
   }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
+
+  //scrollbar
 
   ::-webkit-scrollbar {
     width: 4px;
@@ -33,7 +42,23 @@ html {
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--subtitle-color);
+    background-color: var(--text-1);
     border-radius: 20px;
+  }
+
+  border-style: none;
+
+
+  li{
+    list-style-type: none;
+  }
+
+  //npm
+  .react-switch-handle {
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

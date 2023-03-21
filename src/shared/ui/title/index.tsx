@@ -1,41 +1,5 @@
-import cn from 'classnames';
-import cnBind from 'classnames/bind';
-import { motion, AnimatePresence } from 'framer-motion';
-import React from 'react';
+import * as TitleTypes from './types';
+import Title from './ui';
 
-import styles from './styles.module.scss';
-import { AnimateBox } from '../index';
-
-type Props = {
-    children: string | number | undefined;
-    secondary?: boolean;
-    isLoading?: boolean;
-    isError?: boolean;
-    animation?: boolean;
-};
-
-function Title(props: Props) {
-    const { children, secondary, isLoading, isError, animation = false, ...other } = props;
-
-    const cx = cnBind.bind(styles);
-
-    const classes = cn(
-        cx('title', {
-            secondary,
-            loading: isLoading,
-            error: isError,
-        })
-    );
-
-    return animation ? (
-        <AnimateBox isVisible={!!children} className={classes} {...other}>
-            {children}
-        </AnimateBox>
-    ) : (
-        <div className={classes} {...other}>
-            {children}
-        </div>
-    );
-}
-
+export { TitleTypes };
 export default Title;

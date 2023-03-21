@@ -1,7 +1,7 @@
 import React from 'react';
 
-function SearchMessagesFeature() {
+function SearchMessages() {
     return <div>ww</div>;
 }
 
-export default SearchMessagesFeature;
+export default SearchMessages;
