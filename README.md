@@ -30,3 +30,5 @@ HTTP-клиент - [Axios](https://axios-http.com/docs/intro)
 Валидация - [Yup](https://www.npmjs.com/package/yup)
 
 Шифрование - [Crypto-js](https://www.npmjs.com/package/crypto-js)
+
+сборка и обновление - [tauri-releasemaker](https://github.com/egor6-66/tauri_releasemaker)
