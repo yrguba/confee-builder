@@ -146,6 +146,7 @@
     "updater": {
       "active": true,
       "endpoints": [
+        "http://[::1]:8001/test/{{target}}/{{current_version}}",
         "https://prod.hoolichat.ru/api/v1/files/desktop_upload{{target}}/{{current_version}}",
         "https://dev.hoolichat.ru/api/v1/files/desktop_upload{{target}}/{{current_version}}"
       ],
