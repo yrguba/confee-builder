@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { baseTypes } from 'shared/types';
-import { Avatar, Box, Button, Title } from 'shared/ui';
+import { Avatar, Box, Button, LoadingIndicator, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { userTypes } from '../..';
@@ -15,7 +15,8 @@ function UserDossierView(props: Props) {
     const { user, onClick, loading, error } = props;
 
     return (
-        <Box.Animated visible loading={loading} style={{ cursor: onClick ? 'pointer' : 'default' }} className={styles.wrapper}>
+        <div style={{ cursor: onClick ? 'pointer' : 'default' }} className={styles.wrapper}>
+            <LoadingIndicator.Glare visible={!!loading} />
             {user && (
                 <>
                     <Avatar circle={false} name={user.name} img={user.avatar} size={160} />
@@ -31,7 +32,7 @@ function UserDossierView(props: Props) {
                     </div>
                 </>
             )}
-        </Box.Animated>
+        </div>
     );
 }
 

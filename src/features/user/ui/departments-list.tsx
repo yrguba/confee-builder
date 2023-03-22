@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { DepartmentsListView, userApi } from 'entities/user';
+import { DepartmentsListView, userApi, userTypes } from 'entities/user';
 
 function DepartmentsList() {
     const { data, isLoading, isError } = userApi.handleGetDepartments();
@@ -17,7 +17,7 @@ function DepartmentsList() {
     };
 
     const userClick = (data: any) => {
-        navigate(`department/${data.department}/division/${data.division}/user/${data.user.id}/info`);
+        navigate(`department/${data.department}/division/${data.division}/user/${data.user.id}/name/${data.user.name}/info`);
     };
 
     return (

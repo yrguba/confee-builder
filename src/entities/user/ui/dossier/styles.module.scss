@@ -5,6 +5,9 @@
   @include box-size(100%, 100%);
   min-width: 300px;
   gap: 12px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px;
 
   .infoColumn {
     @include flex-column(flex-start, flex-start);
@@ -13,7 +16,7 @@
     .mainInfo {
       @include box-size(100%, 100%);
       @include flex(flex-start);
-      margin-bottom: 12px;
+      margin-bottom: 4px;
       gap: 12px;
       flex-wrap: wrap;
 
@@ -25,6 +28,7 @@
 
       .status {
         width: 300px;
+        color: var(--text-0);
       }
     }
   }
@@ -36,6 +40,7 @@
   }
 
   .department, .division {
+    color: var(--text-0);
     font-weight: 400;
     font-size: 14px;
   }
