@@ -18,7 +18,7 @@ function MessageDropdownMenu(props: Props) {
     ];
 
     return (
-        <Dropdown animationVariant="auto-height" trigger="left-click" position="top-center" content={<div>s</div>}>
+        <Dropdown animationVariant="autoHeight" trigger="left-click" position="top-center" content={<div>s</div>}>
             {children}
         </Dropdown>
     );

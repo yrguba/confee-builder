@@ -3,7 +3,7 @@
 .page{
   @include box-size(100%, 100%);
   @include flex;
-  gap: 2px;
+  gap: 1px;
 
   .sidebar{
     @include box-size(300px,100%);

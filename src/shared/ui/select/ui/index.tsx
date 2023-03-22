@@ -24,7 +24,7 @@ function Select(props: SelectProps) {
     );
     console.log(value);
     return (
-        <Dropdown openCloseTrigger={(isOpen) => toggle(isOpen)} animationVariant="auto-height" position="bottom-center" content={content}>
+        <Dropdown openCloseTrigger={(isOpen) => toggle(isOpen)} animationVariant="autoHeight" position="bottom-center" content={content}>
             <div className={styles.select}>
                 {defaultValue ? items.map((i) => i.title === defaultValue && <div>{i.title}</div>) : <div>{items[0].title}</div>}
                 <Icons.ArrowAnimated variants="rotate" />

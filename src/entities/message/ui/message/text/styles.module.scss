@@ -1,0 +1,8 @@
+@import "./src/app/styles";
+
+.wrapper{
+  @include flex-column(flex-start);
+
+}
+
+

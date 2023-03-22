@@ -33,7 +33,7 @@ function List(props: Props) {
             {arr.map((i: any) => (
                 <Fragment key={i.id}>
                     <div onClick={() => click(i)}>{i.name}</div>
-                    <Box.Animated animationVariant="auto-height" visible={openTabs.includes(i.id)}>
+                    <Box.Animated animationVariant="autoHeight" visible={openTabs.includes(i.id)}>
                         {i.items.map((b: any, index: number) => (
                             <div key={index}>{b.name}</div>
                         ))}
