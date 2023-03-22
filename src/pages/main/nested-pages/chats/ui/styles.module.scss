@@ -3,10 +3,11 @@
 .page{
   @include box-size(100%, 100%);
   @include flex;
-  gap: 2px;
+  gap: 1px;
 
-  .sidebar{
+  .leftSidebar{
     @include box-size(300px,100%);
+    min-width: 300px;
     @include flex;
     background-color: var(--bg-01);
   }
@@ -22,8 +23,26 @@
     }
 
     .outlet{
+      @include flex-column();
       width: 100%;
       height: calc(100% - 56px);
+      background-color: var(--bg-0);
+
+      .messageList{
+        @include box-size(100%,calc(100% - 100px));
+        //background-color: #7B57C8;
+      }
+
+      .messageInput{
+        @include box-size(100%,100px);
+        background-color: #2EE5C9;
+      }
     }
+  }
+
+  .rightSidebar{
+    @include box-size(300px,100%);
+    @include flex;
+    background-color: var(--bg-01);
   }
 }

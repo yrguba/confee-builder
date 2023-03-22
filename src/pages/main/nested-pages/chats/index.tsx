@@ -1,14 +1,10 @@
 import React, { lazy } from 'react';
+import { Route } from 'react-router-dom';
 
-const companyRouters = {};
-// (
-// <Route path={routing_tree.info.company.dropdown} element={<CompanyPage />}>
-//     <Route index element={<MessagesPage />} />
-//     <Route path={routing_tree.info.company.messages} element={<MessagesPage />} />
-//     <Route path={routing_tree.info.company.favorites} element={<FavoritesPage />} />
-//     <Route path={routing_tree.info.company.tasks} element={<TasksNestedPage />} />
-//     <Route path={routing_tree.info.company.info} element={<InfoPage />} />
-// </Route>
-// );
+import { routing_tree } from '../../../../shared/routing';
+
+const ChatsNestedPage = lazy(() => import('./ui'));
+
+const companyRouters = <Route path={routing_tree.main.chats.base} element={<ChatsNestedPage />} />;
 
 export default companyRouters;

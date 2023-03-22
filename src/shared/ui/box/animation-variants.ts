@@ -10,3 +10,10 @@ export const autoHeight = {
     exit: { height: 0, opacity: 0 },
     transition: { type: 'tween' },
 };
+
+export const autoWidth = {
+    initial: { width: 0, opacity: 0 },
+    animate: { width: 'auto', opacity: 1 },
+    exit: { width: 0, opacity: 0 },
+    transition: { type: 'tween' },
+};

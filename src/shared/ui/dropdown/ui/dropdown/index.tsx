@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { DropdownBaseProps } from '../../types';
 
 function Dropdown(props: DropdownBaseProps) {
-    const { children, openCloseTrigger, content, trigger = 'left-click', position = 'left-bottom', animationVariant = 'visible-hidden' } = props;
+    const { children, openCloseTrigger, content, trigger = 'left-click', position = 'left-bottom', animationVariant = 'visibleHidden' } = props;
 
     const ref = useRef(null);
 

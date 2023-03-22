@@ -1,18 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
 
-import { visibleHidden, autoHeight } from '../animation-variants';
+import * as animationVariants from '../animation-variants';
 import { AnimatedBoxProps } from '../types';
 
 function AnimatedBox(props: AnimatedBoxProps) {
-    const { children, visible, animationVariant = 'visible-hidden', presence = true, presenceProps, ...motionDivAttrs } = props;
+    const { children, visible, animationVariant = 'visibleHidden', presence = true, presenceProps, ...motionDivAttrs } = props;
 
-    const variantDictionary = {
-        'visible-hidden': visibleHidden,
-        'auto-height': autoHeight,
-    };
+    const vars: Record<keyof typeof animationVariants, object> = animationVariants;
 
-    const variant = variantDictionary[animationVariant];
+    const variant = vars[animationVariant];
 
     const motionDiv = (
         <motion.div style={{ overflow: 'hidden' }} {...variant} {...motionDivAttrs}>

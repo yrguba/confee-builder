@@ -16,7 +16,7 @@ function DepartmentPage() {
                 <BreadcrumbCompanyPage />
             </div>
             <div className={styles.maiRow}>
-                <Box.Animated animationVariant="auto-height" visible={!!selectedUsers.length} className={styles.selectedUsers}>
+                <Box.Animated animationVariant="autoHeight" visible={!!selectedUsers.length} className={styles.selectedUsers}>
                     <SelectedUsersDepartmentStaffPage />
                 </Box.Animated>
                 <Box.Animated
