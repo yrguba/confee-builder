@@ -31,4 +31,6 @@ HTTP-клиент - [Axios](https://axios-http.com/docs/intro)
 
 Шифрование - [Crypto-js](https://www.npmjs.com/package/crypto-js)
 
-сборка и обновление - [tauri-releasemaker](https://github.com/egor6-66/tauri_releasemaker)
+питон скрипты - [web-py-scripts](https://github.com/egor6-66/web-py-scripts)
+
+сборка и обновление десктопа - [tauri_release_manager](https://github.com/egor6-66/tauri_release_manager)
