@@ -12,10 +12,11 @@ type Props = {
     pageClick: PaginationTypes.PageClick;
     setSelectedUser: (arg: User) => void;
     selectedUsersId: number[];
+    userCardClick: (arg: User) => void;
 } & baseTypes.Statuses;
 
 function UsersListView(props: Props) {
-    const { users, pageClick, setSelectedUser, selectedUsersId } = props;
+    const { users, pageClick, setSelectedUser, selectedUsersId, userCardClick } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -35,7 +36,7 @@ function UsersListView(props: Props) {
                         <div key={user.id} className={styles.item}>
                             <div className={styles.content}>
                                 <div className={styles.usersColumn}>
-                                    <UserCardView user={user} size="m" />
+                                    <UserCardView user={user} size="m" onClick={() => userCardClick(user)} />
                                 </div>
                                 <div className={styles.roleColumn}>разраб</div>
                                 <div className={styles.statusesColumn}>статусы</div>
