@@ -25,7 +25,7 @@ function ResponsiveNavbar(props: ResponsiveNavbarProps) {
             {itemsInRow.map((tab) => item(tab))}
             {itemsInDropdown.length ? (
                 <Dropdown
-                    animationVariant="auto-height"
+                    animationVariant="autoHeight"
                     position="bottom-center"
                     {...dropDownProps}
                     content={

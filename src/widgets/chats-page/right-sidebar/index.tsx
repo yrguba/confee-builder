@@ -5,7 +5,7 @@ import { SearchChats } from 'features/search';
 
 import styles from './styles.module.scss';
 
-function SidebarChatsPage() {
+function RightSidebarChatsPage() {
     return (
         <div className={styles.sidebar}>
             <div className={styles.search}>
@@ -18,4 +18,4 @@ function SidebarChatsPage() {
     );
 }
 
-export default SidebarChatsPage;
+export default RightSidebarChatsPage;
