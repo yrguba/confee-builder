@@ -12,13 +12,13 @@
   }
 
   .breadcrumb{
-    @include box-size(100%, 49px);
+    @include box-size(96%, 49px);
     @include flex;
     background-color: inherit;
   }
 
   .mainRow {
-    @include box-size(100%, calc(100% - 54px - 49px));
+    @include box-size(96%, calc(100% - 54px - 49px));
     background-color: var(--bg-0);
   }
 }

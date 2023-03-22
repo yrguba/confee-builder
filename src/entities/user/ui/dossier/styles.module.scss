@@ -1,0 +1,43 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include flex(flex-start, flex-start);
+  @include box-size(100%, 100%);
+  min-width: 300px;
+  gap: 12px;
+
+  .infoColumn {
+    @include flex-column(flex-start, flex-start);
+    gap: 6px;
+
+    .mainInfo {
+      @include box-size(100%, 100%);
+      @include flex(flex-start);
+      margin-bottom: 12px;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      .name {
+        font-weight: 600;
+        font-size: 20px;
+        color: var(--text-0);
+      }
+
+      .status {
+        width: 300px;
+      }
+    }
+  }
+
+  .role {
+    color: var(--text-0);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .department, .division {
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+}

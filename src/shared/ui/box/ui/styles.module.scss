@@ -1,4 +1,4 @@
-@import "../../../../app/styles/index";
+@import "./src/app/styles";
 
 .error {
   @include box-size(100%, 100%);
@@ -16,6 +16,14 @@
   box-shadow: var(--box-shadow-active) inset;
   overflow: hidden;
   animation: pulse 2s ease-out infinite;
+}
+
+.animateLoading{
+  @include box-size(100%, 100%);
+  @include flex;
+  overflow: hidden;
+  position: relative;
+  background-color: #2A313C;
 }
 
 @keyframes pulse {

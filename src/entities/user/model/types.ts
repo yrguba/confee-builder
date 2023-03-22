@@ -3,6 +3,7 @@ export type UserStatuses = 'in-office' | 'home-work' | 'business-trip' | 'vacati
 export type User = {
     id: number;
     name: string;
+    avatar: string;
     email: string;
     login: string;
     updated_at: Date;

@@ -17,7 +17,7 @@ function UsersList() {
         });
         setUsers(getUser);
     }, [data]);
-    console.log(users);
+
     return <UsersListView users={users} pageClick={pageClick} setSelectedUser={setSelectedUser} selectedUsersId={selectedUser.map((user) => user.id)} />;
 }
 
