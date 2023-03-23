@@ -5,7 +5,7 @@ import { BreadcrumbProps } from '../types';
 
 function Breadcrumb(props: BreadcrumbProps) {
     const { items, onClick } = props;
-    console.log(items);
+
     return (
         <div className={styles.wrapper}>
             {items.map((i, index: number) => (

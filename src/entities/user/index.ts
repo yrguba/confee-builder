@@ -5,8 +5,21 @@ import * as userTypes from './model/types';
 import UserCardView from './ui/card';
 import DepartmentsListView from './ui/departments-list';
 import UserDossierView from './ui/dossier';
+import UserImagesListView from './ui/media-content/images';
 import SelectedUsersView from './ui/selected-users';
 import UserStatusView from './ui/status';
 import UsersListView from './ui/users-list';
 
-export { userMethods, useUserStore, userTypes, userApi, UserCardView, DepartmentsListView, UserStatusView, UsersListView, SelectedUsersView, UserDossierView };
+export {
+    userMethods,
+    useUserStore,
+    userTypes,
+    userApi,
+    UserCardView,
+    DepartmentsListView,
+    UserStatusView,
+    UsersListView,
+    SelectedUsersView,
+    UserDossierView,
+    UserImagesListView,
+};

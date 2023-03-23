@@ -5,6 +5,7 @@ export type User = {
     name: string;
     avatar: string;
     email: string;
+    status: UserStatuses;
     login: string;
     updated_at: Date;
     created_at: Date;

@@ -11,6 +11,6 @@
   }
 
   .media{
-
+    @include box-size(100%, calc(100vh - 456px));
   }
 }

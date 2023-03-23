@@ -8,7 +8,7 @@
   border-radius: 20px;
 
   .main {
-    @include box-size(94%, 70%);
+    @include box-size(96%, 70%);
     @include flex(space-between, flex-start);
 
     .dossier {

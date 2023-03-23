@@ -5,6 +5,7 @@ import { Avatar, Box, Button, LoadingIndicator, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { userTypes } from '../..';
+import UserStatusView from '../status';
 
 type Props = {
     user: userTypes.User | baseTypes.Empty;
@@ -23,7 +24,9 @@ function UserDossierView(props: Props) {
                     <div className={styles.infoColumn}>
                         <div className={styles.mainInfo}>
                             <div className={styles.name}>{user.name}</div>
-                            <div className={styles.status}>status</div>
+                            <div className={styles.status}>
+                                <UserStatusView status="home-work" />
+                            </div>
                         </div>
                         <div className={styles.role}>Android разработчик</div>
                         <div className={styles.department}>IT департамент</div>

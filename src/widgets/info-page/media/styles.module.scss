@@ -1,5 +1,12 @@
 @import "./src/app/styles";
 
 .wrapper {
+  @include box-size(100%, 100%);
+  @include flex;
+  background-color: var(--bg-01);
+  border-radius: 20px;
 
+  .list{
+    @include box-size(96%, 96%);
+  }
 }

@@ -6,7 +6,7 @@ import { TokenService } from 'shared/services';
 const config: AxiosRequestConfig = {
     baseURL: `${http.url}`,
 };
-console.log(http.url);
+
 const $axios = axios.create(config);
 
 $axios.interceptors.request.use(async (config: any) => {
