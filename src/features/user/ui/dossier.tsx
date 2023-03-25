@@ -8,14 +8,17 @@ function UserDossier() {
     const params = useParams();
 
     if (!params.user_id) return null;
-    const { data, isLoading, isError, refetch } = userApi.handleGetUser({ id: params.user_id });
-    const prevUser = usePrevious(data?.data);
+
+    // const { data, isLoading, isError, refetch } = userApi.handleGetUser({ id: params.user_id });
+
+    // const prevUser = usePrevious(data?.data);
 
     useEffect(() => {
-        refetch().then();
+        // refetch().then();
     }, [params.user_id]);
 
-    return <UserDossierView user={data?.data || prevUser} loading={isLoading} />;
+    // return <UserDossierView user={data?.data || prevUser} loading={isLoading} />;
+    return <UserDossierView user={undefined} />;
 }
 
 export default UserDossier;

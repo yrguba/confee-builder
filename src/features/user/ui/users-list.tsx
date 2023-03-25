@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { UsersListView, userApi, useUserStore, userTypes } from 'entities/user';
 
 function UsersList() {
-    const { data, isLoading, isError } = userApi.handleGetUsers();
+    // const { data, isLoading, isError } = userApi.handleGetUsers();
     const setSelectedUser = useUserStore.use.setSelectedUsers();
     const selectedUser = useUserStore.use.selectedUsers();
 
@@ -17,12 +17,12 @@ function UsersList() {
 
     const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-        const getUser: any = data?.data?.filter((i, index) => {
-            if (index < 20) return i;
-        });
-        setUsers(getUser);
-    }, [data]);
+    // useEffect(() => {
+    //     const getUser: any = data?.data?.filter((i, index) => {
+    //         if (index < 20) return i;
+    //     });
+    //     setUsers(getUser);
+    // }, [data]);
 
     return (
         <UsersListView

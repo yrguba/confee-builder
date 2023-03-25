@@ -1,1 +1,4 @@
-export type Chat = {};
+export type Chat = {
+    id: number;
+    name: string;
+};

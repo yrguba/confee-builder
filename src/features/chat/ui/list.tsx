@@ -1,11 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { List, chatApi } from 'entities/chat';
+import { ChatListView, ChatApi, chatTypes } from 'entities/chat';
 
 function ChatsList() {
-    const { data, isLoading } = chatApi.handleGetChats();
+    const { data, isLoading } = ChatApi.handleGetChats();
 
-    return <List list={data?.data} loading={isLoading} />;
+    const navigate = useNavigate();
+
+    const clickOnChat = (chat: chatTypes.Chat) => {
+        navigate(`chat/${chat.id}`);
+    };
+    return <ChatListView chats={data?.data?.data || []} clickOnChat={clickOnChat} />;
 }
 
 export default ChatsList;

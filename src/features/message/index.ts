@@ -1,3 +1,4 @@
+import MessagesList from './ui/list';
 import MessageMenu from './ui/menu';
 
-export { MessageMenu };
+export { MessageMenu, MessagesList };

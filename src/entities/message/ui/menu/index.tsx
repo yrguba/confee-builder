@@ -12,7 +12,7 @@ type Props = {
     items: MessageMenuItem[];
 } & baseTypes.Statuses;
 
-function Menu(props: Props) {
+function MessageMenuView(props: Props) {
     const { items, reactionClick } = props;
 
     return (
@@ -34,4 +34,4 @@ function Menu(props: Props) {
     );
 }
 
-export default Menu;
+export default MessageMenuView;

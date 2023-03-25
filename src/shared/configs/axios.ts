@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 
 import { secrets, http } from 'shared/constanst';
 import { TokenService } from 'shared/services';
@@ -35,20 +35,19 @@ $axios.interceptors.response.use(
             originalRequest._isRetry = true;
             try {
                 const additional = { grant_type: 'refresh_token', ...secrets.auth };
-                const res: any = await $axios.post('/auth/oauth/token', { refresh_token: currentTokens.refresh_token, ...additional });
-                if (res.data) {
-                    alert('refer');
-                    console.log(res);
-                    const { access_token, refresh_token } = res.data;
+                // const res: any = await $axios.post('/auth/oauth/token', { refresh_token: currentTokens.refresh_token, ...additional });
+                const res: any = await $axios.post('api/v2/authorization/refresh', currentTokens);
+                if (res.data.data) {
+                    const { access_token, refresh_token } = res.data.data;
                     await TokenService.save({ access_token, refresh_token });
-                } else {
-                    await TokenService.remove();
-                    // window.location.reload();
+                    return await $axios.request(originalRequest);
                 }
-                return await $axios.request(originalRequest);
+                await TokenService.remove();
+                window.location.reload();
+                return null;
             } catch (err) {
                 await TokenService.remove();
-                // window.location.reload();
+                window.location.reload();
                 return null;
             }
         }

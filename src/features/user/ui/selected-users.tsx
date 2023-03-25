@@ -3,7 +3,6 @@ import React from 'react';
 import { SelectedUsersView, userApi, useUserStore } from 'entities/user';
 
 function SelectedUsers() {
-    const { data, isLoading, isError } = userApi.handleGetUsers();
     const setSelectedUser = useUserStore.use.setSelectedUsers();
     const clearSelectedUsers = useUserStore.use.clearSelectedUsers();
     const selectedUsers = useUserStore.use.selectedUsers();

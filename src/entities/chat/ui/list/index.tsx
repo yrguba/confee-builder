@@ -4,12 +4,15 @@ import { useSelected } from 'shared/hooks';
 import { baseTypes } from 'shared/types';
 import { Box } from 'shared/ui';
 
+import { Chat } from '../../model/types';
+
 type Props = {
-    list: any;
+    chats: Chat[];
+    clickOnChat: (arg: Chat) => void;
 } & baseTypes.Statuses;
 
-function List(props: Props) {
-    const { list, loading, error } = props;
+function ChatListView(props: Props) {
+    const { chats, clickOnChat, loading, error } = props;
 
     const item = {
         name: 'awdwad',
@@ -19,9 +22,9 @@ function List(props: Props) {
     const [openTabs, setOpenTabs] = useSelected({ multiple: true });
 
     const arr: any = [
-        { id: 0, name: 'chats', items: [item, item, item, item] },
-        { id: 1, name: 'chanel', items: [item, item, item, item] },
-        { id: 2, name: 'users', items: [item, item, item, item] },
+        { id: 0, name: 'chats', items: chats },
+        { id: 1, name: 'chanel', items: chats },
+        { id: 2, name: 'users', items: chats },
     ];
 
     const click = (i: any) => {
@@ -30,12 +33,14 @@ function List(props: Props) {
 
     return (
         <div>
-            {arr.map((i: any) => (
-                <Fragment key={i.id}>
-                    <div onClick={() => click(i)}>{i.name}</div>
-                    <Box.Animated animationVariant="autoHeight" visible={openTabs.includes(i.id)}>
-                        {i.items.map((b: any, index: number) => (
-                            <div key={index}>{b.name}</div>
+            {arr.map((panel: any) => (
+                <Fragment key={panel.id}>
+                    <div onClick={() => click(panel)}>{panel.name}</div>
+                    <Box.Animated animationVariant="autoHeight" visible={openTabs.includes(panel.id)}>
+                        {panel.items.map((chat: any, index: number) => (
+                            <div onClick={() => clickOnChat(chat)} key={index}>
+                                {chat.name}
+                            </div>
                         ))}
                     </Box.Animated>
                 </Fragment>
@@ -44,4 +49,4 @@ function List(props: Props) {
     );
 }
 
-export default List;
+export default ChatListView;

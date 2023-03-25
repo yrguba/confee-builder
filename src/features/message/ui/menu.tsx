@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import { Menu, messageTypes } from 'entities/message';
+import { MessageMenuView, messageTypes } from 'entities/message';
 
 import { Dropdown } from '../../../shared/ui';
 
@@ -25,7 +25,7 @@ function MessageMenu(props: Props) {
         console.log(data);
     };
 
-    return <Dropdown content={<Menu reactionClick={reactionClick} items={items} />}>{children}</Dropdown>;
+    return <Dropdown content={<MessageMenuView reactionClick={reactionClick} items={items} />}>{children}</Dropdown>;
 }
 
 export default MessageMenu;

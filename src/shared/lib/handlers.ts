@@ -11,7 +11,7 @@ export const response = <T>(data: AxiosResponse): ResponseReturned<T> => {
 
     if (status >= 200 && status <= 299) {
         return {
-            data: data.data?.data,
+            data: data.data,
             status,
             error: '',
         };

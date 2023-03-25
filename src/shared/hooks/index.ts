@@ -5,6 +5,7 @@ import useCrypto from './useCrypto';
 import useEnding from './useEnding';
 import useGrid from './useGrid';
 import useInput from './useInput';
+import useReactQuerySubscription from './useReactQuerySubscription';
 import useRowAndDropdown from './useRowAndDropdown';
 import useSelected from './useSelected';
 import useSize from './useSize';
@@ -30,4 +31,5 @@ export {
     useEnding,
     useWindowSize,
     useGrid,
+    useReactQuerySubscription,
 };
