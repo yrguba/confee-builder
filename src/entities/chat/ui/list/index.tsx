@@ -29,9 +29,9 @@ function ChatListView(props: Props) {
                     <Collapse key={category.id} titleClassName={styles.categoryTitle} headerClassName={styles.headerCollapse} title={category.name}>
                         <div className={styles.chatsList}>
                             {category.items.map((chat) => (
-                                <div className={`${styles.itemWrapper} ${activeChatId === chat.id ? styles.itemActive : ''}`}>
-                                    <div className={styles.itemContent}>
-                                        <ChatCardView key={chat.id} chat={chat} onClick={clickOnChat} />
+                                <div key={chat.id} className={`${styles.chatWrapper} ${activeChatId === chat.id ? styles.itemActive : ''}`}>
+                                    <div className={styles.chatContent}>
+                                        <ChatCardView chat={chat} onClick={clickOnChat} />
                                     </div>
                                 </div>
                             ))}

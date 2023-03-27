@@ -19,6 +19,7 @@ export type Massage = {
     reactions: object;
     reply_messages: Massage;
     users_have_read: number[];
+    created_at: Date;
 };
 
 export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';

@@ -9,7 +9,7 @@
   border-radius: var(--border-radius);
 
   .headerCollapse{
-    width: 272px;
+    width: 266px;
     padding-left: 18px;
   }
 
@@ -27,12 +27,12 @@
       background-color: var(--bg-1);
     }
 
-    .itemWrapper{
+    .chatWrapper{
       @include flex;
       @include box-size(100%, 58px);
       transition: background-color var(--transition);
 
-      .itemContent{
+      .chatContent{
         @include box-size(90%, 100%);
       }
     }
