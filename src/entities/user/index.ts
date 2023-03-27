@@ -1,5 +1,5 @@
 import * as userMethods from './lib/methods';
-import * as userApi from './model/api';
+import UserApi from './model/api';
 import useUserStore from './model/store';
 import * as userTypes from './model/types';
 import UserCardView from './ui/card';
@@ -14,7 +14,7 @@ export {
     userMethods,
     useUserStore,
     userTypes,
-    userApi,
+    UserApi,
     UserCardView,
     DepartmentsListView,
     UserStatusView,

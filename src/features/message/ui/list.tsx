@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { MessageApi, MessagesListView, useMessageStore } from 'entities/message';
@@ -16,6 +16,10 @@ function MessageList(props: Props) {
 
     const data = queryClient.getQueryData<{ pages: { data: { data: [] } }[] }>(['get-messages', params.chat_id]);
 
+    useEffect(() => {
+        MessageApi.subscriptions();
+    }, []);
+
     const getPage = (arg: 'prev' | 'next') => {
         if (arg === 'prev') {
             fetchPreviousPage().then();
@@ -24,8 +28,8 @@ function MessageList(props: Props) {
             fetchNextPage().then();
         }
     };
-    console.log(data);
-    return <MessagesListView messages={[]} getPage={getPage} />;
+    console.log('data', data);
+    return <MessagesListView messages={data ? data.pages.reduce((acc: any, item: any) => [...acc, ...item.data.data], []) : []} getPage={getPage} />;
 }
 
 export default MessageList;

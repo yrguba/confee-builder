@@ -5,6 +5,7 @@ import { baseTypes } from 'shared/types';
 import { Box, Collapse, Avatar, Icons, Button, Navbar } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { http } from '../../../../shared/constanst';
 import { User } from '../../model/types';
 
 type Props = {
@@ -55,7 +56,7 @@ function SelectedUsersView(props: Props) {
                 {users.map((user) => (
                     <div key={user.id} className={styles.item}>
                         <div className={styles.userInfo}>
-                            <Avatar name={user.name} />
+                            <Avatar img={user.avatar} name={user.name} />
                             {user.name}
                         </div>
                         <div className={styles.delete} onClick={() => deleteUser(user)}>

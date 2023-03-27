@@ -1,9 +1,24 @@
 @import "./src/app/styles";
 
-.list {
-  @include box-size(100%, 100%);
+@import "./src/app/styles";
+
+.wrapper {
+  @include box-size(272px, auto);
   @include flex-column(flex-start, flex-start);
-  overflow-y: auto;
-  overflow-x: hidden;
+  gap: 10px;
+  overflow: hidden;
   border-radius: var(--border-radius);
+
+
+  .categoryTitle{
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--text-1);
+  }
+
+  .chatsList{
+    @include flex-column(center, flex-start);
+    margin-top: 10px;
+    gap: 10px;
+  }
 }

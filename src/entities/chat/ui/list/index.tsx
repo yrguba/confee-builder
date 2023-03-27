@@ -2,9 +2,11 @@ import React, { Fragment, useState } from 'react';
 
 import { useSelected } from 'shared/hooks';
 import { baseTypes } from 'shared/types';
-import { Box } from 'shared/ui';
+import { Box, Collapse } from 'shared/ui';
 
+import styles from './styles.module.scss';
 import { Chat } from '../../model/types';
+import ChatCardView from '../card';
 
 type Props = {
     chats: Chat[];
@@ -14,38 +16,25 @@ type Props = {
 function ChatListView(props: Props) {
     const { chats, clickOnChat, loading, error } = props;
 
-    const item = {
-        name: 'awdwad',
-        lastMsg: 'awdwad',
-    };
-
-    const [openTabs, setOpenTabs] = useSelected({ multiple: true });
-
-    const arr: any = [
-        { id: 0, name: 'chats', items: chats },
-        { id: 1, name: 'chanel', items: chats },
-        { id: 2, name: 'users', items: chats },
+    const data = [
+        { id: 0, name: 'Личные чаты', items: chats },
+        { id: 1, name: 'Групповые чаты', items: chats },
+        { id: 2, name: 'Каналы', items: chats },
     ];
 
-    const click = (i: any) => {
-        setOpenTabs(i.id);
-    };
-
     return (
-        <div>
-            {arr.map((panel: any) => (
-                <Fragment key={panel.id}>
-                    <div onClick={() => click(panel)}>{panel.name}</div>
-                    <Box.Animated animationVariant="autoHeight" visible={openTabs.includes(panel.id)}>
-                        {panel.items.map((chat: any, index: number) => (
-                            <div onClick={() => clickOnChat(chat)} key={index}>
-                                {chat.name}
-                            </div>
-                        ))}
-                    </Box.Animated>
-                </Fragment>
-            ))}
-        </div>
+        <Box loading={loading} className={styles.wrapper}>
+            {chats &&
+                data.map((category, index: number) => (
+                    <Collapse key={category.id} titleClassName={styles.categoryTitle} title={category.name}>
+                        <div className={styles.chatsList}>
+                            {category.items.map((chat) => (
+                                <ChatCardView key={chat.id} chat={chat} />
+                            ))}
+                        </div>
+                    </Collapse>
+                ))}
+        </Box>
     );
 }
 

@@ -1,8 +1,38 @@
 @import "./src/app/styles";
 
-.userCard {
-  @include flex;
-  gap: 12px;
-  margin-left: 20px;
-  margin-top: 10px;
+.wrapper {
+  @include flex(space-between, center, 10);
+  @include box-size(96%, 100%);
+
+  .leftColumn {
+
+  }
+
+  .centerColumn {
+    @include flex-column(center, flex-start, 6);
+    flex: 1;
+
+
+    .chatName {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text-0);
+    }
+
+    .lastMsg {
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--text-1);
+    }
+  }
+
+  .rightColumn {
+    @include flex-column(center, flex-end, 6);
+    .date {
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text-0);
+    }
+  }
+
 }

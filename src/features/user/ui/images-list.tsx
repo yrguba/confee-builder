@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UserImagesListView, userApi, useUserStore } from 'entities/user';
+import { UserImagesListView, useUserStore } from 'entities/user';
 
 function UserImagesList() {
     const images = [

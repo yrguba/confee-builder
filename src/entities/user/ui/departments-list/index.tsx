@@ -29,7 +29,7 @@ function DepartmentsListView(props: Props) {
     ];
 
     return (
-        <Box loading={loading} className={styles.list}>
+        <Box loading={loading} className={styles.wrapper}>
             {list &&
                 data.map((department, index: number) => (
                     <Collapse
@@ -49,13 +49,16 @@ function DepartmentsListView(props: Props) {
                             >
                                 <div className={styles.usersList}>
                                     {division?.users &&
-                                        division?.users.map((user: any) => (
-                                            <UserCardView
-                                                key={user.id}
-                                                user={user}
-                                                onClick={() => userClick({ department: department.name, division: division.name, user })}
-                                            />
-                                        ))}
+                                        division?.users.map(
+                                            (user: any) =>
+                                                user.name && (
+                                                    <UserCardView
+                                                        key={user.id}
+                                                        user={user}
+                                                        onClick={() => userClick({ department: department.name, division: division.name, user })}
+                                                    />
+                                                )
+                                        )}
                                 </div>
                             </Collapse>
                         ))}

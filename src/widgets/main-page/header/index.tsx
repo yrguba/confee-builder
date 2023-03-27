@@ -25,12 +25,11 @@ function HeaderMainPage() {
                 {/* <ViewerCard /> */}
                 <Button
                     onClick={() => {
-                        queryClient.invalidateQueries(['get-messages', 67]);
-                        // queryClient.setQueriesData(['get-messages', 71], (old: any) => {
-                        //     old.pages[old.pages.length - 1].data.data.push({ text: 'fefefffe' });
-                        //     // newMessageTrigger();
-                        //     return old;
-                        // });
+                        queryClient.setQueriesData(['get-messages', params.chat_id], (old: any) => {
+                            old.pages[old.pages.length - 1].data.data.push({ text: 'fefefffe', id: 999 });
+                            // newMessageTrigger();
+                            return old;
+                        });
                     }}
                 >
                     new msg

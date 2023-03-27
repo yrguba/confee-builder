@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { baseTypes } from 'shared/types';
-import { Avatar, Box, Button, LoadingIndicator, Title } from 'shared/ui';
+import { Avatar, Box, Button, LoadingIndicator } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { userTypes } from '../..';
@@ -28,6 +28,7 @@ function UserDossierView(props: Props) {
                                 <UserStatusView status="home-work" />
                             </div>
                         </div>
+                        <div className={styles.date}>15 января</div>
                         <div className={styles.role}>Android разработчик</div>
                         <div className={styles.department}>IT департамент</div>
                         <div className={styles.division}>Отдел мобильной разработки</div>

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { http } from 'shared/constanst';
+
 import styles from './styles.module.scss';
 import { Props } from '../types';
 
@@ -64,7 +66,7 @@ function Avatar(props: Props) {
                 background: `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)`,
             }}
         >
-            {img ? <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${img})` }} /> : preview}
+            {img ? <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${http.url}${img})` }} /> : preview}
         </div>
     );
 }

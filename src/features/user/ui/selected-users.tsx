@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SelectedUsersView, userApi, useUserStore } from 'entities/user';
+import { SelectedUsersView, useUserStore } from 'entities/user';
 
 function SelectedUsers() {
     const setSelectedUser = useUserStore.use.setSelectedUsers();

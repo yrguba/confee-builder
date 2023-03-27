@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
 
-import { UsersListView, userApi, useUserStore, userTypes } from 'entities/user';
+import { UsersListView, UserApi, useUserStore, userTypes } from 'entities/user';
 
 function UsersList() {
-    // const { data, isLoading, isError } = userApi.handleGetUsers();
+    const { data, isLoading, isError } = UserApi.handleGetUsers();
     const setSelectedUser = useUserStore.use.setSelectedUsers();
     const selectedUser = useUserStore.use.selectedUsers();
 
     const pageClick = (page: number) => {
         console.log(page);
     };
-
+    console.log(data);
     const userCardClick = (user: userTypes.User) => {
         console.log(user);
     };
 
     const [users, setUsers] = useState([]);
 
-    // useEffect(() => {
-    //     const getUser: any = data?.data?.filter((i, index) => {
-    //         if (index < 20) return i;
-    //     });
-    //     setUsers(getUser);
-    // }, [data]);
+    useEffect(() => {
+        const getUser: any = data?.data?.data.filter((i, index) => {
+            if (i.name) return i;
+        });
+        setUsers(getUser);
+    }, [data]);
 
     return (
         <UsersListView

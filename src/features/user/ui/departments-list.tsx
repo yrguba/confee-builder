@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { DepartmentsListView, userApi, userTypes } from 'entities/user';
+import { DepartmentsListView, UserApi, userTypes } from 'entities/user';
 
 function DepartmentsList() {
-    // const { data, isLoading, isError } = userApi.handleGetDepartments();
+    const { data, isLoading, isError } = UserApi.handleGetUsers();
     const navigate = useNavigate();
 
     const departmentClick = (data: string) => {
@@ -20,15 +20,14 @@ function DepartmentsList() {
     };
 
     return (
-        // <DepartmentsListView
-        //     list={data?.data}
-        //     departmentClick={departmentClick}
-        //     divisionClick={divisionClick}
-        //     userClick={userClick}
-        //     loading={isLoading}
-        //     error={isError}
-        // />
-        <DepartmentsListView list={[]} departmentClick={departmentClick} divisionClick={divisionClick} userClick={userClick} />
+        <DepartmentsListView
+            list={data?.data?.data || []}
+            departmentClick={departmentClick}
+            divisionClick={divisionClick}
+            userClick={userClick}
+            loading={isLoading}
+            error={isError}
+        />
     );
 }
 
