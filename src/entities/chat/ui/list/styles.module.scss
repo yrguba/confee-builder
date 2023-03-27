@@ -3,12 +3,15 @@
 @import "./src/app/styles";
 
 .wrapper {
-  @include box-size(272px, auto);
+  @include box-size(100%, auto);
   @include flex-column(flex-start, flex-start);
   gap: 10px;
-  overflow: hidden;
   border-radius: var(--border-radius);
 
+  .headerCollapse{
+    width: 272px;
+    padding-left: 18px;
+  }
 
   .categoryTitle{
     font-weight: 800;
@@ -19,6 +22,19 @@
   .chatsList{
     @include flex-column(center, flex-start);
     margin-top: 10px;
-    gap: 10px;
+
+    .itemActive{
+      background-color: var(--bg-1);
+    }
+
+    .itemWrapper{
+      @include flex;
+      @include box-size(100%, 58px);
+      transition: background-color var(--transition);
+
+      .itemContent{
+        @include box-size(90%, 100%);
+      }
+    }
   }
 }

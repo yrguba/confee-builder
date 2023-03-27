@@ -1,11 +1,14 @@
 @import "./src/app/styles";
 
+
 .wrapper {
   @include flex(space-between, center, 10);
-  @include box-size(96%, 100%);
+  @include box-size(100%, 100%);
+  cursor: pointer;
+  transition: background-color var(--transition);
 
   .leftColumn {
-
+    @include flex;
   }
 
   .centerColumn {
@@ -14,12 +17,14 @@
 
 
     .chatName {
+      @include text-ellipsis(99%);
       font-weight: 600;
       font-size: 16px;
       color: var(--text-0);
     }
 
     .lastMsg {
+      @include text-ellipsis(99%);
       font-weight: 500;
       font-size: 13px;
       color: var(--text-1);
@@ -28,11 +33,11 @@
 
   .rightColumn {
     @include flex-column(center, flex-end, 6);
+
     .date {
       font-weight: 600;
       font-size: 12px;
       color: var(--text-0);
     }
   }
-
 }

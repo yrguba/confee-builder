@@ -7,7 +7,7 @@ import { Box } from '../../index';
 import { CollapseProps } from '../types';
 
 function Collapse(props: CollapseProps) {
-    const { title, children, titleClassName, onTitleClick, openByClickingOnArrow, activeAnimate } = props;
+    const { title, children, titleClassName, headerClassName, onTitleClick, openByClickingOnArrow, activeAnimate } = props;
     const [visible, toggle] = useToggle();
 
     const headerClick = () => {
@@ -24,7 +24,7 @@ function Collapse(props: CollapseProps) {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.header} onClick={headerClick}>
+            <div className={`${styles.header} ${headerClassName}`} onClick={headerClick}>
                 <div className={`${styles.title} ${titleClassName}`} onClick={titleClick}>
                     {title}
                 </div>
