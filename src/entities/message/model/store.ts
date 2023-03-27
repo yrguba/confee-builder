@@ -4,20 +4,18 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
-import { Massage } from './types';
-
 type Store = {
-    newMessages: boolean;
-    // meTrigger: () => void;
+    subscriptionsTrigger: boolean;
+    setSubscriptionsTrigger: () => void;
 };
 
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
-            newMessages: false,
-            newMessageTrigger: () =>
+            subscriptionsTrigger: false,
+            setSubscriptionsTrigger: () =>
                 set((state) => {
-                    state.newMessages = true;
+                    state.subscriptionsTrigger = !state.subscriptionsTrigger;
                 }),
         }))
     )

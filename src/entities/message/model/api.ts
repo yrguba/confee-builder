@@ -1,14 +1,11 @@
-import { useQuery, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
 
-import {} from 'shared/configs/socket';
-import { $socket, $axios } from 'shared/configs';
+import { $axios } from 'shared/configs';
 
 class MessageApi {
-    // private queryClient = useQueryClient();
-
     private pathPrefix = '/api/v2/chats';
 
-    private limit = 10;
+    private limit = 20;
 
     handleGetMessages({ page = 1, chatId }: { page: number; chatId: string }) {
         return useInfiniteQuery(
@@ -38,16 +35,10 @@ class MessageApi {
         );
     }
 
-    subscriptions() {
-        $socket().then((socket) => {
-            socket.on('receiveMessage', ({ message }) => {
-                const queryClient = useQueryClient();
-                queryClient.setQueriesData(['get-messages', 77], (oldData: any) => {
-                    oldData.pages[oldData.pages - 1].data.data.push(message);
-                });
-                // socket.close();
-            });
-        });
+    handleSendTextMessage() {
+        return useMutation((data: { text: string; chatId: number }) =>
+            $axios.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' })
+        );
     }
 }
 

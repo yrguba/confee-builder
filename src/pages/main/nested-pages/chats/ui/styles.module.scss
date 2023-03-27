@@ -30,12 +30,11 @@
 
       .messageList{
         @include box-size(100%,calc(100% - 100px));
-        //background-color: #7B57C8;
+        padding-top: 12px;
       }
 
       .messageInput{
         @include box-size(100%,100px);
-        background-color: #2EE5C9;
       }
     }
   }
