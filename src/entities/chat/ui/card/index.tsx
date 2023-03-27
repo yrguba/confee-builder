@@ -10,30 +10,36 @@ import styles from './styles.module.scss';
 import { Chat } from '../../model/types';
 
 type Props = {
-    chat: Chat;
+    chat: Chat | baseTypes.Empty;
     onClick: (arg: Chat) => void;
+    subtitle: string;
+    showDate?: boolean;
+    showChecked?: boolean;
 } & baseTypes.Statuses;
 
 function ChatCardView(props: Props) {
-    const { chat, onClick } = props;
+    const { chat, subtitle, showDate, showChecked, onClick } = props;
+    if (!chat) return null;
 
     const date = useDate(chat.updated_at);
 
     return (
         <div className={styles.wrapper} onClick={() => onClick(chat)}>
             <div className={styles.leftColumn}>
-                <Avatar img={chat.avatar} name={chat.name} size={50} />
+                <Avatar img={chat.avatar} name={chat.name} size={42} />
             </div>
 
             <div className={styles.centerColumn}>
                 <div className={styles.chatName}>{chat.name}</div>
-                <div className={styles.lastMsg}>last msg</div>
+                <div className={styles.lastMsg}>{subtitle}</div>
             </div>
             <div className={styles.rightColumn}>
-                <div className={styles.date}>{date}</div>
-                <div className={styles.checked}>
-                    <Icons variants="check" />
-                </div>
+                {showDate && <div className={styles.date}>{date}</div>}
+                {showChecked && (
+                    <div className={styles.checked}>
+                        <Icons variants="check" />
+                    </div>
+                )}
             </div>
         </div>
     );

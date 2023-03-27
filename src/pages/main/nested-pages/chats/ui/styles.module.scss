@@ -2,7 +2,7 @@
 
 .page{
   @include box-size(100%, 100%);
-  @include flex;
+  @include flex(flex-start);
   gap: 1px;
 
   .leftSidebar{
@@ -12,9 +12,14 @@
     background-color: var(--bg-01);
   }
 
+  .visibleRightSidebar{
+    width: calc(100% - 300px - 300px) !important;
+    transition: width var(--transition);
+  }
   .mainColumn{
     @include flex-column;
     @include box-size(calc(100% - 300px),100%);
+
 
     .header{
       @include box-size(100%,56px);
@@ -41,6 +46,7 @@
 
   .rightSidebar{
     @include box-size(300px,100%);
+    //min-width: 300px;
     @include flex;
     background-color: var(--bg-01);
   }

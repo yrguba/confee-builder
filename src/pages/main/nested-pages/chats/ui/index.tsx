@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
+import { useStyles, useToggle } from 'shared/hooks';
 import { Box, Button } from 'shared/ui';
 import { LeftSidebarChatsPage, RightSidebarChatsPage, HeaderChatsPage, MessagesListChatsPage, MessageInput } from 'widgets/chats-page';
 
 import styles from './styles.module.scss';
 
 function ChatsPage() {
+    const { pathname } = useLocation();
+
+    const [visibleRightSidebar, toggle] = useToggle(false);
+
+    useEffect(() => {
+        const lastPath = pathname.split('/').pop() || '';
+        if (['info'].includes(lastPath)) {
+            toggle(true);
+        } else {
+            toggle(false);
+        }
+    }, [pathname]);
+
+    const mainColumnClasses = useStyles(styles, 'mainColumn', {
+        visibleRightSidebar,
+    });
+
     return (
         <Box.Animated visible className={styles.page}>
             <div className={styles.leftSidebar}>
                 <LeftSidebarChatsPage />
             </div>
-            <div className={styles.mainColumn}>
+            <div className={mainColumnClasses}>
                 <div className={styles.header}>
                     <HeaderChatsPage />
                 </div>
@@ -24,7 +43,7 @@ function ChatsPage() {
                     </div>
                 </div>
             </div>
-            <Box.Animated animationVariant="autoWidth" visible={false} className={styles.rightSidebar}>
+            <Box.Animated animationVariant="autoWidth" visible={visibleRightSidebar} className={styles.rightSidebar}>
                 <RightSidebarChatsPage />
             </Box.Animated>
         </Box.Animated>

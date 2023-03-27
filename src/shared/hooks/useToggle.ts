@@ -4,7 +4,7 @@ function useToggle(defaultValue = false): [isOpen: boolean, toggle: (arg?: boole
     const [value, setValue] = useState<boolean>(defaultValue);
 
     const toggle = (arg?: boolean) => {
-        if (arg) {
+        if (typeof arg === 'boolean') {
             setValue(arg);
         } else {
             setValue((prev) => !prev);

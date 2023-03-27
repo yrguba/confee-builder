@@ -11,7 +11,9 @@ function ChatsList() {
     const params = useParams();
 
     const clickOnChat = (chat: chatTypes.Chat) => {
-        navigate(`chat/${chat.id}`);
+        if (Number(params.chat_id) !== chat.id) {
+            navigate(`chat/${chat.id}`);
+        }
     };
     return <ChatListView chats={data?.data?.data || []} clickOnChat={clickOnChat} activeChatId={Number(params.chat_id) || null} />;
 }

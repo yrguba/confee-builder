@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 
 import { baseTypes } from 'shared/types';
+import { Avatar } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Avatar } from '../../../../../shared/ui';
 
 type Props = {
     children: ReactNode;

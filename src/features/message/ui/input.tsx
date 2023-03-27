@@ -11,8 +11,6 @@ function MessageInput(props: Props) {
 
     const params = useParams();
 
-    if (!params.chat_id) return null;
-
     const { mutate: handleSendTextMessage, isLoading } = MessageApi.handleSendTextMessage();
 
     const [valueTextMessage, setValueTextMessage] = useState('');

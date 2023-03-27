@@ -1,17 +1,16 @@
-import { motion } from 'framer-motion';
 import React from 'react';
 
 import { BaseIconsProps } from '../types';
 
 function BaseIcons(props: BaseIconsProps) {
-    const { variants, color = 'var(--button-inactive)' } = props;
+    const { variants, color = 'var(--button-inactive)', size = 16 } = props;
 
     switch (variants) {
         case 'exit': {
             return (
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8.99755 1.00342L1.00423 8.99675" stroke={color} strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M9 9.00167L1 1" stroke={color} strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
+                <svg width={size} height={size} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.9961 2.00488L2.0061 13.9949" stroke="#C3C4E4" strokeWidth="3.75313" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M14 14.0025L2 2" stroke="#C3C4E4" strokeWidth="3.75313" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             );
         }

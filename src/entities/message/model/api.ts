@@ -7,7 +7,7 @@ class MessageApi {
 
     private limit = 20;
 
-    handleGetMessages({ page = 1, chatId }: { page: number; chatId: string }) {
+    handleGetMessages({ page = 1, chatId }: { page: number; chatId: string | undefined }) {
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
@@ -20,12 +20,12 @@ class MessageApi {
             },
             {
                 getPreviousPageParam: (lastPage, pages) => {
-                    if (lastPage.data.page === 1) return undefined;
-                    return lastPage.data.page - 1;
+                    if (lastPage?.data.page === 1) return undefined;
+                    return lastPage?.data.page - 1;
                 },
                 getNextPageParam: (lastPage, pages) => {
-                    if (lastPage.data.page === Math.ceil(lastPage.data.total / this.limit)) return undefined;
-                    return lastPage.data.page + 1;
+                    if (lastPage?.data.page === Math.ceil(lastPage.data.total / this.limit)) return undefined;
+                    return lastPage?.data.page + 1;
                 },
                 select: (data) => {
                     return {
@@ -33,6 +33,7 @@ class MessageApi {
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },
+                enabled: !!chatId,
                 staleTime: Infinity,
             }
         );
