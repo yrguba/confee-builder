@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useRef, UIEvent, forwardRef } from 'react';
 
+import { useScroll, useSize } from 'shared/hooks';
 import { baseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
+import { BaseInputProps } from '../../../../shared/ui/input/types';
 import { Massage } from '../../model/types';
 import TextMessageView from '../message/text';
 
 type Props = {
     messages: Massage[];
-    getPage: (arg: 'prev' | 'next') => void;
+    handleScroll: (target: any) => void;
 } & baseTypes.Statuses;
 
-function MessagesListView(props: Props) {
-    const { messages, getPage } = props;
+const MessagesListView = forwardRef<HTMLDivElement, Props>((props: Props, ref) => {
+    const { messages, handleScroll } = props;
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} ref={ref} onScroll={handleScroll}>
             {messages.map((message) => (
                 <div key={message.id} className={styles.messageWrapper}>
                     <div className={styles.messageContent}>
@@ -25,6 +27,6 @@ function MessagesListView(props: Props) {
             ))}
         </div>
     );
-}
+});
 
 export default MessagesListView;

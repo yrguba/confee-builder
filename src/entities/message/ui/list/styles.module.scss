@@ -12,8 +12,7 @@
 
     .messageContent{
       @include flex(flex-start);
-      @include box-size(90%, 100%);
-
+      @include box-size(97%, 100%);
     }
   }
 }

@@ -28,7 +28,10 @@ class MessageApi {
                     return lastPage.data.page + 1;
                 },
                 select: (data) => {
-                    return data;
+                    return {
+                        pages: [...data.pages].reverse(),
+                        pageParams: [...data.pageParams].reverse(),
+                    };
                 },
                 staleTime: Infinity,
             }
