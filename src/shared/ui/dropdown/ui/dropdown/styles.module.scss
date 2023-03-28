@@ -28,7 +28,7 @@
   @include position(0, 100%, translate(0, -100%));
 }
 .position-right-center {
-  @include position(50%, 100%, translate(0, -50%));
+  @include position(50%, 110%, translate(0, -50%));
 }
 .position-right-bottom {
   @include position(100%, 100%, translate(0, 0));

@@ -71,6 +71,7 @@ module.exports = {
                         },
                     },
                 ],
+                'no-unsafe-optional-chaining': 0,
                 'no-return-assign': 0,
                 'func-names': 0,
                 'prettier/prettier': 0,

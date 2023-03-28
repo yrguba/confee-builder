@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ReactNode } from 'react';
+import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react';
 
 import { baseTypes } from '../../types';
 
@@ -21,6 +21,8 @@ export type WrapperProps = {
 export type BaseInputProps = {} & Shared;
 
 export type PasswordInputProps = {} & Shared;
+
+export type TextareaInputProps = {} & TextareaHTMLAttributes<HTMLTextAreaElement> & baseTypes.Statuses;
 
 export type SearchInputProps = {
     debounceDelay?: number;

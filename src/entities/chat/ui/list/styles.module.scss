@@ -1,9 +1,40 @@
 @import "./src/app/styles";
 
-.list {
-  @include box-size(100%, 100%);
+@import "./src/app/styles";
+
+.wrapper {
+  @include box-size(100%, auto);
   @include flex-column(flex-start, flex-start);
-  overflow-y: auto;
-  overflow-x: hidden;
+  gap: 10px;
   border-radius: var(--border-radius);
+
+  .headerCollapse{
+    width: 266px;
+    padding-left: 18px;
+  }
+
+  .categoryTitle{
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--text-1);
+  }
+
+  .chatsList{
+    @include flex-column(center, flex-start);
+    margin-top: 10px;
+
+    .itemActive{
+      background-color: var(--bg-1);
+    }
+
+    .chatWrapper{
+      @include flex;
+      @include box-size(100%, 58px);
+      transition: background-color var(--transition);
+
+      .chatContent{
+        @include box-size(90%, 100%);
+      }
+    }
+  }
 }

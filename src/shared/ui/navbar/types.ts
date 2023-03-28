@@ -32,3 +32,10 @@ export type ResponsiveNavbarProps = {
     btnRadius?: number;
     dropDownProps?: DropdownBaseProps;
 } & Shared;
+
+export type NavbarWithLineProps = {
+    items: BaseItem<any, any>[];
+    direction?: 'column' | 'row';
+    activeItemId: number;
+    gap?: number;
+} & Shared;

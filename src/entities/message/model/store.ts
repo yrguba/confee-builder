@@ -4,12 +4,19 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
-type Store = {};
+type Store = {
+    subscriptionsTrigger: boolean;
+    setSubscriptionsTrigger: () => void;
+};
 
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
-            //
+            subscriptionsTrigger: false,
+            setSubscriptionsTrigger: () =>
+                set((state) => {
+                    state.subscriptionsTrigger = !state.subscriptionsTrigger;
+                }),
         }))
     )
 );

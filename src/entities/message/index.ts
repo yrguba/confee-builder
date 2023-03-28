@@ -1,6 +1,9 @@
-import * as messageApi from './model/api';
+import MessageApi from './model/api';
 import useMessageStore from './model/store';
+import messageSubscriptions from './model/subscriptions';
 import * as messageTypes from './model/types';
-import Menu from './ui/menu';
+import MessageInputView from './ui/input';
+import MessagesListView from './ui/list';
+import MessageMenuView from './ui/menu';
 
-export { messageApi, useMessageStore, messageTypes, Menu };
+export { MessageApi, useMessageStore, messageTypes, messageSubscriptions, MessageMenuView, MessagesListView, MessageInputView };

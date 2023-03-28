@@ -1,0 +1,46 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include flex(flex-start, flex-start);
+  @include box-size(100%, 100%);
+  min-width: 300px;
+  gap: 12px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px;
+
+  .infoColumn {
+    @include flex-column(flex-start, flex-start);
+    gap: 6px;
+
+    .mainInfo {
+      @include box-size(100%, 100%);
+      @include flex(flex-start);
+      margin-bottom: 4px;
+      gap: 6px;
+      flex-wrap: wrap;
+
+      .name {
+        font-weight: 600;
+        font-size: 20px;
+        color: var(--text-0);
+      }
+
+      .status {
+      }
+    }
+  }
+
+  .role {
+    color: var(--text-0);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .department, .division, .date {
+    color: var(--text-0);
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+}

@@ -2,8 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Login, authYup, authApi } from 'entities/auth';
-import { ErrorsNames } from 'shared/enums';
+import { Login, authYup, AuthApi } from 'entities/auth';
 import { TokenService } from 'shared/services';
 
 type LoginFormType = authYup.LoginType;
@@ -18,10 +17,11 @@ function LoginForm() {
         resolver: yupResolver(authYup.loginSchema),
     });
 
-    const { mutate: handleLogin, isLoading } = authApi.handleLogin();
+    const { mutate: handleLogin, isLoading } = AuthApi.handleLogin();
 
     const onSuccess = async (response: any) => {
-        const { access_token, refresh_token } = response.data;
+        // const { access_token, refresh_token } = response.data;
+        const { access_token, refresh_token } = response.data.data;
         await TokenService.save({ access_token, refresh_token });
         window.location.href = '/info';
     };
@@ -29,12 +29,6 @@ function LoginForm() {
     const onError = ({ response }: any) => {
         setError('login', { message: 'Неверный логин или пароль' });
         setError('password', { message: 'Неверный логин или пароль' });
-        // const currentError: string = response.data.error;
-        // Object.entries(ErrorsNames).forEach(([key, value]: any) => {
-        //     if (currentError === `invalid_${key}`) {
-        //         setError(key, { message: value });
-        //     }
-        // });
     };
 
     const onsubmit = async (data: LoginFormType) => {

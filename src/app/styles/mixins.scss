@@ -21,6 +21,12 @@
   left: $left;
 }
 
+@mixin text-ellipsis($width){
+  width: $width;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
 @mixin btn-actions() {
   will-change: transform;

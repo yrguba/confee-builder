@@ -16,7 +16,7 @@ function UserPageNavigation() {
         { id: 0, text: 'Сообщения ', path: 'messages', breakpoint: 520 },
         { id: 1, text: 'Избранное', path: 'favorites', breakpoint: 640 },
         { id: 2, text: 'Задачи', path: 'tasks', breakpoint: 735 },
-        { id: 3, text: 'Информация esf', path: 'info', breakpoint: 830 },
+        { id: 3, text: 'Информация', path: 'info', breakpoint: 830 },
     ];
 
     const [isPending, startTransition] = useTransition();
