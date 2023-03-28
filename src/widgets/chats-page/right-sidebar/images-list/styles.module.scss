@@ -44,7 +44,7 @@
 
   .outlet{
     margin-top: 20px;
-    @include box-size(300px, 48%);
+    @include box-size(300px, 500px);
   }
 }
 @import "./src/app/styles";

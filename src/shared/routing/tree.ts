@@ -31,15 +31,15 @@ const routing_tree = {
             base: 'chats',
             path: '/info/chats',
             chat: {
-                base: 'chat/:chat_id',
+                base: 'chats/chat/:chat_id',
                 private_chat: {
-                    base: 'chat/:chat_id/private_chat/:user_id',
+                    base: 'private_chat/:user_id',
                     images: 'images',
                     videos: 'videos',
                     files: 'files',
                 },
                 group_chat: {
-                    base: 'chat/:chat_id/group_chat/:chat_id',
+                    base: 'group_chat/:chat_id',
                     users: 'users',
                     images: 'images',
                     videos: 'videos',

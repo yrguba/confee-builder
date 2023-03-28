@@ -13,9 +13,9 @@ function ChatCard() {
 
     const clickOnChat = (chat: chatTypes.Chat) => {
         if (chat.is_group) {
-            navigate(`chat/${chat.id}/group_chat/${chat.id}/users`);
+            navigate(`group_chat/${chat.id}/users`);
         } else {
-            navigate(`chat/${chat.id}/private_chat/${23}/images`);
+            navigate(`private_chat/${23}/images`);
         }
     };
 

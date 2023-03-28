@@ -5,6 +5,7 @@
   display: grid;
   align-items: center;
   gap: 12px;
+  overflow-x: hidden;
   overflow-y: auto;
 
   .img{

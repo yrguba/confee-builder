@@ -2,7 +2,15 @@ import React from 'react';
 
 import { ChatImagesListView } from 'entities/chat';
 
-function ChatImagesList() {
+type Props = {
+    gap?: number;
+    imgSize?: number;
+    hardGrid?: boolean;
+};
+
+function ChatImagesList(props: Props) {
+    const { gap, imgSize, hardGrid } = props;
+
     const images = [
         'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
         'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
@@ -118,7 +126,7 @@ function ChatImagesList() {
         'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
     ];
 
-    return <ChatImagesListView images={images} />;
+    return <ChatImagesListView images={images} gap={gap} imgSize={imgSize} hardGrid={hardGrid} />;
 }
 
 export default ChatImagesList;

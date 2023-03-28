@@ -2,7 +2,7 @@ import HeaderChatsPage from './header';
 import LeftSidebarChatsPage from './left-sidebar';
 import MessageInput from './message-input';
 import MessagesListChatsPage from './messages-list';
-import RightSidebarChatsPage from './right-sidebar';
-import UserRightSidebarChatsPage from './right-sidebar/private-chat-info';
+import ImagesListFromChatsPage from './right-sidebar/images-list';
+import PrivateChatInfoFromChatsPage from './right-sidebar/private-chat-info';
 
-export { HeaderChatsPage, LeftSidebarChatsPage, UserRightSidebarChatsPage, RightSidebarChatsPage, MessagesListChatsPage, MessageInput };
+export { HeaderChatsPage, LeftSidebarChatsPage, PrivateChatInfoFromChatsPage, MessagesListChatsPage, MessageInput, ImagesListFromChatsPage };

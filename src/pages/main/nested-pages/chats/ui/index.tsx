@@ -1,7 +1,8 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 import { Box } from 'shared/ui';
-import { LeftSidebarChatsPage, RightSidebarChatsPage, HeaderChatsPage, MessagesListChatsPage, MessageInput } from 'widgets/chats-page';
+import { LeftSidebarChatsPage, HeaderChatsPage, MessagesListChatsPage, MessageInput } from 'widgets/chats-page';
 
 import styles from './styles.module.scss';
 
@@ -25,7 +26,7 @@ function ChatsPage() {
                 </div>
             </div>
             <div className={styles.rightSidebar}>
-                <RightSidebarChatsPage />
+                <Outlet />
             </div>
         </Box.Animated>
     );
