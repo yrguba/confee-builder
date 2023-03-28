@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { useStyles, useToggle } from 'shared/hooks';
 import { Box, Button } from 'shared/ui';
@@ -14,11 +14,7 @@ function ChatsPage() {
 
     useEffect(() => {
         const lastPath = pathname.split('/').pop() || '';
-        if (['info'].includes(lastPath)) {
-            toggle(true);
-        } else {
-            toggle(false);
-        }
+        toggle(['info'].includes(lastPath));
     }, [pathname]);
 
     const mainColumnClasses = useStyles(styles, 'mainColumn', {

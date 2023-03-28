@@ -1,7 +1,8 @@
 import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
-import { routing_tree } from '../../../../shared/routing';
+import { routing_tree } from 'shared/routing';
+import { UserRightSidebarChatsPage } from 'widgets/chats-page';
 
 const ChatsPage = lazy(() => import('./ui'));
 
