@@ -6,7 +6,7 @@ import { UserDossier } from 'features/user';
 
 import styles from './styles.module.scss';
 
-function ProfileInfoPage() {
+function ProfileFromInfoPage() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.main}>
@@ -26,4 +26,4 @@ function ProfileInfoPage() {
     );
 }
 
-export default ProfileInfoPage;
+export default ProfileFromInfoPage;

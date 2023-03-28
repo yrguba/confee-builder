@@ -1,6 +1,7 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-import { ProfileInfoPage, MediaInfoPage } from 'widgets/info-page';
+import { ProfileFromInfoPage } from 'widgets/user-info-page';
 
 import styles from './styles.module.scss';
 
@@ -8,10 +9,10 @@ function InfoPage() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.profile}>
-                <ProfileInfoPage />
+                <ProfileFromInfoPage />
             </div>
             <div className={styles.media}>
-                <MediaInfoPage />
+                <Outlet />
             </div>
         </div>
     );

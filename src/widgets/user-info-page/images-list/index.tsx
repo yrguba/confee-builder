@@ -5,7 +5,7 @@ import { ChatImagesList } from 'features/chat';
 
 import styles from './styles.module.scss';
 
-function MediaInfoPage() {
+function ImagesListFromUserInfoPage() {
     const params = useParams();
 
     return (
@@ -17,4 +17,4 @@ function MediaInfoPage() {
     );
 }
 
-export default MediaInfoPage;
+export default ImagesListFromUserInfoPage;
