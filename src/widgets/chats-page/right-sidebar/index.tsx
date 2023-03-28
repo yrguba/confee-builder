@@ -9,7 +9,6 @@ import styles from './styles.module.scss';
 function RightSidebarChatsPage() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const path = pathname.split('/').splice(-2, 1).join();
 
     const dictionary: Record<string, { title: string; component: ReactNode }> = {
         private_chat: {
@@ -24,7 +23,8 @@ function RightSidebarChatsPage() {
         navigate(path.join('/'));
     };
 
-    const current = dictionary[path];
+    const path = Object.keys(dictionary).find((i) => pathname.split('/').includes(i));
+    const current = dictionary[path || ''];
 
     return (
         <Box.Animated visible={!!current} className={styles.wrapper} animationVariant="autoWidth">

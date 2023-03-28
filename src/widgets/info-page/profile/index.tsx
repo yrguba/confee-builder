@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { VideoCallBtn, AudioCallBtn, MessagesBtn } from 'features/button';
-import { InfoPageNavigation } from 'features/navbars';
+import { ChatContentNav } from 'features/chat';
 import { UserDossier } from 'features/user';
 
 import styles from './styles.module.scss';
@@ -20,7 +20,7 @@ function ProfileInfoPage() {
                 </div>
             </div>
             <div className={styles.nav}>
-                <InfoPageNavigation />
+                <ChatContentNav />
             </div>
         </div>
     );

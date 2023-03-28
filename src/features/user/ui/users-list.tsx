@@ -11,7 +11,7 @@ function UsersList() {
         console.log(page);
     };
 
-    const userCardClick = (user: userTypes.User) => {
+    const clickOnUserCard = (user: userTypes.User) => {
         console.log(user);
     };
 
@@ -27,7 +27,7 @@ function UsersList() {
     return (
         <UsersListView
             users={users}
-            userCardClick={userCardClick}
+            userCardClick={clickOnUserCard}
             pageClick={pageClick}
             setSelectedUser={setSelectedUser}
             selectedUsersId={selectedUser.map((user) => user.id)}

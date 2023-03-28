@@ -1,18 +1,18 @@
 import React, { lazy } from 'react';
-import { Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 
 import { routing_tree } from 'shared/routing';
 
-import DepartmentPage from './nested-pages/department-staff';
+import departmentStaffRouters from './nested-pages/department-staff';
+import DepartmentPage from './nested-pages/department-staff/ui';
 import userRouters from './nested-pages/user';
-import CompanyPage from './ui';
+
+const CompanyPage = lazy(() => import('./ui'));
 
 const companyRouters = (
     <Route path={routing_tree.main.company.base} element={<CompanyPage />}>
         <Route index element={<DepartmentPage />} />
-        <Route path={`${routing_tree.main.company.department}/:department_name/`} element={<DepartmentPage />}>
-            <Route path={`${routing_tree.main.company.division}/:division_name`} element={<DepartmentPage />} />
-        </Route>
+        {departmentStaffRouters}
         {userRouters}
     </Route>
 );

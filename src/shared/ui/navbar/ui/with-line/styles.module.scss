@@ -4,16 +4,17 @@
 .wrapper {
   .row {
     @include flex;
-    gap: 8px;
+    gap: 4px;
   }
 
   .column {
     @include flex-column();
-    gap: 8px;
+    gap: 4px;
   }
 
-  .item{
+  .item {
     position: relative;
+
     .line {
       @include box-size(100%, 4px);
       position: absolute;

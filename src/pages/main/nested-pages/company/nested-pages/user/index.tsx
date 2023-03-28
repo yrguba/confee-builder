@@ -11,11 +11,15 @@ const FavoritesPage = lazy(() => import('./nested-pages/favorites'));
 const TasksPage = lazy(() => import('./nested-pages/tasks'));
 
 const userRouters = (
-    <Route path="department/:department_name/division/:division_name/user/:user_id/name/:user_name" element={<UserPage />}>
-        <Route path={routing_tree.main.company.messages} element={<MessagesPage />} />
-        <Route path={routing_tree.main.company.favorites} element={<FavoritesPage />} />
-        <Route path={routing_tree.main.company.tasks} element={<TasksPage />} />
-        <Route path={routing_tree.main.company.info} element={<InfoPage />} />
+    <Route path={routing_tree.main.company.user.base} element={<UserPage />}>
+        <Route path={routing_tree.main.company.user.messages} element={<MessagesPage />} />
+        <Route path={routing_tree.main.company.user.favorites} element={<FavoritesPage />} />
+        <Route path={routing_tree.main.company.user.tasks} element={<TasksPage />} />
+        <Route path={routing_tree.main.company.user.info.base} element={<InfoPage />}>
+            <Route path={routing_tree.main.company.user.info.images} element={<InfoPage />} />
+            <Route path={routing_tree.main.company.user.info.videos} element={<InfoPage />} />
+            <Route path={routing_tree.main.company.user.info.files} element={<InfoPage />} />
+        </Route>
     </Route>
 );
 

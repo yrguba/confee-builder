@@ -21,7 +21,7 @@ function UserDossier(props: Props) {
     const user = users?.data.data.find((i: any) => i.id === Number(params.user_id));
 
     const prevUser = usePrevious(user);
-    console.log(user);
+
     // useEffect(() => {
     //     refetch().then();
     // }, [params.user_id]);

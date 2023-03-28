@@ -10,12 +10,12 @@ function ChatsList() {
     const navigate = useNavigate();
     const params = useParams();
 
-    const clickOnChat = (chat: chatTypes.Chat) => {
+    const clickOnChatCard = (chat: chatTypes.Chat) => {
         if (Number(params.chat_id) !== chat.id) {
             navigate(`chat/${chat.id}`);
         }
     };
-    return <ChatListView chats={data?.data?.data || []} clickOnChat={clickOnChat} activeChatId={Number(params.chat_id) || null} />;
+    return <ChatListView chats={data?.data?.data || []} clickOnChat={clickOnChatCard} activeChatId={Number(params.chat_id) || null} />;
 }
 
 export default ChatsList;

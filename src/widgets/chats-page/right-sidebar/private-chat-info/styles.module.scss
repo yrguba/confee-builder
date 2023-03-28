@@ -5,7 +5,20 @@
   @include flex-column(flex-start);
 
   .dossier{
-    @include box-size(252px, 50%);
+    @include box-size(252px, auto);
     @include flex;
+    margin-bottom: 46px;
+  }
+  .nav{
+    @include flex(flex-start);
+    padding: 0 10px;
+    width: 280px;
+    overflow-x: auto;
+    overflow-y:hidden;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
   }
 }
