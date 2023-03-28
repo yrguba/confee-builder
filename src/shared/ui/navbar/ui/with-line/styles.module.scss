@@ -1,0 +1,25 @@
+@import "./src/app/styles";
+
+
+.wrapper {
+  .row {
+    @include flex;
+    gap: 8px;
+  }
+
+  .column {
+    @include flex-column();
+    gap: 8px;
+  }
+
+  .item{
+    position: relative;
+    .line {
+      @include box-size(100%, 4px);
+      position: absolute;
+      bottom: -8px;
+      background-color: var(--main-active);
+      border-radius: 20px;
+    }
+  }
+}

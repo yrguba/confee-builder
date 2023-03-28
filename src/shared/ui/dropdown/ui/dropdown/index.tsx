@@ -21,7 +21,8 @@ function Dropdown(props: DropdownBaseProps) {
         [`position-${position}`]: position,
     });
 
-    const click = () => {
+    const click = (event: any) => {
+        event.preventDefault();
         toggle();
     };
 

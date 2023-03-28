@@ -1,25 +1,48 @@
 import React from 'react';
+import { useParams } from 'react-router';
 
+import { useDate, useStyles } from 'shared/hooks';
 import { baseTypes } from 'shared/types';
-import { Avatar, Title } from 'shared/ui';
+import { Avatar } from 'shared/ui';
 
+import Icons from './icons';
 import styles from './styles.module.scss';
-import { chatTypes } from '../..';
+import { Chat } from '../../model/types';
 
 type Props = {
-    chat: any;
+    chat: Chat | baseTypes.Empty;
+    onClick: (arg: Chat) => void;
+    subtitle: string;
+    showDate?: boolean;
+    showChecked?: boolean;
 } & baseTypes.Statuses;
 
-function Card(props: Props) {
-    const { chat } = props;
+function ChatCardView(props: Props) {
+    const { chat, subtitle, showDate, showChecked, onClick } = props;
+    if (!chat) return null;
+
+    const date = useDate(chat.updated_at);
 
     return (
-        <div className={styles.userCard}>
-            <Avatar name={chat.name} size={32} />
-            <Title width={200}>{chat.name}</Title>
-            <Title width={200}>{chat.lastMsg}</Title>
+        <div className={styles.wrapper} onClick={() => onClick(chat)}>
+            <div className={styles.leftColumn}>
+                <Avatar img={chat.avatar} name={chat.name} size={42} />
+            </div>
+
+            <div className={styles.centerColumn}>
+                <div className={styles.chatName}>{chat.name}</div>
+                <div className={styles.lastMsg}>{subtitle}</div>
+            </div>
+            <div className={styles.rightColumn}>
+                {showDate && <div className={styles.date}>{date}</div>}
+                {showChecked && (
+                    <div className={styles.checked}>
+                        <Icons variants="check" />
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
 
-export default Card;
+export default ChatCardView;

@@ -10,26 +10,33 @@ function CompanyPageNavigation() {
     const params = useParams();
     const { pathname } = useLocation();
 
-    const items: any = Object.keys(params).map((i) => {
+    const pathList = { ...params };
+    delete pathList.user_id;
+    const items: any = Object.keys(pathList).map((i) => {
         if (i.includes('department')) {
             return { id: 1, path: 'department', name: params[i] };
         }
         if (i.includes('division')) {
-            return { id: 3, path: 'division', name: params[i] };
+            return { id: 2, path: 'division', name: params[i] };
         }
-        if (i.includes('user')) {
-            return { id: 4, path: `user/${params[i]}`, name: params[i] };
+        if (i.includes('user_name')) {
+            return { id: 3, path: `user_id/${params.user_id}/user_name/${params.user_name}`, name: params.user_name };
         }
     });
 
-    useEffect(() => {
+    const getLastPath = () => {
         const lastPath = pathname.split('/').pop();
-
-        const enpnt = ['messages', 'favorites', 'tasks', 'info'];
-        if (lastPath && enpnt.includes(lastPath)) {
-            items.push({ id: 5, path: routing_tree.main.company.base, name: lastPath });
+        const endpnt: Record<string, string> = {
+            messages: 'сообщения',
+            favorites: 'избранное',
+            tasks: 'задачи',
+            info: 'информация',
+        };
+        if (lastPath && Object.keys(endpnt).includes(lastPath)) {
+            return { id: 4, path: routing_tree.main.company.path, name: endpnt[lastPath] };
         }
-    }, [pathname]);
+        return { id: 4, path: routing_tree.main.company.path, name: '' };
+    };
 
     const itemClick = (item: BreadcrumbTypes.BreadcrumbItem) => {
         const basePath = '/main/company';
@@ -39,12 +46,11 @@ function CompanyPageNavigation() {
         if (item.path.includes('division')) {
             navigate(`${basePath}/department/${params.department_name}/division/${item.name}`);
         }
-        if (item.path.includes('user')) {
-            navigate(`${basePath}/department/${params.departament_name}/division/${params.division_name}/user/${item.name}/info`);
-        }
     };
 
-    return <Breadcrumb items={[{ id: 0, path: routing_tree.main.company.base, name: 'Компания' }, ...items]} onClick={(item) => itemClick(item)} />;
+    return (
+        <Breadcrumb items={[{ id: 0, path: routing_tree.main.company.base, name: 'Компания' }, ...items, getLastPath()]} onClick={(item) => itemClick(item)} />
+    );
 }
 
 export default CompanyPageNavigation;

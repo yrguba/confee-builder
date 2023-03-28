@@ -6,6 +6,7 @@ import Collapse, { CollapseTypes } from './collapse';
 import Counter, { CounterTypes } from './counter';
 import Dropdown, { DropdownTypes } from './dropdown';
 import Icons, { IconsTypes } from './icons';
+import Image, { ImageTypes } from './image';
 import Input, { InputTypes } from './input';
 import LoadingIndicator, { LoadingIndicatorTypes } from './loading-indicator';
 import Modal, { ModalTypes, useModal } from './modal';
@@ -35,6 +36,7 @@ export {
     Reactions,
     Breadcrumb,
     Pagination,
+    Image,
 };
 export type {
     AvatarTypes,
@@ -54,4 +56,5 @@ export type {
     CollapseTypes,
     BreadcrumbTypes,
     PaginationTypes,
+    ImageTypes,
 };

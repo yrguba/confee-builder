@@ -1,6 +1,11 @@
 @import "./src/app/styles";
 
-.header {
+.wrapper {
   @include box-size(100%, 100%);
   @include flex(flex-start);
+
+  .card {
+    margin-left: 20px;
+    @include box-size(40%, 100%);
+  }
 }

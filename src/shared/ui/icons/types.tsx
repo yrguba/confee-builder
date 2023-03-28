@@ -1,6 +1,7 @@
 export type BaseIconsProps = {
     variants: 'exit';
     color?: string;
+    size?: number;
 };
 
 export type LogoIconsProps = {

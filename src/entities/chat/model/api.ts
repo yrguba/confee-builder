@@ -5,12 +5,27 @@ import { handlers } from 'shared/lib';
 
 import { Chat } from './types';
 
-export const handleGetChats = () => {
-    const getViewerFn = () => $axios.get('/auth/api/v1/users');
-    return useQuery(['get-info'], getViewerFn, {
-        staleTime: 10000 * 30,
-        select: (data) => {
-            return handlers.response<Chat[]>(data);
-        },
-    });
-};
+class ChatApi {
+    pathPrefix = '/api/v2/chats';
+
+    handleGetChat = (data: { chatId: number }) => {
+        return useQuery(['get-chat', data.chatId], () => $axios.get(`${this.pathPrefix}/${data.chatId}`), {
+            staleTime: Infinity,
+            select: (data) => {
+                return handlers.response<{ data: Chat }>(data);
+            },
+            enabled: !!data.chatId,
+        });
+    };
+
+    handleGetChats = () => {
+        return useQuery(['get-chats'], () => $axios.get(this.pathPrefix), {
+            staleTime: Infinity,
+            select: (data) => {
+                return handlers.response<{ data: Chat[] }>(data);
+            },
+        });
+    };
+}
+
+export default new ChatApi();

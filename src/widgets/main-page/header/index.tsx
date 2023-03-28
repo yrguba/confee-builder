@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MainPageNavigation } from 'features/navbars';
 import { ViewerCard } from 'features/viewer';
-import { Icons, Box } from 'shared/ui';
+import { Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
 

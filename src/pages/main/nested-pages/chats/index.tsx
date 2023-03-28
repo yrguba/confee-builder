@@ -1,10 +1,17 @@
 import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
-import { routing_tree } from '../../../../shared/routing';
+import { routing_tree } from 'shared/routing';
+import { UserRightSidebarChatsPage } from 'widgets/chats-page';
 
-const ChatsNestedPage = lazy(() => import('./ui'));
+const ChatsPage = lazy(() => import('./ui'));
 
-const companyRouters = <Route path={routing_tree.main.chats.base} element={<ChatsNestedPage />} />;
+const chatsRouters = (
+    <Route path={`${routing_tree.main.chats.base}`} element={<ChatsPage />}>
+        <Route path="chat/:chat_id" element={<ChatsPage />}>
+            <Route path="info" element={<ChatsPage />} />
+        </Route>
+    </Route>
+);
 
-export default companyRouters;
+export default chatsRouters;

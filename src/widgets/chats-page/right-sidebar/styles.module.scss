@@ -1,13 +1,24 @@
 @import "./src/app/styles";
 
-.sidebar {
+.wrapper {
   @include box-size(100%, 100%);
-  @include flex-column(_, flex-start, 20);
+  @include flex-column(flex-start, flex-start, 20);
 
-  .search {
-    @include box-size(100%, 40px);
+  .header {
+    @include box-size(300px, 56px);
     @include flex;
-    margin-top: 8px;
+    border-bottom: 1px solid var(--bg-outside);
+    gap: 150px;
+
+    .title{
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text-0);
+    }
+
+    .icon{
+      cursor: pointer;
+    }
   }
 
   .list {

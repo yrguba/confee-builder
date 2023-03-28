@@ -1,8 +1,10 @@
-import { useDebounce, useClickAway, useScrolling, useMedia, usePrevious, useWindowSize } from 'react-use';
+import { useDebounce, useClickAway, useScrolling, useMedia, usePrevious, useWindowSize, useScroll } from 'react-use';
 
 import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
+import useDate from './useDate';
 import useEnding from './useEnding';
+import useGrid from './useGrid';
 import useInput from './useInput';
 import useRowAndDropdown from './useRowAndDropdown';
 import useSelected from './useSelected';
@@ -28,4 +30,7 @@ export {
     usePrevious,
     useEnding,
     useWindowSize,
+    useGrid,
+    useDate,
+    useScroll,
 };
