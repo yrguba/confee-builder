@@ -12,7 +12,11 @@ function ChatCard() {
     const { data } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
     const clickOnChat = (chat: chatTypes.Chat) => {
-        navigate(`chat/${chat.id}/info`);
+        if (chat.is_group) {
+            navigate(`chat/${chat.id}/group_chat/${chat.id}`);
+        } else {
+            navigate(`chat/${chat.id}/private_chat/${23}`);
+        }
     };
 
     const chat = data?.data?.data;

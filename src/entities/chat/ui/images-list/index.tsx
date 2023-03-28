@@ -10,7 +10,7 @@ type Props = {
     images: string[];
 } & baseTypes.Statuses;
 
-function UserImagesListView(props: Props) {
+function ChatImagesListView(props: Props) {
     const { images } = props;
 
     const wrapperRef = useRef(null);
@@ -30,4 +30,4 @@ function UserImagesListView(props: Props) {
     );
 }
 
-export default UserImagesListView;
+export default ChatImagesListView;

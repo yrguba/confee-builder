@@ -10,7 +10,7 @@ function UsersList() {
     const pageClick = (page: number) => {
         console.log(page);
     };
-    console.log(data);
+
     const userCardClick = (user: userTypes.User) => {
         console.log(user);
     };

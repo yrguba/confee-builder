@@ -1,35 +1,33 @@
 import React, { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ChatsList } from 'features/chat';
-import { SearchChats } from 'features/search';
-import { Icons } from 'shared/ui';
+import { Box, Icons } from 'shared/ui';
 
+import PrivateChatInfoRightSidebarChatsPage from './private-chat-info';
 import styles from './styles.module.scss';
-import UserRightSidebarChatsPage from './user';
 
 function RightSidebarChatsPage() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const lastPath = pathname.split('/').pop() || '';
+    const path = pathname.split('/').splice(-2, 1).join();
 
     const dictionary: Record<string, { title: string; component: ReactNode }> = {
-        info: {
+        private_chat: {
             title: 'Информация',
-            component: <UserRightSidebarChatsPage />,
+            component: <PrivateChatInfoRightSidebarChatsPage />,
         },
     };
 
     const closeSidebar = () => {
         const path = pathname.split('/');
-        path.splice(-1);
+        path.splice(-2);
         navigate(path.join('/'));
     };
 
-    const current = dictionary[lastPath];
+    const current = dictionary[path];
 
     return (
-        <div className={styles.wrapper}>
+        <Box.Animated visible={!!current} className={styles.wrapper} animationVariant="autoWidth">
             <div className={styles.header}>
                 <div className={styles.title}>{current?.title}</div>
                 <div onClick={closeSidebar} className={styles.icon}>
@@ -37,7 +35,7 @@ function RightSidebarChatsPage() {
                 </div>
             </div>
             <div className={styles.outlet}>{current?.component}</div>
-        </div>
+        </Box.Animated>
     );
 }
 

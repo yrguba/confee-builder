@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import { UserImagesList } from 'features/user';
+import { ChatImagesList } from 'features/chat';
 
 import styles from './styles.module.scss';
 
@@ -11,7 +11,7 @@ function MediaInfoPage() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.list}>
-                <UserImagesList />
+                <ChatImagesList />
             </div>
         </div>
     );

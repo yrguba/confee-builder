@@ -1,11 +1,11 @@
 @import "./src/app/styles";
 
 .wrapper {
-  @include box-size(100%, 100%);
+  @include box-size(300px, 100%);
   @include flex-column(flex-start, flex-start, 20);
 
   .header {
-    @include box-size(300px, 56px);
+    @include box-size(300px, 61px);
     @include flex;
     border-bottom: 1px solid var(--bg-outside);
     gap: 150px;
@@ -21,9 +21,8 @@
     }
   }
 
-  .list {
-    @include flex(center, flex-start);
-    width: 100%;
-    height: calc(100% - 80px);
+  .outlet {
+    @include flex;
+    @include box-size(100%, calc(100% - 61px));
   }
 }

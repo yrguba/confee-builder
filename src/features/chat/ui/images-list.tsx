@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { UserImagesListView, useUserStore } from 'entities/user';
+import { ChatImagesListView } from 'entities/chat';
 
-function UserImagesList() {
+function ChatImagesList() {
     const images = [
         'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
         'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
@@ -118,7 +118,7 @@ function UserImagesList() {
         'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
     ];
 
-    return <UserImagesListView images={images} />;
+    return <ChatImagesListView images={images} />;
 }
 
-export default UserImagesList;
+export default ChatImagesList;

@@ -20,7 +20,7 @@ class AuthApi {
     }
 
     // handleLogout() {
-    //     const logoutFn = (data: null) => $axios.post('/auth/api/v1/user/logout');
+    //     const logoutFn = (data: null) => $axios.post('/auth/api/v1/private-chat-info/logout');
     //     return useMutation(logoutFn);
     // }
 }

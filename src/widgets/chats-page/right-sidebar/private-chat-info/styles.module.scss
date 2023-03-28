@@ -1,0 +1,11 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include box-size(100%, 100%);
+  @include flex-column(flex-start);
+
+  .dossier{
+    @include box-size(252px, 50%);
+    @include flex;
+  }
+}
