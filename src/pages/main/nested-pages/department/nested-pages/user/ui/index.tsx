@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Box } from 'shared/ui';
-import { BreadcrumbCompanyPage } from 'widgets/company-page';
+import { BreadcrumbDepartmentPage } from 'widgets/department-page';
 import { HeaderUserPage } from 'widgets/user-page';
 
 import styles from './styles.module.scss';
@@ -14,7 +14,7 @@ function UserPage() {
                 <HeaderUserPage />
             </div>
             <div className={styles.breadcrumb}>
-                <BreadcrumbCompanyPage />
+                <BreadcrumbDepartmentPage />
             </div>
             <div className={styles.mainRow}>
                 <Outlet />

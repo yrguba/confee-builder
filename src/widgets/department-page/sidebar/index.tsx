@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { SearchDivision } from 'features/search';
+import { SearchDepartment } from 'features/department';
 import { DepartmentsList } from 'features/user';
 
 import styles from './styles.module.scss';
 
-function SidebarCompanyPage() {
+function SidebarFromDepartmentPage() {
     return (
-        <div className={styles.sidebar}>
+        <div className={styles.wrapper}>
             <div className={styles.search}>
-                <SearchDivision />
+                <SearchDepartment />
             </div>
             <div className={styles.list}>
                 <DepartmentsList />
@@ -18,4 +18,4 @@ function SidebarCompanyPage() {
     );
 }
 
-export default SidebarCompanyPage;
+export default SidebarFromDepartmentPage;

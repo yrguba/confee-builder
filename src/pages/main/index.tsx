@@ -4,13 +4,13 @@ import { Navigate, Route } from 'react-router-dom';
 import { routing_tree } from 'shared/routing';
 
 import chatsRouters from './nested-pages/chats';
-import companyRouters from './nested-pages/company';
+import departmentRouters from './nested-pages/department';
 import tasksRouters from './nested-pages/tasks';
 import MainPage from './ui';
 
 const mainRouters = (
     <Route path={routing_tree.main.base} element={<MainPage />}>
-        {companyRouters}
+        {departmentRouters}
         {chatsRouters}
         {tasksRouters}
         <Route path={routing_tree.main.base} element={<Navigate to={routing_tree.main.chats.base} replace />} />

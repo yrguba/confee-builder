@@ -2,18 +2,18 @@ import React from 'react';
 
 import { useUserStore } from 'entities/user';
 import { Box } from 'shared/ui';
-import { BreadcrumbCompanyPage } from 'widgets/company-page';
+import { BreadcrumbDepartmentPage } from 'widgets/department-page';
 import { InfoDepartmentStaffPage, SelectedUsersDepartmentStaffPage } from 'widgets/department-staff-page';
 
 import styles from './styles.module.scss';
 
-function DepartmentPage() {
+function DepartmentStaffPage() {
     const selectedUsers = useUserStore.use.selectedUsers();
 
     return (
         <Box.Animated visible className={styles.page}>
             <div className={styles.header}>
-                <BreadcrumbCompanyPage />
+                <BreadcrumbDepartmentPage />
             </div>
             <div className={styles.maiRow}>
                 <Box.Animated animationVariant="autoHeight" visible={!!selectedUsers.length} className={styles.selectedUsers}>
@@ -34,4 +34,4 @@ function DepartmentPage() {
     );
 }
 
-export default DepartmentPage;
+export default DepartmentStaffPage;

@@ -2,15 +2,15 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Box } from 'shared/ui';
-import { SidebarCompanyPage } from 'widgets/company-page';
+import { SidebarFromDepartmentPage } from 'widgets/department-page';
 
 import styles from './styles.module.scss';
 
-function CompanyPage() {
+function DepartmentPage() {
     return (
         <Box.Animated visible className={styles.page}>
             <div className={styles.sidebar}>
-                <SidebarCompanyPage />
+                <SidebarFromDepartmentPage />
             </div>
             <div className={styles.mainColumn}>
                 <Outlet />
@@ -19,4 +19,4 @@ function CompanyPage() {
     );
 }
 
-export default CompanyPage;
+export default DepartmentPage;

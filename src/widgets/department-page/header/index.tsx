@@ -4,7 +4,7 @@ import { CompanyPageNavigation } from 'features/navbars';
 
 import styles from './styles.module.scss';
 
-function BreadcrumbCompanyPage() {
+function BreadcrumbDepartmentPage() {
     return (
         <div className={styles.header}>
             <div className={styles.nav}>
@@ -14,4 +14,4 @@ function BreadcrumbCompanyPage() {
     );
 }
 
-export default BreadcrumbCompanyPage;
+export default BreadcrumbDepartmentPage;
