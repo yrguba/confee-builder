@@ -1,8 +1,19 @@
-import { RefObject, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
-function useScrollTo(): [executeScroll: () => void, ref: RefObject<any>] {
+type Options = { top?: number; left?: number };
+
+function useScrollTo(): [executeScroll: (options: Options) => void, ref: RefObject<any>] {
     const ref: any = useRef(null);
-    const executeScroll = () => ref.current && ref.current.scrollIntoView();
+
+    const executeScroll = (options: Options) => {
+        if (options?.left) {
+            if (ref.current) {
+                ref.current.scroll({ left: options.left, behavior: 'smooth' });
+            }
+        } else {
+            ref.current && ref.current.scrollIntoView();
+        }
+    };
 
     return [executeScroll, ref];
 }

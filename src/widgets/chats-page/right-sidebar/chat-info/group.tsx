@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { ChatContentNav, ChatDossier } from 'features/chat';
-import { useToggle } from 'shared/hooks';
+import { useScrollTo, useToggle } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -13,6 +13,20 @@ function GroupChatInfoFromChatsPage() {
 
     const [visible, toggle] = useToggle(true);
 
+    const scroll: Record<string, number> = {
+        users: -100,
+        images: 50,
+        videos: 220,
+        files: 400,
+    };
+
+    const [executeScroll, navRef] = useScrollTo();
+
+    useEffect(() => {
+        const lastPath = pathname.split('/').pop();
+        lastPath && executeScroll({ left: scroll[lastPath] });
+    }, [pathname]);
+
     return (
         <Box.Animated visible={visible} className={styles.wrapper} animationVariant="autoWidth">
             <div className={styles.header}>
@@ -22,7 +36,7 @@ function GroupChatInfoFromChatsPage() {
                 <div className={styles.dossier}>
                     <ChatDossier direction="column" />
                 </div>
-                <div className={styles.nav}>
+                <div className={styles.nav} ref={navRef}>
                     <ChatContentNav withUsers />
                 </div>
                 <div className={styles.outlet}>

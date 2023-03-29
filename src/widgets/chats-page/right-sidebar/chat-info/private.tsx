@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { ChatContentNav } from 'features/chat';
 import { UserDossier } from 'features/user';
-import { useToggle } from 'shared/hooks';
+import { useScrollTo, useToggle } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -14,6 +14,19 @@ function PrivateChatInfoFromChatsPage() {
 
     const [visible, toggle] = useToggle(true);
 
+    const scroll: Record<string, number> = {
+        images: -100,
+        videos: 100,
+        files: 300,
+    };
+
+    const [executeScroll, navRef] = useScrollTo();
+
+    useEffect(() => {
+        const lastPath = pathname.split('/').pop();
+        lastPath && executeScroll({ left: scroll[lastPath] });
+    }, [pathname]);
+
     return (
         <Box.Animated visible={visible} className={styles.wrapper} animationVariant="autoWidth">
             <div className={styles.header}>
@@ -23,7 +36,7 @@ function PrivateChatInfoFromChatsPage() {
                 <div className={styles.dossier}>
                     <UserDossier direction="column" />
                 </div>
-                <div className={styles.nav}>
+                <div className={styles.nav} ref={navRef}>
                     <ChatContentNav />
                 </div>
                 <div className={styles.outlet}>
