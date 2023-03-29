@@ -13,7 +13,7 @@ const mainRouters = (
         {companyRouters}
         {chatsRouters}
         {tasksRouters}
-        <Route path={routing_tree.main.base} element={<Navigate to={routing_tree.main.chats.base} replace />} />
+        {/* <Route path={routing_tree.main.base} element={<Navigate to={routing_tree.main.chats.base} replace />} /> */}
     </Route>
 );
 

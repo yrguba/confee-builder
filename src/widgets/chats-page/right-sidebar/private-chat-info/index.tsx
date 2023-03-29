@@ -3,28 +3,20 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { ChatContentNav } from 'features/chat';
 import { UserDossier } from 'features/user';
+import { useToggle } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { Box, Icons } from '../../../../shared/ui';
+import Header from '../header';
 
 function PrivateChatInfoFromChatsPage() {
     const { pathname } = useLocation();
-    const navigate = useNavigate();
 
-    const closeSidebar = () => {
-        const path = pathname.split('/');
-        path.splice(-2);
-        navigate(path.join('/'));
-    };
+    const [visible, toggle] = useToggle(true);
 
     return (
-        <Box.Animated visible className={styles.wrapper} animationVariant="autoWidth">
-            <div className={styles.header}>
-                <div className={styles.title}>Информация</div>
-                <div onClick={closeSidebar} className={styles.icon}>
-                    <Icons variants="exit" />
-                </div>
-            </div>
+        <Box.Animated visible={visible} className={styles.wrapper} animationVariant="autoWidth">
+            <Header toggleVisible={toggle} />
             <div className={styles.dossier}>
                 <UserDossier direction="column" />
             </div>
@@ -32,7 +24,9 @@ function PrivateChatInfoFromChatsPage() {
                 <ChatContentNav />
             </div>
             <div className={styles.outlet}>
-                <Outlet />
+                <Box.Animated key={pathname} visible className={styles.wrapper}>
+                    <Outlet />
+                </Box.Animated>
             </div>
         </Box.Animated>
     );

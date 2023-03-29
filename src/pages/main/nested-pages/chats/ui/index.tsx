@@ -25,6 +25,7 @@ function ChatsPage() {
                     </div>
                 </div>
             </div>
+
             <div className={styles.rightSidebar}>
                 <Outlet />
             </div>

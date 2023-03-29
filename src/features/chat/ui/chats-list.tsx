@@ -12,7 +12,7 @@ function ChatsList() {
 
     const clickOnChatCard = (chat: chatTypes.Chat) => {
         if (Number(params.chat_id) !== chat.id) {
-            navigate(`chat/${chat.id}`);
+            navigate(`/main/chats/chat/${chat.id}`);
         }
     };
     return <ChatListView chats={data?.data?.data || []} clickOnChat={clickOnChatCard} activeChatId={Number(params.chat_id) || null} />;

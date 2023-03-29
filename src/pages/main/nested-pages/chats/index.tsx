@@ -1,5 +1,6 @@
+import { AnimatePresence } from 'framer-motion';
 import React, { lazy } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useLocation } from 'react-router-dom';
 
 import { routing_tree } from 'shared/routing';
 import { ImagesListFromChatsPage, PrivateChatInfoFromChatsPage } from 'widgets/chats-page';
@@ -12,6 +13,14 @@ const chatsRouters = (
         <Route path={routing_tree.main.chats.chat.base} element={<ChatsPage />}>
             <Route path={routing_tree.main.chats.chat.private_chat.base} element={<PrivateChatInfoFromChatsPage />}>
                 <Route path={routing_tree.main.chats.chat.private_chat.images} element={<ImagesListFromChatsPage />} />
+                <Route path={routing_tree.main.chats.chat.private_chat.videos} element={<ImagesListFromChatsPage />} />
+                <Route path={routing_tree.main.chats.chat.private_chat.files} element={<ImagesListFromChatsPage />} />
+            </Route>
+            <Route path={routing_tree.main.chats.chat.group_chat.base} element={<PrivateChatInfoFromChatsPage />}>
+                <Route path={routing_tree.main.chats.chat.group_chat.users} element={<ImagesListFromChatsPage />} />
+                <Route path={routing_tree.main.chats.chat.group_chat.images} element={<ImagesListFromChatsPage />} />
+                <Route path={routing_tree.main.chats.chat.group_chat.videos} element={<ImagesListFromChatsPage />} />
+                <Route path={routing_tree.main.chats.chat.group_chat.files} element={<ImagesListFromChatsPage />} />
             </Route>
         </Route>
     </>
