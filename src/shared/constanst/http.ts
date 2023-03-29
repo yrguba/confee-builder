@@ -1,5 +1,5 @@
-const dev = 'http://dev.hoolichat.ru';
-const prod = 'http://prod.hoolichat.ru';
+const dev = 'https://dev.chat.softworks.ru';
+// const prod = 'http://prod.hoolichat.ru';
 const local = 'http://localhost:5000';
 
 export const url = dev;

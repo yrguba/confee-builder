@@ -1,6 +1,7 @@
-import * as viewerApi from './model/api';
+import ViewerApi from './model/api';
 import useViewerStore from './model/store';
-import * as viewerTypes from './model/types';
-import Card from './ui/card';
+import * as ViewerTypes from './model/types';
+import ViewerCardView from './ui/card';
+import ViewerDossierView from './ui/dossier';
 
-export { useViewerStore, viewerTypes, viewerApi, Card };
+export { useViewerStore, ViewerTypes, ViewerApi, ViewerCardView, ViewerDossierView };

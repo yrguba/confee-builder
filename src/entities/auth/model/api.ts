@@ -18,11 +18,6 @@ class AuthApi {
         const fetch = (data: HandleLogin) => $axios.post('api/v2/authorization/login', { phone: data.username, code: data.password });
         return useMutation(fetch);
     }
-
-    // handleLogout() {
-    //     const logoutFn = (data: null) => $axios.post('/auth/api/v1/private-chat-info/logout');
-    //     return useMutation(logoutFn);
-    // }
 }
 
 export default new AuthApi();

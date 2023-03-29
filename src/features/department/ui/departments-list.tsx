@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { DepartmentsListView, UserApi, userTypes } from 'entities/user';
+import { DepartmentsListView, UserApi, UserTypes } from 'entities/user';
 
 function DepartmentsList() {
     const { data, isLoading, isError } = UserApi.handleGetUsers();

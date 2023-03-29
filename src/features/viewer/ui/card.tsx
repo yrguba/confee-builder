@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Card, useViewerStore, viewerApi } from 'entities/viewer';
+import { ViewerCardView, useViewerStore, ViewerApi } from 'entities/viewer';
 
 function ViewerCard() {
     const { pathname } = useLocation();
@@ -16,7 +16,7 @@ function ViewerCard() {
     };
 
     // return <Card avatar="" name={data?.data?.name || ''} onClick={switchingRoute} />;
-    return <Card avatar="" name="" onClick={switchingRoute} />;
+    return <ViewerCardView avatar="" name="" onClick={switchingRoute} />;
 }
 
 export default ViewerCard;

@@ -4,12 +4,12 @@ import { baseTypes } from 'shared/types';
 import { Avatar, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { userTypes } from '../..';
+import { User } from '../../model/types';
 
 type Props = {
-    user: userTypes.User;
+    user: User;
     size?: 's' | 'm';
-    onClick?: (arg: userTypes.User) => void;
+    onClick?: (arg: User) => void;
 } & baseTypes.Statuses;
 
 function UserCardView(props: Props) {

@@ -3,7 +3,6 @@ import React from 'react';
 import { Avatar, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { http } from '../../../../shared/constanst';
 
 type Props = {
     avatar: string;
@@ -11,7 +10,7 @@ type Props = {
     onClick?: () => void;
 };
 
-function Card(props: Props) {
+function ViewerCardView(props: Props) {
     const { avatar, name, onClick } = props;
 
     return (
@@ -24,4 +23,4 @@ function Card(props: Props) {
     );
 }
 
-export default Card;
+export default ViewerCardView;

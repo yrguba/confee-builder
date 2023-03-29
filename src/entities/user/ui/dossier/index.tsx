@@ -4,13 +4,13 @@ import { baseTypes } from 'shared/types';
 import { Avatar, Box, Button, LoadingIndicator } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { userTypes } from '../..';
 import { useStyles } from '../../../../shared/hooks';
+import { User } from '../../model/types';
 import UserStatusView from '../status';
 
 type Props = {
-    user: userTypes.User | baseTypes.Empty;
-    onClick?: (arg: userTypes.User) => void;
+    user: User | baseTypes.Empty;
+    onClick?: (arg: User) => void;
     direction?: 'column' | 'row';
 } & baseTypes.Statuses;
 

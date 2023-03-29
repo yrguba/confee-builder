@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { UsersListView, UserApi, useUserStore, userTypes } from 'entities/user';
+import { UsersListView, UserApi, useUserStore, UserTypes } from 'entities/user';
 
 function UsersList() {
     const { data, isLoading, isError } = UserApi.handleGetUsers();
@@ -11,7 +11,7 @@ function UsersList() {
         console.log(page);
     };
 
-    const clickOnUserCard = (user: userTypes.User) => {
+    const clickOnUserCard = (user: UserTypes.User) => {
         console.log(user);
     };
 

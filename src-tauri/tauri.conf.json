@@ -146,8 +146,8 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "https://prod.hoolichat.ru/api/v1/files/desktop_upload{{target}}/{{current_version}}",
-        "https://dev.hoolichat.ru/api/v1/files/desktop_upload{{target}}/{{current_version}}"
+        "https://dev.chat.softworks.ru/api/v1/files/get_latest_desktop_release",
+        "https://prod.chat.softworks.ru/api/v1/files/get_latest_desktop_release"
       ],
       "dialog": false,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEVBOTc0NDYyMjk5NjgxMkUKUldRdWdaWXBZa1NYNmhKakdadGdlSEZhRDEyNHh6SklJQlVqT0UrcEF6ZjhQOWFvUm1Pakl4TlcK"

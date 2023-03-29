@@ -4,10 +4,11 @@ import { baseTypes } from 'shared/types';
 import { Box, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { userTypes, UserCardView } from '../..';
+import { User } from '../../model/types';
+import UserCardView from '../card';
 
 type Props = {
-    list: userTypes.User[] | baseTypes.Empty;
+    list: User[] | baseTypes.Empty;
     departmentClick: (arg: any) => void;
     divisionClick: (arg: any) => void;
     userClick: (arg: any) => void;

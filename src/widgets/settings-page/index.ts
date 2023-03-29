@@ -1,3 +1,4 @@
-import HeaderSettingsPage from './header';
+import HeaderFromSettingsPage from './header';
+import MainFromSettingsPage from './main';
 
-export { HeaderSettingsPage };
+export { HeaderFromSettingsPage, MainFromSettingsPage };

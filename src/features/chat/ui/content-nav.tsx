@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useRowAndDropdown } from 'shared/hooks';
+import { useRowAndDropdown, useScrollTo } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
 import { Button, NavbarTypes, Navbar, Counter } from 'shared/ui';
 
@@ -24,7 +24,10 @@ function ChatContentNav(props: Props) {
         { id: 2, text: 'Файлы', path: 'files', breakpoint: 750 },
     ]);
 
+    const [executeScroll, elRef] = useScrollTo();
+
     const onClick = (item: Item) => {
+        executeScroll();
         navigate(item.path);
     };
 
@@ -38,6 +41,7 @@ function ChatContentNav(props: Props) {
 
     const item = (item: Item) => (
         <Button.Link
+            ref={elRef}
             key={item.id}
             active={activeBtnId === item.id}
             onClick={() => onClick(item)}
