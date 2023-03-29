@@ -14,19 +14,9 @@ function ChatDossier(props: Props) {
 
     const params = useParams();
 
-    const queryClient = useQueryClient();
-    // const { data, isLoading, isError, refetch } = UserApi.handleGetUser({ id: params.user_id });
+    const { data, isLoading, isError } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
-    const users: any = queryClient.getQueryData(['get-users']);
-    const user = users?.data.data.find((i: any) => i.id === 23);
-
-    const prevUser = usePrevious(user);
-
-    // useEffect(() => {
-    //     refetch().then();
-    // }, [params.user_id]);
-
-    return <ChatDossierView chat={user || prevUser} loading={false} direction={direction} />;
+    return <ChatDossierView chat={data?.data} loading={isLoading} direction={direction} error={isError} />;
 }
 
 export default ChatDossier;
