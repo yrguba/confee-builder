@@ -6,7 +6,7 @@ import { NavbarWithLineProps } from '../../types';
 
 function WithLine(props: NavbarWithLineProps) {
     const { item, activeItemId, items, direction = 'row', gap = 12 } = props;
-    console.log(activeItemId);
+
     return (
         <div className={styles.wrapper}>
             <div className={styles[direction]} style={{ gap }}>
