@@ -5,17 +5,18 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ChatCardView, ChatService, ChatApi, ChatTypes } from 'entities/chat';
 
 function ChatCard() {
-    const { pathname } = useLocation();
     const navigate = useNavigate();
     const params = useParams();
 
     const { data } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
     const clickOnChat = (chat: ChatTypes.Chat) => {
-        if (chat.is_group) {
-            navigate(`group_chat/${chat.id}/users`);
-        } else {
-            navigate(`private_chat/${23}/images`);
+        if (!ChatService.checkIsOpenChatInfo()) {
+            if (chat.is_group) {
+                navigate(`group_chat/${chat.id}/users`);
+            } else {
+                navigate(`private_chat/${23}/images`);
+            }
         }
     };
 
