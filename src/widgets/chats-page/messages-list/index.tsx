@@ -4,7 +4,7 @@ import { MessagesList } from 'features/message';
 
 import styles from './styles.module.scss';
 
-function MessagesListChatsPage() {
+function MessagesListForChatsPage() {
     return (
         <div className={styles.wrapper}>
             <MessagesList />
@@ -12,4 +12,4 @@ function MessagesListChatsPage() {
     );
 }
 
-export default MessagesListChatsPage;
+export default MessagesListForChatsPage;

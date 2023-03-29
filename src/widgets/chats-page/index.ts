@@ -1,17 +1,17 @@
-import HeaderChatsPage from './header';
-import LeftSidebarChatsPage from './left-sidebar';
-import MessageInput from './message-input';
-import MessagesListChatsPage from './messages-list';
+import HeaderForChatsPage from './header';
+import LeftSidebarForChatsPage from './left-sidebar';
+import MessageInputForChatsPage from './message-input';
+import MessagesListForChatsPage from './messages-list';
 import GroupChatInfoFromChatsPage from './right-sidebar/chat-info/group';
 import ImagesListFromChatsPage from './right-sidebar/chat-info/images-list';
 import PrivateChatInfoFromChatsPage from './right-sidebar/chat-info/private';
 
 export {
-    HeaderChatsPage,
-    LeftSidebarChatsPage,
+    HeaderForChatsPage,
+    LeftSidebarForChatsPage,
     PrivateChatInfoFromChatsPage,
-    MessagesListChatsPage,
-    MessageInput,
+    MessagesListForChatsPage,
+    MessageInputForChatsPage,
     ImagesListFromChatsPage,
     GroupChatInfoFromChatsPage,
 };

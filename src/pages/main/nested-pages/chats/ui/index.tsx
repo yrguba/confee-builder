@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Box } from 'shared/ui';
-import { LeftSidebarChatsPage, HeaderChatsPage, MessagesListChatsPage, MessageInput } from 'widgets/chats-page';
+import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
 import styles from './styles.module.scss';
 
@@ -10,18 +10,18 @@ function ChatsPage() {
     return (
         <Box.Animated visible className={styles.page}>
             <div className={styles.leftSidebar}>
-                <LeftSidebarChatsPage />
+                <LeftSidebarForChatsPage />
             </div>
             <div className={styles.mainColumn}>
                 <div className={styles.header}>
-                    <HeaderChatsPage />
+                    <HeaderForChatsPage />
                 </div>
                 <div className={styles.outlet}>
                     <div className={styles.messageList}>
-                        <MessagesListChatsPage />
+                        <MessagesListForChatsPage />
                     </div>
                     <div className={styles.messageInput}>
-                        <MessageInput />
+                        <MessageInputForChatsPage />
                     </div>
                 </div>
             </div>

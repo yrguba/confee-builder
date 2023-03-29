@@ -4,7 +4,7 @@ import { ChatCard } from 'features/chat';
 
 import styles from './styles.module.scss';
 
-function HeaderChatsPage() {
+function HeaderForChatsPage() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.card}>
@@ -14,4 +14,4 @@ function HeaderChatsPage() {
     );
 }
 
-export default HeaderChatsPage;
+export default HeaderForChatsPage;

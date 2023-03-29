@@ -4,7 +4,7 @@ import { MessageInput } from 'features/message';
 
 import styles from './styles.module.scss';
 
-function MessageInputChatsPage() {
+function MessageInputForChatsPage() {
     return (
         <div className={styles.wrapper}>
             <MessageInput />
@@ -12,4 +12,4 @@ function MessageInputChatsPage() {
     );
 }
 
-export default MessageInputChatsPage;
+export default MessageInputForChatsPage;
