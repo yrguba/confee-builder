@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes } from 'react';
 import { FieldErrors } from 'react-hook-form';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Button, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -10,7 +10,7 @@ type Props = {
     register: (arg: any) => InputHTMLAttributes<HTMLInputElement>;
     handleSubmit: () => Promise<any>;
     isLoading: boolean;
-    errors: FieldErrors<{ login: baseTypes.Error; password: baseTypes.Error }>;
+    errors: FieldErrors<{ login: BaseTypes.Error; password: BaseTypes.Error }>;
 };
 
 function Login(props: Props) {

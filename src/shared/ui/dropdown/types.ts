@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 
 import { AnimationVariants } from '../box/types';
 
@@ -11,4 +11,4 @@ export type DropdownBaseProps = {
     position?: 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
     animationVariant?: AnimationVariants;
     openCloseTrigger?: (arg: boolean) => void;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;

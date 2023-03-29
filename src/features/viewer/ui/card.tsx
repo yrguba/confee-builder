@@ -7,7 +7,7 @@ function ViewerCard() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
-    // const { data, isLoading } = viewerApi.handleGetViewer();
+    const { data, isLoading } = ViewerApi.handleGetViewer();
 
     const switchingRoute = () => {
         const basePath = pathname.split('/')[1];
@@ -15,8 +15,7 @@ function ViewerCard() {
         if (basePath === 'settings') navigate('/info');
     };
 
-    // return <Card avatar="" name={data?.data?.name || ''} onClick={switchingRoute} />;
-    return <ViewerCardView avatar="" name="" onClick={switchingRoute} />;
+    return <ViewerCardView viewer={data?.data?.data} onClick={switchingRoute} />;
 }
 
 export default ViewerCard;

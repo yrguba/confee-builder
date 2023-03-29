@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Box, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -11,7 +11,7 @@ type Props = {
     chats: Chat[];
     clickOnChat: (arg: Chat) => void;
     activeChatId: number | null;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function ChatListView(props: Props) {
     const { chats, clickOnChat, loading, error, activeChatId } = props;

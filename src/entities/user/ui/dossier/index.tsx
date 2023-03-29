@@ -1,18 +1,19 @@
 import React from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Button, LoadingIndicator } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useStyles } from '../../../../shared/hooks';
+import { ViewerTypes } from '../../../viewer';
 import { User } from '../../model/types';
 import UserStatusView from '../status';
 
 type Props = {
-    user: User | baseTypes.Empty;
+    user: User | ViewerTypes.Viewer | BaseTypes.Empty;
     onClick?: (arg: User) => void;
     direction?: 'column' | 'row';
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function UserDossierView(props: Props) {
     const { user, onClick, loading, direction, error } = props;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Box, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -8,11 +8,11 @@ import { User } from '../../model/types';
 import UserCardView from '../card';
 
 type Props = {
-    list: User[] | baseTypes.Empty;
+    list: User[] | BaseTypes.Empty;
     departmentClick: (arg: any) => void;
     divisionClick: (arg: any) => void;
     userClick: (arg: any) => void;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function DepartmentsListView(props: Props) {
     const { list, loading, error, departmentClick, divisionClick, userClick } = props;

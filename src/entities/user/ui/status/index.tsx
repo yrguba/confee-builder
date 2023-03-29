@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
 import { UserStatuses } from '../../model/types';
 
 type Props = {
     status: UserStatuses;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function UserStatusView(props: Props) {
     const { status } = props;

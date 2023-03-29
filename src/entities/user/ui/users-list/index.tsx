@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Button, Pagination, PaginationTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -8,12 +8,12 @@ import { User } from '../../model/types';
 import UserCardView from '../card';
 
 type Props = {
-    users: User[] | baseTypes.Empty;
+    users: User[] | BaseTypes.Empty;
     pageClick: PaginationTypes.PageClick;
     setSelectedUser: (arg: User) => void;
     selectedUsersId: number[];
     userCardClick: (arg: User) => void;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function UsersListView(props: Props) {
     const { users, pageClick, setSelectedUser, selectedUsersId, userCardClick } = props;

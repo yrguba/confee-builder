@@ -1,7 +1,7 @@
 import React, { useRef, UIEvent, forwardRef } from 'react';
 
 import { useScroll, useSize } from 'shared/hooks';
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Dropdown } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -15,7 +15,7 @@ type Props = {
     handleScroll: (target: any) => void;
     textMessageMenuItems: MessageMenuItem[];
     reactionClick: (arg: string) => void;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 const MessagesListView = forwardRef<HTMLDivElement, Props>((props: Props, ref) => {
     const { messages, handleScroll, textMessageMenuItems, reactionClick } = props;

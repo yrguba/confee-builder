@@ -7,11 +7,11 @@ import { Viewer } from './types';
 
 class ViewerApi {
     handleGetViewer() {
-        const getViewerFn = () => $axios.get('/auth/api/v1/user');
+        const getViewerFn = () => $axios.get('/api/v2/profile');
         return useQuery(['get-viewer'], getViewerFn, {
-            staleTime: 10000 * 30,
+            staleTime: Infinity,
             select: (data) => {
-                return handlers.response<Viewer>(data);
+                return handlers.response<{ data: Viewer }>(data);
             },
         });
     }

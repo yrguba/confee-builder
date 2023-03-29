@@ -1,3 +1,3 @@
-import * as baseTypes from './base';
+import * as BaseTypes from './base';
 
-export { baseTypes };
+export { BaseTypes };

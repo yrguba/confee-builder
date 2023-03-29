@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Avatar, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -10,7 +10,7 @@ type Props = {
     user: User;
     size?: 's' | 'm';
     onClick?: (arg: User) => void;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function UserCardView(props: Props) {
     const { user, size = 's', onClick } = props;

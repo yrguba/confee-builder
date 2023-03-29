@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Avatar } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -10,7 +10,7 @@ type Props = {
     avatar: string;
     name: string;
     date: string;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function Wrapper(props: Props) {
     const { children, avatar, name, date } = props;

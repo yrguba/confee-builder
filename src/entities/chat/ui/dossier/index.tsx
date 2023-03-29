@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useStyles } from 'shared/hooks';
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Button, LoadingIndicator } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -9,11 +9,11 @@ import { UserCardView } from '../../../user';
 import { Chat } from '../../model/types';
 
 type Props = {
-    // chat: Chat | baseTypes.Empty;
+    // chat: Chat | BaseTypes.Empty;
     chat: any;
     onClick?: (arg: Chat) => void;
     direction?: 'column' | 'row';
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function ChatDossierView(props: Props) {
     const { chat, onClick, loading, direction = 'column', error } = props;

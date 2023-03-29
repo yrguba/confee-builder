@@ -1,25 +1,24 @@
 import React from 'react';
 
-import { baseTypes } from 'shared/types';
-import { Button, LoadingIndicator } from 'shared/ui';
+import { BaseTypes } from 'shared/types';
+import { Box, Button } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
-import { UserDossierView, UserTypes } from '../../../user';
+import { UserDossierView } from '../../../user';
 import { Viewer } from '../../model/types';
 
 type Props = {
-    viewer: (UserTypes.User & Viewer) | baseTypes.Empty;
+    viewer: Viewer | BaseTypes.Empty;
     logoutClick: () => void;
     replaceAvatarClick: () => void;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function ViewerDossierView(props: Props) {
-    const { viewer, logoutClick, replaceAvatarClick, loading, error } = props;
+    const { viewer, logoutClick, replaceAvatarClick, loading } = props;
 
     return (
-        <div className={styles.wrapper}>
-            <LoadingIndicator.Glare visible={!!loading} />
+        <Box className={styles.wrapper} loading={!!loading}>
             {viewer && (
                 <>
                     <div className={styles.dossier}>
@@ -34,7 +33,7 @@ function ViewerDossierView(props: Props) {
                     </div>
                 </>
             )}
-        </div>
+        </Box>
     );
 }
 

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 
 import { useSize, useGrid, useStyles } from 'shared/hooks';
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -11,7 +11,7 @@ type Props = {
     gap?: number;
     imgSize?: number;
     hardGrid?: boolean;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function ChatImagesListView(props: Props) {
     const { images, imgSize = 200, gap, hardGrid } = props;

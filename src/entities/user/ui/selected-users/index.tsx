@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useEnding, useRowAndDropdown } from 'shared/hooks';
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Box, Collapse, Avatar, Icons, Button, Navbar } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -12,7 +12,7 @@ type Props = {
     users: User[];
     deleteUser: (arg: User) => void;
     clearSelectedUsers: () => void;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function SelectedUsersView(props: Props) {
     const { users, deleteUser, clearSelectedUsers } = props;
