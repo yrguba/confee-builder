@@ -1,7 +1,6 @@
 import React from 'react';
-import { useParams } from 'react-router';
 
-import { useDate, useStyles } from 'shared/hooks';
+import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Avatar } from 'shared/ui';
 
