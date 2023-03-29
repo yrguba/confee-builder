@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import { useSize, useGrid } from 'shared/hooks';
+import { useSize, useGrid, useStyles } from 'shared/hooks';
 import { baseTypes } from 'shared/types';
 import { Image } from 'shared/ui';
 
@@ -24,15 +24,19 @@ function ChatImagesListView(props: Props) {
 
     const getStyles = () => {
         if (hardGrid) {
-            return { gap, gridTemplateColumns: `repeat(${3}, ${imgSize}px)`, gridTemplateRows: `repeat(${row + 1}, ${imgSize}px)` };
+            return { gap };
         }
         return { gap, gridTemplateColumns: `repeat(${column}, 1fr)`, gridTemplateRows: `repeat(${row}, 200px)` };
     };
 
+    const classes = useStyles(styles, 'wrapper', {
+        hardGrid,
+    });
+
     return (
-        <div ref={wrapperRef} style={getStyles()} className={styles.wrapper}>
+        <div ref={wrapperRef} style={getStyles()} className={classes}>
             {images.map((img, index) => (
-                <div key={index} className={styles.img}>
+                <div key={index} className={styles.img} style={hardGrid ? { width: imgSize, height: imgSize } : {}}>
                     <Image key={index} img={img} />
                 </div>
             ))}

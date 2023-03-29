@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ChatCardView, ChatService, ChatApi, chatTypes } from 'entities/chat';
+import { ChatCardView, ChatService, ChatApi, ChatTypes } from 'entities/chat';
 
 function ChatCard() {
     const { pathname } = useLocation();
@@ -11,7 +11,7 @@ function ChatCard() {
 
     const { data } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
-    const clickOnChat = (chat: chatTypes.Chat) => {
+    const clickOnChat = (chat: ChatTypes.Chat) => {
         if (chat.is_group) {
             navigate(`group_chat/${chat.id}/users`);
         } else {

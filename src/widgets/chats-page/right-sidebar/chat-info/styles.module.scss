@@ -1,0 +1,44 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include box-size(100%, 100%);
+  @include flex-column;
+
+  .header {
+    @include box-size(100%, 59px);
+  }
+
+  .main {
+    @include box-size(100%, calc(100% - 59px - 24px));
+    @include flex-column(flex-start);
+    padding: 12px 0;
+
+    .dossier {
+      @include box-size(252px, 450px);
+      @include flex;
+      margin-bottom: 30px;
+    }
+
+    .nav {
+      @include flex(flex-start);
+      padding: 0 10px;
+      width: 280px;
+      height: 30px;
+      min-height: 30px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      border-bottom: 1px solid var(--icon-inactive);
+
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+    }
+
+    .outlet {
+      margin: 12px 0;
+      @include box-size(300px, calc(100% - 510px));
+    }
+  }
+}
+

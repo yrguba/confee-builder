@@ -2,11 +2,10 @@
 
 
 .wrapper {
-  @include box-size(300px, 61px);
+  @include box-size(300px, 59px);
   @include flex;
   border-bottom: 1px solid var(--bg-outside);
   gap: 150px;
-  margin-bottom: 24px;
 
   .title {
     font-weight: 600;

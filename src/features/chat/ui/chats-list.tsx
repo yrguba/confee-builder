@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
-import { ChatListView, ChatApi, chatTypes } from 'entities/chat';
+import { ChatListView, ChatApi, ChatTypes } from 'entities/chat';
 
 function ChatsList() {
     const { data, isLoading } = ChatApi.handleGetChats();
@@ -10,7 +10,7 @@ function ChatsList() {
     const navigate = useNavigate();
     const params = useParams();
 
-    const clickOnChatCard = (chat: chatTypes.Chat) => {
+    const clickOnChatCard = (chat: ChatTypes.Chat) => {
         if (Number(params.chat_id) !== chat.id) {
             navigate(`/main/chats/chat/${chat.id}`);
         }

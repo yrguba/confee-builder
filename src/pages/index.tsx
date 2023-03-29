@@ -26,7 +26,7 @@ function Routing() {
         <Routes location={location}>
             {mainRouters}
             {settingsRouters}
-            {/* <Route path="*" element={<Navigate to={routing_tree.main.base} replace />} /> */}
+            <Route path="*" element={<Navigate to={routing_tree.main.base} replace />} />
         </Routes>
     );
 
