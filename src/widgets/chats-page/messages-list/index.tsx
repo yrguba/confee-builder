@@ -1,14 +1,17 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { MessagesList } from 'features/message';
+import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 function MessagesListForChatsPage() {
+    const { pathname } = useLocation();
     return (
-        <div className={styles.wrapper}>
+        <Box.Animated visible key={pathname.split('/')[4]} className={styles.wrapper}>
             <MessagesList />
-        </div>
+        </Box.Animated>
     );
 }
 

@@ -21,14 +21,14 @@ function MessageList(props: Props) {
     });
 
     const handleScroll = ({ target }: any) => {
-        const bottom = target?.scrollHeight - (target.scrollTop + target.clientHeight) < 100;
-
-        if (!isFetching && hasNextPage && target.scrollTop < 100) {
-            fetchNextPage().then();
-        }
-        if (!isFetching && hasPreviousPage && bottom) {
-            fetchPreviousPage().then();
-        }
+        // const bottom = target?.scrollHeight - (target.scrollTop + target.clientHeight) < 100;
+        //
+        // if (!isFetching && hasNextPage && target.scrollTop < 100) {
+        //     fetchNextPage().then();
+        // }
+        // if (!isFetching && hasPreviousPage && bottom) {
+        //     fetchPreviousPage().then();
+        // }
     };
 
     const reactionClick = (emoji: any) => {
@@ -51,10 +51,11 @@ function MessageList(props: Props) {
             wrapperRef.current.scroll({ top: wrapperRef.current.scrollHeight });
         }
     }, [wrapperRef.current]);
+    console.log('render');
 
     return (
         <MessagesListView
-            messages={data ? data.pages.reduce((acc: any, item: any) => [...acc, ...item.data.data.reverse()], []) : []}
+            pages={data?.pages.map((page) => page.data.data)}
             handleScroll={handleScroll}
             ref={wrapperRef}
             textMessageMenuItems={items}

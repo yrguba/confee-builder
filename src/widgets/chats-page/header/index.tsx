@@ -14,10 +14,14 @@ function HeaderForChatsPage() {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.card}>
+            <Box.Animated visible={ChatService.checkIsOpenChat()} key={pathname.split('/')[4]} className={styles.card}>
                 <ChatCard />
-            </div>
-            <Box.Animated visible={!ChatService.checkIsOpenChatInfo()} animationVariant="autoWidth" className={styles.rightColumn}>
+            </Box.Animated>
+            <Box.Animated
+                visible={ChatService.checkIsOpenChat() && !ChatService.checkIsOpenChatInfo()}
+                animationVariant="autoWidth"
+                className={styles.rightColumn}
+            >
                 <SearchMessages />
                 <VideoCallBtn />
                 <AudioCallBtn />
