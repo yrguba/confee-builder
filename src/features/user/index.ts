@@ -1,6 +1,6 @@
-import DepartmentsList from './ui/departments-list';
 import UserDossier from './ui/dossier';
+import SearchUsers from './ui/search';
 import SelectedUsers from './ui/selected-users';
 import UsersList from './ui/users-list';
 
-export { DepartmentsList, UsersList, UserDossier, SelectedUsers };
+export { UsersList, UserDossier, SelectedUsers, SearchUsers };

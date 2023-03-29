@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { routing_tree } from 'shared/routing';
 import { Breadcrumb, BreadcrumbTypes } from 'shared/ui';
 
-function CompanyPageNavigation() {
+function DepartmentPageNavigation() {
     const navigate = useNavigate();
     const params = useParams();
     const { pathname } = useLocation();
@@ -53,4 +53,4 @@ function CompanyPageNavigation() {
     );
 }
 
-export default CompanyPageNavigation;
+export default DepartmentPageNavigation;

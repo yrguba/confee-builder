@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { SearchDepartment } from 'features/department';
-import { DepartmentsList } from 'features/user';
+import { SearchDepartment, DepartmentsList } from 'features/department';
 
 import styles from './styles.module.scss';
 

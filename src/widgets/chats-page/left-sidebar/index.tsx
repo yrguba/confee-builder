@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { ChatsList } from 'features/chat';
-import { SearchChats } from 'features/search';
+import { ChatsList, SearchChats } from 'features/chat';
 
 import styles from './styles.module.scss';
 

@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { CompanyPageNavigation } from 'features/navbars';
+import { DepartmentPageNavigation } from 'features/navbars';
 
 import styles from './styles.module.scss';
 
 function BreadcrumbDepartmentPage() {
     return (
-        <div className={styles.header}>
+        <div className={styles.wrapper}>
             <div className={styles.nav}>
-                <CompanyPageNavigation />
+                <DepartmentPageNavigation />
             </div>
         </div>
     );
