@@ -17,7 +17,7 @@ class ViewerApi {
     }
 
     handleLogout() {
-        return useMutation((data: null) => $axios.post('/auth/api/v1/user/logout'));
+        return useMutation((data: null) => $axios.post('/api/v2/authorization/logout'));
     }
 }
 

@@ -8,7 +8,9 @@ import styles from './styles.module.scss';
 function MainFromSettingsPage() {
     return (
         <div className={styles.wrapper}>
-            <ViewerDossier />
+            <div className={styles.dossier}>
+                <ViewerDossier />
+            </div>
         </div>
     );
 }

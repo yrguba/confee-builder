@@ -1,27 +1,14 @@
 @import "./src/app/styles";
 
 .wrapper{
-  @include flex;
+  @include flex-column(flex-end );
   @include box-size(100%, 44px);
   gap: 12px;
 
-  .input{
-    @include box-size(90%, 100%);
-    @include flex(flex-start);
-    gap: 10px;
-    padding-left: 12px;
-    background-color: var(--bg-03);
-    border-radius: 10px;
-
-    .icon{
-      @include flex;
-    }
-
-    .textarea{
-      @include flex;
-      @include box-size(90%, 80%);
-      align-self: flex-end;
-    }
+  .title{
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-0);
   }
 }
 

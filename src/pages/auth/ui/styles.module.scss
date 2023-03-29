@@ -1,6 +1,6 @@
 @import "../../../app/styles/index";
 
-.auth{
+.wrapper{
   @include box-size(100%, 100vh);
   @include flex;
   background-color: var(--bg-0);
@@ -10,8 +10,7 @@
     @include position(absolute, 20px, 20px)
   }
 
-  .wrapper{
-    @include flex-column;
-    gap: 70px;
+  .form{
+
   }
 }

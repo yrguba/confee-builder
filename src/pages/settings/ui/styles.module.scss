@@ -3,6 +3,7 @@
 .wrapper {
   @include box-size(100%, 100%);
   @include flex-column;
+  background-color: var(--bg-03);
 
   .header {
     @include box-size(100%, 60px);
@@ -11,15 +12,21 @@
   }
 
   .mainRow {
-    @include flex(center, flex-start);
+    @include flex-column(flex-start, center);
     @include box-size(100%, calc(100% - 60px));
+    gap: 22px;
     padding-top: 22px;
-    background-color: var(--bg-03);
-
+    max-width: 940px;
     .main {
-      width: 70%;
-      max-width: 940px;
-      height: 254px;
+
+      @include box-size(100%, 254px)
+    }
+    .privacy{
+      @include box-size(100%, 154px)
+    }
+
+    .checkUpdate{
+      @include box-size(100%, 154px)
     }
   }
 }
