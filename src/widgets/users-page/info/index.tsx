@@ -5,7 +5,7 @@ import { SearchUsers, UsersList } from 'features/user';
 
 import styles from './styles.module.scss';
 
-function InfoDepartmentStaffPage() {
+function UsersListFromUsersPage() {
     const params = useParams();
 
     const getPlaceholderAnaTitle = () => {
@@ -31,4 +31,4 @@ function InfoDepartmentStaffPage() {
     );
 }
 
-export default InfoDepartmentStaffPage;
+export default UsersListFromUsersPage;
