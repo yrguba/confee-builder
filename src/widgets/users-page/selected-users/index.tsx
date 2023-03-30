@@ -1,11 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router';
 
 import { SelectedUsers } from 'features/user';
 
 import styles from './styles.module.scss';
 
-function SelectedUsersDepartmentStaffPage() {
+function SelectedUsersFromUsersPage() {
     return (
         <div className={styles.wrapper}>
             <SelectedUsers />
@@ -13,4 +12,4 @@ function SelectedUsersDepartmentStaffPage() {
     );
 }
 
-export default SelectedUsersDepartmentStaffPage;
+export default SelectedUsersFromUsersPage;

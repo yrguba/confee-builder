@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from scripts import git_pushing
+from scripts import git_pushing, git_mirroring
 
 menu_options = {
     1: 'git pushing',
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         if option == 1:
             git_pushing.start()
         elif option == 2:
-            os.chdir(Path('py-scripts/scripts/git_mirroring.py').resolve())
+            git_mirroring.start()
         elif option == 3:
             print('exit from web-py-scripts')
             exit()
