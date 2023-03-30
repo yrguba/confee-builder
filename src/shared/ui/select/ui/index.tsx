@@ -22,7 +22,7 @@ function Select(props: SelectProps) {
             ))}
         </div>
     );
-    console.log(value);
+
     return (
         <Dropdown openCloseTrigger={(isOpen) => toggle(isOpen)} animationVariant="autoHeight" position="bottom-center" content={content}>
             <div className={styles.select}>

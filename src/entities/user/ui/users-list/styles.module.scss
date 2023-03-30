@@ -6,7 +6,26 @@
   gap: 10px;
   overflow: hidden;
 
-  .header {
+  .header{
+    @include flex(space-between);
+    @include box-size(96%, 8%);
+    column-gap: 12px;
+    flex-wrap: wrap;
+
+    .name{
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--text-0);
+      padding-left: 20px;
+    }
+
+    .filterAndSearch{
+      @include flex;
+      width: 400px;
+      gap: 8px;
+    }
+  }
+  .columnsNames {
     @include box-size(100%, 60px);
     @include flex;
     border-bottom: 1px dashed var(--stroke-1);
