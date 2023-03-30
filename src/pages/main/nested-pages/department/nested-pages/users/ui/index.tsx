@@ -3,11 +3,11 @@ import React from 'react';
 import { useUserStore } from 'entities/user';
 import { Box } from 'shared/ui';
 import { BreadcrumbDepartmentPage } from 'widgets/department-page';
-import { InfoDepartmentStaffPage, SelectedUsersDepartmentStaffPage } from 'widgets/department-staff-page';
+import { UsersListFromUsersPage, SelectedUsersFromUsersPage } from 'widgets/users-page';
 
 import styles from './styles.module.scss';
 
-function DepartmentStaffPage() {
+function UsersPage() {
     const selectedUsers = useUserStore.use.selectedUsers();
 
     return (
@@ -17,7 +17,7 @@ function DepartmentStaffPage() {
             </div>
             <div className={styles.maiRow}>
                 <Box.Animated animationVariant="autoHeight" visible={!!selectedUsers.length} className={styles.selectedUsers}>
-                    <SelectedUsersDepartmentStaffPage />
+                    <SelectedUsersFromUsersPage />
                 </Box.Animated>
                 <Box.Animated
                     presenceProps={{ initial: false }}
@@ -27,11 +27,11 @@ function DepartmentStaffPage() {
                     visible
                     className={styles.info}
                 >
-                    <InfoDepartmentStaffPage />
+                    <UsersListFromUsersPage />
                 </Box.Animated>
             </div>
         </Box.Animated>
     );
 }
 
-export default DepartmentStaffPage;
+export default UsersPage;

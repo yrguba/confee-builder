@@ -4,8 +4,8 @@ import { BaseTypes } from 'shared/types';
 import { Box, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { User } from '../../model/types';
-import UserCardView from '../card';
+import { User } from '../../../user/model/types';
+import UserCardView from '../../../user/ui/card';
 
 type Props = {
     list: User[] | BaseTypes.Empty;
