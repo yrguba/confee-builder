@@ -17,6 +17,7 @@ function CheckUpdateView(props: Props) {
         <div className={styles.wrapper}>
             <div className={styles.title}>проверить доступные обновления</div>
             <div className={styles.currentVersion}>У вас установлена версия: {project.version}</div>
+            {updateAvailable && <div>Доступна новая версия</div>}
             {updateAvailable ? <Button onClick={() => updateApp()}>обновить</Button> : 'Нет тоступных обновлений'}
         </div>
     );

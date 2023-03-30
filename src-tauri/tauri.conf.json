@@ -67,7 +67,7 @@
         "all": false
       },
       "http": {
-        "all": false,
+        "all": true,
         "request": false,
         "scope": []
       },
