@@ -1,14 +1,16 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Button, Pagination, PaginationTypes } from 'shared/ui';
+import { Button, Input, Pagination, PaginationTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { User } from '../../model/types';
 import UserCardView from '../card';
+import UsersFilterView from '../users-filter';
 
 type Props = {
     users: User[] | BaseTypes.Empty;
+    headerTitle: string;
     pageClick: PaginationTypes.PageClick;
     setSelectedUser: (arg: User) => void;
     selectedUsersId: number[];
@@ -16,11 +18,18 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function UsersListView(props: Props) {
-    const { users, pageClick, setSelectedUser, selectedUsersId, userCardClick } = props;
+    const { users, headerTitle, pageClick, setSelectedUser, selectedUsersId, userCardClick } = props;
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
+                <div className={styles.name}>{headerTitle}</div>
+                <div className={styles.filterAndSearch}>
+                    <UsersFilterView />
+                    <Input.Search placeholder="Поиск по сотрудникам отдела" />
+                </div>
+            </div>
+            <div className={styles.columnsNames}>
                 <div className={styles.content}>
                     <div className={styles.usersColumn}>Сотрудники отдела</div>
                     <div className={styles.roleColumn}>Должность</div>

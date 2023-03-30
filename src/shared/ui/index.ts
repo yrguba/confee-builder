@@ -5,7 +5,6 @@ import Button, { ButtonTypes } from './button';
 import Collapse, { CollapseTypes } from './collapse';
 import Counter, { CounterTypes } from './counter';
 import Dropdown, { DropdownTypes } from './dropdown';
-import Filter, { FilterTypes } from './filter';
 import Icons, { IconsTypes } from './icons';
 import Image, { ImageTypes } from './image';
 import Input, { InputTypes } from './input';
@@ -38,7 +37,6 @@ export {
     Breadcrumb,
     Pagination,
     Image,
-    Filter,
 };
 export type {
     AvatarTypes,
@@ -59,5 +57,4 @@ export type {
     BreadcrumbTypes,
     PaginationTypes,
     ImageTypes,
-    FilterTypes,
 };

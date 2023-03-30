@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 import { UsersListView, UserApi, useUserStore, UserTypes } from 'entities/user';
 
 function UsersList() {
+    const params = useParams();
     const { data, isLoading, isError } = UserApi.handleGetUsers();
     const setSelectedUser = useUserStore.use.setSelectedUsers();
     const selectedUser = useUserStore.use.selectedUsers();
@@ -27,6 +29,7 @@ function UsersList() {
     return (
         <UsersListView
             users={users}
+            headerTitle={params.division_name || params.department_name || 'Все сотрудники'}
             userCardClick={clickOnUserCard}
             pageClick={pageClick}
             setSelectedUser={setSelectedUser}
