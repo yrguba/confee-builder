@@ -68,8 +68,10 @@
       },
       "http": {
         "all": true,
-        "request": false,
-        "scope": []
+        "scope": [
+          "https://dev.chat.softworks.ru",
+          "https://prod.chat.softworks.ru"
+        ]
       },
       "notification": {
         "all": true
