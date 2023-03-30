@@ -13,27 +13,5 @@
   @include flex;
   font-size: 18px;
   color: var(--error-color);
-  box-shadow: var(--box-shadow-active) inset;
   overflow: hidden;
-  animation: pulse 2s ease-out infinite;
-}
-
-.animateLoading{
-  @include box-size(100%, 100%);
-  @include flex;
-  overflow: hidden;
-  position: relative;
-  background-color: #2A313C;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: var(--box-shadow-active) inset;
-  }
-  70% {
-    box-shadow: var(--box-shadow-cuccess) inset;
-  }
-  100% {
-    box-shadow: var(--box-shadow-active) inset;
-  }
 }

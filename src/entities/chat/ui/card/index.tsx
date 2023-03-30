@@ -1,8 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router';
 
-import { useDate, useStyles } from 'shared/hooks';
-import { baseTypes } from 'shared/types';
+import { useDate } from 'shared/hooks';
+import { BaseTypes } from 'shared/types';
 import { Avatar } from 'shared/ui';
 
 import Icons from './icons';
@@ -10,12 +9,12 @@ import styles from './styles.module.scss';
 import { Chat } from '../../model/types';
 
 type Props = {
-    chat: Chat | baseTypes.Empty;
+    chat: Chat | BaseTypes.Empty;
     onClick: (arg: Chat) => void;
     subtitle: string;
     showDate?: boolean;
     showChecked?: boolean;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function ChatCardView(props: Props) {
     const { chat, subtitle, showDate, showChecked, onClick } = props;

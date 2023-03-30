@@ -1,4 +1,4 @@
-import { userTypes } from '../../user';
+import { UserTypes } from '../../user';
 
 export type Content = {
     extension: string;
@@ -13,7 +13,7 @@ export type MessageStatus = 'pending' | 'read';
 export type Massage = {
     id: number;
     text: string;
-    user: userTypes.User;
+    user: UserTypes.User;
     message_type: MessageType;
     message_status: MessageStatus;
     reactions: object;

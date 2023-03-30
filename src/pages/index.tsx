@@ -1,5 +1,6 @@
+import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
 import { SizeWarningPage } from 'pages/warning';
 import { useWindowSize } from 'shared/hooks';
@@ -20,9 +21,9 @@ function Routing() {
             isAuth !== res && toggle(res);
         });
     }, []);
-
+    const location = useLocation();
     const privateRoutes = (
-        <Routes>
+        <Routes location={location}>
             {mainRouters}
             {settingsRouters}
             <Route path="*" element={<Navigate to={routing_tree.main.base} replace />} />

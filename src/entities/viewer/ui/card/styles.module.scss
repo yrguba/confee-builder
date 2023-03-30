@@ -1,7 +1,15 @@
 @import "./src/app/styles";
 
-.card {
+.wrapper {
   @include flex(flex-end);
   gap: 12px;
   cursor: pointer;
+
+  .name{
+
+  }
+
+  .avatar{
+
+  }
 }

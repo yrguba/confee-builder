@@ -1,9 +1,7 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 
-import { SwitchThemes } from 'features/switch';
-import { Box } from 'shared/ui';
-import { HeaderSettingsPage } from 'widgets/settings-page';
+import { TauriService } from 'entities/tauri';
+import { HeaderFromSettingsPage, MainFromSettingsPage, PrivacyFromSettingsPage, CheckUpdate } from 'widgets/settings-page';
 
 import styles from './styles.module.scss';
 import Wrapper from '../../wrapper';
@@ -11,14 +9,23 @@ import Wrapper from '../../wrapper';
 function SettingsPage() {
     return (
         <Wrapper>
-            <div className={styles.page}>
+            <div className={styles.wrapper}>
                 <div className={styles.header}>
-                    <HeaderSettingsPage />
+                    <HeaderFromSettingsPage />
                 </div>
-                <Box.Animated presenceProps={{ mode: 'wait' }} visible className={styles.mainRow}>
-                    <SwitchThemes />
-                    SettingsPage
-                </Box.Animated>
+                <div className={styles.mainRow}>
+                    <div className={styles.main}>
+                        <MainFromSettingsPage />
+                    </div>
+                    <div className={styles.privacy}>
+                        <PrivacyFromSettingsPage />
+                    </div>
+                    {TauriService.tauriIsRunning && (
+                        <div className={styles.checkUpdate}>
+                            <CheckUpdate />
+                        </div>
+                    )}
+                </div>
             </div>
         </Wrapper>
     );

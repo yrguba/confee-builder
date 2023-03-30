@@ -5,10 +5,14 @@ import { useParams } from 'react-router';
 import { UserDossierView, UserApi, useUserStore } from 'entities/user';
 import { usePrevious } from 'shared/hooks';
 
-function UserDossier() {
-    const params = useParams();
+type Props = {
+    direction?: 'column' | 'row';
+};
 
-    if (!params.user_id) return null;
+function UserDossier(props: Props) {
+    const { direction } = props;
+
+    const params = useParams();
 
     const queryClient = useQueryClient();
     // const { data, isLoading, isError, refetch } = UserApi.handleGetUser({ id: params.user_id });
@@ -22,7 +26,7 @@ function UserDossier() {
     //     refetch().then();
     // }, [params.user_id]);
 
-    return <UserDossierView user={user || prevUser} loading={false} />;
+    return <UserDossierView user={user || prevUser} loading={false} direction={direction} />;
 }
 
 export default UserDossier;

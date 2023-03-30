@@ -7,6 +7,7 @@ import useEnding from './useEnding';
 import useGrid from './useGrid';
 import useInput from './useInput';
 import useRowAndDropdown from './useRowAndDropdown';
+import useScrollTo from './useScroll';
 import useSelected from './useSelected';
 import useSize from './useSize';
 import useStyles from './useStyles';
@@ -33,4 +34,5 @@ export {
     useGrid,
     useDate,
     useScroll,
+    useScrollTo,
 };

@@ -1,4 +1,4 @@
-export type Empty = undefined | null | '';
+export type Empty = undefined | null;
 
 export type Statuses = {
     active?: boolean;

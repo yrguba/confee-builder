@@ -23,7 +23,7 @@ function LoginForm() {
         // const { access_token, refresh_token } = response.data;
         const { access_token, refresh_token } = response.data.data;
         await TokenService.save({ access_token, refresh_token });
-        window.location.href = '/info';
+        window.location.href = '/main/chats';
     };
 
     const onError = ({ response }: any) => {

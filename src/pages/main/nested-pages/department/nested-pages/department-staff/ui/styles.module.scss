@@ -1,0 +1,24 @@
+@import "../../../../../../../app/styles/index";
+
+.page {
+  @include box-size(100%, 100%);
+  @include flex-column(flex-start);
+
+  .header {
+    @include box-size(96%, 46px);
+  }
+
+  .maiRow {
+    @include flex-column( flex-start, flex-start, 14);
+    @include box-size(96%, calc(100% - 46px));
+
+    .selectedUsers{
+      width: 100%;
+    }
+
+    .info{
+      @include flex;
+      width: 100%;
+    }
+  }
+}

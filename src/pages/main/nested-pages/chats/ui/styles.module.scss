@@ -12,17 +12,13 @@
     background-color: var(--bg-01);
   }
 
-  .visibleRightSidebar{
-    width: calc(100% - 300px - 300px) !important;
-    transition: width var(--transition);
-  }
   .mainColumn{
     @include flex-column;
     @include box-size(calc(100% - 300px),100%);
 
 
     .header{
-      @include box-size(100%,56px);
+      @include box-size(100%,60px);
       @include flex;
       background-color: var(--bg-01);
     }
@@ -30,7 +26,7 @@
     .outlet{
       @include flex-column();
       width: 100%;
-      height: calc(100% - 56px);
+      height: calc(100% - 60px);
       background-color: var(--bg-0);
 
       .messageList{
@@ -45,7 +41,7 @@
   }
 
   .rightSidebar{
-    @include box-size(300px,100%);
+    @include box-size(auto,100%);
     //min-width: 300px;
     @include flex;
     background-color: var(--bg-01);

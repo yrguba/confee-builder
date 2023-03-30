@@ -5,9 +5,9 @@ import { Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-function HeaderSettingsPage() {
+function HeaderFromSettingsPage() {
     return (
-        <div className={styles.header}>
+        <div className={styles.wrapper}>
             <div className={styles.logo}>
                 <Icons.Logo variants="confee" />
             </div>
@@ -18,4 +18,4 @@ function HeaderSettingsPage() {
     );
 }
 
-export default HeaderSettingsPage;
+export default HeaderFromSettingsPage;

@@ -6,6 +6,10 @@
   background-color: #F1F5F9;
   border-radius: 4px;
 
+  .error {
+    display: none !important;
+  }
+
   .img {
     @include box-size(100%, 100%);
     @include flex;

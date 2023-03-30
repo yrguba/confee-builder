@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Reactions } from 'shared/ui';
 
 import Icons from './icons';
@@ -10,7 +10,7 @@ import { MessageMenuItem } from '../../model/types';
 type Props = {
     reactionClick: (arg: string) => void;
     items: MessageMenuItem[];
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function MessageMenuView(props: Props) {
     const { items, reactionClick } = props;

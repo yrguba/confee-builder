@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { lazy } from 'react';
+import { Route } from 'react-router-dom';
 
-import styles from './ui/styles.module.scss';
+import { routing_tree } from 'shared/routing';
 
-function TasksNestedPage() {
-    return <div className={styles.page}>TasksNestedPage</div>;
-}
+const TasksPage = lazy(() => import('./ui'));
 
-export default TasksNestedPage;
+const tasksRouters = <Route path={routing_tree.main.tasks.base} element={<TasksPage />} />;
+
+export default tasksRouters;

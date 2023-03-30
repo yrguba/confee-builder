@@ -5,7 +5,7 @@ import { useRowAndDropdown } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
 import { Button, Navbar, NavbarTypes } from 'shared/ui';
 
-type Routing = keyof typeof routing_tree.main.company;
+type Routing = keyof typeof routing_tree.main.company.user;
 type Item = NavbarTypes.ResponsiveItem<Routing, any>;
 
 function UserPageNavigation() {
