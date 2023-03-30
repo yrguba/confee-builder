@@ -1,6 +1,9 @@
-import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
-import { $axios } from 'shared/configs';
+import { $axios, $socket } from 'shared/configs';
+
+import useMessageStore from './store';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
@@ -28,8 +31,9 @@ class MessageApi {
                     return lastPage?.data.page + 1;
                 },
                 select: (data) => {
+                    const pages = [...data.pages].reverse();
                     return {
-                        pages: [...data.pages].reverse(),
+                        pages,
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },
@@ -40,9 +44,31 @@ class MessageApi {
     }
 
     handleSendTextMessage() {
-        return useMutation((data: { text: string; chatId: number }) =>
-            $axios.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' })
+        return useMutation(
+            (data: { text: string; chatId: number }) => $axios.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' }),
+            {
+                onMutate: () => {},
+                onSettled: () => {},
+                onError: () => {},
+            }
         );
+    }
+
+    subscriptions(callback: (action: string) => void) {
+        const queryClient = useQueryClient();
+        useEffect(() => {
+            $socket().then((socket) => {
+                socket.on('receiveMessage', ({ message }) => {
+                    console.log(message);
+                    queryClient.setQueryData(['get-messages', message.chat_id], (cacheData: any) => {
+                        cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
+                        callback('new-messages');
+                        return cacheData;
+                    });
+                });
+            });
+        }, []);
+        return 'tt';
     }
 }
 

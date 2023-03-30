@@ -7,7 +7,7 @@
   overflow-y: auto;
 
   .messageWrapper{
-    @include box-size(100%, 100%);
+    @include box-size(100%, auto);
     @include flex;
 
     .messageContent{

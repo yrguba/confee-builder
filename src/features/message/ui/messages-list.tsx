@@ -2,7 +2,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router';
 
-import { MessageApi, MessagesListView, useMessageStore, messageSubscriptions, messageTypes } from 'entities/message';
+import { MessageApi, MessagesListView, useMessageStore, MessageTypes } from 'entities/message';
+import { useToggle } from 'shared/hooks';
 
 type Props = {};
 
@@ -12,12 +13,16 @@ function MessageList(props: Props) {
 
     const wrapperRef = useRef<HTMLDivElement>(null);
 
-    messageSubscriptions();
-    useMessageStore.use.subscriptionsTrigger();
+    const [_, render] = useToggle();
 
     const { data, hasNextPage, hasPreviousPage, fetchPreviousPage, fetchNextPage, isLoading, isFetching } = MessageApi.handleGetMessages({
         chatId: params.chat_id,
         page: 1,
+    });
+
+    MessageApi.subscriptions((action: string) => {
+        console.log(action);
+        render();
     });
 
     const handleScroll = ({ target }: any) => {
@@ -35,7 +40,7 @@ function MessageList(props: Props) {
         console.log(emoji);
     };
 
-    const items: messageTypes.MessageMenuItem[] = [
+    const items: MessageTypes.MessageMenuItem[] = [
         { id: 0, title: 'Ответить на сообщение', icon: 'answer' },
         { id: 1, title: 'Переслать сообщение', icon: 'forward' },
         { id: 2, title: 'Скопировать текст', icon: 'copy' },
@@ -51,7 +56,7 @@ function MessageList(props: Props) {
             wrapperRef.current.scroll({ top: wrapperRef.current.scrollHeight });
         }
     }, [wrapperRef.current]);
-    console.log('render');
+    // console.log('render');
 
     return (
         <MessagesListView
