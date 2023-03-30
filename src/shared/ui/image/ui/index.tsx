@@ -1,29 +1,22 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import styles from './styles.module.scss';
+import { useStyles } from '../../../hooks';
 import { ImageProps } from '../types';
 
 function Image(props: ImageProps) {
     const { img, size, ...other } = props;
 
-    const [image, setImage] = useState('');
+    const [error, setError] = useState(false);
 
-    useEffect(() => {
-        axios
-            .get(img, { responseType: 'blob' })
-            .then(function (response) {
-                const url = URL.createObjectURL(new Blob([response.data]));
-                setImage(url);
-            })
-            .catch((e) => e);
-    }, [img]);
+    const classes = useStyles(styles, 'img', {
+        error,
+    });
 
     return (
         <div className={styles.wrapper} style={size ? { width: size, height: size } : {}}>
-            <div className={styles.img} style={{ backgroundImage: `url(${image})` }}>
-                {!image && icon}
-            </div>
+            <img className={classes} src={img} alt="" onError={() => setError(true)} />
+            {error && icon}
         </div>
     );
 }

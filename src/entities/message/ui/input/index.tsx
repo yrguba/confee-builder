@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { useInput } from 'shared/hooks';
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 import { Button, Input, Reactions } from 'shared/ui';
 
 import Icons from './icons';
@@ -13,7 +13,7 @@ type Props = {
     onChange: (arg: any) => void;
     btnClick: (arg?: any) => void;
     value: string;
-} & baseTypes.Statuses;
+} & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
     const { onKeyDown, btnClick, onChange, value, loading } = props;

@@ -1,8 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import { SearchUsers } from 'features/search';
-import { UsersList } from 'features/user';
+import { SearchUsers, UsersList } from 'features/user';
 
 import styles from './styles.module.scss';
 

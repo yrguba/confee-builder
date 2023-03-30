@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { UsersListView, UserApi, useUserStore, userTypes } from 'entities/user';
+import { UsersListView, UserApi, useUserStore, UserTypes } from 'entities/user';
 
 function UsersList() {
     const { data, isLoading, isError } = UserApi.handleGetUsers();
@@ -10,8 +10,8 @@ function UsersList() {
     const pageClick = (page: number) => {
         console.log(page);
     };
-    console.log(data);
-    const userCardClick = (user: userTypes.User) => {
+
+    const clickOnUserCard = (user: UserTypes.User) => {
         console.log(user);
     };
 
@@ -27,7 +27,7 @@ function UsersList() {
     return (
         <UsersListView
             users={users}
-            userCardClick={userCardClick}
+            userCardClick={clickOnUserCard}
             pageClick={pageClick}
             setSelectedUser={setSelectedUser}
             selectedUsersId={selectedUser.map((user) => user.id)}

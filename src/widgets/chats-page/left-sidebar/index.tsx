@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { ChatsList } from 'features/chat';
-import { SearchChats } from 'features/search';
+import { ChatsList, SearchChats } from 'features/chat';
 
 import styles from './styles.module.scss';
 
-function LeftSidebarChatsPage() {
+function LeftSidebarForChatsPage() {
     return (
         <div className={styles.sidebar}>
             <div className={styles.search}>
@@ -18,4 +17,4 @@ function LeftSidebarChatsPage() {
     );
 }
 
-export default LeftSidebarChatsPage;
+export default LeftSidebarForChatsPage;

@@ -1,20 +1,18 @@
 import React from 'react';
 
-import { LoginForm } from 'features/auth';
 import { SwitchThemes } from 'features/switch';
-import { Icons } from 'shared/ui';
+import { LoginFromAuthPage } from 'widgets/auth-page';
 
 import styles from './styles.module.scss';
 
 function AuthPage() {
     return (
-        <div className={styles.auth}>
+        <div className={styles.wrapper}>
             <div className={styles.switch}>
                 <SwitchThemes />
             </div>
-            <div className={styles.wrapper}>
-                <Icons.Logo variants="tfn" />
-                <LoginForm />
+            <div className={styles.form}>
+                <LoginFromAuthPage />
             </div>
         </div>
     );

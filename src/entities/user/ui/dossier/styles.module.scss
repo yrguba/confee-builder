@@ -1,32 +1,52 @@
 @import "./src/app/styles";
 
+.directionColumn{
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: start !important;
+
+  .header{
+    flex-direction: column;
+    align-items: flex-start!important;
+    justify-content: flex-start;
+  }
+}
+
 .wrapper {
   @include flex(flex-start, flex-start);
   @include box-size(100%, 100%);
-  min-width: 300px;
   gap: 12px;
   overflow: hidden;
   position: relative;
-  border-radius: 10px;
 
   .infoColumn {
     @include flex-column(flex-start, flex-start);
     gap: 6px;
 
-    .mainInfo {
+    .header {
       @include box-size(100%, 100%);
       @include flex(flex-start);
       margin-bottom: 4px;
-      gap: 6px;
+      gap: 12px;
       flex-wrap: wrap;
 
-      .name {
-        font-weight: 600;
-        font-size: 20px;
-        color: var(--text-0);
+      .caption{
+        @include flex-column(flex-start, flex-start);
+        .name {
+          font-weight: 600;
+          font-size: 20px;
+          color: var(--text-0);
+        }
+
+        .date{
+          color: var(--text-1);
+          font-weight: 400;
+          font-size: 14px;
+        }
       }
 
       .status {
+        @include flex(flex-start, flex-start);
       }
     }
   }
@@ -37,7 +57,7 @@
     font-size: 14px;
   }
 
-  .department, .division, .date {
+  .department, .division,  {
     color: var(--text-0);
     font-weight: 400;
     font-size: 14px;

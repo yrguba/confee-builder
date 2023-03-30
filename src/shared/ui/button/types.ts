@@ -1,11 +1,11 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import { baseTypes } from 'shared/types';
+import { BaseTypes } from 'shared/types';
 
 type SharedProps = {
     children: ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement> &
-    baseTypes.Statuses;
+    BaseTypes.Statuses;
 
 export type ButtonBaseProps = {
     size?: number | 's' | 'm' | 'l' | 'xl';
