@@ -7,7 +7,7 @@ export type Content = {
     url: string;
 };
 
-export type MessageType = 'text' | 'images' | 'videos' | 'audios' | 'documents' | 'voices';
+export type MessageType = 'text' | 'images' | 'videos' | 'audios' | 'documents' | 'voices' | 'system';
 export type MessageStatus = 'pending' | 'read';
 
 export type Massage = {

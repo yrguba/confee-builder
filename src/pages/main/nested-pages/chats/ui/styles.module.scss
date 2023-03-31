@@ -9,7 +9,6 @@
     @include box-size(300px,100%);
     min-width: 300px;
     @include flex;
-    background-color: var(--bg-01);
   }
 
   .mainColumn{
@@ -20,14 +19,13 @@
     .header{
       @include box-size(100%,60px);
       @include flex;
-      background-color: var(--bg-01);
     }
 
     .outlet{
       @include flex-column();
       width: 100%;
       height: calc(100% - 60px);
-      background-color: var(--bg-0);
+      background-color: var(--bg-1);
 
       .messageList{
         @include box-size(100%,calc(100% - 100px));
@@ -42,8 +40,6 @@
 
   .rightSidebar{
     @include box-size(auto,100%);
-    //min-width: 300px;
     @include flex;
-    background-color: var(--bg-01);
   }
 }

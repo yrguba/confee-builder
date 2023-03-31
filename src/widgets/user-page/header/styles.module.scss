@@ -3,7 +3,8 @@
 .header {
   @include box-size(100%, 100%);
   @include flex(flex-start);
-  background-color: var(--bg-01);
+  background-color: var(--bg-0);
+  border-bottom: 1px solid var(--bg-outside);
 
   .nav{
     margin-left: 20px;

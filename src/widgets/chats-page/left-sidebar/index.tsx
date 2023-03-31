@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 
 function LeftSidebarForChatsPage() {
     return (
-        <div className={styles.sidebar}>
+        <div className={styles.wrapper}>
             <div className={styles.search}>
                 <SearchChats />
             </div>
