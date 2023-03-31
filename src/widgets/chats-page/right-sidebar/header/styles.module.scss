@@ -2,7 +2,7 @@
 
 
 .wrapper {
-  @include box-size(300px, 59px);
+  @include box-size(300px, 59.5px);
   @include flex;
   border-bottom: 1px solid var(--bg-outside);
   gap: 150px;

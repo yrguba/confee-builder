@@ -3,11 +3,11 @@
 .page{
   @include box-size(100%, 100%);
   @include flex;
-  gap: 1px;
 
   .sidebar{
     @include box-size(300px,100%);
     @include flex;
+    border-right: 1px solid var(--bg-outside);
   }
 
   .mainColumn{

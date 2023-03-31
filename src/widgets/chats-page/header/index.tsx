@@ -5,9 +5,9 @@ import { ChatService } from 'entities/chat';
 import { VideoCallBtn, AudioCallBtn } from 'features/button';
 import { ChatCard } from 'features/chat';
 import { SearchMessages } from 'features/message';
+import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Box } from '../../../shared/ui';
 
 function HeaderForChatsPage() {
     const { pathname } = useLocation();

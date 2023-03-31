@@ -4,7 +4,7 @@
   @include box-size(100%, 100%);
   @include flex-column;
   background-color: var(--bg-0);
-
+  border-left: 1px solid var(--bg-outside);
   .header {
     @include box-size(100%, 59px);
   }

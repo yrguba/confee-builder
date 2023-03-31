@@ -5,7 +5,6 @@
   @include flex(space-between);
   padding: 0 20px;
   background-color: var(--bg-0);
-  border-bottom: 2px solid var(--bg-outside);
 
   .card {
     @include box-size(50%, 100%);
