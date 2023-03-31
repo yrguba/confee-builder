@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { CheckUpdate } from 'features/tauri';
-import { Icons } from 'shared/ui';
+import { CheckUpdate } from 'features/application';
 
 import styles from './styles.module.scss';
 

@@ -19,7 +19,7 @@ function DepartmentsListView(props: Props) {
     const { list, loading, error, departmentClick, divisionClick, userClick } = props;
 
     const params = useParams();
-    console.log(params);
+
     const otdel = [
         { id: 0, name: 'otdel1', users: list },
         { id: 1, name: 'otdel2', users: list },

@@ -3,6 +3,7 @@
 .wrapper{
   @include flex;
   word-break: break-all;
+  color: var(--text-0);
 }
 
 

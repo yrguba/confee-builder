@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
 import { useToggle, useClickAway, useStyles } from 'shared/hooks';
-import { Box } from 'shared/ui';
+import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
-import { DropdownBaseProps } from '../../types';
+import { DropdownBaseProps } from '../types';
 
 function Dropdown(props: DropdownBaseProps) {
     const { children, openCloseTrigger, content, trigger = 'left-click', position = 'left-bottom', animationVariant = 'visibleHidden' } = props;

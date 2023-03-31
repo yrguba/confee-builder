@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { PrivacySettings } from 'features/viewer';
+import { PrivacySettings } from 'features/application';
 
 import styles from './styles.module.scss';
 
 function PrivacyFromSettingsPage() {
     return (
         <div className={styles.wrapper}>
-            <div className={styles.PrivacySettings}>
+            <div className={styles.body}>
                 <PrivacySettings />
             </div>
         </div>

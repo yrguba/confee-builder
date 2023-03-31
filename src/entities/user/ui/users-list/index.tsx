@@ -6,6 +6,7 @@ import { Button, Input, Pagination, PaginationTypes } from 'shared/ui';
 import styles from './styles.module.scss';
 import { User } from '../../model/types';
 import UserCardView from '../card';
+import UserStatusView from '../status';
 import UsersFilterView from '../users-filter';
 
 type Props = {
@@ -48,7 +49,9 @@ function UsersListView(props: Props) {
                                     <UserCardView user={user} size="m" onClick={() => userCardClick(user)} />
                                 </div>
                                 <div className={styles.roleColumn}>разраб</div>
-                                <div className={styles.statusesColumn}>статусы</div>
+                                <div className={styles.statusesColumn}>
+                                    <UserStatusView status="not-available" />
+                                </div>
                                 <div className={styles.btnColumn}>
                                     <Button active={selectedUsersId.includes(user.id)} onClick={() => setSelectedUser(user)} size="m">
                                         {selectedUsersId.includes(user.id) ? 'Выбран' : 'Выбрать'}

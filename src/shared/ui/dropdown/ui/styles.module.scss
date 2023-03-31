@@ -1,15 +1,15 @@
-@import "./src/app/styles";
+@import "../../../../app/styles/index";
 
 .wrapper {
   position: relative;
 }
 
 .body {
-  border: 1px solid var(--border-color);
   border-radius: 20px;
   color:var(--text-0);
-  background-color: var(--bg-1);
+  background-color: var(--bg-0);
   overflow: hidden;
+  box-shadow: 0 0 13px 1px var(--bg-outside);
 }
 
 @mixin position($top, $left, $transform){

@@ -71,7 +71,7 @@ function MessageList(props: Props) {
         }
     }, [wrapperRef.current]);
     // console.log('render');
-    console.log(isFetching);
+
     return (
         <MessagesListView
             pages={data?.pages.map((page) => page.data.data)}

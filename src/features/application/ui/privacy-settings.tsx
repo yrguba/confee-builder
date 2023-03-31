@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PrivacySettingsView } from 'entities/viewer';
+import { PrivacySettingsView } from 'entities/application';
 
 function PrivacySettings() {
     return <PrivacySettingsView />;
