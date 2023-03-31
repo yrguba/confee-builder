@@ -3,7 +3,9 @@ import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router';
 
 import { MessageApi, MessagesListView, useMessageStore, MessageTypes } from 'entities/message';
-import { useToggle } from 'shared/hooks';
+import { useToggle, useReverseTimer, useInView } from 'shared/hooks';
+
+import { Button } from '../../../shared/ui';
 
 type Props = {};
 
@@ -13,6 +15,11 @@ function MessageList(props: Props) {
 
     const wrapperRef = useRef<HTMLDivElement>(null);
 
+    const refs = useRef({
+        wrapper: useRef(null),
+        lastMessage: useRef(null),
+    });
+
     const [_, render] = useToggle();
 
     const { data, hasNextPage, hasPreviousPage, fetchPreviousPage, fetchNextPage, isLoading, isFetching } = MessageApi.handleGetMessages({
@@ -20,20 +27,27 @@ function MessageList(props: Props) {
         page: 1,
     });
 
+    const { isRunning, time, reset, start } = useReverseTimer({ seconds: 1 });
+
     MessageApi.subscriptions((action: string) => {
         console.log(action);
         render();
     });
 
+    const { ref, inView, entry } = useInView({
+        /* Optional options */
+        threshold: 0,
+    });
+
     const handleScroll = ({ target }: any) => {
-        // const bottom = target?.scrollHeight - (target.scrollTop + target.clientHeight) < 100;
-        //
-        // if (!isFetching && hasNextPage && target.scrollTop < 100) {
-        //     fetchNextPage().then();
-        // }
-        // if (!isFetching && hasPreviousPage && bottom) {
-        //     fetchPreviousPage().then();
-        // }
+        if (!isRunning && !isFetching && hasNextPage && target.scrollTop < 200) {
+            fetchNextPage().then();
+            start();
+        }
+        if (!isRunning && !isFetching && hasPreviousPage && target?.scrollHeight - (target.scrollTop + target.clientHeight) < 200) {
+            fetchPreviousPage().then();
+            start();
+        }
     };
 
     const reactionClick = (emoji: any) => {
@@ -57,12 +71,12 @@ function MessageList(props: Props) {
         }
     }, [wrapperRef.current]);
     // console.log('render');
-
+    console.log(isFetching);
     return (
         <MessagesListView
             pages={data?.pages.map((page) => page.data.data)}
             handleScroll={handleScroll}
-            ref={wrapperRef}
+            ref={null}
             textMessageMenuItems={items}
             reactionClick={reactionClick}
         />

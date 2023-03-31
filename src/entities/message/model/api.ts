@@ -2,6 +2,7 @@ import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-q
 import { useEffect } from 'react';
 
 import { $axios, $socket } from 'shared/configs';
+import { response } from 'shared/lib/handlers';
 
 import useMessageStore from './store';
 
@@ -31,10 +32,9 @@ class MessageApi {
                     return lastPage?.data.page + 1;
                 },
                 select: (data) => {
-                    const pages = [...data.pages].reverse();
                     return {
-                        pages,
-                        pageParams: [...data.pageParams].reverse(),
+                        pages: [...data.pages],
+                        pageParams: [...data.pageParams],
                     };
                 },
                 enabled: !!chatId,
@@ -59,7 +59,6 @@ class MessageApi {
         useEffect(() => {
             $socket().then((socket) => {
                 socket.on('receiveMessage', ({ message }) => {
-                    console.log(message);
                     queryClient.setQueryData(['get-messages', message.chat_id], (cacheData: any) => {
                         cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
                         callback('new-messages');
@@ -68,7 +67,6 @@ class MessageApi {
                 });
             });
         }, []);
-        return 'tt';
     }
 }
 

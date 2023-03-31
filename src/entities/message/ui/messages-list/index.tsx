@@ -1,6 +1,6 @@
 import React, { useRef, UIEvent, forwardRef } from 'react';
 
-import { useScroll, useSize } from 'shared/hooks';
+import { useScroll, useSize, useStyles } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Dropdown } from 'shared/ui';
 
