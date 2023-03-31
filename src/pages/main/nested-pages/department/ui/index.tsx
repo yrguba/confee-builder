@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 
 function DepartmentPage() {
     return (
-        <Box.Animated visible className={styles.page}>
+        <Box.Animated visible className={styles.wrapper}>
             <div className={styles.sidebar}>
                 <SidebarFromDepartmentPage />
             </div>

@@ -3,7 +3,7 @@
 .wrapper {
   @include box-size(100%, 100%);
   @include flex-column;
-  background-color: var(--bg-03);
+  background-color: var(--bg-1);
 
   .header {
     @include box-size(100%, 60px);
@@ -26,6 +26,10 @@
     }
 
     .checkUpdate{
+      @include box-size(100%, 154px)
+    }
+
+    .application{
       @include box-size(100%, 154px)
     }
   }

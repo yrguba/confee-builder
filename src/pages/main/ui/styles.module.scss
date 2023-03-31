@@ -1,17 +1,16 @@
 @import "../../../app/styles/index";
 
-.page {
+.wrapper {
   @include box-size(100%, 100%);
   @include flex-column;
   gap: 1px;
 
   .header {
     @include box-size(100%, 60px);
-    background-color: var(--bg-01);
   }
 
   .outlet {
     @include flex;
-    @include box-size(100%, calc(100% - 60px));
+    @include box-size(100%, calc(100% - 61px));
   }
 }

@@ -3,6 +3,7 @@
 .header {
   @include box-size(100%, 100%);
   @include flex(space-between, center, 12);
+  background-color: var(--bg-0);
 
   .logo{
     @include box-size(280px, auto);

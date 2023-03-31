@@ -1,6 +1,10 @@
-import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
-import { $axios } from 'shared/configs';
+import { $axios, $socket } from 'shared/configs';
+import { response } from 'shared/lib/handlers';
+
+import useMessageStore from './store';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
@@ -29,8 +33,8 @@ class MessageApi {
                 },
                 select: (data) => {
                     return {
-                        pages: [...data.pages].reverse(),
-                        pageParams: [...data.pageParams].reverse(),
+                        pages: [...data.pages],
+                        pageParams: [...data.pageParams],
                     };
                 },
                 enabled: !!chatId,
@@ -40,9 +44,29 @@ class MessageApi {
     }
 
     handleSendTextMessage() {
-        return useMutation((data: { text: string; chatId: number }) =>
-            $axios.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' })
+        return useMutation(
+            (data: { text: string; chatId: number }) => $axios.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' }),
+            {
+                onMutate: () => {},
+                onSettled: () => {},
+                onError: () => {},
+            }
         );
+    }
+
+    subscriptions(callback: (action: string) => void) {
+        const queryClient = useQueryClient();
+        useEffect(() => {
+            $socket().then((socket) => {
+                socket.on('receiveMessage', ({ message }) => {
+                    queryClient.setQueryData(['get-messages', message.chat_id], (cacheData: any) => {
+                        cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
+                        callback('new-messages');
+                        return cacheData;
+                    });
+                });
+            });
+        }, []);
     }
 }
 

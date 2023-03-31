@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { TauriService } from 'entities/tauri';
-import { HeaderFromSettingsPage, MainFromSettingsPage, PrivacyFromSettingsPage, CheckUpdate } from 'widgets/settings-page';
+import { ApplicationService } from 'entities/application';
+import { HeaderFromSettingsPage, MainFromSettingsPage, PrivacyFromSettingsPage, CheckUpdate, ApplicationFromSettingsPage } from 'widgets/settings-page';
 
 import styles from './styles.module.scss';
 import Wrapper from '../../wrapper';
@@ -20,11 +20,14 @@ function SettingsPage() {
                     <div className={styles.privacy}>
                         <PrivacyFromSettingsPage />
                     </div>
-                    {TauriService.tauriIsRunning && (
+                    {ApplicationService.tauriIsRunning && (
                         <div className={styles.checkUpdate}>
                             <CheckUpdate />
                         </div>
                     )}
+                    <div className={styles.application}>
+                        <ApplicationFromSettingsPage />
+                    </div>
                 </div>
             </div>
         </Wrapper>

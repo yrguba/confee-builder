@@ -1,0 +1,21 @@
+@import "./src/app/styles";
+
+
+.wrapper{
+  @include box-size(100%, 100%);
+  @include flex-column(flex-start, flex-start);
+  gap: 8px;
+  overflow-y: auto;
+
+  .messageWrapper{
+    @include box-size(100%, auto);
+    @include flex;
+
+    .messageContent{
+      @include flex(flex-start, flex-start);
+      @include box-size(97%, 100%);
+    }
+  }
+}
+
+

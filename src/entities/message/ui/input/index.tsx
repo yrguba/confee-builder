@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { useInput } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Input, Reactions } from 'shared/ui';
+import { Button, Input } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
-import { MessageMenuItem } from '../../model/types';
 
 type Props = {
     onKeyDown: (arg: any) => void;

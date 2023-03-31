@@ -5,5 +5,6 @@ export type SelectItemInList = {
 
 export type SelectProps = {
     items: SelectItemInList[];
+    onChange: (arg: SelectItemInList) => void;
     defaultValue?: string;
 };

@@ -1,0 +1,15 @@
+@import "./src/app/styles";
+
+.wrapper{
+  @include flex-column(flex-end );
+  @include box-size(100%, 100%);
+  gap: 12px;
+
+  .title,.currentVersion, .status{
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-0);
+  }
+}
+
+

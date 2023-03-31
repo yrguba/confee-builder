@@ -21,7 +21,7 @@ function ChatDossierView(props: Props) {
     const wrapperClasses = useStyles(styles, 'wrapper', {
         directionColumn: direction === 'column',
     });
-    console.log(chat);
+
     return (
         <Box loading={loading} style={{ cursor: onClick ? 'pointer' : 'default' }} className={wrapperClasses}>
             {chat && (
@@ -34,8 +34,8 @@ function ChatDossierView(props: Props) {
                     <div className={styles.adminList}>
                         <div className={styles.title}>Администраторы</div>
                         <div className={styles.list}>
-                            {[{ name: 'a' }, { name: 'b' }, { name: 'b' }, { name: 'b' }, { name: 'b' }].map((admin) => (
-                                <UserCardView key={chat.id} user={chat} />
+                            {[{ name: 'a' }, { name: 'b' }, { name: 'b' }, { name: 'b' }, { name: 'b' }].map((admin, index) => (
+                                <UserCardView key={index} user={chat} />
                             ))}
                         </div>
                     </div>

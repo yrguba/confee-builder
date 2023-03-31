@@ -1,6 +1,6 @@
 @import "./src/app/styles";
 
-.page{
+.wrapper{
   @include box-size(100%, 100%);
   @include flex;
   gap: 1px;
@@ -9,11 +9,10 @@
     @include box-size(300px,100%);
     min-width: 300px;
     @include flex;
-    background-color: var(--bg-01);
   }
 
   .mainColumn {
     @include box-size(100%, 100%);
-    background-color: var(--bg-0);
+    background-color: var(--bg-1);
   }
 }

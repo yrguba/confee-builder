@@ -24,6 +24,11 @@
     transition: all 0.5s;
     cursor: pointer;
 
+    &_active{
+      color: var(--main-active);
+      background-color: var(--bg-02);
+    }
+
     &:hover {
       color: var(--main-active);
       background-color: var(--bg-02);
