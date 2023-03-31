@@ -7,7 +7,7 @@ function SwitchThemes() {
     const [theme, setTheme] = useTheme();
 
     const onChange = (checked: boolean) => {
-        setTheme(checked ? 'light' : 'dark');
+        setTheme(checked ? 'light' : 'dark_0');
     };
 
     const darkIcon = (

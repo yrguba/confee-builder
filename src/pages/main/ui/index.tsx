@@ -10,7 +10,7 @@ import Wrapper from '../../wrapper';
 function MainPage() {
     return (
         <Wrapper>
-            <div className={styles.page}>
+            <div className={styles.wrapper}>
                 <div className={styles.header}>
                     <HeaderMainPage />
                 </div>

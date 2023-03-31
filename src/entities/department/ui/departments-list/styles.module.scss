@@ -1,29 +1,49 @@
 @import "../../../../app/styles/index";
 
 .wrapper {
-  @include box-size(272px, auto);
-  @include flex-column(flex-start, flex-start);
+  @include box-size(100%, auto);
+  @include flex-column;
   gap: 10px;
   overflow: hidden;
-  border-radius: var(--border-radius);
+}
+
+
+.departmentTitle {
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--text-0);
+  padding-left: 12px;
+}
+
+.divisionTitle {
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--text-1);
+  padding-left: 14px;
 }
 
 .usersList {
   @include flex-column;
   margin-top: 10px;
   gap: 10px;
+
+
+  .cardWrapper {
+    @include flex;
+    @include box-size(100%, 100%);
+    transition: background-color var(--transition);
+
+    &_active {
+      background-color: var(--bg-03);
+    }
+
+    .cardBody{
+      @include box-size(94%, 100%);
+    }
+  }
 }
 
-.departmentTitle {
-  font-weight: 600;
-  font-size: 20px;
-  color: var(--text-0);
+
+.select {
+  background-color: var(--bg-03);
 }
-
-.divisionTitle {
-  font-weight: 800;
-  font-size: 14px;
-  color: var(--text-1);
-}
-
-

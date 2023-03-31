@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router';
 
 import { BaseTypes } from 'shared/types';
 import { Box, Collapse } from 'shared/ui';
@@ -17,6 +18,8 @@ type Props = {
 function DepartmentsListView(props: Props) {
     const { list, loading, error, departmentClick, divisionClick, userClick } = props;
 
+    const params = useParams();
+    console.log(params);
     const otdel = [
         { id: 0, name: 'otdel1', users: list },
         { id: 1, name: 'otdel2', users: list },
@@ -37,6 +40,7 @@ function DepartmentsListView(props: Props) {
                         key={department.id}
                         openByClickingOnArrow
                         titleClassName={styles.departmentTitle}
+                        headerClassName={params?.department_name === department.name ? styles.select : ''}
                         title={department.name}
                         onTitleClick={departmentClick}
                     >
@@ -45,6 +49,7 @@ function DepartmentsListView(props: Props) {
                                 key={division.id}
                                 openByClickingOnArrow
                                 titleClassName={styles.divisionTitle}
+                                headerClassName={params?.division_name === division.name ? styles.select : ''}
                                 title={division.name}
                                 onTitleClick={() => divisionClick({ department: department.name, division: division.name })}
                             >
@@ -53,11 +58,19 @@ function DepartmentsListView(props: Props) {
                                         division?.users.map(
                                             (user: any) =>
                                                 user.name && (
-                                                    <UserCardView
+                                                    <div
                                                         key={user.id}
-                                                        user={user}
-                                                        onClick={() => userClick({ department: department.name, division: division.name, user })}
-                                                    />
+                                                        className={`${styles.cardWrapper} ${
+                                                            Number(params?.user_id) === user.id ? styles.cardWrapper_active : ''
+                                                        }`}
+                                                    >
+                                                        <div className={styles.cardBody}>
+                                                            <UserCardView
+                                                                user={user}
+                                                                onClick={() => userClick({ department: department.name, division: division.name, user })}
+                                                            />
+                                                        </div>
+                                                    </div>
                                                 )
                                         )}
                                 </div>
