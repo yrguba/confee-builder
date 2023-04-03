@@ -6,6 +6,7 @@ import { response } from 'shared/lib/handlers';
 
 import { Message } from './types';
 import message from '../../../features/menu-dropdown/ui/message';
+import pages from '../../../pages';
 import { Chat } from '../../chat/model/types';
 import { messageConstants } from '../index';
 import ApiService from '../lib/api-service';
@@ -67,6 +68,15 @@ class MessageApi {
         );
     }
 
+    handleReadMessage() {
+        return function (data: { chat_id: number; messages: number[] }) {
+            data.messages &&
+                $socket().then((socket) => {
+                    socket.emit('messageRead', data);
+                });
+        };
+    }
+
     handleSendReaction() {
         return useMutation(
             (data: { chatId: number; messageId: number; reaction: string }) =>
@@ -84,13 +94,14 @@ class MessageApi {
         useEffect(() => {
             $socket().then((socket) => {
                 socket.on('receiveMessage', ({ message }) => {
-                    queryClient.setQueryData(['get-messages', message.chat_id], (cacheData: any) => {
+                    queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
                         cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
                         callback('new-messages');
                         return cacheData;
                     });
                 });
                 socket.on('receiveReactions', ({ data }) => {
+                    console.log('receiveReactions');
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
                         cacheData.pages.forEach((page: any) => {
                             page.data.data.forEach((message: any) => {
@@ -102,6 +113,23 @@ class MessageApi {
                         callback('reaction');
                         return cacheData;
                     });
+                });
+                socket.on('receiveMessageStatus', (data) => {
+                    console.log('receiveMessageStatus', data);
+                    callback('read-message');
+                    // queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
+                    //     cacheData.pages.forEach((page: any) => {
+                    //         page.data.data.forEach((message: any) => {
+                    //             data.messages.forEach((responseMessage: Message) => {
+                    //                 if (responseMessage.id === message.id) {
+                    //                     message = responseMessage;
+                    //                 }
+                    //             });
+                    //         });
+                    //     });
+                    //     callback('read-message');
+                    //     return cacheData;
+                    // });
                 });
             });
         }, []);

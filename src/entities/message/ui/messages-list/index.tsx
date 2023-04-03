@@ -1,4 +1,5 @@
 import React, { useRef, UIEvent, Fragment, useEffect, RefObject, useState } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 
 import { useScroll, useSize, useStyles, useInView, useScrollTo } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -19,18 +20,20 @@ type Props = {
     firstPendingMessageId: number | undefined;
     getPrevPage: () => void;
     getNextPage: () => void;
+    readMessage: (messageId: number) => void;
     textMessageMenuItems: MessageMenuItem[];
     reactionClick: (messageId: number, reaction: string) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, firstPendingMessageId, getPrevPage, getNextPage, textMessageMenuItems, reactionClick } = props;
+    const { chat, messages, firstPendingMessageId, readMessage, getPrevPage, getNextPage, textMessageMenuItems, reactionClick } = props;
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView();
     const { ref: nextPageRef, inView: inViewNextPage } = useInView();
-
+    const { ref: firstPendingMessagesRef, inView: inViewFirsPendingMessage } = useInView();
+    console.log('firstPendingMessageId', firstPendingMessageId);
     useEffect(() => {
         setTimeout(() => inViewPrevPage && getPrevPage(), 200);
     }, [inViewPrevPage]);
@@ -38,20 +41,23 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         setTimeout(() => inViewNextPage && getNextPage(), 200);
     }, [inViewNextPage]);
-    console.log('r');
+
+    useEffect(() => {
+        inViewFirsPendingMessage && firstPendingMessageId && readMessage(firstPendingMessageId);
+    }, [inViewFirsPendingMessage, firstPendingMessageId]);
+
     useEffect(() => {
         if (messageRef.current) {
             messageRef.current.style.backgroundColor = 'red';
             messageRef.current.scrollIntoView({ block: 'center' });
         }
-    }, [messageRef.current, messages]);
+    }, [messageRef.current]);
 
     const getMessageRef = (message: Message, index: number) => {
         if (!chat?.pending_messages) {
             if (messages?.length === index + 1) return messageRef;
         } else if (firstPendingMessageId === message.id && message.message_status === 'pending') {
-            console.log(message);
-            return messageRef;
+            return mergeRefs([messageRef, firstPendingMessagesRef]);
         }
         return null;
     };

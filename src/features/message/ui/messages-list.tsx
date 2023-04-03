@@ -18,13 +18,13 @@ function MessageList(props: Props) {
     const chatId = Number(params.chat_id);
 
     MessageApi.subscriptions((action: string) => {
+        console.log(action);
         render();
     });
 
     const { data: chatData } = ChatApi.handleGetChat({ chatId });
-
     const chat = chatData?.data?.data;
-
+    const handleReadMessage = MessageApi.handleReadMessage();
     const {
         data: messageData,
         hasNextPage,
@@ -52,6 +52,11 @@ function MessageList(props: Props) {
         }
     };
 
+    const readMessage = (messageId: number) => {
+        console.log('read');
+        handleReadMessage({ chat_id: chatId, messages: [messageId] });
+    };
+
     const reactionClick = (messageId: number, reaction: any) => {
         handleSendReaction({ chatId, messageId, reaction: reactionConverter(reaction, 'html') });
     };
@@ -75,6 +80,7 @@ function MessageList(props: Props) {
             firstPendingMessageId={messages ? messages.find((message) => message.message_status === 'pending')?.id : undefined}
             getNextPage={getNextPage}
             getPrevPage={getPrevPage}
+            readMessage={readMessage}
             textMessageMenuItems={items}
             reactionClick={reactionClick}
         />
