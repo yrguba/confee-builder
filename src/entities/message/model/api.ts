@@ -4,8 +4,10 @@ import { useEffect } from 'react';
 import { $axios, $socket } from 'shared/configs';
 import { response } from 'shared/lib/handlers';
 
-import { Massage } from './types';
+import { Message } from './types';
 import message from '../../../features/menu-dropdown/ui/message';
+import { Chat } from '../../chat/model/types';
+import { messageConstants } from '../index';
 import ApiService from '../lib/api-service';
 import { message_limit } from '../lib/constants';
 
@@ -15,12 +17,20 @@ class MessageApi {
     private limit = message_limit;
 
     handleGetMessages({ page, chatId }: { page: number | undefined; chatId: number }) {
+        const queryClient = useQueryClient();
+        const chat = queryClient.getQueryData<{ data: { data: Chat } }>(['get-chat', chatId]);
+        const initialPage = chat
+            ? chat?.data.data.pending_messages === 0
+                ? 1
+                : Math.ceil(chat.data.data.pending_messages / messageConstants.message_limit)
+            : undefined;
+
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
                 return $axios.get(`${this.pathPrefix}/${chatId}/messages`, {
                     params: {
-                        page: pageParam || page,
+                        page: pageParam || initialPage,
                         limit: this.limit,
                     },
                 });
@@ -40,7 +50,7 @@ class MessageApi {
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },
-                enabled: !!chatId && !!page,
+                enabled: !!chatId && !!initialPage,
                 staleTime: Infinity,
             }
         );

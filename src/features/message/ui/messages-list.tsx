@@ -35,7 +35,7 @@ function MessageList(props: Props) {
         isFetching,
     } = MessageApi.handleGetMessages({
         chatId,
-        page: chat?.totalMessages && chat?.pending_messages ? Math.ceil(chat.pending_messages / messageConstants.message_limit) : undefined,
+        page: chat?.totalMessages ? (chat?.pending_messages ? Math.ceil(chat.pending_messages / messageConstants.message_limit) : undefined) : 1,
     });
 
     const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
@@ -66,10 +66,13 @@ function MessageList(props: Props) {
         { id: 6, title: 'Преобразовать в задачу', icon: 'convert' },
     ];
 
+    const messages: MessageTypes.Message[] | undefined = messageData?.pages.reduce((messages, page) => [...messages, ...page], []);
+
     return (
         <MessagesListView
             chat={chatData?.data?.data}
-            messages={messageData?.pages.reduce((messages, page) => [...messages, ...page], [])}
+            messages={messages}
+            firstPendingMessageId={messages ? messages.find((message) => message.message_status === 'pending')?.id : undefined}
             getNextPage={getNextPage}
             getPrevPage={getPrevPage}
             textMessageMenuItems={items}

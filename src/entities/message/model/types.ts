@@ -10,14 +10,14 @@ export type Content = {
 export type MessageType = 'text' | 'images' | 'videos' | 'audios' | 'documents' | 'voices' | 'system';
 export type MessageStatus = 'pending' | 'read';
 
-export type Massage = {
+export type Message = {
     id: number;
     text: string;
     user: UserTypes.User;
     message_type: MessageType;
     message_status: MessageStatus;
     reactions: Record<string, []>;
-    reply_messages: Massage;
+    reply_messages: Message;
     users_have_read: number[];
     created_at: Date;
 };

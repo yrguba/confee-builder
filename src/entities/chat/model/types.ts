@@ -1,11 +1,11 @@
-import { Massage } from '../../message/model/types';
+import { Message } from '../../message/model/types';
 import { User } from '../../user/model/types';
 
 export type Chat = {
     id: number;
     name: string;
     avatar: string;
-    message: Massage[];
+    message: Message[];
     created_at: Date;
     updated_at: Date;
     is_group: boolean;

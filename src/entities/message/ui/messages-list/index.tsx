@@ -1,4 +1,4 @@
-import React, { useRef, UIEvent, Fragment, useEffect, RefObject } from 'react';
+import React, { useRef, UIEvent, Fragment, useEffect, RefObject, useState } from 'react';
 
 import { useScroll, useSize, useStyles, useInView, useScrollTo } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -8,14 +8,15 @@ import { BaseInputProps } from 'shared/ui/input/types';
 import styles from './styles.module.scss';
 import pages from '../../../../pages';
 import { ChatTypes } from '../../../chat';
-import { Massage, MessageMenuItem } from '../../model/types';
+import { Message, MessageMenuItem } from '../../model/types';
 import MessageMenuView from '../menu';
 import SystemMessageView from '../message/system';
 import TextMessageView from '../message/text';
 
 type Props = {
     chat: ChatTypes.Chat | BaseTypes.Empty;
-    messages: Massage[] | BaseTypes.Empty;
+    messages: Message[] | BaseTypes.Empty;
+    firstPendingMessageId: number | undefined;
     getPrevPage: () => void;
     getNextPage: () => void;
     textMessageMenuItems: MessageMenuItem[];
@@ -23,10 +24,10 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, getPrevPage, getNextPage, textMessageMenuItems, reactionClick } = props;
-    console.log(messages);
+    const { chat, messages, firstPendingMessageId, getPrevPage, getNextPage, textMessageMenuItems, reactionClick } = props;
+
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const firstUnreadMessageRef = useRef<HTMLDivElement>(null);
+    const messageRef = useRef<HTMLDivElement>(null);
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView();
     const { ref: nextPageRef, inView: inViewNextPage } = useInView();
 
@@ -37,16 +38,23 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         setTimeout(() => inViewNextPage && getNextPage(), 200);
     }, [inViewNextPage]);
-
+    console.log('r');
     useEffect(() => {
-        if (wrapperRef.current && !chat?.pending_messages) {
-            wrapperRef.current.scroll(0, 0);
+        if (messageRef.current) {
+            messageRef.current.style.backgroundColor = 'red';
+            messageRef.current.scrollIntoView({ block: 'center' });
         }
-        if (firstUnreadMessageRef.current) {
-            firstUnreadMessageRef.current.style.backgroundColor = 'red';
-            // firstUnreadMessageRef.current.scrollIntoView({ block: 'center' });
+    }, [messageRef.current, messages]);
+
+    const getMessageRef = (message: Message, index: number) => {
+        if (!chat?.pending_messages) {
+            if (messages?.length === index + 1) return messageRef;
+        } else if (firstPendingMessageId === message.id && message.message_status === 'pending') {
+            console.log(message);
+            return messageRef;
         }
-    }, [firstUnreadMessageRef.current, messages]);
+        return null;
+    };
 
     return (
         <div className={styles.wrapper} ref={wrapperRef}>
@@ -57,7 +65,8 @@ function MessagesListView(props: Props) {
                             next
                         </div>
                     )}
-                    <div className={styles.messageWrapper} ref={chat && chat?.totalMessages - chat?.pending_messages === index ? firstUnreadMessageRef : null}>
+                    {firstPendingMessageId && firstPendingMessageId === message.id && <div className={styles.c}>new message</div>}
+                    <div className={styles.messageWrapper} ref={getMessageRef(message, index)}>
                         {message.message_type === 'system' ? (
                             <SystemMessageView text="rtwdawdwd" />
                         ) : (

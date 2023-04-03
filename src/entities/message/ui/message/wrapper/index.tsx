@@ -6,11 +6,11 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Reactions } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Massage } from '../../../model/types';
+import { Message } from '../../../model/types';
 
 type Props = {
     children: ReactNode;
-    message: Massage;
+    message: Message;
     reactionClick: (messageId: number, reaction: string) => void;
 } & BaseTypes.Statuses;
 

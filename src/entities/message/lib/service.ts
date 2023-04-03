@@ -1,9 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
 
-import { Massage } from '../model/types';
+import { Message } from '../model/types';
 
 class MessageService {
-    checkIsSelf(message: Massage) {
+    checkIsSelf(message: Message) {
         const queryClient = useQueryClient();
         console.log(message);
     }
