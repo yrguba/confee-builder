@@ -16,7 +16,7 @@ export type Massage = {
     user: UserTypes.User;
     message_type: MessageType;
     message_status: MessageStatus;
-    reactions: object;
+    reactions: Record<string, []>;
     reply_messages: Massage;
     users_have_read: number[];
     created_at: Date;

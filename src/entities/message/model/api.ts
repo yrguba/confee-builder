@@ -4,12 +4,15 @@ import { useEffect } from 'react';
 import { $axios, $socket } from 'shared/configs';
 import { response } from 'shared/lib/handlers';
 
-import useMessageStore from './store';
+import { Massage } from './types';
+import message from '../../../features/menu-dropdown/ui/message';
+import ApiService from '../lib/api-service';
+import { message_limit } from '../lib/constants';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
 
-    private limit = 20;
+    private limit = message_limit;
 
     handleGetMessages({ page = 1, chatId }: { page: number; chatId: string | undefined }) {
         return useInfiniteQuery(
@@ -33,8 +36,8 @@ class MessageApi {
                 },
                 select: (data) => {
                     return {
-                        pages: [...data.pages],
-                        pageParams: [...data.pageParams],
+                        pages: data.pages.map((page) => [...page.data.data]).reverse(),
+                        pageParams: [...data.pageParams].reverse(),
                     };
                 },
                 enabled: !!chatId,
@@ -54,6 +57,18 @@ class MessageApi {
         );
     }
 
+    handleSendReaction() {
+        return useMutation(
+            (data: { chatId: number; messageId: number; reaction: string }) =>
+                $axios.post(`${this.pathPrefix}/${data.chatId}/message/${data.messageId}/reaction`, { reaction: data.reaction }),
+            {
+                onMutate: () => {},
+                onSettled: () => {},
+                onError: () => {},
+            }
+        );
+    }
+
     subscriptions(callback: (action: string) => void) {
         const queryClient = useQueryClient();
         useEffect(() => {
@@ -62,6 +77,19 @@ class MessageApi {
                     queryClient.setQueryData(['get-messages', message.chat_id], (cacheData: any) => {
                         cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
                         callback('new-messages');
+                        return cacheData;
+                    });
+                });
+                socket.on('receiveReactions', ({ data }) => {
+                    queryClient.setQueryData(['get-messages', String(data.chatId)], (cacheData: any) => {
+                        cacheData.pages.forEach((page: any) => {
+                            page.data.data.forEach((message: any) => {
+                                if (message.id === data.messageId) {
+                                    message.reactions = { ...data.reactions };
+                                }
+                            });
+                        });
+                        callback('reaction');
                         return cacheData;
                     });
                 });

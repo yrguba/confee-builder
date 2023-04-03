@@ -43,7 +43,6 @@ function ChatCardView(props: Props) {
                         ) : (
                             <Icons variants={message[0].users_have_read.length ? 'doubleCheck' : 'check'} />
                         )}
-                        {/* <Icons variants="check" /> */}
                     </div>
                 )}
             </div>

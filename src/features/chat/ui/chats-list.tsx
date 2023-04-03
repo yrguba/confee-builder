@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ChatListView, ChatApi, ChatTypes, ChatService, useChatStore } from 'entities/chat';
+import { messageConstants } from 'entities/message';
 
 function ChatsList() {
     const { data, isLoading } = ChatApi.handleGetChats();
@@ -14,7 +15,7 @@ function ChatsList() {
 
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
         const { id, totalMessages, pending_messages, is_group } = chat;
-        const page = totalMessages && pending_messages ? Math.ceil(totalMessages / pending_messages) : 1;
+        const page = totalMessages && pending_messages ? Math.ceil(pending_messages / messageConstants.message_limit) : 1;
         setInitialPage(page);
 
         if (Number(params.chat_id) !== id) {

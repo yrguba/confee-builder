@@ -9,15 +9,13 @@ import Wrapper from '../wrapper';
 
 type Props = {
     message: Massage;
+    reactionClick: (messageId: number, reaction: string) => void;
 } & BaseTypes.Statuses;
 
 function TextMessageView(props: Props) {
-    const { message } = props;
-
-    const date = useDate(message.created_at);
-
+    const { message, reactionClick } = props;
     return (
-        <Wrapper avatar={message.user.avatar} name={message.user.name} date={date}>
+        <Wrapper message={message} reactionClick={reactionClick}>
             <div className={styles.wrapper}>{message.text}</div>
         </Wrapper>
     );
