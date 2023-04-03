@@ -2,8 +2,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { UIEvent, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 
-import { useChatStore } from 'entities/chat';
-import { MessageApi, MessagesListView, useMessageStore, MessageTypes } from 'entities/message';
+import { useChatStore, ChatApi } from 'entities/chat';
+import { MessageApi, MessagesListView, useMessageStore, MessageTypes, messageConstants } from 'entities/message';
 import { useToggle, useReverseTimer, useInView } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 
@@ -12,47 +12,48 @@ import { Button } from '../../../shared/ui';
 type Props = {};
 
 function MessageList(props: Props) {
-    // const { children } = props;
-
-    const [prevY, setPrevY] = useState<number | null>(null);
-    const initialPage = useChatStore.use.initialPage();
     const params = useParams();
-
     const [_, render] = useToggle();
 
+    const chatId = Number(params.chat_id);
+
     MessageApi.subscriptions((action: string) => {
-        console.log(action);
         render();
     });
 
-    const { data, hasNextPage, hasPreviousPage, fetchPreviousPage, fetchNextPage, isLoading, isFetching } = MessageApi.handleGetMessages({
-        chatId: params.chat_id,
-        page: initialPage,
+    const { data: chatData } = ChatApi.handleGetChat({ chatId });
+
+    const chat = chatData?.data?.data;
+
+    const {
+        data: messageData,
+        hasNextPage,
+        hasPreviousPage,
+        fetchPreviousPage,
+        fetchNextPage,
+        isLoading,
+        isFetching,
+    } = MessageApi.handleGetMessages({
+        chatId,
+        page: chat?.totalMessages && chat?.pending_messages ? Math.ceil(chat.pending_messages / messageConstants.message_limit) : undefined,
     });
 
     const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
 
-    // const { isRunning, start } = useReverseTimer({ seconds: 1 });
+    const getPrevPage = () => {
+        if (hasPreviousPage && !isFetching) {
+            fetchPreviousPage().then();
+        }
+    };
 
-    const handleScroll = ({ currentTarget }: UIEvent<HTMLDivElement>) => {
-        // const { scrollTop, scrollHeight, clientHeight } = currentTarget;
-        //
-        // if (prevY && scrollTop < prevY) {
-        //     // currentTarget.style.flexDirection = 'column-reverse';
-        //
-        //     if (!isFetching && hasNextPage && scrollHeight + (scrollTop - clientHeight) < 200) {
-        //         // fetchNextPage().then();
-        //     }
-        // } else if (!isFetching && hasPreviousPage && scrollHeight - (scrollTop + clientHeight) < 200) {
-        //     // currentTarget.style.flexDirection = 'column';
-        //     // fetchPreviousPage().then();
-        // }
-        //
-        // setPrevY(scrollTop);
+    const getNextPage = () => {
+        if (hasNextPage && !isFetching) {
+            fetchNextPage().then();
+        }
     };
 
     const reactionClick = (messageId: number, reaction: any) => {
-        handleSendReaction({ chatId: Number(params.chat_id), messageId, reaction: reactionConverter(reaction, 'html') });
+        handleSendReaction({ chatId, messageId, reaction: reactionConverter(reaction, 'html') });
     };
 
     const items: MessageTypes.MessageMenuItem[] = [
@@ -65,7 +66,16 @@ function MessageList(props: Props) {
         { id: 6, title: 'Преобразовать в задачу', icon: 'convert' },
     ];
 
-    return <MessagesListView pages={data?.pages} handleScroll={handleScroll} textMessageMenuItems={items} reactionClick={reactionClick} />;
+    return (
+        <MessagesListView
+            chat={chatData?.data?.data}
+            messages={messageData?.pages.reduce((messages, page) => [...messages, ...page], [])}
+            getNextPage={getNextPage}
+            getPrevPage={getPrevPage}
+            textMessageMenuItems={items}
+            reactionClick={reactionClick}
+        />
+    );
 }
 
 export default MessageList;

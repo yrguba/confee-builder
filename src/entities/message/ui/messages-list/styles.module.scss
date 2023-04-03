@@ -6,7 +6,8 @@
   @include flex-column(flex-start, flex-start);
   gap: 8px;
   overflow-y: auto;
-  flex-direction: column-reverse;
+  //flex-direction: column-reverse;
+  position: relative;
 
   .messageWrapper{
     @include box-size(100%, auto);
@@ -17,6 +18,14 @@
       @include box-size(97%, 100%);
     }
   }
+
+  .btnDown{
+    position: fixed;
+    right: 30px;
+    bottom: 90px;
+  }
 }
 
-
+.c{
+  background-color: #fafafa;
+}

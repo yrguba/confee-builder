@@ -8,15 +8,11 @@ import { messageConstants } from 'entities/message';
 function ChatsList() {
     const { data, isLoading } = ChatApi.handleGetChats();
 
-    const setInitialPage = useChatStore.use.setInitialPage();
-
     const navigate = useNavigate();
     const params = useParams();
 
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
-        const { id, totalMessages, pending_messages, is_group } = chat;
-        const page = totalMessages && pending_messages ? Math.ceil(pending_messages / messageConstants.message_limit) : 1;
-        setInitialPage(page);
+        const { id, is_group } = chat;
 
         if (Number(params.chat_id) !== id) {
             if (ChatService.checkIsOpenChatInfo()) {

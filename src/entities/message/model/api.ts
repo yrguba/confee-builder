@@ -14,7 +14,7 @@ class MessageApi {
 
     private limit = message_limit;
 
-    handleGetMessages({ page = 1, chatId }: { page: number; chatId: string | undefined }) {
+    handleGetMessages({ page, chatId }: { page: number | undefined; chatId: number }) {
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
@@ -36,11 +36,11 @@ class MessageApi {
                 },
                 select: (data) => {
                     return {
-                        pages: data.pages.map((page) => [...page.data.data]).reverse(),
+                        pages: data.pages.map((page) => [...page.data.data].reverse()).reverse(),
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },
-                enabled: !!chatId,
+                enabled: !!chatId && !!page,
                 staleTime: Infinity,
             }
         );
@@ -81,7 +81,7 @@ class MessageApi {
                     });
                 });
                 socket.on('receiveReactions', ({ data }) => {
-                    queryClient.setQueryData(['get-messages', String(data.chatId)], (cacheData: any) => {
+                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
                         cacheData.pages.forEach((page: any) => {
                             page.data.data.forEach((message: any) => {
                                 if (message.id === data.messageId) {
