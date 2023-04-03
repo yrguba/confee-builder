@@ -15,6 +15,8 @@ import { message_limit } from '../lib/constants';
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
 
+    private socket = $socket();
+
     private limit = message_limit;
 
     handleGetMessages({ page, chatId }: { page: number | undefined; chatId: number }) {
@@ -69,11 +71,8 @@ class MessageApi {
     }
 
     handleReadMessage() {
-        return function (data: { chat_id: number; messages: number[] }) {
-            data.messages &&
-                $socket().then((socket) => {
-                    socket.emit('messageRead', data);
-                });
+        return (data: { chat_id: number; messages: number[] }) => {
+            data.messages && this.socket.emit('messageRead', data);
         };
     }
 
@@ -92,44 +91,60 @@ class MessageApi {
     subscriptions(callback: (action: string) => void) {
         const queryClient = useQueryClient();
         useEffect(() => {
-            $socket().then((socket) => {
-                socket.on('receiveMessage', ({ message }) => {
-                    queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
-                        cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
-                        callback('new-messages');
-                        return cacheData;
-                    });
-                });
-                socket.on('receiveReactions', ({ data }) => {
-                    console.log('receiveReactions');
-                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                        cacheData.pages.forEach((page: any) => {
-                            page.data.data.forEach((message: any) => {
-                                if (message.id === data.messageId) {
-                                    message.reactions = { ...data.reactions };
+            this.socket.on('receiveMessage', ({ message }) => {
+                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                    cacheData &&
+                        cacheData.data.data.forEach((chat: Chat) => {
+                            if (chat.id === Number(message.chat_id)) {
+                                chat.message[0] = message;
+                                if (message.message_status === 'pending') {
+                                    chat.pending_messages += 1;
                                 }
+                                console.log(chat);
+                            }
+                        });
+                    // cacheData && cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
+                    // callback('new-messages');
+                    // return cacheData;
+                });
+                queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
+                    cacheData && cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
+                    callback('new-messages');
+                    return cacheData;
+                });
+            });
+            this.socket.on('receiveReactions', ({ data }) => {
+                queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                    cacheData.pages.forEach((page: any) => {
+                        page.data.data.forEach((message: any) => {
+                            if (message.id === data.messageId) {
+                                message.reactions = { ...data.reactions };
+                            }
+                        });
+                    });
+                    callback('reaction');
+                    return cacheData;
+                });
+            });
+            this.socket.on('receiveMessageStatus', (data) => {
+                queryClient.setQueryData(['get-chat', data.chat_id], (cacheData: any) => {
+                    cacheData.data.data.pending_messages = data.pending_messages;
+                    return cacheData;
+                });
+                queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
+                    cacheData &&
+                        cacheData.pages.forEach((page: any) => {
+                            page.data.data.forEach((message: Message) => {
+                                data.messages.forEach((responseMessage: Message) => {
+                                    if (responseMessage.id === message.id) {
+                                        message.message_status = 'read';
+                                    }
+                                });
                             });
                         });
-                        callback('reaction');
-                        return cacheData;
-                    });
-                });
-                socket.on('receiveMessageStatus', (data) => {
-                    console.log('receiveMessageStatus', data);
+                    console.log(cacheData);
                     callback('read-message');
-                    // queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
-                    //     cacheData.pages.forEach((page: any) => {
-                    //         page.data.data.forEach((message: any) => {
-                    //             data.messages.forEach((responseMessage: Message) => {
-                    //                 if (responseMessage.id === message.id) {
-                    //                     message = responseMessage;
-                    //                 }
-                    //             });
-                    //         });
-                    //     });
-                    //     callback('read-message');
-                    //     return cacheData;
-                    // });
+                    return cacheData;
                 });
             });
         }, []);

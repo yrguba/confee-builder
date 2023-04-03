@@ -26,7 +26,13 @@ function ChatListView(props: Props) {
         <Box loading={loading} className={styles.wrapper}>
             {chats &&
                 data.map((category, index: number) => (
-                    <Collapse key={category.id} titleClassName={styles.categoryTitle} headerClassName={styles.headerCollapse} title={category.name}>
+                    <Collapse
+                        isOpen={!!(activeChatId && category.id === 0)}
+                        key={category.id}
+                        titleClassName={styles.categoryTitle}
+                        headerClassName={styles.headerCollapse}
+                        title={category.name}
+                    >
                         <div className={styles.chatsList}>
                             {category.items.map((chat) => (
                                 <div key={chat.id} className={`${styles.chatWrapper} ${activeChatId === chat.id ? styles.itemActive : ''}`}>

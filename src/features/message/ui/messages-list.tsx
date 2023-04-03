@@ -53,7 +53,6 @@ function MessageList(props: Props) {
     };
 
     const readMessage = (messageId: number) => {
-        console.log('read');
         handleReadMessage({ chat_id: chatId, messages: [messageId] });
     };
 
@@ -72,12 +71,14 @@ function MessageList(props: Props) {
     ];
 
     const messages: MessageTypes.Message[] | undefined = messageData?.pages.reduce((messages, page) => [...messages, ...page], []);
-
+    const firstPendingMessageId = messages ? messages.find((message) => message.message_status === 'pending')?.id : undefined;
+    console.log(messageData?.pages);
+    console.log(firstPendingMessageId);
     return (
         <MessagesListView
             chat={chatData?.data?.data}
             messages={messages}
-            firstPendingMessageId={messages ? messages.find((message) => message.message_status === 'pending')?.id : undefined}
+            firstPendingMessageId={firstPendingMessageId}
             getNextPage={getNextPage}
             getPrevPage={getPrevPage}
             readMessage={readMessage}

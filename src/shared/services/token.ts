@@ -1,4 +1,5 @@
 import { StorageObjectsNames } from 'shared/enums';
+import { storages } from 'shared/lib';
 import { UniversalStorage } from 'shared/services';
 
 import { useCrypto } from '../hooks';
@@ -22,7 +23,17 @@ class TokenService {
         await UniversalStorage.set(StorageObjectsNames.refresh_token, refreshEncoded);
     }
 
-    async get() {
+    get() {
+        const getDecoded = (access_token: string, refresh_token: string) => ({
+            access_token: useCrypto(access_token, 'decode'),
+            refresh_token: useCrypto(refresh_token, 'decode'),
+        });
+        const access_token = storages.cookie.get(StorageObjectsNames.access_token);
+        const refresh_token = storages.cookie.get(StorageObjectsNames.refresh_token);
+        if (access_token && refresh_token) return getDecoded(access_token, refresh_token);
+    }
+
+    async getAsync() {
         const getDecoded = (access_token: string, refresh_token: string) => ({
             access_token: useCrypto(access_token, 'decode'),
             refresh_token: useCrypto(refresh_token, 'decode'),

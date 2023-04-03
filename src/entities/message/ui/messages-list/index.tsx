@@ -33,7 +33,7 @@ function MessagesListView(props: Props) {
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView();
     const { ref: nextPageRef, inView: inViewNextPage } = useInView();
     const { ref: firstPendingMessagesRef, inView: inViewFirsPendingMessage } = useInView();
-    console.log('firstPendingMessageId', firstPendingMessageId);
+
     useEffect(() => {
         setTimeout(() => inViewPrevPage && getPrevPage(), 200);
     }, [inViewPrevPage]);
