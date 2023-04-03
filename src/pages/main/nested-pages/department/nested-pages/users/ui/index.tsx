@@ -11,7 +11,7 @@ function UsersPage() {
     const selectedUsers = useUserStore.use.selectedUsers();
 
     return (
-        <Box.Animated visible className={styles.page}>
+        <Box.Animated visible className={styles.wrapper}>
             <div className={styles.header}>
                 <BreadcrumbDepartmentPage />
             </div>
@@ -25,7 +25,7 @@ function UsersPage() {
                     animate={{ height: selectedUsers.length ? '76%' : '96%' }}
                     transition={{ duration: 1 }}
                     visible
-                    className={styles.info}
+                    className={styles.list}
                 >
                     <UsersListFromUsersPage />
                 </Box.Animated>

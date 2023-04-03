@@ -6,6 +6,7 @@
   @include flex-column(flex-start, flex-start);
   gap: 8px;
   overflow-y: auto;
+  flex-direction: column-reverse;
 
   .messageWrapper{
     @include box-size(100%, auto);

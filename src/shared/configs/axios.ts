@@ -32,6 +32,7 @@ $axios.interceptors.response.use(
         const originalRequest = error.config;
         const currentTokens = await TokenService.get();
         if (error.response.status === 401 && error.config && currentTokens && !error.config._isRetry) {
+            console.log(error);
             error.config._isRetry = true;
             try {
                 const additional = { grant_type: 'refresh_token', ...secrets.auth };

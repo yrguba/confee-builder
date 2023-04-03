@@ -4,8 +4,8 @@
   overflow: hidden;
   @include flex;
   min-width: 12px;
-  background-color: #F1EDFA;
-  color: var(--main-active);
+  background-color: var(--main-active);
+  color: var(--text-0);
   border-radius: var(--border-radius);
   font-weight: 500;
   font-size: 12px;

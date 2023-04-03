@@ -1,7 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useRef } from 'react';
+import React, { UIEvent, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 
+import { useChatStore } from 'entities/chat';
 import { MessageApi, MessagesListView, useMessageStore, MessageTypes } from 'entities/message';
 import { useToggle, useReverseTimer, useInView } from 'shared/hooks';
 
@@ -11,43 +12,43 @@ type Props = {};
 
 function MessageList(props: Props) {
     // const { children } = props;
+
+    const [prevY, setPrevY] = useState<number | null>(null);
+
     const params = useParams();
-
-    const wrapperRef = useRef<HTMLDivElement>(null);
-
-    const refs = useRef({
-        wrapper: useRef(null),
-        lastMessage: useRef(null),
-    });
+    const initialPage = useChatStore.use.initialPage();
 
     const [_, render] = useToggle();
 
     const { data, hasNextPage, hasPreviousPage, fetchPreviousPage, fetchNextPage, isLoading, isFetching } = MessageApi.handleGetMessages({
         chatId: params.chat_id,
-        page: 1,
+        page: initialPage,
     });
 
     const { isRunning, time, reset, start } = useReverseTimer({ seconds: 1 });
 
     MessageApi.subscriptions((action: string) => {
-        console.log(action);
         render();
     });
 
-    const { ref, inView, entry } = useInView({
-        /* Optional options */
-        threshold: 0,
-    });
+    const handleScroll = ({ currentTarget }: UIEvent<HTMLDivElement>) => {
+        const { scrollTop, scrollHeight, clientHeight } = currentTarget;
 
-    const handleScroll = ({ target }: any) => {
-        if (!isRunning && !isFetching && hasNextPage && target.scrollTop < 200) {
-            fetchNextPage().then();
-            start();
+        if (prevY) {
+            if (scrollTop < prevY) {
+                if (!isFetching && hasNextPage && scrollHeight + (scrollTop - clientHeight) < 200) {
+                    currentTarget.style.flexDirection = 'column-reverse';
+                    fetchNextPage().then();
+                }
+            } else if (!isFetching && hasNextPage && scrollHeight - (scrollTop + clientHeight) < 200) {
+                currentTarget.style.flexDirection = 'column';
+                fetchNextPage().then();
+            }
+        } else {
+            currentTarget.style.flexDirection = 'column-reverse';
         }
-        if (!isRunning && !isFetching && hasPreviousPage && target?.scrollHeight - (target.scrollTop + target.clientHeight) < 200) {
-            fetchPreviousPage().then();
-            start();
-        }
+
+        setPrevY(scrollTop);
     };
 
     const reactionClick = (emoji: any) => {
@@ -64,19 +65,10 @@ function MessageList(props: Props) {
         { id: 6, title: 'Преобразовать в задачу', icon: 'convert' },
     ];
 
-    useEffect(() => {
-        if (wrapperRef.current) {
-            // wrapperRef.current.scroll({ top: wrapperRef.current.scrollHeight, behavior: 'smooth' });
-            wrapperRef.current.scroll({ top: wrapperRef.current.scrollHeight });
-        }
-    }, [wrapperRef.current]);
-    // console.log('render');
-
     return (
         <MessagesListView
             pages={data?.pages.map((page) => page.data.data)}
             handleScroll={handleScroll}
-            ref={null}
             textMessageMenuItems={items}
             reactionClick={reactionClick}
         />

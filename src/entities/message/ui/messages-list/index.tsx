@@ -5,6 +5,7 @@ import { BaseTypes } from 'shared/types';
 import { Dropdown } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { useInView } from '../../../../shared/hooks';
 import { BaseInputProps } from '../../../../shared/ui/input/types';
 import { Massage, MessageMenuItem } from '../../model/types';
 import MessageMenuView from '../menu';
@@ -18,11 +19,16 @@ type Props = {
     reactionClick: (arg: string) => void;
 } & BaseTypes.Statuses;
 
-const MessagesListView = forwardRef<HTMLDivElement, Props>((props: Props, ref) => {
+function MessagesListView(props: Props) {
     const { pages, handleScroll, textMessageMenuItems, reactionClick } = props;
 
+    // const { ref, inView, entry } = useInView({
+    //     /* Optional options */
+    //     threshold: 0,
+    // });
+
     return (
-        <div className={styles.wrapper} ref={ref} onScroll={handleScroll}>
+        <div className={styles.wrapper} onScroll={handleScroll}>
             {pages?.map((page) =>
                 page?.map((message) => (
                     <div key={message.id} className={styles.messageWrapper}>
@@ -44,6 +50,6 @@ const MessagesListView = forwardRef<HTMLDivElement, Props>((props: Props, ref) =
             )}
         </div>
     );
-});
+}
 
 export default MessagesListView;
