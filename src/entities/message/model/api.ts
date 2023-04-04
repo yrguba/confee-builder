@@ -1,12 +1,13 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
+import { ViewerService } from 'entities/viewer';
 import { $axios, $socket } from 'shared/configs';
 import { response } from 'shared/lib/handlers';
 
-import { Message } from './types';
+import messageProxy from './proxy';
+import { Message, MessageProxy } from './types';
 import message from '../../../features/menu-dropdown/ui/message';
-import pages from '../../../pages';
 import { Chat } from '../../chat/model/types';
 import { messageConstants } from '../index';
 import ApiService from '../lib/api-service';
@@ -19,15 +20,8 @@ class MessageApi {
 
     private limit = message_limit;
 
-    handleGetMessages({ page, chatId }: { page: number | undefined; chatId: number }) {
-        const queryClient = useQueryClient();
-        const chat = queryClient.getQueryData<{ data: { data: Chat } }>(['get-chat', chatId]);
-        const initialPage = chat
-            ? chat?.data.data.pending_messages === 0
-                ? 1
-                : Math.ceil(chat.data.data.pending_messages / messageConstants.message_limit)
-            : undefined;
-
+    handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined; chatId: number }) {
+        const viewerId = ViewerService.getId();
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
@@ -48,8 +42,16 @@ class MessageApi {
                     return lastPage?.data.page + 1;
                 },
                 select: (data) => {
+                    if (!data.pages.length) return data;
+                    const pages = data.pages.reduce((messages: any, page: any) => {
+                        const messagesInPage = [...page.data.data].reverse();
+                        return [
+                            ...messagesInPage.map((message: Message, index: number) => messageProxy(messagesInPage[index - 1], message, viewerId)),
+                            ...messages,
+                        ];
+                    }, []);
                     return {
-                        pages: data.pages.map((page) => [...page.data.data].reverse()).reverse(),
+                        pages,
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },
@@ -72,6 +74,7 @@ class MessageApi {
 
     handleReadMessage() {
         return (data: { chat_id: number; messages: number[] }) => {
+            console.log('read', data.messages);
             data.messages && this.socket.emit('messageRead', data);
         };
     }
@@ -127,22 +130,22 @@ class MessageApi {
                 });
             });
             this.socket.on('receiveMessageStatus', (data) => {
-                queryClient.setQueryData(['get-chat', data.chat_id], (cacheData: any) => {
-                    cacheData.data.data.pending_messages = data.pending_messages;
-                    return cacheData;
-                });
+                console.log('receiveMessageStatus', data);
+                // queryClient.setQueryData(['get-chat', data.chat_id], (cacheData: any) => {
+                //     cacheData.data.data.pending_messages = data.pending_messages;
+                //     return cacheData;
+                // });
                 queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
                     cacheData &&
                         cacheData.pages.forEach((page: any) => {
                             page.data.data.forEach((message: Message) => {
                                 data.messages.forEach((responseMessage: Message) => {
                                     if (responseMessage.id === message.id) {
-                                        message.message_status = 'read';
+                                        message.message_status = responseMessage.message_status;
                                     }
                                 });
                             });
                         });
-                    console.log(cacheData);
                     callback('read-message');
                     return cacheData;
                 });

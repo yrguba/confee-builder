@@ -2,11 +2,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { UIEvent, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 
-import { useChatStore, ChatApi } from 'entities/chat';
+import { useChatStore, ChatApi, ChatService } from 'entities/chat';
 import { MessageApi, MessagesListView, useMessageStore, MessageTypes, messageConstants } from 'entities/message';
 import { useToggle, useReverseTimer, useInView } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 
+import { MessageProxy } from '../../../entities/message/model/types';
+import { ViewerService } from '../../../entities/viewer';
 import { Button } from '../../../shared/ui';
 
 type Props = {};
@@ -18,47 +20,26 @@ function MessageList(props: Props) {
     const chatId = Number(params.chat_id);
 
     MessageApi.subscriptions((action: string) => {
-        console.log(action);
         render();
     });
 
     const { data: chatData } = ChatApi.handleGetChat({ chatId });
-    const chat = chatData?.data?.data;
+    const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
     const handleReadMessage = MessageApi.handleReadMessage();
+
     const {
         data: messageData,
         hasNextPage,
         hasPreviousPage,
         fetchPreviousPage,
         fetchNextPage,
-        isLoading,
         isFetching,
-    } = MessageApi.handleGetMessages({
-        chatId,
-        page: chat?.totalMessages ? (chat?.pending_messages ? Math.ceil(chat.pending_messages / messageConstants.message_limit) : undefined) : 1,
-    });
+    } = MessageApi.handleGetMessages({ chatId, initialPage: ChatService.getInitialPage(chatData?.data?.data) });
 
-    const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
-
-    const getPrevPage = () => {
-        if (hasPreviousPage && !isFetching) {
-            fetchPreviousPage().then();
-        }
-    };
-
-    const getNextPage = () => {
-        if (hasNextPage && !isFetching) {
-            fetchNextPage().then();
-        }
-    };
-
-    const readMessage = (messageId: number) => {
-        handleReadMessage({ chat_id: chatId, messages: [messageId] });
-    };
-
-    const reactionClick = (messageId: number, reaction: any) => {
-        handleSendReaction({ chatId, messageId, reaction: reactionConverter(reaction, 'html') });
-    };
+    const getPrevPage = () => hasPreviousPage && !isFetching && fetchPreviousPage().then();
+    const getNextPage = () => hasNextPage && !isFetching && fetchNextPage().then();
+    const reactionClick = (messageId: number, reaction: any) => handleSendReaction({ chatId, messageId, reaction: reactionConverter(reaction, 'html') });
+    const readMessage = (messageId: number) => handleReadMessage({ chat_id: chatId, messages: [messageId] });
 
     const items: MessageTypes.MessageMenuItem[] = [
         { id: 0, title: 'Ответить на сообщение', icon: 'answer' },
@@ -70,15 +51,10 @@ function MessageList(props: Props) {
         { id: 6, title: 'Преобразовать в задачу', icon: 'convert' },
     ];
 
-    const messages: MessageTypes.Message[] | undefined = messageData?.pages.reduce((messages, page) => [...messages, ...page], []);
-    const firstPendingMessageId = messages ? messages.find((message) => message.message_status === 'pending')?.id : undefined;
-    console.log(messageData?.pages);
-    console.log(firstPendingMessageId);
     return (
         <MessagesListView
             chat={chatData?.data?.data}
-            messages={messages}
-            firstPendingMessageId={firstPendingMessageId}
+            messages={messageData?.pages}
             getNextPage={getNextPage}
             getPrevPage={getPrevPage}
             readMessage={readMessage}

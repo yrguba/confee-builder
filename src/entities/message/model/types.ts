@@ -22,6 +22,11 @@ export type Message = {
     created_at: Date;
 };
 
+export type MessageProxy = {
+    isMy: boolean;
+    isFirstUnread: boolean;
+} & Message;
+
 export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
 
 export type MessageMenuItem = {

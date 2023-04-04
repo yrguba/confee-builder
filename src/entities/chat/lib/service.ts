@@ -1,5 +1,6 @@
 import { useEnding } from 'shared/hooks';
 
+import { messageConstants } from '../../message';
 import { Chat } from '../model/types';
 
 class ChatService {
@@ -18,6 +19,12 @@ class ChatService {
             return `${chat.users.length} ${word}`;
         }
         return 'last message';
+    }
+
+    getInitialPage(chat: Chat | undefined) {
+        if (!chat) return undefined;
+        if (chat.pending_messages === 0) return 1;
+        return Math.ceil(chat.pending_messages / messageConstants.message_limit);
     }
 }
 
