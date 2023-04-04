@@ -1,11 +1,20 @@
-import React, { useTransition } from 'react';
+import React, { useEffect, useTransition } from 'react';
 import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ChatListView, ChatApi, ChatTypes, ChatService, useChatStore } from 'entities/chat';
 import { messageConstants } from 'entities/message';
 
+import { useToggle } from '../../../shared/hooks';
+
 function ChatsList() {
+    const [_, render] = useToggle();
+
+    ChatApi.subscriptions((action) => {
+        console.log(action);
+        render();
+    });
+
     const { data, isLoading } = ChatApi.handleGetChats();
 
     const navigate = useNavigate();

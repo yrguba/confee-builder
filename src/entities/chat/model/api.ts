@@ -1,12 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
-import { $axios } from 'shared/configs';
+import { $axios, $socket } from 'shared/configs';
 import { handlers } from 'shared/lib';
 
 import { Chat } from './types';
+import { Message } from '../../message/model/types';
+import { ChatTypes } from '../index';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
+
+    private socket = $socket();
 
     handleGetChat = (data: { chatId: number }) => {
         return useQuery(['get-chat', data.chatId], () => $axios.get(`${this.pathPrefix}/${data.chatId}`), {
@@ -26,6 +31,38 @@ class ChatApi {
             },
         });
     };
+
+    subscriptions(callback: (action: string) => void) {
+        const queryClient = useQueryClient();
+        useEffect(() => {
+            this.socket.on('receiveMessage', ({ message }) => {
+                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                    cacheData &&
+                        cacheData.data.data.forEach((chat: ChatTypes.Chat) => {
+                            if (chat.id === Number(message.chat_id)) {
+                                chat.message.splice(0, 1, message);
+                                if (message.message_status === 'pending') {
+                                    chat.pending_messages += 1;
+                                }
+                            }
+                        });
+                });
+                callback('new-message');
+            });
+            this.socket.on('receiveMessageStatus', (data) => {
+                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                    cacheData &&
+                        cacheData.data.data.forEach((chat: ChatTypes.Chat) => {
+                            if (chat.id === Number(data.chat_id)) {
+                                chat.pending_messages = data.pending_messages;
+                            }
+                        });
+                    return cacheData;
+                });
+                callback('read-message');
+            });
+        }, []);
+    }
 }
 
 export default new ChatApi();

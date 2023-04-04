@@ -96,21 +96,6 @@ class MessageApi {
         const queryClient = useQueryClient();
         useEffect(() => {
             this.socket.on('receiveMessage', ({ message }) => {
-                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
-                    cacheData &&
-                        cacheData.data.data.forEach((chat: ChatTypes.Chat) => {
-                            if (chat.id === Number(message.chat_id)) {
-                                chat.message[0] = message;
-                                if (message.message_status === 'pending') {
-                                    chat.pending_messages += 1;
-                                }
-                                console.log(chat);
-                            }
-                        });
-                    // cacheData && cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
-                    // callback('new-messages');
-                    // return cacheData;
-                });
                 queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
                     cacheData && cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
                     callback('new-messages');
@@ -131,11 +116,6 @@ class MessageApi {
                 });
             });
             this.socket.on('receiveMessageStatus', (data) => {
-                console.log('receiveMessageStatus', data);
-                // queryClient.setQueryData(['get-chat', data.chat_id], (cacheData: any) => {
-                //     cacheData.data.data.pending_messages = data.pending_messages;
-                //     return cacheData;
-                // });
                 queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
                     cacheData &&
                         cacheData.pages.forEach((page: any) => {
