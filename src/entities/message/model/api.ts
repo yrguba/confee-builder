@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
+import { ChatTypes, ChatService } from 'entities/chat';
 import { ViewerService } from 'entities/viewer';
 import { $axios, $socket } from 'shared/configs';
 import { response } from 'shared/lib/handlers';
@@ -8,7 +9,6 @@ import { response } from 'shared/lib/handlers';
 import messageProxy from './proxy';
 import { Message, MessageProxy } from './types';
 import message from '../../../features/menu-dropdown/ui/message';
-import { Chat } from '../../chat/model/types';
 import { messageConstants } from '../index';
 import ApiService from '../lib/api-service';
 import { message_limit } from '../lib/constants';
@@ -22,6 +22,7 @@ class MessageApi {
 
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined; chatId: number }) {
         const viewerId = ViewerService.getId();
+
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
@@ -97,7 +98,7 @@ class MessageApi {
             this.socket.on('receiveMessage', ({ message }) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                     cacheData &&
-                        cacheData.data.data.forEach((chat: Chat) => {
+                        cacheData.data.data.forEach((chat: ChatTypes.Chat) => {
                             if (chat.id === Number(message.chat_id)) {
                                 chat.message[0] = message;
                                 if (message.message_status === 'pending') {

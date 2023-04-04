@@ -8,7 +8,9 @@ function messageProxy(prevMessage: Message, message: Message, viewerId: number |
                     return target.user.id === viewerId && target.message_type !== 'system';
 
                 case 'isFirstUnread':
-                    return target.message_status === 'pending' && prevMessage && prevMessage.message_status !== 'pending';
+                    if (!prevMessage && target.message_status === 'pending') return true;
+                    if (!prevMessage) return false;
+                    return target.message_status === 'pending' && prevMessage.message_status !== 'pending';
 
                 default:
                     return target[prop];

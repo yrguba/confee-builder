@@ -29,7 +29,7 @@ function MessagesListView(props: Props) {
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
-    const initialMessageRef = useRef<HTMLDivElement>(null);
+
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
     const { ref: firstPendingMessagesRef, inView: inViewFirsPendingMessage } = useInView();
@@ -42,6 +42,7 @@ function MessagesListView(props: Props) {
         }
         return null;
     };
+    const [scrollIntoView, setScrollIntoView] = useState(true);
 
     useEffect(() => {
         inViewPrevPage && getPrevPage();
@@ -52,7 +53,7 @@ function MessagesListView(props: Props) {
     }, [inViewNextPage]);
 
     useEffect(() => {
-        if (messageRef.current) {
+        if (messageRef.current && scrollIntoView) {
             messageRef.current.scrollIntoView({ block: 'center' });
         }
     }, [messageRef.current]);
@@ -60,7 +61,10 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         if (inViewFirsPendingMessage && messages) {
             const id = messages.find((message: MessageProxy) => message.isFirstUnread)?.id || null;
-            // id && readMessage(id);
+            if (id) {
+                setScrollIntoView(false);
+                setTimeout(() => readMessage(id), 200);
+            }
         }
     }, [inViewFirsPendingMessage, messageRef.current]);
 

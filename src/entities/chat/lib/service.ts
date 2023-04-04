@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query';
+
 import { useEnding } from 'shared/hooks';
 
 import { messageConstants } from '../../message';
@@ -10,6 +12,12 @@ class ChatService {
 
     checkIsOpenChatInfo(): boolean {
         return !!window.location.href.split('/').find((i) => ['group_chat', 'private_chat'].includes(i));
+    }
+
+    getChat(id: number) {
+        const queryClient = useQueryClient();
+        const data: { data: { data: Chat } } | undefined = queryClient.getQueryData(['get-chat', id]);
+        return data ? data.data.data : null;
     }
 
     getChatSubtitle(chat: Chat | null): string {
