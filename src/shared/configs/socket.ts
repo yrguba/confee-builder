@@ -3,7 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import { http } from '../constanst';
 import { TokenService } from '../services';
 
-function $socket(): Socket {
+function socketIo(): Socket {
     const tokens = TokenService.get();
     return io(http.url, {
         extraHeaders: {
@@ -13,4 +13,4 @@ function $socket(): Socket {
     });
 }
 
-export default $socket;
+export default socketIo();

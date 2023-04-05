@@ -1,20 +1,17 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-import { $axios, $socket } from 'shared/configs';
+import { axiosClient, socketIo } from 'shared/configs';
 import { handlers } from 'shared/lib';
 
 import { Chat } from './types';
-import { Message } from '../../message/model/types';
 import { ChatTypes } from '../index';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
 
-    private socket = $socket();
-
     handleGetChat = (data: { chatId: number }) => {
-        return useQuery(['get-chat', data.chatId], () => $axios.get(`${this.pathPrefix}/${data.chatId}`), {
+        return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
             staleTime: Infinity,
             select: (data) => {
                 return handlers.response<{ data: Chat }>(data);
@@ -24,7 +21,7 @@ class ChatApi {
     };
 
     handleGetChats = () => {
-        return useQuery(['get-chats'], () => $axios.get(this.pathPrefix), {
+        return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (data) => {
                 return handlers.response<{ data: Chat[] }>(data);
@@ -35,7 +32,7 @@ class ChatApi {
     subscriptions(callback: (action: string) => void) {
         const queryClient = useQueryClient();
         useEffect(() => {
-            this.socket.on('receiveMessage', ({ message }) => {
+            socketIo.on('receiveMessage', ({ message }) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                     cacheData &&
                         cacheData.data.data.forEach((chat: ChatTypes.Chat) => {
@@ -49,7 +46,7 @@ class ChatApi {
                 });
                 callback('new-message');
             });
-            this.socket.on('receiveMessageStatus', (data) => {
+            socketIo.on('receiveMessageStatus', (data) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                     cacheData &&
                         cacheData.data.data.forEach((chat: ChatTypes.Chat) => {
@@ -57,6 +54,12 @@ class ChatApi {
                                 chat.pending_messages = data.pending_messages;
                             }
                         });
+                    return cacheData;
+                });
+                queryClient.setQueryData(['get-chat', data.chat_id], (cacheData: any) => {
+                    if (cacheData) {
+                        cacheData.data.data.pending_messages = data.pending_messages;
+                    }
                     return cacheData;
                 });
                 callback('read-message');

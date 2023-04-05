@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTransition } from 'react';
 
-import { $axios } from 'shared/configs';
+import { axiosClient } from 'shared/configs';
 import { handlers } from 'shared/lib';
 
 import { User } from './types';
@@ -11,7 +11,7 @@ class UserApi {
 
     handleGetUser(data: { id: string }) {
         const queryClient = useQueryClient();
-        const getViewerFn = () => $axios.get(`/auth/api/v1/user/${data.id}`);
+        const getViewerFn = () => axiosClient.get(`/auth/api/v1/user/${data.id}`);
 
         return useQuery(['get-private-chat-info', data.id], getViewerFn, {
             enabled: false,
@@ -33,7 +33,7 @@ class UserApi {
     // }
 
     handleGetUsers() {
-        const getViewerFn = () => $axios.get(`${this.pathPrefix}`);
+        const getViewerFn = () => axiosClient.get(`${this.pathPrefix}`);
         return useQuery(['get-users'], getViewerFn, {
             staleTime: 10000 * 30,
             select: (data) => {
@@ -43,7 +43,7 @@ class UserApi {
     }
 
     handleGetDepartments() {
-        const getViewerFn = () => $axios.get('/auth/api/v1/users');
+        const getViewerFn = () => axiosClient.get('/auth/api/v1/users');
         return useQuery(['get-departments'], getViewerFn, {
             staleTime: 10000 * 30,
             select: (data) => {

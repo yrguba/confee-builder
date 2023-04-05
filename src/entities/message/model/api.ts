@@ -3,22 +3,15 @@ import { useEffect } from 'react';
 
 import { ChatTypes, ChatService } from 'entities/chat';
 import { ViewerService } from 'entities/viewer';
-import { $axios, $socket } from 'shared/configs';
+import { axiosClient, socketIo } from 'shared/configs';
 import { response } from 'shared/lib/handlers';
 
 import messageProxy from './proxy';
 import { Message, MessageProxy } from './types';
-import message from '../../../features/menu-dropdown/ui/message';
-import { messageConstants } from '../index';
-import ApiService from '../lib/api-service';
 import { message_limit } from '../lib/constants';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
-
-    private socket = $socket();
-
-    private limit = message_limit;
 
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined; chatId: number }) {
         const viewerId = ViewerService.getId();
@@ -26,10 +19,10 @@ class MessageApi {
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
-                return $axios.get(`${this.pathPrefix}/${chatId}/messages`, {
+                return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
                     params: {
                         page: pageParam || initialPage,
-                        limit: this.limit,
+                        limit: message_limit,
                     },
                 });
             },
@@ -39,20 +32,15 @@ class MessageApi {
                     return lastPage?.data.page - 1;
                 },
                 getNextPageParam: (lastPage, pages) => {
-                    if (lastPage?.data.page === Math.ceil(lastPage.data.total / this.limit)) return undefined;
+                    if (lastPage?.data.page === Math.ceil(lastPage.data.total / message_limit)) return undefined;
                     return lastPage?.data.page + 1;
                 },
                 select: (data) => {
                     if (!data.pages.length) return data;
-                    const pages = data.pages.reduce((messages: any, page: any) => {
-                        const messagesInPage = [...page.data.data].reverse();
-                        return [
-                            ...messagesInPage.map((message: Message, index: number) => messageProxy(messagesInPage[index - 1], message, viewerId)),
-                            ...messages,
-                        ];
-                    }, []);
+                    const messages: Message[] = data.pages.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []);
+                    const addProxy: any[] = messages.map((message: Message, index: number) => messageProxy(messages[index - 1], message, viewerId));
                     return {
-                        pages,
+                        pages: addProxy,
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },
@@ -64,7 +52,8 @@ class MessageApi {
 
     handleSendTextMessage() {
         return useMutation(
-            (data: { text: string; chatId: number }) => $axios.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' }),
+            (data: { text: string; chatId: number }) =>
+                axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' }),
             {
                 onMutate: () => {},
                 onSettled: () => {},
@@ -75,15 +64,14 @@ class MessageApi {
 
     handleReadMessage() {
         return (data: { chat_id: number; messages: number[] }) => {
-            console.log('read', data.messages);
-            data.messages && this.socket.emit('messageRead', data);
+            data.messages && socketIo.emit('messageRead', data);
         };
     }
 
     handleSendReaction() {
         return useMutation(
             (data: { chatId: number; messageId: number; reaction: string }) =>
-                $axios.post(`${this.pathPrefix}/${data.chatId}/message/${data.messageId}/reaction`, { reaction: data.reaction }),
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/message/${data.messageId}/reaction`, { reaction: data.reaction }),
             {
                 onMutate: () => {},
                 onSettled: () => {},
@@ -95,14 +83,14 @@ class MessageApi {
     subscriptions(callback: (action: string) => void) {
         const queryClient = useQueryClient();
         useEffect(() => {
-            this.socket.on('receiveMessage', ({ message }) => {
+            socketIo.on('receiveMessage', ({ message }) => {
                 queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
                     cacheData && cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
                     callback('new-messages');
                     return cacheData;
                 });
             });
-            this.socket.on('receiveReactions', ({ data }) => {
+            socketIo.on('receiveReactions', ({ data }) => {
                 queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
                     cacheData.pages.forEach((page: any) => {
                         page.data.data.forEach((message: any) => {
@@ -115,13 +103,16 @@ class MessageApi {
                     return cacheData;
                 });
             });
-            this.socket.on('receiveMessageStatus', (data) => {
+            socketIo.on('receiveMessageStatus', (data) => {
                 queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
                     cacheData &&
                         cacheData.pages.forEach((page: any) => {
-                            page.data.data.forEach((message: Message) => {
-                                data.messages.forEach((responseMessage: Message) => {
+                            page.data.data.forEach((message: Record<string, any>) => {
+                                data.messages.forEach((responseMessage: Record<string, any>, index: number) => {
                                     if (responseMessage.id === message.id) {
+                                        Object.keys(responseMessage).forEach((key) => {
+                                            message[key] = responseMessage[key];
+                                        });
                                         message.message_status = responseMessage.message_status;
                                     }
                                 });

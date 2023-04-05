@@ -3,7 +3,7 @@ import { mergeRefs } from 'react-merge-refs';
 
 import { useScroll, useSize, useStyles, useInView, useScrollTo, useReverseTimer } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Dropdown } from 'shared/ui';
+import { Button, Counter, Dropdown } from 'shared/ui';
 import { BaseInputProps } from 'shared/ui/input/types';
 
 import styles from './styles.module.scss';
@@ -101,9 +101,11 @@ function MessagesListView(props: Props) {
                     )}
                 </Fragment>
             ))}
-            <div className={styles.btnDown}>
-                <Button.Circle active>{chat?.pending_messages}</Button.Circle>
-            </div>
+            {chat?.pending_messages ? (
+                <div className={styles.btnDown}>
+                    <Counter>{chat.pending_messages}</Counter>
+                </div>
+            ) : null}
         </div>
     );
 }

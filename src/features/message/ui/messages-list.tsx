@@ -36,10 +36,15 @@ function MessageList(props: Props) {
         isFetching,
     } = MessageApi.handleGetMessages({ chatId, initialPage: ChatService.getInitialPage(chatData?.data?.data) });
 
-    const getPrevPage = () => hasPreviousPage && !isFetching && fetchPreviousPage().then();
-    const getNextPage = () => hasNextPage && !isFetching && fetchNextPage().then();
     const reactionClick = (messageId: number, reaction: any) => handleSendReaction({ chatId, messageId, reaction: reactionConverter(reaction, 'html') });
     const readMessage = (messageId: number) => handleReadMessage({ chat_id: chatId, messages: [messageId] });
+    const getPrevPage = () => {
+        readMessage(messageData?.pages[messageData?.pages.length - 1].id);
+        hasPreviousPage && !isFetching && fetchPreviousPage().then();
+    };
+    const getNextPage = () => {
+        hasNextPage && !isFetching && fetchNextPage().then();
+    };
 
     const items: MessageTypes.MessageMenuItem[] = [
         { id: 0, title: 'Ответить на сообщение', icon: 'answer' },
