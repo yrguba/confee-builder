@@ -6,8 +6,11 @@ import { messageConstants } from '../../message';
 import { Chat } from '../model/types';
 
 class ChatService {
-    checkIsOpenChat(): boolean {
-        return !!window.location.href.split('/').find((i) => ['chat'].includes(i));
+    getOpenChatId(): number | null {
+        if (window.location.href.split('/').find((i) => ['chat'].includes(i))) {
+            return Number(window.location.href.split('/')[6]);
+        }
+        return null;
     }
 
     checkIsOpenChatInfo(): boolean {

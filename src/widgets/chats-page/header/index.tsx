@@ -12,16 +12,14 @@ import styles from './styles.module.scss';
 function HeaderForChatsPage() {
     const { pathname } = useLocation();
 
+    const openChatId = ChatService.getOpenChatId();
+
     return (
         <div className={styles.wrapper}>
-            <Box.Animated visible={ChatService.checkIsOpenChat()} key={pathname.split('/')[4]} className={styles.card}>
+            <Box.Animated visible={!!openChatId} key={pathname.split('/')[4]} className={styles.card}>
                 <ChatCard />
             </Box.Animated>
-            <Box.Animated
-                visible={ChatService.checkIsOpenChat() && !ChatService.checkIsOpenChatInfo()}
-                animationVariant="autoWidth"
-                className={styles.rightColumn}
-            >
+            <Box.Animated visible={!!openChatId && !ChatService.checkIsOpenChatInfo()} animationVariant="autoWidth" className={styles.rightColumn}>
                 <SearchMessages />
                 <VideoCallBtn />
                 <AudioCallBtn />

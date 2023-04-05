@@ -29,6 +29,15 @@ class ChatApi {
         });
     };
 
+    handleSubscribeToChat = () => {
+        return (subChatId: number | null, unsubChatId: number | null) => {
+            socketIo.emit('chatListeners', {
+                sub: subChatId,
+                unsub: unsubChatId,
+            });
+        };
+    };
+
     subscriptions(callback: (action: string) => void) {
         const queryClient = useQueryClient();
         useEffect(() => {

@@ -11,7 +11,6 @@ function ChatsList() {
     const [_, render] = useToggle();
 
     ChatApi.subscriptions((action) => {
-        console.log(action);
         render();
     });
 
