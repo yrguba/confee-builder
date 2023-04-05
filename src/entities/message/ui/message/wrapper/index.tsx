@@ -29,7 +29,7 @@ function Wrapper(props: Props) {
             <div className={styles.mainColumn}>
                 <div className={styles.content}>
                     {!message.isMy && <div className={styles.name}>{user.name}</div>}
-                    <div className={styles.message}>{children}</div>
+                    <div className={styles.messageContent}>{children}</div>
                     <div className={styles.reactions}>
                         {Object.entries(reactions).map(([reaction, arr]) =>
                             arr.length ? (

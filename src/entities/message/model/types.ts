@@ -19,6 +19,7 @@ export type File = {
 export type Message = {
     id: number;
     text: string;
+    content: File[];
     user: UserTypes.User;
     message_type: MessageType;
     message_status: MessageStatus;

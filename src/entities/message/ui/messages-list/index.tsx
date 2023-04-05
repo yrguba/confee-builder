@@ -12,6 +12,7 @@ import pages from '../../../../pages';
 import { ChatTypes, ChatService } from '../../../chat';
 import { Message, MessageMenuItem, MessageProxy } from '../../model/types';
 import MessageMenuView from '../menu';
+import ImageMessageView from '../message/image';
 import SystemMessageView from '../message/system';
 import TextMessageView from '../message/text';
 
@@ -98,7 +99,8 @@ function MessagesListView(props: Props) {
                                     position="right-center"
                                     content={<MessageMenuView reactionClick={(reaction) => reactionClick(message.id, reaction)} items={textMessageMenuItems} />}
                                 >
-                                    <TextMessageView message={message} reactionClick={reactionClick} />
+                                    {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}
+                                    {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />}
                                 </Dropdown>
                             </div>
                         )}
