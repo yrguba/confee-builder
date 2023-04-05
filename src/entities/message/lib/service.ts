@@ -5,7 +5,6 @@ import { Message } from '../model/types';
 class MessageService {
     checkIsSelf(message: Message) {
         const queryClient = useQueryClient();
-        console.log(message);
     }
 }
 

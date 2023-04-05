@@ -9,13 +9,9 @@ function UsersList() {
     const setSelectedUser = useUserStore.use.setSelectedUsers();
     const selectedUser = useUserStore.use.selectedUsers();
 
-    const pageClick = (page: number) => {
-        console.log(page);
-    };
+    const pageClick = (page: number) => {};
 
-    const clickOnUserCard = (user: UserTypes.User) => {
-        console.log(user);
-    };
+    const clickOnUserCard = (user: UserTypes.User) => {};
 
     const [users, setUsers] = useState([]);
 

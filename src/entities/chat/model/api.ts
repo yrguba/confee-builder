@@ -40,7 +40,6 @@ class ChatApi {
     };
 
     handleGetChatFiles = (data: { id: string | undefined; byUserId: boolean; fileType: MessageTypes.MessageType }) => {
-        console.log(data);
         const getFiles = (chatId: number | undefined) => {
             return useQuery(['get-chat-files', Number(data.id), data.fileType], () => axiosClient.get(`${this.pathPrefix}/${chatId}/files/${data.fileType}`), {
                 staleTime: Infinity,
@@ -52,7 +51,6 @@ class ChatApi {
         };
         if (data.byUserId) {
             const { data: privateChatData } = this.handleGetChatWithUser({ userId: Number(data.id) });
-            console.log(privateChatData);
             return getFiles(privateChatData?.data?.data.id);
         }
         return getFiles(Number(data.id));

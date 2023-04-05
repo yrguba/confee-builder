@@ -3,10 +3,13 @@ import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ChatCardView, ChatService, ChatApi, ChatTypes } from 'entities/chat';
+import { ViewerService } from 'entities/viewer';
 
 function ChatCard() {
     const navigate = useNavigate();
     const params = useParams();
+
+    const viewerId = ViewerService.getId();
 
     const { data } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
@@ -15,7 +18,8 @@ function ChatCard() {
             if (chat.is_group) {
                 navigate(`group_chat/${chat.id}/users`);
             } else {
-                navigate(`private_chat/${23}/images`);
+                const userId = chat.users.find((userId) => userId !== viewerId);
+                navigate(`private_chat/${userId}/images`);
             }
         }
     };

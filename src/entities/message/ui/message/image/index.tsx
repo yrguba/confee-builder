@@ -21,7 +21,7 @@ function ImageMessageView(props: Props) {
         <Wrapper message={message} reactionClick={reactionClick}>
             <div className={styles.wrapper}>
                 {message.content.map((obj, index) => (
-                    <div className={`${styles.item} ${index === 0 || index % 3 === 0 ? styles.item_big : ''}`}>
+                    <div key={index} className={`${styles.item} ${index === 0 || index % 3 === 0 ? styles.item_big : ''}`}>
                         <Image img={http.url + obj.url} />
                     </div>
                 ))}
