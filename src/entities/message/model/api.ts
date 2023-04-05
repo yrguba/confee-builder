@@ -38,7 +38,7 @@ class MessageApi {
                 select: (data) => {
                     if (!data.pages.length) return data;
                     const messages: Message[] = data.pages.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []);
-                    const addProxy: any[] = uniqueArray(messages, 'id').filter((message: Message, index: number) =>
+                    const addProxy: any[] = uniqueArray(messages, 'id').map((message: Message, index: number) =>
                         messageProxy(messages[index - 1], message, viewerId)
                     );
                     return {

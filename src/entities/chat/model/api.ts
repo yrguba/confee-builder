@@ -60,8 +60,7 @@ class ChatApi {
                             }
                         });
                 });
-                queryClient.setQueryData(['get-chat', message.chat_id], (cacheData: any) => {
-                    console.log(message);
+                queryClient.setQueryData(['get-chat', Number(message.chat_id)], (cacheData: any) => {
                     if (cacheData && message.message_status === 'pending') {
                         cacheData.data.data.pending_messages += 1;
                     }

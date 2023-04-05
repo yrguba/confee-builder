@@ -1,5 +1,6 @@
 import React, { useRef, UIEvent, Fragment, useEffect, RefObject, useState, useMemo, useCallback } from 'react';
 import { mergeRefs } from 'react-merge-refs';
+import { useParams } from 'react-router';
 
 import { useScroll, useSize, useStyles, useInView, useScrollTo, useReverseTimer } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -26,6 +27,8 @@ type Props = {
 
 function MessagesListView(props: Props) {
     const { chat, messages, readMessage, getPrevPage, getNextPage, textMessageMenuItems, reactionClick } = props;
+
+    const params = useParams();
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
@@ -74,6 +77,10 @@ function MessagesListView(props: Props) {
             }
         }
     }, [inViewFirsPendingMessage, messageRef.current]);
+
+    useEffect(() => {
+        setInitial(true);
+    }, [params.chat_id]);
 
     return (
         <div className={styles.wrapper} ref={wrapperRef}>
