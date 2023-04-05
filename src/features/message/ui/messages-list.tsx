@@ -24,6 +24,7 @@ function MessageList(props: Props) {
     });
 
     const { data: chatData } = ChatApi.handleGetChat({ chatId });
+
     const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
     const handleReadMessage = MessageApi.handleReadMessage();
 

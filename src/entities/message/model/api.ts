@@ -1,9 +1,9 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-import { ChatTypes, ChatService } from 'entities/chat';
 import { ViewerService } from 'entities/viewer';
 import { axiosClient, socketIo } from 'shared/configs';
+import { uniqueArray } from 'shared/lib';
 import { response } from 'shared/lib/handlers';
 
 import messageProxy from './proxy';
@@ -38,7 +38,9 @@ class MessageApi {
                 select: (data) => {
                     if (!data.pages.length) return data;
                     const messages: Message[] = data.pages.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []);
-                    const addProxy: any[] = messages.map((message: Message, index: number) => messageProxy(messages[index - 1], message, viewerId));
+                    const addProxy: any[] = uniqueArray(messages, 'id').filter((message: Message, index: number) =>
+                        messageProxy(messages[index - 1], message, viewerId)
+                    );
                     return {
                         pages: addProxy,
                         pageParams: [...data.pageParams].reverse(),
@@ -85,8 +87,16 @@ class MessageApi {
         useEffect(() => {
             socketIo.on('receiveMessage', ({ message }) => {
                 queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
-                    cacheData && cacheData.pages[cacheData.pages.length - 1].data.data.unshift(message);
-                    callback('new-messages');
+                    if (cacheData) {
+                        const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
+                        if (pageOne) {
+                            const firstMessage = pageOne.data.data[0];
+                            if (firstMessage.id !== message.id) {
+                                pageOne.data.data.unshift(message);
+                                callback('new-messages');
+                            }
+                        }
+                    }
                     return cacheData;
                 });
             });

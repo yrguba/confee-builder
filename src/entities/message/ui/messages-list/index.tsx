@@ -8,7 +8,7 @@ import { BaseInputProps } from 'shared/ui/input/types';
 
 import styles from './styles.module.scss';
 import pages from '../../../../pages';
-import { ChatTypes } from '../../../chat';
+import { ChatTypes, ChatService } from '../../../chat';
 import { Message, MessageMenuItem, MessageProxy } from '../../model/types';
 import MessageMenuView from '../menu';
 import SystemMessageView from '../message/system';
@@ -42,10 +42,17 @@ function MessagesListView(props: Props) {
         }
         return null;
     };
-    const [scrollIntoView, setScrollIntoView] = useState(true);
+    const [initial, setInitial] = useState(true);
 
     useEffect(() => {
-        inViewPrevPage && getPrevPage();
+        if (chat?.id) {
+            if (inViewPrevPage) {
+                ChatService.subscribeToChat(chat.id);
+                getPrevPage();
+            } else {
+                ChatService.unsubscribeFromChat(chat.id);
+            }
+        }
     }, [inViewPrevPage]);
 
     useEffect(() => {
@@ -53,8 +60,9 @@ function MessagesListView(props: Props) {
     }, [inViewNextPage]);
 
     useEffect(() => {
-        if (messageRef.current && scrollIntoView) {
+        if (messageRef.current && (initial || ChatService.checkChatIsSubscribed())) {
             messageRef.current.scrollIntoView({ block: 'center' });
+            setInitial(false);
         }
     }, [messageRef.current]);
 
@@ -62,7 +70,6 @@ function MessagesListView(props: Props) {
         if (inViewFirsPendingMessage && messages) {
             const id = messages.find((message: MessageProxy) => message.isFirstUnread)?.id || null;
             if (id) {
-                setScrollIntoView(false);
                 setTimeout(() => readMessage(id), 200);
             }
         }

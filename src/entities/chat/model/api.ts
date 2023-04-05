@@ -30,10 +30,17 @@ class ChatApi {
     };
 
     handleSubscribeToChat = () => {
-        return (subChatId: number | null, unsubChatId: number | null) => {
+        return (chatId: number) => {
             socketIo.emit('chatListeners', {
-                sub: subChatId,
-                unsub: unsubChatId,
+                sub: chatId,
+            });
+        };
+    };
+
+    handleUnsubscribeFromChat = () => {
+        return (chatId: number) => {
+            socketIo.emit('chatListeners', {
+                unsub: chatId,
             });
         };
     };
@@ -52,6 +59,13 @@ class ChatApi {
                                 }
                             }
                         });
+                });
+                queryClient.setQueryData(['get-chat', message.chat_id], (cacheData: any) => {
+                    console.log(message);
+                    if (cacheData && message.message_status === 'pending') {
+                        cacheData.data.data.pending_messages += 1;
+                    }
+                    return cacheData;
                 });
                 callback('new-message');
             });

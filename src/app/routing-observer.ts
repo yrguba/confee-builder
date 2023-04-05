@@ -4,13 +4,13 @@ import { UniversalStorage } from 'shared/services';
 
 function routingObserver() {
     const { pathname } = useLocation();
-    // подписка/отписка чата
+    const handleUnsubscribeFromChat = ChatApi.handleUnsubscribeFromChat();
 
+    // отписка от чата
     const openChatId = ChatService.getOpenChatId();
-    if (openChatId) {
-        console.log('sub');
-    } else {
-        console.log('exit');
+    const subscribeToChat = UniversalStorage.localStorageGet('subscribed_to_chat');
+    if (!openChatId && subscribeToChat) {
+        ChatService.unsubscribeFromChat(Number(subscribeToChat));
     }
 }
 

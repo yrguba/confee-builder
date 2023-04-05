@@ -1,8 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useEnding } from 'shared/hooks';
+import { UniversalStorage } from 'shared/services';
 
 import { messageConstants } from '../../message';
+import ChatApi from '../model/api';
 import { Chat } from '../model/types';
 
 class ChatService {
@@ -21,6 +23,22 @@ class ChatService {
         const queryClient = useQueryClient();
         const data: { data: { data: Chat } } | undefined = queryClient.getQueryData(['get-chat', id]);
         return data ? data.data.data : null;
+    }
+
+    checkChatIsSubscribed(): boolean {
+        return !!UniversalStorage.localStorageGet('subscribed_to_chat');
+    }
+
+    subscribeToChat(id: number) {
+        const currentChatId = UniversalStorage.localStorageGet('subscribed_to_chat');
+        currentChatId && ChatApi.handleUnsubscribeFromChat()(Number(currentChatId));
+        ChatApi.handleSubscribeToChat()(id);
+        UniversalStorage.localStorageSet('subscribed_to_chat', String(id));
+    }
+
+    unsubscribeFromChat(id: number) {
+        ChatApi.handleUnsubscribeFromChat()(id);
+        UniversalStorage.localStorageRemove('subscribed_to_chat');
     }
 
     getChatSubtitle(chat: Chat | null): string {
