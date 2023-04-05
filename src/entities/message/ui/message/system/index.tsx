@@ -16,7 +16,7 @@ function SystemMessageView(props: Props) {
 
     // const date = useDate(message.created_at);
 
-    return <div>{text}</div>;
+    return <div className={styles.wrapper}>{text}</div>;
 }
 
 export default SystemMessageView;

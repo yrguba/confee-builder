@@ -87,11 +87,11 @@ function MessagesListView(props: Props) {
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
                     {index === 5 && <div ref={nextPageRef} />}
-                    {message.isFirstUnread && <div className={styles.c}>new message</div>}
+                    {message.isFirstUnread && <SystemMessageView text="непрочитанные" />}
+                    {message.firstOfDay && <SystemMessageView text={message.firstOfDay} />}
+                    {message.message_type === 'system' && <SystemMessageView text={message.text} />}
                     <div className={styles.messageWrapper} ref={getMessageRef(message, index)}>
-                        {message.message_type === 'system' ? (
-                            <SystemMessageView text="rtwdawdwd" />
-                        ) : (
+                        {message.message_type !== 'system' && (
                             <div className={styles.messageContent}>
                                 <Dropdown
                                     trigger="right-click"

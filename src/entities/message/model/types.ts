@@ -31,6 +31,7 @@ export type Message = {
 export type MessageProxy = {
     isMy: boolean;
     isFirstUnread: boolean;
+    firstOfDay: string;
 } & Message;
 
 export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
