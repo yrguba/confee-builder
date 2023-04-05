@@ -15,9 +15,10 @@ function ChatImagesList(props: Props) {
 
     const params = useParams();
 
-    if (!params.chat_id) return null;
+    if (!params.chat_id && !params.user_id) return null;
 
-    const { data } = ChatApi.handleGetChatFiles({ chatId: Number(params.chat_id), fileType: 'images' });
+    const { data } = ChatApi.handleGetChatFiles({ id: params?.chat_id || params?.user_id, isGroup: !params.user_id, fileType: 'images' });
+    console.log(data);
     const images = data?.data?.data.files.map((i) => `${http.url}${i.url}`);
     return <ChatImagesListView images={images || []} gap={gap} imgSize={imgSize} hardGrid={hardGrid} />;
 }

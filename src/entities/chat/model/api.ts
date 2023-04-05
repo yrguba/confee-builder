@@ -30,13 +30,30 @@ class ChatApi {
         });
     };
 
-    handleGetChatFiles = (data: { chatId: number; fileType: MessageTypes.MessageType }) => {
-        return useQuery(['get-chat-files', data.chatId, data.fileType], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/files/${data.fileType}`), {
+    handleGetChatWithUser = (data: { userId: number }) => {
+        return useQuery(['get-chat-with-user', data.userId], () => axiosClient.get(`${this.pathPrefix}/chat/with-user/${data.userId}`), {
             staleTime: Infinity,
             select: (data) => {
-                return handlers.response<{ data: { files: MessageTypes.File[] } }>(data);
+                return handlers.response<{ data: Chat }>(data);
             },
         });
+    };
+
+    handleGetChatFiles = (data: { id: string | undefined; isGroup: boolean; fileType: MessageTypes.MessageType }) => {
+        const getFiles = (chatId: number | undefined) => {
+            return useQuery(['get-chat-files', data.id, data.fileType], () => axiosClient.get(`${this.pathPrefix}/${chatId}/files/${data.fileType}`), {
+                staleTime: Infinity,
+                enabled: !!chatId,
+                select: (data) => {
+                    return handlers.response<{ data: { files: MessageTypes.File[] } }>(data);
+                },
+            });
+        };
+        if (!data.isGroup) {
+            const { data: privateChatData } = this.handleGetChatWithUser({ userId: Number(data.id) });
+            return getFiles(privateChatData?.data?.data.id);
+        }
+        return getFiles(Number(data.id));
     };
 
     handleSubscribeToChat = () => {
