@@ -86,12 +86,7 @@ function MessagesListView(props: Props) {
         <div className={styles.wrapper} ref={wrapperRef}>
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
-                    {message.isMy && <div className={styles.c}>self</div>}
-                    {index === 5 && (
-                        <div ref={nextPageRef} className={styles.c}>
-                            next
-                        </div>
-                    )}
+                    {index === 5 && <div ref={nextPageRef} />}
                     {message.isFirstUnread && <div className={styles.c}>new message</div>}
                     <div className={styles.messageWrapper} ref={getMessageRef(message, index)}>
                         {message.message_type === 'system' ? (
@@ -108,11 +103,7 @@ function MessagesListView(props: Props) {
                             </div>
                         )}
                     </div>
-                    {index + 5 === messages?.length && (
-                        <div className={styles.c} ref={prevPageRef}>
-                            prev
-                        </div>
-                    )}
+                    {index + 5 === messages?.length && <div ref={prevPageRef} />}
                 </Fragment>
             ))}
             {chat?.pending_messages ? (

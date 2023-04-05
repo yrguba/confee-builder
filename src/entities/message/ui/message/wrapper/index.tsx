@@ -6,11 +6,11 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Reactions } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Message } from '../../../model/types';
+import { MessageProxy } from '../../../model/types';
 
 type Props = {
     children: ReactNode;
-    message: Message;
+    message: MessageProxy;
     reactionClick: (messageId: number, reaction: string) => void;
 } & BaseTypes.Statuses;
 
@@ -28,7 +28,7 @@ function Wrapper(props: Props) {
             </div>
             <div className={styles.mainColumn}>
                 <div className={styles.content}>
-                    <div className={styles.name}>{user.name}</div>
+                    {!message.isMy && <div className={styles.name}>{user.name}</div>}
                     <div className={styles.message}>{children}</div>
                     <div className={styles.reactions}>
                         {Object.entries(reactions).map(([reaction, arr]) =>

@@ -39,9 +39,10 @@ class ChatApi {
         });
     };
 
-    handleGetChatFiles = (data: { id: string | undefined; isGroup: boolean; fileType: MessageTypes.MessageType }) => {
+    handleGetChatFiles = (data: { id: string | undefined; byUserId: boolean; fileType: MessageTypes.MessageType }) => {
+        console.log(data);
         const getFiles = (chatId: number | undefined) => {
-            return useQuery(['get-chat-files', data.id, data.fileType], () => axiosClient.get(`${this.pathPrefix}/${chatId}/files/${data.fileType}`), {
+            return useQuery(['get-chat-files', Number(data.id), data.fileType], () => axiosClient.get(`${this.pathPrefix}/${chatId}/files/${data.fileType}`), {
                 staleTime: Infinity,
                 enabled: !!chatId,
                 select: (data) => {
@@ -49,8 +50,9 @@ class ChatApi {
                 },
             });
         };
-        if (!data.isGroup) {
+        if (data.byUserId) {
             const { data: privateChatData } = this.handleGetChatWithUser({ userId: Number(data.id) });
+            console.log(privateChatData);
             return getFiles(privateChatData?.data?.data.id);
         }
         return getFiles(Number(data.id));

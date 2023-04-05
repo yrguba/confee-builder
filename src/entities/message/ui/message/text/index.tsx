@@ -4,11 +4,11 @@ import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
-import { Message } from '../../../model/types';
+import { MessageProxy } from '../../../model/types';
 import Wrapper from '../wrapper';
 
 type Props = {
-    message: Message;
+    message: MessageProxy;
     reactionClick: (messageId: number, reaction: string) => void;
 } & BaseTypes.Statuses;
 
