@@ -45,7 +45,6 @@
     .outlet {
       margin: 12px 0;
       @include box-size(300px, calc(100% - 510px));
-
       @media (max-height: 1000px) {
         @include box-size(300px, calc(100% - 300px));
       }

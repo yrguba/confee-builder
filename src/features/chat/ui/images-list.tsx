@@ -1,6 +1,8 @@
 import React from 'react';
+import { useParams } from 'react-router';
 
-import { ChatImagesListView } from 'entities/chat';
+import { ChatImagesListView, ChatApi } from 'entities/chat';
+import { http } from 'shared/constanst';
 
 type Props = {
     gap?: number;
@@ -11,122 +13,13 @@ type Props = {
 function ChatImagesList(props: Props) {
     const { gap, imgSize, hardGrid } = props;
 
-    const images = [
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-        'https://i.postimg.cc/vm7Hk0J6/1628909188-6-p-khitrii-kot-foto-6.jpg',
-        'https://i.postimg.cc/Dfpf9JM5/1662626193-46-kartinkin-net-p-neobichnie-koshki-vkontakte-52.jpg',
-        'https://i.postimg.cc/132qs77C/171829-anime-estetika-art-peyzash-oblako-3840x2160.jpg',
-    ];
+    const params = useParams();
 
-    return <ChatImagesListView images={images} gap={gap} imgSize={imgSize} hardGrid={hardGrid} />;
+    if (!params.chat_id) return null;
+
+    const { data } = ChatApi.handleGetChatFiles({ chatId: Number(params.chat_id), fileType: 'images' });
+    const images = data?.data?.data.files.map((i) => `${http.url}${i.url}`);
+    return <ChatImagesListView images={images || []} gap={gap} imgSize={imgSize} hardGrid={hardGrid} />;
 }
 
 export default ChatImagesList;

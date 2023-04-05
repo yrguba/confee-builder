@@ -9,6 +9,12 @@ export type Content = {
 
 export type MessageType = 'text' | 'images' | 'videos' | 'audios' | 'documents' | 'voices' | 'system';
 export type MessageStatus = 'pending' | 'read';
+export type File = {
+    extension: string;
+    name: string;
+    size: number;
+    url: string;
+};
 
 export type Message = {
     id: number;

@@ -8,8 +8,8 @@
 .wrapper {
   @include box-size(100%, 100%);
   display: grid;
-  align-items: center;
   gap: 12px;
+  align-items: stretch;
   overflow-x: hidden;
   overflow-y: auto;
 

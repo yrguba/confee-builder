@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
+import { MessageTypes } from 'entities/message';
 import { axiosClient, socketIo } from 'shared/configs';
 import { handlers } from 'shared/lib';
 
@@ -25,6 +26,15 @@ class ChatApi {
             staleTime: Infinity,
             select: (data) => {
                 return handlers.response<{ data: Chat[] }>(data);
+            },
+        });
+    };
+
+    handleGetChatFiles = (data: { chatId: number; fileType: MessageTypes.MessageType }) => {
+        return useQuery(['get-chat-files', data.chatId, data.fileType], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/files/${data.fileType}`), {
+            staleTime: Infinity,
+            select: (data) => {
+                return handlers.response<{ data: { files: MessageTypes.File[] } }>(data);
             },
         });
     };

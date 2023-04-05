@@ -53,14 +53,8 @@ class MessageApi {
     }
 
     handleSendTextMessage() {
-        return useMutation(
-            (data: { text: string; chatId: number }) =>
-                axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' }),
-            {
-                onMutate: () => {},
-                onSettled: () => {},
-                onError: () => {},
-            }
+        return useMutation((data: { text: string; chatId: number }) =>
+            axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' })
         );
     }
 
@@ -90,11 +84,8 @@ class MessageApi {
                     if (cacheData) {
                         const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
                         if (pageOne) {
-                            const firstMessage = pageOne.data.data[0];
-                            if (firstMessage.id !== message.id) {
-                                pageOne.data.data.unshift(message);
-                                callback('new-messages');
-                            }
+                            pageOne.data.data.unshift(message);
+                            callback('new-messages');
                         }
                     }
                     return cacheData;
