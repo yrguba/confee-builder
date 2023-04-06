@@ -15,15 +15,13 @@ type Props = {};
 
 function MessageList(props: Props) {
     const params = useParams();
-    const [_, render] = useToggle();
 
     const chatId = Number(params.chat_id);
 
-    MessageApi.subscriptions((action: string) => {
-        render();
-    });
-
-    const { data: chatData } = ChatApi.handleGetChat({ chatId });
+    const socketAction = useMessageStore.use.socketAction();
+    console.log(socketAction);
+    const { data: chatData } = ChatApi.handleGetChats();
+    const chat = chatData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
     const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
     const handleReadMessage = MessageApi.handleReadMessage();
@@ -35,11 +33,11 @@ function MessageList(props: Props) {
         fetchPreviousPage,
         fetchNextPage,
         isFetching,
-    } = MessageApi.handleGetMessages({ chatId, initialPage: ChatService.getInitialPage(chatData?.data?.data) });
+    } = MessageApi.handleGetMessages({ chatId, initialPage: ChatService.getInitialPage(chat) });
 
     const reactionClick = (messageId: number, reaction: any) => handleSendReaction({ chatId, messageId, reaction: reactionConverter(reaction, 'html') });
     const readMessage = (messageId: number) => {
-        if (chatData?.data?.data.pending_messages) handleReadMessage({ chat_id: chatId, messages: [messageId] });
+        if (chat?.pending_messages) handleReadMessage({ chat_id: chatId, messages: [messageId] });
     };
 
     const getPrevPage = () => {
@@ -62,7 +60,7 @@ function MessageList(props: Props) {
 
     return (
         <MessagesListView
-            chat={chatData?.data?.data}
+            chat={chat}
             messages={messageData?.pages}
             getNextPage={getNextPage}
             getPrevPage={getPrevPage}

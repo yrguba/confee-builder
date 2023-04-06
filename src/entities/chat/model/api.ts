@@ -82,22 +82,17 @@ class ChatApi {
             socketIo.on('receiveMessage', ({ message }) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                     cacheData &&
-                        cacheData.data.data.forEach((chat: Chat) => {
+                        cacheData.data.data.forEach((chat: ChatProxy) => {
                             if (chat.id === Number(message.chat_id)) {
                                 chat.message.splice(0, 1, message);
                                 if (message.message_status === 'pending') {
                                     chat.pending_messages += 1;
-                                    setSocketAction(`receiveMessage:${chat?.id}`);
                                 }
+                                chat.messageAction = '';
+                                setSocketAction(`receiveMessage:${chat?.id}`);
                             }
                         });
                 });
-                // queryClient.setQueryData(['get-chat', Number(message.chat_id)], (cacheData: any) => {
-                //     if (cacheData && message.message_status === 'pending') {
-                //         cacheData.data.data.pending_messages += 1;
-                //     }
-                //     return cacheData;
-                // });
             });
             socketIo.on('receiveMessageStatus', (data) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
@@ -110,12 +105,6 @@ class ChatApi {
                         });
                     return cacheData;
                 });
-                // queryClient.setQueryData(['get-chat', data.chat_id], (cacheData: any) => {
-                //     if (cacheData) {
-                //         cacheData.data.data.pending_messages = data.pending_messages;
-                //     }
-                //     return cacheData;
-                // });
             });
 
             socketIo.on('receiveMessageAction', ({ message }) => {

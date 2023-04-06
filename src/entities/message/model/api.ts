@@ -7,7 +7,9 @@ import { uniqueArray } from 'shared/lib';
 import { response } from 'shared/lib/handlers';
 
 import messageProxy from './proxy';
+import useMessageStore from './store';
 import { Message, MessageProxy } from './types';
+import useChatStore from '../../chat/model/store';
 import { message_limit } from '../lib/constants';
 
 class MessageApi {
@@ -79,8 +81,9 @@ class MessageApi {
         );
     }
 
-    subscriptions(callback: (action: string) => void) {
+    subscriptions() {
         const queryClient = useQueryClient();
+        const setSocketAction = useMessageStore.use.setSocketAction();
         useEffect(() => {
             socketIo.on('receiveMessage', ({ message }) => {
                 queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
@@ -88,7 +91,7 @@ class MessageApi {
                         const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
                         if (pageOne) {
                             pageOne.data.data.unshift(message);
-                            callback('new-messages');
+                            setSocketAction(`receiveMessage:${message.id}`);
                         }
                     }
                     return cacheData;
@@ -100,10 +103,10 @@ class MessageApi {
                         page.data.data.forEach((message: any) => {
                             if (message.id === data.messageId) {
                                 message.reactions = { ...data.reactions };
+                                setSocketAction(`receiveReactions:${message.id}`);
                             }
                         });
                     });
-                    callback('reaction');
                     return cacheData;
                 });
             });
@@ -118,19 +121,14 @@ class MessageApi {
                                             message[key] = responseMessage[key];
                                         });
                                         message.message_status = responseMessage.message_status;
+                                        setSocketAction(`receiveMessageStatus:${message.id}:${responseMessage.id}`);
                                     }
                                 });
                             });
                         });
-                    callback('read-message');
                     return cacheData;
                 });
             });
-            return () => {
-                // socketIo.off('receiveMessage');
-                // socketIo.off('receiveReactions');
-                // socketIo.off('receiveMessageStatus');
-            };
         }, []);
     }
 }
