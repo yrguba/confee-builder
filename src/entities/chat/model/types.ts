@@ -15,4 +15,6 @@ export type Chat = {
     totalMessages: number;
 };
 
-export type ChatProxy = {} & Chat;
+export type ChatProxy = {
+    messageAction: string;
+} & Chat;

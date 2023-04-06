@@ -73,6 +73,7 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         if (inViewFirsPendingMessage && messages) {
             const id = messages.find((message: MessageProxy) => message.isFirstUnread)?.id || null;
+            console.log(id);
             if (id) {
                 setTimeout(() => readMessage(id), 200);
             }

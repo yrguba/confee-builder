@@ -17,7 +17,7 @@ class ChatApi {
         return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
             staleTime: Infinity,
             select: (data) => {
-                const res = handlers.response<{ data: Chat }>(data);
+                const res = handlers.response<{ data: ChatProxy }>(data);
                 return res.data ? { ...res, data: { data: chatProxy(res.data.data) } } : res;
             },
             enabled: !!data.chatId,
@@ -117,9 +117,29 @@ class ChatApi {
                 });
                 callback({ action: 'read-message' });
             });
+
             socketIo.on('receiveMessageAction', ({ message }) => {
-                callback({ action: 'message-action', data: message });
+                const updChat = (chat: ChatProxy) => {};
+                message?.chat_id &&
+                    queryClient.setQueryData(['get-chat', message.chat_id], (cacheData: any) => {
+                        if (cacheData) {
+                            const chat: ChatProxy = cacheData.data.data;
+                            if (chat) {
+                                chat.messageAction = `${message.user.name} ${message.action}`;
+                                setTimeout(() => (chat.messageAction = ''), 1000);
+                            }
+                            callback({ action: 'message-action' });
+                            setTimeout(() => callback({ action: 'message-action' }), 5000);
+                        }
+                        return cacheData;
+                    });
             });
+
+            return () => {
+                socketIo.off('receiveMessage');
+                socketIo.off('receiveMessageStatus');
+                // socketIo.off('receiveMessageAction');
+            };
         }, []);
     }
 }

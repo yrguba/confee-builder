@@ -41,15 +41,6 @@ class ChatService {
         UniversalStorage.localStorageRemove('subscribed_to_chat');
     }
 
-    getChatSubtitle(chat: ChatProxy | null): string {
-        if (!chat) return '';
-        if (chat.is_group) {
-            const word = useEnding(chat.users.length, ['участник', 'участника', 'участников']);
-            return `${chat.users.length} ${word}`;
-        }
-        return 'title';
-    }
-
     getInitialPage(chat: Chat | undefined) {
         if (!chat) return undefined;
         if (chat.pending_messages === 0) return 1;

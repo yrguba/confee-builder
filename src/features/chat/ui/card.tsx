@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import { ChatCardView, ChatService, ChatApi, ChatTypes } from 'entities/chat';
 import { ViewerService } from 'entities/viewer';
+import { useEnding, useToggle } from 'shared/hooks';
+
+import { ChatProxy } from '../../../entities/chat/model/types';
 
 function ChatCard() {
     const navigate = useNavigate();
@@ -11,16 +14,13 @@ function ChatCard() {
 
     const viewerId = ViewerService.getId();
 
-    const [messageAction, setMessageAction] = useState<string>('');
+    const [_, toggle] = useToggle();
 
     const { data: chatData } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
-    const chat = ChatService.getChatInList(Number(params.chat_id));
 
     ChatApi.subscriptions((data) => {
-        if (data && data.action === 'message-action' && chatData?.data?.data.id === Number(data.data.chat_id)) {
-            setMessageAction(chatData?.data?.data.is_group ? `${data?.data?.user.name || ''} печатает...` : 'Печатает...');
-            setTimeout(() => setMessageAction(''), 3000);
-        }
+        console.log(data);
+        toggle();
     });
 
     const clickOnChat = (chat: ChatTypes.Chat) => {
@@ -34,13 +34,22 @@ function ChatCard() {
         }
     };
 
-    return (
-        <ChatCardView
-            chat={chat || chatData?.data?.data || null}
-            subtitle={messageAction || ChatService.getChatSubtitle(chat || chatData?.data?.data || null)}
-            onClick={clickOnChat}
-        />
-    );
+    const getChatSubtitle = (chat: ChatProxy | null): string => {
+        console.log('get', !!chat?.messageAction);
+        if (!chat) return '';
+        if (chat.messageAction) {
+            console.log(chat.messageAction);
+            return chat.messageAction;
+        }
+
+        // if (chat.is_group) {
+        //     const word = useEnding(chat.users.length, ['участник', 'участника', 'участников']);
+        //     return `${chat.users.length} ${word}`;
+        // }
+        return 'title';
+    };
+
+    return <ChatCardView chat={chatData?.data?.data || null} subtitle={getChatSubtitle(chatData?.data?.data || null)} onClick={clickOnChat} />;
 }
 
 export default ChatCard;

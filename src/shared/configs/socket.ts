@@ -3,14 +3,11 @@ import { io, Socket } from 'socket.io-client';
 import { http } from '../constanst';
 import { TokenService } from '../services';
 
-function socketIo(): Socket {
-    const tokens = TokenService.get();
-    return io(http.url, {
-        extraHeaders: {
-            Authorization: `Bearer ${tokens?.access_token ? tokens.access_token : ''}`,
-        },
-        forceNew: true,
-    });
-}
+const socketIo = io(http.url, {
+    extraHeaders: {
+        Authorization: `Bearer ${TokenService.get()?.access_token || ''}`,
+    },
+    forceNew: true,
+});
 
-export default socketIo();
+export default socketIo;
