@@ -127,9 +127,9 @@ class MessageApi {
                 });
             });
             return () => {
-                socketIo.off('receiveMessage');
-                socketIo.off('receiveReactions');
-                socketIo.off('receiveMessageStatus');
+                // socketIo.off('receiveMessage');
+                // socketIo.off('receiveReactions');
+                // socketIo.off('receiveMessageStatus');
             };
         }, []);
     }

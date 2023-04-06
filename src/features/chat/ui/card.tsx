@@ -19,6 +19,7 @@ function ChatCard() {
     const { data: chatData } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
     ChatApi.subscriptions((data) => {
+        console.log('ChatCard');
         toggle();
     });
 

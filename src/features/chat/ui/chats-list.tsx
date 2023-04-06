@@ -17,7 +17,7 @@ function ChatsList() {
     const { data: chatData } = ChatApi.handleGetChats();
 
     ChatApi.subscriptions((data) => {
-        console.log(data);
+        console.log('ChatsList');
         render();
     });
 

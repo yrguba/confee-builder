@@ -121,14 +121,16 @@ class ChatApi {
             socketIo.on('receiveMessageAction', ({ message }) => {
                 const updChat = (chat: ChatProxy) => {
                     chat.messageAction = `${message.user.name} ${message.action}`;
+                    setTimeout(() => {
+                        chat.messageAction = '';
+                        callback({ action: 'message-action' });
+                    }, 5000);
                     callback({ action: 'message-action' });
-                    setTimeout(() => (chat.messageAction = ''), 5000);
-                    setTimeout(() => callback({ action: 'message-action' }), 5000);
                 };
                 // queryClient.setQueryData(['get-chat', message.chat_id], (cacheData: any) => {
                 //     if (cacheData) {
                 //         const chat: ChatProxy = cacheData.data.data;
-                //         if (chat) {
+                //         if (!chat?.messageAction) {
                 //             updChat(chat);
                 //         }
                 //     }
@@ -146,9 +148,9 @@ class ChatApi {
             });
 
             return () => {
-                socketIo.off('receiveMessage');
-                socketIo.off('receiveMessageStatus');
-                socketIo.off('receiveMessageAction');
+                // socketIo.off('receiveMessage');
+                // socketIo.off('receiveMessageStatus');
+                // socketIo.off('receiveMessageAction');
             };
         }, []);
     }
