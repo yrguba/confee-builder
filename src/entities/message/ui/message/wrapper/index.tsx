@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { useDate } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Reactions } from 'shared/ui';
+import { Avatar, Box, Reactions } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { MessageProxy } from '../../../model/types';
@@ -22,7 +22,7 @@ function Wrapper(props: Props) {
     const date = useDate(created_at);
 
     return (
-        <div className={styles.wrapper}>
+        <Box.Animated visible className={styles.wrapper}>
             <div className={styles.avatar}>
                 <Avatar size={32} img={user.avatar} name={user.name} />
             </div>
@@ -45,7 +45,7 @@ function Wrapper(props: Props) {
                 </div>
                 <div className={styles.date}>{date}</div>
             </div>
-        </div>
+        </Box.Animated>
     );
 }
 

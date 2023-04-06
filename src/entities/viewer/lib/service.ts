@@ -6,7 +6,7 @@ class ViewerService {
     getId() {
         const queryClient = useQueryClient();
         const data: { data: { data: Viewer } } | undefined = queryClient.getQueryData(['get-viewer']);
-        return data ? data.data.data.id : null;
+        return data ? Number(data.data.data.id) : null;
     }
 }
 

@@ -4,12 +4,11 @@ import { useEffect } from 'react';
 import { ViewerService } from 'entities/viewer';
 import { axiosClient, socketIo } from 'shared/configs';
 import { uniqueArray } from 'shared/lib';
-import { response } from 'shared/lib/handlers';
 
+import messageEntity from './entitie';
 import messageProxy from './proxy';
 import useMessageStore from './store';
-import { Message, MessageProxy } from './types';
-import useChatStore from '../../chat/model/store';
+import { Message } from './types';
 import { message_limit } from '../lib/constants';
 
 class MessageApi {
@@ -55,8 +54,22 @@ class MessageApi {
     }
 
     handleSendTextMessage() {
-        return useMutation((data: { text: string; chatId: number }) =>
-            axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' })
+        const queryClient = useQueryClient();
+        const setSocketAction = useMessageStore.use.setSocketAction();
+        const viewerData: any = queryClient.getQueryData(['get-viewer']);
+        return useMutation(
+            (data: { text: string; chatId: number }) =>
+                axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' }),
+            {
+                onMutate: async (data) => {
+                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                        const message = messageEntity({ text: data.text, viewer: viewerData?.data.data });
+                        cacheData.pages[0].data.data.unshift(message);
+                        setSocketAction(`add${message.id}`);
+                        return cacheData;
+                    });
+                },
+            }
         );
     }
 
@@ -84,10 +97,12 @@ class MessageApi {
     subscriptions() {
         const queryClient = useQueryClient();
         const setSocketAction = useMessageStore.use.setSocketAction();
+
         useEffect(() => {
             socketIo.on('receiveMessage', ({ message }) => {
+                const viewerData: any = queryClient.getQueryData(['get-viewer']);
                 queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
-                    if (cacheData) {
+                    if (cacheData && viewerData?.data.data.id !== message.user.id) {
                         const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
                         if (pageOne) {
                             pageOne.data.data.unshift(message);

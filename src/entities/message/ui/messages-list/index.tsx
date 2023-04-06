@@ -64,8 +64,9 @@ function MessagesListView(props: Props) {
     }, [inViewNextPage]);
 
     useEffect(() => {
-        if (messageRef.current && (initial || ChatService.checkChatIsSubscribed())) {
-            messageRef.current.scrollIntoView({ block: 'center' });
+        const checkChatIsSubscribed = ChatService.checkChatIsSubscribed();
+        if (messageRef.current && (initial || checkChatIsSubscribed)) {
+            messageRef.current.scrollIntoView({ block: 'center', behavior: checkChatIsSubscribed ? 'smooth' : 'auto' });
             setInitial(false);
         }
     }, [messageRef.current]);
@@ -73,7 +74,6 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         if (inViewFirsPendingMessage && messages) {
             const id = messages.find((message: MessageProxy) => message.isFirstUnread)?.id || null;
-            console.log(id);
             if (id) {
                 setTimeout(() => readMessage(id), 200);
             }

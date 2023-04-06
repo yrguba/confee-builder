@@ -89,7 +89,7 @@ class ChatApi {
                                     chat.pending_messages += 1;
                                 }
                                 chat.messageAction = '';
-                                setSocketAction(`receiveMessage:${chat?.id}`);
+                                setSocketAction(`receiveMessage:${chat?.id}:${message.id}`);
                             }
                         });
                 });
