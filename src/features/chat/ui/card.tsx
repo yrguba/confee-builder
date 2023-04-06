@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ChatCardView, ChatService, ChatApi, ChatTypes } from 'entities/chat';
 import { ViewerService } from 'entities/viewer';
@@ -11,7 +11,17 @@ function ChatCard() {
 
     const viewerId = ViewerService.getId();
 
-    const { data } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
+    const [messageAction, setMessageAction] = useState<string>('');
+
+    const { data: chatData } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
+    const chat = ChatService.getChatInList(Number(params.chat_id));
+
+    ChatApi.subscriptions((data) => {
+        if (data && data.action === 'message-action' && chatData?.data?.data.id === Number(data.data.chat_id)) {
+            setMessageAction(chatData?.data?.data.is_group ? `${data?.data?.user.name || ''} печатает...` : 'Печатает...');
+            setTimeout(() => setMessageAction(''), 3000);
+        }
+    });
 
     const clickOnChat = (chat: ChatTypes.Chat) => {
         if (!ChatService.checkIsOpenChatInfo()) {
@@ -24,9 +34,13 @@ function ChatCard() {
         }
     };
 
-    const chat = data?.data?.data;
-
-    return chat ? <ChatCardView chat={chat || null} subtitle={ChatService.getChatSubtitle(chat || null)} onClick={clickOnChat} /> : null;
+    return (
+        <ChatCardView
+            chat={chat || chatData?.data?.data || null}
+            subtitle={messageAction || ChatService.getChatSubtitle(chat || chatData?.data?.data || null)}
+            onClick={clickOnChat}
+        />
+    );
 }
 
 export default ChatCard;

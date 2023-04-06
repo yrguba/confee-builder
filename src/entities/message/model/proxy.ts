@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { Message, MessageProxy, MessageStatus } from './types';
 
-function messageProxy(prevMessage: Message, message: Message, viewerId: number | null) {
+function messageProxy(prevMessage: Message, message: Message, viewerId: number | null): any {
     return new Proxy(message, {
         get(target: MessageProxy, prop: keyof MessageProxy, receiver): MessageProxy[keyof MessageProxy] {
             switch (prop) {

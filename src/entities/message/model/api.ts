@@ -64,15 +64,18 @@ class MessageApi {
         };
     }
 
+    handleMessageAction = () => {
+        return (data: { chatId: number; action: string }) => {
+            socketIo.emit('messageAction', {
+                chat_id: data.chatId,
+                action: data.action,
+            });
+        };
+    };
+
     handleSendReaction() {
-        return useMutation(
-            (data: { chatId: number; messageId: number; reaction: string }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/message/${data.messageId}/reaction`, { reaction: data.reaction }),
-            {
-                onMutate: () => {},
-                onSettled: () => {},
-                onError: () => {},
-            }
+        return useMutation((data: { chatId: number; messageId: number; reaction: string }) =>
+            axiosClient.post(`${this.pathPrefix}/${data.chatId}/message/${data.messageId}/reaction`, { reaction: data.reaction })
         );
     }
 

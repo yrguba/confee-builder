@@ -5,7 +5,9 @@ import { MessageTypes } from 'entities/message';
 import { axiosClient, socketIo } from 'shared/configs';
 import { handlers } from 'shared/lib';
 
-import { Chat } from './types';
+import chatProxy from './proxy';
+import { Chat, ChatProxy } from './types';
+import { UserTypes } from '../../user';
 import { ChatTypes } from '../index';
 
 class ChatApi {
@@ -15,7 +17,8 @@ class ChatApi {
         return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
             staleTime: Infinity,
             select: (data) => {
-                return handlers.response<{ data: Chat }>(data);
+                const res = handlers.response<{ data: Chat }>(data);
+                return res.data ? { ...res, data: { data: chatProxy(res.data.data) } } : res;
             },
             enabled: !!data.chatId,
         });
@@ -25,7 +28,8 @@ class ChatApi {
         return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (data) => {
-                return handlers.response<{ data: Chat[] }>(data);
+                const res = handlers.response<{ data: Chat[] }>(data);
+                return { ...res, data: res.data?.data.map((chat): ChatProxy => chatProxy(chat)) };
             },
         });
     };
@@ -72,7 +76,7 @@ class ChatApi {
         };
     };
 
-    subscriptions(callback: (action: string) => void) {
+    subscriptions(callback: (data: { action: string; data?: any }) => void) {
         const queryClient = useQueryClient();
         useEffect(() => {
             socketIo.on('receiveMessage', ({ message }) => {
@@ -93,7 +97,7 @@ class ChatApi {
                     }
                     return cacheData;
                 });
-                callback('new-message');
+                callback({ action: 'new-message' });
             });
             socketIo.on('receiveMessageStatus', (data) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
@@ -111,7 +115,10 @@ class ChatApi {
                     }
                     return cacheData;
                 });
-                callback('read-message');
+                callback({ action: 'read-message' });
+            });
+            socketIo.on('receiveMessageAction', ({ message }) => {
+                callback({ action: 'message-action', data: message });
             });
         }, []);
     }

@@ -14,3 +14,5 @@ export type Chat = {
     pending_messages: number;
     totalMessages: number;
 };
+
+export type ChatProxy = {} & Chat;

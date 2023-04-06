@@ -5,7 +5,7 @@ import { UniversalStorage } from 'shared/services';
 
 import { messageConstants } from '../../message';
 import ChatApi from '../model/api';
-import { Chat } from '../model/types';
+import { Chat, ChatProxy } from '../model/types';
 
 class ChatService {
     getOpenChatId(): number | null {
@@ -19,10 +19,10 @@ class ChatService {
         return !!window.location.href.split('/').find((i) => ['group_chat', 'private_chat'].includes(i));
     }
 
-    getChat(id: number) {
+    getChatInList(id: number) {
         const queryClient = useQueryClient();
-        const data: { data: { data: Chat } } | undefined = queryClient.getQueryData(['get-chat', id]);
-        return data ? data.data.data : null;
+        const data: { data: { data: Chat[] } } | undefined = queryClient.getQueryData(['get-chats']);
+        return data ? data.data.data.find((chat) => chat.id === id) : null;
     }
 
     checkChatIsSubscribed(): boolean {
@@ -41,13 +41,13 @@ class ChatService {
         UniversalStorage.localStorageRemove('subscribed_to_chat');
     }
 
-    getChatSubtitle(chat: Chat | null): string {
+    getChatSubtitle(chat: ChatProxy | null): string {
         if (!chat) return '';
         if (chat.is_group) {
             const word = useEnding(chat.users.length, ['участник', 'участника', 'участников']);
             return `${chat.users.length} ${word}`;
         }
-        return 'last message';
+        return 'title';
     }
 
     getInitialPage(chat: Chat | undefined) {

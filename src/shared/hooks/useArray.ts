@@ -1,15 +1,23 @@
 import { useState } from 'react';
 
+import { uniqueArray } from 'shared/lib';
+
 type Options = {
     multiple?: boolean;
     selfDestruction?: boolean;
+    unique?: boolean;
 };
 
-function useArray<T extends { id: number }>(options: Options): { arr: T[]; push: (arg: T) => void; unshift: (arg: T) => void; clear: () => void } {
+function useArray<T extends { id: number; [key: string]: any }>(
+    options: Options
+): { arr: T[]; push: (item: T) => void; unshift: (item: T) => void; findById: (id: number) => T | null; deleteById: (id: number) => void; clear: () => void } {
     const [arr, setArr] = useState<T[]>([]);
 
     const push = (item: T) => {
         if (options.multiple) {
+            if (options.unique) {
+                uniqueArray([...arr, item], 'id');
+            }
             if (options.selfDestruction) {
                 if (arr.find((i) => i.id === item.id)) {
                     setArr((prev) => prev.filter((i) => i.id !== item.id));
@@ -30,6 +38,9 @@ function useArray<T extends { id: number }>(options: Options): { arr: T[]; push:
 
     const unshift = (item: T) => {
         if (options.multiple) {
+            if (options.unique) {
+                uniqueArray([...arr, item], 'id');
+            }
             if (options.selfDestruction) {
                 if (arr.find((i) => i.id === item.id)) {
                     setArr((prev) => prev.filter((i) => i.id !== item.id));
@@ -50,10 +61,18 @@ function useArray<T extends { id: number }>(options: Options): { arr: T[]; push:
         }
     };
 
+    const findById = (id: number) => {
+        return arr.find((i) => i.id === id) || null;
+    };
+
+    const deleteById = (id: number) => {
+        setArr((prev) => prev.filter((i) => i.id !== id));
+    };
+
     const clear = () => {
         setArr([]);
     };
-
-    return { arr, push, unshift, clear };
+    console.log(arr);
+    return { arr, push, unshift, findById, deleteById, clear };
 }
 export default useArray;

@@ -1,12 +1,11 @@
-import React, { useEffect, useTransition } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { ChatListView, ChatApi, ChatTypes, ChatService, useChatStore } from 'entities/chat';
-import { messageConstants } from 'entities/message';
-
-import { ViewerService } from '../../../entities/viewer';
-import { useToggle } from '../../../shared/hooks';
+import { ChatListView, ChatApi, ChatTypes, ChatService } from 'entities/chat';
+import { ViewerService } from 'entities/viewer';
+import { useToggle, useArray } from 'shared/hooks';
+import { uniqueArray } from 'shared/lib';
 
 function ChatsList() {
     const navigate = useNavigate();
@@ -15,9 +14,23 @@ function ChatsList() {
     const viewerId = ViewerService.getId();
 
     const [_, render] = useToggle();
+    const [messageActions, setMessageActions] = useState<{ chatId: number; user: string }[]>([]);
 
-    ChatApi.subscriptions((action) => {
-        render();
+    ChatApi.subscriptions((data) => {
+        if (data.action === 'message-action') {
+            const chatId = data.data.chat_id;
+            const item = { chatId, user: `${data.data.user.name} печатает...` };
+            const found = messageActions.find((i) => i.chatId === chatId);
+            const timeout = setTimeout(() => setMessageActions((prev) => [...prev.filter((i) => i.chatId !== chatId)]), 5000);
+            if (found) {
+                clearTimeout(timeout);
+                setMessageActions((prev) => uniqueArray(messageActions, 'chatId'));
+            } else {
+                setMessageActions((prev) => uniqueArray([...prev, item], 'chatId'));
+            }
+        } else {
+            render();
+        }
     });
 
     const { data, isLoading } = ChatApi.handleGetChats();
@@ -36,7 +49,9 @@ function ChatsList() {
             navigate(`/main/chats/chat/${id}`);
         }
     };
-    return <ChatListView chats={data?.data?.data || []} clickOnChat={clickOnChatCard} activeChatId={Number(params.chat_id) || null} />;
+    return (
+        <ChatListView chats={data?.data || []} messageActions={messageActions} clickOnChat={clickOnChatCard} activeChatId={Number(params.chat_id) || null} />
+    );
 }
 
 export default ChatsList;

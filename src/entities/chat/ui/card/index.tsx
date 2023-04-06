@@ -6,11 +6,11 @@ import { Avatar, Counter } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
-import { Chat } from '../../model/types';
+import { ChatProxy } from '../../model/types';
 
 type Props = {
-    chat: Chat | BaseTypes.Empty;
-    onClick: (arg: Chat) => void;
+    chat: ChatProxy | BaseTypes.Empty;
+    onClick: (arg: ChatProxy) => void;
     subtitle: string;
     showDate?: boolean;
     showChecked?: boolean;
