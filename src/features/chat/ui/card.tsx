@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import { ChatCardView, ChatService, ChatApi, ChatTypes, useChatStore } from 'entities/chat';
 import { ViewerService } from 'entities/viewer';
-import { useEnding, useToggle } from 'shared/hooks';
+import { useEnding } from 'shared/hooks';
 
 import { ChatProxy } from '../../../entities/chat/model/types';
 

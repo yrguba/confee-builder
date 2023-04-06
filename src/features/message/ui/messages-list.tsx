@@ -1,15 +1,9 @@
-import { useQueryClient } from '@tanstack/react-query';
-import React, { UIEvent, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router';
 
-import { useChatStore, ChatApi, ChatService } from 'entities/chat';
+import { ChatApi, ChatService } from 'entities/chat';
 import { MessageApi, MessagesListView, useMessageStore, MessageTypes, messageConstants } from 'entities/message';
-import { useToggle, useReverseTimer, useInView } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
-
-import { MessageProxy } from '../../../entities/message/model/types';
-import { ViewerService } from '../../../entities/viewer';
-import { Button } from '../../../shared/ui';
 
 type Props = {};
 
@@ -19,7 +13,7 @@ function MessageList(props: Props) {
     const chatId = Number(params.chat_id);
 
     const socketAction = useMessageStore.use.socketAction();
-    console.log(socketAction);
+
     const { data: chatData } = ChatApi.handleGetChats();
     const chat = chatData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
