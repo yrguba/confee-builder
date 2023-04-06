@@ -119,26 +119,36 @@ class ChatApi {
             });
 
             socketIo.on('receiveMessageAction', ({ message }) => {
-                const updChat = (chat: ChatProxy) => {};
-                message?.chat_id &&
-                    queryClient.setQueryData(['get-chat', message.chat_id], (cacheData: any) => {
-                        if (cacheData) {
-                            const chat: ChatProxy = cacheData.data.data;
-                            if (chat) {
-                                chat.messageAction = `${message.user.name} ${message.action}`;
-                                setTimeout(() => (chat.messageAction = ''), 1000);
+                const updChat = (chat: ChatProxy) => {
+                    chat.messageAction = `${message.user.name} ${message.action}`;
+                    callback({ action: 'message-action' });
+                    setTimeout(() => (chat.messageAction = ''), 5000);
+                    setTimeout(() => callback({ action: 'message-action' }), 5000);
+                };
+                // queryClient.setQueryData(['get-chat', message.chat_id], (cacheData: any) => {
+                //     if (cacheData) {
+                //         const chat: ChatProxy = cacheData.data.data;
+                //         if (chat) {
+                //             updChat(chat);
+                //         }
+                //     }
+                //     return cacheData;
+                // });
+                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                    cacheData &&
+                        cacheData.data.data.forEach((chat: ChatProxy) => {
+                            if (chat.id === Number(message.chat_id) && !chat.messageAction) {
+                                updChat(chat);
                             }
-                            callback({ action: 'message-action' });
-                            setTimeout(() => callback({ action: 'message-action' }), 5000);
-                        }
-                        return cacheData;
-                    });
+                        });
+                    return cacheData;
+                });
             });
 
             return () => {
                 socketIo.off('receiveMessage');
                 socketIo.off('receiveMessageStatus');
-                // socketIo.off('receiveMessageAction');
+                socketIo.off('receiveMessageAction');
             };
         }, []);
     }

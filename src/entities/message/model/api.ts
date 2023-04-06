@@ -126,6 +126,11 @@ class MessageApi {
                     return cacheData;
                 });
             });
+            return () => {
+                socketIo.off('receiveMessage');
+                socketIo.off('receiveReactions');
+                socketIo.off('receiveMessageStatus');
+            };
         }, []);
     }
 }

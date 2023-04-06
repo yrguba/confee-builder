@@ -19,7 +19,6 @@ function ChatCard() {
     const { data: chatData } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
     ChatApi.subscriptions((data) => {
-        console.log(data);
         toggle();
     });
 
@@ -35,17 +34,16 @@ function ChatCard() {
     };
 
     const getChatSubtitle = (chat: ChatProxy | null): string => {
-        console.log('get', !!chat?.messageAction);
         if (!chat) return '';
         if (chat.messageAction) {
-            console.log(chat.messageAction);
             return chat.messageAction;
         }
 
-        // if (chat.is_group) {
-        //     const word = useEnding(chat.users.length, ['участник', 'участника', 'участников']);
-        //     return `${chat.users.length} ${word}`;
-        // }
+        if (chat.is_group) {
+            const word = useEnding(chat.users.length, ['участник', 'участника', 'участников']);
+            return `${chat.users.length} ${word}`;
+        }
+
         return 'title';
     };
 

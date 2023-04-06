@@ -37,7 +37,13 @@ function ChatListView(props: Props) {
                             {category.items.map((chat) => (
                                 <div key={chat.id} className={`${styles.chatWrapper} ${activeChatId === chat.id ? styles.itemActive : ''}`}>
                                     <div className={styles.chatContent}>
-                                        <ChatCardView showChecked showDate chat={chat} subtitle={chat.message[0].text} onClick={clickOnChat} />
+                                        <ChatCardView
+                                            showChecked
+                                            showDate
+                                            chat={chat}
+                                            subtitle={chat.messageAction || chat.message[0].text}
+                                            onClick={clickOnChat}
+                                        />
                                     </div>
                                 </div>
                             ))}
