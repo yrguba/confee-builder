@@ -6,9 +6,8 @@ import { axiosClient, socketIo } from 'shared/configs';
 import { handlers } from 'shared/lib';
 
 import chatProxy from './proxy';
+import useChatStore from './store';
 import { Chat, ChatProxy } from './types';
-import { UserTypes } from '../../user';
-import { ChatTypes } from '../index';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
@@ -76,82 +75,65 @@ class ChatApi {
         };
     };
 
-    subscriptions(callback: (data: { action: string; data?: any }) => void) {
+    subscriptions() {
         const queryClient = useQueryClient();
+        const setSocketAction = useChatStore.use.setSocketAction();
         useEffect(() => {
             socketIo.on('receiveMessage', ({ message }) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                     cacheData &&
-                        cacheData.data.data.forEach((chat: ChatTypes.Chat) => {
+                        cacheData.data.data.forEach((chat: Chat) => {
                             if (chat.id === Number(message.chat_id)) {
                                 chat.message.splice(0, 1, message);
                                 if (message.message_status === 'pending') {
                                     chat.pending_messages += 1;
+                                    setSocketAction(`receiveMessage:${chat?.id}`);
                                 }
                             }
                         });
                 });
-                queryClient.setQueryData(['get-chat', Number(message.chat_id)], (cacheData: any) => {
-                    if (cacheData && message.message_status === 'pending') {
-                        cacheData.data.data.pending_messages += 1;
-                    }
-                    return cacheData;
-                });
-                callback({ action: 'new-message' });
+                // queryClient.setQueryData(['get-chat', Number(message.chat_id)], (cacheData: any) => {
+                //     if (cacheData && message.message_status === 'pending') {
+                //         cacheData.data.data.pending_messages += 1;
+                //     }
+                //     return cacheData;
+                // });
             });
             socketIo.on('receiveMessageStatus', (data) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                     cacheData &&
-                        cacheData.data.data.forEach((chat: ChatTypes.Chat) => {
+                        cacheData.data.data.forEach((chat: Chat) => {
                             if (chat.id === Number(data.chat_id)) {
                                 chat.pending_messages = data.pending_messages;
+                                setSocketAction(`receiveMessageStatus:${chat?.id}`);
                             }
                         });
                     return cacheData;
                 });
-                queryClient.setQueryData(['get-chat', data.chat_id], (cacheData: any) => {
-                    if (cacheData) {
-                        cacheData.data.data.pending_messages = data.pending_messages;
-                    }
-                    return cacheData;
-                });
-                callback({ action: 'read-message' });
-            });
-
-            socketIo.on('receiveMessageAction', ({ message }) => {
-                const updChat = (chat: ChatProxy) => {
-                    chat.messageAction = `${message.user.name} ${message.action}`;
-                    setTimeout(() => {
-                        chat.messageAction = '';
-                        callback({ action: 'message-action' });
-                    }, 5000);
-                    callback({ action: 'message-action' });
-                };
-                // queryClient.setQueryData(['get-chat', message.chat_id], (cacheData: any) => {
+                // queryClient.setQueryData(['get-chat', data.chat_id], (cacheData: any) => {
                 //     if (cacheData) {
-                //         const chat: ChatProxy = cacheData.data.data;
-                //         if (!chat?.messageAction) {
-                //             updChat(chat);
-                //         }
+                //         cacheData.data.data.pending_messages = data.pending_messages;
                 //     }
                 //     return cacheData;
                 // });
+            });
+
+            socketIo.on('receiveMessageAction', ({ message }) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                     cacheData &&
                         cacheData.data.data.forEach((chat: ChatProxy) => {
                             if (chat.id === Number(message.chat_id) && !chat.messageAction) {
-                                updChat(chat);
+                                chat.messageAction = `${message.user.name} ${message.action}`;
+                                setSocketAction(`receiveMessageAction:${chat?.id}`);
+                                setTimeout(() => {
+                                    chat.messageAction = '';
+                                    setSocketAction(`reset:${chat?.id}`);
+                                }, 3000);
                             }
                         });
                     return cacheData;
                 });
             });
-
-            return () => {
-                // socketIo.off('receiveMessage');
-                // socketIo.off('receiveMessageStatus');
-                // socketIo.off('receiveMessageAction');
-            };
         }, []);
     }
 }

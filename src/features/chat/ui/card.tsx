@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
-import { ChatCardView, ChatService, ChatApi, ChatTypes } from 'entities/chat';
+import { ChatCardView, ChatService, ChatApi, ChatTypes, useChatStore } from 'entities/chat';
 import { ViewerService } from 'entities/viewer';
 import { useEnding, useToggle } from 'shared/hooks';
 
@@ -14,14 +14,10 @@ function ChatCard() {
 
     const viewerId = ViewerService.getId();
 
-    const [_, toggle] = useToggle();
+    const socketAction = useChatStore.use.socketAction();
 
-    const { data: chatData } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
-
-    ChatApi.subscriptions((data) => {
-        console.log('ChatCard');
-        toggle();
-    });
+    const { data: chatData } = ChatApi.handleGetChats();
+    const chat = chatData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
     const clickOnChat = (chat: ChatTypes.Chat) => {
         if (!ChatService.checkIsOpenChatInfo()) {
@@ -34,7 +30,7 @@ function ChatCard() {
         }
     };
 
-    const getChatSubtitle = (chat: ChatProxy | null): string => {
+    const getChatSubtitle = (chat: ChatProxy | undefined): string => {
         if (!chat) return '';
         if (chat.messageAction) {
             return chat.messageAction;
@@ -45,10 +41,10 @@ function ChatCard() {
             return `${chat.users.length} ${word}`;
         }
 
-        return 'title';
+        return chat?.message[0]?.text || 'title';
     };
 
-    return <ChatCardView chat={chatData?.data?.data || null} subtitle={getChatSubtitle(chatData?.data?.data || null)} onClick={clickOnChat} />;
+    return <ChatCardView chat={chat} subtitle={getChatSubtitle(chat)} onClick={clickOnChat} />;
 }
 
 export default ChatCard;

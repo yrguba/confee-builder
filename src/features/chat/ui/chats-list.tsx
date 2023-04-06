@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
-import { ChatListView, ChatApi, ChatTypes, ChatService } from 'entities/chat';
+import { ChatListView, ChatApi, ChatTypes, ChatService, useChatStore } from 'entities/chat';
 import { ViewerService } from 'entities/viewer';
 import { useToggle } from 'shared/hooks';
 
@@ -12,14 +12,9 @@ function ChatsList() {
 
     const viewerId = ViewerService.getId();
 
-    const [_, render] = useToggle();
+    const socketAction = useChatStore.use.socketAction();
 
     const { data: chatData } = ChatApi.handleGetChats();
-
-    ChatApi.subscriptions((data) => {
-        console.log('ChatsList');
-        render();
-    });
 
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
         const { id, is_group } = chat;
