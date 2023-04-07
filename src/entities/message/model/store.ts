@@ -4,12 +4,19 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
-type Store = {};
+type Store = {
+    socketAction: string;
+    setSocketAction: (action: string) => void;
+};
 
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
-            //
+            socketAction: '',
+            setSocketAction: (action) =>
+                set((state) => {
+                    state.socketAction = action;
+                }),
         }))
     )
 );

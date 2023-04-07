@@ -7,10 +7,10 @@ const config: AxiosRequestConfig = {
     baseURL: `${http.url}`,
 };
 
-const $axios = axios.create(config);
+const axiosClient = axios.create(config);
 
-$axios.interceptors.request.use(async (config: any) => {
-    const tokens = await TokenService.get();
+axiosClient.interceptors.request.use(async (config: any) => {
+    const tokens = await TokenService.getAsync();
     if (tokens?.access_token) {
         return {
             ...config,
@@ -24,23 +24,23 @@ $axios.interceptors.request.use(async (config: any) => {
     return config;
 });
 
-$axios.interceptors.response.use(
+axiosClient.interceptors.response.use(
     (config) => {
         return config;
     },
     async (error) => {
         const originalRequest = error.config;
-        const currentTokens = await TokenService.get();
+        const currentTokens = await TokenService.getAsync();
         if (error.response.status === 401 && error.config && currentTokens && !error.config._isRetry) {
             error.config._isRetry = true;
             try {
                 const additional = { grant_type: 'refresh_token', ...secrets.auth };
                 // const res: any = await $axios.post('/auth/oauth/token', { refresh_token: currentTokens.refresh_token, ...additional });
-                const res: any = await $axios.post('api/v2/authorization/refresh', currentTokens);
+                const res: any = await axiosClient.post('api/v2/authorization/refresh', currentTokens);
                 if (res.data.data) {
                     const { access_token, refresh_token } = res.data.data;
                     await TokenService.save({ access_token, refresh_token });
-                    return await $axios.request(originalRequest);
+                    return await axiosClient.request(originalRequest);
                 }
                 await TokenService.remove();
                 window.location.reload();
@@ -56,4 +56,4 @@ $axios.interceptors.response.use(
     }
 );
 
-export default $axios;
+export default axiosClient;

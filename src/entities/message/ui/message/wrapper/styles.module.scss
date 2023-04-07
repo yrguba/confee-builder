@@ -2,11 +2,11 @@
 
 .wrapper{
   //@include box-size(100%, 100%);
-  @include flex;
+  @include flex(center, flex-end);
   gap: 8px;
 
   .avatar{
-
+    margin-bottom: 20px;
   }
 
   .mainColumn{
@@ -27,8 +27,16 @@
         color: var(--text-1);
       }
 
-      .message{
+      .messageContent{
 
+      }
+
+      .reactions{
+        @include flex(flex-start);
+        flex-wrap: wrap;
+        gap: 12px;
+        width: 100%;
+        max-width: 500px;
       }
     }
 

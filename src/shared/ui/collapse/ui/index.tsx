@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styles from './styles.module.scss';
 import { useToggle } from '../../../hooks';
@@ -7,7 +7,7 @@ import { Box } from '../../index';
 import { CollapseProps } from '../types';
 
 function Collapse(props: CollapseProps) {
-    const { title, children, titleClassName, headerClassName, onTitleClick, openByClickingOnArrow, activeAnimate } = props;
+    const { title, children, titleClassName, isOpen, headerClassName, onTitleClick, openByClickingOnArrow, activeAnimate } = props;
     const [visible, toggle] = useToggle();
 
     const headerClick = () => {
@@ -21,6 +21,10 @@ function Collapse(props: CollapseProps) {
     const arrowClick = () => {
         openByClickingOnArrow && toggle();
     };
+
+    useEffect(() => {
+        toggle(!!isOpen);
+    }, [isOpen]);
 
     return (
         <div className={styles.wrapper}>

@@ -4,12 +4,12 @@ import { BaseTypes } from 'shared/types';
 import { Box, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Chat } from '../../model/types';
+import { ChatProxy } from '../../model/types';
 import ChatCardView from '../card';
 
 type Props = {
-    chats: Chat[];
-    clickOnChat: (arg: Chat) => void;
+    chats: ChatProxy[];
+    clickOnChat: (arg: ChatProxy) => void;
     activeChatId: number | null;
 } & BaseTypes.Statuses;
 
@@ -26,12 +26,24 @@ function ChatListView(props: Props) {
         <Box loading={loading} className={styles.wrapper}>
             {chats &&
                 data.map((category, index: number) => (
-                    <Collapse key={category.id} titleClassName={styles.categoryTitle} headerClassName={styles.headerCollapse} title={category.name}>
+                    <Collapse
+                        isOpen={!!(activeChatId && category.id === 0)}
+                        key={category.id}
+                        titleClassName={styles.categoryTitle}
+                        headerClassName={styles.headerCollapse}
+                        title={category.name}
+                    >
                         <div className={styles.chatsList}>
                             {category.items.map((chat) => (
                                 <div key={chat.id} className={`${styles.chatWrapper} ${activeChatId === chat.id ? styles.itemActive : ''}`}>
                                     <div className={styles.chatContent}>
-                                        <ChatCardView showChecked showDate chat={chat} subtitle={chat.message[0].text} onClick={clickOnChat} />
+                                        <ChatCardView
+                                            showChecked
+                                            showDate
+                                            chat={chat}
+                                            subtitle={chat.messageAction || chat.message[0].text}
+                                            onClick={clickOnChat}
+                                        />
                                     </div>
                                 </div>
                             ))}

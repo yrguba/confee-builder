@@ -1,6 +1,6 @@
 @import "../../../../../../../app/styles/index";
 
-.page {
+.wrapper {
   @include box-size(100%, 100%);
   @include flex-column(flex-start);
 
@@ -16,7 +16,7 @@
       width: 100%;
     }
 
-    .info{
+    .list{
       @include flex;
       width: 100%;
     }

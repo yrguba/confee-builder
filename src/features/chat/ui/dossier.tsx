@@ -15,8 +15,7 @@ function ChatDossier(props: Props) {
     const params = useParams();
 
     const { data, isLoading, isError } = ChatApi.handleGetChat({ chatId: Number(params.chat_id) });
-
-    return <ChatDossierView chat={data?.data} loading={isLoading} direction={direction} error={isError} />;
+    return <ChatDossierView chat={data?.data?.data} loading={isLoading} direction={direction} error={isError} />;
 }
 
 export default ChatDossier;

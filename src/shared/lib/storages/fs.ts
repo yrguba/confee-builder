@@ -28,7 +28,6 @@ export const set = async (name: keyof typeof StorageObjectsNames, value: string)
         const oldTokens = await readTextFile(path, { dir: dirInDocument });
         newTokens = { ...JSON.parse(oldTokens), ...obj };
     }
-    console.log(newTokens, obj);
     await writeTextFile({ path, contents: JSON.stringify(newTokens || obj) }, { dir: dirInDocument });
 };
 

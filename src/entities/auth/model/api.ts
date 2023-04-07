@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { $axios } from 'shared/configs';
+import { axiosClient } from 'shared/configs';
 import { secrets } from 'shared/constanst';
 
 type HandleLogin = {
@@ -15,7 +15,7 @@ class AuthApi {
     //     return useMutation(loginFn);
     // }
     handleLogin() {
-        const fetch = (data: HandleLogin) => $axios.post('api/v2/authorization/login', { phone: data.username, code: data.password });
+        const fetch = (data: HandleLogin) => axiosClient.post('api/v2/authorization/login', { phone: data.username, code: data.password });
         return useMutation(fetch);
     }
 }

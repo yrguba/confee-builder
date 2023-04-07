@@ -1,13 +1,13 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-import { $axios } from 'shared/configs';
+import { axiosClient } from 'shared/configs';
 import { handlers } from 'shared/lib';
 
 import { Viewer } from './types';
 
 class ViewerApi {
     handleGetViewer() {
-        const getViewerFn = () => $axios.get('/api/v2/profile');
+        const getViewerFn = () => axiosClient.get('/api/v2/profile');
         return useQuery(['get-viewer'], getViewerFn, {
             staleTime: Infinity,
             select: (data) => {
@@ -17,7 +17,7 @@ class ViewerApi {
     }
 
     handleLogout() {
-        return useMutation((data: null) => $axios.post('/api/v2/authorization/logout'));
+        return useMutation((data: null) => axiosClient.post('/api/v2/authorization/logout'));
     }
 }
 

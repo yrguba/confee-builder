@@ -4,7 +4,7 @@ import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
-import { Massage } from '../../../model/types';
+import { Message } from '../../../model/types';
 import Wrapper from '../wrapper';
 
 type Props = {
@@ -16,7 +16,7 @@ function SystemMessageView(props: Props) {
 
     // const date = useDate(message.created_at);
 
-    return <div>{text}</div>;
+    return <div className={styles.wrapper}>{text}</div>;
 }
 
 export default SystemMessageView;

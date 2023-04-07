@@ -1,4 +1,5 @@
 import UserService from './lib/service';
+import ViewerService from './lib/service';
 import UserApi from './model/api';
 import useUserStore from './model/store';
 import * as UserTypes from './model/types';
