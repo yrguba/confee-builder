@@ -1,11 +1,11 @@
 @import "./src/app/styles";
 
-.wrapper{
+.wrapper {
   @include flex;
   @include box-size(100%, 44px);
   gap: 12px;
 
-  .input{
+  .input {
     @include box-size(90%, 100%);
     @include flex(flex-start);
     gap: 10px;
@@ -13,11 +13,13 @@
     background-color: var(--bg-03);
     border-radius: 10px;
 
-    .icon{
+    .icon, .emoji {
       @include flex;
+      cursor: pointer;
+      z-index: 1000;
     }
 
-    .textarea{
+    .textarea {
       @include flex;
       @include box-size(90%, 80%);
       align-self: flex-end;

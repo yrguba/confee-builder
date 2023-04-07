@@ -12,6 +12,7 @@ export type Chat = {
     users: number[];
     chatUsers: User[];
     pending_messages: number;
+    permittedReactions: string[];
     totalMessages: number;
 };
 

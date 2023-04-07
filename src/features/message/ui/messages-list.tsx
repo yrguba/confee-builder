@@ -1,9 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router';
+import { number } from 'yup';
 
 import { ChatApi, ChatService } from 'entities/chat';
 import { MessageApi, MessagesListView, useMessageStore, MessageTypes, messageConstants } from 'entities/message';
 import { reactionConverter } from 'shared/lib';
+
+import messageProxy from '../../../entities/message/model/proxy';
+import { Message } from '../../../entities/message/model/types';
+import { ViewerService } from '../../../entities/viewer';
 
 type Props = {};
 
@@ -11,6 +16,7 @@ function MessageList(props: Props) {
     const params = useParams();
 
     const chatId = Number(params.chat_id);
+    const viewerId = ViewerService.getId();
 
     const socketAction = useMessageStore.use.socketAction();
 
@@ -29,13 +35,14 @@ function MessageList(props: Props) {
         isFetching,
     } = MessageApi.handleGetMessages({ chatId, initialPage: ChatService.getInitialPage(chat) });
 
-    const reactionClick = (messageId: number, reaction: any) => handleSendReaction({ chatId, messageId, reaction: reactionConverter(reaction, 'html') });
+    const reactionClick = (messageId: number, reaction: any) => handleSendReaction({ chatId, messageId, reaction });
+
     const readMessage = (messageId: number) => {
         if (chat?.pending_messages) handleReadMessage({ chat_id: chatId, messages: [messageId] });
     };
 
     const getPrevPage = () => {
-        readMessage(messageData?.pages[messageData?.pages.length - 1].id);
+        readMessage(messageData?.pages[messageData?.pages.length - 1].id || 0);
         hasPreviousPage && !isFetching && fetchPreviousPage().then();
     };
     const getNextPage = () => {
@@ -55,7 +62,7 @@ function MessageList(props: Props) {
     return (
         <MessagesListView
             chat={chat}
-            messages={messageData?.pages}
+            messages={messageData?.pages.map((message: Message, index: number) => messageProxy(messageData?.pages[index - 1], message, viewerId))}
             getNextPage={getNextPage}
             getPrevPage={getPrevPage}
             readMessage={readMessage}

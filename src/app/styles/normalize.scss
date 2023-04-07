@@ -61,4 +61,17 @@ html {
       align-items: center;
     }
   }
+
+
+  .EmojiPickerReact, .epr-main{
+    background-color: var(--bg-0) !important;
+
+    .epr-emoji-category-label{
+      background-color: var(--bg-03) !important;
+    }
+
+    .epr-search{
+      background-color: var(--bg-1) !important;
+    }
+  }
 }

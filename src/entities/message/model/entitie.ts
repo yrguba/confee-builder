@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { ViewerTypes } from 'entities/viewer';
 
-import { Message, MessageType } from './types';
+import { Message, MessageProxy, MessageType } from './types';
 
 export default function (data: { text?: string; content?: any; type?: MessageType; viewer: ViewerTypes.Viewer | undefined }): Message {
     return {
@@ -17,5 +17,6 @@ export default function (data: { text?: string; content?: any; type?: MessageTyp
         forwarded_messages: [],
         reactions: {},
         reply_messages: [],
-    } as Message;
+        isMock: true,
+    } as MessageProxy;
 }
