@@ -13,7 +13,7 @@
 
   .mainRow {
     @include flex-column(flex-start, center);
-    @include box-size(100%, calc(100% - 60px));
+    @include box-size(96%, calc(100% - 60px));
     gap: 22px;
     padding: 22px 0;
     overflow-y: scroll;

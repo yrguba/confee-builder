@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 
 import { useScroll, useSize, useStyles, useInView, useScrollTo, useReverseTimer } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Counter, Dropdown } from 'shared/ui';
+import { Button, Counter, Dropdown, DropdownTypes } from 'shared/ui';
 import { BaseInputProps } from 'shared/ui/input/types';
 
 import styles from './styles.module.scss';
@@ -96,8 +96,9 @@ function MessagesListView(props: Props) {
                         {message.message_type !== 'system' && (
                             <div className={styles.messageContent}>
                                 <Dropdown
+                                    top={messages?.length - index < 3 ? '100%' : 0}
                                     trigger="right-click"
-                                    position="right-center"
+                                    position={index < 4 ? 'right-bottom' : messages?.length - index < 3 ? 'right-top' : 'right-center'}
                                     content={<MessageMenuView reactionClick={(reaction) => reactionClick(message.id, reaction)} items={textMessageMenuItems} />}
                                 >
                                     {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}

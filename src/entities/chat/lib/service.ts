@@ -36,8 +36,9 @@ class ChatService {
         UniversalStorage.localStorageSet('subscribed_to_chat', String(id));
     }
 
-    unsubscribeFromChat(id: number) {
-        ChatApi.handleUnsubscribeFromChat()(id);
+    unsubscribeFromChat(id?: number) {
+        const idInLs = UniversalStorage.localStorageGet('subscribed_to_chat');
+        ChatApi.handleUnsubscribeFromChat()(id || Number(idInLs));
         UniversalStorage.localStorageRemove('subscribed_to_chat');
     }
 

@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { DropdownBaseProps } from '../types';
 
 function Dropdown(props: DropdownBaseProps) {
-    const { children, openCloseTrigger, content, trigger = 'left-click', position = 'left-bottom', animationVariant = 'visibleHidden' } = props;
+    const { children, openCloseTrigger, content, trigger = 'left-click', position = 'left-bottom', animationVariant = 'visibleHidden', top, left } = props;
 
     const ref = useRef(null);
 
@@ -40,7 +40,14 @@ function Dropdown(props: DropdownBaseProps) {
             onMouseLeave={trigger === 'hover' ? () => click : undefined}
         >
             {children}
-            <Box.Animated animationVariant={animationVariant} className={classes} visible={isOpen} presence onClick={(e) => e.stopPropagation()}>
+            <Box.Animated
+                animationVariant={animationVariant}
+                style={{ top, left }}
+                className={classes}
+                visible={isOpen}
+                presence
+                onClick={(e) => e.stopPropagation()}
+            >
                 {content}
             </Box.Animated>
         </div>

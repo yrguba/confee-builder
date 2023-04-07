@@ -4,11 +4,16 @@ import { BaseTypes } from 'shared/types';
 
 import { AnimationVariants } from '../box/types';
 
+export type Position = 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
+export type Trigger = 'left-click' | 'right-click' | 'hover';
+
 export type DropdownBaseProps = {
     children?: ReactNode;
     content?: ReactNode;
-    trigger?: 'left-click' | 'right-click' | 'hover';
-    position?: 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
+    trigger?: Trigger;
+    position?: Position;
     animationVariant?: AnimationVariants;
     openCloseTrigger?: (arg: boolean) => void;
+    top?: number | string;
+    left?: number | string;
 } & BaseTypes.Statuses;
