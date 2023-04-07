@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
+import { EmojiTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { MessageProxy } from '../../../model/types';

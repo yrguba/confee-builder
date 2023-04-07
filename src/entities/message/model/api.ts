@@ -1,22 +1,18 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-import { ViewerService } from 'entities/viewer';
 import { axiosClient, socketIo } from 'shared/configs';
 import { uniqueArray } from 'shared/lib';
 
 import messageEntity from './entitie';
-import messageProxy from './proxy';
 import useMessageStore from './store';
-import { Message } from './types';
+import { MessageProxy } from './types';
 import { message_limit } from '../lib/constants';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
 
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined; chatId: number }) {
-        const viewerId = ViewerService.getId();
-
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
@@ -37,13 +33,11 @@ class MessageApi {
                     return lastPage?.data.page + 1;
                 },
                 select: (data) => {
-                    if (!data.pages.length) return data;
-                    const messages: Message[] = data.pages.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []);
-                    const addProxy: any[] = uniqueArray(messages, 'id').map((message: Message, index: number) =>
-                        messageProxy(messages[index - 1], message, viewerId)
-                    );
                     return {
-                        pages: addProxy,
+                        pages: uniqueArray(
+                            data.pages.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []),
+                            'id'
+                        ),
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },
@@ -102,12 +96,19 @@ class MessageApi {
             socketIo.on('receiveMessage', ({ message }) => {
                 const viewerData: any = queryClient.getQueryData(['get-viewer']);
                 queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
-                    if (cacheData && viewerData?.data.data.id !== message.user.id) {
+                    if (cacheData) {
+                        const viewerId = viewerData?.data.data.id;
                         const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
-                        if (pageOne) {
+                        if (viewerId === message.user.id) {
+                            pageOne.data.data.find((myMessage: MessageProxy, index: number) => {
+                                if (myMessage.user?.id === viewerId && myMessage.isMock) {
+                                    pageOne.data.data.splice(index, 1, { ...message, isMy: true });
+                                }
+                            });
+                        } else if (pageOne) {
                             pageOne.data.data.unshift(message);
-                            setSocketAction(`receiveMessage:${message.id}`);
                         }
+                        setSocketAction(`receiveMessage:${message.id}`);
                     }
                     return cacheData;
                 });
@@ -118,7 +119,7 @@ class MessageApi {
                         page.data.data.forEach((message: any) => {
                             if (message.id === data.messageId) {
                                 message.reactions = { ...data.reactions };
-                                setSocketAction(`receiveReactions:${message.id}`);
+                                setSocketAction(`receiveReactions:${message.id}:${new Date()}`);
                             }
                         });
                     });

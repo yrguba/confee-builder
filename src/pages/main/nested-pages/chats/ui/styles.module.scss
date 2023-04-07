@@ -26,14 +26,21 @@
       width: 100%;
       height: calc(100% - 60px);
       background-color: var(--bg-1);
+      position: relative;
 
       .messageList {
         @include box-size(100%, calc(100% - 100px));
         padding-top: 12px;
+        position: absolute;
+        top: 0;
+        right: 0;
       }
 
       .messageInput {
         @include box-size(100%, 100px);
+        position: absolute;
+        bottom: 10px;
+        z-index: 2;
       }
     }
   }

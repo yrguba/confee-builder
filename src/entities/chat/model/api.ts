@@ -78,6 +78,7 @@ class ChatApi {
     subscriptions() {
         const queryClient = useQueryClient();
         const setSocketAction = useChatStore.use.setSocketAction();
+        const viewerData: any = queryClient.getQueryData(['get-viewer']);
         useEffect(() => {
             socketIo.on('receiveMessage', ({ message }) => {
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
@@ -85,7 +86,7 @@ class ChatApi {
                         cacheData.data.data.forEach((chat: ChatProxy) => {
                             if (chat.id === Number(message.chat_id)) {
                                 chat.message.splice(0, 1, message);
-                                if (message.message_status === 'pending') {
+                                if (message.message_status === 'pending' && message.user.id !== viewerData?.data?.data?.id) {
                                     chat.pending_messages += 1;
                                 }
                                 chat.messageAction = '';

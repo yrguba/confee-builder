@@ -31,6 +31,7 @@ export type Message = {
 };
 
 export type MessageProxy = {
+    isMock: boolean;
     isMy: boolean;
     isFirstUnread: boolean;
     firstOfDay: string;

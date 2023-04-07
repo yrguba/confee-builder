@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Button, Input } from 'shared/ui';
+import { Button, Input, Emoji } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
@@ -10,11 +10,13 @@ type Props = {
     onKeyDown: (arg: any) => void;
     onChange: (arg: any) => void;
     btnClick: (arg?: any) => void;
+    openClosePickerTrigger: (arg?: any) => void;
+    clickOnEmoji: (arg?: any) => void;
     value: string;
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
-    const { onKeyDown, btnClick, onChange, value, loading } = props;
+    const { onKeyDown, openClosePickerTrigger, clickOnEmoji, btnClick, onChange, value, loading } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -24,6 +26,9 @@ function MessageInputView(props: Props) {
                 </div>
                 <div className={styles.textarea}>
                     <Input.Textarea value={value} onChange={onChange} onKeyDown={onKeyDown} />
+                </div>
+                <div className={styles.emoji}>
+                    <Emoji openCloseTrigger={openClosePickerTrigger} clickOnEmoji={clickOnEmoji} />
                 </div>
             </div>
             <div className={styles.sendBtn}>
