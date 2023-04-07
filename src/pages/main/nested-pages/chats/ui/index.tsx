@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { ChatApi } from 'entities/chat';
+import { useMessageStore } from 'entities/message';
 import { Box } from 'shared/ui';
 import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
@@ -11,6 +12,8 @@ import { MessageApi } from '../../../../../entities/message';
 function ChatsPage() {
     ChatApi.subscriptions();
     MessageApi.subscriptions();
+
+    const isOpenEmojiPicker = useMessageStore.use.isOpenEmojiPicker();
 
     return (
         <Box.Animated visible className={styles.page}>
@@ -25,9 +28,15 @@ function ChatsPage() {
                     <div className={styles.messageList}>
                         <MessagesListForChatsPage />
                     </div>
-                    <div className={styles.messageInput}>
+                    <Box.Animated
+                        initial={{ height: 100 }}
+                        animate={{ height: isOpenEmojiPicker ? 500 : 100, transition: { duration: 0 } }}
+                        exit={{ transition: { duration: 1 } }}
+                        visible
+                        className={styles.messageInput}
+                    >
                         <MessageInputForChatsPage />
-                    </div>
+                    </Box.Animated>
                 </div>
             </div>
 

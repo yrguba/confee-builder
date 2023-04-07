@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { useDate } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Reactions } from 'shared/ui';
+import { Avatar, Box, Emoji, EmojiTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { MessageProxy } from '../../../model/types';
@@ -24,16 +24,16 @@ function Wrapper(props: Props) {
     return (
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.avatar}>
-                <Avatar size={32} img={user.avatar} name={user.name} />
+                <Avatar size={32} img={user?.avatar} name={user?.name} />
             </div>
             <div className={styles.mainColumn}>
                 <div className={styles.content}>
-                    {!message.isMy && <div className={styles.name}>{user.name}</div>}
+                    {!message.isMy && <div className={styles.name}>{user?.name}</div>}
                     <div className={styles.messageContent}>{children}</div>
                     <div className={styles.reactions}>
                         {Object.entries(reactions).map(([reaction, arr]) =>
                             arr.length ? (
-                                <Reactions.Counter
+                                <Emoji.Counter
                                     key={reaction}
                                     emoji={reactionConverter(reaction, 'unicode')}
                                     items={arr}

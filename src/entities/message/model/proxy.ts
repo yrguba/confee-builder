@@ -7,7 +7,7 @@ function messageProxy(prevMessage: Message, message: Message, viewerId: number |
         get(target: MessageProxy, prop: keyof MessageProxy, receiver): MessageProxy[keyof MessageProxy] {
             switch (prop) {
                 case 'isMy':
-                    return target.user.id === viewerId && target.message_type !== 'system';
+                    return target?.user?.id === viewerId && target.message_type !== 'system';
 
                 case 'isFirstUnread':
                     if (!prevMessage && target.message_status === 'pending') return true;

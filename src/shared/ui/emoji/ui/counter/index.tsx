@@ -3,9 +3,9 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 import Avatar from '../../../avatar';
-import { ReactionCounterProps } from '../../types';
+import { EmojiCounterProps } from '../../types';
 
-function ReactionCounter(props: ReactionCounterProps) {
+function EmojiCounter(props: EmojiCounterProps) {
     const { onClick, items, emoji, maxAvatars = 3 } = props;
 
     return items?.length ? (
@@ -26,4 +26,4 @@ function ReactionCounter(props: ReactionCounterProps) {
     ) : null;
 }
 
-export default ReactionCounter;
+export default EmojiCounter;
