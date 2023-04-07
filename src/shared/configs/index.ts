@@ -1,4 +1,4 @@
-import $axios from './axios';
-import $socket from './socket';
+import axiosClient from './axios';
+import socketIo from './socket';
 
-export { $axios, $socket };
+export { axiosClient, socketIo };

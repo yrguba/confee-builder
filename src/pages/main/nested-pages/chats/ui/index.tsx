@@ -1,12 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { ChatApi } from 'entities/chat';
 import { Box } from 'shared/ui';
 import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
 import styles from './styles.module.scss';
+import { MessageApi } from '../../../../../entities/message';
 
 function ChatsPage() {
+    ChatApi.subscriptions();
+    MessageApi.subscriptions();
+
     return (
         <Box.Animated visible className={styles.page}>
             <div className={styles.leftSidebar}>

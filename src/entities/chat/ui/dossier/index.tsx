@@ -9,8 +9,7 @@ import { UserCardView } from '../../../user';
 import { Chat } from '../../model/types';
 
 type Props = {
-    // chat: Chat | BaseTypes.Empty;
-    chat: any;
+    chat: Chat | BaseTypes.Empty;
     onClick?: (arg: Chat) => void;
     direction?: 'column' | 'row';
 } & BaseTypes.Statuses;
@@ -34,8 +33,8 @@ function ChatDossierView(props: Props) {
                     <div className={styles.adminList}>
                         <div className={styles.title}>Администраторы</div>
                         <div className={styles.list}>
-                            {[{ name: 'a' }, { name: 'b' }, { name: 'b' }, { name: 'b' }, { name: 'b' }].map((admin, index) => (
-                                <UserCardView key={index} user={chat} />
+                            {chat?.chatUsers.map((admin, index) => (
+                                <UserCardView key={index} user={admin} />
                             ))}
                         </div>
                     </div>

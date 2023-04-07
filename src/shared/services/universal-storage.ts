@@ -9,47 +9,41 @@ import { StorageObjectsNames } from 'shared/enums';
 import { storages } from 'shared/lib';
 
 class UniversalStorage {
-    private ls: StorageObjectsNames[] = [StorageObjectsNames.theme];
-
-    private getStorageName(name: keyof typeof StorageObjectsNames): 'ls' | 'cookies' {
-        const foundInLs = this.ls.find((i) => i === name);
-        return foundInLs ? 'ls' : 'cookies';
+    localStorageSet(name: keyof typeof StorageObjectsNames, value: string) {
+        storages.ls.set(name, value);
     }
 
-    async set(name: keyof typeof StorageObjectsNames, value: string) {
-        const storageName = this.getStorageName(name);
+    localStorageGet(name: keyof typeof StorageObjectsNames) {
+        return storages.ls.get(name);
+    }
+
+    localStorageRemove(name: keyof typeof StorageObjectsNames) {
+        storages.ls.remove(name);
+    }
+
+    localStorageClear(name: keyof typeof StorageObjectsNames) {
+        storages.ls.clear();
+    }
+
+    async cookieSet(name: keyof typeof StorageObjectsNames, value: string) {
         if (tauri.isRunning) await storages.fs.set(name, value);
-        if (storageName === 'ls') storages.ls.set(name, value);
-        if (storageName === 'cookies') storages.cookie.set(name, value);
+        storages.cookie.set(name, value);
     }
 
-    async get(name: keyof typeof StorageObjectsNames) {
-        const storageName = this.getStorageName(name);
+    async cookieGet(name: keyof typeof StorageObjectsNames) {
         if (!tauri.isRunning) {
-            if (storageName === 'ls') return storages.ls.get(name);
-            if (storageName === 'cookies') return storages.cookie.get(name);
+            return storages.cookie.get(name);
         }
-        if (storageName === 'ls') {
-            const valueInLs = storages.ls.get(name);
-            if (valueInLs) return valueInLs;
-            const valueInFs = await storages.fs.get(name);
-            valueInFs && storages.ls.set(name, valueInFs);
-            return valueInFs;
-        }
-        if (storageName === 'cookies') {
-            const valueInCookie = storages.cookie.get(name);
-            if (valueInCookie) return valueInCookie;
-            const valueInFs = await storages.fs.get(name);
-            valueInFs && storages.cookie.set(name, valueInFs);
-            return valueInFs;
-        }
+        const valueInCookie = storages.cookie.get(name);
+        if (valueInCookie) return valueInCookie;
+        const valueInFs = await storages.fs.get(name);
+        valueInFs && storages.cookie.set(name, valueInFs);
+        return valueInFs;
     }
 
-    async remove(name: keyof typeof StorageObjectsNames) {
-        const storageName = this.getStorageName(name);
+    async cookieRemove(name: keyof typeof StorageObjectsNames) {
         if (tauri.isRunning) await storages.fs.remove(name);
-        if (storageName === 'ls') storages.ls.remove(name);
-        if (storageName === 'cookies') storages.cookie.remove(name);
+        storages.cookie.remove(name);
     }
 }
 export default new UniversalStorage();

@@ -1,7 +1,10 @@
 @import "./src/app/styles";
 
 .wrapper{
+  @include box-size(100%, 40px);
   @include flex;
+  background-color: var(--bg-0);
+  color: var(--text-0);
 }
 
 

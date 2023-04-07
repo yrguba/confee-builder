@@ -1,27 +1,36 @@
-import React, { useTransition } from 'react';
+import React from 'react';
 import { useParams } from 'react-router';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { ChatListView, ChatApi, ChatTypes, ChatService } from 'entities/chat';
+import { ChatListView, ChatApi, ChatTypes, ChatService, useChatStore } from 'entities/chat';
+import { ViewerService } from 'entities/viewer';
+import { useToggle } from 'shared/hooks';
 
 function ChatsList() {
-    const { data, isLoading } = ChatApi.handleGetChats();
-
     const navigate = useNavigate();
     const params = useParams();
 
+    const viewerId = ViewerService.getId();
+
+    const socketAction = useChatStore.use.socketAction();
+
+    const { data: chatData } = ChatApi.handleGetChats();
+
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
-        if (Number(params.chat_id) !== chat.id) {
+        const { id, is_group } = chat;
+        ChatService.unsubscribeFromChat();
+        if (Number(params.chat_id) !== id) {
             if (ChatService.checkIsOpenChatInfo()) {
-                if (chat.is_group) {
-                    return navigate(`/main/chats/chat/${chat.id}/group_chat/${chat.id}/users`);
+                if (is_group) {
+                    return navigate(`/main/chats/chat/${id}/group_chat/${id}/users`);
                 }
-                return navigate(`/main/chats/chat/${chat.id}/private_chat/${23}/images`);
+                const userId = chat.users.find((userId) => userId !== viewerId);
+                return navigate(`/main/chats/chat/${id}/private_chat/${userId}/images`);
             }
-            navigate(`/main/chats/chat/${chat.id}`);
+            navigate(`/main/chats/chat/${id}`);
         }
     };
-    return <ChatListView chats={data?.data?.data || []} clickOnChat={clickOnChatCard} activeChatId={Number(params.chat_id) || null} />;
+    return <ChatListView chats={chatData?.data || []} clickOnChat={clickOnChatCard} activeChatId={Number(params.chat_id) || null} />;
 }
 
 export default ChatsList;

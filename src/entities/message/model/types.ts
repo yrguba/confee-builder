@@ -9,18 +9,32 @@ export type Content = {
 
 export type MessageType = 'text' | 'images' | 'videos' | 'audios' | 'documents' | 'voices' | 'system';
 export type MessageStatus = 'pending' | 'read';
+export type File = {
+    extension: string;
+    name: string;
+    size: number;
+    url: string;
+};
 
-export type Massage = {
+export type Message = {
     id: number;
     text: string;
+    content: File[];
     user: UserTypes.User;
     message_type: MessageType;
     message_status: MessageStatus;
-    reactions: object;
-    reply_messages: Massage;
-    users_have_read: number[];
+    reactions: Record<string, []>;
+    reply_messages: Message[] | [];
+    forwarded_messages: Message[] | [];
+    users_have_read: number[] | [];
     created_at: Date;
 };
+
+export type MessageProxy = {
+    isMy: boolean;
+    isFirstUnread: boolean;
+    firstOfDay: string;
+} & Message;
 
 export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
 

@@ -13,23 +13,32 @@
 
   .mainRow {
     @include flex-column(flex-start, center);
-    @include box-size(100%, calc(100% - 60px));
+    @include box-size(96%, calc(100% - 60px));
     gap: 22px;
-    padding-top: 22px;
-    max-width: 940px;
-    .main {
+    padding: 22px 0;
+    overflow-y: scroll;
 
+    .main {
+      min-height: 254px;
+      max-width: 940px;
       @include box-size(100%, 254px)
     }
-    .privacy{
+
+    .privacy {
+      min-height: 154px;
+      max-width: 940px;
       @include box-size(100%, 154px)
     }
 
-    .checkUpdate{
+    .checkUpdate {
+      min-height: 154px;
+      max-width: 940px;
       @include box-size(100%, 154px)
     }
 
-    .application{
+    .application {
+      min-height: 154px;
+      max-width: 940px;
       @include box-size(100%, 154px)
     }
   }

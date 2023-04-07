@@ -12,8 +12,8 @@ function SizeWarningPage(props: Props) {
 
     return (
         <div className={styles.page}>
-            <p>{error === 'width' && `Ширина: ${size.width} пока что не поддерживается. Минимально 1015.`}</p>
-            <p>{error === 'height' && `Высота: ${size.height} пока что не поддерживается. Минимально 1035.`}</p>
+            <p>{error === 'width' && `Ширина: ${size.width} пока что не поддерживается. Минимально 900.`}</p>
+            <p>{error === 'height' && `Высота: ${size.height} пока что не поддерживается. Минимально 780.`}</p>
         </div>
     );
 }

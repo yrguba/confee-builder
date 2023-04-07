@@ -4,20 +4,18 @@ import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
-import { Massage } from '../../../model/types';
+import { MessageProxy } from '../../../model/types';
 import Wrapper from '../wrapper';
 
 type Props = {
-    message: Massage;
+    message: MessageProxy;
+    reactionClick: (messageId: number, reaction: string) => void;
 } & BaseTypes.Statuses;
 
 function TextMessageView(props: Props) {
-    const { message } = props;
-
-    const date = useDate(message.created_at);
-
+    const { message, reactionClick } = props;
     return (
-        <Wrapper avatar={message.user.avatar} name={message.user.name} date={date}>
+        <Wrapper message={message} reactionClick={reactionClick}>
             <div className={styles.wrapper}>{message.text}</div>
         </Wrapper>
     );

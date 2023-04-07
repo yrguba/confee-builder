@@ -9,7 +9,7 @@ function ReactionCounter(props: ReactionCounterProps) {
     const { onClick, items, emoji, maxAvatars = 3 } = props;
 
     return items?.length ? (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onClick={() => onClick(emoji)}>
             <Emoji unified={emoji.toLowerCase()} size={16} />
             {maxAvatars >= items?.length ? (
                 <div className={styles.avatars}>

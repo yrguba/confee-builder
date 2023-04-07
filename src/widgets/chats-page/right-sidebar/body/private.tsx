@@ -39,11 +39,9 @@ function PrivateChatInfoFromChatsPage() {
                 <div className={styles.nav} ref={navRef}>
                     <ChatContentNav />
                 </div>
-                <div className={styles.outlet}>
-                    <Box.Animated key={pathname} visible className={styles.wrapper}>
-                        <Outlet />
-                    </Box.Animated>
-                </div>
+                <Box.Animated key={pathname} visible className={styles.outlet}>
+                    <Outlet />
+                </Box.Animated>
             </div>
         </Box.Animated>
     );

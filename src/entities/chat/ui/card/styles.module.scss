@@ -2,7 +2,7 @@
 
 
 .wrapper {
-  @include flex(space-between, center, 10);
+  @include flex(flex-start, center, 10);
   @include box-size(100%, 100%);
   cursor: pointer;
   transition: background-color var(--transition);
@@ -12,19 +12,18 @@
   }
 
   .centerColumn {
-    @include flex-column(center, flex-start, 6);
+    @include flex-column(flex-start, flex-start, 6);
     flex: 1;
 
-
     .chatName {
-      @include text-ellipsis(99%);
+      @include text-ellipsis(170px);
       font-weight: 600;
       font-size: 16px;
       color: var(--text-0);
     }
 
     .lastMsg {
-      @include text-ellipsis(99%);
+      @include text-ellipsis(170px);
       font-weight: 500;
       font-size: 13px;
       color: var(--text-1);
@@ -32,7 +31,8 @@
   }
 
   .rightColumn {
-    @include flex-column(center, flex-end, 6);
+    @include flex-column(flex-end, flex-end, 6);
+    justify-self: flex-end;
 
     .date {
       font-weight: 600;

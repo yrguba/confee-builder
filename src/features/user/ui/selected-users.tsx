@@ -7,13 +7,9 @@ function SelectedUsers() {
     const clearSelectedUsers = useUserStore.use.clearSelectedUsers();
     const selectedUsers = useUserStore.use.selectedUsers();
 
-    const createConference = (page: number) => {
-        console.log(page);
-    };
+    const createConference = (page: number) => {};
 
-    const sendMessages = (page: number) => {
-        console.log(page);
-    };
+    const sendMessages = (page: number) => {};
 
     return <SelectedUsersView users={selectedUsers} deleteUser={setSelectedUser} clearSelectedUsers={clearSelectedUsers} />;
 }

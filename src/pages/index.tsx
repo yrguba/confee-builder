@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
@@ -38,8 +37,8 @@ function Routing() {
     );
 
     const getRouting = () => {
-        if (width < 1015) return <SizeWarningPage size={{ width, height }} error="width" />;
-        if (height < 1035) return <SizeWarningPage size={{ width, height }} error="height" />;
+        if (width < 900) return <SizeWarningPage size={{ width, height }} error="width" />;
+        if (height < 780) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (isAuth) return privateRoutes;
         return publicRoutes;
     };

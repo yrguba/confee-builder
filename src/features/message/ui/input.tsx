@@ -1,21 +1,22 @@
-import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router';
 
-import { MessageApi, MessageInputView, useMessageStore } from 'entities/message';
+import { MessageApi, MessageInputView } from 'entities/message';
 
 type Props = {};
 
 function MessageInput(props: Props) {
-    // const { children } = props;
-
     const params = useParams();
 
     const { mutate: handleSendTextMessage, isLoading } = MessageApi.handleSendTextMessage();
+    const handleMessageAction = MessageApi.handleMessageAction();
 
     const [valueTextMessage, setValueTextMessage] = useState('');
 
-    const onChange = (event: any) => setValueTextMessage(event.target.value);
+    const onChange = (event: any) => {
+        handleMessageAction({ chatId: Number(params.chat_id), action: 'typing' });
+        setValueTextMessage(event.target.value);
+    };
 
     const sendMessage = () => {
         handleSendTextMessage(
