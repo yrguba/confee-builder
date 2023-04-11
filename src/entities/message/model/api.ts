@@ -6,7 +6,7 @@ import { axiosClient, socketIo } from 'shared/configs';
 import { uniqueArray } from 'shared/lib';
 
 import useMessageStore from './store';
-import { MessageProxy } from './types';
+import { Message, MessageProxy } from './types';
 import { message_limit } from '../lib/constants';
 import messageEntity from '../lib/message-entity';
 
@@ -65,6 +65,12 @@ class MessageApi {
                     });
                 },
             }
+        );
+    }
+
+    handleDeleteMessage() {
+        return useMutation((data: { messages: string[]; fromAll: boolean; chatId: number }) =>
+            axiosClient.delete(`${this.pathPrefix}/message/${data.chatId}`, { data: { fromAll: data.fromAll, messages: data.messages } })
         );
     }
 
@@ -128,6 +134,22 @@ class MessageApi {
                         }
                         setSocketAction(`receiveMessage:${message.id}:${new Date()}`);
                     }
+                    return cacheData;
+                });
+            });
+            socketIo.on('receiveDeleteMessage', ({ chat_id, messages }) => {
+                queryClient.setQueryData(['get-messages', chat_id], (cacheData: any) => {
+                    cacheData &&
+                        cacheData.pages.forEach((page: any) => {
+                            page.data.data.forEach((message: Message, index: number) => {
+                                messages.forEach((deletedMessage: Message) => {
+                                    if (message.id === deletedMessage.id) {
+                                        page.data.data.splice(index, 1);
+                                        setSocketAction(`receiveReactions:${message.id}:${new Date()}`);
+                                    }
+                                });
+                            });
+                        });
                     return cacheData;
                 });
             });

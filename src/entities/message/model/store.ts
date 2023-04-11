@@ -10,9 +10,11 @@ type Store = {
     socketAction: string;
     isOpenEmojiPicker: boolean;
     editableMessage: MessageProxy | null;
+    deletedMessages: MessageProxy[] | [];
     setSocketAction: (action: string) => void;
     setIsOpenEmojiPicker: (bool: boolean) => void;
     setEditableMessage: (message: MessageProxy | null) => void;
+    setDeletedMessage: (message: MessageProxy[] | []) => void;
 };
 
 const messageStore = create<Store>()(
@@ -21,6 +23,7 @@ const messageStore = create<Store>()(
             socketAction: '',
             isOpenEmojiPicker: false,
             editableMessage: null,
+            deletedMessages: [],
             setSocketAction: (action) =>
                 set((state) => {
                     state.socketAction = action;
@@ -32,6 +35,10 @@ const messageStore = create<Store>()(
             setEditableMessage: (message) =>
                 set((state) => {
                     state.editableMessage = message;
+                }),
+            setDeletedMessage: (messages) =>
+                set((state) => {
+                    state.deletedMessages = messages;
                 }),
         }))
     )

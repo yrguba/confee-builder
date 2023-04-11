@@ -27,7 +27,7 @@ function Modal(props: ModalProps) {
                       <div className={styles.header}>
                           <div className={styles.header__title}>{headerText}</div>
                           <div className={styles.header__closeIcon} onClick={closeClick}>
-                              <Icons variants="close" />
+                              <Icons variants="exit" />
                           </div>
                       </div>
                       <div className={styles.content}>{children}</div>
@@ -36,7 +36,7 @@ function Modal(props: ModalProps) {
                               <Button size="s" onClick={closeClick}>
                                   {closeText || 'отмена'}
                               </Button>
-                              <Button size="s" onClick={onOk}>
+                              <Button active size="s" onClick={onOk}>
                                   {okText || 'готово'}
                               </Button>
                           </div>

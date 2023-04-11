@@ -11,7 +11,8 @@
     min-width: 350px;
     min-height: 200px;
     border-radius: var(--border-radius);
-    background-color: var(--bg-2);
+    background-color: var(--bg-0);
+    z-index: 100;
 
     .header {
       @include flex(space-between);
@@ -39,6 +40,7 @@
       text-align: center;
       font-size: 16px;
       font-weight: 600;
+      color: var(--text-0);
     }
 
     .footer {
@@ -46,14 +48,6 @@
       gap: 10px;
       height: 80px;
 
-      button {
-        background-color: var(--bg-02);
-        font-weight: 600;
-
-        &:last-child {
-          color: var(--red);
-        }
-      }
     }
   }
 }
