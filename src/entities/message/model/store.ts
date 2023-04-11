@@ -4,11 +4,15 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
+import { MessageProxy } from './types';
+
 type Store = {
     socketAction: string;
     isOpenEmojiPicker: boolean;
+    editableMessage: MessageProxy | null;
     setSocketAction: (action: string) => void;
     setIsOpenEmojiPicker: (bool: boolean) => void;
+    setEditableMessage: (message: MessageProxy | null) => void;
 };
 
 const messageStore = create<Store>()(
@@ -16,6 +20,7 @@ const messageStore = create<Store>()(
         immer((set) => ({
             socketAction: '',
             isOpenEmojiPicker: false,
+            editableMessage: null,
             setSocketAction: (action) =>
                 set((state) => {
                     state.socketAction = action;
@@ -23,6 +28,10 @@ const messageStore = create<Store>()(
             setIsOpenEmojiPicker: (bool) =>
                 set((state) => {
                     state.isOpenEmojiPicker = bool;
+                }),
+            setEditableMessage: (message) =>
+                set((state) => {
+                    state.editableMessage = message;
                 }),
         }))
     )

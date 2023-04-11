@@ -27,6 +27,7 @@ export type Message = {
     reply_messages: Message[] | [];
     forwarded_messages: Message[] | [];
     users_have_read: number[] | [];
+    is_edited: boolean;
     created_at: Date;
 };
 
@@ -43,4 +44,5 @@ export type MessageMenuItem = {
     id: number;
     title: string;
     icon: MessageMenuIcons;
+    onClick: () => void;
 };

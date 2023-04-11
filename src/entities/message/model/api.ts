@@ -1,13 +1,14 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { date } from 'yup';
 
 import { axiosClient, socketIo } from 'shared/configs';
 import { uniqueArray } from 'shared/lib';
 
-import messageEntity from './entitie';
 import useMessageStore from './store';
 import { MessageProxy } from './types';
 import { message_limit } from '../lib/constants';
+import messageEntity from '../lib/message-entity';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
@@ -88,6 +89,12 @@ class MessageApi {
         );
     }
 
+    handleChangeTextInMessages() {
+        return useMutation((data: { chatId: number; messageId: number; text: string }) =>
+            axiosClient.patch(`${this.pathPrefix}/message/${data.chatId}/${data.messageId}`, { text: data.text })
+        );
+    }
+
     subscriptions() {
         const queryClient = useQueryClient();
         const setSocketAction = useMessageStore.use.setSocketAction();
@@ -97,18 +104,29 @@ class MessageApi {
                 const viewerData: any = queryClient.getQueryData(['get-viewer']);
                 queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
                     if (cacheData) {
-                        const viewerId = viewerData?.data.data.id;
-                        const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
-                        if (viewerId === message.user.id) {
-                            pageOne.data.data.find((myMessage: MessageProxy, index: number) => {
-                                if (myMessage.user?.id === viewerId && myMessage.isMock) {
-                                    pageOne.data.data.splice(index, 1, { ...message, isMy: true });
-                                }
-                            });
-                        } else if (pageOne) {
-                            pageOne.data.data.unshift(message);
+                        if (message.is_edited) {
+                            cacheData.pages.length &&
+                                cacheData.pages.forEach((page: any) => {
+                                    page?.data?.data.forEach((messageInCache: MessageProxy, index: number) => {
+                                        if (message?.id === messageInCache?.id) {
+                                            page.data.data.splice(index, 1, { ...messageInCache, text: message.text, is_edited: true });
+                                        }
+                                    });
+                                });
+                        } else {
+                            const viewerId = viewerData?.data.data.id;
+                            const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
+                            if (viewerId === message.user.id) {
+                                pageOne.data.data.find((myMessage: MessageProxy, index: number) => {
+                                    if (myMessage.user?.id === viewerId && myMessage.isMock) {
+                                        pageOne.data.data.splice(index, 1, { ...message, isMy: true });
+                                    }
+                                });
+                            } else if (pageOne) {
+                                pageOne.data.data.unshift(message);
+                            }
                         }
-                        setSocketAction(`receiveMessage:${message.id}`);
+                        setSocketAction(`receiveMessage:${message.id}:${new Date()}`);
                     }
                     return cacheData;
                 });

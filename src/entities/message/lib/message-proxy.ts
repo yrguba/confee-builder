@@ -1,6 +1,7 @@
 import moment from 'moment';
 
-import { Message, MessageProxy, MessageStatus } from './types';
+import { ChatProxy } from '../../chat/model/types';
+import { Message, MessageProxy, MessageStatus } from '../model/types';
 
 function messageProxy(prevMessage: Message, message: Message, viewerId: number | null): any {
     return new Proxy(message, {
@@ -23,6 +24,9 @@ function messageProxy(prevMessage: Message, message: Message, viewerId: number |
                 default:
                     return target[prop];
             }
+        },
+        set(target: Message, prop: keyof MessageProxy, value, receiver) {
+            return Reflect.set(target, prop, value, receiver);
         },
     });
 }

@@ -1,16 +1,14 @@
-import React, { useRef, UIEvent, Fragment, useEffect, RefObject, useState, useMemo, useCallback } from 'react';
+import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useParams } from 'react-router';
 
-import { useScroll, useSize, useStyles, useInView, useScrollTo, useReverseTimer } from 'shared/hooks';
+import { useInView } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Counter, Dropdown, DropdownTypes, EmojiTypes } from 'shared/ui';
-import { BaseInputProps } from 'shared/ui/input/types';
+import { Counter, Dropdown } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import pages from '../../../../pages';
 import { ChatTypes, ChatService } from '../../../chat';
-import { Message, MessageMenuItem, MessageProxy } from '../../model/types';
+import { MessageMenuItem, MessageProxy } from '../../model/types';
 import MessageMenuView from '../menu';
 import ImageMessageView from '../message/image';
 import SystemMessageView from '../message/system';
@@ -22,12 +20,11 @@ type Props = {
     getPrevPage: () => void;
     getNextPage: () => void;
     readMessage: (messageId: number) => void;
-    textMessageMenuItems: MessageMenuItem[];
     reactionClick: (messageId: number, reaction: string) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, readMessage, getPrevPage, getNextPage, textMessageMenuItems, reactionClick } = props;
+    const { chat, messages, readMessage, getPrevPage, getNextPage, reactionClick } = props;
 
     const params = useParams();
 
@@ -103,7 +100,7 @@ function MessagesListView(props: Props) {
                                         <MessageMenuView
                                             permittedReactions={chat?.permittedReactions || []}
                                             reactionClick={(reaction) => reactionClick(message.id, reaction)}
-                                            items={textMessageMenuItems}
+                                            message={message}
                                         />
                                     }
                                 >

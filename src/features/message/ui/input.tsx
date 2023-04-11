@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { MessageApi, MessageInputView, useMessageStore } from 'entities/message';
-
-import emoji from '../../../shared/ui/emoji';
 
 type Props = {};
 
@@ -12,7 +10,10 @@ function MessageInput(props: Props) {
 
     const { mutate: handleSendTextMessage, isLoading } = MessageApi.handleSendTextMessage();
     const handleMessageAction = MessageApi.handleMessageAction();
+    const { mutate: handleChangeTextInMessages } = MessageApi.handleChangeTextInMessages();
 
+    const editableMessage = useMessageStore.use.editableMessage();
+    const setEditableMessage = useMessageStore.use.setEditableMessage();
     const setIsOpenEmojiPicker = useMessageStore.use.setIsOpenEmojiPicker();
 
     const [valueTextMessage, setValueTextMessage] = useState('');
@@ -22,12 +23,19 @@ function MessageInput(props: Props) {
         setValueTextMessage(event.target.value);
     };
 
+    const changeTextInMessage = () => {
+        editableMessage && handleChangeTextInMessages({ chatId: Number(params.chat_id), messageId: editableMessage.id, text: valueTextMessage });
+        setEditableMessage(null);
+        setValueTextMessage('');
+    };
+
     const sendMessage = () => {
+        if (editableMessage) {
+            changeTextInMessage();
+            return;
+        }
         handleSendTextMessage(
-            {
-                text: valueTextMessage,
-                chatId: Number(params.chat_id),
-            },
+            { text: valueTextMessage, chatId: Number(params.chat_id) },
             {
                 onSuccess: (res) => {},
             }
@@ -41,6 +49,10 @@ function MessageInput(props: Props) {
             if (event.shiftKey) {
                 setValueTextMessage((prev) => `${prev}\n`);
             } else {
+                if (editableMessage) {
+                    changeTextInMessage();
+                    return;
+                }
                 sendMessage();
             }
         }
@@ -50,8 +62,18 @@ function MessageInput(props: Props) {
         setValueTextMessage((prev) => prev + emoji);
     };
 
+    useEffect(() => {
+        if (editableMessage) {
+            setValueTextMessage(editableMessage.text);
+        } else {
+            setValueTextMessage('');
+        }
+    }, [editableMessage]);
+
     return (
         <MessageInputView
+            editableMessage={editableMessage}
+            removeEditableMessage={() => setEditableMessage(null)}
             onChange={onChange}
             onKeyDown={onKeyDown}
             value={valueTextMessage}

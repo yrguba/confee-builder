@@ -1,15 +1,18 @@
 import React from 'react';
 
-import { MessageMenuIcons } from '../../model/types';
+import { Icons } from 'shared/ui';
 
 type Props = {
-    variants: 'clip' | 'arrow';
+    variants: 'clip' | 'arrow' | 'exit';
 };
 
 function BaseIcons(props: Props) {
     const { variants } = props;
 
     switch (variants) {
+        case 'exit': {
+            return <Icons variants="exit" size={8} />;
+        }
         case 'clip': {
             return (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
