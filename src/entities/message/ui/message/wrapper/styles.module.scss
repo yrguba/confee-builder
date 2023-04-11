@@ -14,6 +14,10 @@
     align-items: flex-start;
     gap: 7px;
 
+    .isMy{
+      background-color: var(--bg-01) !important;
+    }
+
     .content{
       @include flex-column;
       align-items: flex-start;

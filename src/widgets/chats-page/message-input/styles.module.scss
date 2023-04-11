@@ -2,5 +2,6 @@
 
 .wrapper {
   @include box-size(100%, 100%);
+  max-width: 1200px;
   @include flex(center, flex-end);
 }

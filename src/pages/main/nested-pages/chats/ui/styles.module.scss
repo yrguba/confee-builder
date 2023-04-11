@@ -37,6 +37,7 @@
       }
 
       .messageInput {
+        @include flex;
         @include box-size(100%, 100px);
         position: absolute;
         bottom: 10px;

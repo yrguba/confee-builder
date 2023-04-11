@@ -27,7 +27,7 @@ function Wrapper(props: Props) {
                 <Avatar size={32} img={user?.avatar} name={user?.name} />
             </div>
             <div className={styles.mainColumn}>
-                <div className={styles.content}>
+                <div className={`${styles.content} ${message.isMy && styles.isMy}`}>
                     {!message.isMy && <div className={styles.name}>{user?.name}</div>}
                     <div className={styles.messageContent}>{children}</div>
                     <div className={styles.footer}>
