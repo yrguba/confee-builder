@@ -30,17 +30,20 @@ function Wrapper(props: Props) {
                 <div className={styles.content}>
                     {!message.isMy && <div className={styles.name}>{user?.name}</div>}
                     <div className={styles.messageContent}>{children}</div>
-                    <div className={styles.reactions}>
-                        {Object.entries(reactions).map(([reaction, arr]) =>
-                            arr.length ? (
-                                <Emoji.Counter
-                                    key={reaction}
-                                    emoji={reactionConverter(reaction, 'unicode')}
-                                    items={arr}
-                                    onClick={() => reactionClick(id, reaction)}
-                                />
-                            ) : null
-                        )}
+                    <div className={styles.footer}>
+                        <div className={styles.reactions}>
+                            {Object.entries(reactions).map(([reaction, arr]) =>
+                                arr.length ? (
+                                    <Emoji.Counter
+                                        key={reaction}
+                                        emoji={reactionConverter(reaction, 'unicode')}
+                                        items={arr}
+                                        onClick={() => reactionClick(id, reaction)}
+                                    />
+                                ) : null
+                            )}
+                        </div>
+                        {message.is_edited && <div className={styles.isEdited}>изменено</div>}
                     </div>
                 </div>
                 <div className={styles.date}>{date}</div>
