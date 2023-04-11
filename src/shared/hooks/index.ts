@@ -1,6 +1,17 @@
 import { useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { useDebounce, useClickAway, useScrolling, useMedia, usePrevious, useWindowSize, useScroll, useLocation, useEffectOnce } from 'react-use';
+import {
+    useDebounce,
+    useClickAway,
+    useScrolling,
+    useMedia,
+    usePrevious,
+    useWindowSize,
+    useScroll,
+    useLocation,
+    useEffectOnce,
+    useCopyToClipboard,
+} from 'react-use';
 
 import useArray from './useArray';
 import useCreateSelectors from './useCreateSelectors';
@@ -43,4 +54,5 @@ export {
     useAnimation,
     useLocation,
     useEffectOnce,
+    useCopyToClipboard,
 };

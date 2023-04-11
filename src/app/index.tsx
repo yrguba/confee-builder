@@ -10,6 +10,7 @@ import { useTheme } from 'shared/hooks';
 
 import routingObserver from './routing-observer';
 import './index.scss';
+import { Notification } from '../features/application';
 
 const queryClient = new QueryClient();
 moment.locale('ru');
@@ -22,6 +23,7 @@ function App() {
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
                 <Routing />
+                <Notification />
                 <ReactQueryDevtools position="bottom-right" />
             </QueryClientProvider>
         </BrowserRouter>
