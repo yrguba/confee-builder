@@ -17,6 +17,7 @@
 
     .chatName {
       @include text-ellipsis(170px);
+      text-align: left;
       font-weight: 600;
       font-size: 16px;
       color: var(--text-0);

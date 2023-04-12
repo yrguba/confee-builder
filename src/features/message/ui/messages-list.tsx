@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { ChatApi, ChatService } from 'entities/chat';
+import { ChatApi, ChatService, useChatStore } from 'entities/chat';
 import { messageProxy, MessageApi, MessagesListView, useMessageStore, MessageTypes } from 'entities/message';
+import { ChatsListModal } from 'entities/modal';
 import { ViewerService } from 'entities/viewer';
 
 import { Modal, useModal } from '../../../shared/ui';
@@ -14,14 +15,23 @@ function MessageList(props: Props) {
 
     const chatId = Number(params.chat_id);
     const viewerId = ViewerService.getId();
-    const confirmDelete = useModal();
+
+    const modalConfirmDelete = useModal();
+    const modalChatsList = useModal();
 
     const socketAction = useMessageStore.use.socketAction();
-    const deletedMessages = useMessageStore.use.deletedMessages();
-    const setDeletedMessage = useMessageStore.use.setDeletedMessage();
 
-    const { data: chatData } = ChatApi.handleGetChats();
-    const chat = chatData?.data?.find((chat) => chat.id === Number(params.chat_id));
+    const deletedMessages = useMessageStore.use.deletedMessages();
+    const forwardedMessages = useMessageStore.use.forwardedMessages();
+    const setDeletedMessage = useMessageStore.use.setDeletedMessage();
+    const setForwardedMessage = useMessageStore.use.setForwardedMessage();
+
+    const selectedChats = useChatStore.use.selectedChats();
+    const setSelectedChats = useChatStore.use.setSelectedChats();
+    const clearSelectedChats = useChatStore.use.clearSelectedChats();
+
+    const { data: chatsData } = ChatApi.handleGetChats();
+    const chat = chatsData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
     const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
     const handleReadMessage = MessageApi.handleReadMessage();
@@ -45,7 +55,7 @@ function MessageList(props: Props) {
     const deleteMessages = () => {
         handleDeleteMessage({ messages: deletedMessages.map((msg) => String(msg.id)), chatId, fromAll: true });
         setDeletedMessage([]);
-        confirmDelete.close();
+        modalConfirmDelete.close();
     };
 
     const getPrevPage = () => {
@@ -57,16 +67,12 @@ function MessageList(props: Props) {
     };
 
     useEffect(() => {
-        if (deletedMessages.length) {
-            confirmDelete.open();
-        }
-    }, [deletedMessages.length]);
+        if (deletedMessages.length) modalConfirmDelete.open();
+        if (forwardedMessages.length) modalChatsList.open();
+    }, [deletedMessages.length, forwardedMessages.length]);
 
     return (
         <>
-            <Modal {...confirmDelete} onOk={deleteMessages} onClose={() => setDeletedMessage([])}>
-                <div>удалить сообщение ?</div>
-            </Modal>
             <MessagesListView
                 chat={chat}
                 messages={messageData?.pages.map((message: MessageTypes.Message, index: number) =>
@@ -77,6 +83,18 @@ function MessageList(props: Props) {
                 readMessage={readMessage}
                 reactionClick={reactionClick}
             />
+            <Modal {...modalConfirmDelete} onOk={deleteMessages} onClose={() => setDeletedMessage([])}>
+                <div>удалить сообщение ?</div>
+            </Modal>
+            <Modal
+                {...modalChatsList}
+                onClose={() => {
+                    clearSelectedChats();
+                    setForwardedMessage([]);
+                }}
+            >
+                <ChatsListModal chats={chatsData?.data} selectedChats={selectedChats} setSelectedChats={setSelectedChats} />
+            </Modal>
         </>
     );
 }

@@ -5,6 +5,7 @@
   @include box-size(100%, 100%);
   @include position;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 
   .modal {
     @include flex-column(space-between);
@@ -12,7 +13,7 @@
     min-height: 200px;
     border-radius: var(--border-radius);
     background-color: var(--bg-0);
-    z-index: 100;
+    z-index: 1000;
 
     .header {
       @include flex(space-between);
@@ -27,7 +28,7 @@
 
       &__closeIcon {
         @include flex;
-        padding-right: 6px;
+        padding-right: 8px;
         fill: var(--title-color);
         cursor: pointer;
       }
@@ -47,7 +48,6 @@
       @include flex;
       gap: 10px;
       height: 80px;
-
     }
   }
 }
