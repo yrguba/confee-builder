@@ -68,6 +68,12 @@ class MessageApi {
         );
     }
 
+    handleSendFileMessage() {
+        return useMutation((data: { files: FormData | undefined | null; chatId: number }) =>
+            axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files)
+        );
+    }
+
     handleForwardMessages() {
         return useMutation((data: { messagesIds: number[]; chatId: number }) =>
             axiosClient.post(`${this.pathPrefix}/forward/message/${data.chatId}`, { messages: data.messagesIds })

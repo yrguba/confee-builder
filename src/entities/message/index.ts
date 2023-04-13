@@ -6,7 +6,7 @@ import messageGateway from './model/gateway';
 import useMessageStore from './model/store';
 import * as MessageTypes from './model/types';
 import MessageInputView from './ui/input';
-import MessageMenuView from './ui/menu';
+import MessageMenuView from './ui/message/menu';
 import MessagesListView from './ui/messages-list';
 
 export {

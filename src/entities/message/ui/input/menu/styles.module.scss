@@ -1,13 +1,7 @@
-@import "./src/app/styles";
+@import "../../../../../app/styles/index";
 
 .wrapper{
   @include flex-column(flex-start);
-  //gap: 12px;
-
-
-  .reactions{
-    @include box-size(340px, 50px);
-  }
 
   .list {
     @include box-size(100%, 100%);

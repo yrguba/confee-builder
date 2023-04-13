@@ -19,6 +19,7 @@ function MessageInput(props: Props) {
     const setMessageToReply = useMessageStore.use.setMessageToReply();
 
     const setIsOpenEmojiPicker = useMessageStore.use.setIsOpenEmojiPicker();
+    const setIsOpenInputMenu = useMessageStore.use.setIsOpenInputMenu();
 
     const [valueTextMessage, setValueTextMessage] = useState('');
 
@@ -80,7 +81,8 @@ function MessageInput(props: Props) {
             onChange={inputOnChange}
             onKeyDown={onKeyDown}
             value={valueTextMessage}
-            openClosePickerTrigger={setIsOpenEmojiPicker}
+            setIsOpenEmojiPicker={setIsOpenEmojiPicker}
+            setIsOpenInputMenu={setIsOpenInputMenu}
             clickOnEmoji={clickOnEmoji}
             btnClick={sendMessage}
             loading={isLoading}

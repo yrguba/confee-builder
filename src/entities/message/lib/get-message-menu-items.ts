@@ -6,7 +6,7 @@ import { useCopyToClipboard } from 'shared/hooks';
 import useMessageStore from '../model/store';
 import { MessageMenuItem, MessageProxy } from '../model/types';
 
-function getMenuItems(message: MessageProxy): MessageMenuItem[] {
+function getMessageMenuItems(message: MessageProxy): MessageMenuItem[] {
     const setMessageToEdit = useMessageStore.use.setMessageToEdit();
     const setMessagesToForward = useMessageStore.use.setMessagesToForward();
     const setMessageToReply = useMessageStore.use.setMessageToReply();
@@ -54,4 +54,4 @@ function getMenuItems(message: MessageProxy): MessageMenuItem[] {
     return items;
 }
 
-export default getMenuItems;
+export default getMessageMenuItems;

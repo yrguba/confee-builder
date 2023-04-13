@@ -17,7 +17,7 @@
 
     .header {
       @include flex(space-between);
-      @include box-size(100%, 30px);
+      @include box-size(100%, 28px);
       border-top-left-radius: var(--border-radius);
       border-top-right-radius: var(--border-radius);
 

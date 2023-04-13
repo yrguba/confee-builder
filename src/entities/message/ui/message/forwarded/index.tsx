@@ -5,7 +5,7 @@ import { BaseTypes } from 'shared/types';
 import styles from './styles.module.scss';
 import MessageService from '../../../lib/service';
 import { Message, MessageProxy } from '../../../model/types';
-import Icons from '../../menu/icons';
+import Icons from '../menu/icons';
 import TextMessageView from '../text';
 import Wrapper from '../wrapper';
 

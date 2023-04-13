@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MessageMenuIcons } from '../../model/types';
+import { MessageMenuIcons } from '../../../model/types';
 
 type Props = {
     variants: MessageMenuIcons;

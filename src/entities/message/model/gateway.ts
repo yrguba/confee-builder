@@ -8,10 +8,10 @@ import { socketIo } from '../../../shared/configs';
 function messageGateway() {
     const queryClient = useQueryClient();
     const setSocketAction = useMessageStore.use.setSocketAction();
-    const viewerData: any = queryClient.getQueryData(['get-viewer']);
 
     useEffect(() => {
         socketIo.on('receiveMessage', ({ message }) => {
+            const viewerData: any = queryClient.getQueryData(['get-viewer']);
             queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
                 if (cacheData) {
                     if (message.is_edited) {

@@ -14,6 +14,7 @@ function ChatsPage() {
     messageGateway();
 
     const isOpenEmojiPicker = useMessageStore.use.isOpenEmojiPicker();
+    const isOpenInputMenu = useMessageStore.use.isOpenInputMenu();
 
     return (
         <Box.Animated visible className={styles.page}>
@@ -30,7 +31,7 @@ function ChatsPage() {
                     </div>
                     <Box.Animated
                         initial={{ height: 100 }}
-                        animate={{ height: isOpenEmojiPicker ? 500 : 100, transition: { duration: 0 } }}
+                        animate={{ height: isOpenEmojiPicker ? 500 : isOpenInputMenu ? 240 : 100, transition: { duration: 0 } }}
                         exit={{ transition: { duration: 1 } }}
                         visible
                         className={styles.messageInput}

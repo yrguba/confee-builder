@@ -12,6 +12,7 @@ import {
     useEffectOnce,
     useCopyToClipboard,
 } from 'react-use';
+import useFileUploader from 'react-use-file-uploader';
 
 import useArray from './useArray';
 import useCreateSelectors from './useCreateSelectors';
@@ -55,4 +56,5 @@ export {
     useLocation,
     useEffectOnce,
     useCopyToClipboard,
+    useFileUploader,
 };

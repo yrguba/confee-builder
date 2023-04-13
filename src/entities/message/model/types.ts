@@ -8,6 +8,8 @@ export type Content = {
 };
 
 export type MessageType = 'text' | 'images' | 'videos' | 'audios' | 'documents' | 'voices' | 'system';
+export type MediaContentType = 'image' | 'audio' | 'video' | 'document';
+
 export type MessageStatus = 'pending' | 'read';
 export type File = {
     extension: string;
@@ -39,10 +41,14 @@ export type MessageProxy = {
 } & Message;
 
 export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
+export type InputMenuIcons = MediaContentType;
 
-export type MessageMenuItem = {
+type MenuItem<T> = {
     id: number;
     title: string;
-    icon: MessageMenuIcons;
+    icon: T;
     onClick: () => void;
 };
+
+export type MessageMenuItem = MenuItem<MessageMenuIcons>;
+export type InputMenuItem = MenuItem<InputMenuIcons>;

@@ -4,13 +4,12 @@
   @include box-size(100%, 100%);
   @include flex-column(_, center, 20);
   background-color: var(--bg-0);
-  padding-left: 12px;
 
   .header {
-    @include flex;
-    align-self: flex-start;
-    margin-top: 8px;
+    @include flex(flex-start);
 
+    margin-top: 8px;
+    width: 255px;
     .title {
       font-weight: 600;
       font-size: 16px;

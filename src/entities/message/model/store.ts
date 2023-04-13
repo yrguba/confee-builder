@@ -4,17 +4,21 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
-import { MessageProxy } from './types';
+import { MessageProxy, MediaContentType } from './types';
 
 type Store = {
     socketAction: string;
     isOpenEmojiPicker: boolean;
+    isOpenInputMenu: boolean;
+    mediaContentToSend: { type: MediaContentType; data: any[]; formData: FormData | null } | null;
     messageToEdit: MessageProxy | null;
     messageToReply: MessageProxy | null;
     messagesToForward: MessageProxy[];
     messagesToDelete: MessageProxy[];
     setSocketAction: (action: string) => void;
     setIsOpenEmojiPicker: (bool: boolean) => void;
+    setIsOpenInputMenu: (bool: boolean) => void;
+    setMediaContentToSend: (data: { type: MediaContentType; data: any[]; formData: FormData | null } | null) => void;
     setMessageToEdit: (message: MessageProxy | null) => void;
     setMessageToReply: (message: MessageProxy | null) => void;
     setMessagesToForward: (message: MessageProxy[] | []) => void;
@@ -26,6 +30,8 @@ const messageStore = create<Store>()(
         immer((set) => ({
             socketAction: '',
             isOpenEmojiPicker: false,
+            isOpenInputMenu: false,
+            mediaContentToSend: null,
             messageToEdit: null,
             messageToReply: null,
             messagesToForward: [],
@@ -38,6 +44,14 @@ const messageStore = create<Store>()(
             setIsOpenEmojiPicker: (bool) =>
                 set((state) => {
                     state.isOpenEmojiPicker = bool;
+                }),
+            setIsOpenInputMenu: (bool) =>
+                set((state) => {
+                    state.isOpenInputMenu = bool;
+                }),
+            setMediaContentToSend: (data) =>
+                set((state) => {
+                    state.mediaContentToSend = data;
                 }),
             setMessageToEdit: (message) =>
                 set((state) => {

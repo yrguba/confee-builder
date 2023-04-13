@@ -5,8 +5,8 @@ import { Emoji, EmojiTypes } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
-import getMenuItems from '../../lib/get-menu-items';
-import { MessageProxy } from '../../model/types';
+import getMessageMenuItems from '../../../lib/get-message-menu-items';
+import { MessageProxy } from '../../../model/types';
 
 type Props = {
     reactionClick: (arg: string) => void;
@@ -17,7 +17,7 @@ type Props = {
 function MessageMenuView(props: Props) {
     const { reactionClick, message, permittedReactions } = props;
 
-    const items = getMenuItems(message);
+    const items = getMessageMenuItems(message);
 
     return (
         <div className={styles.wrapper}>
