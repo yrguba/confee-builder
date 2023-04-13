@@ -18,7 +18,7 @@ function getMenuItems(message: MessageProxy): MessageMenuItem[] {
         setNotifications({ text: 'Тексе скопирован в буфер' });
     };
 
-    const defaultItems: MessageMenuItem[] = [
+    const items: MessageMenuItem[] = [
         { id: 0, title: 'Ответить на сообщение', icon: 'answer', onClick: () => console.log('ss') },
         { id: 1, title: 'Переслать сообщение', icon: 'forward', onClick: () => setForwardedMessage([message]) },
         { id: 2, title: 'Скопировать текст', icon: 'copy', onClick: () => copyText() },
@@ -27,14 +27,29 @@ function getMenuItems(message: MessageProxy): MessageMenuItem[] {
         { id: 5, title: 'Упомянуть автора', icon: 'mention', onClick: () => console.log('ss') },
         { id: 6, title: 'Преобразовать в задачу', icon: 'convert', onClick: () => console.log('ss') },
     ];
-    const items: MessageMenuItem[] = [];
-    defaultItems.forEach((item, index) => {
-        if (message.isMy) {
-            if (item.id === 4) items.push(item);
-            if (item.id === 3 && moment().unix() - moment(message.created_at).unix() < 86400) items.push(item);
-        }
-        if (item.id !== 4 && item.id !== 3) items.push(item);
-    });
+
+    const findIndex = (id: number) => items.findIndex((i) => i.id === id);
+    // remove copy item
+    if (message.message_type !== 'text' || message.forwarded_messages.length) {
+        items.splice(findIndex(2), 1);
+    }
+    // remove Edit item
+    if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 || message.forwarded_messages.length || message.message_type !== 'text') {
+        items.splice(findIndex(3), 1);
+    }
+    // remove delete item
+    if (!message.isMy) {
+        items.splice(findIndex(4), 1);
+    }
+    // remove author item
+    if (message.isMy) {
+        items.splice(findIndex(5), 1);
+    }
+    // remove task item
+    if (message.forwarded_messages.length) {
+        items.splice(findIndex(6), 1);
+    }
+
     return items;
 }
 
