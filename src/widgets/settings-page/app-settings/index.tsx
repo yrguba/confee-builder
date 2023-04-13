@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { SwitchThemes } from 'features/application';
+import { SwitchThemes } from 'features/app';
 
 import styles from './styles.module.scss';
 
-function ApplicationFromSettingsPage() {
+function AppFromSettingsPage() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.title}>Настройки приложения</div>
@@ -15,4 +15,4 @@ function ApplicationFromSettingsPage() {
     );
 }
 
-export default ApplicationFromSettingsPage;
+export default AppFromSettingsPage;

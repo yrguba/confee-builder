@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CheckUpdate } from 'features/application';
+import { CheckUpdate } from 'features/app';
 
 import styles from './styles.module.scss';
 

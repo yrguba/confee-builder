@@ -2,11 +2,11 @@ import { relaunch } from '@tauri-apps/api/process';
 import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
 import React, { useEffect, useState } from 'react';
 
-import { CheckUpdateView, ApplicationService } from 'entities/application';
+import { CheckUpdateView, AppService } from 'entities/app';
 
 // tauri only
 function CheckUpdate() {
-    if (!ApplicationService.tauriIsRunning) return null;
+    if (!AppService.tauriIsRunning) return null;
     const [loading, setLoading] = useState(false);
     const [updateAvailable, setUpdateAvailable] = useState(false);
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SwitchThemesView } from 'entities/application';
+import { SwitchThemesView } from 'entities/app';
 import { useTheme } from 'shared/hooks';
 
 function SwitchThemes() {

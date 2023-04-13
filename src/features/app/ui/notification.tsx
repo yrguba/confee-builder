@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { useApplicationStore } from 'entities/application';
+import { useAppStore } from 'entities/app';
 import { usePrevious } from 'shared/hooks';
 import { Notification as NotificationUi } from 'shared/ui';
 
 function Notification() {
-    const notifications = useApplicationStore.use.notifications();
-    const deleteFirstNotifications = useApplicationStore.use.deleteFirstNotifications();
+    const notifications = useAppStore.use.notifications();
+    const deleteFirstNotifications = useAppStore.use.deleteFirstNotifications();
     const prev = usePrevious(notifications.length);
 
     const timeout = 5000;

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { chatGateway } from 'entities/chat';
-import { useMessageStore } from 'entities/message';
+import { chatGateway, chatObserver } from 'entities/chat';
+import { useMessageStore, messageGateway } from 'entities/message';
 import { Box } from 'shared/ui';
 import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
 import styles from './styles.module.scss';
-import { messageGateway } from '../../../../../entities/message';
 
 function ChatsPage() {
+    chatObserver();
     chatGateway();
     messageGateway();
 

@@ -5,19 +5,17 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import 'moment/locale/ru';
+import { appObserver } from 'entities/app';
 import Routing from 'pages';
-import { useTheme } from 'shared/hooks';
 
-import routingObserver from './routing-observer';
 import './index.scss';
-import { Notification } from '../features/application';
+import { Notification } from '../features/app';
 
 const queryClient = new QueryClient();
 moment.locale('ru');
 
 function App() {
-    useTheme();
-    routingObserver();
+    appObserver();
 
     return (
         <BrowserRouter>

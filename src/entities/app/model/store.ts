@@ -12,7 +12,7 @@ type Store = {
     deleteFirstNotifications: () => void;
 };
 
-const ApplicationStore = create<Store>()(
+const AppStore = create<Store>()(
     devtools(
         immer((set) => ({
             notifications: [],
@@ -28,6 +28,6 @@ const ApplicationStore = create<Store>()(
     )
 );
 
-const useApplicationStore = useCreateSelectors(ApplicationStore);
+const useAppStore = useCreateSelectors(AppStore);
 
-export default useApplicationStore;
+export default useAppStore;

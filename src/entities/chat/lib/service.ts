@@ -31,14 +31,17 @@ class ChatService {
 
     subscribeToChat(id: number) {
         const currentChatId = UniversalStorage.localStorageGet('subscribed_to_chat');
-        currentChatId && ChatApi.handleUnsubscribeFromChat()(Number(currentChatId));
-        ChatApi.handleSubscribeToChat()(id);
+        const { mutate: handleUnsubscribeFromChat } = ChatApi.handleUnsubscribeFromChat();
+        currentChatId && handleUnsubscribeFromChat(Number(currentChatId));
+        const { mutate: handleSubscribeToChat } = ChatApi.handleSubscribeToChat();
+        handleSubscribeToChat(id);
         UniversalStorage.localStorageSet('subscribed_to_chat', String(id));
     }
 
     unsubscribeFromChat(id?: number) {
         const idInLs = UniversalStorage.localStorageGet('subscribed_to_chat');
-        ChatApi.handleUnsubscribeFromChat()(id || Number(idInLs));
+        const { mutate: handleUnsubscribeFromChat } = ChatApi.handleUnsubscribeFromChat();
+        handleUnsubscribeFromChat(id || Number(idInLs));
         UniversalStorage.localStorageRemove('subscribed_to_chat');
     }
 

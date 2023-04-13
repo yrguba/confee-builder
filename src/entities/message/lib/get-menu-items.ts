@@ -1,6 +1,6 @@
 import moment from 'moment/moment';
 
-import { useApplicationStore } from 'entities/application';
+import { useAppStore } from 'entities/app';
 import { useCopyToClipboard } from 'shared/hooks';
 
 import useMessageStore from '../model/store';
@@ -11,7 +11,7 @@ function getMenuItems(message: MessageProxy): MessageMenuItem[] {
     const setMessagesToForward = useMessageStore.use.setMessagesToForward();
     const setMessageToReply = useMessageStore.use.setMessageToReply();
     const setMessagesToDelete = useMessageStore.use.setMessagesToDelete();
-    const setNotifications = useApplicationStore.use.setNotifications();
+    const setNotifications = useAppStore.use.setNotifications();
     const [_, copyToClipboard] = useCopyToClipboard();
 
     const copyText = () => {

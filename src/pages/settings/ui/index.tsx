@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ApplicationService } from 'entities/application';
+import { AppService } from 'entities/app';
 import { HeaderFromSettingsPage, MainFromSettingsPage, PrivacyFromSettingsPage, CheckUpdate, ApplicationFromSettingsPage } from 'widgets/settings-page';
 
 import styles from './styles.module.scss';
@@ -20,7 +20,7 @@ function SettingsPage() {
                     <div className={styles.privacy}>
                         <PrivacyFromSettingsPage />
                     </div>
-                    {ApplicationService.tauriIsRunning && (
+                    {AppService.tauriIsRunning && (
                         <div className={styles.checkUpdate}>
                             <CheckUpdate />
                         </div>

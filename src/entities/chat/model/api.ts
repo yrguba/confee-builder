@@ -59,21 +59,21 @@ class ChatApi {
         return getFiles(Number(data.id));
     };
 
-    handleSubscribeToChat = () => {
-        return (chatId: number) => {
+    handleSubscribeToChat = () => ({
+        mutate: (chatId: number) => {
             socketIo.emit('chatListeners', {
                 sub: chatId,
             });
-        };
-    };
+        },
+    });
 
-    handleUnsubscribeFromChat = () => {
-        return (chatId: number) => {
+    handleUnsubscribeFromChat = () => ({
+        mutate: (chatId: number) => {
             socketIo.emit('chatListeners', {
                 unsub: chatId,
             });
-        };
-    };
+        },
+    });
 }
 
 export default new ChatApi();
