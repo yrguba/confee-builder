@@ -4,6 +4,7 @@ import Breadcrumb, { BreadcrumbTypes } from './breadcrumb';
 import Button, { ButtonTypes } from './button';
 import Collapse, { CollapseTypes } from './collapse';
 import Counter, { CounterTypes } from './counter';
+import DatePicker, { DatePickerTypes } from './date-picker';
 import Dropdown, { DropdownTypes } from './dropdown';
 import Emoji, { EmojiTypes } from './emoji';
 import Icons, { IconsTypes } from './icons';
@@ -39,6 +40,7 @@ export {
     Pagination,
     Image,
     Notification,
+    DatePicker,
 };
 export type {
     AvatarTypes,
@@ -60,4 +62,5 @@ export type {
     PaginationTypes,
     ImageTypes,
     NotificationTypes,
+    DatePickerTypes,
 };

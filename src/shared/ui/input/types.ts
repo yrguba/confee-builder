@@ -24,6 +24,8 @@ export type WrapperProps = {
 
 export type BaseInputProps = {} & Shared;
 
+export type InputDatePickerProps = {} & Shared;
+
 export type PasswordInputProps = {} & Shared;
 
 export type TextareaInputProps = {} & TextareaHTMLAttributes<HTMLTextAreaElement> & BaseTypes.Statuses;
