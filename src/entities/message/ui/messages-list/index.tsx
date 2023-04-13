@@ -10,6 +10,7 @@ import styles from './styles.module.scss';
 import { ChatTypes, ChatService } from '../../../chat';
 import { MessageMenuItem, MessageProxy } from '../../model/types';
 import MessageMenuView from '../menu';
+import ForwardedMessagesView from '../message/forwarded';
 import ImageMessageView from '../message/image';
 import SystemMessageView from '../message/system';
 import TextMessageView from '../message/text';
@@ -104,8 +105,20 @@ function MessagesListView(props: Props) {
                                         />
                                     }
                                 >
-                                    {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}
-                                    {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />}
+                                    {message.forwarded_messages.length ? (
+                                        message.forwarded_messages.length && (
+                                            <ForwardedMessagesView
+                                                message={message}
+                                                forwardedMessages={message.forwarded_messages}
+                                                reactionClick={reactionClick}
+                                            />
+                                        )
+                                    ) : (
+                                        <>
+                                            {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}
+                                            {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />}
+                                        </>
+                                    )}
                                 </Dropdown>
                             </div>
                         )}

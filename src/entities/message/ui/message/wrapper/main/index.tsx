@@ -6,7 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Emoji, EmojiTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { MessageProxy } from '../../../model/types';
+import { MessageProxy } from '../../../../model/types';
 
 type Props = {
     children: ReactNode;
@@ -14,7 +14,7 @@ type Props = {
     reactionClick: (messageId: number, reaction: string) => void;
 } & BaseTypes.Statuses;
 
-function Wrapper(props: Props) {
+function MainWrapper(props: Props) {
     const { children, message, reactionClick } = props;
 
     const { id, user, created_at, reactions } = message;
@@ -27,8 +27,8 @@ function Wrapper(props: Props) {
                 <Avatar size={32} img={user?.avatar} name={user?.name} />
             </div>
             <div className={styles.mainColumn}>
-                <div className={`${styles.content} ${message.isMy && styles.isMy}`}>
-                    {!message.isMy && <div className={styles.name}>{user?.name}</div>}
+                <div className={`${styles.content} ${message?.isMy && styles.isMy}`}>
+                    {!message?.isMy && <div className={styles.name}>{user?.name}</div>}
                     <div className={styles.messageContent}>{children}</div>
                     <div className={styles.footer}>
                         <div className={styles.reactions}>
@@ -52,4 +52,4 @@ function Wrapper(props: Props) {
     );
 }
 
-export default Wrapper;
+export default MainWrapper;

@@ -7,7 +7,7 @@ import { BaseTypes } from 'shared/types';
 import styles from './styles.module.scss';
 import { Image } from '../../../../../shared/ui';
 import { MessageProxy } from '../../../model/types';
-import Wrapper from '../wrapper';
+import { MainWrapper } from '../wrapper';
 
 type Props = {
     message: MessageProxy;
@@ -18,7 +18,7 @@ function ImageMessageView(props: Props) {
     const { message, reactionClick } = props;
     // size={index === 0 || index % 3 === 0 ? 168 : 83}
     return (
-        <Wrapper message={message} reactionClick={reactionClick}>
+        <MainWrapper message={message} reactionClick={reactionClick}>
             <div className={styles.wrapper}>
                 {message.content.map((obj, index) => (
                     <div key={index} className={`${styles.item} ${index === 0 || index % 3 === 0 ? styles.item_big : ''}`}>
@@ -26,7 +26,7 @@ function ImageMessageView(props: Props) {
                     </div>
                 ))}
             </div>
-        </Wrapper>
+        </MainWrapper>
     );
 }
 

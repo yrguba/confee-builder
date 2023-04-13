@@ -7,9 +7,9 @@ type Props = {};
 
 function MessageInput(props: Props) {
     const params = useParams();
-
+    const chatId = Number(params.chat_id);
     const { mutate: handleSendTextMessage, isLoading } = MessageApi.handleSendTextMessage();
-    const handleMessageAction = MessageApi.handleMessageAction();
+    const { mutate: handleMessageAction } = MessageApi.handleMessageAction();
     const { mutate: handleChangeTextInMessages } = MessageApi.handleChangeTextInMessages();
 
     const editableMessage = useMessageStore.use.editableMessage();
@@ -19,27 +19,21 @@ function MessageInput(props: Props) {
     const [valueTextMessage, setValueTextMessage] = useState('');
 
     const onChange = (event: any) => {
-        handleMessageAction({ chatId: Number(params.chat_id), action: 'typing' });
+        handleMessageAction({ chatId, action: 'typing' });
         setValueTextMessage(event.target.value);
     };
 
     const changeTextInMessage = () => {
-        editableMessage && handleChangeTextInMessages({ chatId: Number(params.chat_id), messageId: editableMessage.id, text: valueTextMessage });
+        editableMessage && handleChangeTextInMessages({ chatId, messageId: editableMessage.id, text: valueTextMessage });
         setEditableMessage(null);
         setValueTextMessage('');
     };
 
     const sendMessage = () => {
         if (editableMessage) {
-            changeTextInMessage();
-            return;
+            return changeTextInMessage();
         }
-        handleSendTextMessage(
-            { text: valueTextMessage, chatId: Number(params.chat_id) },
-            {
-                onSuccess: (res) => {},
-            }
-        );
+        handleSendTextMessage({ text: valueTextMessage, chatId });
         setValueTextMessage('');
     };
 
@@ -50,8 +44,7 @@ function MessageInput(props: Props) {
                 setValueTextMessage((prev) => `${prev}\n`);
             } else {
                 if (editableMessage) {
-                    changeTextInMessage();
-                    return;
+                    return changeTextInMessage();
                 }
                 sendMessage();
             }

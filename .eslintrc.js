@@ -71,6 +71,7 @@ module.exports = {
                         },
                     },
                 ],
+                'react/no-unstable-nested-components': 0,
                 'no-unsafe-optional-chaining': 0,
                 'no-return-assign': 0,
                 'func-names': 0,

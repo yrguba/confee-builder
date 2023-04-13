@@ -1,17 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { ChatApi } from 'entities/chat';
+import { chatGateway } from 'entities/chat';
 import { useMessageStore } from 'entities/message';
 import { Box } from 'shared/ui';
 import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
 import styles from './styles.module.scss';
-import { MessageApi } from '../../../../../entities/message';
+import { messageGateway } from '../../../../../entities/message';
 
 function ChatsPage() {
-    ChatApi.subscriptions();
-    MessageApi.subscriptions();
+    chatGateway();
+    messageGateway();
 
     const isOpenEmojiPicker = useMessageStore.use.isOpenEmojiPicker();
 

@@ -3,7 +3,7 @@
 .wrapper {
   @include flex-column(flex-start, flex-start);
   @include box-size(100%, 100%);
-  max-height: 300px;
+  max-height: 600px;
   gap: 28px;
 
   .title {

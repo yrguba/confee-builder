@@ -34,8 +34,9 @@ function MessageList(props: Props) {
     const chat = chatsData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
     const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
-    const handleReadMessage = MessageApi.handleReadMessage();
+    const { mutate: handleReadMessage } = MessageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = MessageApi.handleDeleteMessage();
+    const { mutate: handleForwardMessages } = MessageApi.handleForwardMessages();
 
     const {
         data: messageData,
@@ -66,6 +67,21 @@ function MessageList(props: Props) {
         hasNextPage && !isFetching && fetchNextPage().then();
     };
 
+    const onCloseModalChatsList = () => {
+        clearSelectedChats();
+        setForwardedMessage([]);
+    };
+
+    const onOkModalChatsList = () => {
+        selectedChats.forEach((chat) => {
+            handleForwardMessages({
+                messagesIds: forwardedMessages.map((i) => i.id),
+                chatId: chat.id,
+            });
+        });
+        onCloseModalChatsList();
+    };
+
     useEffect(() => {
         if (deletedMessages.length) modalConfirmDelete.open();
         if (forwardedMessages.length) modalChatsList.open();
@@ -86,13 +102,7 @@ function MessageList(props: Props) {
             <Modal {...modalConfirmDelete} onOk={deleteMessages} onClose={() => setDeletedMessage([])}>
                 <div>удалить сообщение ?</div>
             </Modal>
-            <Modal
-                {...modalChatsList}
-                onClose={() => {
-                    clearSelectedChats();
-                    setForwardedMessage([]);
-                }}
-            >
+            <Modal {...modalChatsList} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}>
                 <ChatsListModal chats={chatsData?.data} selectedChats={selectedChats} setSelectedChats={setSelectedChats} />
             </Modal>
         </>

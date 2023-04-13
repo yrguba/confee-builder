@@ -1,4 +1,4 @@
-import { ChatProxy, Chat } from './types';
+import { ChatProxy, Chat } from '../model/types';
 
 function chatProxy(chat: Chat): any {
     return new Proxy(chat, {
