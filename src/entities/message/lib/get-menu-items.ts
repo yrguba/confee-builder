@@ -31,11 +31,11 @@ function getMenuItems(message: MessageProxy): MessageMenuItem[] {
 
     const findIndex = (id: number) => items.findIndex((i) => i.id === id);
     // remove copy item
-    if (message.message_type !== 'text' || message.forwarded_messages.length) {
+    if (message.message_type !== 'text' || message.forwarded_messages?.length) {
         items.splice(findIndex(2), 1);
     }
     // remove Edit item
-    if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 || message.forwarded_messages.length || message.message_type !== 'text') {
+    if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 || message.forwarded_messages?.length || message.message_type !== 'text') {
         items.splice(findIndex(3), 1);
     }
     // remove delete item
@@ -47,7 +47,7 @@ function getMenuItems(message: MessageProxy): MessageMenuItem[] {
         items.splice(findIndex(5), 1);
     }
     // remove task item
-    if (message.forwarded_messages.length) {
+    if (message.forwarded_messages?.length) {
         items.splice(findIndex(6), 1);
     }
 

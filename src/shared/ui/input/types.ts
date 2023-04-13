@@ -10,12 +10,16 @@ type Size = number | 's' | 'm' | 'l' | 'xl';
 
 type Shared = {
     size?: Size;
+    title?: string;
+    errorTitle?: string;
 } & InputAttrs &
     BaseTypes.Statuses;
 
 export type WrapperProps = {
     children: ReactNode;
     size?: Size;
+    title?: string;
+    errorTitle?: string;
 } & BaseTypes.Statuses;
 
 export type BaseInputProps = {} & Shared;
