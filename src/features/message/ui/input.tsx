@@ -10,29 +10,38 @@ function MessageInput(props: Props) {
     const chatId = Number(params.chat_id);
     const { mutate: handleSendTextMessage, isLoading } = MessageApi.handleSendTextMessage();
     const { mutate: handleMessageAction } = MessageApi.handleMessageAction();
+    const { mutate: handleReplyMessage } = MessageApi.handleReplyMessage();
     const { mutate: handleChangeTextInMessages } = MessageApi.handleChangeTextInMessages();
 
-    const editableMessage = useMessageStore.use.editableMessage();
-    const setEditableMessage = useMessageStore.use.setEditableMessage();
+    const messageToEdit = useMessageStore.use.messageToEdit();
+    const setMessageToEdit = useMessageStore.use.setMessageToEdit();
+    const messageToReply = useMessageStore.use.messageToReply();
+    const setMessageToReply = useMessageStore.use.setMessageToReply();
+
     const setIsOpenEmojiPicker = useMessageStore.use.setIsOpenEmojiPicker();
 
     const [valueTextMessage, setValueTextMessage] = useState('');
 
-    const onChange = (event: any) => {
+    const inputOnChange = (event: any) => {
         handleMessageAction({ chatId, action: 'typing' });
         setValueTextMessage(event.target.value);
     };
 
     const changeTextInMessage = () => {
-        editableMessage && handleChangeTextInMessages({ chatId, messageId: editableMessage.id, text: valueTextMessage });
-        setEditableMessage(null);
+        messageToEdit && handleChangeTextInMessages({ chatId, messageId: messageToEdit.id, text: valueTextMessage });
+        setMessageToEdit(null);
+        setValueTextMessage('');
+    };
+
+    const replyToMessage = () => {
+        messageToReply && handleReplyMessage({ chatId, messageId: messageToReply.id, text: valueTextMessage });
+        setMessageToReply(null);
         setValueTextMessage('');
     };
 
     const sendMessage = () => {
-        if (editableMessage) {
-            return changeTextInMessage();
-        }
+        if (messageToEdit) return changeTextInMessage();
+        if (messageToReply) return replyToMessage();
         handleSendTextMessage({ text: valueTextMessage, chatId });
         setValueTextMessage('');
     };
@@ -43,9 +52,8 @@ function MessageInput(props: Props) {
             if (event.shiftKey) {
                 setValueTextMessage((prev) => `${prev}\n`);
             } else {
-                if (editableMessage) {
-                    return changeTextInMessage();
-                }
+                if (messageToEdit) return changeTextInMessage();
+                if (messageToReply) return replyToMessage();
                 sendMessage();
             }
         }
@@ -56,18 +64,20 @@ function MessageInput(props: Props) {
     };
 
     useEffect(() => {
-        if (editableMessage) {
-            setValueTextMessage(editableMessage.text);
+        if (messageToEdit) {
+            setValueTextMessage(messageToEdit.text);
         } else {
             setValueTextMessage('');
         }
-    }, [editableMessage]);
+    }, [messageToEdit]);
 
     return (
         <MessageInputView
-            editableMessage={editableMessage}
-            removeEditableMessage={() => setEditableMessage(null)}
-            onChange={onChange}
+            messageToEdit={messageToEdit}
+            messageToReply={messageToReply}
+            removeMessageToEdit={() => setMessageToEdit(null)}
+            removeMessageToReply={() => setMessageToReply(null)}
+            onChange={inputOnChange}
             onKeyDown={onKeyDown}
             value={valueTextMessage}
             openClosePickerTrigger={setIsOpenEmojiPicker}

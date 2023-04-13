@@ -9,14 +9,16 @@ import { MessageProxy } from './types';
 type Store = {
     socketAction: string;
     isOpenEmojiPicker: boolean;
-    editableMessage: MessageProxy | null;
-    forwardedMessages: MessageProxy[] | [];
-    deletedMessages: MessageProxy[] | [];
+    messageToEdit: MessageProxy | null;
+    messageToReply: MessageProxy | null;
+    messagesToForward: MessageProxy[];
+    messagesToDelete: MessageProxy[];
     setSocketAction: (action: string) => void;
     setIsOpenEmojiPicker: (bool: boolean) => void;
-    setEditableMessage: (message: MessageProxy | null) => void;
-    setForwardedMessage: (message: MessageProxy[] | []) => void;
-    setDeletedMessage: (message: MessageProxy[] | []) => void;
+    setMessageToEdit: (message: MessageProxy | null) => void;
+    setMessageToReply: (message: MessageProxy | null) => void;
+    setMessagesToForward: (message: MessageProxy[] | []) => void;
+    setMessagesToDelete: (message: MessageProxy[] | []) => void;
 };
 
 const messageStore = create<Store>()(
@@ -24,9 +26,11 @@ const messageStore = create<Store>()(
         immer((set) => ({
             socketAction: '',
             isOpenEmojiPicker: false,
-            editableMessage: null,
-            forwardedMessages: [],
-            deletedMessages: [],
+            messageToEdit: null,
+            messageToReply: null,
+            messagesToForward: [],
+            messagesToDelete: [],
+
             setSocketAction: (action) =>
                 set((state) => {
                     state.socketAction = action;
@@ -35,17 +39,21 @@ const messageStore = create<Store>()(
                 set((state) => {
                     state.isOpenEmojiPicker = bool;
                 }),
-            setEditableMessage: (message) =>
+            setMessageToEdit: (message) =>
                 set((state) => {
-                    state.editableMessage = message;
+                    state.messageToEdit = message;
                 }),
-            setForwardedMessage: (messages) =>
+            setMessageToReply: (messages) =>
                 set((state) => {
-                    state.forwardedMessages = messages;
+                    state.messageToReply = messages;
                 }),
-            setDeletedMessage: (messages) =>
+            setMessagesToForward: (messages) =>
                 set((state) => {
-                    state.deletedMessages = messages;
+                    state.messagesToForward = messages;
+                }),
+            setMessagesToDelete: (messages) =>
+                set((state) => {
+                    state.messagesToDelete = messages;
                 }),
         }))
     )

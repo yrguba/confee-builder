@@ -28,10 +28,16 @@
         margin: 6px 0 0 8px;
 
         .title {
+          @include flex(flex-start, flex-start);
           font-weight: 400;
           font-size: 14px;
           line-height: 21px;
           color: var(--main-active);
+
+          &__answer{
+            @include flex(flex-start, flex-start);
+            gap: 4px;
+          }
         }
       }
 

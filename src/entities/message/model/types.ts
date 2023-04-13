@@ -24,7 +24,7 @@ export type Message = {
     message_type: MessageType;
     message_status: MessageStatus;
     reactions: Record<string, []>;
-    reply_messages: Message[] | [];
+    replyMessage: Message | null;
     forwarded_messages: Message[] | [];
     users_have_read: number[] | [];
     is_edited: boolean;

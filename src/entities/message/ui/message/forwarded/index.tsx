@@ -1,13 +1,10 @@
 import React, { Fragment } from 'react';
 
-import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { EmojiTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { Message, MessageProxy } from '../../../model/types';
 import Icons from '../../menu/icons';
-import ImageMessageView from '../image';
 import TextMessageView from '../text';
 import { MainWrapper } from '../wrapper';
 
@@ -31,7 +28,7 @@ function ForwardedMessagesView(props: Props) {
                     <div className={styles.messagesColumn}>
                         {forwardedMessages?.map((message: any) => (
                             <Fragment key={message.id}>
-                                {message.message_type === 'text' && <TextMessageView message={message} forwarded reactionClick={() => ''} />}
+                                {message.message_type === 'text' && <TextMessageView message={message} forwarded />}
                                 {/* {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />} */}
                             </Fragment>
                         ))}

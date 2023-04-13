@@ -21,10 +21,10 @@ function MessageList(props: Props) {
 
     const socketAction = useMessageStore.use.socketAction();
 
-    const deletedMessages = useMessageStore.use.deletedMessages();
-    const forwardedMessages = useMessageStore.use.forwardedMessages();
-    const setDeletedMessage = useMessageStore.use.setDeletedMessage();
-    const setForwardedMessage = useMessageStore.use.setForwardedMessage();
+    const messagesToDelete = useMessageStore.use.messagesToDelete();
+    const messagesToForward = useMessageStore.use.messagesToForward();
+    const setMessagesToDelete = useMessageStore.use.setMessagesToDelete();
+    const setMessagesToForward = useMessageStore.use.setMessagesToForward();
 
     const selectedChats = useChatStore.use.selectedChats();
     const setSelectedChats = useChatStore.use.setSelectedChats();
@@ -54,8 +54,8 @@ function MessageList(props: Props) {
     };
 
     const deleteMessages = () => {
-        handleDeleteMessage({ messages: deletedMessages.map((msg) => String(msg.id)), chatId, fromAll: true });
-        setDeletedMessage([]);
+        handleDeleteMessage({ messages: messagesToDelete.map((msg) => String(msg.id)), chatId, fromAll: true });
+        setMessagesToDelete([]);
         modalConfirmDelete.close();
     };
 
@@ -69,13 +69,13 @@ function MessageList(props: Props) {
 
     const onCloseModalChatsList = () => {
         clearSelectedChats();
-        setForwardedMessage([]);
+        setMessagesToForward([]);
     };
 
     const onOkModalChatsList = () => {
         selectedChats.forEach((chat) => {
             handleForwardMessages({
-                messagesIds: forwardedMessages.map((i) => i.id),
+                messagesIds: messagesToForward.map((i) => i.id),
                 chatId: chat.id,
             });
         });
@@ -83,9 +83,9 @@ function MessageList(props: Props) {
     };
 
     useEffect(() => {
-        if (deletedMessages.length) modalConfirmDelete.open();
-        if (forwardedMessages.length) modalChatsList.open();
-    }, [deletedMessages.length, forwardedMessages.length]);
+        if (messagesToDelete.length) modalConfirmDelete.open();
+        if (messagesToForward.length) modalChatsList.open();
+    }, [messagesToDelete.length, messagesToForward.length]);
 
     return (
         <>
@@ -99,7 +99,7 @@ function MessageList(props: Props) {
                 readMessage={readMessage}
                 reactionClick={reactionClick}
             />
-            <Modal {...modalConfirmDelete} onOk={deleteMessages} onClose={() => setDeletedMessage([])}>
+            <Modal {...modalConfirmDelete} onOk={deleteMessages} onClose={() => setMessagesToDelete([])}>
                 <div>удалить сообщение ?</div>
             </Modal>
             <Modal {...modalChatsList} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}>

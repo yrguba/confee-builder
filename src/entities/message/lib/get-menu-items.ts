@@ -7,9 +7,10 @@ import useMessageStore from '../model/store';
 import { MessageMenuItem, MessageProxy } from '../model/types';
 
 function getMenuItems(message: MessageProxy): MessageMenuItem[] {
-    const setEditableMessage = useMessageStore.use.setEditableMessage();
-    const setForwardedMessage = useMessageStore.use.setForwardedMessage();
-    const setDeletedMessage = useMessageStore.use.setDeletedMessage();
+    const setMessageToEdit = useMessageStore.use.setMessageToEdit();
+    const setMessagesToForward = useMessageStore.use.setMessagesToForward();
+    const setMessageToReply = useMessageStore.use.setMessageToReply();
+    const setMessagesToDelete = useMessageStore.use.setMessagesToDelete();
     const setNotifications = useApplicationStore.use.setNotifications();
     const [_, copyToClipboard] = useCopyToClipboard();
 
@@ -19,11 +20,11 @@ function getMenuItems(message: MessageProxy): MessageMenuItem[] {
     };
 
     const items: MessageMenuItem[] = [
-        { id: 0, title: 'Ответить на сообщение', icon: 'answer', onClick: () => console.log('ss') },
-        { id: 1, title: 'Переслать сообщение', icon: 'forward', onClick: () => setForwardedMessage([message]) },
+        { id: 0, title: 'Ответить на сообщение', icon: 'answer', onClick: () => setMessageToReply(message) },
+        { id: 1, title: 'Переслать сообщение', icon: 'forward', onClick: () => setMessagesToForward([message]) },
         { id: 2, title: 'Скопировать текст', icon: 'copy', onClick: () => copyText() },
-        { id: 3, title: 'Редактировать сообщение', icon: 'edit', onClick: () => setEditableMessage(message) },
-        { id: 4, title: 'Удалить сообщение', icon: 'delete', onClick: () => setDeletedMessage([message]) },
+        { id: 3, title: 'Редактировать сообщение', icon: 'edit', onClick: () => setMessageToEdit(message) },
+        { id: 4, title: 'Удалить сообщение', icon: 'delete', onClick: () => setMessagesToDelete([message]) },
         { id: 5, title: 'Упомянуть автора', icon: 'mention', onClick: () => console.log('ss') },
         { id: 6, title: 'Преобразовать в задачу', icon: 'convert', onClick: () => console.log('ss') },
     ];

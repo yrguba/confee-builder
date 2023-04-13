@@ -16,7 +16,7 @@ export default function (data: { text?: string; content?: any; type?: MessageTyp
         users_have_read: [],
         forwarded_messages: [],
         reactions: {},
-        reply_messages: [],
+        replyMessage: null,
         isMock: true,
     } as MessageProxy;
 }

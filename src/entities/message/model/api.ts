@@ -74,6 +74,12 @@ class MessageApi {
         );
     }
 
+    handleReplyMessage() {
+        return useMutation((data: { text: string; messageId: number; chatId: number }) =>
+            axiosClient.post(`${this.pathPrefix}/reply/message/${data.chatId}/${data.messageId}`, { text: data.text, message_type: 'text' })
+        );
+    }
+
     handleDeleteMessage() {
         return useMutation((data: { messages: string[]; fromAll: boolean; chatId: number }) =>
             axiosClient.delete(`${this.pathPrefix}/message/${data.chatId}`, { data: { fromAll: data.fromAll, messages: data.messages } })

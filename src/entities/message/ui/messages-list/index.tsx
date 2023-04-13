@@ -12,6 +12,7 @@ import { MessageMenuItem, MessageProxy } from '../../model/types';
 import MessageMenuView from '../menu';
 import ForwardedMessagesView from '../message/forwarded';
 import ImageMessageView from '../message/image';
+import ReplyMessageView from '../message/reply';
 import SystemMessageView from '../message/system';
 import TextMessageView from '../message/text';
 
@@ -105,14 +106,10 @@ function MessagesListView(props: Props) {
                                         />
                                     }
                                 >
-                                    {message.forwarded_messages.length ? (
-                                        message.forwarded_messages.length && (
-                                            <ForwardedMessagesView
-                                                message={message}
-                                                forwardedMessages={message.forwarded_messages}
-                                                reactionClick={reactionClick}
-                                            />
-                                        )
+                                    {message.forwarded_messages?.length ? (
+                                        <ForwardedMessagesView message={message} forwardedMessages={message.forwarded_messages} reactionClick={reactionClick} />
+                                    ) : message.replyMessage ? (
+                                        <ReplyMessageView message={message} reply={message.replyMessage} reactionClick={reactionClick} />
                                     ) : (
                                         <>
                                             {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}
