@@ -5,7 +5,8 @@
   @include flex;
 
   .sidebar{
-    @include box-size(300px,100%);
+    @include box-size(300px, 100%);
+    min-width: 300px;
     @include flex;
     border-right: 1px solid var(--bg-outside);
   }

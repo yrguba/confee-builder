@@ -1,18 +1,65 @@
 .wrapper {
-  width: calc(264px - 32px);
-  height: 40px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 12px;
-  padding-right: 12px;
-  border-radius: var(--border-radius);
-  border: 1px solid var(--stroke-2);
-  background-color: var(--bg-1);
-  transition: all var(--transition);
+  flex-direction: column;
+  gap: 6px;
 
-  &:focus {
-    box-shadow: var(--box-shadow-active);
+  .title {
+    color: var(--text-1);
+  }
+
+  .inputWrapper {
+    width: calc(264px - 32px);
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--stroke-2);
+    background-color: var(--bg-1);
+    transition: all var(--transition);
+
+    &:focus {
+      box-shadow: var(--box-shadow-active);
+    }
+  }
+
+  .input {
+    width: 90%;
+    height: 100%;
+    font-size: 18px;
+    color: var(--text-0);
+
+  }
+
+  .error {
+    border: 1px solid var(--red);
+    box-shadow: var(--box-shadow-error);
+  }
+
+  .size-s {
+    width: calc(200px - 24px);
+    height: 30px;
+  }
+
+  .size-m {
+    width: calc(264px - 24px);
+    height: 40px;
+  }
+
+  .size-l {
+    width: calc(320px - 24px);
+    height: 48px;
+  }
+
+  .size-xl {
+    width: calc(360px - 24px);
+    height: 58px;
+  }
+
+  .errorTitle {
+    color: var(--red);
   }
 }
 
@@ -21,37 +68,4 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--title-color);
   -webkit-box-shadow: 0 0 0 40rem var(--background-color) inset;
-}
-
-.input {
-  width: 90%;
-  height: 100%;
-  font-size: 18px;
-  color: var(--text-0);
-
-}
-
-.error {
-  border: 1px solid var(--red);
-  box-shadow: var(--box-shadow-error);
-}
-
-.size-s {
-  width: calc(200px - 24px);
-  height: 30px;
-}
-
-.size-m {
-  width: calc(264px - 24px);
-  height: 40px;
-}
-
-.size-l {
-  width: calc(320px - 24px);
-  height: 48px;
-}
-
-.size-xl {
-  width: calc(360px - 24px);
-  height: 58px;
 }

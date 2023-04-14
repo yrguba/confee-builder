@@ -1,19 +1,22 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { ChatApi } from 'entities/chat';
-import { useMessageStore } from 'entities/message';
+import { chatGateway, chatObserver } from 'entities/chat';
+import { useMessageStore, messageGateway, messageObserver } from 'entities/message';
 import { Box } from 'shared/ui';
 import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
 import styles from './styles.module.scss';
-import { MessageApi } from '../../../../../entities/message';
 
 function ChatsPage() {
-    ChatApi.subscriptions();
-    MessageApi.subscriptions();
+    chatObserver();
+    messageObserver();
+
+    chatGateway();
+    messageGateway();
 
     const isOpenEmojiPicker = useMessageStore.use.isOpenEmojiPicker();
+    const isOpenInputMenu = useMessageStore.use.isOpenInputMenu();
 
     return (
         <Box.Animated visible className={styles.page}>
@@ -30,7 +33,7 @@ function ChatsPage() {
                     </div>
                     <Box.Animated
                         initial={{ height: 100 }}
-                        animate={{ height: isOpenEmojiPicker ? 500 : 100, transition: { duration: 0 } }}
+                        animate={{ height: isOpenEmojiPicker ? 500 : isOpenInputMenu ? 240 : 100, transition: { duration: 0 } }}
                         exit={{ transition: { duration: 1 } }}
                         visible
                         className={styles.messageInput}

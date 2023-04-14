@@ -14,8 +14,13 @@ function Modal(props: ModalProps) {
     const modal_root = document.querySelector('#modal-root');
 
     const closeClick = () => {
-        close();
         onClose && onClose();
+        close();
+    };
+
+    const okClick = () => {
+        onOk && onOk();
+        close();
     };
 
     const classes = useStyles(styles, 'modal');
@@ -27,7 +32,7 @@ function Modal(props: ModalProps) {
                       <div className={styles.header}>
                           <div className={styles.header__title}>{headerText}</div>
                           <div className={styles.header__closeIcon} onClick={closeClick}>
-                              <Icons variants="close" />
+                              <Icons variants="exit" />
                           </div>
                       </div>
                       <div className={styles.content}>{children}</div>
@@ -36,7 +41,7 @@ function Modal(props: ModalProps) {
                               <Button size="s" onClick={closeClick}>
                                   {closeText || 'отмена'}
                               </Button>
-                              <Button size="s" onClick={onOk}>
+                              <Button active size="s" onClick={okClick}>
                                   {okText || 'готово'}
                               </Button>
                           </div>

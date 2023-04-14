@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PrivacySettings } from 'features/application';
+import { PrivacySettings } from 'features/app';
 
 import styles from './styles.module.scss';
 

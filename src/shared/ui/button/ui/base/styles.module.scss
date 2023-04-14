@@ -34,18 +34,18 @@
 
 
 .size-s {
+  width: calc(96px - 32px);
+  height: calc(32px - 8px);
+}
+
+.size-m {
   width: calc(131px - 32px);
   height: calc(48px - 8px);
 }
 
-.size-m {
+.size-l {
   width: calc(264px - 32px);
   height: calc(40px - 8px);
-}
-
-.size-l {
-  width: calc(100% - 32px);
-  height: calc(48px - 8px);
 }
 
 .size-xl {

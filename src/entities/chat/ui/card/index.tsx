@@ -11,7 +11,7 @@ import { ChatProxy } from '../../model/types';
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
     onClick: (arg: ChatProxy) => void;
-    subtitle: string;
+    subtitle?: string;
     showDate?: boolean;
     showChecked?: boolean;
 } & BaseTypes.Statuses;

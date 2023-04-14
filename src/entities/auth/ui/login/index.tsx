@@ -2,7 +2,7 @@ import React, { InputHTMLAttributes } from 'react';
 import { FieldErrors } from 'react-hook-form';
 
 import { BaseTypes } from 'shared/types';
-import { Button, Input, Title } from 'shared/ui';
+import { Button, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -22,21 +22,25 @@ function Login(props: Props) {
         <div className={styles.wrapper}>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.inputGroup}>
-                    <Title secondary>Введите Ваш корпоративный логин</Title>
-                    <Input size="l" placeholder="Логин" {...register('login')} error={!!errors.login} />
-                    <Title animation isError>
-                        {errors.login ? String(errors.login.message) : ''}
-                    </Title>
+                    <Input
+                        title="Введите Ваш корпоративный логин"
+                        errorTitle={errors.login ? String(errors.login.message) : ''}
+                        size="l"
+                        placeholder="Логин"
+                        {...register('login')}
+                        error={!!errors.login}
+                    />
                 </div>
-
                 <div className={styles.inputGroup}>
-                    <Title secondary>Введите пароль</Title>
-                    <Input.Password size="l" placeholder="Пароль" {...register('password')} error={!!errors.password} />
-                    <Title animation isError>
-                        {errors.password ? String(errors.password.message) : ''}
-                    </Title>
+                    <Input.Password
+                        title="Введите пароль"
+                        errorTitle={errors.password ? String(errors.password.message) : ''}
+                        size="l"
+                        placeholder="Пароль"
+                        {...register('password')}
+                        error={!!errors.password}
+                    />
                 </div>
-
                 <Button size="l" type="submit" active={!disabledBtn} disabled={!!disabledBtn} loading={isLoading}>
                     Войти
                 </Button>

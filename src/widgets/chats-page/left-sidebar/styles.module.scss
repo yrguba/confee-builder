@@ -13,6 +13,7 @@
 
   .list {
     @include flex(center, flex-start);
+    overflow-y: auto;
     width: 100%;
     height: calc(100% - 80px);
   }
