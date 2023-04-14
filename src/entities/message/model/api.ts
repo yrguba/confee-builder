@@ -1,13 +1,14 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { date } from 'yup';
 
 import { axiosClient, socketIo } from 'shared/configs';
 import { uniqueArray } from 'shared/lib';
 
-import messageEntity from './entitie';
 import useMessageStore from './store';
-import { MessageProxy } from './types';
+import { Message, MessageProxy } from './types';
 import { message_limit } from '../lib/constants';
+import messageEntity from '../lib/message-entity';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
@@ -52,33 +53,57 @@ class MessageApi {
         const setSocketAction = useMessageStore.use.setSocketAction();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
-            (data: { text: string; chatId: number }) =>
-                axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' }),
-            {
-                onMutate: async (data) => {
-                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                        const message = messageEntity({ text: data.text, viewer: viewerData?.data.data });
-                        cacheData.pages[0].data.data.unshift(message);
-                        setSocketAction(`add${message.id}`);
-                        return cacheData;
-                    });
-                },
-            }
+            (data: { text: string; chatId: number }) => axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' })
+            // {
+            //     onMutate: async (data) => {
+            //         queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+            //             const message = messageEntity({ text: data.text, viewer: viewerData?.data.data });
+            //             cacheData.pages[0].data.data.unshift(message);
+            //             setSocketAction(`add${message.id}`);
+            //             return cacheData;
+            //         });
+            //     },
+            // }
+        );
+    }
+
+    handleSendFileMessage() {
+        return useMutation((data: { files: FormData | undefined | null; chatId: number }) =>
+            axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files)
+        );
+    }
+
+    handleForwardMessages() {
+        return useMutation((data: { messagesIds: number[]; chatId: number }) =>
+            axiosClient.post(`${this.pathPrefix}/forward/message/${data.chatId}`, { messages: data.messagesIds })
+        );
+    }
+
+    handleReplyMessage() {
+        return useMutation((data: { text: string; messageId: number; chatId: number }) =>
+            axiosClient.post(`${this.pathPrefix}/reply/message/${data.chatId}/${data.messageId}`, { text: data.text, message_type: 'text' })
+        );
+    }
+
+    handleDeleteMessage() {
+        return useMutation((data: { messages: string[]; fromAll: boolean; chatId: number }) =>
+            axiosClient.delete(`${this.pathPrefix}/message/${data.chatId}`, { data: { fromAll: data.fromAll, messages: data.messages } })
         );
     }
 
     handleReadMessage() {
-        return (data: { chat_id: number; messages: number[] }) => {
-            data.messages && socketIo.emit('messageRead', data);
+        return {
+            mutate: (data: { chat_id: number; messages: number[] }) => {
+                data.messages && socketIo.emit('messageRead', data);
+            },
         };
     }
 
     handleMessageAction = () => {
-        return (data: { chatId: number; action: string }) => {
-            socketIo.emit('messageAction', {
-                chat_id: data.chatId,
-                action: data.action,
-            });
+        return {
+            mutate: (data: { chatId: number; action: string }) => ({
+                mutate: socketIo.emit('messageAction', { chat_id: data.chatId, action: data.action }),
+            }),
         };
     };
 
@@ -88,64 +113,10 @@ class MessageApi {
         );
     }
 
-    subscriptions() {
-        const queryClient = useQueryClient();
-        const setSocketAction = useMessageStore.use.setSocketAction();
-
-        useEffect(() => {
-            socketIo.on('receiveMessage', ({ message }) => {
-                const viewerData: any = queryClient.getQueryData(['get-viewer']);
-                queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
-                    if (cacheData) {
-                        const viewerId = viewerData?.data.data.id;
-                        const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
-                        if (viewerId === message.user.id) {
-                            pageOne.data.data.find((myMessage: MessageProxy, index: number) => {
-                                if (myMessage.user?.id === viewerId && myMessage.isMock) {
-                                    pageOne.data.data.splice(index, 1, { ...message, isMy: true });
-                                }
-                            });
-                        } else if (pageOne) {
-                            pageOne.data.data.unshift(message);
-                        }
-                        setSocketAction(`receiveMessage:${message.id}`);
-                    }
-                    return cacheData;
-                });
-            });
-            socketIo.on('receiveReactions', ({ data }) => {
-                queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                    cacheData.pages.forEach((page: any) => {
-                        page.data.data.forEach((message: any) => {
-                            if (message.id === data.messageId) {
-                                message.reactions = { ...data.reactions };
-                                setSocketAction(`receiveReactions:${message.id}:${new Date()}`);
-                            }
-                        });
-                    });
-                    return cacheData;
-                });
-            });
-            socketIo.on('receiveMessageStatus', (data) => {
-                queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
-                    cacheData &&
-                        cacheData.pages.forEach((page: any) => {
-                            page.data.data.forEach((message: Record<string, any>) => {
-                                data.messages.forEach((responseMessage: Record<string, any>, index: number) => {
-                                    if (responseMessage.id === message.id) {
-                                        Object.keys(responseMessage).forEach((key) => {
-                                            message[key] = responseMessage[key];
-                                        });
-                                        message.message_status = responseMessage.message_status;
-                                        setSocketAction(`receiveMessageStatus:${message.id}:${responseMessage.id}`);
-                                    }
-                                });
-                            });
-                        });
-                    return cacheData;
-                });
-            });
-        }, []);
+    handleChangeTextInMessages() {
+        return useMutation((data: { chatId: number; messageId: number; text: string }) =>
+            axiosClient.patch(`${this.pathPrefix}/message/${data.chatId}/${data.messageId}`, { text: data.text })
+        );
     }
 }
 

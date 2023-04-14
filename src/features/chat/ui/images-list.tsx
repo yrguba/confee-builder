@@ -1,8 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import { ChatImagesListView, ChatApi } from 'entities/chat';
+import { ChatApi } from 'entities/chat';
 import { http } from 'shared/constanst';
+import { ResponsiveMediaContents } from 'shared/ui';
 
 type Props = {
     gap?: number;
@@ -23,7 +24,7 @@ function ChatImagesList(props: Props) {
         fileType: 'images',
     });
     const images = data?.data?.data.files.map((i) => `${http.url}${i.url}`);
-    return <ChatImagesListView images={images || []} gap={gap} imgSize={imgSize} hardGrid={hardGrid} />;
+    return <ResponsiveMediaContents type="image" list={images || []} gap={gap} imgSize={imgSize} hardGrid={hardGrid} />;
 }
 
 export default ChatImagesList;

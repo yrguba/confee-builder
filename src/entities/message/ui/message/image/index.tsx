@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 
 import { http } from 'shared/constanst';
-import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -16,7 +15,7 @@ type Props = {
 
 function ImageMessageView(props: Props) {
     const { message, reactionClick } = props;
-    // size={index === 0 || index % 3 === 0 ? 168 : 83}
+
     return (
         <Wrapper message={message} reactionClick={reactionClick}>
             <div className={styles.wrapper}>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SwitchThemes } from 'features/application';
+import { SwitchThemes } from 'features/app';
 import { LoginFromAuthPage } from 'widgets/auth-page';
 
 import styles from './styles.module.scss';

@@ -16,14 +16,16 @@ function HeaderForChatsPage() {
 
     return (
         <div className={styles.wrapper}>
-            <Box.Animated visible={!!openChatId} key={pathname.split('/')[4]} className={styles.card}>
-                <ChatCard />
-            </Box.Animated>
-            <Box.Animated visible={!!openChatId && !ChatService.checkIsOpenChatInfo()} animationVariant="autoWidth" className={styles.rightColumn}>
-                <SearchMessages />
-                <VideoCallBtn />
-                <AudioCallBtn />
-            </Box.Animated>
+            <div className={styles.body}>
+                <Box.Animated visible={!!openChatId} key={pathname.split('/')[4]} className={styles.card}>
+                    <ChatCard />
+                </Box.Animated>
+                <Box.Animated visible={!!openChatId && !ChatService.checkIsOpenChatInfo()} animationVariant="autoWidth" className={styles.rightColumn}>
+                    <SearchMessages />
+                    <VideoCallBtn />
+                    <AudioCallBtn />
+                </Box.Animated>
+            </div>
         </div>
     );
 }

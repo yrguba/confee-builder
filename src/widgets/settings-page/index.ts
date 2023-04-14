@@ -1,4 +1,4 @@
-import ApplicationFromSettingsPage from './application-settings';
+import ApplicationFromSettingsPage from './app-settings';
 import CheckUpdate from './check-update';
 import HeaderFromSettingsPage from './header';
 import MainFromSettingsPage from './main';

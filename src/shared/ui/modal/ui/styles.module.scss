@@ -5,17 +5,19 @@
   @include box-size(100%, 100%);
   @include position;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 
   .modal {
     @include flex-column(space-between);
     min-width: 350px;
     min-height: 200px;
     border-radius: var(--border-radius);
-    background-color: var(--bg-2);
+    background-color: var(--bg-0);
+    z-index: 1000;
 
     .header {
       @include flex(space-between);
-      @include box-size(100%, 30px);
+      @include box-size(100%, 28px);
       border-top-left-radius: var(--border-radius);
       border-top-right-radius: var(--border-radius);
 
@@ -26,7 +28,7 @@
 
       &__closeIcon {
         @include flex;
-        padding-right: 6px;
+        padding-right: 8px;
         fill: var(--title-color);
         cursor: pointer;
       }
@@ -39,21 +41,13 @@
       text-align: center;
       font-size: 16px;
       font-weight: 600;
+      color: var(--text-0);
     }
 
     .footer {
       @include flex;
       gap: 10px;
       height: 80px;
-
-      button {
-        background-color: var(--bg-02);
-        font-weight: 600;
-
-        &:last-child {
-          color: var(--red);
-        }
-      }
     }
   }
 }
