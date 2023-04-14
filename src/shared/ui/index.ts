@@ -8,9 +8,10 @@ import DatePicker, { DatePickerTypes } from './date-picker';
 import Dropdown, { DropdownTypes } from './dropdown';
 import Emoji, { EmojiTypes } from './emoji';
 import Icons, { IconsTypes } from './icons';
-import Image, { ImageTypes } from './image';
 import Input, { InputTypes } from './input';
 import LoadingIndicator, { LoadingIndicatorTypes } from './loading-indicator';
+import Image, { ImageTypes } from './media-content/image';
+import ResponsiveMediaContents, { ResponsiveMediaContentsTypes } from './media-content/responsive-list';
 import Modal, { ModalTypes, useModal } from './modal';
 import Navbar, { NavbarTypes } from './navbar';
 import Notification, { NotificationTypes } from './notification';
@@ -41,6 +42,7 @@ export {
     Image,
     Notification,
     DatePicker,
+    ResponsiveMediaContents,
 };
 export type {
     AvatarTypes,
@@ -63,4 +65,5 @@ export type {
     ImageTypes,
     NotificationTypes,
     DatePickerTypes,
+    ResponsiveMediaContentsTypes,
 };

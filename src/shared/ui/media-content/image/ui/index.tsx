@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
+import { useStyles } from 'shared/hooks';
+
 import styles from './styles.module.scss';
-import { useStyles } from '../../../hooks';
 import { ImageProps } from '../types';
 
 function Image(props: ImageProps) {

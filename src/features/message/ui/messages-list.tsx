@@ -87,12 +87,11 @@ function MessageList(props: Props) {
     };
 
     const onOkModalMediaContent = () => {
-        console.log(mediaContentToSend?.formData);
         handleSendFileMessage({
             files: mediaContentToSend?.formData,
             chatId,
         });
-        // setMediaContentToSend(null);
+        setMediaContentToSend(null);
     };
 
     useEffect(() => {
@@ -120,7 +119,7 @@ function MessageList(props: Props) {
                 <ChatsListModal chats={chatsData?.data} selectedChats={selectedChats} setSelectedChats={setSelectedChats} />
             </Modal>
             <Modal {...modalMediaContent} onOk={onOkModalMediaContent} onClose={() => setMediaContentToSend(null)}>
-                <MediaContentModal type={mediaContentToSend?.type} data={mediaContentToSend?.data} />
+                <MediaContentModal type={mediaContentToSend?.type} list={mediaContentToSend?.list} />
             </Modal>
         </>
     );

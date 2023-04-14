@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { chatGateway, chatObserver } from 'entities/chat';
-import { useMessageStore, messageGateway } from 'entities/message';
+import { useMessageStore, messageGateway, messageObserver } from 'entities/message';
 import { Box } from 'shared/ui';
 import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
@@ -10,6 +10,8 @@ import styles from './styles.module.scss';
 
 function ChatsPage() {
     chatObserver();
+    messageObserver();
+
     chatGateway();
     messageGateway();
 

@@ -1,26 +1,19 @@
 import React, { useRef } from 'react';
 
 import { useSize, useGrid, useStyles } from 'shared/hooks';
-import { BaseTypes } from 'shared/types';
 import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { ResponsiveMediaContentsProps } from '../types';
 
-type Props = {
-    images: string[];
-    gap?: number;
-    imgSize?: number;
-    hardGrid?: boolean;
-} & BaseTypes.Statuses;
-
-function ChatImagesListView(props: Props) {
-    const { images, imgSize = 200, gap, hardGrid } = props;
+function ResponsiveMediaContents(props: ResponsiveMediaContentsProps) {
+    const { type, list, imgSize = 200, gap, hardGrid } = props;
 
     const wrapperRef = useRef(null);
 
     const { width } = useSize(wrapperRef);
 
-    const { column, row } = useGrid(width, images.length, imgSize);
+    const { column, row } = useGrid(width, list.length, imgSize);
 
     const getStyles = () => {
         if (hardGrid) {
@@ -35,13 +28,13 @@ function ChatImagesListView(props: Props) {
 
     return (
         <div ref={wrapperRef} style={getStyles()} className={classes}>
-            {images.map((img, index) => (
+            {list.map((img, index) => (
                 <div key={index} className={styles.img} style={hardGrid ? { width: imgSize, height: imgSize } : {}}>
-                    <Image key={index} img={img} />
+                    {type === 'image' && <Image key={index} img={img} />}
                 </div>
             ))}
         </div>
     );
 }
 
-export default ChatImagesListView;
+export default ResponsiveMediaContents;
