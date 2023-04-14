@@ -2,17 +2,18 @@
 
 .wrapper {
   @include box-size(100%, 100%);
-  @include flex(space-between);
-  padding: 0 20px;
+  @include flex;
   background-color: var(--bg-0);
 
-  .card {
-    @include box-size(50%, 100%);
-  }
+  .body{
+    @include box-size(98%, 100%);
+    @include flex(space-between);
+    .card {
+    }
 
-  .rightColumn {
-    @include box-size(50%, 100%);
-    @include flex(flex-end);
-    gap: 8px;
+    .rightColumn {
+      @include flex(flex-end);
+      gap: 8px;
+    }
   }
 }

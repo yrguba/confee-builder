@@ -120,7 +120,7 @@ function MessagesListView(props: Props) {
                             </div>
                         )}
                     </div>
-                    {index + 5 === messages?.length && <div ref={prevPageRef} />}
+                    {index + 2 === messages?.length && <div ref={prevPageRef} />}
                 </Fragment>
             ))}
             {chat?.pending_messages ? (

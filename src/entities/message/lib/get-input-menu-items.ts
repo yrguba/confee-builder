@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 
 import { useFileUploader } from 'shared/hooks';
 
+import { useAppStore } from '../../app';
 import useMessageStore from '../model/store';
 import { InputMenuItem } from '../model/types';
 
 function getInputMenuItems(): InputMenuItem[] {
     const setMediaContentToSend = useMessageStore.use.setMediaContentToSend();
+    const setNotifications = useAppStore.use.setNotifications();
     const image = useFileUploader({
         accept: 'image',
         multiple: true,
@@ -40,9 +42,9 @@ function getInputMenuItems(): InputMenuItem[] {
 
     return [
         { id: 0, title: 'Загрузить фото', icon: 'image', onClick: image.open },
-        { id: 1, title: 'Загрузить аудио', icon: 'audio', onClick: audio.open },
-        { id: 2, title: 'Загрузить видео', icon: 'video', onClick: video.open },
-        { id: 3, title: 'Загрузить документы', icon: 'document', onClick: document.open },
+        { id: 1, title: 'Загрузить аудио', icon: 'audio', onClick: () => setNotifications({ text: 'Загрузка аудио пока недоступна' }) },
+        { id: 2, title: 'Загрузить видео', icon: 'video', onClick: () => setNotifications({ text: 'Загрузка видео пока недоступна' }) },
+        { id: 3, title: 'Загрузить документы', icon: 'document', onClick: () => setNotifications({ text: 'Загрузка документов пока недоступна' }) },
     ];
 }
 

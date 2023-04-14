@@ -26,15 +26,15 @@ function messageGateway() {
                     } else {
                         const viewerId = viewerData?.data.data.id;
                         const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
-                        if (viewerId === message.user.id) {
-                            pageOne.data.data.find((myMessage: MessageProxy, index: number) => {
-                                if (myMessage.user?.id === viewerId && myMessage.isMock) {
-                                    pageOne.data.data.splice(index, 1, { ...message, isMy: true });
-                                }
-                            });
-                        } else if (pageOne) {
-                            pageOne.data.data.unshift(message);
-                        }
+                        // if (viewerId === message.user.id) {
+                        //     pageOne.data.data.find((myMessage: MessageProxy, index: number) => {
+                        //         if (myMessage.user?.id === viewerId && myMessage.isMock) {
+                        //             pageOne.data.data.splice(index, 1, { ...message, isMy: true });
+                        //         }
+                        //     });
+                        // } else if (pageOne) {
+                        pageOne.data.data.unshift(message);
+                        // }
                     }
                     setSocketAction(`receiveMessage:${message.id}:${new Date()}`);
                 }

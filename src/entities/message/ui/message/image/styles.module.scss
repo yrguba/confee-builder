@@ -2,12 +2,12 @@
 
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(2, minmax(83px, 1fr));
+  grid-template-columns: repeat(auto-fit, 100px);
   gap: 2px;
   max-width: 400px;
 
   @media(max-width: 1200px){
-    max-width: 240px;
+    //max-width: 240px;
   }
 
   .item {
