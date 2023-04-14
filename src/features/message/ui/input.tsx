@@ -41,10 +41,12 @@ function MessageInput(props: Props) {
     };
 
     const sendMessage = () => {
-        if (messageToEdit) return changeTextInMessage();
-        if (messageToReply) return replyToMessage();
-        handleSendTextMessage({ text: valueTextMessage, chatId });
-        setValueTextMessage('');
+        if (valueTextMessage) {
+            if (messageToEdit) return changeTextInMessage();
+            if (messageToReply) return replyToMessage();
+            handleSendTextMessage({ text: valueTextMessage, chatId });
+            setValueTextMessage('');
+        }
     };
 
     const onKeyDown = (event: any) => {
