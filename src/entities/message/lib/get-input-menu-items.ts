@@ -34,10 +34,10 @@ function getInputMenuItems(): InputMenuItem[] {
     });
 
     useEffect(() => {
-        image.files.length && setMediaContentToSend({ type: 'image', list: image.files.map((i) => i.previewUrl), formData: image.formData });
-        audio.files.length && setMediaContentToSend({ type: 'audio', list: audio.files.map((i) => i.audioUrl), formData: audio.formData });
+        image.files.length && setMediaContentToSend({ type: 'image', list: image.files.map((i) => i.fileUrl), formData: image.formData });
+        audio.files.length && setMediaContentToSend({ type: 'audio', list: audio.files.map((i) => i.fileUrl), formData: audio.formData });
         video.files.length && setMediaContentToSend({ type: 'video', list: video.files.map((i) => i.previewUrl), formData: video.formData });
-        document.files.length && setMediaContentToSend({ type: 'document', list: document.files.map((i) => i.documentUrl), formData: document.formData });
+        document.files.length && setMediaContentToSend({ type: 'document', list: document.files.map((i) => i.fileUrl), formData: document.formData });
     }, [image.files.length, audio.files.length, video.files.length, document.files.length, image.formData, audio.formData, video.formData, document.formData]);
 
     return [
