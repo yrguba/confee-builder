@@ -18,7 +18,6 @@ function ChatsList() {
 
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
         const { id, is_group } = chat;
-        ChatService.unsubscribeFromChat();
         if (Number(params.chat_id) !== id) {
             if (ChatService.checkIsOpenChatInfo()) {
                 if (is_group) {

@@ -64,7 +64,8 @@
         "universal-cookie": "^4.0.4",
         "web-vitals": "^2.1.4",
         "yup": "^1.0.0",
-        "zustand": "^4.3.3"
+        "zustand": "^4.3.3",
+        "react-onesignal": "^2.0.4"
     },
     "devDependencies": {
         "@tauri-apps/cli": "^1.2.3",

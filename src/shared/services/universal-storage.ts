@@ -10,7 +10,7 @@ import { storages } from 'shared/lib';
 
 class UniversalStorage {
     localStorageSet(name: keyof typeof StorageObjectsNames, value: string) {
-        storages.ls.set(name, value);
+        storages.ls.set(name, JSON.stringify(value));
     }
 
     localStorageGet(name: keyof typeof StorageObjectsNames) {

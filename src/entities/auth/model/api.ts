@@ -14,9 +14,12 @@ class AuthApi {
     //     const loginFn = (data: HandleLogin) => $axios.post('/auth/oauth/token', { ...data, ...additional });
     //     return useMutation(loginFn);
     // }
+    handleSendOneSignalToken() {
+        return useMutation((data: { onesignal_player_id: string }) => axiosClient.post('api/v2/authorization/onesignal_token', data));
+    }
+
     handleLogin() {
-        const fetch = (data: HandleLogin) => axiosClient.post('api/v2/authorization/login', { phone: data.username, code: data.password });
-        return useMutation(fetch);
+        return useMutation((data: HandleLogin) => axiosClient.post('api/v2/authorization/login', { phone: data.username, code: data.password }));
     }
 }
 

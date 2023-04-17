@@ -28,7 +28,7 @@ function ForwardedMessagesView(props: Props) {
                     </div>
                     <div className={styles.messagesColumn}>
                         {forwardedMessages?.map((message: any) => (
-                            <div key={message.id} className={styles.message}>
+                            <div key={message?.id} className={styles.message}>
                                 <div className={styles.userName}> {MessageService.getNameMessageAuthor(message)}</div>
                                 <TextMessageView message={message} wrapper={false} />
                             </div>

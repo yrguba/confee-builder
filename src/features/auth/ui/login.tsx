@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import OneSignal from 'react-onesignal';
 
 import { Login, authYup, AuthApi } from 'entities/auth';
 import { TokenService } from 'shared/services';
@@ -18,12 +19,17 @@ function LoginForm() {
     });
 
     const { mutate: handleLogin, isLoading } = AuthApi.handleLogin();
+    const { mutate: handleSendOneSignalToken } = AuthApi.handleSendOneSignalToken();
 
     const onSuccess = async (response: any) => {
-        // const { access_token, refresh_token } = response.data;
         const { access_token, refresh_token } = response.data.data;
         await TokenService.save({ access_token, refresh_token });
-        window.location.href = '/main/chats';
+        await OneSignal.init({ appId: '977e9b8a-5cf3-401b-b801-3c62e346cfde' }).then(() => {
+            OneSignal.getUserId().then(async (res) => {
+                res && (await handleSendOneSignalToken({ onesignal_player_id: res }));
+                window.location.href = '/main/chats';
+            });
+        });
     };
 
     const onError = ({ response }: any) => {

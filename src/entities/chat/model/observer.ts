@@ -1,13 +1,16 @@
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+
 import { UniversalStorage } from 'shared/services';
 
 import { ChatService } from '../index';
 
 function chatObserver() {
-    const openChatId = ChatService.getOpenChatId();
-    const subscribeToChat = UniversalStorage.localStorageGet('subscribed_to_chat');
+    const location = useLocation();
+    const params = useParams();
 
-    if (!openChatId && subscribeToChat) {
-        ChatService.unsubscribeFromChat(Number(subscribeToChat));
+    if (params.chat_id) {
+        ChatService.subscribeToChat(Number(params.chat_id));
     }
 }
 
