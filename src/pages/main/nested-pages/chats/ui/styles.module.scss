@@ -9,14 +9,22 @@
     min-width: 300px;
     @include flex;
     border-right: 1px solid var(--bg-outside);
+
+    @media (max-width: 680px) {
+      @include box-size(100%, 100%);
+    }
   }
 
   .mainColumn {
     @include flex-column;
     @include box-size(calc(100% - 300px), 100%);
 
+    @media (max-width: 680px) {
+      @include box-size(100%, 100%);
+    }
+
     .header {
-      @include box-size(100%, 60px);
+      @include box-size(100%, auto);
       @include flex;
       border-bottom: 1px solid var(--bg-outside);
     }

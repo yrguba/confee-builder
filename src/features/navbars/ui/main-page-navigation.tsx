@@ -13,9 +13,9 @@ function MainPageNavigation() {
     const { pathname } = useLocation();
 
     const items: Item[] = [
-        { id: 0, text: 'Компания', icon: 'company', path: 'company', breakpoint: 610 },
-        { id: 1, text: 'Чаты и каналы', icon: 'chats', path: 'chats', breakpoint: 730 },
-        { id: 2, text: 'Задачи', icon: 'tasks', path: 'tasks', breakpoint: 750 },
+        { id: 0, text: 'Компания', icon: 'company', path: 'company', breakpoint: 500 },
+        { id: 1, text: 'Чаты и каналы', icon: 'chats', path: 'chats', breakpoint: 680 },
+        { id: 2, text: 'Задачи', icon: 'tasks', path: 'tasks', breakpoint: 730 },
     ];
 
     const { itemsInRow, itemsInDropdown } = useRowAndDropdown<Item>(items);

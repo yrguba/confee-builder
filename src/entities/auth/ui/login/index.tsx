@@ -41,7 +41,7 @@ function Login(props: Props) {
                         error={!!errors.password}
                     />
                 </div>
-                <Button size="l" type="submit" active={!disabledBtn} disabled={!!disabledBtn} loading={isLoading}>
+                <Button size="xl" type="submit" active={!disabledBtn} disabled={!!disabledBtn} loading={isLoading}>
                     Войти
                 </Button>
             </form>

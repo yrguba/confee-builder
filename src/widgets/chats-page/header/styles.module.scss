@@ -2,13 +2,24 @@
 
 .wrapper {
   @include box-size(100%, 100%);
+  padding: 12px;
   @include flex;
   background-color: var(--bg-0);
 
-  .body{
-    @include box-size(98%, 100%);
+  .body {
+    @include box-size(100%, 100%);
     @include flex(space-between);
+    flex-wrap: wrap;
+
+    .back {
+      @include flex;
+      @include box-size(30px, 30px);
+      cursor: pointer;
+    }
+
     .card {
+      @include flex;
+
     }
 
     .rightColumn {

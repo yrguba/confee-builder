@@ -37,7 +37,7 @@ function Routing() {
     );
 
     const getRouting = () => {
-        if (width < 900) return <SizeWarningPage size={{ width, height }} error="width" />;
+        if (width < 480) return <SizeWarningPage size={{ width, height }} error="width" />;
         if (height < 780) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (isAuth) return privateRoutes;
         return publicRoutes;

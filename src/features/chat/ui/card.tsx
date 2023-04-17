@@ -3,10 +3,9 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import { ChatCardView, ChatService, ChatApi, ChatTypes, useChatStore } from 'entities/chat';
+import { ChatProxy } from 'entities/chat/model/types';
 import { ViewerService } from 'entities/viewer';
 import { useEnding } from 'shared/hooks';
-
-import { ChatProxy } from '../../../entities/chat/model/types';
 
 function ChatCard() {
     const navigate = useNavigate();

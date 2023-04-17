@@ -28,11 +28,10 @@ function ChatCardView(props: Props) {
         <div className={styles.wrapper} onClick={() => onClick(chat)}>
             <div className={styles.leftColumn}>
                 <Avatar img={avatar} name={name} size={42} />
-            </div>
-
-            <div className={styles.centerColumn}>
-                <div className={styles.chatName}>{name}</div>
-                <div className={styles.lastMsg}>{subtitle}</div>
+                <div className={styles.caption}>
+                    <div className={styles.chatName}>{name}</div>
+                    <div className={styles.lastMsg}>{subtitle}</div>
+                </div>
             </div>
             <div className={styles.rightColumn}>
                 {showDate && <div className={styles.date}>{date}</div>}

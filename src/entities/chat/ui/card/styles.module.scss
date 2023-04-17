@@ -2,32 +2,33 @@
 
 
 .wrapper {
-  @include flex(flex-start, center, 10);
+  @include flex(space-between, center, 10);
   @include box-size(100%, 100%);
   cursor: pointer;
   transition: background-color var(--transition);
 
   .leftColumn {
     @include flex;
-  }
+    gap: 4px;
 
-  .centerColumn {
-    @include flex-column(flex-start, flex-start, 6);
-    flex: 1;
+    .caption{
+      @include flex-column(flex-start, flex-start, 6);
+      //flex: 1;
 
-    .chatName {
-      @include text-ellipsis(170px);
-      text-align: left;
-      font-weight: 600;
-      font-size: 16px;
-      color: var(--text-0);
-    }
+      .chatName {
+        @include text-ellipsis(100%);
+        text-align: left;
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--text-0);
+      }
 
-    .lastMsg {
-      @include text-ellipsis(170px);
-      font-weight: 500;
-      font-size: 13px;
-      color: var(--text-1);
+      .lastMsg {
+        @include text-ellipsis(100%);
+        font-weight: 500;
+        font-size: 13px;
+        color: var(--text-1);
+      }
     }
   }
 
