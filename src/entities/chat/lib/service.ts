@@ -32,7 +32,7 @@ class ChatService {
     subscribeToChat(id: number) {
         const { mutate: handleSubscribeToChat } = ChatApi.handleSubscribeToChat();
         handleSubscribeToChat(id);
-        UniversalStorage.localStorageSet('subscribed_to_chat', String(id));
+        UniversalStorage.localStorageSet('subscribed_to_chat', id);
     }
 
     unsubscribeFromChat(id: number) {

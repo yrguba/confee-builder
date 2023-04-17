@@ -9,8 +9,8 @@ import { StorageObjectsNames } from 'shared/enums';
 import { storages } from 'shared/lib';
 
 class UniversalStorage {
-    localStorageSet(name: keyof typeof StorageObjectsNames, value: string) {
-        storages.ls.set(name, JSON.stringify(value));
+    localStorageSet(name: keyof typeof StorageObjectsNames, value: any) {
+        storages.ls.set(name, value);
     }
 
     localStorageGet(name: keyof typeof StorageObjectsNames) {

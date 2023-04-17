@@ -65,7 +65,11 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         const checkChatIsSubscribed = ChatService.checkChatIsSubscribed();
         if (messageRef.current && (initial || checkChatIsSubscribed)) {
+            // if (initial) {
+            //     setTimeout(() => messageRef.current?.scrollIntoView({ block: 'center', behavior: checkChatIsSubscribed ? 'smooth' : 'auto' }), 100);
+            // } else {
             messageRef.current.scrollIntoView({ block: 'center', behavior: checkChatIsSubscribed ? 'smooth' : 'auto' });
+            // }
             setInitial(false);
         }
     }, [messageRef.current]);

@@ -78,7 +78,9 @@ function messageGateway() {
                             data.messages.forEach((responseMessage: Record<string, any>, index: number) => {
                                 if (responseMessage.id === message.id) {
                                     Object.keys(responseMessage).forEach((key) => {
-                                        message[key] = responseMessage[key];
+                                        if (key !== 'content') {
+                                            message[key] = responseMessage[key];
+                                        }
                                     });
                                     message.message_status = responseMessage.message_status;
                                     setSocketAction(`receiveMessageStatus:${message.id}:${responseMessage.id}`);
