@@ -36,6 +36,7 @@ export type ResponsiveNavbarProps = {
 export type NavbarWithLineProps = {
     items: BaseItem<any, any>[];
     direction?: 'column' | 'row';
+    layoutId: string;
     activeItemId: number;
     gap?: number;
 } & Shared;

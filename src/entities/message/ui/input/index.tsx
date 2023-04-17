@@ -71,7 +71,7 @@ function MessageInputView(props: Props) {
 
                 <div className={`${styles.input} ${isVisibleHeader && styles.isVisibleHeader}`}>
                     <div className={styles.body}>
-                        <Dropdown openCloseTrigger={setIsOpenInputMenu} position="right-top" content={<InputMenuView />}>
+                        <Dropdown top={-16} openCloseTrigger={setIsOpenInputMenu} position="right-top" content={<InputMenuView />}>
                             <div className={styles.icon}>
                                 <Icons variants="clip" />
                             </div>

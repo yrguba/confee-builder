@@ -5,6 +5,8 @@
   @include flex-column;
   background-color: var(--bg-0);
   border-left: 1px solid var(--bg-outside);
+  position: relative;
+
   .header {
     @include box-size(100%, 59px);
   }
@@ -13,11 +15,7 @@
     @include box-size(100%, calc(100% - 59px - 24px));
     @include flex-column(flex-start);
     padding: 12px 0;
-
-    @media (max-height: 1000px) {
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
+    overflow-y: auto;
 
     .dossier {
       @include box-size(252px, 450px);
@@ -25,29 +23,36 @@
       margin-bottom: 30px;
     }
 
-    .nav {
+    .nav, .navSticky {
       @include flex(flex-start);
       padding: 0 10px;
-      width: 280px;
+      width: calc(100% - 20px);
       height: 30px;
       min-height: 30px;
-
       overflow-x: auto;
       overflow-y: hidden;
       border-bottom: 1px solid var(--icon-inactive);
+
 
       &::-webkit-scrollbar {
         width: 0;
         height: 0;
       }
     }
+    .navSticky{
+      position: fixed;
+      background-color: var(--bg-0);
+      top: 112px;
+      z-index: 100;
+    }
 
     .outlet {
       margin: 12px 0;
-      @include box-size(300px, calc(100% - 510px));
-      @media (max-height: 1000px) {
-        @include box-size(300px, calc(100% - 300px));
-      }
+      @include box-size(100%, 100%);
+      //overflow-y: auto;
+      //@media (max-height: 1000px) {
+      //  @include box-size(300px, calc(100% - 300px));
+      //}
 
     }
   }

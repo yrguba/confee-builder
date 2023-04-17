@@ -17,9 +17,9 @@ function ChatListView(props: Props) {
     const { chats, clickOnChat, loading, error, activeChatId } = props;
 
     const data = [
-        { id: 0, name: 'Личные чаты', items: chats },
-        { id: 1, name: 'Групповые чаты', items: chats },
-        { id: 2, name: 'Каналы', items: chats },
+        { id: 0, name: 'Личные чаты', items: chats.filter((i) => !i.is_group) },
+        { id: 1, name: 'Групповые чаты', items: chats.filter((i) => i.is_group) },
+        { id: 2, name: 'Каналы', items: [] },
     ];
 
     return (

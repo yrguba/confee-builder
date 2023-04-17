@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { ChatContentNav } from 'features/chat';
 import { UserDossier } from 'features/user';
-import { useScrollTo, useToggle } from 'shared/hooks';
+import { useScrollTo, useToggle, useInView, useSize } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -20,7 +21,10 @@ function PrivateChatInfoFromChatsPage() {
         files: 300,
     };
 
+    const navRefBase = useRef<HTMLDivElement>(null);
     const [executeScroll, navRef] = useScrollTo();
+    const { ref: navRef2, inView } = useInView();
+    const { width } = useSize();
 
     useEffect(() => {
         const lastPath = pathname.split('/').pop();
@@ -36,9 +40,14 @@ function PrivateChatInfoFromChatsPage() {
                 <div className={styles.dossier}>
                     <UserDossier direction="column" />
                 </div>
-                <div className={styles.nav} ref={navRef}>
+                <div className={styles.nav} ref={mergeRefs([navRefBase, navRef, navRef2])}>
                     <ChatContentNav />
                 </div>
+                {!inView && width < 680 && (
+                    <div className={styles.navSticky} ref={mergeRefs([navRef])}>
+                        <ChatContentNav />
+                    </div>
+                )}
                 <Box.Animated key={pathname} visible className={styles.outlet}>
                     <Outlet />
                 </Box.Animated>

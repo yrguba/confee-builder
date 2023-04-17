@@ -15,9 +15,9 @@ function UserDossier(props: Props) {
     const params = useParams();
 
     const queryClient = useQueryClient();
-    // const { data, isLoading, isError, refetch } = UserApi.handleGetUser({ id: params.user_id });
-    const users: any = queryClient.getQueryData(['get-users']);
-    const user = users?.data.data.find((i: any) => i.id === Number(params.user_id));
+    const { data: users, isLoading, isError, refetch } = UserApi.handleGetUsers();
+
+    const user = users?.data?.data.find((i: any) => i.id === Number(params.user_id));
 
     const prevUser = usePrevious(user);
 

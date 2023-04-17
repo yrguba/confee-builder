@@ -57,5 +57,13 @@
   .rightSidebar {
     @include box-size(auto, 100%);
     @include flex;
+
+    @media (min-width: 800px) {
+      max-width: 300px;
+    }
+
+    @media (max-width: 680px) {
+      min-width: 100%;
+    }
   }
 }

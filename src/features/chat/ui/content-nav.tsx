@@ -48,7 +48,7 @@ function ChatContentNav(props: Props) {
         </Button.Link>
     );
 
-    return <Navbar.WithLine gap={20} activeItemId={activeBtnId} item={item} items={items} />;
+    return <Navbar.WithLine gap={20} activeItemId={activeBtnId} item={item} items={items} layoutId="ChatContentNav" />;
 }
 
 export default ChatContentNav;
