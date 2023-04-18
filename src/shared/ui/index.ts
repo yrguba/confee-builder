@@ -1,5 +1,5 @@
 import Avatar, { AvatarTypes } from './avatar';
-import Box, { BoxTypes } from './box';
+import Box, { BoxTypes, animationVariants } from './box';
 import Breadcrumb, { BreadcrumbTypes } from './breadcrumb';
 import Button, { ButtonTypes } from './button';
 import Collapse, { CollapseTypes } from './collapse';
@@ -43,6 +43,7 @@ export {
     Notification,
     DatePicker,
     ResponsiveMediaContents,
+    animationVariants,
 };
 export type {
     AvatarTypes,

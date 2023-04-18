@@ -1,0 +1,43 @@
+$breakpoints: (
+        sm: 680px,
+        md: 800px,
+        lg: 1024px,
+        xl: 1440px,
+);
+
+@mixin responsive-from($breakpoint) {
+  $size: map-get($breakpoints, $breakpoint);
+  @if ($size == 0) {
+    @content;
+  } @else {
+    @media screen and (min-width: $size) {
+      @content;
+    }
+  }
+}
+
+@mixin responsive-to($breakpoint) {
+  $size: map-get($breakpoints, $breakpoint);
+  @if ($size == 0) {
+    @content;
+  } @else {
+    @media screen and (max-width: $size) {
+      @content;
+    }
+  }
+}
+
+@mixin responsive-from-to($from, $to) {
+  $min: map-get($breakpoints, $from);
+  $max: map-get($breakpoints, $to) - 1px;
+
+  @if ($min == 0) {
+    @media screen and (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @media screen and (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  }
+}

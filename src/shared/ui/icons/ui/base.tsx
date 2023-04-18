@@ -19,8 +19,23 @@ function BaseIcons(props: BaseIconsProps) {
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M8.49981 12.6992L14.0998 18.3992C14.4998 18.7992 15.0998 18.7992 15.4998 18.3992C15.8998 17.9992 15.8998 17.3992 15.4998 16.9992L10.5998 12.0992L15.4998 7.19922C15.6998 6.99922 15.7998 6.79922 15.7998 6.49922C15.7998 5.89922 15.3998 5.49922 14.7998 5.49922C14.4998 5.49922 14.2998 5.59922 14.0998 5.79922L8.3998 11.4992C8.0998 11.6992 8.0998 12.2992 8.49981 12.6992Z"
-                        fill="#717394"
+                        fill={color || '#717394'}
                     />
+                </svg>
+            );
+        }
+        case 'menu': {
+            return (
+                <svg
+                    width={size}
+                    height={size}
+                    xmlns="http://www.w3.org/2000/svg"
+                    enableBackground="new 0 0 32 32"
+                    version="1.1"
+                    viewBox="0 0 32 32"
+                    xmlSpace="preserve"
+                >
+                    <path d="M4 10h24a2 2 0 000-4H4a2 2 0 000 4zm24 4H4a2 2 0 000 4h24a2 2 0 000-4zm0 8H4a2 2 0 000 4h24a2 2 0 000-4z" />
                 </svg>
             );
         }

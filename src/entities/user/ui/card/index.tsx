@@ -29,9 +29,7 @@ function UserCardView(props: Props) {
         <div style={{ cursor: onClick ? 'pointer' : 'default' }} className={styles.userCard} onClick={() => onClick && onClick(user)}>
             <Avatar img={user.avatar} name={user.name} size={getAvatarSize()} />
             <div className={styles.infoColumn}>
-                <Title width={220} size={getFontSize()}>
-                    {user.name}
-                </Title>
+                <Title size={getFontSize()}>{user.name}</Title>
                 {size !== 's' && <div className={styles.email}>{user.email}</div>}
             </div>
         </div>

@@ -11,7 +11,7 @@ function InfoPage() {
             <div className={styles.profile}>
                 <ProfileFromInfoPage />
             </div>
-            <div className={styles.media}>
+            <div className={styles.outlet}>
                 <Outlet />
             </div>
         </div>

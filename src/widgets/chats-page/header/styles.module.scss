@@ -1,8 +1,8 @@
 @import "./src/app/styles";
 
 .wrapper {
-  @include box-size(100%, 100%);
-  padding: 12px;
+  @include box-size(calc(100% - 12px), 60px);
+  padding-right: 12px;
   @include flex;
   background-color: var(--bg-0);
 

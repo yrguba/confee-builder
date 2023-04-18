@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 import { UsersListView, UserApi, useUserStore, UserTypes } from 'entities/user';
 
 function UsersList() {
     const params = useParams();
+    const navigate = useNavigate();
     const { data, isLoading, isError } = UserApi.handleGetUsers();
     const setSelectedUser = useUserStore.use.setSelectedUsers();
     const selectedUser = useUserStore.use.selectedUsers();
 
     const pageClick = (page: number) => {};
 
-    const clickOnUserCard = (user: UserTypes.User) => {};
+    const clickOnUserCard = (user: UserTypes.User) => {
+        navigate(`${params.division_name ? '' : 'division/unknown/'}user/${user.id}/name/${user.name}/info/images`);
+    };
 
     const [users, setUsers] = useState([]);
 

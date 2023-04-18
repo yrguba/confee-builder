@@ -1,12 +1,20 @@
 @import "./src/app/styles";
 
 .header {
-  @include box-size(100%, 100%);
+  @include box-size(calc(100% - 20px), 100%);
   @include flex(flex-start);
   background-color: var(--bg-0);
   border-bottom: 1px solid var(--bg-outside);
 
+  @include responsive-to('sm'){
+    @include flex(flex-end);
+  }
+
   .nav{
     margin-left: 20px;
+
+    @include responsive-to('sm'){
+      margin-right: 20px;
+    }
   }
 }

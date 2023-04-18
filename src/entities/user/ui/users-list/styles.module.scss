@@ -23,13 +23,14 @@
 
     .filterAndSearch{
       @include flex;
-      width: 400px;
+      margin-left: 12px;
       gap: 8px;
     }
   }
   .columnsNames {
     @include box-size(100%, 60px);
     @include flex;
+    margin-top: 8px;
     border-bottom: 1px dashed var(--stroke-1);
 
     .content {
