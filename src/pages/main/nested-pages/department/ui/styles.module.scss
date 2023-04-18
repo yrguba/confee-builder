@@ -10,6 +10,7 @@
     position: absolute;
     top: 11px;
     left: 10px;
+    cursor: pointer;
 
     &_go {
       @include flex-column();

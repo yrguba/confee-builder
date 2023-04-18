@@ -21,6 +21,7 @@ import useDate from './useDate';
 import useEnding from './useEnding';
 import useGrid from './useGrid';
 import useInput from './useInput';
+import useMedea from './useMedia';
 import useReverseTimer from './useReverseTimer';
 import useRowAndDropdown from './useRowAndDropdown';
 import useScrollTo from './useScroll';
@@ -57,4 +58,5 @@ export {
     useEffectOnce,
     useCopyToClipboard,
     useFileUploader,
+    useMedea,
 };
