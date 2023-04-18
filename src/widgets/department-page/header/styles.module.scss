@@ -6,5 +6,9 @@
   background-color: inherit;
 
   .nav{
+    overflow-x: auto;
+    @include responsive-to('sm'){
+      padding-left: 50px;
+    }
   }
 }

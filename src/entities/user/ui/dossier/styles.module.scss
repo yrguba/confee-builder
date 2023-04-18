@@ -1,13 +1,13 @@
 @import "./src/app/styles";
 
-.directionColumn{
+.directionColumn {
   flex-direction: column !important;
   justify-content: center !important;
   align-items: start !important;
 
-  .header{
+  .header {
     flex-direction: column;
-    align-items: flex-start!important;
+    align-items: flex-start !important;
     justify-content: flex-start;
   }
 }
@@ -30,15 +30,16 @@
       gap: 12px;
       flex-wrap: wrap;
 
-      .caption{
+      .caption {
         @include flex-column(flex-start, flex-start);
+
         .name {
           font-weight: 600;
           font-size: 20px;
           color: var(--text-0);
         }
 
-        .date{
+        .date {
           color: var(--text-1);
           font-weight: 400;
           font-size: 14px;
@@ -55,9 +56,10 @@
     color: var(--text-0);
     font-weight: 600;
     font-size: 14px;
+    @include text-ellipsis(90%)
   }
 
-  .department, .division,  {
+  .department, .division, {
     color: var(--text-0);
     font-weight: 400;
     font-size: 14px;

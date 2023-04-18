@@ -19,6 +19,7 @@ const routing_tree = {
                 messages: 'messages',
                 favorites: 'favorites',
                 tasks: 'tasks',
+                info_base: 'info/images',
                 info: {
                     base: 'info',
                     images: 'images',
