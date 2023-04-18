@@ -136,8 +136,8 @@
       {
         "title": "Confee",
         "label": "main",
-        "minWidth": 900,
-        "minHeight": 780,
+        "minWidth": 480,
+        "minHeight": 600,
         "resizable": true,
         "fullscreen": false,
         "visible": true,

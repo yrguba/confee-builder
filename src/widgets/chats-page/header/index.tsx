@@ -32,7 +32,7 @@ function HeaderForChatsPage() {
                     <ChatCard />
                 </Box.Animated>
                 <Box.Animated visible={!!openChatId && !ChatService.checkIsOpenChatInfo()} animationVariant="autoWidth" className={styles.rightColumn}>
-                    <SearchMessages />
+                    <SearchMessages mini={width < 800} />
                     <VideoCallBtn />
                     <AudioCallBtn />
                 </Box.Animated>

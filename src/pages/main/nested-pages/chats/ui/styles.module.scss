@@ -57,7 +57,7 @@
   .rightSidebar {
     @include box-size(auto, 100%);
     @include flex;
-
+    overflow: hidden;
     @media (min-width: 800px) {
       max-width: 300px;
     }

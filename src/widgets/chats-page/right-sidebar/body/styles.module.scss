@@ -7,14 +7,24 @@
   border-left: 1px solid var(--bg-outside);
   position: relative;
 
+
   .header {
     @include box-size(100%, 59px);
+  }
+
+  @media (max-width: 800px) {
+    min-width: calc(100% - 300px);
+  }
+
+  @media (max-width: 680px) {
+    min-width: 100%;
   }
 
   .main {
     @include box-size(100%, calc(100% - 59px - 24px));
     @include flex-column(flex-start);
     padding: 12px 0;
+    overflow-x: hidden;
     overflow-y: auto;
 
     .dossier {

@@ -31,6 +31,7 @@ export type PasswordInputProps = {} & Shared;
 export type TextareaInputProps = {} & TextareaHTMLAttributes<HTMLTextAreaElement> & BaseTypes.Statuses;
 
 export type SearchInputProps = {
+    mini?: boolean;
     debounceDelay?: number;
     debounceCallback?: (arg: InputValue) => void;
 } & Shared;

@@ -11,6 +11,7 @@ function EmojiBase(props: BaseEmojiProps) {
     const [activeTheme] = useTheme();
     return (
         <Dropdown
+            left={40}
             openCloseTrigger={openCloseTrigger}
             position={position}
             content={<EmojiPicker theme={activeTheme === 'light' ? Theme.LIGHT : Theme.DARK} onEmojiClick={(data) => clickOnEmoji(data.emoji)} />}

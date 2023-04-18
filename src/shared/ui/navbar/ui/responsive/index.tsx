@@ -34,7 +34,7 @@ function ResponsiveNavbar(props: ResponsiveNavbarProps) {
                         </div>
                     }
                 >
-                    <Button.Circle active style={{ width: btnRadius, height: btnRadius }}>
+                    <Button.Circle radius={btnRadius} active>
                         {baseIcon}
                     </Button.Circle>
                 </Dropdown>

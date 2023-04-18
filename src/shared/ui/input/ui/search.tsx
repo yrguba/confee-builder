@@ -5,10 +5,11 @@ import { useDebounce } from 'shared/hooks';
 import Icons from './icons';
 import styles from './wrapper/styles.module.scss';
 import Wrapper from './wrapper/wrapper';
+import Button from '../../button';
 import { SearchInputProps, InputValue } from '../types';
 
 const Input = forwardRef<HTMLInputElement, SearchInputProps>((props, ref) => {
-    const { debounceDelay, debounceCallback, active, title, errorTitle, loading, error, size, disabled, ...other } = props;
+    const { debounceDelay, debounceCallback, active, title, errorTitle, loading, error, size, mini, disabled, ...other } = props;
 
     useDebounce(
         () => {
@@ -18,7 +19,11 @@ const Input = forwardRef<HTMLInputElement, SearchInputProps>((props, ref) => {
         [other.value]
     );
 
-    return (
+    return mini ? (
+        <Button.Circle active>
+            <Icons variants="search" color="#fff" />
+        </Button.Circle>
+    ) : (
         <Wrapper title={title} errorTitle={errorTitle}>
             <input ref={ref} className={styles.input} {...other} />
             <Icons variants="search" />
