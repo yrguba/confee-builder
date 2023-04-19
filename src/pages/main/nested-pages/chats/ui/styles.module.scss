@@ -58,12 +58,17 @@
     @include box-size(auto, 100%);
     @include flex;
     overflow: hidden;
-    @media (min-width: 800px) {
-      max-width: 300px;
+
+    @include responsive-from('xl'){
+      max-width: 600px;
     }
 
-    @media (max-width: 680px) {
-      min-width: 100%;
+    @include responsive-from-to('md', 'xl'){
+      min-width: calc(100vw - 300px) !important;
+    }
+
+    @include responsive-to('sm'){
+      min-width: 100% !important;
     }
   }
 }

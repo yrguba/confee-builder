@@ -43,11 +43,11 @@ function PrivateChatInfoFromChatsPage() {
                 <div className={styles.nav} ref={mergeRefs([navRefBase, navRef, navRef2])}>
                     <ChatContentNav />
                 </div>
-                {!inView && width < 680 && (
-                    <div className={styles.navSticky} ref={mergeRefs([navRef])}>
-                        <ChatContentNav />
-                    </div>
-                )}
+                {/* {!inView && width < 680 && ( */}
+                {/*    <div className={styles.navSticky} ref={mergeRefs([navRef])}> */}
+                {/*        <ChatContentNav /> */}
+                {/*    </div> */}
+                {/* )} */}
                 <Box.Animated key={pathname} visible className={styles.outlet}>
                     <Outlet />
                 </Box.Animated>

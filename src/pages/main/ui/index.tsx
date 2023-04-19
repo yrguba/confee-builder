@@ -5,7 +5,7 @@ import { Box } from 'shared/ui';
 import { HeaderMainPage } from 'widgets/main-page';
 
 import styles from './styles.module.scss';
-import { appObserver } from '../../../entities/app';
+import { appObserver, AppGateway } from '../../../entities/app';
 import Wrapper from '../../wrapper';
 
 function MainPage() {

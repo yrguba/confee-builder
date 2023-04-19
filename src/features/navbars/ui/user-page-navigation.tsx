@@ -1,7 +1,7 @@
 import React, { useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useRowAndDropdown, useMedea } from 'shared/hooks';
+import { useRowAndDropdown, useMedia } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
 import { UtilsTS } from 'shared/types';
 import { Button, Navbar, NavbarTypes } from 'shared/ui';
@@ -11,7 +11,7 @@ type Item = NavbarTypes.ResponsiveItem<any, any>;
 function UserPageNavigation() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const { breakpoint } = useMedea();
+    const { breakpoint } = useMedia();
     const sm = breakpoint === 'sm';
 
     const items: Item[] = [

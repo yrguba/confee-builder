@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 function CheckUpdateFromSettingsPage() {
     return (
         <div className={styles.wrapper}>
-            <div className={styles.checkUpdate}>
+            <div className={styles.body}>
                 <CheckUpdate />
             </div>
         </div>

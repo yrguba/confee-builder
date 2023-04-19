@@ -3,7 +3,7 @@ import OneSignal from 'react-onesignal';
 
 import { axiosClient } from 'shared/configs';
 import { handlers } from 'shared/lib';
-import { TokenService } from 'shared/services';
+import { TokenService, UniversalStorage } from 'shared/services';
 
 import { Viewer } from './types';
 
@@ -13,6 +13,7 @@ class ViewerApi {
         return useQuery(['get-viewer'], () => axiosClient.get('/api/v2/profile'), {
             staleTime: Infinity,
             select: (data) => {
+                UniversalStorage.localStorageSet('viewer', data.data.data);
                 return handlers.response<{ data: Viewer }>(data);
             },
         });

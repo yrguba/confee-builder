@@ -16,7 +16,7 @@ function getMessageMenuItems(message: MessageProxy): MessageMenuItem[] {
 
     const copyText = () => {
         copyToClipboard(message.text);
-        setNotifications({ text: 'Тексе скопирован в буфер' });
+        setNotifications({ text: 'Тексе скопирован в буфер', description: '', scope: 'app', system: true });
     };
 
     const items: MessageMenuItem[] = [

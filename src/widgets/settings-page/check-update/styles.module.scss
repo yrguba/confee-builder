@@ -6,8 +6,8 @@
   background-color: var(--bg-0);
   border-radius: 20px;
 
-  .dossier{
-    @include box-size(96%, 100%);
+  .body{
+    @include box-size(96%, 76%);
     @include flex;
   }
 }

@@ -2,16 +2,12 @@
 
 .wrapper {
   @include box-size(100%, 100%);
-  @include flex-column;
+  @include flex;
   background-color: var(--bg-0);
   border-radius: 20px;
-  gap: 20px;
 
- .title{
-  color: var(--text-0);
- }
-
-  .switchThemes{
-
+  .body{
+    @include box-size(96%, 76%);
+    @include flex;
   }
 }
