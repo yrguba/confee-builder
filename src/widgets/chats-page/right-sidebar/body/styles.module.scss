@@ -57,6 +57,18 @@
       //}
 
     }
+
+    @include responsive-from('xl'){
+      max-width: 600px;
+    }
+
+    @include responsive-from-to('sm', 'xl'){
+      min-width: calc(100vw - 300px) ;
+    }
+
+    @include responsive-to('sm'){
+      min-width: 100vw ;
+    }
   }
 }
 

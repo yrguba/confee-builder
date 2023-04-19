@@ -46,7 +46,7 @@ function ChatsPage() {
     };
 
     const isVisibleRightSidebar = () => {
-        if (breakpoint !== 'sm') return true;
+        if (breakpoint !== 'sm' && isOpenChatInfo) return true;
         if (isOpenChatInfo) return true;
         return false;
     };

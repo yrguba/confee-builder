@@ -64,11 +64,11 @@
     }
 
     @include responsive-from-to('md', 'xl'){
-      min-width: calc(100vw - 300px) !important;
+      min-width: calc(100vw - 300px) ;
     }
 
     @include responsive-to('sm'){
-      min-width: 100% !important;
+      min-width: 100vw ;
     }
   }
 }
