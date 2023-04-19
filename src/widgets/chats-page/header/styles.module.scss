@@ -7,8 +7,9 @@
   background-color: var(--bg-0);
 
   .body {
-    @include box-size(100%, 100%);
+    @include box-size(calc(100% - 12px), 100%);
     @include flex(space-between);
+    padding-left: 12px ;
 
     .back {
       @include flex;

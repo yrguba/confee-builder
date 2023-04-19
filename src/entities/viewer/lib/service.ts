@@ -1,12 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query';
 
+import { UniversalStorage } from 'shared/services';
+
 import { Viewer } from '../model/types';
 
 class ViewerService {
-    getId() {
-        const queryClient = useQueryClient();
-        const data: { data: { data: Viewer } } | undefined = queryClient.getQueryData(['get-viewer']);
-        return data ? Number(data.data.data.id) : null;
+    getViewer(): Viewer | null {
+        const viewer = UniversalStorage.localStorageGet('viewer');
+        return viewer || null;
     }
 }
 

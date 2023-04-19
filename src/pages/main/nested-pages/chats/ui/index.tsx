@@ -5,7 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { chatGateway, chatObserver, ChatService } from 'entities/chat';
 import { useMessageStore, messageGateway, messageObserver } from 'entities/message';
-import { useSize } from 'shared/hooks';
+import { useMedia } from 'shared/hooks';
 import { Box } from 'shared/ui';
 import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
@@ -20,11 +20,12 @@ function ChatsPage() {
 
     const { pathname } = useLocation();
     const params = useParams();
-    const { width } = useSize();
+    const { breakpoint } = useMedia();
 
     const isOpenEmojiPicker = useMessageStore.use.isOpenEmojiPicker();
     const isOpenInputMenu = useMessageStore.use.isOpenInputMenu();
     const isOpenChatInfo = ChatService.checkIsOpenChatInfo();
+    const openChatId = ChatService.getOpenChatId();
 
     const animation = {
         initial: { opacity: 0 },
@@ -33,19 +34,19 @@ function ChatsPage() {
     };
 
     const isVisibleLeftSidebar = () => {
-        if (width > 680) return true;
+        if (breakpoint !== 'sm') return true;
         return !params?.chat_id;
     };
 
     const isVisibleChatList = () => {
-        if (width < 800 && isOpenChatInfo) return false;
-        if (width > 680) return true;
+        if (breakpoint !== 'xxl' && isOpenChatInfo) return false;
+        if (breakpoint !== 'sm') return true;
         if (params?.chat_id && !isOpenChatInfo) return true;
         return false;
     };
 
     const isVisibleRightSidebar = () => {
-        if (width > 680) return true;
+        if (breakpoint !== 'sm') return true;
         if (isOpenChatInfo) return true;
         return false;
     };
@@ -60,9 +61,11 @@ function ChatsPage() {
                 )}
                 {isVisibleChatList() && (
                     <motion.div key={2} className={styles.mainColumn} {...animation}>
-                        <div className={styles.header}>
-                            <HeaderForChatsPage />
-                        </div>
+                        {!!openChatId && (
+                            <div className={styles.header}>
+                                <HeaderForChatsPage />
+                            </div>
+                        )}
                         <div className={styles.outlet}>
                             <div className={styles.messageList}>
                                 <MessagesListForChatsPage />

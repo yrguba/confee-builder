@@ -18,28 +18,15 @@
     padding: 22px 0;
     overflow-y: scroll;
 
-    .main {
-      min-height: 254px;
-      max-width: 940px;
-      @include box-size(100%, 254px)
-    }
-
-    .privacy {
+    .row{
       min-height: 154px;
       max-width: 940px;
-      @include box-size(100%, 154px)
-    }
+      @include box-size(100%, 154px);
 
-    .checkUpdate {
-      min-height: 154px;
-      max-width: 940px;
-      @include box-size(100%, 154px)
-    }
-
-    .application {
-      min-height: 154px;
-      max-width: 940px;
-      @include box-size(100%, 154px)
+      &:nth-child(1){
+        min-height: 254px;
+        @include box-size(100%, 254px)
+      }
     }
   }
 }

@@ -3,6 +3,7 @@ import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
 import React, { useEffect, useState } from 'react';
 
 import { CheckUpdateView, AppService } from 'entities/app';
+import { project } from 'shared/constanst';
 
 // tauri only
 function CheckUpdate() {
@@ -31,7 +32,17 @@ function CheckUpdate() {
         check().then();
     }, []);
 
-    return <CheckUpdateView updateApp={updateApp} updateAvailable={updateAvailable} />;
+    const items = [
+        { id: 0, title: 'Текущая версия:', value: project.version, onClick: () => '' },
+        {
+            id: 1,
+            title: updateAvailable ? 'Доступно обновление:' : 'Нет доступных обновлений',
+            value: updateAvailable ? 'Обновить' : '',
+            onClick: () => (updateAvailable ? updateApp() : {}),
+        },
+    ];
+
+    return <CheckUpdateView items={items} />;
 }
 
 export default CheckUpdate;

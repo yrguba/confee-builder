@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { AppService } from 'entities/app';
 import { HeaderFromSettingsPage, MainFromSettingsPage, PrivacyFromSettingsPage, CheckUpdate, ApplicationFromSettingsPage } from 'widgets/settings-page';
@@ -7,6 +7,13 @@ import styles from './styles.module.scss';
 import Wrapper from '../../wrapper';
 
 function SettingsPage() {
+    const items = [
+        { id: 0, element: <MainFromSettingsPage /> },
+        { id: 1, element: <PrivacyFromSettingsPage /> },
+        { id: 2, element: <ApplicationFromSettingsPage /> },
+        { id: 3, element: AppService.tauriIsRunning ? <CheckUpdate /> : null },
+    ];
+
     return (
         <Wrapper>
             <div className={styles.wrapper}>
@@ -14,20 +21,11 @@ function SettingsPage() {
                     <HeaderFromSettingsPage />
                 </div>
                 <div className={styles.mainRow}>
-                    <div className={styles.main}>
-                        <MainFromSettingsPage />
-                    </div>
-                    <div className={styles.privacy}>
-                        <PrivacyFromSettingsPage />
-                    </div>
-                    {AppService.tauriIsRunning && (
-                        <div className={styles.checkUpdate}>
-                            <CheckUpdate />
+                    {items.map((i) => (
+                        <div key={i.id} className={styles.row} style={{ display: !AppService.tauriIsRunning && i.id === 3 ? 'none' : 'flex' }}>
+                            {i.element}
                         </div>
-                    )}
-                    <div className={styles.application}>
-                        <ApplicationFromSettingsPage />
-                    </div>
+                    ))}
                 </div>
             </div>
         </Wrapper>

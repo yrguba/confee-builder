@@ -3,14 +3,14 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { Outlet } from 'react-router-dom';
 
-import { useMedea, useToggle } from 'shared/hooks';
+import { useMedia, useToggle } from 'shared/hooks';
 import { Box, animationVariants, Button, Icons } from 'shared/ui';
 import { SidebarFromDepartmentPage } from 'widgets/department-page';
 
 import styles from './styles.module.scss';
 
 function DepartmentPage() {
-    const { breakpoint } = useMedea();
+    const { breakpoint } = useMedia();
 
     const params = useParams();
     const [visibleSidebar, toggle] = useToggle(true);

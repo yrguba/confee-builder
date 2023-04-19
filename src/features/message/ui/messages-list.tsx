@@ -14,7 +14,7 @@ function MessageList(props: Props) {
     const params = useParams();
 
     const chatId = Number(params.chat_id);
-    const viewerId = ViewerService.getId();
+    const viewer = ViewerService.getViewer();
 
     const modalConfirmDelete = useModal();
     const modalChatsList = useModal();
@@ -105,7 +105,7 @@ function MessageList(props: Props) {
             <MessagesListView
                 chat={chat}
                 messages={messageData?.pages.map((message: MessageTypes.Message, index: number) =>
-                    messageProxy(messageData?.pages[index - 1], message, viewerId)
+                    messageProxy(messageData?.pages[index - 1], message, viewer?.id || 0.6)
                 )}
                 getNextPage={getNextPage}
                 getPrevPage={getPrevPage}

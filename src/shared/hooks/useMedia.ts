@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 
 import useSize from './useSize';
 
-type Breakpoints = 'sm' | 'md' | 'lg' | 'xl';
+type Breakpoints = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 function useMedia(): { breakpoint: Breakpoints } {
     const breakpoints: Record<Breakpoints, number> = {
         sm: 680,
         md: 800,
         lg: 1024,
-        xl: 1440,
+        xl: 1400,
+        xxl: 1401,
     };
 
     const [breakpoint, setBreakpoints] = useState<Breakpoints>('xl');
