@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useMedea } from 'shared/hooks';
+import { useMedia } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Input, Pagination, PaginationTypes, Dropdown, Icons } from 'shared/ui';
 
@@ -22,7 +22,7 @@ type Props = {
 function UsersListView(props: Props) {
     const { users, headerTitle, pageClick, setSelectedUser, selectedUsersId, userCardClick } = props;
 
-    const { breakpoint } = useMedea();
+    const { breakpoint } = useMedia();
 
     return (
         <div className={styles.wrapper}>

@@ -1,4 +1,3 @@
-export type Notification = {
-    id: number;
-    text: string;
-};
+import { NotificationTypes } from 'shared/ui';
+
+export type Notification = NotificationTypes.Notification;

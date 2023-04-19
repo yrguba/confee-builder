@@ -5,8 +5,8 @@ import { Message } from '../model/types';
 
 class MessageService {
     getNameMessageAuthor(message: Message) {
-        const viewerId = ViewerService.getId();
-        return message?.user?.id === viewerId ? 'Вы' : message.user.name;
+        const viewer = ViewerService.getViewer();
+        return message?.user?.id === viewer?.id ? 'Вы' : message.user.name;
     }
 }
 

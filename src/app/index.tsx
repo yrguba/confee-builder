@@ -5,15 +5,16 @@ import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import 'moment/locale/ru';
+import { AppGateway } from 'entities/app';
+import { Notification } from 'features/app';
 import Routing from 'pages';
-
 import './index.scss';
-import { Notification } from '../features/app';
 
 const queryClient = new QueryClient();
 moment.locale('ru');
 
 function App() {
+    AppGateway();
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>

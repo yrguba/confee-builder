@@ -11,7 +11,7 @@ function ChatCard() {
     const navigate = useNavigate();
     const params = useParams();
 
-    const viewerId = ViewerService.getId();
+    const viewer = ViewerService.getViewer();
 
     const socketAction = useChatStore.use.socketAction();
 
@@ -23,7 +23,7 @@ function ChatCard() {
             if (chat.is_group) {
                 navigate(`group_chat/${chat.id}/users`);
             } else {
-                const userId = chat.users.find((userId) => userId !== viewerId);
+                const userId = chat.users.find((userId) => userId !== viewer?.id);
                 navigate(`private_chat/${userId}/images`);
             }
         }

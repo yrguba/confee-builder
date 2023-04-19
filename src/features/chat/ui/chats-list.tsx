@@ -10,7 +10,7 @@ function ChatsList() {
     const navigate = useNavigate();
     const params = useParams();
 
-    const viewerId = ViewerService.getId();
+    const viewer = ViewerService.getViewer();
 
     const socketAction = useChatStore.use.socketAction();
 
@@ -23,7 +23,7 @@ function ChatsList() {
                 if (is_group) {
                     return navigate(`/main/chats/chat/${id}/group_chat/${id}/users`);
                 }
-                const userId = chat.users.find((userId) => userId !== viewerId);
+                const userId = chat.users.find((userId) => userId !== viewer?.id);
                 return navigate(`/main/chats/chat/${id}/private_chat/${userId}/images`);
             }
             navigate(`/main/chats/chat/${id}`);

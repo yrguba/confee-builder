@@ -15,7 +15,7 @@ function Select(props: SelectProps) {
     const content = (
         <div className={styles.dropdown}>
             {items.map((item) => (
-                <div onClick={() => onChange(item)} key={item.id} className={`${styles.item} ${item.title === defaultValue ? styles.item_active : ''}`}>
+                <div onClick={() => onChange(item.title)} key={item.id} className={`${styles.item} ${item.title === defaultValue ? styles.item_active : ''}`}>
                     {item.title}
                 </div>
             ))}

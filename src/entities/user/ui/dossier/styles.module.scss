@@ -56,6 +56,8 @@
     color: var(--text-0);
     font-weight: 600;
     font-size: 14px;
+    min-height: 16px;
+    line-height: 16px;
     @include text-ellipsis(90%)
   }
 

@@ -42,9 +42,24 @@ function getInputMenuItems(): InputMenuItem[] {
 
     return [
         { id: 0, title: 'Загрузить фото', icon: 'image', onClick: image.open },
-        { id: 1, title: 'Загрузить аудио', icon: 'audio', onClick: () => setNotifications({ text: 'Загрузка аудио пока недоступна' }) },
-        { id: 2, title: 'Загрузить видео', icon: 'video', onClick: () => setNotifications({ text: 'Загрузка видео пока недоступна' }) },
-        { id: 3, title: 'Загрузить документы', icon: 'document', onClick: () => setNotifications({ text: 'Загрузка документов пока недоступна' }) },
+        {
+            id: 1,
+            title: 'Загрузить аудио',
+            icon: 'audio',
+            onClick: () => setNotifications({ text: 'Загрузка аудио пока недоступна', description: 'Ошибка', scope: 'app', system: true }),
+        },
+        {
+            id: 2,
+            title: 'Загрузить видео',
+            icon: 'video',
+            onClick: () => setNotifications({ text: 'Загрузка видео пока недоступна', description: 'Ошибка', scope: 'app', system: true }),
+        },
+        {
+            id: 3,
+            title: 'Загрузить документы',
+            icon: 'document',
+            onClick: () => setNotifications({ text: 'Загрузка документов пока недоступна', description: 'Ошибка', scope: 'app', system: true }),
+        },
     ];
 }
 

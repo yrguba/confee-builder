@@ -6,19 +6,27 @@ import { Button } from 'shared/ui';
 import styles from './styles.module.scss';
 
 type Props = {
-    updateApp: () => void;
-    updateAvailable: boolean;
+    items: { id: number; title: string; value: string; onClick: () => void }[];
 };
 
 function CheckUpdateView(props: Props) {
-    const { updateApp, updateAvailable } = props;
+    const { items } = props;
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.title}>проверить доступные обновления</div>
-            <div className={styles.currentVersion}>У вас установлена версия: {project.version}</div>
-            {updateAvailable && <div>Доступна новая версия</div>}
-            {updateAvailable ? <Button onClick={() => updateApp()}>обновить</Button> : <div className={styles.status}>Нет тоступных обновлений</div>}
+            <div className={styles.title}>Версии</div>
+            <div className={styles.body}>
+                {items.map((i) => (
+                    <div key={i.id} className={styles.item}>
+                        <div className={styles.item_title}>{i.title}</div>
+                        <div className={styles.item_value}>
+                            <Button.Link onClick={i.onClick} active>
+                                {i.value}
+                            </Button.Link>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
