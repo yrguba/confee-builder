@@ -96,9 +96,9 @@ function MessagesListView(props: Props) {
                     {message.isFirstUnread && <SystemMessageView text="непрочитанные" />}
                     {message.firstOfDay && <SystemMessageView text={message.firstOfDay} />}
                     {message.message_type === 'system' && <SystemMessageView text={message.text} />}
-                    <div className={styles.messageWrapper} ref={getMessageRef(message, index)}>
+                    <div className={`${styles.messageWrapper} ${message.isMy && styles.messageWrapper_my}`} ref={getMessageRef(message, index)}>
                         {message.message_type !== 'system' && (
-                            <div className={styles.messageContent}>
+                            <div className={`${styles.messageContent} ${message.isMy && styles.messageContent_my}`}>
                                 <Dropdown
                                     top={messages?.length - index < 3 ? '100%' : 0}
                                     trigger="right-click"

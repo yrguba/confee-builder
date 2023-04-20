@@ -14,17 +14,19 @@
     align-items: flex-start;
     gap: 7px;
 
-    .isMy{
-      background-color: var(--bg-01) !important;
-    }
-
-    .content{
+    .body{
       @include flex-column;
       align-items: flex-start;
       gap: 6px;
       padding: 8px 12px;
       background-color: var(--bg-0);
       border-radius: 10px 10px 10px 0;
+
+      &_my{
+        border-radius: 10px 10px 0 10px;
+        background-color: var(--bg-01) !important;
+      }
+
       .name{
         font-weight: 400;
         font-size: 14px;

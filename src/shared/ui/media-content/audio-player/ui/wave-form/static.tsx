@@ -65,6 +65,7 @@ function waveformStatic({ url }: { url: string }) {
                 setTime((prev) => ({ ...prev, currentSec: '' }));
                 waveSurferRef.current.stop();
             });
+            waveSurfer.on('interaction', (data) => {});
         });
 
         return () => {

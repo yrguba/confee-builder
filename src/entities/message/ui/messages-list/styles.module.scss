@@ -10,12 +10,22 @@
   position: relative;
 
   .messageWrapper{
-    @include box-size(100%, auto);
-    @include flex;
+    @include box-size(calc(100% - 12px), auto);
+    @include flex(flex-start);
+    padding: 0 0 0 12px;
+
+    &_my{
+      justify-content: flex-end;
+      padding: 0 12px 0 0;
+    }
 
     .messageContent{
       @include flex(flex-start, flex-start);
-      @include box-size(97%, 100%);
+      @include box-size(100%, 100%);
+      max-width: 70%;
+      &_my{
+        justify-content: flex-end;
+      }
     }
   }
 
@@ -24,8 +34,4 @@
     right: 30px;
     bottom: 90px;
   }
-}
-
-.c{
-  background-color: #fafafa;
 }
