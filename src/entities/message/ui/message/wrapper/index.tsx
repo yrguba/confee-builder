@@ -23,11 +23,13 @@ function Wrapper(props: Props) {
 
     return (
         <Box.Animated visible className={styles.wrapper}>
-            <div className={styles.avatar}>
-                <Avatar size={32} img={user?.avatar} name={user?.name} />
-            </div>
+            {!message.isMy && (
+                <div className={styles.avatar}>
+                    <Avatar size={32} img={user?.avatar} name={user?.name} />
+                </div>
+            )}
             <div className={styles.mainColumn}>
-                <div className={`${styles.content} ${message?.isMy && styles.isMy}`}>
+                <div className={`${styles.body} ${message?.isMy && styles.body_my}`}>
                     {!message?.isMy && <div className={styles.name}>{user?.name}</div>}
                     <div className={styles.messageContent}>{children}</div>
                     <div className={styles.footer}>

@@ -84,6 +84,31 @@
   .btnColumn {
     @include box-size(90px, 100%);
     @include flex(center, flex-end);
+
+    .sendBtn{
+
+      .dropdownRecord{
+        @include flex;
+        gap: 20px;
+        padding: 4px 8px;
+
+        .timer{
+          @include flex;
+          @include box-size(60px, 100%);
+          gap: 6px;
+          color: var(--text-0);
+          div{
+            &:nth-child(1){
+              @include flex(flex-end);
+            }
+            &:nth-child(2){
+              @include flex(flex-start);
+            }
+            width: 50%;
+          }
+        }
+      }
+    }
   }
 
 }

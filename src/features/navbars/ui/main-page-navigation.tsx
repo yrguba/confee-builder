@@ -27,7 +27,7 @@ function MainPageNavigation() {
             disabled={isPending}
             loading={isPending && pathname.includes(item.path)}
             key={item.id}
-            onClick={() => startTransition(() => navigate(item.path))}
+            onClick={() => startTransition(() => navigate(pathname.split('/').pop() === 'settings' ? `/main/${item.path}` : item.path))}
             prefixIcon={<Icons variants={item.icon} />}
             fontSize={16}
             fontWeight={600}

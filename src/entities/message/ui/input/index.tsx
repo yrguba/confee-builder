@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { useToggle } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Input, Emoji, Box, Dropdown } from 'shared/ui';
 
 import Icons from './icons';
 import InputMenuView from './menu';
 import styles from './styles.module.scss';
+import logo from '../../../../shared/ui/icons/ui/logo';
 import { MessageProxy } from '../../model/types';
 
 type Props = {
+    audioRecorder?: { startRecording: () => any; cancelRecording: () => any; saveRecording: () => any; recorderState: any };
     messageToEdit: MessageProxy | null;
     messageToReply: MessageProxy | null;
     removeMessageToEdit: () => void;
@@ -24,6 +27,7 @@ type Props = {
 
 function MessageInputView(props: Props) {
     const {
+        audioRecorder,
         messageToEdit,
         messageToReply,
         removeMessageToEdit,
@@ -40,9 +44,19 @@ function MessageInputView(props: Props) {
 
     const isVisibleHeader = !!messageToEdit || !!messageToReply;
 
+    const recordingRunning = audioRecorder?.recorderState.initRecording;
+    const min = audioRecorder?.recorderState.recordingMinutes;
+    const sec = audioRecorder?.recorderState.recordingSeconds;
+
     const exit = () => {
         removeMessageToEdit();
         removeMessageToReply();
+    };
+
+    const clickBtn = () => {
+        if (value) return btnClick();
+        if (recordingRunning) return audioRecorder?.saveRecording();
+        audioRecorder?.startRecording();
     };
 
     return (
@@ -87,9 +101,26 @@ function MessageInputView(props: Props) {
             </div>
             <div className={styles.btnColumn}>
                 <div className={styles.sendBtn}>
-                    <Button.Circle disabled={!value || loading} active onClick={btnClick}>
-                        <Icons variants="arrow" />
-                    </Button.Circle>
+                    <Dropdown
+                        trigger={null}
+                        top={-6}
+                        visible={recordingRunning}
+                        position="top-center"
+                        content={
+                            <div className={styles.dropdownRecord}>
+                                <div className={styles.timer}>
+                                    <div>{min < 10 ? `0${min}` : min}</div>:<div>{sec < 10 ? `0${sec}` : sec}</div>
+                                </div>
+                                <Button.Circle onClick={audioRecorder?.cancelRecording} radius={20}>
+                                    <Icons variants="exit" />
+                                </Button.Circle>
+                            </div>
+                        }
+                    >
+                        <Button.Circle active onClick={clickBtn}>
+                            <Icons variants={value || recordingRunning ? 'arrow' : 'micro'} />
+                        </Button.Circle>
+                    </Dropdown>
                 </div>
             </div>
         </div>

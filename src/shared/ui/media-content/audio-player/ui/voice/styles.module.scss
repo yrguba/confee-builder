@@ -1,0 +1,50 @@
+@import "../../../../../../app/styles/index";
+
+.wrapper {
+  @include box-size(100%, 100%);
+  @include flex;
+  gap: 6px;
+  position: relative;
+  .controls{
+
+  }
+
+  .time{
+    @include flex(flex-start);
+    gap: 6px;
+    position: absolute;
+    bottom: -10px;
+    left: 34px;
+    color: var(--text-1);
+    font-size: 12px;
+
+    .currentTime{
+      width: 30px;
+      div{
+        &:nth-child(1){
+          @include flex(flex-end);
+        }
+        &:nth-child(2){
+          @include flex(flex-start);
+        }
+        width: 50%;
+      }
+    }
+
+  }
+
+  .size{
+    position: absolute;
+    bottom: -10px;
+    right: 0;
+    color: var(--text-1);
+    font-size: 12px;
+  }
+
+  .waveform{
+    @include box-size(100%, 100%);
+    @include flex(flex-start);
+    overflow: hidden;
+  }
+}
+
