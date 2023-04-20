@@ -18,14 +18,12 @@ function MessageList(props: Props) {
 
     const modalConfirmDelete = useModal();
     const modalChatsList = useModal();
-    const modalMediaContent = useModal();
 
     const socketAction = useMessageStore.use.socketAction();
 
-    const mediaContentToSend = useMessageStore.use.mediaContentToSend();
     const messagesToDelete = useMessageStore.use.messagesToDelete();
     const messagesToForward = useMessageStore.use.messagesToForward();
-    const setMediaContentToSend = useMessageStore.use.setMediaContentToSend();
+
     const setMessagesToDelete = useMessageStore.use.setMessagesToDelete();
     const setMessagesToForward = useMessageStore.use.setMessagesToForward();
 
@@ -36,7 +34,6 @@ function MessageList(props: Props) {
     const { data: chatsData } = ChatApi.handleGetChats();
     const chat = chatsData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
-    const { mutate: handleSendFileMessage } = MessageApi.handleSendFileMessage();
     const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
     const { mutate: handleReadMessage } = MessageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = MessageApi.handleDeleteMessage();
@@ -86,19 +83,10 @@ function MessageList(props: Props) {
         onCloseModalChatsList();
     };
 
-    const onOkModalMediaContent = () => {
-        handleSendFileMessage({
-            files: mediaContentToSend?.formData,
-            chatId,
-        });
-        setMediaContentToSend(null);
-    };
-
     useEffect(() => {
         if (messagesToDelete.length) modalConfirmDelete.open();
         if (messagesToForward.length) modalChatsList.open();
-        if (mediaContentToSend) modalMediaContent.open();
-    }, [messagesToDelete.length, messagesToForward.length, mediaContentToSend]);
+    }, [messagesToDelete.length, messagesToForward.length]);
 
     return (
         <>
@@ -117,9 +105,6 @@ function MessageList(props: Props) {
             </Modal>
             <Modal {...modalChatsList} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}>
                 <ChatsListModal chats={chatsData?.data} selectedChats={selectedChats} setSelectedChats={setSelectedChats} />
-            </Modal>
-            <Modal {...modalMediaContent} onOk={onOkModalMediaContent} onClose={() => setMediaContentToSend(null)}>
-                <MediaContentModal type={mediaContentToSend?.type} list={mediaContentToSend?.list} />
             </Modal>
         </>
     );

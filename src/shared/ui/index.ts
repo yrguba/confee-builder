@@ -10,6 +10,7 @@ import Emoji, { EmojiTypes } from './emoji';
 import Icons, { IconsTypes } from './icons';
 import Input, { InputTypes } from './input';
 import LoadingIndicator, { LoadingIndicatorTypes } from './loading-indicator';
+import AudioPlayer from './media-content/audio-player';
 import Image, { ImageTypes } from './media-content/image';
 import ResponsiveMediaContents, { ResponsiveMediaContentsTypes } from './media-content/responsive-list';
 import Modal, { ModalTypes, useModal } from './modal';
@@ -21,6 +22,7 @@ import Switch, { SwitchTypes } from './switch';
 import Title, { TitleTypes } from './title';
 
 export {
+    AudioPlayer,
     Avatar,
     Box,
     Button,

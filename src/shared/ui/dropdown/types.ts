@@ -5,10 +5,11 @@ import { BaseTypes } from 'shared/types';
 import { AnimationVariants } from '../box/types';
 
 export type Position = 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
-export type Trigger = 'left-click' | 'right-click' | 'hover';
+export type Trigger = 'left-click' | 'right-click' | 'hover' | null;
 
 export type DropdownBaseProps = {
     children?: ReactNode;
+    visible?: boolean;
     content?: ReactNode;
     trigger?: Trigger;
     position?: Position;

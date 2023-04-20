@@ -43,7 +43,7 @@ function ChatCard() {
         return chat?.message[0]?.text || 'title';
     };
 
-    return <ChatCardView chat={chat} subtitle={getChatSubtitle(chat)} onClick={clickOnChat} />;
+    return <ChatCardView chat={chat} maxWidth={170} subtitle={getChatSubtitle(chat)} onClick={clickOnChat} />;
 }
 
 export default ChatCard;

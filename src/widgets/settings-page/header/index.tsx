@@ -4,6 +4,7 @@ import { ViewerCard } from 'features/viewer';
 import { Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { HeaderMainPage } from '../../main-page';
 
 function HeaderFromSettingsPage() {
     return (
@@ -18,4 +19,4 @@ function HeaderFromSettingsPage() {
     );
 }
 
-export default HeaderFromSettingsPage;
+export default HeaderMainPage;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useToggle, useClickAway, useStyles } from 'shared/hooks';
 import { Box } from 'shared/ui/index';
@@ -7,14 +7,24 @@ import styles from './styles.module.scss';
 import { DropdownBaseProps } from '../types';
 
 function Dropdown(props: DropdownBaseProps) {
-    const { children, openCloseTrigger, content, trigger = 'left-click', position = 'left-bottom', animationVariant = 'visibleHidden', top, left } = props;
+    const {
+        children,
+        visible,
+        openCloseTrigger,
+        content,
+        trigger = 'left-click',
+        position = 'left-bottom',
+        animationVariant = 'visibleHidden',
+        top,
+        left,
+    } = props;
 
     const ref = useRef(null);
 
-    const [isOpen, toggle] = useToggle();
+    const [isOpen, setIsOpen] = useState(false);
 
     useClickAway(ref, () => {
-        isOpen && toggle();
+        isOpen && setIsOpen(false);
     });
 
     const classes = useStyles(styles, 'body', {
@@ -22,8 +32,11 @@ function Dropdown(props: DropdownBaseProps) {
     });
 
     const click = (event: any) => {
-        event.preventDefault();
-        toggle();
+        if (trigger !== null) {
+            event.preventDefault();
+            event.stopPropagation();
+            setIsOpen(true);
+        }
     };
 
     useEffect(() => {
@@ -44,7 +57,7 @@ function Dropdown(props: DropdownBaseProps) {
                 animationVariant={animationVariant}
                 style={{ top, left }}
                 className={classes}
-                visible={isOpen}
+                visible={visible || isOpen}
                 presence
                 onClick={(e) => e.stopPropagation()}
             >
