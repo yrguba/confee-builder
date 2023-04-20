@@ -15,6 +15,7 @@ import MessageMenuView from '../message/menu';
 import ReplyMessageView from '../message/reply';
 import SystemMessageView from '../message/system';
 import TextMessageView from '../message/text';
+import VoiceMessageView from '../message/voice';
 
 type Props = {
     chat: ChatTypes.Chat | BaseTypes.Empty;
@@ -118,6 +119,7 @@ function MessagesListView(props: Props) {
                                         <>
                                             {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}
                                             {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />}
+                                            {message.message_type === 'voices' && <VoiceMessageView message={message} reactionClick={reactionClick} />}
                                         </>
                                     )}
                                 </Dropdown>

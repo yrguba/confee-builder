@@ -6,9 +6,7 @@ import { Box } from '../../shared/ui';
 function Wrapper({ children }: { children: ReactNode }) {
     return (
         <div className={styles.globalWrapper}>
-            <Box.Animated visible className={styles.pagesWrapper}>
-                {children}
-            </Box.Animated>
+            <div className={styles.pagesWrapper}>{children}</div>
         </div>
     );
 }

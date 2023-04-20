@@ -3,7 +3,7 @@ import React from 'react';
 import { Icons } from 'shared/ui';
 
 type Props = {
-    variants: 'clip' | 'arrow' | 'exit' | 'answer';
+    variants: 'clip' | 'arrow' | 'exit' | 'answer' | 'micro';
     size?: number;
 };
 
@@ -14,6 +14,15 @@ function BaseIcons(props: Props) {
         case 'exit': {
             return <Icons variants="exit" size={8} />;
         }
+        case 'micro': {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" baseProfile="tiny" version="1.2" viewBox="0 0 24 24" xmlSpace="preserve">
+                    <path d="M12 16c2.206 0 4-1.795 4-4V6c0-2.206-1.794-4-4-4S8 3.794 8 6v6c0 2.205 1.794 4 4 4z" />
+                    <path d="M19 12v-2a1 1 0 10-2 0v2c0 2.757-2.243 5-5 5s-5-2.243-5-5v-2a1 1 0 10-2 0v2c0 3.52 2.613 6.432 6 6.92V20H8a1 1 0 100 2h8a1 1 0 100-2h-3v-1.08c3.387-.488 6-3.4 6-6.92z" />
+                </svg>
+            );
+        }
+
         case 'clip': {
             return (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

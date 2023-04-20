@@ -19,12 +19,13 @@
 
     .card {
       @include flex;
-
+      width: 30%;
     }
 
     .rightColumn {
       @include flex(flex-end);
       gap: 8px;
+      width: 70%;
     }
   }
 }

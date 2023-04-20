@@ -18,5 +18,7 @@ declare module '*.scss' {
 declare global {
     interface Window {
         __TAURI__: any;
+        Recorder: any;
+        webkitAudioContext: any;
     }
 }

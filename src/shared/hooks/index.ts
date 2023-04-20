@@ -2,8 +2,10 @@ import { useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useDebounce, useClickAway, useScrolling, usePrevious, useWindowSize, useScroll, useLocation, useEffectOnce, useCopyToClipboard } from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
+import { useTimer } from 'use-timer';
 
 import useArray from './useArray';
+import useAudioRecorder from './useAudioRecord';
 import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
 import useDate from './useDate';
@@ -20,6 +22,7 @@ import useTheme from './useTheme';
 import useToggle from './useToggle';
 
 export {
+    useTimer,
     useTheme,
     useInput,
     useCreateSelectors,
@@ -47,4 +50,5 @@ export {
     useEffectOnce,
     useCopyToClipboard,
     useFileUploader,
+    useAudioRecorder,
 };

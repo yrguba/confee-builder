@@ -14,10 +14,11 @@ type Props = {
     subtitle?: string;
     showDate?: boolean;
     showChecked?: boolean;
+    maxWidth?: number;
 } & BaseTypes.Statuses;
 
 function ChatCardView(props: Props) {
-    const { chat, subtitle, showDate, showChecked, onClick } = props;
+    const { chat, subtitle, showDate, showChecked, onClick, maxWidth = 180 } = props;
     if (!chat) return null;
 
     const { name, pending_messages, updated_at, avatar, message } = chat;
@@ -28,7 +29,7 @@ function ChatCardView(props: Props) {
         <div className={styles.wrapper} onClick={() => onClick(chat)}>
             <div className={styles.leftColumn}>
                 <Avatar img={avatar} name={name} size={42} />
-                <div className={styles.caption}>
+                <div className={styles.caption} style={{ maxWidth }}>
                     <div className={styles.chatName}>{name}</div>
                     <div className={styles.lastMsg}>{subtitle}</div>
                 </div>
