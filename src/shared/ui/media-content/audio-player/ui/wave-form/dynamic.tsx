@@ -22,7 +22,7 @@ function animateBars(analyser: any, canvas: any, canvasCtx: any, dataArray: any,
     }
 }
 
-function WaveForm({ analyzerData }: any) {
+function Dynamic({ analyzerData }: any) {
     if (!analyzerData) return null;
     const width = 500;
     const height = 500;
@@ -65,4 +65,4 @@ function WaveForm({ analyzerData }: any) {
     );
 }
 
-export default WaveForm;
+export default Dynamic;

@@ -1,8 +1,0 @@
-@import "./src/app/styles";
-
-.wrapper {
-  @include box-size(500px, 60px);
-  @include flex;
-
-}
-

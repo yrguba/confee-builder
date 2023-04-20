@@ -2,22 +2,34 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useAudio } from 'react-use';
 
 import styles from './styles.module.scss';
-import waveformStatic from './wafeFormStatic';
-import { AudioPlayerProps } from '../types';
+import Button from '../../../../button';
+import { BaseAudioPlayerProps } from '../../types';
+import Icons from '../icons';
+import waveformStatic from '../wave-form/static';
 
-function AudioPlayer(props: AudioPlayerProps) {
+function BaseAudioPlayer(props: BaseAudioPlayerProps) {
     const { url } = props;
+
+    const [waveform, waveSurferControl, isPlaying] = waveformStatic({ url });
 
     const [audio, state, controls, audioRef]: any = useAudio({
         src: url,
         autoPlay: false,
-        onPlay: () => {
-            // audioAnalyzer();
-        },
+        onPlay: () => {},
     });
     if (audioRef?.current) {
         audioRef.current.crossOrigin = 'anonymous';
     }
+
+    const playPauseClick = () => {
+        if (isPlaying) {
+            // controls.pause();
+            waveSurferControl?.pause();
+        } else {
+            // controls.play();
+            waveSurferControl?.play();
+        }
+    };
     // const [analyzerData, setAnalyzerData] = useState<any>(null);
     //
     // const audioAnalyzer = () => {
@@ -38,13 +50,17 @@ function AudioPlayer(props: AudioPlayerProps) {
     //     setAnalyzerData({ analyzer, bufferLength, dataArray });
     // };
 
-    const [el] = waveformStatic({ url });
     return (
-        <div onClick={controls.play} className={styles.wrapper}>
-            {audio} eff
-            {el}
+        <div className={styles.wrapper}>
+            {audio}
+            <div className={styles.controls}>
+                <Button.Circle onClick={playPauseClick}>
+                    <Icons variants={isPlaying ? 'pause' : 'play'} />
+                </Button.Circle>
+            </div>
+            <div className={styles.waveform}>{waveform}</div>
         </div>
     );
 }
 
-export default AudioPlayer;
+export default BaseAudioPlayer;
