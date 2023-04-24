@@ -6,6 +6,7 @@ import { messageProxy, MessageApi, MessagesListView, useMessageStore, MessageTyp
 import { ChatsListModal, MediaContentModal, SwiperModal } from 'entities/modal';
 import { ViewerService } from 'entities/viewer';
 
+import { http } from '../../../shared/constanst';
 import { Modal, useModal } from '../../../shared/ui';
 
 type Props = {};
@@ -115,7 +116,7 @@ function MessageList(props: Props) {
                 <ChatsListModal chats={chatsData?.data} selectedChats={selectedChats} setSelectedChats={setSelectedChats} />
             </Modal>
             <Modal {...modalSwiper} onOk={() => setContentForModal([])} onClose={() => setContentForModal([])}>
-                <SwiperModal files={contentForModal} />
+                <SwiperModal files={contentForModal.map((i) => ({ ...i, url: `${http.url}${i.url}` }))} />
             </Modal>
         </>
     );

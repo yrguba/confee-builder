@@ -2,6 +2,7 @@ export type UserStatuses = 'in-office' | 'home-work' | 'business-trip' | 'vacati
 
 export type User = {
     id: number;
+    is_online: boolean;
     name: string;
     avatar: string;
     email: string;
@@ -9,6 +10,7 @@ export type User = {
     login: string;
     updated_at: Date;
     created_at: Date;
+    last_active: Date;
     domain: string;
     guid: string;
 };

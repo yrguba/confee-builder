@@ -39,8 +39,8 @@ function SwiperModal(props: Props) {
                 modules={[FreeMode, Navigation, Thumbs]}
                 className={styles.swiperTop}
             >
-                {files.map((file) => (
-                    <SwiperSlide className={styles.swiperSlide} key={file.url}>
+                {files.map((file, index) => (
+                    <SwiperSlide className={styles.swiperSlide} key={index}>
                         <Image img={file.url} />
                     </SwiperSlide>
                 ))}
@@ -55,8 +55,8 @@ function SwiperModal(props: Props) {
                     modules={[FreeMode, Navigation, Thumbs]}
                     className={styles.swiperBottom}
                 >
-                    {files.map((file) => (
-                        <SwiperSlide className={styles.swiperSlide} key={file.url}>
+                    {files.map((file, index) => (
+                        <SwiperSlide className={styles.swiperSlide} key={index}>
                             <Image img={file.url} />
                         </SwiperSlide>
                     ))}
