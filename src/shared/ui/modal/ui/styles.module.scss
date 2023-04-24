@@ -22,14 +22,14 @@
       border-top-right-radius: var(--border-radius);
 
       &__title {
-        padding-left: 20px;
-        color: var(--title-color);
+        padding-left: 12px;
+        color: var(--text-0);
       }
 
       &__closeIcon {
         @include flex;
         padding-right: 8px;
-        fill: var(--title-color);
+        fill: var(--text-0);
         cursor: pointer;
       }
     }
