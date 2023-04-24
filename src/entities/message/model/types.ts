@@ -34,6 +34,7 @@ export type Message = {
 };
 
 export type MessageProxy = {
+    onClick: () => void;
     isMock: boolean;
     isMy: boolean;
     isFirstUnread: boolean;

@@ -4,7 +4,7 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
-import { MessageProxy, MediaContentType } from './types';
+import { MessageProxy, MediaContentType, File } from './types';
 
 type Store = {
     socketAction: string;
@@ -23,6 +23,8 @@ type Store = {
     setMessageToReply: (message: MessageProxy | null) => void;
     setMessagesToForward: (message: MessageProxy[] | []) => void;
     setMessagesToDelete: (message: MessageProxy[] | []) => void;
+    contentForModal: File[];
+    setContentForModal: (content: File[]) => void;
 };
 
 const messageStore = create<Store>()(
@@ -36,6 +38,7 @@ const messageStore = create<Store>()(
             messageToReply: null,
             messagesToForward: [],
             messagesToDelete: [],
+            contentForModal: [],
 
             setSocketAction: (action) =>
                 set((state) => {
@@ -68,6 +71,10 @@ const messageStore = create<Store>()(
             setMessagesToDelete: (messages) =>
                 set((state) => {
                     state.messagesToDelete = messages;
+                }),
+            setContentForModal: (content) =>
+                set((state) => {
+                    state.contentForModal = content;
                 }),
         }))
     )

@@ -8,7 +8,7 @@ import { Counter, Dropdown } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { ChatTypes, ChatService } from '../../../chat';
-import { MessageMenuItem, MessageProxy } from '../../model/types';
+import { File, MessageMenuItem, MessageProxy } from '../../model/types';
 import ForwardedMessagesView from '../message/forwarded';
 import ImageMessageView from '../message/image';
 import MessageMenuView from '../message/menu';
@@ -24,10 +24,11 @@ type Props = {
     getNextPage: () => void;
     readMessage: (messageId: number) => void;
     reactionClick: (messageId: number, reaction: string) => void;
+    setContentForModal: (content: File[]) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, readMessage, getPrevPage, getNextPage, reactionClick } = props;
+    const { chat, messages, readMessage, getPrevPage, getNextPage, reactionClick, setContentForModal } = props;
 
     const params = useParams();
 
@@ -98,7 +99,10 @@ function MessagesListView(props: Props) {
                     {message.message_type === 'system' && <SystemMessageView text={message.text} />}
                     <div className={`${styles.messageWrapper} ${message.isMy && styles.messageWrapper_my}`} ref={getMessageRef(message, index)}>
                         {message.message_type !== 'system' && (
-                            <div className={`${styles.messageContent} ${message.isMy && styles.messageContent_my}`}>
+                            <div
+                                onClick={() => (message.content.length ? setContentForModal(message.content) : () => {})}
+                                className={`${styles.messageContent} ${message.isMy && styles.messageContent_my}`}
+                            >
                                 <Dropdown
                                     top={messages?.length - index < 3 ? '100%' : 0}
                                     trigger="right-click"

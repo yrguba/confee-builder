@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import { ChatApi, ChatService, useChatStore } from 'entities/chat';
 import { messageProxy, MessageApi, MessagesListView, useMessageStore, MessageTypes } from 'entities/message';
-import { ChatsListModal, MediaContentModal } from 'entities/modal';
+import { ChatsListModal, MediaContentModal, SwiperModal } from 'entities/modal';
 import { ViewerService } from 'entities/viewer';
 
 import { Modal, useModal } from '../../../shared/ui';
@@ -18,14 +18,17 @@ function MessageList(props: Props) {
 
     const modalConfirmDelete = useModal();
     const modalChatsList = useModal();
+    const modalSwiper = useModal();
 
     const socketAction = useMessageStore.use.socketAction();
 
     const messagesToDelete = useMessageStore.use.messagesToDelete();
     const messagesToForward = useMessageStore.use.messagesToForward();
+    const contentForModal = useMessageStore.use.contentForModal();
 
     const setMessagesToDelete = useMessageStore.use.setMessagesToDelete();
     const setMessagesToForward = useMessageStore.use.setMessagesToForward();
+    const setContentForModal = useMessageStore.use.setContentForModal();
 
     const selectedChats = useChatStore.use.selectedChats();
     const setSelectedChats = useChatStore.use.setSelectedChats();
@@ -88,6 +91,10 @@ function MessageList(props: Props) {
         if (messagesToForward.length) modalChatsList.open();
     }, [messagesToDelete.length, messagesToForward.length]);
 
+    useEffect(() => {
+        if (contentForModal.length) modalSwiper.open();
+    }, [contentForModal]);
+
     return (
         <>
             <MessagesListView
@@ -99,12 +106,16 @@ function MessageList(props: Props) {
                 getPrevPage={getPrevPage}
                 readMessage={readMessage}
                 reactionClick={reactionClick}
+                setContentForModal={setContentForModal}
             />
             <Modal {...modalConfirmDelete} onOk={deleteMessages} onClose={() => setMessagesToDelete([])}>
                 <div>удалить сообщение ?</div>
             </Modal>
             <Modal {...modalChatsList} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}>
                 <ChatsListModal chats={chatsData?.data} selectedChats={selectedChats} setSelectedChats={setSelectedChats} />
+            </Modal>
+            <Modal {...modalSwiper} onOk={() => setContentForModal([])} onClose={() => setContentForModal([])}>
+                <SwiperModal files={contentForModal} />
             </Modal>
         </>
     );
