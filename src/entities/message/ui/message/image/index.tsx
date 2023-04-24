@@ -18,9 +18,9 @@ function ImageMessageView(props: Props) {
 
     return (
         <Wrapper message={message} reactionClick={reactionClick}>
-            <div className={styles.wrapper}>
+            <div className={styles.wrapper} style={{ gridTemplateColumns: `repeat(${1}, 1fr)` }}>
                 {message.content.map((obj, index) => (
-                    <div key={index} className={`${styles.item} ${index === 0 || index % 3 === 0 ? styles.item_big : ''}`}>
+                    <div key={index} className={`${styles.item} ${message.content.length < 3 && styles.item_big}`}>
                         <Image img={http.url + obj.url} />
                     </div>
                 ))}

@@ -2,6 +2,7 @@
 
 .wrapper{
   @include flex;
+  word-wrap: break-word;
   word-break: break-all;
   color: var(--text-0);
 }
