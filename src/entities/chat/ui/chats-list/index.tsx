@@ -28,7 +28,7 @@ function ChatListView(props: Props) {
             {chats &&
                 data.map((category, index: number) => (
                     <Collapse
-                        isOpen={!!(activeChatId && category.id === 0)}
+                        isOpen={index === 0}
                         key={category.id}
                         titleClassName={styles.categoryTitle}
                         headerClassName={styles.headerCollapse}

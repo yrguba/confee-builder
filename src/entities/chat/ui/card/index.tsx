@@ -2,9 +2,8 @@ import React from 'react';
 
 import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Counter } from 'shared/ui';
+import { Avatar, Counter, Icons } from 'shared/ui';
 
-import Icons from './icons';
 import styles from './styles.module.scss';
 import { ChatProxy } from '../../model/types';
 

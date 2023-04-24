@@ -4,9 +4,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { http } from 'shared/constanst';
 import { BaseTypes } from 'shared/types';
+import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Image } from '../../../../shared/ui';
 import { MessageTypes } from '../../../message';
 
 import 'swiper/css';
@@ -40,7 +40,7 @@ function SwiperModal(props: Props) {
                 className={styles.swiperTop}
             >
                 {files.map((file, index) => (
-                    <SwiperSlide className={styles.swiperSlide} key={index}>
+                    <SwiperSlide className={`${styles.swiperSlide} ${files.length > 1 && styles.swiperSlide_withBottom}`} key={index}>
                         <Image img={file.url} />
                     </SwiperSlide>
                 ))}
@@ -56,7 +56,7 @@ function SwiperModal(props: Props) {
                     className={styles.swiperBottom}
                 >
                     {files.map((file, index) => (
-                        <SwiperSlide className={styles.swiperSlide} key={index}>
+                        <SwiperSlide className={styles.swiperSlide__bottom} key={index}>
                             <Image img={file.url} />
                         </SwiperSlide>
                     ))}
