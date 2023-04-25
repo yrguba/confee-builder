@@ -4,9 +4,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { http } from 'shared/constanst';
 import { BaseTypes } from 'shared/types';
+import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Image } from '../../../../shared/ui';
 import { MessageTypes } from '../../../message';
 
 import 'swiper/css';
@@ -39,27 +39,29 @@ function SwiperModal(props: Props) {
                 modules={[FreeMode, Navigation, Thumbs]}
                 className={styles.swiperTop}
             >
-                {files.map((file) => (
-                    <SwiperSlide className={styles.swiperSlide} key={file.url}>
-                        <Image img={http.url + file.url} />
+                {files.map((file, index) => (
+                    <SwiperSlide className={`${styles.swiperSlide} ${files.length > 1 && styles.swiperSlide_withBottom}`} key={index}>
+                        <Image img={file.url} />
                     </SwiperSlide>
                 ))}
             </Swiper>
-            <Swiper
-                onSwiper={(val) => setThumbsSwiper(val)}
-                spaceBetween={10}
-                slidesPerView={4}
-                freeMode
-                watchSlidesProgress
-                modules={[FreeMode, Navigation, Thumbs]}
-                className={styles.swiperBottom}
-            >
-                {files.map((file) => (
-                    <SwiperSlide className={styles.swiperSlide} key={file.url}>
-                        <Image img={http.url + file.url} />
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+            {files.length > 1 && (
+                <Swiper
+                    onSwiper={(val) => setThumbsSwiper(val)}
+                    spaceBetween={10}
+                    slidesPerView={4}
+                    freeMode
+                    watchSlidesProgress
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    className={styles.swiperBottom}
+                >
+                    {files.map((file, index) => (
+                        <SwiperSlide className={styles.swiperSlide__bottom} key={index}>
+                            <Image img={file.url} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            )}
         </div>
     ) : null;
 }

@@ -21,7 +21,9 @@
       "publisher": "Unknown Publisher",
       "copyright": "Copyright Notice",
       "icon": [
-        "icons/logo.ico"
+        "icons/logo.ico",
+        "icons/logo.png",
+        "icons/logo.icns"
       ],
       "resources": [],
       "externalBin": [],
@@ -137,7 +139,7 @@
         "title": "Confee",
         "label": "main",
         "minWidth": 481,
-        "minHeight": 601,
+        "minHeight": 630,
         "resizable": true,
         "fullscreen": false,
         "visible": true,

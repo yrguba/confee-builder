@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import { MessageApi, MessageInputView, useMessageStore } from 'entities/message';
 import { useAudioRecorder } from 'shared/hooks';
 
-import { MediaContentModal } from '../../../entities/modal';
+import { MediaContentModal, SwiperModal } from '../../../entities/modal';
 import { Modal, useModal } from '../../../shared/ui';
 
 type Props = {};
@@ -122,8 +122,8 @@ function MessageInput(props: Props) {
                 btnClick={sendMessage}
                 loading={isLoading}
             />
-            <Modal {...modalMediaContent} onOk={onOkModalMediaContent} onClose={() => setMediaContentToSend(null)}>
-                <MediaContentModal type={mediaContentToSend?.type} list={mediaContentToSend?.list} />
+            <Modal {...modalMediaContent} onOk={onOkModalMediaContent} onClose={() => setMediaContentToSend(null)} headerText="Отправить ?">
+                <SwiperModal files={mediaContentToSend?.list.map((i) => ({ url: i, size: 0, name: '', extension: 'img' })) || []} />
             </Modal>
         </>
     );

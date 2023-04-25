@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { MessageTypes } from 'entities/message';
 import { BaseTypes } from 'shared/types';
 import { Box, Collapse } from 'shared/ui';
 
@@ -27,7 +28,7 @@ function ChatListView(props: Props) {
             {chats &&
                 data.map((category, index: number) => (
                     <Collapse
-                        isOpen={!!(activeChatId && category.id === 0)}
+                        isOpen={index === 0}
                         key={category.id}
                         titleClassName={styles.categoryTitle}
                         headerClassName={styles.headerCollapse}
@@ -41,7 +42,7 @@ function ChatListView(props: Props) {
                                             showChecked
                                             showDate
                                             chat={chat}
-                                            subtitle={chat.messageAction || chat.message[0].text}
+                                            subtitle={chat.messageAction || chat.lastMessage}
                                             onClick={clickOnChat}
                                         />
                                     </div>

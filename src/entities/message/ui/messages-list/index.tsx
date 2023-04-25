@@ -99,14 +99,12 @@ function MessagesListView(props: Props) {
                     {message.message_type === 'system' && <SystemMessageView text={message.text} />}
                     <div className={`${styles.messageWrapper} ${message.isMy && styles.messageWrapper_my}`} ref={getMessageRef(message, index)}>
                         {message.message_type !== 'system' && (
-                            <div
-                                onClick={() => (message.content.length ? setContentForModal(message.content) : () => {})}
-                                className={`${styles.messageContent} ${message.isMy && styles.messageContent_my}`}
-                            >
+                            <div className={`${styles.messageContent} ${message.isMy && styles.messageContent_my}`}>
                                 <Dropdown
-                                    top={messages?.length - index < 3 ? '100%' : 0}
+                                    dynamicPosition
+                                    reverseX={message.isMy}
+                                    reverseY={index + 3 > messages?.length}
                                     trigger="right-click"
-                                    position={index < 4 ? 'right-bottom' : messages?.length - index < 3 ? 'right-top' : 'right-center'}
                                     content={
                                         <MessageMenuView
                                             permittedReactions={chat?.permittedReactions || []}
@@ -115,17 +113,23 @@ function MessagesListView(props: Props) {
                                         />
                                     }
                                 >
-                                    {message.forwarded_messages?.length ? (
-                                        <ForwardedMessagesView message={message} forwardedMessages={message.forwarded_messages} reactionClick={reactionClick} />
-                                    ) : message.replyMessage ? (
-                                        <ReplyMessageView message={message} reply={message.replyMessage} reactionClick={reactionClick} />
-                                    ) : (
-                                        <>
-                                            {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}
-                                            {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />}
-                                            {message.message_type === 'voices' && <VoiceMessageView message={message} reactionClick={reactionClick} />}
-                                        </>
-                                    )}
+                                    <div onClick={() => (message.content.length ? setContentForModal(message.content) : () => {})}>
+                                        {message.forwarded_messages?.length ? (
+                                            <ForwardedMessagesView
+                                                message={message}
+                                                forwardedMessages={message.forwarded_messages}
+                                                reactionClick={reactionClick}
+                                            />
+                                        ) : message.replyMessage ? (
+                                            <ReplyMessageView message={message} reply={message.replyMessage} reactionClick={reactionClick} />
+                                        ) : (
+                                            <>
+                                                {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}
+                                                {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />}
+                                                {message.message_type === 'voices' && <VoiceMessageView message={message} reactionClick={reactionClick} />}
+                                            </>
+                                        )}
+                                    </div>
                                 </Dropdown>
                             </div>
                         )}

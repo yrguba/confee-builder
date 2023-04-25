@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useToggle, useClickAway, useStyles } from 'shared/hooks';
+import { useToggle, useClickAway, useStyles, useMedia, useSize } from 'shared/hooks';
 import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
@@ -17,18 +17,26 @@ function Dropdown(props: DropdownBaseProps) {
         animationVariant = 'visibleHidden',
         top,
         left,
+        dynamicPosition,
+        reverseY,
+        reverseX,
     } = props;
 
-    const ref = useRef(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
+    const bodyRef = useRef<any>(null);
+    const { breakpoint } = useMedia();
 
     const [isOpen, setIsOpen] = useState(false);
+    const [pos, setPos] = useState({ x: 0, y: 0 });
 
-    useClickAway(ref, () => {
+    useClickAway(wrapperRef, () => {
         isOpen && setIsOpen(false);
     });
 
     const classes = useStyles(styles, 'body', {
-        [`position-${position}`]: position,
+        [`position-${position}`]: position && !dynamicPosition,
+        reverseY,
+        reverseX,
     });
 
     const click = (event: any) => {
@@ -36,6 +44,13 @@ function Dropdown(props: DropdownBaseProps) {
             event.preventDefault();
             event.stopPropagation();
             setIsOpen(true);
+            if (dynamicPosition && wrapperRef.current) {
+                const rect = wrapperRef.current?.getBoundingClientRect();
+                setPos({
+                    x: breakpoint === 'sm' || breakpoint === 'md' ? (reverseX ? rect.width : rect.left) : event.clientX - rect.left,
+                    y: reverseY ? 0 : event.clientY - rect.top,
+                });
+            }
         }
     };
 
@@ -45,7 +60,7 @@ function Dropdown(props: DropdownBaseProps) {
 
     return (
         <div
-            ref={ref}
+            ref={wrapperRef}
             className={styles.wrapper}
             onClick={trigger === 'left-click' ? click : undefined}
             onContextMenu={trigger === 'right-click' ? click : undefined}
@@ -55,7 +70,7 @@ function Dropdown(props: DropdownBaseProps) {
             {children}
             <Box.Animated
                 animationVariant={animationVariant}
-                style={{ top, left }}
+                style={{ position: 'absolute', top: top || pos.y, left: left || pos.x }}
                 className={classes}
                 visible={visible || isOpen}
                 presence

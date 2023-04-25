@@ -16,7 +16,6 @@ function MediaContentModal(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.title}>{type}s</div>
             <div className={styles.list}>{type && list?.length && <ResponsiveMediaContents type={type as any} list={list} />}</div>
         </div>
     );

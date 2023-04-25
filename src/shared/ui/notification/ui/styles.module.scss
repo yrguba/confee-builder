@@ -6,7 +6,7 @@
   right: 12px;
   @include flex-column(flex-end, flex-end);
   gap: 8px;
-
+z-index: 100;
   .item {
     @include flex-column(flex-start, flex-start);
     gap: 12px;

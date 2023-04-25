@@ -18,4 +18,6 @@ export type Chat = {
 
 export type ChatProxy = {
     messageAction: string;
+    secondMember: User | null;
+    lastMessage: string;
 } & Chat;
