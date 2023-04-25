@@ -23,6 +23,7 @@ function ChatImagesList(props: Props) {
         byUserId: !params.chat_id && !!params.user_id,
         fileType: 'images',
     });
+
     const images = data?.data?.data.files.map((i) => `${http.url}${i.url}`);
     return <ResponsiveMediaContents type="image" list={images || []} gap={gap} imgSize={imgSize} hardGrid={hardGrid} />;
 }

@@ -4,8 +4,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { ChatCardView, ChatService, ChatApi, ChatTypes, useChatStore } from 'entities/chat';
 import { ChatProxy } from 'entities/chat/model/types';
+import { UserService } from 'entities/user';
 import { ViewerService } from 'entities/viewer';
 import { useEnding } from 'shared/hooks';
+
+import message from '../../menu-dropdown/ui/message';
 
 function ChatCard() {
     const navigate = useNavigate();
@@ -39,8 +42,7 @@ function ChatCard() {
             const word = useEnding(chat.users.length, ['участник', 'участника', 'участников']);
             return `${chat.users.length} ${word}`;
         }
-
-        return chat?.message[0]?.text || 'title';
+        return UserService.getUserNetworkStatus(chat.secondMember) || '';
     };
 
     return <ChatCardView chat={chat} maxWidth={170} subtitle={getChatSubtitle(chat)} onClick={clickOnChat} />;

@@ -17,4 +17,7 @@ export type DropdownBaseProps = {
     openCloseTrigger?: (arg: boolean) => void;
     top?: number | string;
     left?: number | string;
+    dynamicPosition?: boolean;
+    reverseY?: boolean;
+    reverseX?: boolean;
 } & BaseTypes.Statuses;

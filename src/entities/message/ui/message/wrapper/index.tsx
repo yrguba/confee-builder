@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { useDate } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Emoji, EmojiTypes } from 'shared/ui';
+import { Avatar, Box, Emoji, EmojiTypes, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { MessageProxy } from '../../../model/types';
@@ -48,7 +48,10 @@ function Wrapper(props: Props) {
                         {message.is_edited && <div className={styles.isEdited}>изменено</div>}
                     </div>
                 </div>
-                <div className={styles.date}>{date}</div>
+                <div className={styles.date}>
+                    {date}
+                    <Icons variants={message.users_have_read.length ? 'doubleCheck' : 'check'} />
+                </div>
             </div>
         </Box.Animated>
     );

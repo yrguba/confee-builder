@@ -59,6 +59,8 @@
 
 
       .date{
+        @include flex;
+        gap: 6px;
         font-weight: 500;
         font-size: 12px;
         color: var(--text-1);

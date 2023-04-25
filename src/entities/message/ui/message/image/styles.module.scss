@@ -1,23 +1,22 @@
 @import "./src/app/styles";
 
 .wrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 100px);
+  @include flex-column;
   gap: 2px;
-  max-width: 400px;
+  max-width: 420px;
 
-  @media(max-width: 1200px){
-    //max-width: 240px;
-  }
+  .row {
+    @include flex;
+    gap: 2px;
+    width: 100%;
 
-  .item {
-    //@include box-size(100%, 100%);
+    .column {
+      max-height: 400px;
+      height: 150px;
 
-    &_big {
-      grid-column: span 2;
-      grid-row: span 2;
     }
   }
+
 }
 
 

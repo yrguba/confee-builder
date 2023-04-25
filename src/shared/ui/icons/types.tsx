@@ -1,5 +1,5 @@
 export type BaseIconsProps = {
-    variants: 'exit' | 'filter' | 'backArrow' | 'menu';
+    variants: 'exit' | 'filter' | 'backArrow' | 'menu' | 'check' | 'doubleCheck';
     color?: string;
     size?: number;
 };

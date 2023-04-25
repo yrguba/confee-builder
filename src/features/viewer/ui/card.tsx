@@ -7,6 +7,8 @@ function ViewerCard() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
+    useViewerStore.use.socketAction();
+
     const { data, isLoading } = ViewerApi.handleGetViewer();
 
     const switchingRoute = () => {

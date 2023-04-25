@@ -8,7 +8,15 @@ export type Content = {
 };
 
 export type MessageType = 'text' | 'images' | 'videos' | 'audios' | 'documents' | 'voices' | 'system';
-export type MediaContentType = 'image' | 'audio' | 'video' | 'document';
+
+export enum MediaContentType {
+    'image' = 'фото',
+    'audio' = 'аудио',
+    'video' = 'видео',
+    'document' = 'документы',
+}
+
+export type MediaContentTypeKeys = keyof typeof MediaContentType;
 
 export type MessageStatus = 'pending' | 'read';
 export type File = {
@@ -42,7 +50,7 @@ export type MessageProxy = {
 } & Message;
 
 export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
-export type InputMenuIcons = MediaContentType;
+export type InputMenuIcons = MediaContentTypeKeys;
 
 type MenuItem<T> = {
     id: number;
