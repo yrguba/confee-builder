@@ -5,6 +5,7 @@ import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
 import { Image } from '../../../../../shared/ui';
+import useGetRows from '../../../lib/useGetRows';
 import { MessageProxy } from '../../../model/types';
 import Wrapper from '../wrapper';
 
@@ -16,12 +17,18 @@ type Props = {
 function ImageMessageView(props: Props) {
     const { message, reactionClick } = props;
 
+    const rows = useGetRows(message.content);
+
     return (
         <Wrapper message={message} reactionClick={reactionClick}>
-            <div className={styles.wrapper} style={{ gridTemplateColumns: `repeat(${1}, 1fr)` }}>
-                {message.content.map((obj, index) => (
-                    <div key={index} className={`${styles.item} ${message.content.length < 3 && styles.item_big}`}>
-                        <Image img={http.url + obj.url} />
+            <div className={styles.wrapper} style={{ gridTemplateColumns: `repeat(${message.content.length < 2 ? 1 : 2}, 1fr)` }}>
+                {rows.map((row) => (
+                    <div key={row.id} className={styles.row}>
+                        {row.columns.map((column) => (
+                            <div key={column.id} style={{ width: column.width, height: column.height }} className={styles.column}>
+                                <Image img={http.url + column.url} />
+                            </div>
+                        ))}
                     </div>
                 ))}
             </div>

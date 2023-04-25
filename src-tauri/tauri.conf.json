@@ -21,7 +21,9 @@
       "publisher": "Unknown Publisher",
       "copyright": "Copyright Notice",
       "icon": [
-        "icons/logo.ico"
+        "icons/logo.ico",
+        "icons/logo.png",
+        "icons/logo.icns"
       ],
       "resources": [],
       "externalBin": [],
