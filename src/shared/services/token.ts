@@ -29,6 +29,7 @@ class TokenService {
         });
         const access_token = UniversalStorage.cookieGet(StorageObjectsNames.access_token);
         const refresh_token = UniversalStorage.cookieGet(StorageObjectsNames.refresh_token);
+        console.log(access_token);
         if (access_token && refresh_token) return getDecoded(access_token, refresh_token);
     }
 
