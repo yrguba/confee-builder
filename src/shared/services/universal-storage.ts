@@ -25,12 +25,27 @@ class UniversalStorage {
         storages.ls.clear();
     }
 
-    async cookieSet(name: keyof typeof StorageObjectsNames, value: string) {
+    cookieSet(name: keyof typeof StorageObjectsNames, value: string) {
+        if (tauri.isRunning) storages.ls.set(name, value);
+        storages.cookie.set(name, value);
+    }
+
+    cookieGet(name: keyof typeof StorageObjectsNames) {
+        if (tauri.isRunning) return storages.ls.get(name);
+        return storages.cookie.get(name);
+    }
+
+    cookieRemove(name: keyof typeof StorageObjectsNames) {
+        if (tauri.isRunning) storages.ls.remove(name);
+        storages.cookie.remove(name);
+    }
+
+    async cookieSetAsync(name: keyof typeof StorageObjectsNames, value: string) {
         if (tauri.isRunning) await storages.fs.set(name, value);
         storages.cookie.set(name, value);
     }
 
-    async cookieGet(name: keyof typeof StorageObjectsNames) {
+    async cookieGetAsync(name: keyof typeof StorageObjectsNames) {
         if (!tauri.isRunning) {
             return storages.cookie.get(name);
         }
@@ -41,7 +56,7 @@ class UniversalStorage {
         return valueInFs;
     }
 
-    async cookieRemove(name: keyof typeof StorageObjectsNames) {
+    async cookieRemoveAsync(name: keyof typeof StorageObjectsNames) {
         if (tauri.isRunning) await storages.fs.remove(name);
         storages.cookie.remove(name);
     }

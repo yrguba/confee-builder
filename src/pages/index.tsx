@@ -16,10 +16,10 @@ function Routing() {
     const { width, height } = useWindowSize();
 
     useEffect(() => {
-        TokenService.checkAuth().then((res) => {
-            isAuth !== res && toggle(res);
-        });
+        const auth = TokenService.checkAuth();
+        isAuth !== auth && toggle(TokenService.checkAuth());
     }, []);
+
     const location = useLocation();
     const privateRoutes = (
         <Routes location={location}>

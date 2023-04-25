@@ -10,21 +10,20 @@ function useTheme(): [theme: Themes, setTheme: (arg: Themes) => void] {
 
     const setTheme = (theme: Themes) => {
         document.documentElement.dataset.theme = theme;
-        UniversalStorage.cookieSet(StorageObjectsNames.theme, theme).then();
+        UniversalStorage.cookieSet(StorageObjectsNames.theme, theme);
         setActiveTheme(theme);
     };
 
     useEffect(() => {
-        UniversalStorage.cookieGet(StorageObjectsNames.theme).then(async (themeFromStorage) => {
-            if (themeFromStorage) {
-                document.documentElement.dataset.theme = themeFromStorage;
-                setActiveTheme(themeFromStorage);
-            } else {
-                document.documentElement.dataset.theme = ThemesNames.light;
-                await UniversalStorage.cookieSet(StorageObjectsNames.theme, ThemesNames.light);
-                setActiveTheme('light');
-            }
-        });
+        const themeFromStorage = UniversalStorage.cookieGet(StorageObjectsNames.theme);
+        if (themeFromStorage) {
+            document.documentElement.dataset.theme = themeFromStorage;
+            setActiveTheme(themeFromStorage);
+        } else {
+            document.documentElement.dataset.theme = ThemesNames.light;
+            UniversalStorage.cookieSet(StorageObjectsNames.theme, ThemesNames.light);
+            setActiveTheme('light');
+        }
     }, []);
 
     return [activeTheme, setTheme];

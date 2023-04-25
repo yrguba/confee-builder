@@ -10,7 +10,7 @@ const config: AxiosRequestConfig = {
 const axiosClient = axios.create(config);
 
 axiosClient.interceptors.request.use(async (config: any) => {
-    const tokens = await TokenService.getAsync();
+    const tokens = TokenService.get();
     if (tokens?.access_token) {
         return {
             ...config,
@@ -30,7 +30,7 @@ axiosClient.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
-        const currentTokens = await TokenService.getAsync();
+        const currentTokens = TokenService.get();
         if (error.response.status === 401 && error.config && currentTokens && !error.config._isRetry) {
             error.config._isRetry = true;
             try {

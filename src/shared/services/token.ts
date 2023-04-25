@@ -1,5 +1,4 @@
 import { StorageObjectsNames } from 'shared/enums';
-import { storages } from 'shared/lib';
 import { UniversalStorage } from 'shared/services';
 
 import { useCrypto } from '../hooks';
@@ -10,17 +9,17 @@ type Tokens = {
 };
 
 class TokenService {
-    async checkAuth() {
-        const access_token = await UniversalStorage.cookieGet(StorageObjectsNames.access_token);
-        const refresh_token = await UniversalStorage.cookieGet(StorageObjectsNames.refresh_token);
+    checkAuth() {
+        const access_token = UniversalStorage.cookieGet(StorageObjectsNames.access_token);
+        const refresh_token = UniversalStorage.cookieGet(StorageObjectsNames.refresh_token);
         return !!(access_token && refresh_token);
     }
 
-    async save(tokens: Tokens) {
+    save(tokens: Tokens) {
         const accessEncoded = useCrypto(tokens.access_token, 'encode');
         const refreshEncoded = useCrypto(tokens.refresh_token, 'encode');
-        await UniversalStorage.cookieSet(StorageObjectsNames.access_token, accessEncoded);
-        await UniversalStorage.cookieSet(StorageObjectsNames.refresh_token, refreshEncoded);
+        UniversalStorage.cookieSet(StorageObjectsNames.access_token, accessEncoded);
+        UniversalStorage.cookieSet(StorageObjectsNames.refresh_token, refreshEncoded);
     }
 
     get() {
@@ -28,24 +27,14 @@ class TokenService {
             access_token: useCrypto(access_token, 'decode'),
             refresh_token: useCrypto(refresh_token, 'decode'),
         });
-        const access_token = storages.cookie.get(StorageObjectsNames.access_token);
-        const refresh_token = storages.cookie.get(StorageObjectsNames.refresh_token);
+        const access_token = UniversalStorage.cookieGet(StorageObjectsNames.access_token);
+        const refresh_token = UniversalStorage.cookieGet(StorageObjectsNames.refresh_token);
         if (access_token && refresh_token) return getDecoded(access_token, refresh_token);
     }
 
-    async getAsync() {
-        const getDecoded = (access_token: string, refresh_token: string) => ({
-            access_token: useCrypto(access_token, 'decode'),
-            refresh_token: useCrypto(refresh_token, 'decode'),
-        });
-        const access_token = await UniversalStorage.cookieGet(StorageObjectsNames.access_token);
-        const refresh_token = await UniversalStorage.cookieGet(StorageObjectsNames.refresh_token);
-        if (access_token && refresh_token) return getDecoded(access_token, refresh_token);
-    }
-
-    async remove() {
-        await UniversalStorage.cookieRemove(StorageObjectsNames.access_token);
-        await UniversalStorage.cookieRemove(StorageObjectsNames.refresh_token);
+    remove() {
+        UniversalStorage.cookieRemove(StorageObjectsNames.access_token);
+        UniversalStorage.cookieRemove(StorageObjectsNames.refresh_token);
     }
 }
 

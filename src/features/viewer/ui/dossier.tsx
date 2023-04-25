@@ -24,9 +24,8 @@ function ViewerDossier() {
     const logoutClick = () => {
         handleLogout(null, {
             onSuccess: () => {
-                TokenService.remove().then(() => {
-                    window.location.reload();
-                });
+                TokenService.remove();
+                window.location.reload();
             },
         });
     };

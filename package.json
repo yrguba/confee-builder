@@ -19,6 +19,7 @@
         "tauri:start": "npm run tauri dev",
         "build": "cross-env CI=false react-scripts build",
         "tauri:local-build": "npm run tauri build",
+        "tauri:local-build-debbuger": "npm run tauri build -- --debug",
         "tauri": "tauri",
         "lint": "eslint .",
         "lint:fix": "npx eslint ./src --fix",
