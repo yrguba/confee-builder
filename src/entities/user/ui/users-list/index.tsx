@@ -53,7 +53,7 @@ function UsersListView(props: Props) {
                         <div key={user.id} className={styles.item}>
                             <div className={styles.content}>
                                 <div className={styles.usersColumn}>
-                                    <UserCardView user={user} size="m" onClick={() => userCardClick(user)} />
+                                    <UserCardView size="m" user={user} subtitle={user.email} onClick={() => userCardClick(user)} />
                                 </div>
                                 {breakpoint === 'sm' || breakpoint === 'md' ? (
                                     <Dropdown>

@@ -10,10 +10,11 @@ type Props = {
     user: User;
     size?: 's' | 'm';
     onClick?: (arg: User) => void;
+    subtitle?: string;
 } & BaseTypes.Statuses;
 
 function UserCardView(props: Props) {
-    const { user, size = 's', onClick } = props;
+    const { user, size = 's', onClick, subtitle } = props;
 
     const getAvatarSize = () => {
         if (size === 's') return 32;
@@ -28,9 +29,9 @@ function UserCardView(props: Props) {
     return (
         <div style={{ cursor: onClick ? 'pointer' : 'default' }} className={styles.userCard} onClick={() => onClick && onClick(user)}>
             <Avatar img={user.avatar} name={user.name} size={getAvatarSize()} />
-            <div className={styles.infoColumn}>
+            <div className={styles.infoColumn} style={{ flexDirection: size === 's' ? 'row' : 'column' }}>
                 <Title size={getFontSize()}>{user.name}</Title>
-                {size !== 's' && <div className={styles.email}>{user.email}</div>}
+                {subtitle && <div className={styles.email}>{subtitle}</div>}
             </div>
         </div>
     );

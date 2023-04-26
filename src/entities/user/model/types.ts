@@ -4,6 +4,7 @@ export type User = {
     id: number;
     is_online: boolean;
     name: string;
+    nickname: string;
     avatar: string;
     email: string;
     status: UserStatuses;
