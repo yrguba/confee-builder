@@ -5,10 +5,11 @@
   width: 100%;
   gap: 12px;
 
-  .infoColumn{
+  .infoColumn {
     @include flex-column(center, flex-start);
+    column-gap: 6px;
 
-    .email{
+    .email {
       font-weight: 400;
       font-size: 14px;
       color: var(--text-1);

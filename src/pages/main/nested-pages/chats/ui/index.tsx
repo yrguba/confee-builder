@@ -5,7 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { chatGateway, chatObserver, ChatService } from 'entities/chat';
 import { useMessageStore, messageGateway, messageObserver } from 'entities/message';
-import { useMedia } from 'shared/hooks';
+import { useMedia, useHeightMediaQuery, useWidthMediaQuery } from 'shared/hooks';
 import { Box } from 'shared/ui';
 import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
@@ -21,6 +21,8 @@ function ChatsPage() {
     const { pathname } = useLocation();
     const params = useParams();
     const { breakpoint } = useMedia();
+
+    const { to } = useHeightMediaQuery();
 
     const isOpenEmojiPicker = useMessageStore.use.isOpenEmojiPicker();
     const isOpenInputMenu = useMessageStore.use.isOpenInputMenu();
@@ -72,7 +74,7 @@ function ChatsPage() {
                             </div>
                             <Box.Animated
                                 initial={{ height: 100 }}
-                                animate={{ height: isOpenEmojiPicker ? 500 : isOpenInputMenu ? 240 : 100, transition: { duration: 0 } }}
+                                animate={{ height: 'auto', transition: { duration: 0 } }}
                                 exit={{ transition: { duration: 1 } }}
                                 visible
                                 className={styles.messageInput}

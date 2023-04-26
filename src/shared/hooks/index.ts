@@ -20,8 +20,12 @@ import useSize from './useSize';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
 import useToggle from './useToggle';
+import ConfigMediaQuery from '../configs/media-query';
 
+const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
+    useWidthMediaQuery,
+    useHeightMediaQuery,
     useTimer,
     useTheme,
     useInput,

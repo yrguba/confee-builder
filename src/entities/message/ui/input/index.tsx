@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { UserTypes, UserCardView } from 'entities/user';
 import { useToggle } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Input, Emoji, Box, Dropdown } from 'shared/ui';
@@ -11,6 +12,8 @@ import logo from '../../../../shared/ui/icons/ui/logo';
 import { MessageProxy } from '../../model/types';
 
 type Props = {
+    clickUser: (arg: UserTypes.User) => void;
+    tagAUsers: UserTypes.User[] | null;
     audioRecorder?: { startRecording: () => any; cancelRecording: () => any; saveRecording: () => any; recorderState: any };
     messageToEdit: MessageProxy | null;
     messageToReply: MessageProxy | null;
@@ -27,6 +30,8 @@ type Props = {
 
 function MessageInputView(props: Props) {
     const {
+        clickUser,
+        tagAUsers,
         audioRecorder,
         messageToEdit,
         messageToReply,
@@ -42,7 +47,7 @@ function MessageInputView(props: Props) {
         loading,
     } = props;
 
-    const isVisibleHeader = !!messageToEdit || !!messageToReply;
+    const isVisibleHeader = !!messageToEdit || !!messageToReply || !!tagAUsers?.length;
 
     const recordingRunning = audioRecorder?.recorderState.initRecording;
     const min = audioRecorder?.recorderState.recordingMinutes;
@@ -63,24 +68,33 @@ function MessageInputView(props: Props) {
         <div className={styles.wrapper}>
             <div className={styles.inputColumn}>
                 <Box.Animated visible={isVisibleHeader} animationVariant="autoHeight" transition={{ type: 'tween' }} className={styles.header}>
-                    <div className={styles.exitIcon} onClick={exit}>
-                        <Icons variants="exit" />
-                    </div>
-                    <div className={styles.mainColumn}>
-                        <div className={styles.title}>
-                            {messageToEdit ? (
-                                'Редактирование'
-                            ) : (
-                                <div className={styles.title__answer}>
-                                    <Icons variants="answer" size={16} />
-                                    {messageToReply?.user.name}
+                    {tagAUsers?.length ? (
+                        <div className={styles.mainColumn} style={{ gap: 4 }}>
+                            {tagAUsers.map((user) => (
+                                <UserCardView onClick={() => clickUser(user)} key={user.id} user={user} subtitle={`@${user.nickname}`} />
+                            ))}
+                        </div>
+                    ) : (
+                        <>
+                            <div className={styles.exitIcon} onClick={exit}>
+                                <Icons variants="exit" />
+                            </div>
+                            <div className={styles.mainColumn}>
+                                <div className={styles.title}>
+                                    {messageToEdit && 'Редактирование'}
+                                    {messageToReply && (
+                                        <div className={styles.title__answer}>
+                                            <Icons variants="answer" size={16} />
+                                            {messageToReply?.user.name}
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                        <div style={{ marginLeft: messageToReply ? 20 : 0 }} className={styles.messageText}>
-                            {messageToEdit?.text || messageToReply?.text}
-                        </div>
-                    </div>
+                                <div style={{ marginLeft: messageToReply ? 20 : 0 }} className={styles.messageText}>
+                                    {messageToEdit?.text || messageToReply?.text}
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </Box.Animated>
 
                 <div className={`${styles.input} ${isVisibleHeader && styles.isVisibleHeader}`}>
