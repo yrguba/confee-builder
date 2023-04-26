@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { MessageApi, MessageInputView, useMessageStore } from 'entities/message';
+import { UserTypes } from 'entities/user';
 import { useAudioRecorder } from 'shared/hooks';
 
+import { ChatApi } from '../../../entities/chat';
 import { MediaContentModal, SwiperModal } from '../../../entities/modal';
 import { Modal, useModal } from '../../../shared/ui';
 
@@ -30,6 +32,9 @@ function MessageInput(props: Props) {
 
     const setIsOpenEmojiPicker = useMessageStore.use.setIsOpenEmojiPicker();
     const setIsOpenInputMenu = useMessageStore.use.setIsOpenInputMenu();
+
+    const { data: chatsData } = ChatApi.handleGetChats();
+    const chat = chatsData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
     const [valueTextMessage, setValueTextMessage] = useState('');
 
@@ -105,9 +110,35 @@ function MessageInput(props: Props) {
         if (mediaContentToSend) modalMediaContent.open();
     }, [mediaContentToSend]);
 
+    const getTagAUsers = (): { suitable: UserTypes.User[]; users: UserTypes.User[] } | null => {
+        if (!chat || !chat.is_group) return null;
+        const words = valueTextMessage.split(' ');
+        const tags = words.filter((word) => /@[a-zA-Zа-яА-я0-9]/.test(word));
+        if (tags.length) {
+            const suitable: UserTypes.User[] = [];
+            const users: UserTypes.User[] = [];
+            tags.forEach((tag) => {
+                chat.chatUsers.forEach((user) => {
+                    if (user.nickname.includes(tag.substring(1))) {
+                        suitable.push(user);
+                    }
+                    if (user.nickname === tag.substring(1)) {
+                        users.push(user);
+                    }
+                });
+            });
+            return { suitable, users };
+        }
+        return null;
+    };
+
+    const clickUser = (user: UserTypes.User) => {};
+
     return (
         <>
             <MessageInputView
+                clickUser={clickUser}
+                tagAUsers={getTagAUsers()?.suitable || null}
                 audioRecorder={audioRecorder}
                 messageToEdit={messageToEdit}
                 messageToReply={messageToReply}

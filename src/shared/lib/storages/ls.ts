@@ -7,7 +7,9 @@ export const set = (name: keyof typeof StorageObjectsNames, value: any) => {
 
 export const get = (name: keyof typeof StorageObjectsNames) => {
     const valueInLs = ls.getItem(name);
-    return valueInLs ? (typeof valueInLs === 'object' ? JSON.parse(valueInLs) : valueInLs) : null;
+    if (!valueInLs) return null;
+    if (valueInLs[0] === '{' && valueInLs[valueInLs.length - 1] === '}') return JSON.parse(valueInLs);
+    return valueInLs;
 };
 
 export const remove = (name: keyof typeof StorageObjectsNames) => {
