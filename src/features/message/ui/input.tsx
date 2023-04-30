@@ -76,7 +76,7 @@ function MessageInput(props: Props) {
     const onKeyDown = (event: any) => {
         if (event.keyCode === 13) {
             event.preventDefault();
-            if (event.shiftKey) {
+            if (event.shiftKey || event.ctrlKey) {
                 setValueTextMessage((prev) => `${prev}\n`);
             } else {
                 if (messageToEdit) return changeTextInMessage();
@@ -109,6 +109,11 @@ function MessageInput(props: Props) {
     useEffect(() => {
         if (mediaContentToSend) modalMediaContent.open();
     }, [mediaContentToSend]);
+
+    useEffect(() => {
+        const lastWord = valueTextMessage.split(' ').pop();
+        lastWord && lastWord?.length > 50 && setValueTextMessage((prev) => `${prev} `);
+    }, [valueTextMessage]);
 
     const getTagAUsers = (): { suitable: UserTypes.User[]; users: UserTypes.User[] } | null => {
         if (!chat || !chat.is_group) return null;

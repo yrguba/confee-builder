@@ -103,7 +103,7 @@ function MessagesListView(props: Props) {
                                 <Dropdown
                                     dynamicPosition
                                     reverseX={message.isMy}
-                                    reverseY={index + 3 > messages?.length}
+                                    reverseY={index + 5 > messages?.length}
                                     trigger="right-click"
                                     content={
                                         <MessageMenuView
