@@ -26,7 +26,7 @@ class UniversalStorage {
     }
 
     cookieSet(name: keyof typeof StorageObjectsNames, value: string) {
-        if (tauri.isRunning) storages.ls.set(name, value);
+        if (tauri.isRunning) return storages.ls.set(name, value);
         storages.cookie.set(name, value);
     }
 
@@ -36,7 +36,7 @@ class UniversalStorage {
     }
 
     cookieRemove(name: keyof typeof StorageObjectsNames) {
-        if (tauri.isRunning) storages.ls.remove(name);
+        if (tauri.isRunning) return storages.ls.remove(name);
         storages.cookie.remove(name);
     }
 
