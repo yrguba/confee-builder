@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 
 import { useDate } from 'shared/hooks';
@@ -5,6 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Counter, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { MessageProxy } from '../../../message/model/types';
 import { ChatProxy } from '../../model/types';
 
 type Props = {
@@ -22,7 +24,12 @@ function ChatCardView(props: Props) {
 
     const { name, pending_messages, updated_at, avatar, message } = chat;
 
-    const date = useDate(updated_at);
+    const getDate = (updated_at: Date) => {
+        if (moment(updated_at).startOf('day').unix() === moment().startOf('day').unix()) {
+            return moment(updated_at).format('LT');
+        }
+        return moment().format('dddd');
+    };
 
     return (
         <div className={styles.wrapper} onClick={() => onClick(chat)}>
@@ -34,7 +41,7 @@ function ChatCardView(props: Props) {
                 </div>
             </div>
             <div className={styles.rightColumn}>
-                {showDate && <div className={styles.date}>{date}</div>}
+                {showDate && <div className={styles.date}>{getDate(chat.updated_at)}</div>}
                 {showChecked && (
                     <div className={styles.checked}>
                         {pending_messages ? (

@@ -13,7 +13,11 @@
 
     .caption{
       @include flex-column(flex-start, flex-start, 6);
-      //flex: 1;
+      max-width: 160px !important;
+
+      @include responsive-to('sm'){
+        max-width: 100% !important;
+      }
 
       .chatName {
         @include text-ellipsis(100%);

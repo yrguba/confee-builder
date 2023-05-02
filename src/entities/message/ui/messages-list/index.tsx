@@ -1,6 +1,7 @@
 import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useParams } from 'react-router';
+import { usePrevious } from 'react-use';
 
 import { useInView } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -35,6 +36,8 @@ function MessagesListView(props: Props) {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
 
+    const prevMessages = usePrevious(messages);
+
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
     const { ref: firstPendingMessagesRef, inView: inViewFirsPendingMessage } = useInView();
@@ -66,15 +69,21 @@ function MessagesListView(props: Props) {
 
     useEffect(() => {
         const checkChatIsSubscribed = ChatService.checkChatIsSubscribed();
-        if (messageRef.current && (initial || checkChatIsSubscribed)) {
-            // if (initial) {
-            //     setTimeout(() => messageRef.current?.scrollIntoView({ block: 'center', behavior: checkChatIsSubscribed ? 'smooth' : 'auto' }), 100);
-            // } else {
-            messageRef.current.scrollIntoView({ block: 'center', behavior: checkChatIsSubscribed ? 'smooth' : 'auto' });
-            // }
-            setInitial(false);
+        if (messageRef.current) {
+            if (initial || checkChatIsSubscribed) {
+                messageRef.current.scrollIntoView({ block: 'center', behavior: checkChatIsSubscribed ? 'smooth' : 'auto' });
+                setInitial(false);
+            }
         }
     }, [messageRef.current]);
+
+    useEffect(() => {
+        if (messageRef.current && prevMessages?.length && prevMessages.length + 1 === messages?.length) {
+            if (messages[messages.length - 1].isMy) {
+                messageRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
+        }
+    }, [messages]);
 
     useEffect(() => {
         if (inViewFirsPendingMessage && messages) {
