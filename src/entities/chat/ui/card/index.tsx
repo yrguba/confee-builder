@@ -28,7 +28,7 @@ function ChatCardView(props: Props) {
         if (moment(updated_at).startOf('day').unix() === moment().startOf('day').unix()) {
             return moment(updated_at).format('LT');
         }
-        return moment().format('dddd');
+        return moment(updated_at).format('llll').split(',')[0];
     };
 
     return (
