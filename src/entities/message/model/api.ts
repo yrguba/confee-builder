@@ -7,6 +7,7 @@ import { uniqueArray } from 'shared/lib';
 
 import useMessageStore from './store';
 import { Message, MessageProxy } from './types';
+import { ChatService } from '../../chat';
 import { message_limit } from '../lib/constants';
 import messageEntity from '../lib/message-entity';
 
@@ -53,17 +54,19 @@ class MessageApi {
         const setSocketAction = useMessageStore.use.setSocketAction();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
-            (data: { text: string; chatId: number }) => axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' })
-            // {
-            //     onMutate: async (data) => {
-            //         queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-            //             const message = messageEntity({ text: data.text, viewer: viewerData?.data.data });
-            //             cacheData.pages[0].data.data.unshift(message);
-            //             setSocketAction(`add${message.id}`);
-            //             return cacheData;
-            //         });
-            //     },
-            // }
+            (data: { text: string; chatId: number }) =>
+                axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' }),
+            {
+                onMutate: async (data) => {
+                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                        ChatService.subscribeToChat(data.chatId);
+                        const message = messageEntity({ text: data.text, viewer: viewerData?.data.data });
+                        cacheData.pages[0].data.data.unshift(message);
+                        setSocketAction(`add${message.id}`);
+                        return cacheData;
+                    });
+                },
+            }
         );
     }
 

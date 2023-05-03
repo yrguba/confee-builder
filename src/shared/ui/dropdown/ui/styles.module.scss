@@ -15,11 +15,11 @@
 }
 
 .reverseY {
-  transform: translateY(-100%) !important;
+  //transform: translateY(-100%) !important;
 }
 
 .reverseX {
-  transform: translateX(-100%) !important;
+  transform: translate(-100%) !important;
 }
 
 @mixin position($top, $left, $transform) {

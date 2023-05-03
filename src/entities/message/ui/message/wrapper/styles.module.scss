@@ -11,7 +11,7 @@
 
   .mainColumn{
     @include flex-column;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 7px;
 
     .body{
@@ -59,11 +59,17 @@
 
 
       .date{
-        @include flex;
+        @include flex(flex-start);
+        width: 100%;
         gap: 6px;
         font-weight: 500;
         font-size: 12px;
         color: var(--text-1);
+
+        &_my{
+          @include flex(flex-end);
+          gap: 6px;
+        }
       }
 
   }

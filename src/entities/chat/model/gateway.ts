@@ -16,6 +16,7 @@ function chatGateway() {
                     cacheData.data.data.forEach((chat: ChatProxy) => {
                         if (chat.id === Number(message.chat_id)) {
                             chat.message.splice(0, 1, message);
+                            chat.updated_at = message.created_at;
                             if (message.message_status === 'pending' && message.user.id !== viewerData?.data?.data?.id) {
                                 chat.pending_messages += 1;
                             }
