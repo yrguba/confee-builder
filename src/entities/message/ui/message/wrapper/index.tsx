@@ -22,7 +22,7 @@ function Wrapper(props: Props) {
     const date = useDate(created_at);
 
     return (
-        <Box.Animated visible className={styles.wrapper}>
+        <Box className={styles.wrapper}>
             {!message.isMy && (
                 <div className={styles.avatar}>
                     <Avatar size={32} img={user?.avatar} name={user?.name} />
@@ -48,12 +48,12 @@ function Wrapper(props: Props) {
                         {message.is_edited && <div className={styles.isEdited}>изменено</div>}
                     </div>
                 </div>
-                <div className={styles.date}>
+                <div className={`${styles.date} ${message?.isMy && styles.date_my}`}>
                     {date}
-                    <Icons variants={message.users_have_read.length ? 'doubleCheck' : 'check'} />
+                    {message.isMy && <Icons variants={message.isMock ? 'clock' : message.users_have_read.length ? 'doubleCheck' : 'check'} />}
                 </div>
             </div>
-        </Box.Animated>
+        </Box>
     );
 }
 
