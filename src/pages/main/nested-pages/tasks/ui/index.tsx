@@ -9,17 +9,18 @@ import styles from './styles.module.scss';
 function TasksPage() {
     return (
         <Box.Animated visible className={styles.page}>
-            <div className={styles.sidebar}>
-                <SidebarTasksPage />
-            </div>
-            <div className={styles.mainColumn}>
-                <div className={styles.header}>
-                    <HeaderTasksPage />
-                </div>
-                <div className={styles.outlet}>
-                    <Outlet />
-                </div>
-            </div>
+            Раздел находится в разработке
+            {/* <div className={styles.sidebar}> */}
+            {/*    <SidebarTasksPage /> */}
+            {/* </div> */}
+            {/* <div className={styles.mainColumn}> */}
+            {/*    <div className={styles.header}> */}
+            {/*        <HeaderTasksPage /> */}
+            {/*    </div> */}
+            {/*    <div className={styles.outlet}> */}
+            {/*        <Outlet /> */}
+            {/*    </div> */}
+            {/* </div> */}
         </Box.Animated>
     );
 }

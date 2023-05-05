@@ -18,7 +18,11 @@ const AppStore = create<Store>()(
             notifications: [],
             setNotifications: (notification) =>
                 set((state) => {
-                    if (!state.notifications.find((i) => i.text === notification.text)) {
+                    if (notification.system) {
+                        if (!state.notifications.find((i) => i.text === notification.text)) {
+                            state.notifications.push({ ...notification, id: new Date().valueOf() });
+                        }
+                    } else {
                         state.notifications.push({ ...notification, id: new Date().valueOf() });
                     }
                 }),

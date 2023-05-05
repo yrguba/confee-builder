@@ -47,7 +47,8 @@ function Dropdown(props: DropdownBaseProps) {
             if (dynamicPosition && wrapperRef.current) {
                 const rect = wrapperRef.current?.getBoundingClientRect();
                 setPos({
-                    x: breakpoint === 'sm' || breakpoint === 'md' ? (reverseX ? rect.width : rect.left) : event.clientX - rect.left,
+                    // x: breakpoint === 'sm' || breakpoint === 'md' ? (reverseX ? rect.width : rect.left) : event.clientX - rect.left,
+                    x: reverseX ? rect.width : 32,
                     y: reverseY ? -230 : event.clientY - rect.top,
                 });
             }

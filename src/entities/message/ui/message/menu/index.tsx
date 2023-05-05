@@ -28,7 +28,9 @@ function MessageMenuView(props: Props) {
                 {items.map((item) => (
                     <div key={item.id} className={styles.item} onClick={item.onClick}>
                         <div className={styles.content}>
-                            <Icons variants={item.icon} />
+                            <div className={styles.icon}>
+                                <Icons variants={item.icon} />
+                            </div>
                             {item.title}
                         </div>
                     </div>
