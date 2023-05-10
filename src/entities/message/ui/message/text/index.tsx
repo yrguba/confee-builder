@@ -1,4 +1,6 @@
+import Linkify from 'linkify-react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { BaseTypes } from 'shared/types';
 
@@ -15,8 +17,29 @@ type Props = {
 function TextMessageView(props: Props) {
     const { message, wrapper = true, reactionClick } = props;
 
+    const renderLink = ({ attributes, content }: any) => {
+        const { href, ...props } = attributes;
+        console.log(attributes, content);
+        return (
+            <Link to={href} {...props}>
+                {content}
+            </Link>
+        );
+    };
+
+    const options = {
+        render: {
+            hashtag: renderLink,
+            mention: renderLink,
+        },
+    };
+
     function Message() {
-        return <div className={styles.wrapper}>{message.text}</div>;
+        return (
+            <div className={styles.wrapper}>
+                <Linkify options={options}>{message.text}</Linkify>
+            </div>
+        );
     }
 
     return !wrapper ? (
