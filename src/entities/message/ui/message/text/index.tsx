@@ -1,6 +1,5 @@
 import Linkify from 'linkify-react';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import { UserDossierView, UserTypes } from 'entities/user';
 import { BaseTypes } from 'shared/types';

@@ -3,7 +3,7 @@
 .wrapper {
   @include flex;
   flex-wrap: wrap;
-  gap: 12px;
+  column-gap: 6px;
   justify-content: flex-start;
   word-wrap: break-word;
   word-break: break-all;
