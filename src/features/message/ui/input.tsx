@@ -5,6 +5,7 @@ import { MessageApi, MessageInputView, useMessageStore } from 'entities/message'
 import { UserTypes } from 'entities/user';
 import { useAudioRecorder } from 'shared/hooks';
 
+import { useAppStore } from '../../../entities/app';
 import { ChatApi } from '../../../entities/chat';
 import { MediaContentModal, SwiperModal } from '../../../entities/modal';
 import { Modal, useModal } from '../../../shared/ui';
@@ -21,6 +22,8 @@ function MessageInput(props: Props) {
     const { mutate: handleMessageAction } = MessageApi.handleMessageAction();
     const { mutate: handleReplyMessage } = MessageApi.handleReplyMessage();
     const { mutate: handleChangeTextInMessages } = MessageApi.handleChangeTextInMessages();
+
+    const setNotifications = useAppStore.use.setNotifications();
 
     const messageToEdit = useMessageStore.use.messageToEdit();
     const setMessageToEdit = useMessageStore.use.setMessageToEdit();
@@ -115,35 +118,43 @@ function MessageInput(props: Props) {
         lastWord && lastWord?.length > 50 && setValueTextMessage((prev) => `${prev} `);
     }, [valueTextMessage]);
 
-    const getTagAUsers = (): { suitable: UserTypes.User[]; users: UserTypes.User[] } | null => {
+    const getTagAUsers = (): UserTypes.User[] | null => {
         if (!chat || !chat.is_group) return null;
         const words = valueTextMessage.split(' ');
+        const all = words.find((word) => /^@$/.test(word));
         const tags = words.filter((word) => /@[a-zA-Zа-яА-я0-9]/.test(word));
-        if (tags.length) {
-            const suitable: UserTypes.User[] = [];
-            const users: UserTypes.User[] = [];
+        const lastWordIsTag = /@[a-zA-Zа-яА-я0-9]/.test(words[words.length - 1]);
+        const suitable: UserTypes.User[] = [];
+        if (all) {
+            suitable.splice(0, 0, ...chat.chatUsers);
+            return suitable;
+        }
+        if (tags.length && lastWordIsTag) {
             tags.forEach((tag) => {
                 chat.chatUsers.forEach((user) => {
                     if (user.nickname.includes(tag.substring(1))) {
                         suitable.push(user);
                     }
-                    if (user.nickname === tag.substring(1)) {
-                        users.push(user);
-                    }
                 });
             });
-            return { suitable, users };
+            return suitable;
         }
         return null;
     };
 
-    const clickUser = (user: UserTypes.User) => {};
+    const clickUser = (user: UserTypes.User) => {
+        if (user.nickname) {
+            setValueTextMessage((prev) => `${prev + user.nickname} `);
+        } else {
+            setNotifications({ text: 'Этого пользователя нельзя отметить', description: 'Ошибка', scope: 'app', system: true });
+        }
+    };
 
     return (
         <>
             <MessageInputView
                 clickUser={clickUser}
-                tagAUsers={getTagAUsers()?.suitable || null}
+                tagAUsers={getTagAUsers()}
                 audioRecorder={audioRecorder}
                 messageToEdit={messageToEdit}
                 messageToReply={messageToReply}

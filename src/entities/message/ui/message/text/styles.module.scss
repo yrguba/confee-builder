@@ -1,11 +1,19 @@
 @import "./src/app/styles";
 
-.wrapper{
+.wrapper {
   @include flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
   word-wrap: break-word;
-  //word-break: break-all;
+  word-break: break-all;
   white-space: pre-line;
   color: var(--text-0);
+
+  .tag {
+    color: var(--main-active);
+    cursor: pointer;
+  }
 }
 
 

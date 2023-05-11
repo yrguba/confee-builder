@@ -112,7 +112,7 @@ function MessagesListView(props: Props) {
                                 <Dropdown
                                     dynamicPosition
                                     reverseX={message.isMy}
-                                    reverseY={index + 5 > messages?.length && messages?.length < 4}
+                                    reverseY={index + 5 > messages?.length && messages?.length > 4}
                                     trigger="right-click"
                                     content={
                                         <MessageMenuView
@@ -133,7 +133,9 @@ function MessagesListView(props: Props) {
                                             <ReplyMessageView message={message} reply={message.replyMessage} reactionClick={reactionClick} />
                                         ) : (
                                             <>
-                                                {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}
+                                                {message.message_type === 'text' && (
+                                                    <TextMessageView chatUsers={chat?.chatUsers} message={message} reactionClick={reactionClick} />
+                                                )}
                                                 {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />}
                                                 {message.message_type === 'voices' && <VoiceMessageView message={message} reactionClick={reactionClick} />}
                                             </>
