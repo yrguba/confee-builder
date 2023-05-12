@@ -10,6 +10,17 @@
   //flex-direction: column-reverse;
   position: relative;
 
+  .scrollDate{
+    @include flex;
+    @include box-size(200px, 40px);
+    background-color: var(--bg-1);
+    position: sticky;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: var(--text-0);
+  }
+
   .messageWrapper{
     @include box-size(calc(100% - 12px), auto);
     @include flex(flex-start);
