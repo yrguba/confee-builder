@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
@@ -8,10 +8,14 @@ type Props = {
     text: string;
 } & BaseTypes.Statuses;
 
-function SystemMessageView(props: Props) {
+const SystemMessageView = forwardRef((props: Props, ref: any) => {
     const { text } = props;
 
-    return <div className={styles.wrapper}>{text}</div>;
-}
+    return (
+        <div ref={ref} className={styles.wrapper}>
+            {text}
+        </div>
+    );
+});
 
 export default SystemMessageView;

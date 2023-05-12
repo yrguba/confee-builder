@@ -70,8 +70,8 @@ function MessageInputView(props: Props) {
                 <Box.Animated visible={isVisibleHeader} animationVariant="autoHeight" transition={{ type: 'tween' }} className={styles.header}>
                     {tagAUsers?.length ? (
                         <div className={styles.mainColumn} style={{ gap: 4 }}>
-                            {tagAUsers.map((user) => (
-                                <UserCardView onClick={() => clickUser(user)} key={user.id} user={user} subtitle={`@${user.nickname}`} />
+                            {tagAUsers.map((user, index) => (
+                                <UserCardView onClick={() => clickUser(user)} key={index} user={user} subtitle={`@${user.nickname}`} />
                             ))}
                         </div>
                     ) : (

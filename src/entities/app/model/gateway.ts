@@ -12,7 +12,6 @@ function AppGateway() {
     const viewer = ViewerService.getViewer();
     useEffect(() => {
         socketIo.on('receiveMessage', ({ message }: { message: { chat_id: string } & MessageTypes.Message }) => {
-            console.log(message);
             const openChatId = ChatService.getOpenChatId();
             if (message.user.id !== viewer?.id && Number(message.chat_id) !== openChatId) {
                 const { message_type, user } = message;

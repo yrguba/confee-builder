@@ -36,11 +36,14 @@ function MessagesListView(props: Props) {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
 
+    const [isVisibleDate, setIsVisibleDate] = useState(false);
+
     const prevMessages = usePrevious(messages);
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
     const { ref: firstPendingMessagesRef, inView: inViewFirsPendingMessage } = useInView();
+    const { ref: dateRef, inView: inViewDate } = useInView();
 
     const getMessageRef = (message: MessageProxy, index: number) => {
         if (!chat?.pending_messages) {
@@ -98,13 +101,18 @@ function MessagesListView(props: Props) {
         setInitial(true);
     }, [params.chat_id]);
 
+    useEffect(() => {
+        // isVisibleDate && setTimeout(() => setIsVisibleDate(false), 2000);
+    }, [isVisibleDate]);
+
     return (
-        <div className={styles.wrapper} ref={wrapperRef}>
+        <div className={styles.wrapper} ref={wrapperRef} onScroll={() => setIsVisibleDate(true)}>
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
                     {index === 5 && <div ref={nextPageRef} />}
                     {message.isFirstUnread && <SystemMessageView text="непрочитанные" />}
-                    {message.firstOfDay && <SystemMessageView text={message.firstOfDay} />}
+                    {message.firstOfDay && <SystemMessageView ref={dateRef} text={message.firstOfDay} />}
+                    {/* {!inViewDate && <div className={styles.scrollDate}>{message.firstOfDay}</div>} */}
                     {message.message_type === 'system' && <SystemMessageView text={message.text} />}
                     <div className={`${styles.messageWrapper} ${message.isMy && styles.messageWrapper_my}`} ref={getMessageRef(message, index)}>
                         {message.message_type !== 'system' && (
@@ -112,7 +120,7 @@ function MessagesListView(props: Props) {
                                 <Dropdown
                                     dynamicPosition
                                     reverseX={message.isMy}
-                                    reverseY={index + 5 > messages?.length && messages?.length < 4}
+                                    reverseY={index + 5 > messages?.length && messages?.length > 4}
                                     trigger="right-click"
                                     content={
                                         <MessageMenuView
@@ -133,7 +141,9 @@ function MessagesListView(props: Props) {
                                             <ReplyMessageView message={message} reply={message.replyMessage} reactionClick={reactionClick} />
                                         ) : (
                                             <>
-                                                {message.message_type === 'text' && <TextMessageView message={message} reactionClick={reactionClick} />}
+                                                {message.message_type === 'text' && (
+                                                    <TextMessageView chatUsers={chat?.chatUsers} message={message} reactionClick={reactionClick} />
+                                                )}
                                                 {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />}
                                                 {message.message_type === 'voices' && <VoiceMessageView message={message} reactionClick={reactionClick} />}
                                             </>

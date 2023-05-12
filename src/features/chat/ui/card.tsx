@@ -8,8 +8,6 @@ import { UserService } from 'entities/user';
 import { ViewerService } from 'entities/viewer';
 import { useEnding } from 'shared/hooks';
 
-import message from '../../menu-dropdown/ui/message';
-
 function ChatCard() {
     const navigate = useNavigate();
     const params = useParams();

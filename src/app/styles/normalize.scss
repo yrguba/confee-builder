@@ -7,6 +7,10 @@ html {
     cursor: pointer;
   }
 
+  a{
+    color: var(--main-active);
+  }
+
   //input
   input {
     all: unset;

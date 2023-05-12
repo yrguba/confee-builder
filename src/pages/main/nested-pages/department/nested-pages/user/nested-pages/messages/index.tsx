@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { MessageDropdownMenu } from 'features/menu-dropdown';
 import { Button, Counter, Select, Icons, SelectTypes, Dropdown } from 'shared/ui';
 
 import styles from './styles.module.scss';

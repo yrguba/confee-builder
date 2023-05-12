@@ -34,7 +34,9 @@ function Notification(props: NotificationTypes.NotificationProps) {
 
     return notification_root
         ? ReactDOM.createPortal(
-              <div className={styles.wrapper}>{items?.map((i) => (i.system ? <Item i={i} /> : disabledApp ? null : <Item i={i} />))}</div>,
+              <div className={styles.wrapper}>
+                  {items?.map((i) => (i.system ? <Item key={i.id} i={i} /> : disabledApp ? null : <Item i={i} key={i.id} />))}
+              </div>,
               notification_root
           )
         : null;
