@@ -6,9 +6,12 @@
   column-gap: 6px;
   justify-content: flex-start;
   word-wrap: break-word;
-  word-break: break-all;
   white-space: pre-line;
   color: var(--text-0);
+
+  .longWord{
+    word-break: break-all;
+  }
 
   .tag {
     color: var(--main-active);
