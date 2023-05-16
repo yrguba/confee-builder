@@ -42,11 +42,11 @@ class ChatApi {
         });
     };
 
-    handleGetChatFiles = (data: { id: string | undefined; byUserId: boolean; fileType: MessageTypes.MessageType }) => {
+    handleGetChatFiles = (data: { id: string | undefined; byUserId: boolean; fileType: any }) => {
         const getFiles = (chatId: number | undefined) => {
             return useQuery(['get-chat-files', Number(data.id), data.fileType], () => axiosClient.get(`${this.pathPrefix}/${chatId}/files/${data.fileType}`), {
                 staleTime: Infinity,
-                enabled: !!chatId,
+                enabled: !!chatId || !!data.fileType,
                 select: (data) => {
                     return handlers.response<{ data: { files: MessageTypes.File[] } }>(data);
                 },

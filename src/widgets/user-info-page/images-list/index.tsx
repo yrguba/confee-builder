@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import { ChatImagesList } from 'features/chat';
+// import { ChatImagesList } from 'features/chat';
 
 import styles from './styles.module.scss';
 
@@ -10,9 +10,7 @@ function ImagesListFromUserInfoPage() {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.list}>
-                <ChatImagesList />
-            </div>
+            <div className={styles.list}>{/* <ChatImagesList /> */}</div>
         </div>
     );
 }

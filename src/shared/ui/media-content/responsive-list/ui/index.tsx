@@ -24,14 +24,20 @@ function ResponsiveMediaContents(props: ResponsiveMediaContentsProps) {
 
     const classes = useStyles(styles, 'wrapper', {
         hardGrid,
+        doc: type === 'documents',
     });
 
     return (
         <div ref={wrapperRef} style={getStyles()} className={classes}>
-            {list.map((url, index) => (
-                <div key={index} className={styles.img} style={hardGrid ? { width: imgSize, height: imgSize } : {}}>
-                    {type === 'image' && <Image key={index} img={url} />}
-                </div>
+            {list.map((file, index) => (
+                <>
+                    {type === 'images' && (
+                        <div key={index} className={styles.img} style={hardGrid ? { width: imgSize, height: imgSize } : {}}>
+                            <Image key={index} img={file.url} />
+                        </div>
+                    )}
+                    {type === 'documents' && <Document key={index} url={file.url} name={file.name} size={0} />}
+                </>
             ))}
         </div>
     );

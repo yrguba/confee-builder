@@ -3,8 +3,8 @@ import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { BaseTypes } from 'shared/types';
 
 export type ResponsiveMediaContentsProps = {
-    list: string[];
-    type: 'image' | 'audio' | 'video' | 'document';
+    list: { url: string; name: string }[];
+    type: 'images' | 'audios' | 'videos' | 'documents';
     gap?: number;
     imgSize?: number;
     hardGrid?: boolean;

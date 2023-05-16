@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import { ChatImagesList } from 'features/chat';
+// import { ChatImagesList } from 'features/chat';
 
 import styles from './styles.module.scss';
 
