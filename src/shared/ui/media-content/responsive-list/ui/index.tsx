@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, Fragment } from 'react';
 
 import { useSize, useGrid, useStyles } from 'shared/hooks';
 import { Image, Document } from 'shared/ui';
@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { ResponsiveMediaContentsProps } from '../types';
 
 function ResponsiveMediaContents(props: ResponsiveMediaContentsProps) {
-    const { type, list, imgSize = 200, gap, hardGrid } = props;
+    const { type, list, imgSize = 200, gap, hardGrid, imgClick } = props;
 
     const wrapperRef = useRef(null);
 
@@ -30,14 +30,14 @@ function ResponsiveMediaContents(props: ResponsiveMediaContentsProps) {
     return (
         <div ref={wrapperRef} style={getStyles()} className={classes}>
             {list.map((file, index) => (
-                <>
+                <Fragment key={index}>
                     {type === 'images' && (
-                        <div key={index} className={styles.img} style={hardGrid ? { width: imgSize, height: imgSize } : {}}>
+                        <div onClick={() => imgClick(index)} key={index} className={styles.img} style={hardGrid ? { width: imgSize, height: imgSize } : {}}>
                             <Image key={index} img={file.url} />
                         </div>
                     )}
                     {type === 'documents' && <Document key={index} url={file.url} name={file.name} size={0} />}
-                </>
+                </Fragment>
             ))}
         </div>
     );

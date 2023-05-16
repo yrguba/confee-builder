@@ -116,7 +116,7 @@ function MessageList(props: Props) {
                 <ChatsListModal chats={chatsData?.data} selectedChats={selectedChats} setSelectedChats={setSelectedChats} />
             </Modal>
             <Modal {...modalSwiper} onOk={() => setContentForModal([])} onClose={() => setContentForModal([])}>
-                <SwiperModal files={contentForModal.map((i) => ({ ...i, url: `${http.url}${i.url}` }))} />
+                <SwiperModal startWithIt={1} files={contentForModal.map((i) => ({ ...i, url: `${http.url}${i.url}` }))} />
             </Modal>
         </>
     );

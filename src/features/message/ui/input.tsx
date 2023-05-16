@@ -170,7 +170,7 @@ function MessageInput(props: Props) {
             />
             <Modal {...modalMediaContent} onOk={onOkModalMediaContent} onClose={() => setMediaContentToSend(null)} headerText="Отправить ?">
                 {mediaContentToSend?.type === 'image' && (
-                    <SwiperModal files={mediaContentToSend?.list.map((i) => ({ url: i.url, size: 0, name: '', extension: 'img' })) || []} />
+                    <SwiperModal startWithIt={1} files={mediaContentToSend?.list.map((i) => ({ url: i.url, size: 0, name: '', extension: 'img' })) || []} />
                 )}
                 {mediaContentToSend?.type === 'document' && <MediaContentModal list={mediaContentToSend?.list.map((i) => i)} type="document" />}
             </Modal>

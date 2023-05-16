@@ -1,23 +1,22 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { UserTypes, UserCardView } from 'entities/user';
-import { useSize, useGrid, useStyles } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
     users: UserTypes.User[];
+    userClick: (user: UserTypes.User) => void;
 } & BaseTypes.Statuses;
 
 function ChatUsersListView(props: Props) {
-    const { users } = props;
+    const { users, userClick } = props;
 
     return (
         <div className={styles.wrapper}>
             {users.map((user, index) => (
-                <UserCardView key={user.id} user={user} />
+                <UserCardView onClick={userClick} key={user.id} user={user} />
             ))}
         </div>
     );
