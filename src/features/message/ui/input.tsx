@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
+import { useAppStore } from 'entities/app';
+import { ChatApi } from 'entities/chat';
 import { MessageApi, MessageInputView, useMessageStore } from 'entities/message';
+import { MediaContentModal, SwiperModal } from 'entities/modal';
 import { UserTypes } from 'entities/user';
 import { useAudioRecorder } from 'shared/hooks';
 
-import { useAppStore } from '../../../entities/app';
-import { ChatApi } from '../../../entities/chat';
-import { MediaContentModal, SwiperModal } from '../../../entities/modal';
 import { Modal, useModal } from '../../../shared/ui';
 
 type Props = {};
@@ -170,7 +170,10 @@ function MessageInput(props: Props) {
                 loading={isLoading}
             />
             <Modal {...modalMediaContent} onOk={onOkModalMediaContent} onClose={() => setMediaContentToSend(null)} headerText="Отправить ?">
-                <SwiperModal files={mediaContentToSend?.list.map((i) => ({ url: i, size: 0, name: '', extension: 'img' })) || []} />
+                {mediaContentToSend?.type === 'image' && (
+                    <SwiperModal files={mediaContentToSend?.list.map((i) => ({ url: i.url, size: 0, name: '', extension: 'img' })) || []} />
+                )}
+                {mediaContentToSend?.type === 'document' && <MediaContentModal list={mediaContentToSend?.list.map((i) => i)} type="document" />}
             </Modal>
         </>
     );

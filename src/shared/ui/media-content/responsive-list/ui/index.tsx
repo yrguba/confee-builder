@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 
 import { useSize, useGrid, useStyles } from 'shared/hooks';
-import { Image } from 'shared/ui';
+import { Image, Document } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { ResponsiveMediaContentsProps } from '../types';
@@ -28,9 +28,9 @@ function ResponsiveMediaContents(props: ResponsiveMediaContentsProps) {
 
     return (
         <div ref={wrapperRef} style={getStyles()} className={classes}>
-            {list.map((img, index) => (
+            {list.map((url, index) => (
                 <div key={index} className={styles.img} style={hardGrid ? { width: imgSize, height: imgSize } : {}}>
-                    {type === 'image' && <Image key={index} img={img} />}
+                    {type === 'image' && <Image key={index} img={url} />}
                 </div>
             ))}
         </div>

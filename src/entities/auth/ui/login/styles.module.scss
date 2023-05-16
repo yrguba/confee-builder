@@ -3,14 +3,27 @@
 .wrapper {
   @include box-size(100%, 400px);
 
+  @include responsive-to('md'){
+    @include box-size(100%, 300px);
+  }
+
   .form{
     @include flex-column(center, flex-start, 30);
+
+    @include responsive-to('md'){
+      gap: 20px;
+    }
+
     .inputGroup {
       height: 80px;
     }
 
     button {
       margin-top: 70px;
+
+      @include responsive-to('md'){
+        margin-top: 40px;
+      }
     }
   }
 

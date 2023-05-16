@@ -4,6 +4,7 @@
   @include flex-column;
   gap: 2px;
   max-width: 420px;
+  cursor: pointer;
 
   .row {
     @include flex;

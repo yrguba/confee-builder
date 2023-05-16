@@ -10,7 +10,7 @@ type Store = {
     socketAction: string;
     isOpenEmojiPicker: boolean;
     isOpenInputMenu: boolean;
-    mediaContentToSend: { type: MediaContentTypeKeys; list: string[]; formData: FormData | null } | null;
+    mediaContentToSend: { type: MediaContentTypeKeys; list: { url: string; name: string }[]; formData: FormData | null } | null;
     messageToEdit: MessageProxy | null;
     messageToReply: MessageProxy | null;
     messagesToForward: MessageProxy[];
@@ -18,7 +18,7 @@ type Store = {
     setSocketAction: (action: string) => void;
     setIsOpenEmojiPicker: (bool: boolean) => void;
     setIsOpenInputMenu: (bool: boolean) => void;
-    setMediaContentToSend: (data: { type: MediaContentTypeKeys; list: string[]; formData: FormData | null } | null) => void;
+    setMediaContentToSend: (data: { type: MediaContentTypeKeys; list: { url: string; name: string }[]; formData: FormData | null } | null) => void;
     setMessageToEdit: (message: MessageProxy | null) => void;
     setMessageToReply: (message: MessageProxy | null) => void;
     setMessagesToForward: (message: MessageProxy[] | []) => void;
