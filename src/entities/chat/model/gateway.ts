@@ -1,9 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
+import { socketIo } from 'shared/configs';
+
 import useChatStore from './store';
 import { Chat, ChatProxy } from './types';
-import { socketIo } from '../../../shared/configs';
+import chatProxy from '../lib/chat-proxy';
 
 function chatGateway() {
     const queryClient = useQueryClient();
@@ -58,9 +60,20 @@ function chatGateway() {
 
         socketIo.on('receiveChatChanges', async ({ data }) => {
             console.log('receiveChatChanges', data);
+            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                cacheData &&
+                    cacheData.data.data.forEach((chat: Chat, index: number) => {
+                        if (chat.id === Number(data.chatId)) {
+                            cacheData.data.data[index] = { ...chat, ...data.updatedValues };
+                            setSocketAction(`avatar:${chat?.id + chat?.avatar} `);
+                        }
+                    });
+                return cacheData;
+            });
         });
 
         socketIo.on('receiveChat', ({ message }) => {
+            console.log('receiveChat', message);
             queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                 cacheData && cacheData.data.data.unshift(message);
                 setSocketAction(`addChat:${message?.id}`);

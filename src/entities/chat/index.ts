@@ -1,3 +1,4 @@
+import ChatProxy from './lib/chat-proxy';
 import ChatService from './lib/service';
 import ChatApi from './model/api';
 import chatGateway from './model/gateway';
@@ -9,4 +10,4 @@ import ChatListView from './ui/chats-list';
 import ChatDossierView from './ui/dossier';
 import ChatUsersListView from './ui/users-list';
 
-export { ChatApi, useChatStore, ChatTypes, ChatService, chatGateway, chatObserver, ChatCardView, ChatListView, ChatUsersListView, ChatDossierView };
+export { ChatProxy, ChatApi, useChatStore, ChatTypes, ChatService, chatGateway, chatObserver, ChatCardView, ChatListView, ChatUsersListView, ChatDossierView };

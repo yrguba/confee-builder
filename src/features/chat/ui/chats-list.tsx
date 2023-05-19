@@ -3,10 +3,12 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import { ChatListView, ChatApi, ChatTypes, ChatService, useChatStore } from 'entities/chat';
-import { CreatePrivateChatModal } from 'entities/modal';
+import { CreatePrivateChatModal, CreateGroupChatModal } from 'entities/modal';
 import { UserTypes, UserApi } from 'entities/user';
 import { ViewerService } from 'entities/viewer';
 import { useModal, Modal } from 'shared/ui';
+
+import ChatProxy from '../../../entities/chat/lib/chat-proxy';
 
 function ChatsList() {
     const navigate = useNavigate();
@@ -15,6 +17,7 @@ function ChatsList() {
     const viewer = ViewerService.getViewer();
 
     const createPrivateChatModal = useModal();
+    const createGroupChatModal = useModal();
 
     const socketAction = useChatStore.use.socketAction();
 
@@ -22,6 +25,7 @@ function ChatsList() {
 
     const { data: chatData } = ChatApi.handleGetChats();
     const { mutate: handleCreateChat, isSuccess } = ChatApi.handleCreateChat();
+    const { mutate: handleAddAvatar } = ChatApi.handleAddAvatar();
 
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
         const { id, is_group } = chat;
@@ -39,6 +43,7 @@ function ChatsList() {
 
     const openCreateChatModal = (name: string) => {
         if (name === 'Личные чаты') return createPrivateChatModal.open();
+        if (name === 'Групповые чаты') return createGroupChatModal.open();
     };
 
     const createPrivateChat = (user: UserTypes.User) => {
@@ -61,16 +66,45 @@ function ChatsList() {
         );
     };
 
+    const createGroupChat = (data: { name: string; avatar: FormData | null; users: number[] }) => {
+        handleCreateChat(
+            {
+                name: data.name,
+                users: data.users,
+                is_group: true,
+            },
+            {
+                onSuccess: (res) => {
+                    if (data.avatar) {
+                        handleAddAvatar({
+                            chatId: res.data.data.id,
+                            avatar: data.avatar,
+                        });
+                    }
+                    createGroupChatModal.close();
+                    if (params.chat_id) {
+                        navigate(`/main/chats/chat/${res.data.data.id}`);
+                    } else {
+                        navigate(`chat/${res.data.data.id}`);
+                    }
+                },
+            }
+        );
+    };
+
     return (
         <>
             <ChatListView
                 createChat={openCreateChatModal}
-                chats={chatData?.data || []}
+                chats={chatData?.data?.map((chat) => ChatProxy(chat)) || []}
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
             />
             <Modal footer={false} headerText="Создание чата" {...createPrivateChatModal}>
                 <CreatePrivateChatModal users={usersData?.data?.data || []} userClick={createPrivateChat} />
+            </Modal>
+            <Modal okText="Создать" headerText="Создание группы" {...createGroupChatModal}>
+                <CreateGroupChatModal createChat={createGroupChat} users={usersData?.data?.data || []} />
             </Modal>
         </>
     );

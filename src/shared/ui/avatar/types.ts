@@ -3,4 +3,5 @@ export type Props = {
     name?: string;
     img: string;
     circle?: boolean;
+    withHttp?: boolean;
 };

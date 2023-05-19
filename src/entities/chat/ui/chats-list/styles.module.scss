@@ -24,6 +24,8 @@
   .chatsList{
     @include flex-column(center, flex-start);
     margin-top: 10px;
+    width: 100%;
+    overflow-y: auto;
 
     .itemActive{
       background-color: var(--bg-03);

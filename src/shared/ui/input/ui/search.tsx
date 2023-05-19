@@ -9,7 +9,7 @@ import Button from '../../button';
 import { SearchInputProps, InputValue } from '../types';
 
 const Input = forwardRef<HTMLInputElement, SearchInputProps>((props, ref) => {
-    const { debounceDelay, debounceCallback, active, title, errorTitle, loading, error, size, mini, disabled, ...other } = props;
+    const { debounceDelay, debounceCallback, active, title, errorTitle, width, height, loading, error, size, mini, disabled, ...other } = props;
 
     useDebounce(
         () => {
@@ -24,7 +24,7 @@ const Input = forwardRef<HTMLInputElement, SearchInputProps>((props, ref) => {
             <Icons variants="search" color="#fff" />
         </Button.Circle>
     ) : (
-        <Wrapper size={size} title={title} errorTitle={errorTitle}>
+        <Wrapper width={width} height={height} size={size} title={title} errorTitle={errorTitle}>
             <input ref={ref} className={styles.input} {...other} />
             <Icons variants="search" />
         </Wrapper>

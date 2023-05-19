@@ -5,10 +5,20 @@ import Wrapper from './wrapper/wrapper';
 import { BaseInputProps } from '../types';
 
 const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
-    const { active, title, errorTitle, loading, error, size, disabled, ...other } = props;
+    const { active, title, errorTitle, loading, error, size, disabled, width, height, ...other } = props;
 
     return (
-        <Wrapper title={title} errorTitle={errorTitle} loading={loading} error={error} size={size} disabled={disabled} active={active}>
+        <Wrapper
+            width={width}
+            height={height}
+            title={title}
+            errorTitle={errorTitle}
+            loading={loading}
+            error={error}
+            size={size}
+            disabled={disabled}
+            active={active}
+        >
             <input ref={ref} className={styles.input} {...other} />
         </Wrapper>
     );

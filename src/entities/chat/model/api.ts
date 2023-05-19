@@ -17,7 +17,7 @@ class ChatApi {
             staleTime: Infinity,
             select: (data) => {
                 const res = handlers.response<{ data: ChatProxy }>(data);
-                return res.data ? { ...res, data: { data: chatProxy(res.data.data) } } : res;
+                return res.data ? { ...res, data: { data: res.data.data } } : res;
             },
             enabled: !!data.chatId,
         });
@@ -28,7 +28,7 @@ class ChatApi {
             staleTime: Infinity,
             select: (data) => {
                 const res = handlers.response<{ data: Chat[] }>(data);
-                return { ...res, data: res.data?.data.map((chat): ChatProxy => chatProxy(chat)) };
+                return { ...res, data: res.data?.data.map((chat): Chat => chat) };
             },
         });
     };
@@ -61,6 +61,10 @@ class ChatApi {
 
     handleCreateChat() {
         return useMutation((data: { name?: string; users: number[]; is_group: boolean }) => axiosClient.post(this.pathPrefix, data));
+    }
+
+    handleAddAvatar() {
+        return useMutation((data: { chatId: number; avatar: FormData }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/avatar`, data.avatar));
     }
 
     handleSubscribeToChat = () => ({

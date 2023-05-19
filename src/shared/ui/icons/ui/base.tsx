@@ -6,6 +6,21 @@ function BaseIcons(props: BaseIconsProps) {
     const { variants, color = 'var(--button-inactive)', size = 16 } = props;
 
     switch (variants) {
+        case 'photo': {
+            return (
+                <svg width="74" height="74" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="74" height="74" rx="37" fill="#E8ECF3" />
+                    <path
+                        d="M50 25H47.6L45.8 22.6C44.6 21 42.6 20 40.6 20H33.4C31.2 20 29.4 21 28 22.6L26.2 25H24C20 25 17 28 17 31.8V46.6C17 50.4 20 53.6 24 53.6H50.2C54 53.6 57.2 50.6 57.2 46.6V31.8C57 28 54 25 50 25Z"
+                        fill="#717394"
+                    />
+                    <path
+                        d="M37.0011 44.9995C40.6461 44.9995 43.6011 42.0445 43.6011 38.3995C43.6011 34.7544 40.6461 31.7995 37.0011 31.7995C33.356 31.7995 30.4011 34.7544 30.4011 38.3995C30.4011 42.0445 33.356 44.9995 37.0011 44.9995Z"
+                        fill="#DDE4EF"
+                    />
+                </svg>
+            );
+        }
         case 'plus': {
             return (
                 <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
