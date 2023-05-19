@@ -6,7 +6,9 @@
   max-height: 500px;
   gap: 16px;
   position: relative;
-
+  @include height-to('sm') {
+    gap: 4px;
+  }
   .avatarAndName {
     @include flex(flex-start, flex-start);
     margin-top: 12px;
@@ -42,7 +44,7 @@
     height: 400px;
 
     @include height-to('sm') {
-      height: 200px;
+      height: 115px;
     }
 
     .item {
