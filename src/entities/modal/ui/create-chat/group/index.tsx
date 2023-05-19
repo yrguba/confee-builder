@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import { UserCardView, UserTypes } from 'entities/user';
+import { ViewerService } from 'entities/viewer';
 import { useInput, useArray, useFileUploader } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Input, Icons, Avatar } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { name } from '../../../../../shared/constanst/project-info';
 
 type Props = {
     users: UserTypes.User[];
@@ -15,7 +17,10 @@ type Props = {
 function CreateGroupChatModal(props: Props) {
     const { users, createChat } = props;
 
+    const viewer = ViewerService.getViewer();
+
     const [usersList, setUsersList] = useState(users);
+    const [error, setError] = useState('');
 
     const { open, files, formData } = useFileUploader({ accept: 'image', formDataName: 'images' });
     const search = useInput();
@@ -31,9 +36,14 @@ function CreateGroupChatModal(props: Props) {
         // userClick(user);
     };
 
+    const user_ids = selectedUsers.map((i) => i.id);
+
     const onOk = (e: any) => {
         e.stopPropagation();
-        createChat({ name: chatName.value, users: selectedUsers.map((i) => i.id), avatar: formData || null });
+        setError('');
+        if (!chatName.value) return setError('Введите название группы');
+        // if (!selectedUsers.length) return setError('Введите название группы');
+        createChat({ name: chatName.value, users: user_ids.length ? user_ids : viewer?.id ? [viewer?.id] : [], avatar: formData || null });
     };
 
     return (
@@ -43,8 +53,7 @@ function CreateGroupChatModal(props: Props) {
                     {files.length ? <Avatar withHttp={false} img={files[0].fileUrl} size={74} /> : <Icons variants="photo" />}
                 </div>
                 <div className={styles.name}>
-                    <div className={styles.text}>Название группы</div>
-                    <Input {...chatName} width={220} />
+                    <Input {...chatName} width={220} title="Название группы" errorTitle={error} />
                 </div>
             </div>
             <div className={styles.title}>
