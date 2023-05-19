@@ -7,18 +7,18 @@ import { Box } from '../../index';
 import { CollapseProps } from '../types';
 
 function Collapse(props: CollapseProps) {
-    const { title, children, titleClassName, isOpen, headerClassName, onTitleClick, openByClickingOnArrow, activeAnimate } = props;
+    const { title, children, titleClassName, isOpen, headerClassName, onTitleClick, openByClickingOnArrow, createAction } = props;
     const [visible, toggle] = useToggle();
 
     const headerClick = () => {
         !openByClickingOnArrow && toggle();
     };
 
-    const titleClick = () => {
+    const titleClick = (e: any) => {
         onTitleClick && onTitleClick(title);
     };
 
-    const arrowClick = () => {
+    const arrowClick = (e: any) => {
         openByClickingOnArrow && toggle();
     };
 
@@ -26,11 +26,21 @@ function Collapse(props: CollapseProps) {
         toggle(!!isOpen);
     }, [isOpen]);
 
+    const plusClick = (e: any) => {
+        e.stopPropagation();
+        createAction && createAction(title);
+    };
+
     return (
         <div className={styles.wrapper}>
             <div className={`${styles.header} ${headerClassName}`} onClick={headerClick}>
                 <div className={`${styles.title} ${titleClassName}`} onClick={titleClick}>
-                    {title}
+                    <div className={styles.text}> {title}</div>
+                    {createAction && (
+                        <div onClick={plusClick} className={styles.plus}>
+                            <Icons variants="plus" />
+                        </div>
+                    )}
                 </div>
                 <div className={styles.arrow} onClick={arrowClick}>
                     <Icons.ArrowAnimated animateDeg={90} initialDeg={0} activeAnimate={visible} variants="rotate" />

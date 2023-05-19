@@ -24,7 +24,7 @@ const Input = forwardRef<HTMLInputElement, SearchInputProps>((props, ref) => {
             <Icons variants="search" color="#fff" />
         </Button.Circle>
     ) : (
-        <Wrapper title={title} errorTitle={errorTitle}>
+        <Wrapper size={size} title={title} errorTitle={errorTitle}>
             <input ref={ref} className={styles.input} {...other} />
             <Icons variants="search" />
         </Wrapper>

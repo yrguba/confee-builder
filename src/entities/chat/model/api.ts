@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 import { MessageTypes } from 'entities/message';
@@ -58,6 +58,10 @@ class ChatApi {
         }
         return getFiles(Number(data.id));
     };
+
+    handleCreateChat() {
+        return useMutation((data: { name?: string; users: number[]; is_group: boolean }) => axiosClient.post(this.pathPrefix, data));
+    }
 
     handleSubscribeToChat = () => ({
         mutate: (chatId: number) => {

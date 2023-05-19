@@ -6,7 +6,7 @@ export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
 
 export type InputValue = InputAttrs['value'];
 
-type Size = number | 's' | 'm' | 'l' | 'xl';
+type Size = number | 's' | 'm' | 'l' | 'xl' | 'xxl';
 
 type Shared = {
     size?: Size;

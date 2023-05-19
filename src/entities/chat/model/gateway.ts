@@ -55,6 +55,28 @@ function chatGateway() {
                 return cacheData;
             });
         });
+
+        socketIo.on('receiveChatChanges', async ({ data }) => {
+            console.log('receiveChatChanges', data);
+        });
+
+        socketIo.on('receiveChat', ({ message }) => {
+            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                cacheData && cacheData.data.data.unshift(message);
+                setSocketAction(`addChat:${message?.id}`);
+                return cacheData;
+            });
+        });
+
+        socketIo.on('addedToChat', ({ message }) => {
+            console.log('addedToChat', message);
+        });
+        socketIo.on('removedFromChat', ({ message }) => {
+            console.log('removedFromChat', message);
+        });
+        socketIo.on('deleteChat', (data) => {
+            console.log('deleteChat', data);
+        });
     }, []);
 }
 

@@ -16,20 +16,24 @@
     background-color: var(--bg-0);
     z-index: 1000;
 
-    @include responsive-to('md'){
+    @include width-to('md'){
       //width: 100%;
       //height: 100%;
     }
 
     .header {
       @include flex(space-between);
-      @include box-size(100%, 28px);
+      @include box-size(100%, 38px);
       border-top-left-radius: var(--border-radius);
       border-top-right-radius: var(--border-radius);
+      margin-bottom: 22px;
 
       &__title {
-        padding-left: 12px;
+        padding-left: 16px;
+        padding-top: 24px;
         color: var(--text-0);
+        font-weight: 600;
+        font-size: 24px;
       }
 
       &__closeIcon {

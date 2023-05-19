@@ -12,10 +12,11 @@ type Props = {
     chats: ChatProxy[];
     clickOnChat: (arg: ChatProxy) => void;
     activeChatId: number | null;
+    createChat: (value: string) => void;
 } & BaseTypes.Statuses;
 
 function ChatListView(props: Props) {
-    const { chats, clickOnChat, loading, error, activeChatId } = props;
+    const { chats, clickOnChat, loading, createChat, activeChatId } = props;
 
     const data = [
         { id: 0, name: 'Личные чаты', items: chats.filter((i) => !i.is_group) },
@@ -28,6 +29,7 @@ function ChatListView(props: Props) {
             {chats &&
                 data.map((category, index: number) => (
                     <Collapse
+                        createAction={category.name !== 'Каналы' ? createChat : undefined}
                         isOpen={index === 0}
                         key={category.id}
                         titleClassName={styles.categoryTitle}

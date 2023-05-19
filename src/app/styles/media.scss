@@ -5,7 +5,7 @@ $breakpoints: (
         xl: 1400px,
 );
 
-@mixin responsive-from($breakpoint) {
+@mixin width-from($breakpoint) {
   $size: map-get($breakpoints, $breakpoint);
   @if ($size == 0) {
     @content;
@@ -16,7 +16,7 @@ $breakpoints: (
   }
 }
 
-@mixin responsive-to($breakpoint) {
+@mixin width-to($breakpoint) {
   $size: map-get($breakpoints, $breakpoint);
   @if ($size == 0) {
     @content;
@@ -27,7 +27,7 @@ $breakpoints: (
   }
 }
 
-@mixin responsive-from-to($from, $to) {
+@mixin width-from-to($from, $to) {
   $min: map-get($breakpoints, $from);
   $max: map-get($breakpoints, $to) - 1px;
 
@@ -37,6 +37,43 @@ $breakpoints: (
     }
   } @else {
     @media screen and (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  }
+}
+
+@mixin height-from($breakpoint) {
+  $size: map-get($breakpoints, $breakpoint);
+  @if ($size == 0) {
+    @content;
+  } @else {
+    @media screen and (min-height: $size) {
+      @content;
+    }
+  }
+}
+
+@mixin height-to($breakpoint) {
+  $size: map-get($breakpoints, $breakpoint);
+  @if ($size == 0) {
+    @content;
+  } @else {
+    @media screen and (max-height: $size) {
+      @content;
+    }
+  }
+}
+
+@mixin height-from-to($from, $to) {
+  $min: map-get($breakpoints, $from);
+  $max: map-get($breakpoints, $to) - 1px;
+
+  @if ($min == 0) {
+    @media screen and (max-height: $max) {
+      @content;
+    }
+  } @else {
+    @media screen and (min-height: $min) and (max-height: $max) {
       @content;
     }
   }
