@@ -34,7 +34,7 @@ function chatGateway() {
                     cacheData.data.data.forEach((chat: Chat) => {
                         if (chat.id === Number(data.chat_id)) {
                             chat.pending_messages = data.pending_messages;
-                            setSocketAction(`receiveMessageStatus:${chat?.id}`);
+                            setSocketAction(`receiveMessageStatus:${new Date().valueOf()}`);
                         }
                     });
                 return cacheData;
@@ -47,10 +47,11 @@ function chatGateway() {
                     cacheData.data.data.forEach((chat: ChatProxy) => {
                         if (chat.id === Number(message.chat_id) && !chat.messageAction) {
                             chat.messageAction = `${message.user.name} ${message.action}`;
-                            setSocketAction(`receiveMessageAction:${chat?.id}`);
+                            const un = new Date().valueOf();
+                            setSocketAction(`receiveMessageAction:${un}`);
                             setTimeout(() => {
                                 chat.messageAction = '';
-                                setSocketAction(`reset:${chat?.id}`);
+                                setSocketAction(`reset:${un}`);
                             }, 3000);
                         }
                     });
