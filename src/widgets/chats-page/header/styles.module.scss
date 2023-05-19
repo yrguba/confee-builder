@@ -26,6 +26,10 @@
       @include flex(flex-end);
       gap: 8px;
       width: 70%;
+
+      .icon{
+        @include flex;
+      }
     }
   }
 }

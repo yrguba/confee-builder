@@ -9,9 +9,11 @@ import { ChatProxy } from './types';
 type Store = {
     socketAction: string;
     selectedChats: ChatProxy[];
+    visibleHeaderMenu: boolean;
     setSocketAction: (action: string) => void;
     setSelectedChats: (chat: ChatProxy) => void;
     clearSelectedChats: () => void;
+    setVisibleHeaderMenu: (value?: boolean) => void;
 };
 
 const chatStore = create<Store>()(
@@ -19,6 +21,7 @@ const chatStore = create<Store>()(
         immer((set) => ({
             socketAction: '',
             selectedChats: [],
+            visibleHeaderMenu: false,
             setSocketAction: (action) =>
                 set((state) => {
                     state.socketAction = action;
@@ -31,6 +34,14 @@ const chatStore = create<Store>()(
             clearSelectedChats: () =>
                 set((state) => {
                     state.selectedChats = [];
+                }),
+            setVisibleHeaderMenu: (value) =>
+                set((state) => {
+                    if (value) {
+                        state.visibleHeaderMenu = value;
+                    } else {
+                        state.visibleHeaderMenu = !state.visibleHeaderMenu;
+                    }
                 }),
         }))
     )

@@ -67,6 +67,10 @@ class ChatApi {
         return useMutation((data: { chatId: number; avatar: FormData }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/avatar`, data.avatar));
     }
 
+    handleExitFromChat() {
+        return useMutation((data: { chatId: number | null }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`));
+    }
+
     handleSubscribeToChat = () => ({
         mutate: (chatId: number) => {
             socketIo.emit('chatListeners', {

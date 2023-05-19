@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ChatUsersListView, ChatApi } from 'entities/chat';
-import { UserDossierView, UserTypes } from 'entities/user';
+import { UserDossierView, UserTypes, UsersListView } from 'entities/user';
 import { Modal, useModal } from 'shared/ui';
 
 type Props = {};
