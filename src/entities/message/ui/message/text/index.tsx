@@ -48,7 +48,15 @@ function TextMessageView(props: Props) {
     }, [user]);
 
     const checkLongWord = (str: string) => {
-        return str.split(' ').map((word) => (word.length > 30 ? <span className={styles.longWord}>{word}</span> : `${word} `));
+        return str.split(' ').map((word, index) =>
+            word.length > 30 ? (
+                <span key={index} className={styles.longWord}>
+                    {word}
+                </span>
+            ) : (
+                `${word} `
+            )
+        );
     };
 
     function Message() {

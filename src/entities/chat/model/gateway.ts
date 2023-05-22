@@ -15,7 +15,7 @@ function chatGateway() {
         socketIo.on('receiveMessage', ({ message }) => {
             queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                 cacheData &&
-                    cacheData.data.data.forEach((chat: ChatProxy) => {
+                    cacheData.data.data.forEach((chat: ChatProxy, index: number) => {
                         if (chat.id === Number(message.chat_id)) {
                             chat.message.splice(0, 1, message);
                             chat.updated_at = message.created_at;
@@ -23,6 +23,8 @@ function chatGateway() {
                                 chat.pending_messages += 1;
                             }
                             chat.messageAction = '';
+                            cacheData.data.data.splice(index, 1);
+                            cacheData.data.data.unshift(chat);
                             setSocketAction(`receiveMessage:${chat?.id}:${message.id}`);
                         }
                     });

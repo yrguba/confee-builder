@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { UserCardView, UserTypes } from 'entities/user';
+import { UserCardView, UserTypes, UserService } from 'entities/user';
 import { ViewerService } from 'entities/viewer';
 import { useInput, useArray, useFileUploader } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -65,7 +65,7 @@ function CreateGroupChatModal(props: Props) {
             <div className={styles.list}>
                 {usersList.map((user) => (
                     <div key={user.id} className={`${styles.item} ${selectedUsers.find((i) => i.id === user.id) && styles.item_active}`}>
-                        <UserCardView onClick={cardClick} user={user} />
+                        <UserCardView size="m" subtitle={UserService.getUserNetworkStatus(user) || ''} onClick={cardClick} user={user} />
                     </div>
                 ))}
             </div>

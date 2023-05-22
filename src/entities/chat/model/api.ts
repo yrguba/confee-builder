@@ -63,6 +63,10 @@ class ChatApi {
         return useMutation((data: { name?: string; users: number[]; is_group: boolean }) => axiosClient.post(this.pathPrefix, data));
     }
 
+    handleEditName() {
+        return useMutation((data: { chatId: number; name: string }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/name`, { name: data.name }));
+    }
+
     handleAddAvatar() {
         return useMutation((data: { chatId: number; avatar: FormData }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/avatar`, data.avatar));
     }

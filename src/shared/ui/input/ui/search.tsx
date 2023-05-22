@@ -26,7 +26,7 @@ const Input = forwardRef<HTMLInputElement, SearchInputProps>((props, ref) => {
     ) : (
         <Wrapper width={width} height={height} size={size} title={title} errorTitle={errorTitle}>
             <input ref={ref} className={styles.input} {...other} />
-            <Icons variants="search" />
+            <Icons variants="search" color="var(--text-0)" />
         </Wrapper>
     );
 });

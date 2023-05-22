@@ -18,7 +18,7 @@ function HeaderForChatsPage() {
     const { width } = useSize();
 
     const openChatId = ChatService.getOpenChatId();
-    const openChat = ChatService.getChatInList(openChatId);
+    const openChat = ChatService.getChatInList(Number(params.chat_id));
 
     const setVisibleHeaderMenu = useChatStore.use.setVisibleHeaderMenu();
 

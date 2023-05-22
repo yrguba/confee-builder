@@ -31,10 +31,6 @@
     line-height: 24px;
   }
 
-  .search {
-    width: 90%;
-  }
-
   .list {
     @include flex-column(flex-start, flex-start);
     @include box-size(100%, 100%);

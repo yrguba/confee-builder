@@ -11,17 +11,18 @@ type IconsVar = 'trash' | 'settings';
 
 type Props = {
     items: { id: number; icon: IconsVar; title: string; action: () => void }[];
+    openModal: boolean;
 } & BaseTypes.Statuses;
 
 function ChatHeaderMenuView(props: Props) {
-    const { items } = props;
+    const { items, openModal } = props;
 
     const setVisibleHeaderMenu = useChatStore.use.setVisibleHeaderMenu();
 
     const ref = useRef(null);
 
     useClickAway(ref, () => {
-        setVisibleHeaderMenu(false);
+        !openModal && setVisibleHeaderMenu(false);
     });
 
     return (
