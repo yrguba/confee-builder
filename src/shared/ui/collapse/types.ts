@@ -9,4 +9,5 @@ export type CollapseProps = {
     openByClickingOnArrow?: boolean;
     onTitleClick?: (arg: string) => void;
     activeAnimate?: boolean;
+    createAction?: (name: string) => void;
 };

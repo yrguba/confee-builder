@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
+import { useAppStore } from 'entities/app';
+import { ChatApi } from 'entities/chat';
 import { MessageApi, MessageInputView, useMessageStore } from 'entities/message';
+import { MediaContentModal, SwiperModal } from 'entities/modal';
 import { UserTypes } from 'entities/user';
+import { ViewerService } from 'entities/viewer';
 import { useAudioRecorder } from 'shared/hooks';
-
-import { useAppStore } from '../../../entities/app';
-import { ChatApi } from '../../../entities/chat';
-import { MediaContentModal, SwiperModal } from '../../../entities/modal';
-import { Modal, useModal } from '../../../shared/ui';
+import { Modal, useModal } from 'shared/ui';
 
 type Props = {};
 
@@ -113,10 +113,10 @@ function MessageInput(props: Props) {
         if (mediaContentToSend) modalMediaContent.open();
     }, [mediaContentToSend]);
 
-    useEffect(() => {
-        const lastWord = valueTextMessage.split(' ').pop();
-        lastWord && lastWord?.length > 50 && setValueTextMessage((prev) => `${prev} `);
-    }, [valueTextMessage]);
+    // useEffect(() => {
+    //     const lastWord = valueTextMessage.split(' ').pop();
+    //     lastWord && lastWord?.length > 50 && setValueTextMessage((prev) => `${prev} `);
+    // }, [valueTextMessage]);
 
     const getTagAUsers = (): UserTypes.User[] | null => {
         if (!chat || !chat.is_group) return null;
@@ -125,13 +125,14 @@ function MessageInput(props: Props) {
         const tags = words.filter((word) => /@[a-zA-Zа-яА-я0-9]/.test(word));
         const lastWordIsTag = /@[a-zA-Zа-яА-я0-9]/.test(words[words.length - 1]);
         const suitable: UserTypes.User[] = [];
+        const users = chat.chatUsers.filter((user) => !!user.nickname && user.id !== ViewerService.getViewer()?.id);
         if (all) {
-            suitable.splice(0, 0, ...chat.chatUsers);
+            suitable.splice(0, 0, ...users);
             return suitable;
         }
         if (tags.length && lastWordIsTag) {
             tags.forEach((tag) => {
-                chat.chatUsers.forEach((user) => {
+                users.forEach((user) => {
                     if (user.nickname.includes(tag.substring(1))) {
                         suitable.push(user);
                     }
@@ -143,11 +144,9 @@ function MessageInput(props: Props) {
     };
 
     const clickUser = (user: UserTypes.User) => {
-        if (user.nickname) {
-            setValueTextMessage((prev) => `${prev + user.nickname} `);
-        } else {
-            setNotifications({ text: 'Этого пользователя нельзя отметить', description: 'Ошибка', scope: 'app', system: true });
-        }
+        const val = valueTextMessage.split('@');
+        val[val.length - 1] = `${user.nickname} `;
+        setValueTextMessage(val.join('@'));
     };
 
     return (
@@ -170,7 +169,10 @@ function MessageInput(props: Props) {
                 loading={isLoading}
             />
             <Modal {...modalMediaContent} onOk={onOkModalMediaContent} onClose={() => setMediaContentToSend(null)} headerText="Отправить ?">
-                <SwiperModal files={mediaContentToSend?.list.map((i) => ({ url: i, size: 0, name: '', extension: 'img' })) || []} />
+                {mediaContentToSend?.type === 'image' && (
+                    <SwiperModal startWithIt={1} files={mediaContentToSend?.list.map((i) => ({ url: i.url, size: 0, name: '', extension: 'img' })) || []} />
+                )}
+                {mediaContentToSend?.type === 'document' && <MediaContentModal list={mediaContentToSend?.list.map((i) => i)} type="document" />}
             </Modal>
         </>
     );

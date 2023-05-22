@@ -47,10 +47,22 @@ function TextMessageView(props: Props) {
         user ? userInfoModal.open() : userInfoModal.close();
     }, [user]);
 
+    const checkLongWord = (str: string) => {
+        return str.split(' ').map((word, index) =>
+            word.length > 30 ? (
+                <span key={index} className={styles.longWord}>
+                    {word}
+                </span>
+            ) : (
+                `${word} `
+            )
+        );
+    };
+
     function Message() {
         return (
             <div className={styles.wrapper}>
-                <Linkify options={options}>{message.text}</Linkify>
+                <Linkify options={options}>{checkLongWord(message.text)}</Linkify>
             </div>
         );
     }

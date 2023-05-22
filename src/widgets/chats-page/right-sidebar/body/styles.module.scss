@@ -18,7 +18,10 @@
     padding: 12px 0;
     overflow-x: hidden;
     overflow-y: auto;
-
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
     .dossier {
       @include box-size(252px, 450px);
       @include flex;
@@ -58,15 +61,15 @@
 
     }
 
-    @include responsive-from('xl'){
+    @include width-from('xl'){
       max-width: 600px;
     }
 
-    @include responsive-from-to('sm', 'xl'){
+    @include width-from-to('sm', 'xl'){
       min-width: calc(100vw - 300px) ;
     }
 
-    @include responsive-to('sm'){
+    @include width-to('sm'){
       min-width: 100vw ;
     }
   }

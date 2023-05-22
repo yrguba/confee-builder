@@ -11,6 +11,7 @@
 .pagesWrapper {
   @include box-size(100%, 100%);
   background-color: var(--bg-outside);
+  overflow: hidden;
   //@media screen and (min-width: 1680px) {
   //  width: 1680px
   //}

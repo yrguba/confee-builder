@@ -15,7 +15,7 @@
       @include flex-column(flex-start, flex-start, 6);
       max-width: 160px !important;
 
-      @include responsive-to('sm'){
+      @include width-to('sm'){
         max-width: 100% !important;
       }
 
@@ -29,6 +29,7 @@
 
       .lastMsg {
         @include text-ellipsis(100%);
+        max-width: 350px;
         font-weight: 500;
         font-size: 13px;
         color: var(--text-1);
@@ -44,6 +45,9 @@
       font-weight: 600;
       font-size: 12px;
       color: var(--text-0);
+    }
+    .checked{
+      height: 16px;
     }
   }
 }

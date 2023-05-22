@@ -29,15 +29,22 @@ function getInputMenuItems(): InputMenuItem[] {
 
     const document = useFileUploader({
         accept: 'document',
+        // @ts-ignore
+        extension: ['.pdf', '.XLSX', '.txt', '.word'],
         multiple: true,
         formDataName: 'documents',
     });
 
+    const dto = (e: any) => ({
+        url: e.fileUrl,
+        name: e.name,
+    });
+
     useEffect(() => {
-        image.files.length && setMediaContentToSend({ type: 'image', list: image.files.map((i) => i.fileUrl), formData: image.formData });
-        audio.files.length && setMediaContentToSend({ type: 'audio', list: audio.files.map((i) => i.fileUrl), formData: audio.formData });
-        video.files.length && setMediaContentToSend({ type: 'video', list: video.files.map((i) => i.previewUrl), formData: video.formData });
-        document.files.length && setMediaContentToSend({ type: 'document', list: document.files.map((i) => i.fileUrl), formData: document.formData });
+        image.files.length && setMediaContentToSend({ type: 'image', list: image.files.map((i) => dto(i)), formData: image.formData });
+        audio.files.length && setMediaContentToSend({ type: 'audio', list: audio.files.map((i) => dto(i)), formData: audio.formData });
+        video.files.length && setMediaContentToSend({ type: 'video', list: video.files.map((i) => dto(i)), formData: video.formData });
+        document.files.length && setMediaContentToSend({ type: 'document', list: document.files.map((i) => dto(i)), formData: document.formData });
     }, [image.files.length, audio.files.length, video.files.length, document.files.length, image.formData, audio.formData, video.formData, document.formData]);
 
     return [
@@ -54,12 +61,7 @@ function getInputMenuItems(): InputMenuItem[] {
             icon: 'video',
             onClick: () => setNotifications({ text: 'Загрузка видео пока недоступна', description: 'Ошибка', scope: 'app', system: true }),
         },
-        {
-            id: 3,
-            title: 'Загрузить документы',
-            icon: 'document',
-            onClick: () => setNotifications({ text: 'Загрузка документов пока недоступна', description: 'Ошибка', scope: 'app', system: true }),
-        },
+        { id: 3, title: 'Загрузить документы', icon: 'document', onClick: document.open },
     ];
 }
 

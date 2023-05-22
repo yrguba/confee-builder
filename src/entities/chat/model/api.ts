@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 import { MessageTypes } from 'entities/message';
@@ -17,18 +17,18 @@ class ChatApi {
             staleTime: Infinity,
             select: (data) => {
                 const res = handlers.response<{ data: ChatProxy }>(data);
-                return res.data ? { ...res, data: { data: chatProxy(res.data.data) } } : res;
+                return res.data ? { ...res, data: { data: res.data.data } } : res;
             },
             enabled: !!data.chatId,
         });
     };
 
     handleGetChats = () => {
-        return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix), {
+        return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix, { params: { limit: 100 } }), {
             staleTime: Infinity,
             select: (data) => {
                 const res = handlers.response<{ data: Chat[] }>(data);
-                return { ...res, data: res.data?.data.map((chat): ChatProxy => chatProxy(chat)) };
+                return { ...res, data: res.data?.data.map((chat): Chat => chat) };
             },
         });
     };
@@ -42,11 +42,11 @@ class ChatApi {
         });
     };
 
-    handleGetChatFiles = (data: { id: string | undefined; byUserId: boolean; fileType: MessageTypes.MessageType }) => {
+    handleGetChatFiles = (data: { id: string | undefined; byUserId: boolean; fileType: any }) => {
         const getFiles = (chatId: number | undefined) => {
             return useQuery(['get-chat-files', Number(data.id), data.fileType], () => axiosClient.get(`${this.pathPrefix}/${chatId}/files/${data.fileType}`), {
                 staleTime: Infinity,
-                enabled: !!chatId,
+                enabled: !!chatId || !!data.fileType,
                 select: (data) => {
                     return handlers.response<{ data: { files: MessageTypes.File[] } }>(data);
                 },
@@ -58,6 +58,22 @@ class ChatApi {
         }
         return getFiles(Number(data.id));
     };
+
+    handleCreateChat() {
+        return useMutation((data: { name?: string; users: number[]; is_group: boolean }) => axiosClient.post(this.pathPrefix, data));
+    }
+
+    handleEditName() {
+        return useMutation((data: { chatId: number; name: string }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/name`, { name: data.name }));
+    }
+
+    handleAddAvatar() {
+        return useMutation((data: { chatId: number; avatar: FormData }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/avatar`, data.avatar));
+    }
+
+    handleExitFromChat() {
+        return useMutation((data: { chatId: number | null }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`));
+    }
 
     handleSubscribeToChat = () => ({
         mutate: (chatId: number) => {

@@ -18,7 +18,7 @@ function UserCardView(props: Props) {
 
     const getAvatarSize = () => {
         if (size === 's') return 32;
-        if (size === 'm') return 60;
+        if (size === 'm') return 50;
     };
 
     const getFontSize = () => {

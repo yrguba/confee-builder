@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { ChatApi, ChatService, useChatStore } from 'entities/chat';
+import { ChatApi, ChatService, useChatStore, ChatProxy } from 'entities/chat';
 import { messageProxy, MessageApi, MessagesListView, useMessageStore, MessageTypes } from 'entities/message';
 import { ChatsListModal, MediaContentModal, SwiperModal } from 'entities/modal';
 import { ViewerService } from 'entities/viewer';
@@ -113,10 +113,14 @@ function MessageList(props: Props) {
                 <div>удалить сообщение ?</div>
             </Modal>
             <Modal {...modalChatsList} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}>
-                <ChatsListModal chats={chatsData?.data} selectedChats={selectedChats} setSelectedChats={setSelectedChats} />
+                <ChatsListModal
+                    chats={chatsData?.data?.map((chat) => ChatProxy(chat)) || undefined}
+                    selectedChats={selectedChats}
+                    setSelectedChats={setSelectedChats}
+                />
             </Modal>
             <Modal {...modalSwiper} onOk={() => setContentForModal([])} onClose={() => setContentForModal([])}>
-                <SwiperModal files={contentForModal.map((i) => ({ ...i, url: `${http.url}${i.url}` }))} />
+                <SwiperModal startWithIt={1} files={contentForModal.map((i) => ({ ...i, url: `${http.url}${i.url}` }))} />
             </Modal>
         </>
     );

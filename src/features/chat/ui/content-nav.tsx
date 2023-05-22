@@ -40,7 +40,7 @@ function ChatContentNav(props: Props) {
             key={item.id}
             active={activeBtnId === item.id}
             onClick={() => onClick(item)}
-            suffixIcon={<Counter height={20}>{32}</Counter>}
+            // suffixIcon={<Counter height={20}>{32}</Counter>}
             fontSize={16}
             fontWeight={600}
         >

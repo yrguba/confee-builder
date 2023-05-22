@@ -1,7 +1,7 @@
 html {
   scroll-behavior: smooth;
   font-family: 'Poppins', sans-serif;
-
+  overflow: hidden;
   a, button {
     all: unset;
     cursor: pointer;
@@ -18,7 +18,7 @@ html {
 
   ::placeholder {
     color: var(--text-1);
-    font-size: 12px;
+    //font-size: 12px;
   }
 
   input[type=password]::-ms-reveal,

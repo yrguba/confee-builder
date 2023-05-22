@@ -16,13 +16,13 @@ import 'swiper/css/thumbs';
 
 type Props = {
     files: MessageTypes.File[];
+    startWithIt: number;
 } & BaseTypes.Statuses;
 
 function SwiperModal(props: Props) {
-    const { files } = props;
-
+    const { files, startWithIt = 1 } = props;
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-    const [currentSlide, setCurrentSlide] = useState<number>(1);
+    const [currentSlide, setCurrentSlide] = useState<number>(startWithIt);
 
     const onSwiper = (swiper: any) => {
         setCurrentSlide(swiper.activeIndex + 1);
@@ -32,6 +32,7 @@ function SwiperModal(props: Props) {
         <div className={styles.wrapper}>
             {/* <div className={styles.title}>wdwadw</div> */}
             <Swiper
+                initialSlide={startWithIt}
                 onSlideChange={onSwiper}
                 spaceBetween={10}
                 navigation
@@ -47,6 +48,7 @@ function SwiperModal(props: Props) {
             </Swiper>
             {files.length > 1 && (
                 <Swiper
+                    initialSlide={startWithIt}
                     onSwiper={(val) => setThumbsSwiper(val)}
                     spaceBetween={10}
                     slidesPerView={4}

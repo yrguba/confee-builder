@@ -1,0 +1,9 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include flex-column;
+  gap: 2px;
+  max-width: 420px;
+}
+
+
