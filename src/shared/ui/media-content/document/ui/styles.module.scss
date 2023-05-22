@@ -1,0 +1,19 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include flex;
+  gap: 8px;
+  cursor: pointer;
+  max-width: 300px;
+
+  .info {
+    @include flex-column(flex-start, flex-start);
+    color: var(--text-0);
+
+    .name {
+      @include text-ellipsis(260px);
+      text-align: left;
+    }
+  }
+}
+

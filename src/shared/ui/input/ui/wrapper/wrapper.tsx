@@ -7,7 +7,7 @@ import Box from '../../../box';
 import { WrapperProps } from '../../types';
 
 function Wrapper(props: WrapperProps) {
-    const { children, loading, title, errorTitle, active, disabled, error, size } = props;
+    const { children, loading, title, errorTitle, active, disabled, width, height, error, size } = props;
 
     const classes = useStyles(styles, 'inputWrapper', {
         loading,
@@ -16,9 +16,11 @@ function Wrapper(props: WrapperProps) {
     });
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} style={{ width, height }}>
             <div className={styles.title}>{title}</div>
-            <div className={classes}>{children}</div>
+            <div className={classes} style={{ width, height }}>
+                {children}
+            </div>
             <Box.Animated visible={!!errorTitle} className={styles.errorTitle}>
                 {errorTitle}
             </Box.Animated>

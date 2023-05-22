@@ -10,7 +10,7 @@
     @include flex;
     margin-top: 8px;
 
-    @include responsive-to('sm'){
+    @include width-to('sm'){
       @include box-size(calc(100% - 12px), 40px);
       justify-content: flex-end;
       padding-right: 12px;

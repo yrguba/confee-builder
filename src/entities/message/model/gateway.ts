@@ -11,6 +11,7 @@ function messageGateway() {
 
     useEffect(() => {
         socketIo.on('receiveMessage', ({ message }) => {
+            console.log(message);
             const viewerData: any = queryClient.getQueryData(['get-viewer']);
             queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
                 if (cacheData) {

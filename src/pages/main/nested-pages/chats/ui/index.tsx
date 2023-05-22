@@ -55,7 +55,7 @@ function ChatsPage() {
 
     return (
         <Box.Animated visible className={styles.page}>
-            <AnimatePresence mode="wait" initial={false}>
+            <AnimatePresence mode="popLayout">
                 {isVisibleLeftSidebar() && (
                     <motion.div key={1} className={styles.leftSidebar} {...animation}>
                         <LeftSidebarForChatsPage />

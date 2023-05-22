@@ -64,7 +64,7 @@
     }
 
     &_withBottom {
-      @include responsive-to('md') {
+      @include width-to('md') {
         max-height: 56vh;
       }
     }

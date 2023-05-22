@@ -1,11 +1,12 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
-
 import { BaseTypes } from 'shared/types';
 
+type Type = 'images' | 'audios' | 'videos' | 'documents';
+
 export type ResponsiveMediaContentsProps = {
-    list: string[];
-    type: 'image' | 'audio' | 'video' | 'documents';
+    list: { url: string; name: string }[];
+    type: Type;
     gap?: number;
     imgSize?: number;
     hardGrid?: boolean;
+    imgClick: (index: number) => void;
 } & BaseTypes.Statuses;

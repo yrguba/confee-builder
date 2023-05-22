@@ -10,10 +10,28 @@
     transition: background-color var(--transition);
 
     .title {
-      width: 90%;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
+      width: 80%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .text {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .plus {
+        @include flex;
+        cursor: pointer;
+        transition: all 0.5s;
+        border-radius: 50%;
+
+        &:hover {
+          background-color: var(--icon-inactive);
+          transform: scale(1.2);
+        }
+      }
     }
 
     .arrow {

@@ -6,14 +6,14 @@
   background-color: var(--bg-0);
   border-bottom: 1px solid var(--bg-outside);
 
-  @include responsive-to('sm'){
+  @include width-to('sm'){
     @include flex(flex-end);
   }
 
   .nav{
     margin-left: 20px;
 
-    @include responsive-to('sm'){
+    @include width-to('sm'){
       margin-right: 20px;
     }
   }

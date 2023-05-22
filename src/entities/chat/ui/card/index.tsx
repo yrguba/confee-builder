@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 
+import { ViewerService } from 'entities/viewer';
 import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Counter, Icons } from 'shared/ui';
@@ -31,6 +32,8 @@ function ChatCardView(props: Props) {
         return moment(updated_at).format('llll').split(',')[0];
     };
 
+    const viewer = ViewerService.getViewer();
+
     return (
         <div className={styles.wrapper} onClick={() => onClick(chat)}>
             <div className={styles.leftColumn}>
@@ -47,7 +50,7 @@ function ChatCardView(props: Props) {
                         {pending_messages ? (
                             <Counter height={18}>{pending_messages}</Counter>
                         ) : (
-                            <Icons variants={message[0].users_have_read.length ? 'doubleCheck' : 'check'} />
+                            message[0].user.id !== viewer?.id && <Icons variants={message[0].users_have_read.length ? 'doubleCheck' : 'check'} />
                         )}
                     </div>
                 )}

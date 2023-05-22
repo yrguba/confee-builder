@@ -4,7 +4,9 @@
   gap: 6px;
 
   .title {
+    font-size: 14px;
     color: var(--text-1);
+    text-align: left;
   }
 
   .inputWrapper {
@@ -58,7 +60,14 @@
     height: 58px;
   }
 
+  .size-xxl {
+    width: 300px;
+    height: 40px;
+  }
+
   .errorTitle {
+    font-size: 14px;
+    text-align: left;
     color: var(--red);
   }
 }

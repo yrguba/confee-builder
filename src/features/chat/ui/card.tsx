@@ -2,8 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
-import { ChatCardView, ChatService, ChatApi, ChatTypes, useChatStore } from 'entities/chat';
-import { ChatProxy } from 'entities/chat/model/types';
+import { ChatCardView, ChatService, ChatApi, ChatTypes, useChatStore, ChatProxy } from 'entities/chat';
 import { UserService } from 'entities/user';
 import { ViewerService } from 'entities/viewer';
 import { useEnding } from 'shared/hooks';
@@ -30,7 +29,7 @@ function ChatCard() {
         }
     };
 
-    const getChatSubtitle = (chat: ChatProxy | undefined): string => {
+    const getChatSubtitle = (chat: ChatTypes.ChatProxy | undefined): string => {
         if (!chat) return '';
         if (chat.messageAction) {
             return chat.messageAction;
@@ -43,7 +42,14 @@ function ChatCard() {
         return UserService.getUserNetworkStatus(chat.secondMember) || '';
     };
 
-    return <ChatCardView chat={chat} maxWidth={170} subtitle={getChatSubtitle(chat)} onClick={clickOnChat} />;
+    return (
+        <ChatCardView
+            chat={chat ? ChatProxy(chat) : undefined}
+            maxWidth={170}
+            subtitle={getChatSubtitle(chat ? ChatProxy(chat) : undefined)}
+            onClick={clickOnChat}
+        />
+    );
 }
 
 export default ChatCard;

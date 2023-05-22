@@ -7,7 +7,7 @@
 
   .nav{
     overflow-x: auto;
-    @include responsive-to('sm'){
+    @include width-to('sm'){
       padding-left: 50px;
     }
   }

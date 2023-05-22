@@ -2,14 +2,16 @@ import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react';
 
 import { BaseTypes } from '../../types';
 
-export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
+export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'width' | 'height'>;
 
 export type InputValue = InputAttrs['value'];
 
-type Size = number | 's' | 'm' | 'l' | 'xl';
+type Size = number | 's' | 'm' | 'l' | 'xl' | 'xxl';
 
 type Shared = {
     size?: Size;
+    width?: string | number;
+    height?: string | number;
     title?: string;
     errorTitle?: string;
 } & InputAttrs &
@@ -18,6 +20,8 @@ type Shared = {
 export type WrapperProps = {
     children: ReactNode;
     size?: Size;
+    width?: string | number;
+    height?: string | number;
     title?: string;
     errorTitle?: string;
 } & BaseTypes.Statuses;
@@ -28,7 +32,7 @@ export type InputDatePickerProps = {} & Shared;
 
 export type PasswordInputProps = {} & Shared;
 
-export type TextareaInputProps = {} & TextareaHTMLAttributes<HTMLTextAreaElement> & BaseTypes.Statuses;
+export type TextareaInputProps = {} & TextareaHTMLAttributes<HTMLTextAreaElement> & Shared;
 
 export type SearchInputProps = {
     mini?: boolean;

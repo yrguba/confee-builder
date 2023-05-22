@@ -3,4 +3,11 @@
 .wrapper {
   @include box-size(100%, 100%);
   @include flex(flex-start);
+  position: relative;
+
+  .headerMenu{
+    position: absolute;
+    top: -6px;
+    right: 16px;
+  }
 }

@@ -19,7 +19,7 @@ class ChatService {
         return !!window.location.href.split('/').find((i) => ['group_chat', 'private_chat'].includes(i));
     }
 
-    getChatInList(id: number) {
+    getChatInList(id: number | null) {
         const queryClient = useQueryClient();
         const data: { data: { data: Chat[] } } | undefined = queryClient.getQueryData(['get-chats']);
         return data ? data.data.data.find((chat) => chat.id === id) : null;

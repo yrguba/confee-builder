@@ -10,6 +10,7 @@ import { Counter, Dropdown } from 'shared/ui';
 import styles from './styles.module.scss';
 import { ChatTypes, ChatService } from '../../../chat';
 import { File, MessageMenuItem, MessageProxy } from '../../model/types';
+import DocumentMessageView from '../message/document';
 import ForwardedMessagesView from '../message/forwarded';
 import ImageMessageView from '../message/image';
 import MessageMenuView from '../message/menu';
@@ -130,25 +131,24 @@ function MessagesListView(props: Props) {
                                         />
                                     }
                                 >
-                                    <div onClick={() => (message.content.length ? setContentForModal(message.content) : () => {})}>
-                                        {message.forwarded_messages?.length ? (
-                                            <ForwardedMessagesView
-                                                message={message}
-                                                forwardedMessages={message.forwarded_messages}
-                                                reactionClick={reactionClick}
-                                            />
-                                        ) : message.replyMessage ? (
-                                            <ReplyMessageView message={message} reply={message.replyMessage} reactionClick={reactionClick} />
-                                        ) : (
-                                            <>
-                                                {message.message_type === 'text' && (
-                                                    <TextMessageView chatUsers={chat?.chatUsers} message={message} reactionClick={reactionClick} />
-                                                )}
-                                                {message.message_type === 'images' && <ImageMessageView message={message} reactionClick={reactionClick} />}
-                                                {message.message_type === 'voices' && <VoiceMessageView message={message} reactionClick={reactionClick} />}
-                                            </>
-                                        )}
-                                    </div>
+                                    {message.forwarded_messages?.length ? (
+                                        <ForwardedMessagesView message={message} forwardedMessages={message.forwarded_messages} reactionClick={reactionClick} />
+                                    ) : message.replyMessage ? (
+                                        <ReplyMessageView message={message} reply={message.replyMessage} reactionClick={reactionClick} />
+                                    ) : (
+                                        <>
+                                            {message.message_type === 'text' && (
+                                                <TextMessageView chatUsers={chat?.chatUsers} message={message} reactionClick={reactionClick} />
+                                            )}
+                                            {message.message_type === 'images' && (
+                                                <div onClick={() => (message.content.length ? setContentForModal(message.content) : () => {})}>
+                                                    <ImageMessageView message={message} reactionClick={reactionClick} />
+                                                </div>
+                                            )}
+                                            {message.message_type === 'voices' && <VoiceMessageView message={message} reactionClick={reactionClick} />}
+                                            {message.message_type === 'documents' && <DocumentMessageView message={message} reactionClick={reactionClick} />}
+                                        </>
+                                    )}
                                 </Dropdown>
                             </div>
                         )}
