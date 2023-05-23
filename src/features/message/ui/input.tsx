@@ -62,7 +62,7 @@ function MessageInput(props: Props) {
     };
 
     const replyToMessage = () => {
-        messageToReply && handleReplyMessage({ chatId, messageId: messageToReply.id, text: valueTextMessage });
+        messageToReply && handleReplyMessage({ chatId, messageId: messageToReply.id, text: valueTextMessage, reply: messageToReply });
         setMessageToReply(null);
         setValueTextMessage('');
     };

@@ -83,8 +83,23 @@ class MessageApi {
     }
 
     handleReplyMessage() {
-        return useMutation((data: { text: string; messageId: number; chatId: number }) =>
-            axiosClient.post(`${this.pathPrefix}/reply/message/${data.chatId}/${data.messageId}`, { text: data.text, message_type: 'text' })
+        const queryClient = useQueryClient();
+        const setSocketAction = useMessageStore.use.setSocketAction();
+        const viewerData: any = queryClient.getQueryData(['get-viewer']);
+        return useMutation(
+            (data: { text: string; messageId: number; chatId: number; reply: MessageProxy }) =>
+                axiosClient.post(`${this.pathPrefix}/reply/message/${data.chatId}/${data.messageId}`, { text: data.text, message_type: 'text' }),
+            {
+                onMutate: async (data) => {
+                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                        ChatService.subscribeToChat(data.chatId);
+                        const message = messageEntity({ text: data.text, viewer: viewerData?.data.data, reply: data.reply });
+                        cacheData.pages[0].data.data.unshift(message);
+                        setSocketAction(`add${message.id}`);
+                        return cacheData;
+                    });
+                },
+            }
         );
     }
 

@@ -15,16 +15,20 @@
 
   .list {
     @include flex-column(flex-start, flex-start);
-    @include box-size(100%, 100%);
+    @include box-size(100%, 400px);
     gap: 5px;
     overflow-y: auto;
+
+    @include height-to('sm') {
+      height: 255px;
+    }
 
     .item {
       @include box-size(100%, 100%);
       transition: background-color var(--transition);
       border-radius: 16px 0 0 16px;
       &_active {
-        background-color: var(--bg-1);
+        background-color: var(--bg-02);
       }
     }
   }

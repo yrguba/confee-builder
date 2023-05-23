@@ -11,7 +11,7 @@ function messageGateway() {
 
     useEffect(() => {
         socketIo.on('receiveMessage', ({ message }) => {
-            console.log(message);
+            console.log('receiveMessage', message);
             const viewerData: any = queryClient.getQueryData(['get-viewer']);
             queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
                 if (cacheData) {
@@ -72,6 +72,7 @@ function messageGateway() {
             });
         });
         socketIo.on('receiveMessageStatus', (data) => {
+            console.log('receiveMessageStatus', data);
             queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
                 cacheData &&
                     cacheData.pages.forEach((page: any) => {
@@ -79,7 +80,7 @@ function messageGateway() {
                             data.messages.forEach((responseMessage: Record<string, any>, index: number) => {
                                 if (responseMessage.id === message.id) {
                                     Object.keys(responseMessage).forEach((key) => {
-                                        if (key !== 'content') {
+                                        if (key !== 'content' && key !== 'forwarded_messages') {
                                             message[key] = responseMessage[key];
                                         }
                                     });
@@ -93,6 +94,7 @@ function messageGateway() {
             });
         });
         socketIo.on('receiveForwardMessage', ({ chat_id, message }) => {
+            console.log('receiveForwardMessage', message);
             queryClient.setQueryData(['get-messages', chat_id], (cacheData: any) => {
                 if (cacheData) {
                     const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
@@ -100,6 +102,7 @@ function messageGateway() {
                         pageOne.data.data.unshift(message);
                     }
                 }
+                setSocketAction(`receiveForwardMessage:${message.id}:${new Date()}`);
                 return cacheData;
             });
         });

@@ -24,7 +24,7 @@ function chatProxy(chat: Chat): any {
                     return lastMsg.text;
 
                 default:
-                    return Reflect.get(target, prop, receiver);
+                    return target[prop];
             }
         },
         set(target: ChatProxy, prop: keyof ChatProxy, value, receiver) {
@@ -32,7 +32,7 @@ function chatProxy(chat: Chat): any {
                 case 'messageAction':
                     return Reflect.set(target, prop, value, receiver);
                 default:
-                    return false;
+                    return Reflect.set(target, prop, value, receiver);
             }
         },
     });

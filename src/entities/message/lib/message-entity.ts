@@ -4,7 +4,7 @@ import { ViewerTypes } from 'entities/viewer';
 
 import { Message, MessageProxy, MessageType } from '../model/types';
 
-export default function (data: { text?: string; content?: any; type?: MessageType; viewer: ViewerTypes.Viewer | undefined }): Message {
+export default function (data: { text?: string; content?: any; type?: MessageType; viewer: ViewerTypes.Viewer | undefined; reply?: Message | null }): Message {
     return {
         id: new Date().valueOf(),
         text: data.text || '',
@@ -16,7 +16,7 @@ export default function (data: { text?: string; content?: any; type?: MessageTyp
         users_have_read: [],
         forwarded_messages: [],
         reactions: {},
-        replyMessage: null,
+        replyMessage: data.reply || null,
         isMock: true,
     } as MessageProxy;
 }

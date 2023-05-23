@@ -61,6 +61,26 @@ function chatGateway() {
             });
         });
 
+        socketIo.on('receiveForwardMessage', ({ chat_id, message }) => {
+            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                cacheData &&
+                    cacheData.data.data.forEach((chat: ChatProxy, index: number) => {
+                        if (chat.id === Number(chat_id)) {
+                            const updChat = { ...chat };
+                            updChat.message = [message];
+                            updChat.updated_at = message.created_at;
+                            if (message.message_status === 'pending' && message.user.id !== viewerData?.data?.data?.id) {
+                                updChat.pending_messages += 1;
+                            }
+                            updChat.messageAction = '';
+                            cacheData.data.data.splice(index, 1);
+                            cacheData.data.data.unshift(updChat);
+                            setSocketAction(`receiveMessage:${chat?.id}:${new Date()}`);
+                        }
+                    });
+            });
+        });
+
         socketIo.on('receiveChatChanges', async ({ data }) => {
             console.log('receiveChatChanges', data);
             queryClient.setQueryData(['get-chats'], (cacheData: any) => {

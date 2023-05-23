@@ -132,7 +132,7 @@ function MessagesListView(props: Props) {
                                     }
                                 >
                                     {message.forwarded_messages?.length ? (
-                                        <ForwardedMessagesView message={message} forwardedMessages={message.forwarded_messages} reactionClick={reactionClick} />
+                                        <ForwardedMessagesView message={message} reactionClick={reactionClick} />
                                     ) : message.replyMessage ? (
                                         <ReplyMessageView message={message} reply={message.replyMessage} reactionClick={reactionClick} />
                                     ) : (
