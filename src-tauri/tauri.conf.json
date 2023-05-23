@@ -46,6 +46,10 @@
         "timestampUrl": ""
       }
     },
+    "systemTray": {
+      "iconPath": "icons/logo.png",
+      "iconAsTemplate": true
+    },
     "allowlist": {
       "all": false,
       "clipboard": {
