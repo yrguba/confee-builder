@@ -34,3 +34,26 @@ HTTP-клиент - [Axios](https://axios-http.com/docs/intro)
 питон скрипты - [web-py-scripts](https://github.com/egor6-66/web-py-scripts)
 
 сборка и обновление десктопа - [tauri_release_manager](https://github.com/egor6-66/tauri_release_manager)
+
+## Установка
+
+[Cкачать последний релиз](https://github.com/egor6-66/confee_desktop_builder/releases)  
+mac - Confee_xxx_x64.dmg  
+win - Confee_xxx_x64_en-US.msi
+
+### Запуск
+mac - После установки зайти в finder/Программы => найти приложение Confee =>  кликнуть правой кнопкой => открыть => открыть.  
+win - Перед установкой нажать 'Выполнить в любом случае'.
+
+
+
+
+
+
+
+
+
+
+
+
+
