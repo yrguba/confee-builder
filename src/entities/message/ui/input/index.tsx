@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { UserTypes, UserCardView } from 'entities/user';
 import { useToggle } from 'shared/hooks';
@@ -49,6 +49,8 @@ function MessageInputView(props: Props) {
 
     const isVisibleHeader = !!messageToEdit || !!messageToReply || !!tagAUsers?.length;
 
+    const textAreaRef = useRef<HTMLInputElement>(null);
+
     const recordingRunning = audioRecorder?.recorderState.initRecording;
     const min = audioRecorder?.recorderState.recordingMinutes;
     const sec = audioRecorder?.recorderState.recordingSeconds;
@@ -63,6 +65,12 @@ function MessageInputView(props: Props) {
         if (recordingRunning) return audioRecorder?.saveRecording();
         audioRecorder?.startRecording();
     };
+
+    useEffect(() => {
+        if (textAreaRef.current) {
+            textAreaRef.current.focus();
+        }
+    }, [messageToEdit, messageToReply]);
 
     return (
         <div className={styles.wrapper}>
@@ -104,8 +112,9 @@ function MessageInputView(props: Props) {
                                 <Icons variants="clip" />
                             </div>
                         </Dropdown>
+
                         <div className={styles.textarea}>
-                            <Input.Textarea defaultValue={messageToEdit?.id} value={value} onChange={onChange} onKeyDown={onKeyDown} />
+                            <Input.Textarea ref={textAreaRef} defaultValue={messageToEdit?.id} value={value} onChange={onChange} onKeyDown={onKeyDown} />
                         </div>
                         <div className={styles.emoji}>
                             <Emoji openCloseTrigger={setIsOpenEmojiPicker} clickOnEmoji={clickOnEmoji} />
