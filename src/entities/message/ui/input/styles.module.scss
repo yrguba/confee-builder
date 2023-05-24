@@ -74,7 +74,7 @@
         .textarea {
           padding: 2px;
           @include flex;
-          @include box-size(90%, 30px);
+          @include box-size(98%, 30px);
           align-self: flex-end;
         }
       }

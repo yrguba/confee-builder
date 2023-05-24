@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router';
 
 import { UserTypes, UserCardView } from 'entities/user';
 import { useToggle } from 'shared/hooks';
@@ -47,6 +48,8 @@ function MessageInputView(props: Props) {
         loading,
     } = props;
 
+    const params = useParams();
+
     const isVisibleHeader = !!messageToEdit || !!messageToReply || !!tagAUsers?.length;
 
     const textAreaRef = useRef<HTMLInputElement>(null);
@@ -70,7 +73,7 @@ function MessageInputView(props: Props) {
         if (textAreaRef.current) {
             textAreaRef.current.focus();
         }
-    }, [messageToEdit, messageToReply]);
+    }, [messageToEdit, messageToReply, params.chat_id]);
 
     return (
         <div className={styles.wrapper}>

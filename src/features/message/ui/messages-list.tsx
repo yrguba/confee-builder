@@ -112,7 +112,7 @@ function MessageList(props: Props) {
             <Modal {...modalConfirmDelete} onOk={deleteMessages} onClose={() => setMessagesToDelete([])}>
                 <div>удалить сообщение ?</div>
             </Modal>
-            <Modal {...modalChatsList} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}>
+            <Modal {...modalChatsList} closeIcon={false} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}>
                 <ChatsListModal
                     chats={chatsData?.data?.map((chat) => ChatProxy(chat)) || undefined}
                     selectedChats={selectedChats}
