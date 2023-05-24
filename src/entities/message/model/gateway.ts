@@ -83,7 +83,7 @@ function messageGateway() {
                             data.messages.forEach((responseMessage: Record<string, any>, index: number) => {
                                 if (responseMessage.id === message.id) {
                                     Object.keys(responseMessage).forEach((key) => {
-                                        if (key !== 'content' && key !== 'forwarded_messages') {
+                                        if (key !== 'content' && key !== 'forwarded_messages' && key !== 'text') {
                                             message[key] = responseMessage[key];
                                         }
                                     });
