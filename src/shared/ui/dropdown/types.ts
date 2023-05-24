@@ -20,4 +20,5 @@ export type DropdownBaseProps = {
     dynamicPosition?: boolean;
     reverseY?: boolean;
     reverseX?: boolean;
+    closeAfterClick?: boolean;
 } & BaseTypes.Statuses;

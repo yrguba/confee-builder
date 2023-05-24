@@ -20,18 +20,23 @@ function Dropdown(props: DropdownBaseProps) {
         dynamicPosition,
         reverseY,
         reverseX,
+        closeAfterClick,
     } = props;
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const bodyRef = useRef<any>(null);
     const { breakpoint } = useMedia();
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [pos, setPos] = useState({ x: 0, y: 0 });
 
     useClickAway(wrapperRef, () => {
         isOpen && setIsOpen(false);
     });
+
+    useEffect(() => {
+        setIsOpen(!!visible);
+    }, [visible]);
 
     const classes = useStyles(styles, 'body', {
         [`position-${position}`]: position && !dynamicPosition,
@@ -75,7 +80,10 @@ function Dropdown(props: DropdownBaseProps) {
                 className={classes}
                 visible={visible || isOpen}
                 presence
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                    closeAfterClick && setIsOpen(false);
+                    e.stopPropagation();
+                }}
             >
                 {content}
             </Box.Animated>

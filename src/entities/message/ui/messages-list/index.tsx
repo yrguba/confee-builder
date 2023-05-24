@@ -38,6 +38,7 @@ function MessagesListView(props: Props) {
     const messageRef = useRef<HTMLDivElement>(null);
 
     const [isVisibleDate, setIsVisibleDate] = useState(false);
+    const [initial, setInitial] = useState(true);
 
     const prevMessages = usePrevious(messages);
 
@@ -54,7 +55,6 @@ function MessagesListView(props: Props) {
         }
         return null;
     };
-    const [initial, setInitial] = useState(true);
 
     useEffect(() => {
         if (chat?.id) {
@@ -119,6 +119,7 @@ function MessagesListView(props: Props) {
                         {message.message_type !== 'system' && (
                             <div className={`${styles.messageContent} ${message.isMy && styles.messageContent_my}`}>
                                 <Dropdown
+                                    closeAfterClick
                                     dynamicPosition
                                     reverseX={message.isMy}
                                     reverseY={index + 5 > messages?.length && messages?.length > 4}

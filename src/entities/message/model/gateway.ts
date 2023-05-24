@@ -32,6 +32,9 @@ function messageGateway() {
                                 if (myMessage.user?.id === viewerId && myMessage.isMock) {
                                     pageOne.data.data.splice(index, 1, { ...message, isMy: true });
                                 }
+                                if (message.message_type !== 'text') {
+                                    pageOne.data.data.unshift(message);
+                                }
                             });
                         } else if (pageOne) {
                             pageOne.data.data.unshift(message);

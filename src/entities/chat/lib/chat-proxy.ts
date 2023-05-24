@@ -21,6 +21,7 @@ function chatProxy(chat: Chat): any {
                     if (lastMsg.message_type === 'audios') return 'Отправил аудио';
                     if (lastMsg.message_type === 'videos') return 'Отправил видео';
                     if (lastMsg.message_type === 'voices') return 'Отправил голосовое';
+                    if (lastMsg.message_type === 'documents') return 'Отправил файл';
                     return lastMsg.text;
 
                 default:
