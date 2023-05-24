@@ -6,7 +6,8 @@
   align-items: center !important;
 
   .infoColumn {
-    margin-right: 46px;
+    margin-right: 52px;
+
     .header {
       flex-direction: column;
       align-items: flex-start !important;
@@ -35,6 +36,7 @@
 
       .caption {
         @include flex-column(flex-start, flex-start);
+        @include text-ellipsis(90%);
 
         .name {
           font-weight: 600;
@@ -53,6 +55,7 @@
         @include flex(flex-start, flex-start);
       }
     }
+
   }
 
   .role {
@@ -72,4 +75,14 @@
     font-size: 14px;
   }
 
+
+  .emailll{
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    min-height: 16px;
+    line-height: 16px;
+    color: var(--main-active);
+    @include text-ellipsis(200px)
+  }
 }

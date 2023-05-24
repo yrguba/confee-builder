@@ -7,10 +7,13 @@
   border-left: 1px solid var(--bg-outside);
   position: relative;
 
+  @include width-from('xl'){
+    width: 400px!important;
+  }
+
   .header {
     @include box-size(100%, 59px);
   }
-
 
   .main {
     @include box-size(100%, calc(100% - 59px - 24px));

@@ -41,7 +41,7 @@ function UserDossierView(props: Props) {
                         <div className={styles.role}>Android разработчик</div>
                         <div className={styles.department}>IT департамент</div>
                         <div className={styles.division}>Отдел мобильной разработки</div>
-                        <Button.Link active>{user.email}</Button.Link>
+                        <div className={styles.emailll}>{user.email}</div>
                     </div>
                 </>
             )}
