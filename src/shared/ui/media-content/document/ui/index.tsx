@@ -8,7 +8,7 @@ function Document(props: DocumentProps) {
     const { url, size, name } = props;
 
     return (
-        <a href={url} download={name}>
+        <a href="/" download={name}>
             <div className={styles.wrapper}>
                 <div className={styles.icon}>
                     <Icons variants="doc" />
