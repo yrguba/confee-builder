@@ -1,6 +1,17 @@
 import { useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { useDebounce, useClickAway, useScrolling, usePrevious, useWindowSize, useScroll, useLocation, useEffectOnce, useCopyToClipboard } from 'react-use';
+import {
+    useDebounce,
+    useClickAway,
+    useScrolling,
+    usePrevious,
+    useWindowSize,
+    useScroll,
+    useLocation,
+    useEffectOnce,
+    useCopyToClipboard,
+    useIdle,
+} from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
 import { useTimer } from 'use-timer';
 
@@ -26,6 +37,7 @@ const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
     useWidthMediaQuery,
     useHeightMediaQuery,
+    useIdle,
     useTimer,
     useTheme,
     useInput,

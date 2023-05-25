@@ -42,6 +42,7 @@
         "cross-env": "^7.0.3",
         "crypto-js": "^4.1.1",
         "emoji-picker-react": "^4.4.7",
+        "firebase": "^9.22.0",
         "framer-motion": "^9.1.7",
         "linkify-plugin-mention": "^4.1.1",
         "linkify-react": "^4.1.1",
