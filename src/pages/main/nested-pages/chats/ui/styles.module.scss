@@ -46,7 +46,7 @@
 
       .messageInput {
         @include flex;
-        @include box-size(100%, 100px);
+        @include box-size(100%, auto);
         position: absolute;
         bottom: 10px;
         z-index: 2;

@@ -75,6 +75,20 @@ function MessageInputView(props: Props) {
         }
     }, [messageToEdit, messageToReply, params.chat_id]);
 
+    useEffect(() => {
+        if (textAreaRef.current) {
+            const rows = value.split(/\r\n|\r|\n/).length;
+            if (rows > 1) {
+                textAreaRef.current.style.height = `${rows * 17.3}px`;
+                if (rows > 14) {
+                    textAreaRef.current.style.height = `${12 * 17.3}px`;
+                }
+            } else {
+                textAreaRef.current.style.height = `auto`;
+            }
+        }
+    }, [value]);
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.inputColumn}>
