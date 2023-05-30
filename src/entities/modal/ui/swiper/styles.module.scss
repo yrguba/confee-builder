@@ -9,8 +9,12 @@
   justify-content: center;
   align-items: center;
   gap: 12px;
+
   @include height-to('sm') {
-    height: 350px;
+    height: 340px!important;
+  }
+  @include height-to('md') {
+    height: 500px;
   }
   .swiper {
     width: 100%;
