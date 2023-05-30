@@ -8,7 +8,7 @@ import { useModal, Modal } from 'shared/ui';
 function ChatHeaderMenu() {
     const navigate = useNavigate();
 
-    const { mutate: handleExitFromChat } = ChatApi.handleExitFromChat();
+    const { mutate: handleDeleteChat } = ChatApi.handleDeleteChat();
     const { mutate: handleEditName } = ChatApi.handleEditName();
     const { mutate: handleAddAvatar } = ChatApi.handleAddAvatar();
 
@@ -22,13 +22,13 @@ function ChatHeaderMenu() {
         { id: 1, icon: 'trash', title: 'Удалить и покинуть', action: confirmModal.open },
     ];
 
-    const exitFromChat = () => {
-        handleExitFromChat(
+    const deleteChat = () => {
+        handleDeleteChat(
             { chatId },
             {
                 onSuccess: () => {
                     navigate('/main/chats');
-                    window.location.reload();
+                    // window.location.reload();
                 },
             }
         );
@@ -54,7 +54,7 @@ function ChatHeaderMenu() {
     return (
         <>
             <ChatHeaderMenuView openModal={confirmModal.isOpen || editChatModal.isOpen} items={items} />
-            <Modal closeIcon={false} {...confirmModal} onOk={exitFromChat} okText="Удалить" okStyle={{ backgroundColor: 'var(--red)' }}>
+            <Modal closeIcon={false} {...confirmModal} onOk={deleteChat} okText="Удалить" okStyle={{ backgroundColor: 'var(--red)' }}>
                 Вы точно хотите удалить всю историю и выйти из группы?
             </Modal>
             <Modal {...editChatModal} headerText="Редактирование группы" okText="Сохранить">

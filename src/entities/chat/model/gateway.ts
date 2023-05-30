@@ -111,7 +111,16 @@ function chatGateway() {
             console.log('removedFromChat', message);
         });
         socketIo.on('deleteChat', (data) => {
-            console.log('deleteChat', data);
+            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                cacheData &&
+                    cacheData.data.data.forEach((chat: Chat, index: number) => {
+                        if (chat.id === Number(data.data.chat_id)) {
+                            cacheData.data.data.splice(index, 1);
+                            setSocketAction(`deleteChat:${chat?.id} `);
+                        }
+                    });
+                return cacheData;
+            });
         });
     }, []);
 }
