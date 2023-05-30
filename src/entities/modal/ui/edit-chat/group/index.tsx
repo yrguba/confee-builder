@@ -30,17 +30,23 @@ function EditGroupChatModal(props: Props) {
     const onOk = (e: any) => {
         e.stopPropagation();
         setError('');
-        editChat({ name: chatName.value || null, avatar: formData || null });
+        if (/^\S$|^\S[\s\S]*\S$/.test(chatName.value)) {
+            editChat({ name: chatName.value || null, avatar: formData || null });
+        } else {
+            setError('Неверный формат');
+        }
     };
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.avatarAndName}>
                 <div className={styles.avatar} onClick={open}>
-                    {files.length ? <Avatar withHttp={false} img={`${http.url}${chat?.avatar}` || files[0].fileUrl} size={74} /> : <Icons variants="photo" />}
+                    {!files.length && !chat?.avatar ? <Icons variants="photo" /> : null}
+                    {files.length ? <Avatar withHttp={false} img={files[0].fileUrl} size={74} /> : null}
+                    {chat?.avatar && !files.length && <Avatar img={chat?.avatar} size={74} />}
                 </div>
                 <div className={styles.name}>
-                    <Input placeholder={chat?.name} {...chatName} width={220} title="Название группы" errorTitle={error} />
+                    <Input placeholder={chat?.name} {...chatName} width={220} title="Название группы" error={!!error} errorTitle={error} />
                 </div>
             </div>
             <div className={styles.title}>Участники ({chat?.users?.length})</div>
