@@ -24,7 +24,7 @@ function ChatsList() {
     const { data: usersData } = UserApi.handleGetUsers();
 
     const { data: chatData } = ChatApi.handleGetChats();
-    const { mutate: handleCreateChat, isSuccess } = ChatApi.handleCreateChat();
+    const { mutate: handleCreateChat, isSuccess, isLoading: loadingCreateGroupChat } = ChatApi.handleCreateChat();
     const { mutate: handleAddAvatar } = ChatApi.handleAddAvatar();
 
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
@@ -103,8 +103,8 @@ function ChatsList() {
             <Modal footer={false} headerText="Создание чата" {...createPrivateChatModal}>
                 <CreatePrivateChatModal users={usersData?.data?.data || []} userClick={createPrivateChat} />
             </Modal>
-            <Modal okText="Создать" headerText="Создание группы" {...createGroupChatModal}>
-                <CreateGroupChatModal createChat={createGroupChat} users={usersData?.data?.data || []} />
+            <Modal loading={loadingCreateGroupChat} okText="Создать" headerText="Создание группы" {...createGroupChatModal}>
+                <CreateGroupChatModal loading={loadingCreateGroupChat} createChat={createGroupChat} users={usersData?.data?.data || []} />
             </Modal>
         </>
     );

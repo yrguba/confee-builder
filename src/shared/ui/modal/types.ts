@@ -1,5 +1,7 @@
 import { ReactNode, CSSProperties } from 'react';
 
+import { BaseTypes } from 'shared/types';
+
 export type UseModalReturned = { isOpen: boolean; open: () => void; close: () => void };
 
 export type ModalProps = {
@@ -13,4 +15,5 @@ export type ModalProps = {
     closeText?: string;
     width?: number;
     closeIcon?: boolean;
-} & UseModalReturned;
+} & UseModalReturned &
+    BaseTypes.Statuses;

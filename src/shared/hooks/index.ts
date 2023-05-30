@@ -11,6 +11,7 @@ import {
     useEffectOnce,
     useCopyToClipboard,
     useIdle,
+    useNetworkState,
 } from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
 import { useTimer } from 'use-timer';
@@ -37,6 +38,7 @@ const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
     useWidthMediaQuery,
     useHeightMediaQuery,
+    useNetworkState,
     useIdle,
     useTimer,
     useTheme,
