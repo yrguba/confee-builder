@@ -9,7 +9,7 @@ import styles from './styles.module.scss';
 import { ModalProps } from '../types';
 
 function Modal(props: ModalProps) {
-    const { isOpen, open, width, close, children, onOk, onClose, closeText, okText, headerText, footer = true, closeIcon = true, okStyle } = props;
+    const { isOpen, open, width, close, children, onOk, onClose, closeText, okText, headerText, footer = true, closeIcon = true, okStyle, loading } = props;
 
     const modal_root = document.querySelector('#modal-root');
 
@@ -43,7 +43,7 @@ function Modal(props: ModalProps) {
                               <Button size="s" onClick={closeClick}>
                                   {closeText || 'отмена'}
                               </Button>
-                              <Button style={okStyle} active size="s" onClick={okClick}>
+                              <Button loading={loading} style={okStyle} active size="s" onClick={okClick}>
                                   {okText || 'готово'}
                               </Button>
                           </div>
