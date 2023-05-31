@@ -65,6 +65,7 @@
         "react-switch": "^7.0.0",
         "react-theme-change": "^0.0.6",
         "react-use": "^17.4.0",
+        "react-use-downloader": "^1.2.4",
         "react-use-file-uploader": "^0.0.24",
         "sass": "^1.58.0",
         "sass-loader": "^13.2.0",

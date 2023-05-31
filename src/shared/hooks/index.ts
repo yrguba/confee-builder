@@ -13,6 +13,7 @@ import {
     useIdle,
     useNetworkState,
 } from 'react-use';
+import useDownloader from 'react-use-downloader';
 import useFileUploader from 'react-use-file-uploader';
 import { useTimer } from 'use-timer';
 
@@ -22,6 +23,7 @@ import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
 import useDate from './useDate';
 import useEnding from './useEnding';
+import useFileDownloads from './useFileDownloads';
 import useGrid from './useGrid';
 import useInput from './useInput';
 import useMedia from './useMedia';
@@ -38,6 +40,8 @@ const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
     useWidthMediaQuery,
     useHeightMediaQuery,
+    useDownloader,
+    useFileDownloads,
     useNetworkState,
     useIdle,
     useTimer,

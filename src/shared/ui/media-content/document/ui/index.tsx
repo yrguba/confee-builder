@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { useAppStore } from 'entities/app';
+import { tauri } from 'shared/constanst';
+import { useFileDownloads, useDownloader } from 'shared/hooks';
+
 import Icons from './icons';
 import styles from './styles.module.scss';
 import { DocumentProps } from '../types';
@@ -7,17 +11,30 @@ import { DocumentProps } from '../types';
 function Document(props: DocumentProps) {
     const { url, size, name } = props;
 
+    const { save } = useFileDownloads();
+
+    const setNotifications = useAppStore.use.setNotifications();
+
+    const { elapsed, percentage, download, cancel, error, isInProgress } = useDownloader();
+
+    const click = async () => {
+        if (tauri.isRunning) {
+            await save(url, name);
+            setNotifications({ text: `Файл ${name} сохранен в папку 'загрузки'`, description: '', scope: 'app', system: true });
+        } else {
+            await download(url, name);
+        }
+    };
+
     return (
-        <a href="/" download={name}>
-            <div className={styles.wrapper}>
-                <div className={styles.icon}>
-                    <Icons variants="doc" />
-                </div>
-                <div className={styles.info}>
-                    <div className={styles.name}>{name}</div>
-                </div>
+        <div className={styles.wrapper} onClick={click}>
+            <div className={styles.icon}>
+                <Icons variants="doc" />
             </div>
-        </a>
+            <div className={styles.info}>
+                <div className={styles.name}>{name}</div>
+            </div>
+        </div>
     );
 }
 
