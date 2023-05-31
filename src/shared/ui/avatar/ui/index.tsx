@@ -52,7 +52,7 @@ function Avatar(props: Props) {
 
     const color = getColor();
     const preview = getPreview();
-
+    console.log(withHttp);
     return (
         <div
             className={styles.avatar}

@@ -11,6 +11,17 @@
     @include flex(space-between);
     padding-left: 12px ;
 
+    .network{
+      @include flex;
+      gap: 12px;
+      width: 100%;
+      color: var(--text-0);
+
+      .text{
+        font-size: 20px;
+      }
+    }
+
     .back {
       @include flex;
       @include box-size(30px, 30px);

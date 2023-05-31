@@ -71,6 +71,10 @@ class ChatApi {
         return useMutation((data: { chatId: number; avatar: FormData }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/avatar`, data.avatar));
     }
 
+    handleDeleteChat() {
+        return useMutation((data: { chatId: number | null }) => axiosClient.delete(`${this.pathPrefix}/${data.chatId}`));
+    }
+
     handleExitFromChat() {
         return useMutation((data: { chatId: number | null }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`));
     }

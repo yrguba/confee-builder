@@ -15,7 +15,7 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function CreateGroupChatModal(props: Props) {
-    const { users, createChat } = props;
+    const { users, createChat, loading } = props;
 
     const viewer = ViewerService.getViewer();
 
@@ -39,11 +39,13 @@ function CreateGroupChatModal(props: Props) {
     const user_ids = selectedUsers.map((i) => i.id);
 
     const onOk = (e: any) => {
-        e.stopPropagation();
-        setError('');
-        if (!chatName.value) return setError('Введите название группы');
-        // if (!selectedUsers.length) return setError('Введите название группы');
-        createChat({ name: chatName.value, users: user_ids.length ? user_ids : viewer?.id ? [viewer?.id] : [], avatar: formData || null });
+        if (!loading) {
+            e.stopPropagation();
+            setError('');
+            if (!chatName.value) return setError('Введите название группы');
+            // if (!selectedUsers.length) return setError('Введите название группы');
+            createChat({ name: chatName.value, users: user_ids.length ? user_ids : viewer?.id ? [viewer?.id] : [], avatar: formData || null });
+        }
     };
 
     return (
