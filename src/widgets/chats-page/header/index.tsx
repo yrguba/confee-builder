@@ -1,25 +1,22 @@
 import { AnimatePresence } from 'framer-motion';
 import React from 'react';
-import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ChatService, useChatStore } from 'entities/chat';
 import { VideoCallBtn, AudioCallBtn } from 'features/button';
-import { ChatCard, ChatHeaderMenu } from 'features/chat';
+import { ChatCard } from 'features/chat';
 import { SearchMessages } from 'features/message';
 import { useSize, useNetworkState } from 'shared/hooks';
-import { Box, Button, Icons, LoadingIndicator } from 'shared/ui';
+import { Box, Icons, LoadingIndicator } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 function HeaderForChatsPage() {
     const { pathname } = useLocation();
     const navigation = useNavigate();
-    const params = useParams();
     const { width } = useSize();
 
     const openChatId = ChatService.getOpenChatId();
-    const openChat = ChatService.getChatInList(Number(params.chat_id));
 
     const setVisibleHeaderMenu = useChatStore.use.setVisibleHeaderMenu();
     const network = useNetworkState();
@@ -48,7 +45,7 @@ function HeaderForChatsPage() {
                                 <SearchMessages mini={width < 900} />
                                 <VideoCallBtn />
                                 <AudioCallBtn />
-                                {openChat?.is_group && (
+                                {openChatId && (
                                     <div onClick={() => setVisibleHeaderMenu()} className={styles.icon}>
                                         <Icons variants="dots" />
                                     </div>

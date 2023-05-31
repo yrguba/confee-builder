@@ -49,7 +49,7 @@ function ChatsList() {
     const createPrivateChat = (user: UserTypes.User) => {
         handleCreateChat(
             {
-                name: user.name,
+                name: '',
                 users: [user.id],
                 is_group: false,
             },

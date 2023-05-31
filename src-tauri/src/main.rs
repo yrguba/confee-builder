@@ -8,9 +8,12 @@ use tauri::Manager;
 
 fn main() {
 
+  let open = CustomMenuItem::new("open".to_string(), "Открыть");
   let quit = CustomMenuItem::new("quit".to_string(), "Закрыть");
-  let hide = CustomMenuItem::new("hide".to_string(), "Скрыть");
+  let hide = CustomMenuItem::new("hide".to_string(), "Свернуть");
+
   let tray_menu = SystemTrayMenu::new()
+    .add_item(open)
     .add_item(quit)
     .add_item(hide);
 
@@ -27,7 +30,7 @@ fn main() {
        } => {
          println!("system tray received a left click");
           let window = app.get_window("main").unwrap();
-                      window.show().unwrap();
+           window.show().unwrap();
        }
        SystemTrayEvent::RightClick {
          position: _,
@@ -45,6 +48,10 @@ fn main() {
        }
        SystemTrayEvent::MenuItemClick { id, .. } => {
          match id.as_str() {
+            "open" => {
+                            let window = app.get_window("main").unwrap();
+                                window.show().unwrap();
+                    }
            "quit" => {
              std::process::exit(0);
            }
