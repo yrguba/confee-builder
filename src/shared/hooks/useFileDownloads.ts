@@ -1,24 +1,20 @@
+import * as buffer from 'buffer';
+
 import { writeBinaryFile, BaseDirectory, createDir, exists, readTextFile, removeFile } from '@tauri-apps/api/fs';
 
 const getBase64FromUrl = async (url: any) => {
     const data = await fetch(url);
     const blob = await data.blob();
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        reader.onloadend = () => {
-            const base64data = reader.result;
-            resolve(base64data);
-        };
-    });
+    const arrayBuffer = await blob.arrayBuffer();
+    return arrayBuffer;
 };
 
 const UseFileDownloads = () => {
     const save = async (url: string, name: string) => {
         const dir = BaseDirectory.Download;
+        const buffer: any = await getBase64FromUrl(url);
         try {
-            const buffer: any = await getBase64FromUrl(url);
-            await writeBinaryFile(name, new Uint8Array([buffer]), {
+            await writeBinaryFile(name, buffer, {
                 dir,
             });
         } catch (e) {

@@ -47,7 +47,7 @@
       }
     },
     "systemTray": {
-      "iconPath": "icons/logo.png",
+      "iconPath": "icons/tray.png",
       "iconAsTemplate": true
     },
     "allowlist": {
