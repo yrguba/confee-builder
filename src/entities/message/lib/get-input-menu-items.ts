@@ -30,7 +30,7 @@ function getInputMenuItems(): InputMenuItem[] {
     const document = useFileUploader({
         accept: 'document',
         // @ts-ignore
-        extension: ['.pdf', '.XLSX', '.txt', '.word'],
+        extension: ['.pdf', '.XLSX', '.txt', '.doc', '.docx'],
         multiple: true,
         formDataName: 'documents',
     });
