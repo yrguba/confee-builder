@@ -113,10 +113,9 @@ function MessageInput(props: Props) {
         if (mediaContentToSend) modalMediaContent.open();
     }, [mediaContentToSend]);
 
-    // useEffect(() => {
-    //     const lastWord = valueTextMessage.split(' ').pop();
-    //     lastWord && lastWord?.length > 50 && setValueTextMessage((prev) => `${prev} `);
-    // }, [valueTextMessage]);
+    useEffect(() => {
+        setValueTextMessage('');
+    }, [chatId]);
 
     const getTagAUsers = (): UserTypes.User[] | null => {
         if (!chat || !chat.is_group) return null;
