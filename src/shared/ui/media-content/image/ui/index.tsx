@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Img } from 'react-image';
 
 import { useStyles } from 'shared/hooks';
 
@@ -16,7 +17,7 @@ function Image(props: ImageProps) {
 
     return (
         <div className={styles.wrapper} style={size ? { width: size, height: size } : {}}>
-            <img className={classes} src={img} alt="" onError={() => setError(true)} />
+            <Img className={classes} src={img} alt="" onError={() => setError(true)} />
             {error && icon}
         </div>
     );

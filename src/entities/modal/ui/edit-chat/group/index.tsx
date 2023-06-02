@@ -30,11 +30,10 @@ function EditGroupChatModal(props: Props) {
     const onOk = (e: any) => {
         e.stopPropagation();
         setError('');
-        if (/^\S$|^\S[\s\S]*\S$/.test(chatName.value)) {
-            editChat({ name: chatName.value || null, avatar: formData || null });
-        } else {
-            setError('Неверный формат');
+        if ((chatName.value && !chatName.value.trim().length) || chatName.value.includes('ㅤ')) {
+            return setError('Неверный формат');
         }
+        editChat({ name: chatName.value.replace(/^\s\s*/, '').replace(/\s\s*$/, '') || null, avatar: formData || null });
     };
 
     return (
