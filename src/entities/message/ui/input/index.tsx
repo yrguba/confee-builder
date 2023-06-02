@@ -72,7 +72,6 @@ function MessageInputView(props: Props) {
     useEffect(() => {
         if (textAreaRef.current) {
             textAreaRef.current.focus();
-            textAreaRef.current.value = '';
         }
     }, [messageToEdit, messageToReply, params.chat_id]);
 
