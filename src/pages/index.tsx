@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
+import { webView } from 'features/auth';
 import { SizeWarningPage } from 'pages/warning';
 import { useWindowSize } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
@@ -11,16 +12,10 @@ import mainRouters from './main';
 import settingsRouters from './settings';
 
 function Routing() {
-    const [isAuth, toggle] = useState<boolean>(true);
-
     const { width, height } = useWindowSize();
 
-    useEffect(() => {
-        const auth = TokenService.checkAuth();
-        isAuth !== auth && toggle(TokenService.checkAuth());
-    }, []);
-
     const location = useLocation();
+
     const privateRoutes = (
         <Routes location={location}>
             {mainRouters}
@@ -39,8 +34,8 @@ function Routing() {
     const getRouting = () => {
         if (width < 480) return <SizeWarningPage size={{ width, height }} error="width" />;
         if (height < 450) return <SizeWarningPage size={{ width, height }} error="height" />;
-        if (isAuth) return privateRoutes;
-        return publicRoutes;
+        if (TokenService.checkAuth()) return privateRoutes;
+        return webView();
     };
 
     return getRouting();

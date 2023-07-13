@@ -27,6 +27,7 @@ import useFileDownloads from './useFileDownloads';
 import useGrid from './useGrid';
 import useInput from './useInput';
 import useMedia from './useMedia';
+import useRandomString from './useRandomString';
 import useReverseTimer from './useReverseTimer';
 import useRowAndDropdown from './useRowAndDropdown';
 import useScrollTo from './useScroll';
@@ -40,6 +41,7 @@ const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
     useWidthMediaQuery,
     useHeightMediaQuery,
+    useRandomString,
     useDownloader,
     useFileDownloads,
     useNetworkState,
