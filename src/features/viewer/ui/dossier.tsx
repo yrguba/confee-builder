@@ -20,7 +20,7 @@ function ViewerDossier() {
         accept: 'image',
         formDataName: 'images',
     });
-
+    console.log(data);
     const logoutClick = () => {
         handleLogout(null, {
             onSuccess: () => {

@@ -28,7 +28,7 @@ function App() {
     useEffect(() => {
         firebase.logEvent(firebase.analytics, 'start', { name: 'test' });
     }, []);
-
+    console.log(window.location.origin);
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>

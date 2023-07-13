@@ -11,7 +11,6 @@ class ViewerApi {
     private pathPrefix = '/api/v2/profile';
 
     handleGetViewer() {
-        const token = TokenService.get();
         return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (data) => {
@@ -37,7 +36,7 @@ class ViewerApi {
     }
 
     handleLogout() {
-        return useMutation((data: null) => axiosClient.post('/api/v2/authorization/logout'));
+        return useMutation((data: null) => axiosClient.post('/api/v2/logout'));
     }
 }
 
