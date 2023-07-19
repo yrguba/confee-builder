@@ -8,9 +8,9 @@ import { useWindowSize } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
 import { TokenService } from 'shared/services';
 
-import fillingProfileRouters from './filling-profile';
-import mainRouters from './main';
-import settingsRouters from './settings';
+import fillingProfilePageRouters from './filling-profile';
+import mainPageRouters from './main';
+import settingsPageRouters from './settings';
 
 function Routing() {
     const { width, height } = useWindowSize();
@@ -19,15 +19,15 @@ function Routing() {
 
     const privateRoutes = (
         <Routes location={location}>
-            {mainRouters}
-            {settingsRouters}
+            {mainPageRouters}
+            {settingsPageRouters}
             <Route path="*" element={<Navigate to={routing_tree.main.base} replace />} />
         </Routes>
     );
 
     const fillingProfile = (
         <Routes>
-            {fillingProfileRouters}
+            {fillingProfilePageRouters}
             <Route path="*" element={<Navigate to={routing_tree.fillingProfile.base} replace />} />
         </Routes>
     );

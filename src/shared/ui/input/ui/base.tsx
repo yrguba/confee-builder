@@ -1,11 +1,36 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 
+import Icons from './icons';
 import styles from './wrapper/styles.module.scss';
 import Wrapper from './wrapper/wrapper';
+import { useDebounce } from '../../../hooks';
 import { BaseInputProps } from '../types';
 
 const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
-    const { active, title, errorTitle, loading, error, size, disabled, width, height, ...other } = props;
+    const {
+        active,
+        debounceCallback,
+        debounceDelay,
+        prefix = '',
+        title,
+        errorTitle,
+        loading,
+        error,
+        clearIcon,
+        size,
+        disabled,
+        width,
+        height,
+        ...other
+    } = props;
+
+    useDebounce(
+        () => {
+            debounceCallback && debounceCallback(other.value);
+        },
+        debounceDelay || 2000,
+        [other.value]
+    );
 
     return (
         <Wrapper
@@ -19,7 +44,9 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
             disabled={disabled}
             active={active}
         >
-            <input ref={ref} className={styles.input} {...other} />
+            {prefix && <div className={styles.inputPrefix}>{prefix}</div>}
+            <input value={other.value} ref={ref} className={styles.input} {...other} />
+            {clearIcon && <Icons variants="clear" />}
         </Wrapper>
     );
 });

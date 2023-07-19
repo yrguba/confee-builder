@@ -26,7 +26,7 @@ function ChatsList() {
     const { data: chatsData } = ChatApi.handleGetChats();
     const { mutate: handleCreateChat, isSuccess, isLoading: loadingCreateGroupChat } = ChatApi.handleCreateChat();
     const { mutate: handleAddAvatar } = ChatApi.handleAddAvatar();
-    console.log(chatsData);
+
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
         const { id, is_group } = chat;
         if (Number(params.chat_id) !== id) {

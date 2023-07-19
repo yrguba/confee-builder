@@ -5,9 +5,8 @@
   @include btn-actions;
   padding: 4px 16px;
   flex-shrink: 0;
-  background-color: inherit;
-  color: var(--main-active);
-  border: 1px solid var(--main-active);
+  background-color: var(--control-primary);
+  color: var(--text-primary);
   border-radius: var(--border-radius);
   text-align: center;
   position: relative;
@@ -18,13 +17,15 @@
 
 .active {
   border: none;
-  background-color: var(--main-active);
+  background-color: var(--control-primary);
   color: var(--white);
 }
 
 .disabled {
   pointer-events: none;
   cursor: default;
+  background-color: var(--control-disabled);
+  color: var(--text-secondary);
 }
 
 .error {
@@ -50,6 +51,6 @@
 
 .size-xl {
   width: calc(100% - 32px);
-  height: calc(48px - 8px);
+  height: calc(56px - 8px);
 }
 

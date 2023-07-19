@@ -1,5 +1,5 @@
 export type BaseIconsProps = {
-    variants: 'trash' | 'settings' | 'dots' | 'photo' | 'plus' | 'exit' | 'filter' | 'backArrow' | 'menu' | 'check' | 'doubleCheck' | 'clock';
+    variants: 'trash' | 'settings' | 'dots' | 'photo' | 'plus' | 'exit' | 'filter' | 'backArrow' | 'backArrow2' | 'menu' | 'check' | 'doubleCheck' | 'clock';
     color?: string;
     size?: number;
 };

@@ -19,10 +19,12 @@ import Navbar, { NavbarTypes } from './navbar';
 import Notification, { NotificationTypes } from './notification';
 import Pagination, { PaginationTypes } from './pagination';
 import Select, { SelectTypes } from './select';
+import Steps, { StepsTypes } from './steps';
 import Switch, { SwitchTypes } from './switch';
 import Title, { TitleTypes } from './title';
 
 export {
+    Steps,
     Document,
     AudioPlayer,
     Avatar,
@@ -50,6 +52,7 @@ export {
     animationVariants,
 };
 export type {
+    StepsTypes,
     DocumentTypes,
     AvatarTypes,
     BoxTypes,

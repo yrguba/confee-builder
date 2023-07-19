@@ -26,7 +26,12 @@ export type WrapperProps = {
     errorTitle?: string;
 } & BaseTypes.Statuses;
 
-export type BaseInputProps = {} & Shared;
+export type BaseInputProps = {
+    clearIcon?: boolean;
+    prefix?: string;
+    debounceDelay?: number;
+    debounceCallback?: (arg: InputValue) => void;
+} & Shared;
 
 export type InputDatePickerProps = {} & Shared;
 

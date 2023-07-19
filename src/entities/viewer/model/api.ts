@@ -42,6 +42,13 @@ class ViewerApi {
     handleLogout() {
         return useMutation((data: null) => axiosClient.post('/api/v2/logout'));
     }
+
+    handleCheckNickname() {
+        return async (data: { nickname: string }) => {
+            const response = await axiosClient.get('/api/v2/users/check-nickname', { params: { nickname: data.nickname } });
+            return response.data;
+        };
+    }
 }
 
 export default new ViewerApi();

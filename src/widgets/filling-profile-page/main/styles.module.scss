@@ -1,0 +1,35 @@
+@import "./src/app/styles";
+
+.wrapper {
+  padding: 40px 0;
+  @include box-size(440px, auto);
+  @include flex-column;
+  background-color: var(--bg-0);
+  border-radius: 20px;
+  position: relative;
+
+  .backArrow {
+    width: 40px;
+    height: 40px;
+    border: 8px solid var(--bg-1);
+    border-radius: 50%;
+    background-color: var(--bg-0);
+    position: absolute;
+    top: 30px;
+    left: 0;
+    transform: translateX(-50%);
+    cursor: pointer;
+
+    @include flex;
+    @include width-to('sm') {
+      top: 0;
+      left: 30px;
+      transform: translateY(-50%);
+    }
+  }
+
+  .steps{
+    margin-top: 8px;
+    margin-bottom: 28px;
+  }
+}
