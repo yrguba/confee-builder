@@ -1,11 +1,15 @@
 export type Viewer = {
-    id: number;
-    first_name: string;
     avatars: any[];
-    email: string;
-    login: string;
-    updated_at: Date;
+    birth: string;
+    contact_name: string;
     created_at: Date;
-    domain: string;
-    guid: string;
+    email: string;
+    first_name: string;
+    id: number;
+    is_online: boolean;
+    last_active: Date;
+    last_name: string;
+    nickname: string;
+    phone: string;
+    updated_at: Date;
 };

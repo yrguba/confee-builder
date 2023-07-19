@@ -1,12 +1,14 @@
 import React from 'react';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
+import { ViewerService } from 'entities/viewer';
 import { webView } from 'features/auth';
 import { SizeWarningPage } from 'pages/warning';
 import { useWindowSize } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
 import { TokenService } from 'shared/services';
 
+import fillingProfileRouters from './filling-profile';
 import mainRouters from './main';
 import settingsRouters from './settings';
 
@@ -23,10 +25,23 @@ function Routing() {
         </Routes>
     );
 
+    const fillingProfile = (
+        <Routes>
+            {fillingProfileRouters}
+            <Route path="*" element={<Navigate to={routing_tree.fillingProfile.base} replace />} />
+        </Routes>
+    );
+
     const getRouting = () => {
         if (width < 480) return <SizeWarningPage size={{ width, height }} error="width" />;
         if (height < 450) return <SizeWarningPage size={{ width, height }} error="height" />;
-        if (TokenService.checkAuth()) return privateRoutes;
+        if (TokenService.checkAuth()) {
+            const viewer = ViewerService.getViewer();
+            if (!viewer?.nickname) {
+                return fillingProfile;
+            }
+            return privateRoutes;
+        }
         return webView();
     };
 

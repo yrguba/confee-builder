@@ -2,6 +2,12 @@ const routing_tree = {
     auth: {
         base: '/auth',
     },
+    fillingProfile: {
+        base: '/filling_profile',
+        step1: 'step1',
+        step2: 'step2',
+        step3: 'step3',
+    },
     settings: {
         base: '/settings',
         profile: 'profile',

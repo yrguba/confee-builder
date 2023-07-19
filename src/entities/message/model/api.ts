@@ -55,7 +55,7 @@ class MessageApi {
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
             (data: { text: string; chatId: number }) =>
-                axiosClient.post(`${this.pathPrefix}/message/${data.chatId}`, { text: data.text, message_type: 'text' }),
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages`, { text: data.text, message_type: 'text' }),
             {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
@@ -105,7 +105,7 @@ class MessageApi {
 
     handleDeleteMessage() {
         return useMutation((data: { messages: string[]; fromAll: boolean; chatId: number }) =>
-            axiosClient.delete(`${this.pathPrefix}/message/${data.chatId}`, { data: { fromAll: data.fromAll, messages: data.messages } })
+            axiosClient.delete(`${this.pathPrefix}/${data.chatId}/messages`, { data: { fromAll: data.fromAll, messages: data.messages } })
         );
     }
 

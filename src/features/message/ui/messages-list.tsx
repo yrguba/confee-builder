@@ -95,7 +95,7 @@ function MessageList(props: Props) {
     useEffect(() => {
         if (contentForModal.length) modalSwiper.open();
     }, [contentForModal]);
-
+    console.log(messageData);
     return (
         <>
             <MessagesListView
