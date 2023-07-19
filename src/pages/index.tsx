@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
 import { webView } from 'features/auth';
@@ -7,7 +7,6 @@ import { useWindowSize } from 'shared/hooks';
 import { routing_tree } from 'shared/routing';
 import { TokenService } from 'shared/services';
 
-import authRoutes from './auth';
 import mainRouters from './main';
 import settingsRouters from './settings';
 
@@ -21,13 +20,6 @@ function Routing() {
             {mainRouters}
             {settingsRouters}
             <Route path="*" element={<Navigate to={routing_tree.main.base} replace />} />
-        </Routes>
-    );
-
-    const publicRoutes = (
-        <Routes>
-            {authRoutes}
-            <Route path="*" element={<Navigate to={routing_tree.auth.base} replace />} />
         </Routes>
     );
 

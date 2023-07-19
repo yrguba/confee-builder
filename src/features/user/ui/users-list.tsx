@@ -14,14 +14,14 @@ function UsersList() {
     const pageClick = (page: number) => {};
 
     const clickOnUserCard = (user: UserTypes.User) => {
-        navigate(`${params.division_name ? '' : 'division/unknown/'}user/${user.id}/name/${user.name}/info/images`);
+        navigate(`${params.division_name ? '' : 'division/unknown/'}user/${user.id}/name/${user.first_name}/info/images`);
     };
 
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
         const getUser: any = data?.data?.data.filter((i, index) => {
-            if (i.name) return i;
+            if (i.first_name) return i;
         });
         setUsers(getUser);
     }, [data]);

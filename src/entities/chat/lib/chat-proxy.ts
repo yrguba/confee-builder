@@ -11,18 +11,18 @@ function chatProxy(chat: Chat): any {
                     return target[prop];
                 case 'secondMember':
                     if (target.is_group) return null;
-                    const found = chat.chatUsers.find((i) => i.id !== viewer?.id);
+                    const found = chat.members.find((i) => i.id !== viewer?.id);
                     return found || null;
 
-                case 'lastMessage':
-                    if (!target.message.length) return '';
-                    const lastMsg = target.message[0];
-                    if (lastMsg.message_type === 'images') return 'Отправил фото';
-                    if (lastMsg.message_type === 'audios') return 'Отправил аудио';
-                    if (lastMsg.message_type === 'videos') return 'Отправил видео';
-                    if (lastMsg.message_type === 'voices') return 'Отправил голосовое';
-                    if (lastMsg.message_type === 'documents') return 'Отправил файл';
-                    return lastMsg.text;
+                case 'lastMessageTitle':
+                    if (!target.last_message) return '';
+                    const { type, text } = target.last_message;
+                    if (type === 'images') return 'Отправил фото';
+                    if (type === 'audios') return 'Отправил аудио';
+                    if (type === 'videos') return 'Отправил видео';
+                    if (type === 'voices') return 'Отправил голосовое';
+                    if (type === 'documents') return 'Отправил файл';
+                    return text;
 
                 default:
                     return target[prop];

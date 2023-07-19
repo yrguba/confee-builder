@@ -17,7 +17,7 @@ type Props = {
 function Wrapper(props: Props) {
     const { children, message, reactionClick } = props;
 
-    const { id, user, created_at, reactions } = message;
+    const { id, author, created_at, reactions } = message;
 
     const date = useDate(created_at);
 
@@ -25,12 +25,12 @@ function Wrapper(props: Props) {
         <Box className={styles.wrapper}>
             {!message.isMy && (
                 <div className={styles.avatar}>
-                    <Avatar size={32} img={user?.avatar} name={user?.name} />
+                    <Avatar size={32} img={author?.avatars[0]} name={author?.first_name} />
                 </div>
             )}
             <div className={styles.mainColumn}>
                 <div className={`${styles.body} ${message?.isMy && styles.body_my}`}>
-                    {!message?.isMy && <div className={styles.name}>{user?.name}</div>}
+                    {!message?.isMy && <div className={styles.name}>{author?.first_name}</div>}
                     <div className={styles.messageContent}>{children}</div>
                     <div className={styles.footer}>
                         <div className={styles.reactions}>

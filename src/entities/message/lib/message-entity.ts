@@ -6,17 +6,17 @@ import { Message, MessageProxy, MessageType } from '../model/types';
 
 export default function (data: { text?: string; content?: any; type?: MessageType; viewer: ViewerTypes.Viewer | undefined; reply?: Message | null }): Message {
     return {
+        author: data.viewer || {},
         id: new Date().valueOf(),
         text: data.text || '',
-        content: data.content || null,
-        user: data.viewer || {},
-        message_status: 'read',
+        files: data.content || null,
+        is_read: false,
         created_at: new Date(),
-        message_type: data.type || 'text',
+        type: data.type || 'text',
         users_have_read: [],
-        forwarded_messages: [],
+        forwarded_from_messages: [],
         reactions: {},
-        replyMessage: data.reply || null,
+        reply_to_message: data.reply || null,
         isMock: true,
     } as MessageProxy;
 }

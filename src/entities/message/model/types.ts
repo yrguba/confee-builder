@@ -27,18 +27,19 @@ export type File = {
 };
 
 export type Message = {
-    id: number;
-    text: string;
-    content: File[];
-    user: UserTypes.User;
-    message_type: MessageType;
-    message_status: MessageStatus;
-    reactions: Record<string, []>;
-    replyMessage: Message | null;
-    forwarded_messages: Message[] | [];
-    users_have_read: number[] | [];
-    is_edited: boolean;
+    author: UserTypes.User;
+    chat_id?: number;
     created_at: Date;
+    files: any[];
+    forwarded_from_messages: Message[] | [];
+    id: number;
+    is_edited: boolean;
+    is_read: boolean;
+    reply_to_message: Message | null;
+    text: string;
+    type: MessageType;
+    reactions: Record<string, []>;
+    users_have_read: number[] | [];
 };
 
 export type MessageProxy = {

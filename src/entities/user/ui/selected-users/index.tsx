@@ -56,8 +56,8 @@ function SelectedUsersView(props: Props) {
                 {users.map((user) => (
                     <div key={user.id} className={styles.item}>
                         <div className={styles.userInfo}>
-                            <Avatar img={user.avatar} name={user.name} />
-                            {user.name}
+                            <Avatar img={user.avatars[0]} name={user.first_name} />
+                            {user.first_name}
                         </div>
                         <div className={styles.delete} onClick={() => deleteUser(user)}>
                             <Icons variants="exit" />

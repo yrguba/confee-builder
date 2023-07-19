@@ -44,7 +44,7 @@ function ChatListView(props: Props) {
                                             showChecked
                                             showDate
                                             chat={chat}
-                                            subtitle={chat.messageAction || chat.lastMessage}
+                                            subtitle={chat.messageAction || chat.lastMessageTitle}
                                             onClick={clickOnChat}
                                         />
                                     </div>

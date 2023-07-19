@@ -7,12 +7,12 @@ function messageProxy(prevMessage: Message, message: Message, viewerId: number |
         get(target: MessageProxy, prop: keyof MessageProxy, receiver): MessageProxy[keyof MessageProxy] {
             switch (prop) {
                 case 'isMy':
-                    return target?.user?.id === viewerId && target.message_type !== 'system';
+                    return target?.author?.id === viewerId && target.type !== 'system';
 
                 case 'isFirstUnread':
-                    if (!prevMessage && target.message_status === 'pending') return true;
+                    if (!prevMessage && !target.is_read) return true;
                     if (!prevMessage) return false;
-                    return target.message_status === 'pending' && prevMessage.message_status !== 'pending';
+                    return target.is_read && !prevMessage.is_read;
 
                 case 'firstOfDay':
                     if (!prevMessage || moment(prevMessage?.created_at).startOf('day').unix() < moment(message?.created_at).startOf('day').unix()) {

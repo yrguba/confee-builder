@@ -33,7 +33,7 @@ function ChatDossierView(props: Props) {
                     <div className={styles.adminList}>
                         <div className={styles.title}>Администраторы</div>
                         <div className={styles.list}>
-                            {chat?.chatUsers.map((admin, index) => (
+                            {chat?.members.map((admin, index) => (
                                 <UserCardView key={index} user={admin} />
                             ))}
                         </div>

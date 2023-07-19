@@ -27,11 +27,11 @@ function UserDossierView(props: Props) {
             <LoadingIndicator.Glare visible={!!loading} />
             {user && (
                 <>
-                    <Avatar circle={false} name={user.name} img={user.avatar} size={direction === 'column' ? 252 : 160} />
+                    <Avatar circle={false} name={user.first_name} img={user.avatars[0]} size={direction === 'column' ? 252 : 160} />
                     <div className={styles.infoColumn}>
                         <div className={styles.header}>
                             <div className={styles.caption}>
-                                <div className={styles.name}>{user.name}</div>
+                                <div className={styles.name}>{user.first_name}</div>
                                 <div className={styles.date}>15 января</div>
                             </div>
                             <div className={styles.status}>

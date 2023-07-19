@@ -17,11 +17,11 @@ type Props = {
 function ImageMessageView(props: Props) {
     const { message, reactionClick } = props;
 
-    const rows = useGetRows(message.content);
+    const rows = useGetRows(message.files);
 
     return (
         <Wrapper message={message} reactionClick={reactionClick}>
-            <div className={styles.wrapper} style={{ gridTemplateColumns: `repeat(${message.content.length < 2 ? 1 : 2}, 1fr)` }}>
+            <div className={styles.wrapper} style={{ gridTemplateColumns: `repeat(${message.files.length < 2 ? 1 : 2}, 1fr)` }}>
                 {rows.map((row) => (
                     <div key={row.id} className={styles.row}>
                         {row.columns.map((column) => (

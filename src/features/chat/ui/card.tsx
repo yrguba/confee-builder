@@ -23,7 +23,7 @@ function ChatCard() {
             if (chat.is_group) {
                 navigate(`group_chat/${chat.id}/users`);
             } else {
-                const userId = chat.users.find((userId) => userId !== viewer?.id);
+                const userId = chat.members.find((user) => user.id !== viewer?.id);
                 navigate(`private_chat/${userId}/images`);
             }
         }
@@ -36,8 +36,8 @@ function ChatCard() {
         }
 
         if (chat.is_group) {
-            const word = useEnding(chat.users.length, ['участник', 'участника', 'участников']);
-            return `${chat.users.length} ${word}`;
+            const word = useEnding(chat.members.length, ['участник', 'участника', 'участников']);
+            return `${chat.members.length} ${word}`;
         }
         return UserService.getUserNetworkStatus(chat.secondMember) || '';
     };

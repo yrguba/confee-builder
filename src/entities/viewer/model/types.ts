@@ -1,7 +1,7 @@
 export type Viewer = {
     id: number;
-    name: string;
-    avatar: string;
+    first_name: string;
+    avatars: any[];
     email: string;
     login: string;
     updated_at: Date;

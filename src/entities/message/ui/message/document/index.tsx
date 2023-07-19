@@ -19,7 +19,7 @@ function DocumentMessageView(props: Props) {
     return (
         <Wrapper message={message} reactionClick={reactionClick}>
             <div className={styles.wrapper}>
-                {message.content.map((file, index) => (
+                {message.files.map((file, index) => (
                     <div key={index} className={styles.row}>
                         <Document url={http.url + file.url} size={file.size} name={file.name} />
                     </div>

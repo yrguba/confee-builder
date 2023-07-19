@@ -23,7 +23,7 @@ function ChatCardView(props: Props) {
     const { chat, subtitle, showDate, showChecked, onClick, maxWidth = 180 } = props;
     if (!chat) return null;
 
-    const { name, pending_messages, updated_at, avatar, message } = chat;
+    const { name, pending_messages_count, updated_at, avatar, last_message } = chat;
 
     const getDate = (updated_at: Date) => {
         if (moment(updated_at).startOf('day').unix() === moment().startOf('day').unix()) {
@@ -47,12 +47,10 @@ function ChatCardView(props: Props) {
                 {showDate && <div className={styles.date}>{getDate(chat.updated_at)}</div>}
                 {showChecked && (
                     <div className={styles.checked}>
-                        {pending_messages ? (
-                            <Counter height={18}>{pending_messages}</Counter>
+                        {pending_messages_count ? (
+                            <Counter height={18}>{pending_messages_count}</Counter>
                         ) : (
-                            Number(message[0].user.id) === Number(viewer?.id) && (
-                                <Icons variants={message[0].users_have_read.length ? 'doubleCheck' : 'check'} />
-                            )
+                            Number(last_message.author.id) === Number(viewer?.id) && <Icons variants={last_message.is_read ? 'doubleCheck' : 'check'} />
                         )}
                     </div>
                 )}

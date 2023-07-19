@@ -48,7 +48,7 @@ function MessagesListView(props: Props) {
     const { ref: dateRef, inView: inViewDate } = useInView();
 
     const getMessageRef = (message: MessageProxy, index: number) => {
-        if (!chat?.pending_messages) {
+        if (!chat?.pending_messages_count) {
             if (messages?.length === index + 1) return messageRef;
         } else if (message.isFirstUnread) {
             return mergeRefs([messageRef, firstPendingMessagesRef]);
@@ -114,9 +114,9 @@ function MessagesListView(props: Props) {
                     {message.isFirstUnread && <SystemMessageView text="непрочитанные" />}
                     {message.firstOfDay && <SystemMessageView ref={dateRef} text={message.firstOfDay} />}
                     {/* {!inViewDate && <div className={styles.scrollDate}>{message.firstOfDay}</div>} */}
-                    {message.message_type === 'system' && <SystemMessageView text={message.text} />}
+                    {message.type === 'system' && <SystemMessageView text={message.text} />}
                     <div className={`${styles.messageWrapper} ${message.isMy && styles.messageWrapper_my}`} ref={getMessageRef(message, index)}>
-                        {message.message_type !== 'system' && (
+                        {message.type !== 'system' && (
                             <div className={`${styles.messageContent} ${message.isMy && styles.messageContent_my}`}>
                                 <Dropdown
                                     closeAfterClick
@@ -132,22 +132,22 @@ function MessagesListView(props: Props) {
                                         />
                                     }
                                 >
-                                    {message.forwarded_messages?.length ? (
+                                    {message.forwarded_from_messages?.length ? (
                                         <ForwardedMessagesView message={message} reactionClick={reactionClick} />
-                                    ) : message.replyMessage ? (
-                                        <ReplyMessageView message={message} reply={message.replyMessage} reactionClick={reactionClick} />
+                                    ) : message.reply_to_message ? (
+                                        <ReplyMessageView message={message} reply={message.reply_to_message} reactionClick={reactionClick} />
                                     ) : (
                                         <>
-                                            {message.message_type === 'text' && (
-                                                <TextMessageView chatUsers={chat?.chatUsers} message={message} reactionClick={reactionClick} />
+                                            {message.type === 'text' && (
+                                                <TextMessageView chatUsers={chat?.members} message={message} reactionClick={reactionClick} />
                                             )}
-                                            {message.message_type === 'images' && (
-                                                <div onClick={() => (message.content.length ? setContentForModal(message.content) : () => {})}>
+                                            {message.type === 'images' && (
+                                                <div onClick={() => (message.files.length ? setContentForModal(message.files) : () => {})}>
                                                     <ImageMessageView message={message} reactionClick={reactionClick} />
                                                 </div>
                                             )}
-                                            {message.message_type === 'voices' && <VoiceMessageView message={message} reactionClick={reactionClick} />}
-                                            {message.message_type === 'documents' && <DocumentMessageView message={message} reactionClick={reactionClick} />}
+                                            {message.type === 'voices' && <VoiceMessageView message={message} reactionClick={reactionClick} />}
+                                            {message.type === 'documents' && <DocumentMessageView message={message} reactionClick={reactionClick} />}
                                         </>
                                     )}
                                 </Dropdown>
@@ -157,9 +157,9 @@ function MessagesListView(props: Props) {
                     {index + 2 === messages?.length && <div ref={prevPageRef} />}
                 </Fragment>
             ))}
-            {chat?.pending_messages ? (
+            {chat?.pending_messages_count ? (
                 <div className={styles.btnDown}>
-                    <Counter>{chat.pending_messages}</Counter>
+                    <Counter>{chat.pending_messages_count}</Counter>
                 </div>
             ) : null}
         </div>

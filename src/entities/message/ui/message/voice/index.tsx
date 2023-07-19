@@ -19,7 +19,7 @@ function VoiceMessageView(props: Props) {
     return (
         <Wrapper message={message} reactionClick={reactionClick}>
             <div className={styles.wrapper}>
-                <AudioPlayer.Voice url={http.url + message.content[0].url} size={message.content[0].size} />
+                <AudioPlayer.Voice url={http.url + message.files[0].url} size={message.files[0].size} />
             </div>
         </Wrapper>
     );

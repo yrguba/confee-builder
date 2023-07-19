@@ -20,7 +20,7 @@ function CreatePrivateChatModal(props: Props) {
     const search = useInput();
 
     useEffect(() => {
-        setUsersList(users.filter((user) => user.name.toLowerCase().includes(search.value.toLowerCase())));
+        setUsersList(users.filter((user) => user.first_name.toLowerCase().includes(search.value.toLowerCase())));
     }, [search.value]);
 
     return (

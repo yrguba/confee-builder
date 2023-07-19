@@ -23,10 +23,10 @@ function ChatsList() {
 
     const { data: usersData } = UserApi.handleGetUsers();
 
-    const { data: chatData } = ChatApi.handleGetChats();
+    const { data: chatsData } = ChatApi.handleGetChats();
     const { mutate: handleCreateChat, isSuccess, isLoading: loadingCreateGroupChat } = ChatApi.handleCreateChat();
     const { mutate: handleAddAvatar } = ChatApi.handleAddAvatar();
-
+    console.log(chatsData);
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
         const { id, is_group } = chat;
         if (Number(params.chat_id) !== id) {
@@ -34,7 +34,7 @@ function ChatsList() {
                 if (is_group) {
                     return navigate(`/main/chats/chat/${id}/group_chat/${id}/users`);
                 }
-                const userId = chat.users.find((userId) => userId !== viewer?.id);
+                const userId = chat.members.find((member) => member.id !== viewer?.id);
                 return navigate(`/main/chats/chat/${id}/private_chat/${userId}/images`);
             }
             navigate(`/main/chats/chat/${id}`);
@@ -96,7 +96,7 @@ function ChatsList() {
         <>
             <ChatListView
                 createChat={openCreateChatModal}
-                chats={chatData?.data?.map((chat) => ChatProxy(chat)) || []}
+                chats={chatsData?.data?.map((chat) => ChatProxy(chat)) || []}
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
             />

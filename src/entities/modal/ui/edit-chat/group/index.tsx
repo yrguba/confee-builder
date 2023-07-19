@@ -48,9 +48,9 @@ function EditGroupChatModal(props: Props) {
                     <Input placeholder={chat?.name} {...chatName} width={220} title="Название группы" error={!!error} errorTitle={error} />
                 </div>
             </div>
-            <div className={styles.title}>Участники ({chat?.users?.length})</div>
+            <div className={styles.title}>Участники ({chat?.members?.length})</div>
             <div className={styles.list}>
-                {chat?.chatUsers?.map((user) => (
+                {chat?.members?.map((user) => (
                     <div key={user.id} className={styles.item}>
                         <UserCardView size="m" subtitle={UserService.getUserNetworkStatus(user) || ''} user={user} />
                     </div>

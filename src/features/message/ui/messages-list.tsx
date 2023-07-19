@@ -55,7 +55,7 @@ function MessageList(props: Props) {
     const reactionClick = (messageId: number, reaction: any) => handleSendReaction({ chatId, messageId, reaction });
 
     const readMessage = (messageId: number) => {
-        if (chat?.pending_messages) handleReadMessage({ chat_id: chatId, messages: [messageId] });
+        if (chat?.pending_messages_count) handleReadMessage({ chat_id: chatId, messages: [messageId] });
     };
 
     const deleteMessages = () => {

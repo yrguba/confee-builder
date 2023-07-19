@@ -124,7 +124,7 @@ function MessageInput(props: Props) {
         const tags = words.filter((word) => /@[a-zA-Zа-яА-я0-9]/.test(word));
         const lastWordIsTag = /@[a-zA-Zа-яА-я0-9]/.test(words[words.length - 1]);
         const suitable: UserTypes.User[] = [];
-        const users = chat.chatUsers.filter((user) => !!user.nickname && user.id !== ViewerService.getViewer()?.id);
+        const users = chat.members.filter((user) => !!user.nickname && user.id !== ViewerService.getViewer()?.id);
         if (all) {
             suitable.splice(0, 0, ...users);
             return suitable;

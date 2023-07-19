@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { AppService } from 'entities/app';
+import { Box } from 'shared/ui';
 import { HeaderFromSettingsPage, MainFromSettingsPage, PrivacyFromSettingsPage, CheckUpdate, ApplicationFromSettingsPage } from 'widgets/settings-page';
 
 import styles from './styles.module.scss';
@@ -20,13 +21,13 @@ function SettingsPage() {
                 <div className={styles.header}>
                     <HeaderFromSettingsPage />
                 </div>
-                <div className={styles.mainRow}>
+                <Box.Animated visible className={styles.mainRow}>
                     {items.map((i) => (
                         <div key={i.id} className={styles.row} style={{ display: !AppService.tauriIsRunning && i.id === 3 ? 'none' : 'flex' }}>
                             {i.element}
                         </div>
                     ))}
-                </div>
+                </Box.Animated>
             </div>
         </Wrapper>
     );

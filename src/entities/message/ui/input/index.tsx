@@ -110,7 +110,7 @@ function MessageInputView(props: Props) {
                                     {messageToReply && (
                                         <div className={styles.title__answer}>
                                             <Icons variants="answer" size={16} />
-                                            {messageToReply?.user.name}
+                                            {messageToReply?.author.first_name}
                                         </div>
                                     )}
                                 </div>

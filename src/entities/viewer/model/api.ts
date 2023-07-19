@@ -20,6 +20,10 @@ class ViewerApi {
         });
     }
 
+    handleSendOneSignalToken() {
+        return useMutation((data: { onesignal_player_id: string }) => axiosClient.post('api/v2/authorization/onesignal_token', data));
+    }
+
     handleAddAvatar() {
         const queryClient = useQueryClient();
         const setSocketAction = useViewerStore.use.setSocketAction();

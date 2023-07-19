@@ -2,22 +2,22 @@ import { Message } from '../../message/model/types';
 import { User } from '../../user/model/types';
 
 export type Chat = {
-    id: number;
-    name: string;
     avatar: string;
-    message: Message[];
     created_at: Date;
-    updated_at: Date;
+    id: number;
     is_group: boolean;
-    users: number[];
-    chatUsers: User[];
-    pending_messages: number;
-    permittedReactions: string[];
-    totalMessages: number;
+    last_message: Message;
+    members: User[];
+    members_count: number;
+    messages_count: number;
+    name: string;
+    pending_messages_count: number;
+    updated_at: Date;
+    permittedReactions: any[];
 };
 
 export type ChatProxy = {
     messageAction: string;
     secondMember: User | null;
-    lastMessage: string;
+    lastMessageTitle: string;
 } & Chat;

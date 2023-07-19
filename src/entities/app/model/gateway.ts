@@ -13,16 +13,16 @@ function AppGateway() {
     useEffect(() => {
         socketIo.on('receiveMessage', ({ message }: { message: { chat_id: string } & MessageTypes.Message }) => {
             const openChatId = ChatService.getOpenChatId();
-            if (message.user.id !== viewer?.id && Number(message.chat_id) !== openChatId) {
-                const { message_type, user } = message;
+            if (message.author.id !== viewer?.id && Number(message.chat_id) !== openChatId) {
+                const { type, author } = message;
                 const getAction = () => {
-                    if (message_type === 'images') return `отправил картинку.`;
-                    if (message_type === 'audios') return `отправил аудио.`;
-                    if (message_type === 'videos') return `отправил видео.`;
-                    if (message_type === 'documents') return `отправил документ.`;
-                    if (message_type === 'text') return `Написал сообщение.`;
+                    if (type === 'images') return `отправил картинку.`;
+                    if (type === 'audios') return `отправил аудио.`;
+                    if (type === 'videos') return `отправил видео.`;
+                    if (type === 'documents') return `отправил документ.`;
+                    if (type === 'text') return `Написал сообщение.`;
                 };
-                setNotifications({ description: 'Новое сообщение', text: `${user?.name} ${getAction()}`, scope: 'all' });
+                setNotifications({ description: 'Новое сообщение', text: `${author?.first_name} ${getAction()}`, scope: 'all' });
             }
         });
 
