@@ -22,7 +22,7 @@ class ViewerApi {
 
     handleEditProfile() {
         const queryClient = useQueryClient();
-        return useMutation((data: { nickname?: string }) => axiosClient.patch(`/api/v2/user`, data), {
+        return useMutation((data: { nickname?: string; first_name?: string; last_name?: string }) => axiosClient.patch(`/api/v2/user`, data), {
             onSuccess: () => {
                 queryClient.invalidateQueries(['get-viewer']);
             },

@@ -1,4 +1,5 @@
 import ViewerService from './lib/service';
+import * as yup from './lib/yup';
 import ViewerApi from './model/api';
 import useViewerStore from './model/store';
 import * as ViewerTypes from './model/types';
@@ -18,4 +19,5 @@ export {
     FillingProfileStep1View,
     FillingProfileStep2View,
     FillingProfileStep3View,
+    yup,
 };

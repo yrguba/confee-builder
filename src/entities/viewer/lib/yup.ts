@@ -10,4 +10,7 @@ export const checkNickname = yup.object().shape({
         .min(5, ErrorsNames.short_nickname)
         .max(20, ErrorsNames.long_nickname),
 });
-export type CheckNicknameType = yup.InferType<typeof checkNickname>;
+
+export const checkName = yup.object().shape({
+    name: yup.string().matches(/^[a-zA-Zа-яА-Я]*$/, ErrorsNames.no_numbers),
+});

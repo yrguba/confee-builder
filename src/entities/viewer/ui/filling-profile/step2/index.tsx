@@ -9,28 +9,51 @@ import { useInput } from '../../../../../shared/hooks';
 
 type Props = {
     viewer: ViewerTypes.Viewer | BaseTypes.Empty;
-    handleSubmit: (arg: string) => void;
-    error: string;
-    clearError: () => void;
+    handleSubmit: (arg: { firstName?: string; lastName?: string }) => void;
+    error: { firstName?: string; lastName?: string };
+    setError: (arg: any) => void;
 };
 
 function FillingProfileStep2View(props: Props) {
-    const { viewer, error, clearError, handleSubmit } = props;
-    const nickname = useInput();
+    const { viewer, error, setError, handleSubmit } = props;
+
+    const firstName = useInput();
+    const lastName = useInput();
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.description}>
-                <div className={styles.title}>Придумайте никнейм</div>
-                <div className={styles.subtitle}>Уникальный идентификатор, по которому вас можно найти</div>
+                <div className={styles.title}>Введите имя и фамилию</div>
+                <div className={styles.subtitle}>Они будут отображаться другим пользователям приложения</div>
             </div>
             <div className={styles.input}>
-                <Input onFocus={clearError} debounceDelay={0} errorTitle={error} error={!!error} {...nickname} prefix="@" clearIcon size="xxl" />
+                <Input
+                    placeholder="Имя"
+                    onFocus={() => setError((prev: any) => ({ ...prev, firstName: '' }))}
+                    errorTitle={error.firstName}
+                    error={!!error.firstName}
+                    {...firstName}
+                    clearIcon
+                    size="xxl"
+                />
             </div>
-            <div className={styles.input}>
-                <Input onFocus={clearError} debounceDelay={0} errorTitle={error} error={!!error} {...nickname} prefix="@" clearIcon size="xxl" />
+            <div className={styles.inputLastName}>
+                <Input
+                    placeholder="Фамилия"
+                    onFocus={() => setError((prev: any) => ({ ...prev, lastName: '' }))}
+                    errorTitle={error.lastName}
+                    error={!!error.lastName}
+                    {...lastName}
+                    clearIcon
+                    size="xxl"
+                />
             </div>
 
-            <Button disabled={!!error} onClick={() => handleSubmit(nickname.value)} size="xl">
+            <Button
+                disabled={!!error.lastName || !!error.firstName}
+                onClick={() => handleSubmit({ firstName: firstName.value, lastName: lastName.value })}
+                size="xl"
+            >
                 Далее
             </Button>
         </div>

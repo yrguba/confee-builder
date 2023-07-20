@@ -9,7 +9,10 @@ const useInput = (initialValue = '') => {
         }
     }, []);
 
-    return { value, onChange };
+    const clear = () => {
+        setValue('');
+    };
+    return { value, onChange, clear };
 };
 
 export default useInput;

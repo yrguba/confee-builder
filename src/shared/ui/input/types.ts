@@ -31,6 +31,7 @@ export type BaseInputProps = {
     prefix?: string;
     debounceDelay?: number;
     debounceCallback?: (arg: InputValue) => void;
+    clear?: () => void;
 } & Shared;
 
 export type InputDatePickerProps = {} & Shared;

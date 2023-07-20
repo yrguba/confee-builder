@@ -2,6 +2,7 @@ enum ErrorsNames {
     required = 'Поле обязательно для заполнения',
     login = 'Логин не найден',
     wrong_format = 'неверный формат',
+    no_numbers = 'В этом поле не может быть цифр',
 
     short_password = 'Слишком короткий пароль',
     long_password = 'Слишком длинный пароль',

@@ -23,6 +23,7 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         disabled,
         width,
         height,
+        clear,
         ...other
     } = props;
 
@@ -35,12 +36,6 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
     );
 
     const inputRef = useRef<any>(null);
-
-    const clear = () => {
-        if (inputRef?.current) {
-            inputRef.current.value = '';
-        }
-    };
 
     return (
         <Wrapper

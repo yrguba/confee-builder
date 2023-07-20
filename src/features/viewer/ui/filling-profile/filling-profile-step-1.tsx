@@ -2,10 +2,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useViewerStore, ViewerApi, FillingProfileStep1View } from 'entities/viewer';
+import { useViewerStore, ViewerApi, FillingProfileStep1View, yup } from 'entities/viewer';
 import { ErrorsNames } from 'shared/enums';
 import { useError } from 'shared/hooks';
-import { yup } from 'shared/lib';
 
 function FillingProfileStep1() {
     const { pathname } = useLocation();
