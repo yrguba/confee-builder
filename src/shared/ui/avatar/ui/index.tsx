@@ -52,7 +52,7 @@ function Avatar(props: Props) {
 
     const color = getColor();
     const preview = getPreview();
-    console.log(withHttp);
+
     return (
         <div
             className={styles.avatar}
@@ -63,7 +63,7 @@ function Avatar(props: Props) {
                 height: size,
                 minHeight: size,
                 fontSize: size - size / 2,
-                background: `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)`,
+                background: !img ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
             }}
         >
             {img ? (

@@ -1,0 +1,17 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include flex-column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 8px;
+  cursor: pointer;
+  z-index: 100;
+  background-color: var(--bg-secondary);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+}
+

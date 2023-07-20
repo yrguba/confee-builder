@@ -24,7 +24,7 @@ function FillingProfileStep1() {
             .then(async () => {
                 setError('');
                 const { exists } = await handleCheckNickname({ nickname });
-                if (exists) {
+                if (exists && data?.data?.data.nickname !== nickname) {
                     setError(ErrorsNames.nickname_exists);
                 } else {
                     handleEditProfile(

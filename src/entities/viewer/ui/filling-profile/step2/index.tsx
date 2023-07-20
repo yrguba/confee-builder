@@ -9,7 +9,7 @@ import { useInput } from '../../../../../shared/hooks';
 
 type Props = {
     viewer: ViewerTypes.Viewer | BaseTypes.Empty;
-    handleSubmit: (arg: { firstName?: string; lastName?: string }) => void;
+    handleSubmit: (arg: { first_name?: string; last_name?: string }) => void;
     error: { firstName?: string; lastName?: string };
     setError: (arg: any) => void;
 };
@@ -51,7 +51,7 @@ function FillingProfileStep2View(props: Props) {
 
             <Button
                 disabled={!!error.lastName || !!error.firstName}
-                onClick={() => handleSubmit({ firstName: firstName.value, lastName: lastName.value })}
+                onClick={() => handleSubmit({ first_name: firstName.value, last_name: lastName.value })}
                 size="xl"
             >
                 Далее

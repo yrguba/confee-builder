@@ -1,15 +1,16 @@
 @import "./src/app/styles";
 
 .wrapper {
-  @include flex(flex-end);
+  @include box-size(376px,auto);
+  @include flex-column(flex-start);
   gap: 12px;
-  cursor: pointer;
 
-  .name {
-    color: var(--text-0);
+  .avatar{
+    @include flex-column;
+    gap: 12px;
   }
 
-  .avatar {
-
+  .inputLastName{
+    margin-bottom:  20px;
   }
 }

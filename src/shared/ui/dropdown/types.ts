@@ -22,3 +22,15 @@ export type DropdownBaseProps = {
     reverseX?: boolean;
     closeAfterClick?: boolean;
 } & BaseTypes.Statuses;
+
+export type DropdownMenuItem = {
+    id: number;
+    icon?: ReactNode;
+    title: string;
+    action: (arg?: any) => void;
+    isRed?: boolean;
+};
+
+export type DropdownMenuProps = {
+    items: DropdownMenuItem[];
+} & DropdownBaseProps;

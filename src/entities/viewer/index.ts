@@ -3,6 +3,7 @@ import * as yup from './lib/yup';
 import ViewerApi from './model/api';
 import useViewerStore from './model/store';
 import * as ViewerTypes from './model/types';
+import AvatarEditor from './ui/avatar-editor';
 import ViewerCardView from './ui/card';
 import ViewerDossierView from './ui/dossier';
 import FillingProfileStep1View from './ui/filling-profile/step1';
@@ -19,5 +20,6 @@ export {
     FillingProfileStep1View,
     FillingProfileStep2View,
     FillingProfileStep3View,
+    AvatarEditor,
     yup,
 };

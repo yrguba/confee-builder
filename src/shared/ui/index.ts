@@ -5,7 +5,7 @@ import Button, { ButtonTypes } from './button';
 import Collapse, { CollapseTypes } from './collapse';
 import Counter, { CounterTypes } from './counter';
 import DatePicker, { DatePickerTypes } from './date-picker';
-import Dropdown, { DropdownTypes } from './dropdown';
+import Dropdown, { DropdownTypes, DropdownMenu } from './dropdown';
 import Emoji, { EmojiTypes } from './emoji';
 import Icons, { IconsTypes } from './icons';
 import Input, { InputTypes } from './input';
@@ -14,6 +14,7 @@ import AudioPlayer from './media-content/audio-player';
 import Document, { DocumentTypes } from './media-content/document';
 import Image, { ImageTypes } from './media-content/image';
 import ResponsiveMediaContents, { ResponsiveMediaContentsTypes } from './media-content/responsive-list';
+import WebCamera, { WebCamaraTypes } from './media-content/web-camera';
 import Modal, { ModalTypes, useModal } from './modal';
 import Navbar, { NavbarTypes } from './navbar';
 import Notification, { NotificationTypes } from './notification';
@@ -24,6 +25,7 @@ import Switch, { SwitchTypes } from './switch';
 import Title, { TitleTypes } from './title';
 
 export {
+    WebCamera,
     Steps,
     Document,
     AudioPlayer,
@@ -50,8 +52,10 @@ export {
     DatePicker,
     ResponsiveMediaContents,
     animationVariants,
+    DropdownMenu,
 };
 export type {
+    WebCamaraTypes,
     StepsTypes,
     DocumentTypes,
     AvatarTypes,

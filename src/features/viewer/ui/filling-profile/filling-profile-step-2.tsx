@@ -6,27 +6,24 @@ import { useViewerStore, ViewerApi, FillingProfileStep2View, yup } from 'entitie
 function FillingProfileStep2() {
     const navigate = useNavigate();
 
-    useViewerStore.use.socketAction();
     const { data } = ViewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
 
     const [error, setError] = useState<{ firstName?: string; lastName?: string }>({});
 
-    const onsubmit = (args: { firstName?: string; lastName?: string }) => {
+    const onsubmit = (args: { first_name?: string; last_name?: string }) => {
         yup.checkName
-            .validate({ name: args.firstName })
+            .validate({ name: args.first_name })
             .then(async () => {
                 setError({ firstName: '' });
                 yup.checkName
-                    .validate({ name: args.lastName })
+                    .validate({ name: args.last_name })
                     .then(async () => {
                         setError({ lastName: '' });
-                        handleEditProfile(
-                            { ...Object.fromEntries(Object.entries(args).filter(([_, v]) => v)) },
-                            {
-                                onSuccess: () => navigate('/filling_profile/step3'),
-                            }
-                        );
+                        const body = Object.fromEntries(Object.entries(args).filter(([_, v]) => v));
+                        handleEditProfile(body, {
+                            onSuccess: () => navigate('/filling_profile/step3'),
+                        });
                     })
                     .catch((err) => {
                         setError({ lastName: err.errors[0] });
