@@ -1,0 +1,34 @@
+:root[data-theme="dark_0"] {
+  :root[data-theme="light"] {
+    --text-primary: #FFFFFF;
+    --text-secondary: #717394;
+    --text-inactive: #717394;
+    --text-fixed: #FFFFFF;
+    --text-action: #7B57C8;
+    --text-action-pressed: #6F4BBC;
+    --text-positive: #10C44C;
+    --text-negative: #FF4B4B;
+    --text-negative-pressed: #E74343;
+    //------------------------------------
+    --bg-primary: #080529;
+    --bg-secondary: #150E41;
+    --bg-tertiary: #717394;
+    --bg-quaternary: #332F6B;
+    --bg-dimming: rgba(0, 0, 0, 0.40);
+    //------------------------------------
+    --control-primary: #7B57C8;
+    --control-primary-pressed: #6F4BBC;
+    --control-secondary: #DDE4EF;
+    --control-secondary-disabled: #717394;
+    --control-tertiary: #717394;
+    --control-tertiary-active: #FFFFFF;
+    --control-negative: #FF4B4B;
+    --control-negative-pressed: #E74343;
+    //------------------------------------
+    --border-primary: #7B57C8;
+    --border-primary-pressed:#6F4BBC;
+    --border-secondary: #40417A;
+    --border-negative: #FF4B4B;
+    --border-negative-pressed: #E74343;
+  }
+}

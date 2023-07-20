@@ -1,28 +1,32 @@
 :root[data-theme="light"] {
-  --bg-outside: rgba(214, 225, 242, 1);
-  --bg-0: rgba(239, 242, 247, 1);
-  --bg-1: #FAFAFC;
-  --bg-2: #FFFFFF;
-  --bg-3: #FFFFFF;
-  --bg-01: rgba(255, 255, 255, 1);
-  --bg-02: #E8ECF3;
-  --bg-03: #DDE4EF;
-  --gradient-1: #0078E7;
-  --text-0: #2A313C;
-  --text-1: #717394;
-  --main-active: #7B57C8;
-  --icon-inactive: #A5ABD7;
-  --button-inactive: #C3C4E4;
-  --stroke-1: #C6D1DE;
-  --stroke-2: rgba(214, 225, 242, 1);
-  --border-color:#D9D9D9;
-  ///--------------------
-  --border-primary: #7B57C8;
-  --control-disabled: rgba(123, 87, 200, 0.4);
-  --control-primary: #7B57C8;
-  --bg-secondary: #FFF;
-  --bg-primary: #EFF2F7;
   --text-primary: #2A313C;
   --text-secondary: #717394;
-  --text-action: #7B57C8
+  --text-inactive: #A5ABD7;
+  --text-fixed: #FFF;
+  --text-action: #7B57C8;
+  --text-action-pressed: #6F4BBC;
+  --text-positive: #10C44C;
+  --text-negative: #FF4B4B;
+  --text-negative-pressed: #E74343;
+  //------------------------------------
+  --bg-primary: #EFF2F7;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #C3C4E4;
+  --bg-quaternary: #A5ABD7;
+  --bg-dimming: rgba(0, 0, 0, 0.40);
+  //------------------------------------
+  --control-primary: #7B57C8;
+  --control-primary-pressed: #6F4BBC;
+  --control-secondary: #FFF;
+  --control-secondary-disabled: #C3C4E4;
+  --control-tertiary: #A5ABD7;
+  --control-tertiary-active: #7B57C8;
+  --control-negative: #FF4B4B;
+  --control-negative-pressed: #E74343;
+  //------------------------------------
+  --border-primary: #7B57C8;
+  --border-primary-pressed:#6F4BBC;
+  --border-secondary: #D6E1F2;
+  --border-negative: #FF4B4B;
+  --border-negative-pressed: #E74343;
 }

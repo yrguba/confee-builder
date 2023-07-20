@@ -20,6 +20,10 @@ class ViewerApi {
         });
     }
 
+    handleEditProfile() {
+        return useMutation((data: { nickname?: string }) => axiosClient.post(`/api/v2/user`, data));
+    }
+
     handleSendOneSignalToken() {
         return useMutation((data: { onesignal_player_id: string }) => axiosClient.post('api/v2/authorization/onesignal_token', data));
     }

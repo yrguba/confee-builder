@@ -15,6 +15,7 @@ function FillingProfileStep1() {
 
     const { data, isLoading } = ViewerApi.handleGetViewer();
     const handleCheckNickname = ViewerApi.handleCheckNickname();
+    const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
 
     const [error, setError] = useState('');
 
@@ -27,7 +28,12 @@ function FillingProfileStep1() {
                 if (exists) {
                     setError(ErrorsNames.nickname_exists);
                 } else {
-                    navigate('step2');
+                    handleEditProfile(
+                        { nickname },
+                        {
+                            onSuccess: () => navigate('step2'),
+                        }
+                    );
                 }
             })
             .catch((err) => {

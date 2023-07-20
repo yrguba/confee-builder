@@ -35,6 +35,13 @@
 
   }
 
+  .clearIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
   .inputPrefix{
     font-size: 16px;
     font-style: normal;

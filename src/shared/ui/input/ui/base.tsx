@@ -1,4 +1,5 @@
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 
 import Icons from './icons';
 import styles from './wrapper/styles.module.scss';
@@ -32,6 +33,14 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         [other.value]
     );
 
+    const inputRef = useRef<any>(null);
+
+    const clear = () => {
+        if (inputRef?.current) {
+            inputRef.current.value = '';
+        }
+    };
+
     return (
         <Wrapper
             width={width}
@@ -45,8 +54,10 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
             active={active}
         >
             {prefix && <div className={styles.inputPrefix}>{prefix}</div>}
-            <input value={other.value} ref={ref} className={styles.input} {...other} />
-            {clearIcon && <Icons variants="clear" />}
+            <input ref={mergeRefs([inputRef, ref])} className={styles.input} {...other} />
+            <div onClick={clear} className={styles.clearIcon}>
+                {clearIcon && <Icons variants="clear" />}
+            </div>
         </Wrapper>
     );
 });
