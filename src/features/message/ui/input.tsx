@@ -19,7 +19,7 @@ function MessageInput(props: Props) {
 
     const { mutate: handleSendTextMessage, isLoading } = MessageApi.handleSendTextMessage();
     const { mutate: handleSendFileMessage } = MessageApi.handleSendFileMessage();
-    const { mutate: handleMessageAction } = MessageApi.handleMessageAction();
+    // const { mutate: handleMessageAction } = MessageApi.handleMessageAction();
     const { mutate: handleReplyMessage } = MessageApi.handleReplyMessage();
     const { mutate: handleChangeTextInMessages } = MessageApi.handleChangeTextInMessages();
 
@@ -51,7 +51,7 @@ function MessageInput(props: Props) {
     });
 
     const inputOnChange = (event: any) => {
-        handleMessageAction({ chatId, action: 'typing' });
+        // handleMessageAction({ chatId, action: 'typing' });
         setValueTextMessage(event.target.value);
     };
 

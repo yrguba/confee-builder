@@ -39,7 +39,7 @@ function MessageList(props: Props) {
     const chat = chatsData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
     const { mutate: handleSendReaction } = MessageApi.handleSendReaction();
-    const { mutate: handleReadMessage } = MessageApi.handleReadMessage();
+    // const { mutate: handleReadMessage } = MessageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = MessageApi.handleDeleteMessage();
     const { mutate: handleForwardMessages } = MessageApi.handleForwardMessages();
 
@@ -55,7 +55,7 @@ function MessageList(props: Props) {
     const reactionClick = (messageId: number, reaction: any) => handleSendReaction({ chatId, messageId, reaction });
 
     const readMessage = (messageId: number) => {
-        if (chat?.pending_messages_count) handleReadMessage({ chat_id: chatId, messages: [messageId] });
+        // if (chat?.pending_messages_count) handleReadMessage({ chat_id: chatId, messages: [messageId] });
     };
 
     const deleteMessages = () => {
@@ -95,7 +95,7 @@ function MessageList(props: Props) {
     useEffect(() => {
         if (contentForModal.length) modalSwiper.open();
     }, [contentForModal]);
-    console.log(messageData);
+
     return (
         <>
             <MessagesListView

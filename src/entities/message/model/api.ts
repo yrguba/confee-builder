@@ -111,17 +111,17 @@ class MessageApi {
 
     handleReadMessage() {
         return {
-            mutate: (data: { chat_id: number; messages: number[] }) => {
-                data.messages && socketIo.emit('messageRead', data);
-            },
+            // mutate: (data: { chat_id: number; messages: number[] }) => {
+            //     data.messages && socketIo.emit('messageRead', data);
+            // },
         };
     }
 
     handleMessageAction = () => {
         return {
-            mutate: (data: { chatId: number; action: string }) => ({
-                mutate: socketIo.emit('messageAction', { chat_id: data.chatId, action: data.action }),
-            }),
+            // mutate: (data: { chatId: number; action: string }) => ({
+            //     mutate: socketIo.emit('messageAction', { chat_id: data.chatId, action: data.action }),
+            // }),
         };
     };
 

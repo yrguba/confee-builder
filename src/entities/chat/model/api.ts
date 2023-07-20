@@ -79,21 +79,21 @@ class ChatApi {
         return useMutation((data: { chatId: number | null }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`));
     }
 
-    handleSubscribeToChat = () => ({
-        mutate: (chatId: number) => {
-            socketIo.emit('chatListeners', {
-                sub: chatId,
-            });
-        },
-    });
-
-    handleUnsubscribeFromChat = () => ({
-        mutate: (chatId: number) => {
-            socketIo.emit('chatListeners', {
-                unsub: chatId,
-            });
-        },
-    });
+    // handleSubscribeToChat = () => ({
+    //     mutate: (chatId: number) => {
+    //         socketIo.emit('chatListeners', {
+    //             sub: chatId,
+    //         });
+    //     },
+    // });
+    //
+    // handleUnsubscribeFromChat = () => ({
+    //     mutate: (chatId: number) => {
+    //         socketIo.emit('chatListeners', {
+    //             unsub: chatId,
+    //         });
+    //     },
+    // });
 }
 
 export default new ChatApi();

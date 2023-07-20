@@ -30,15 +30,15 @@ class ChatService {
     }
 
     subscribeToChat(id: number) {
-        const { mutate: handleSubscribeToChat } = ChatApi.handleSubscribeToChat();
-        handleSubscribeToChat(id);
-        UniversalStorage.localStorageSet('subscribed_to_chat', id);
+        // const { mutate: handleSubscribeToChat } = ChatApi.handleSubscribeToChat();
+        // handleSubscribeToChat(id);
+        // UniversalStorage.localStorageSet('subscribed_to_chat', id);
     }
 
     unsubscribeFromChat(id: number) {
-        const { mutate: handleUnsubscribeFromChat } = ChatApi.handleUnsubscribeFromChat();
-        handleUnsubscribeFromChat(id);
-        UniversalStorage.localStorageRemove('subscribed_to_chat');
+        // const { mutate: handleUnsubscribeFromChat } = ChatApi.handleUnsubscribeFromChat();
+        // handleUnsubscribeFromChat(id);
+        // UniversalStorage.localStorageRemove('subscribed_to_chat');
     }
 
     getInitialPage(chat: Chat | undefined) {

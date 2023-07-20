@@ -17,12 +17,12 @@ moment.locale('ru');
 
 function App() {
     AppGateway();
-    socketIo.on('connect', () => {
-        firebase.logEvent(firebase.analytics, 'socket-connect', { name: 'test' });
-    });
-    socketIo.on('disconnect', () => {
-        firebase.logEvent(firebase.analytics, 'socket-disconnect', { name: 'test' });
-    });
+    // socketIo.on('connect', () => {
+    //     firebase.logEvent(firebase.analytics, 'socket-connect', { name: 'test' });
+    // });
+    // socketIo.on('disconnect', () => {
+    //     firebase.logEvent(firebase.analytics, 'socket-disconnect', { name: 'test' });
+    // });
     const isIdle = useIdle(5000);
 
     useEffect(() => {
