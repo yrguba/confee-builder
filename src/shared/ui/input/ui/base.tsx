@@ -5,6 +5,7 @@ import Icons from './icons';
 import styles from './wrapper/styles.module.scss';
 import Wrapper from './wrapper/wrapper';
 import { useDebounce } from '../../../hooks';
+import Box from '../../box';
 import { BaseInputProps } from '../types';
 
 const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
@@ -56,7 +57,11 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
             {prefix && <div className={styles.inputPrefix}>{prefix}</div>}
             <input ref={mergeRefs([inputRef, ref])} className={styles.input} {...other} />
             <div onClick={clear} className={styles.clearIcon}>
-                {clearIcon && <Icons variants="clear" />}
+                {clearIcon && (
+                    <Box.Animated visible={!!other?.value}>
+                        <Icons variants="clear" />
+                    </Box.Animated>
+                )}
             </div>
         </Wrapper>
     );

@@ -16,11 +16,7 @@ type Props = {
 function SwitchThemesView(props: Props) {
     const { theme, onChange } = props;
 
-    const darkVariants: { id: number; title: KeyofThemes }[] = [
-        { id: 0, title: ThemesNames.dark_0 },
-        { id: 1, title: ThemesNames.dark_1 },
-        { id: 2, title: ThemesNames.dark_2 },
-    ];
+    const darkVariants: { id: number; title: KeyofThemes }[] = [{ id: 0, title: ThemesNames.dark }];
 
     return (
         <div className={styles.wrapper}>
@@ -31,7 +27,7 @@ function SwitchThemesView(props: Props) {
                     uncheckedHandleIcon={<Icons variants="dark" />}
                     checkedHandleIcon={<Icons variants="light" />}
                     checked={theme === 'light'}
-                    onChange={(value) => onChange(!value ? 'dark_0' : 'light')}
+                    onChange={(value) => onChange(!value ? 'dark' : 'light')}
                     onColor="#7C98DE"
                     offHandleColor="#7B57C8"
                     width={46}

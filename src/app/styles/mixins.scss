@@ -29,8 +29,7 @@
 }
 
 @mixin btn-actions() {
-  will-change: transform;
-  transition: all var(--transition);
+  transition: transform var(--transition);
   &:hover {
     transform: scale(1.02);
   }

@@ -26,7 +26,17 @@ function FillingProfileStep1View(props: Props) {
                 <div className={styles.subtitle}>Уникальный идентификатор, по которому вас можно найти</div>
             </div>
             <div className={styles.input}>
-                <Input onFocus={clearError} debounceDelay={0} errorTitle={error} error={!!error} {...nickname} prefix="@" clearIcon size="xxl" />
+                <Input
+                    placeholder={viewer?.nickname}
+                    onFocus={clearError}
+                    debounceDelay={0}
+                    errorTitle={error}
+                    error={!!error}
+                    {...nickname}
+                    prefix="@"
+                    clearIcon
+                    size="xxl"
+                />
             </div>
             <div className={styles.help}>Можно использовать символы a-z, 0-9 и подчёркивания. Минимальная длина − 5 символов, максимальная − 20.</div>
 

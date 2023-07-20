@@ -4,16 +4,16 @@
   padding: 40px 0;
   @include box-size(440px, auto);
   @include flex-column;
-  background-color: var(--bg-0);
+  background-color: var(--bg-secondary);
   border-radius: 20px;
   position: relative;
 
   .backArrow {
     width: 40px;
     height: 40px;
-    border: 8px solid var(--bg-1);
+    border: 8px solid var(--bg-primary);
     border-radius: 50%;
-    background-color: var(--bg-0);
+    background-color: var(--bg-secondary);
     position: absolute;
     top: 30px;
     left: 0;

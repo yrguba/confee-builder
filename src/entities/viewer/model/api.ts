@@ -21,7 +21,12 @@ class ViewerApi {
     }
 
     handleEditProfile() {
-        return useMutation((data: { nickname?: string }) => axiosClient.post(`/api/v2/user`, data));
+        const queryClient = useQueryClient();
+        return useMutation((data: { nickname?: string }) => axiosClient.patch(`/api/v2/user`, data), {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['get-viewer']);
+            },
+        });
     }
 
     handleSendOneSignalToken() {
@@ -44,7 +49,7 @@ class ViewerApi {
     }
 
     handleLogout() {
-        return useMutation((data: null) => axiosClient.post('/api/v2/logout'));
+        return useMutation((data?: null) => axiosClient.post('/api/v2/logout'));
     }
 
     handleCheckNickname() {
