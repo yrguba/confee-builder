@@ -78,3 +78,5 @@ export {
     useFileUploader,
     useAudioRecorder,
 };
+
+export type UseInputReturnedTypes = ReturnType<typeof useInput>;

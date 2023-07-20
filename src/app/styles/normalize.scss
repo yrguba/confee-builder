@@ -16,6 +16,10 @@ html {
     all: unset;
   }
 
+  ::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+  }
+
   ::placeholder {
     color: var(--text-inactive);
     //font-size: 12px;
@@ -43,7 +47,7 @@ html {
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--text-1);
+    background-color: var(--text-secondary);
     border-radius: 20px;
   }
 

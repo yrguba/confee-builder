@@ -14,6 +14,8 @@ type Shared = {
     height?: string | number;
     title?: string;
     errorTitle?: string;
+    asyncValidate?: any;
+    setError?: any;
 } & InputAttrs &
     BaseTypes.Statuses;
 

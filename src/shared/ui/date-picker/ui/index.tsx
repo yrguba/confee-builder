@@ -24,13 +24,10 @@ function DatePicker(props: DatePickerProps) {
         <div className={styles.wrapper} onMouseLeave={() => toggle(false)}>
             <div className={styles.title}>{title}</div>
             <div className={styles.btn} onClick={() => toggle(true)}>
-                {!open && <div className={styles.value}> {value ? moment(value).format('MM/DD/YYYY') : defaultValue}</div>}
+                {/* {!open && <div className={styles.value}> {value ? moment(value).format('MM.DD.YYYY') : defaultValue}</div>} */}
                 <Box.Animated visible={open} className={styles.datePicker}>
                     <ReactDatePicker {...other} open={open} locale="ru" selected={value} onChange={pickerOnchange} />
                 </Box.Animated>
-                <div className={styles.icon}>
-                    <Icons variants="calendar" />
-                </div>
             </div>
         </div>
     );

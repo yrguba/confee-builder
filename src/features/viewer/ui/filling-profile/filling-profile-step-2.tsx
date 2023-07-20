@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useViewerStore, ViewerApi, FillingProfileStep2View, yup } from 'entities/viewer';
+import { ViewerApi, FillingProfileStep2View, yup } from 'entities/viewer';
+
+import { useInput } from '../../../../shared/hooks';
 
 function FillingProfileStep2() {
     const navigate = useNavigate();
@@ -9,30 +11,26 @@ function FillingProfileStep2() {
     const { data } = ViewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
 
-    const [error, setError] = useState<{ firstName?: string; lastName?: string }>({});
+    const firstNameInput = useInput({
+        yupSchema: yup.checkName,
+    });
+    const lastNameInput = useInput({
+        yupSchema: yup.checkName,
+    });
 
-    const onsubmit = (args: { first_name?: string; last_name?: string }) => {
-        yup.checkName
-            .validate({ name: args.first_name })
-            .then(async () => {
-                setError({ firstName: '' });
-                yup.checkName
-                    .validate({ name: args.last_name })
-                    .then(async () => {
-                        setError({ lastName: '' });
-                        handleEditProfile(args, {
-                            onSuccess: () => navigate('/filling_profile/step3'),
-                        });
-                    })
-                    .catch((err) => {
-                        setError({ lastName: err.errors[0] });
-                    });
-            })
-            .catch((err) => {
-                setError({ firstName: err.errors[0] });
-            });
+    const onsubmit = async () => {
+        const fnInput = await firstNameInput.asyncValidate();
+        const lnInput = await lastNameInput.asyncValidate();
+        if (!fnInput.error && !lnInput.error) {
+            handleEditProfile(
+                { first_name: fnInput.value, last_name: lnInput.value },
+                {
+                    onSuccess: () => navigate('/filling_profile/step3'),
+                }
+            );
+        }
     };
-    return <FillingProfileStep2View setError={setError} handleSubmit={onsubmit} error={error} viewer={data?.data?.data} />;
+    return <FillingProfileStep2View handleSubmit={onsubmit} viewer={data?.data?.data} inputs={{ lastName: lastNameInput, firstName: firstNameInput }} />;
 }
 
 export default FillingProfileStep2;

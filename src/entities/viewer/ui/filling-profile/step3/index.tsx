@@ -1,28 +1,28 @@
 import React from 'react';
 
 import { ViewerTypes } from 'entities/viewer';
-import { useInput } from 'shared/hooks';
+import { UseInputReturnedTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Input, Title } from 'shared/ui';
+import { DatePicker, Box, Button, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import AvatarEditor from '../../avatar-editor';
 
 type Props = {
     viewer: ViewerTypes.Viewer | BaseTypes.Empty;
-    handleSubmit: (args: { email?: string; birthday?: Date }) => void;
-    error: string;
-    setError: (arg: any) => void;
+    handleSubmit: () => void;
     selectFile: () => void;
     makePhoto: (data: string) => void;
     deleteFile: () => void;
     avatar?: string;
+    inputs: {
+        email: UseInputReturnedTypes;
+        birth: UseInputReturnedTypes;
+    };
 };
 
 function FillingProfileStep3View(props: Props) {
-    const { viewer, avatar, error, setError, handleSubmit, selectFile, deleteFile, makePhoto } = props;
-
-    const email = useInput();
+    const { viewer, inputs, avatar, handleSubmit, selectFile, deleteFile, makePhoto } = props;
 
     return (
         <Box.Animated visible className={styles.wrapper}>
@@ -32,21 +32,13 @@ function FillingProfileStep3View(props: Props) {
                 </div>
             </div>
             <div className={styles.input}>
-                <Input placeholder="Почта" onFocus={() => setError('')} errorTitle={error} error={!!error} {...email} clearIcon size="xxl" />
+                <Input placeholder="Почта" {...inputs.email} clearIcon size="xxl" />
             </div>
             <div className={styles.inputLastName}>
-                <Input
-                    placeholder="Почта"
-                    // onFocus={() => setError((prev: any) => ({ ...prev, lastName: '' }))}
-                    // errorTitle={error.lastName}
-                    // error={!!error.lastName}
-                    // {...lastName}
-                    clearIcon
-                    size="xxl"
-                />
+                <Input type="date" {...inputs.birth} size="xxl" />
             </div>
 
-            <Button disabled={!!error} onClick={() => handleSubmit({ email: email.value, birthday: new Date() })} size="xl">
+            <Button disabled={inputs.email.error} onClick={handleSubmit} size="xl">
                 Далее
             </Button>
         </Box.Animated>

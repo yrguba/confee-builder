@@ -23,7 +23,7 @@ class ViewerApi {
     handleEditProfile() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { nickname?: string; first_name?: string; last_name?: string; email?: string; birthday?: Date }) =>
+            (data: { nickname?: string; avatar?: string; first_name?: string; last_name?: string; email?: string; birth?: Date }) =>
                 axiosClient.patch(`/api/v2/user`, Object.fromEntries(Object.entries(data).filter(([_, v]) => v))),
             {
                 onSuccess: () => {
@@ -39,15 +39,10 @@ class ViewerApi {
 
     handleAddAvatar() {
         const queryClient = useQueryClient();
-        const setSocketAction = useViewerStore.use.setSocketAction();
 
-        return useMutation((data: { file: FormData | null }) => axiosClient.patch(`${this.pathPrefix}/avatar`, data.file), {
+        return useMutation((data: { file: FormData | null }) => axiosClient.post(`${this.pathPrefix}`, data.file), {
             onSuccess: async (data) => {
-                queryClient.setQueryData(['get-viewer'], (cacheData: any) => {
-                    cacheData.data.data = data.data.data;
-                    setSocketAction(`viewer-avatar${new Date().valueOf()}`);
-                    return cacheData;
-                });
+                queryClient.invalidateQueries(['get-viewer']);
             },
         });
     }

@@ -1,24 +1,23 @@
 import React from 'react';
 
 import { ViewerTypes } from 'entities/viewer';
+import { UseInputReturnedTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Input, Title } from 'shared/ui';
+import { Box, Button, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useInput } from '../../../../../shared/hooks';
 
 type Props = {
     viewer: ViewerTypes.Viewer | BaseTypes.Empty;
-    handleSubmit: (arg: { first_name?: string; last_name?: string }) => void;
-    error: { firstName?: string; lastName?: string };
-    setError: (arg: any) => void;
+    handleSubmit: () => void;
+    inputs: {
+        lastName: UseInputReturnedTypes;
+        firstName: UseInputReturnedTypes;
+    };
 };
 
 function FillingProfileStep2View(props: Props) {
-    const { viewer, error, setError, handleSubmit } = props;
-
-    const firstName = useInput();
-    const lastName = useInput();
+    const { viewer, inputs, handleSubmit } = props;
 
     return (
         <Box.Animated visible className={styles.wrapper}>
@@ -27,33 +26,12 @@ function FillingProfileStep2View(props: Props) {
                 <div className={styles.subtitle}>Они будут отображаться другим пользователям приложения</div>
             </div>
             <div className={styles.input}>
-                <Input
-                    placeholder="Имя"
-                    onFocus={() => setError((prev: any) => ({ ...prev, firstName: '' }))}
-                    errorTitle={error.firstName}
-                    error={!!error.firstName}
-                    {...firstName}
-                    clearIcon
-                    size="xxl"
-                />
+                <Input placeholder="Имя" {...inputs.firstName} clearIcon size="xxl" />
             </div>
             <div className={styles.inputLastName}>
-                <Input
-                    placeholder="Фамилия"
-                    onFocus={() => setError((prev: any) => ({ ...prev, lastName: '' }))}
-                    errorTitle={error.lastName}
-                    error={!!error.lastName}
-                    {...lastName}
-                    clearIcon
-                    size="xxl"
-                />
+                <Input placeholder="Фамилия" {...inputs.lastName} clearIcon size="xxl" />
             </div>
-
-            <Button
-                disabled={!!error.lastName || !!error.firstName}
-                onClick={() => handleSubmit({ first_name: firstName.value, last_name: lastName.value })}
-                size="xl"
-            >
+            <Button disabled={inputs.lastName.error || inputs.firstName.error} onClick={() => handleSubmit()} size="xl">
                 Далее
             </Button>
         </Box.Animated>

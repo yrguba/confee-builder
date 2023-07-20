@@ -3,10 +3,11 @@
 .wrapper {
   @include flex-column(flex-start, flex-start);
   gap: 6px;
-  //position: relative;
-  .title {
-    color: var(--text-1);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-secondary);
 
+  .title {
+    color: var(--text-primary);
   }
 
   .btn {
@@ -17,18 +18,11 @@
     border: 1px solid var(--stroke-2);
     border-radius: 8px;
 
-    .value{
+    .value {
       white-space: nowrap;
+      color: var(--text-primary);
     }
-    .icon{
-      @include box-size(20px, 20px)
-    }
-  }
 
-  .datePicker{
-    //position: absolute;
-    //top: 0;
-    //left: 0;
   }
 }
 
