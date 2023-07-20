@@ -1,16 +1,17 @@
 import React from 'react';
 
 import { ViewerTypes } from 'entities/viewer';
+import { useInput } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Button, Input, Title } from 'shared/ui';
+import { Avatar, Box, Button, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import AvatarEditor from '../../avatar-editor';
 
 type Props = {
     viewer: ViewerTypes.Viewer | BaseTypes.Empty;
-    handleSubmit: (arg: { first_name?: string; last_name?: string }) => void;
-    error: { firstName?: string; lastName?: string };
+    handleSubmit: (args: { email?: string; birthday?: Date }) => void;
+    error: string;
     setError: (arg: any) => void;
     selectFile: () => void;
     makePhoto: (data: string) => void;
@@ -21,23 +22,17 @@ type Props = {
 function FillingProfileStep3View(props: Props) {
     const { viewer, avatar, error, setError, handleSubmit, selectFile, deleteFile, makePhoto } = props;
 
+    const email = useInput();
+
     return (
-        <div className={styles.wrapper}>
+        <Box.Animated visible className={styles.wrapper}>
             <div className={styles.avatar}>
                 <div className={styles.title}>
                     <AvatarEditor avatar={avatar} deleteFile={deleteFile} selectFile={selectFile} makePhoto={makePhoto} viewer={viewer} />
                 </div>
             </div>
             <div className={styles.input}>
-                <Input
-                    placeholder="Почта"
-                    // onFocus={() => setError((prev: any) => ({ ...prev, firstName: '' }))}
-                    // errorTitle={error.firstName}
-                    // error={!!error.firstName}
-                    // {...firstName}
-                    clearIcon
-                    size="xxl"
-                />
+                <Input placeholder="Почта" onFocus={() => setError('')} errorTitle={error} error={!!error} {...email} clearIcon size="xxl" />
             </div>
             <div className={styles.inputLastName}>
                 <Input
@@ -51,14 +46,10 @@ function FillingProfileStep3View(props: Props) {
                 />
             </div>
 
-            <Button
-                disabled={!!error.lastName || !!error.firstName}
-                // onClick={() => handleSubmit({ first_name: firstName.value, last_name: lastName.value })}
-                size="xl"
-            >
+            <Button disabled={!!error} onClick={() => handleSubmit({ email: email.value, birthday: new Date() })} size="xl">
                 Далее
             </Button>
-        </div>
+        </Box.Animated>
     );
 }
 

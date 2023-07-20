@@ -22,11 +22,15 @@ class ViewerApi {
 
     handleEditProfile() {
         const queryClient = useQueryClient();
-        return useMutation((data: { nickname?: string; first_name?: string; last_name?: string }) => axiosClient.patch(`/api/v2/user`, data), {
-            onSuccess: () => {
-                queryClient.invalidateQueries(['get-viewer']);
-            },
-        });
+        return useMutation(
+            (data: { nickname?: string; first_name?: string; last_name?: string; email?: string; birthday?: Date }) =>
+                axiosClient.patch(`/api/v2/user`, Object.fromEntries(Object.entries(data).filter(([_, v]) => v))),
+            {
+                onSuccess: () => {
+                    queryClient.invalidateQueries(['get-viewer']);
+                },
+            }
+        );
     }
 
     handleSendOneSignalToken() {

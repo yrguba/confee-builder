@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ViewerTypes } from 'entities/viewer';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Button, Input, Title } from 'shared/ui';
+import { Avatar, Box, Button, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useInput } from '../../../../../shared/hooks';
@@ -21,7 +21,7 @@ function FillingProfileStep2View(props: Props) {
     const lastName = useInput();
 
     return (
-        <div className={styles.wrapper}>
+        <Box.Animated visible className={styles.wrapper}>
             <div className={styles.description}>
                 <div className={styles.title}>Введите имя и фамилию</div>
                 <div className={styles.subtitle}>Они будут отображаться другим пользователям приложения</div>
@@ -56,7 +56,7 @@ function FillingProfileStep2View(props: Props) {
             >
                 Далее
             </Button>
-        </div>
+        </Box.Animated>
     );
 }
 

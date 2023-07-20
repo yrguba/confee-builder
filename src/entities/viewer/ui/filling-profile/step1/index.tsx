@@ -3,7 +3,7 @@ import React, { InputHTMLAttributes } from 'react';
 import { ViewerTypes } from 'entities/viewer';
 import { useDebounce, useInput } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Button, Input, Title } from 'shared/ui';
+import { Avatar, Box, Button, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -20,7 +20,7 @@ function FillingProfileStep1View(props: Props) {
     const nickname = useInput();
 
     return (
-        <div className={styles.wrapper}>
+        <Box.Animated visible className={styles.wrapper}>
             <div className={styles.description}>
                 <div className={styles.title}>Придумайте никнейм</div>
                 <div className={styles.subtitle}>Уникальный идентификатор, по которому вас можно найти</div>
@@ -43,7 +43,7 @@ function FillingProfileStep1View(props: Props) {
             <Button disabled={!!error} onClick={() => handleSubmit(nickname.value)} size="xl">
                 Далее
             </Button>
-        </div>
+        </Box.Animated>
     );
 }
 

@@ -5,6 +5,7 @@
   @include flex-column(flex-start);
   gap: 12px;
 
+
   .description{
     @include flex-column;
     gap: 12px;
@@ -24,6 +25,7 @@
       color: var(--text-secondary);
       width: 260px;
       line-height: 24px;
+      margin-bottom: 8px;
     }
   }
 

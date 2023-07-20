@@ -20,8 +20,7 @@ function FillingProfileStep2() {
                     .validate({ name: args.last_name })
                     .then(async () => {
                         setError({ lastName: '' });
-                        const body = Object.fromEntries(Object.entries(args).filter(([_, v]) => v));
-                        handleEditProfile(body, {
+                        handleEditProfile(args, {
                             onSuccess: () => navigate('/filling_profile/step3'),
                         });
                     })

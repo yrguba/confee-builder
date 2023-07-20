@@ -10,9 +10,9 @@ function FillingProfileStep3() {
     const { data } = ViewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
 
-    const [error, setError] = useState<{ firstName?: string; lastName?: string }>({});
+    const [error, setError] = useState<string>('');
     const [avatar, setAvatar] = useState<{ formData: FormData | null; fileUrl: string } | null>(null);
-
+    console.log(data);
     const { open: selectFile, formData } = useFileUploader({
         accept: 'image',
         formDataName: 'file',
@@ -29,7 +29,20 @@ function FillingProfileStep3() {
         setAvatar({ formData: fd, fileUrl: data });
     };
 
-    const onsubmit = (args: { first_name?: string; last_name?: string }) => {};
+    const onsubmit = (args: { email?: string; birthday?: Date }) => {
+        yup.checkEmail
+            .validate({ email: args.email })
+            .then(async () => {
+                setError('');
+                handleEditProfile(args, {
+                    // onSuccess: () => navigate('/filling_profile/step3'),
+                });
+            })
+            .catch((err) => {
+                setError(err.errors[0]);
+            });
+    };
+
     return (
         <FillingProfileStep3View
             makePhoto={makePhoto}

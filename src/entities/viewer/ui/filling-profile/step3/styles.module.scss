@@ -3,11 +3,11 @@
 .wrapper {
   @include box-size(376px,auto);
   @include flex-column(flex-start);
-  gap: 12px;
+  gap: 10px;
 
   .avatar{
     @include flex-column;
-    gap: 12px;
+    margin-bottom: 8px;
   }
 
   .inputLastName{

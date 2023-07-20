@@ -14,3 +14,7 @@ export const checkNickname = yup.object().shape({
 export const checkName = yup.object().shape({
     name: yup.string().matches(/^[a-zA-Zа-яА-Я]*$/, ErrorsNames.no_numbers),
 });
+
+export const checkEmail = yup.object().shape({
+    email: yup.string().email(ErrorsNames.wrong_format),
+});
