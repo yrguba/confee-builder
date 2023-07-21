@@ -4,14 +4,12 @@ import { PrivacySettings } from 'features/app';
 
 import styles from './styles.module.scss';
 
-function PrivacyFromSettingsPage() {
+function PrivacySettingsWidget() {
     return (
         <div className={styles.wrapper}>
-            <div className={styles.body}>
-                <PrivacySettings />
-            </div>
+            <PrivacySettings />
         </div>
     );
 }
 
-export default PrivacyFromSettingsPage;
+export default PrivacySettingsWidget;

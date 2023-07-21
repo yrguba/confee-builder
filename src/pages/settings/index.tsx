@@ -1,10 +1,8 @@
-import React, { lazy } from 'react';
-import { Navigate, Route } from 'react-router-dom';
-
-import { routing_tree } from 'shared/routing';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 import SettingsPage from './ui';
 
-const settingsRouters = <Route path={routing_tree.settings.base} element={<SettingsPage />} />;
+const settingsRouters = <Route path="/settings" element={<SettingsPage />} />;
 
 export default settingsRouters;

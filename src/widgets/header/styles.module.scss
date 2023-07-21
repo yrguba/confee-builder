@@ -1,24 +1,24 @@
 @import "./src/app/styles";
 
-.wrapper {
-  @include box-size(100%, 100%);
+.header {
+  @include box-size(100%, 60px);
   @include flex(space-between, center, 12);
-  background-color: var(--bg-0);
+  background-color: var(--bg-primary);
+  min-height: 60px;
 
-  .logo{
-    @include box-size(280px, auto);
+  .logo {
     @include flex(flex-start);
     margin-left: 20px;
   }
 
-  .nav{
-    @include flex(flex-start);
+  .nav {
+    @include flex;
     flex: 1;
   }
 
-  .viewer{
+  .viewer {
     @include flex(flex-end);
-    width: 160px;
+    width: auto;
     margin-right: 20px;
     flex-shrink: 0;
   }

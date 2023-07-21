@@ -4,14 +4,12 @@ import { CheckUpdate } from 'features/app';
 
 import styles from './styles.module.scss';
 
-function CheckUpdateFromSettingsPage() {
+function CheckUpdateWidget() {
     return (
         <div className={styles.wrapper}>
-            <div className={styles.body}>
-                <CheckUpdate />
-            </div>
+            <CheckUpdate />
         </div>
     );
 }
 
-export default CheckUpdateFromSettingsPage;
+export default CheckUpdateWidget;

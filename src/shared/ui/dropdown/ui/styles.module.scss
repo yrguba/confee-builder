@@ -70,6 +70,7 @@
     height: 40px;
     @include flex();
     transition: background-color 0.5s;
+    cursor: pointer;
     &:hover{
       background-color: var(--bg-primary);
     }

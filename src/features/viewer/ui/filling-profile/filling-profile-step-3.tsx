@@ -43,14 +43,7 @@ function FillingProfileStep3() {
             const birthDate: any = Math.floor(new Date(birth).getTime() / 1000);
             handleEditProfile({ email, birth: birthDate });
             if (avatar) {
-                handleAddAvatar(
-                    { file: avatar.formData },
-                    {
-                        onSuccess: (data: any) => {
-                            handleEditProfile({ avatar: data?.data?.avatar?.path || '' });
-                        },
-                    }
-                );
+                handleAddAvatar({ file: avatar.formData });
             }
             navigate('/main');
         }

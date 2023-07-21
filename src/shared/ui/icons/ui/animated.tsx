@@ -4,7 +4,7 @@ import React from 'react';
 import { ArrowAnimatedProps } from '../types';
 
 export function ArrowAnimated(props: ArrowAnimatedProps) {
-    const { initialDeg, animateDeg, color = 'var(--text-1)', activeAnimate } = props;
+    const { initialDeg, animateDeg, color = 'var(--text-primary)', activeAnimate } = props;
 
     return (
         <motion.svg

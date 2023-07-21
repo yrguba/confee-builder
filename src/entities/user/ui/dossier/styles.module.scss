@@ -18,12 +18,12 @@
 
 .wrapper {
   @include flex(flex-start, flex-start);
-  @include box-size(100%, 100%);
   gap: 12px;
   overflow: hidden;
   position: relative;
-
+  @include box-size(100%, 220px);
   .infoColumn {
+
     @include flex-column(flex-start, flex-start);
     gap: 6px;
 
@@ -41,11 +41,11 @@
         .name {
           font-weight: 600;
           font-size: 20px;
-          color: var(--text-0);
+          color: var(--text-primary);
         }
 
         .date {
-          color: var(--text-1);
+          color: var(--text-secondary);
           font-weight: 400;
           font-size: 14px;
         }
@@ -60,7 +60,7 @@
 
   .role {
     text-align: left;
-    color: var(--text-0);
+    color: var(--text-primary);
     font-weight: 600;
     font-size: 14px;
     min-height: 16px;
@@ -70,19 +70,19 @@
 
   .department, .division, {
     text-align: left;
-    color: var(--text-0);
+    color: var(--text-primary);
     font-weight: 400;
     font-size: 14px;
   }
 
 
-  .emailll{
+  .email{
     text-align: left;
     font-weight: 600;
     font-size: 14px;
     min-height: 16px;
     line-height: 16px;
-    color: var(--main-active);
+    color: var(--control-primary);
     @include text-ellipsis(200px)
   }
 }

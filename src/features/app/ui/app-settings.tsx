@@ -16,14 +16,10 @@ function AppSettings() {
         UniversalStorage.localStorageSet('not_scope', { app: appScope, desk: deskScope });
     }, [appScope, deskScope]);
 
-    const selectTheme = (theme: keyof typeof ThemesNames) => {
-        setTheme(theme);
-    };
-
     const items = [
         { id: 1, title: 'Уведомления внутри приложения:', value: appScope ? 'Включено' : 'Выключено', onClick: toggleAppScope },
         { id: 2, title: 'Уведомления на рабочем столе:', value: deskScope ? 'Включено' : 'Выключено', onClick: toggleDeskScope },
-        { id: 3, title: 'Тема:', value: theme, onSelect: selectTheme },
+        { id: 3, title: 'Тема:', value: theme },
     ];
 
     return <AppSettingsView items={items} />;

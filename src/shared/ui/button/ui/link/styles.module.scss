@@ -2,27 +2,28 @@
 
 .wrapper {
   @include flex;
-  @include btn-actions;
   gap: 8px;
   flex-shrink: 0;
   background-color: inherit;
-  color:  var(--icon-inactive);
+  color: var(--control-tertiary);
   text-align: center;
   position: relative;
   overflow: hidden;
   cursor: pointer;
   white-space: nowrap;
-  svg{
+
+  svg {
     transition: all var(--transition);
-    fill: var(--icon-inactive) ;
+    fill: var(--control-tertiary);
   }
 }
 
 .active {
 
-  color: var(--main-active);
-  svg{
-    fill: var(--main-active) ;
+  color: var(--control-primary);
+
+  svg {
+    fill: var(--control-primary);
   }
 }
 

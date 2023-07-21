@@ -16,7 +16,7 @@ type Props = {
 function SwitchThemesView(props: Props) {
     const { theme, onChange } = props;
 
-    const darkVariants: { id: number; title: KeyofThemes }[] = [{ id: 0, title: ThemesNames.dark }];
+    const darkVariants: { id: number; title: KeyofThemes; action: () => void }[] = [{ id: 0, title: ThemesNames.dark, action: () => '' }];
 
     return (
         <div className={styles.wrapper}>
@@ -37,7 +37,7 @@ function SwitchThemesView(props: Props) {
             </div>
             {/dark/.test(theme) && (
                 <div className={styles.select}>
-                    <Select defaultValue={theme} items={darkVariants} onChange={(data: any) => onChange(data.title)} />
+                    <Select defaultValue={theme} items={darkVariants} />
                 </div>
             )}
         </div>

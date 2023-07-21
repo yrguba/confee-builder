@@ -3,15 +3,9 @@
 .wrapper {
   @include box-size(100%, 100%);
   @include flex-column;
-  background-color: var(--bg-1);
+  background-color: var(--bg-primary);
 
-  .header {
-    @include box-size(100%, 60px);
-    min-height: 60px;
-    background-color: var(--bg-01);
-  }
-
-  .mainRow {
+  .body {
     @include flex-column(flex-start, center);
     @include box-size(96%, calc(100% - 60px));
     gap: 22px;
@@ -19,14 +13,10 @@
     overflow-y: scroll;
 
     .row{
+      flex-shrink: 0;
       min-height: 154px;
       max-width: 940px;
-      @include box-size(100%, 154px);
-
-      &:nth-child(1){
-        min-height: 254px;
-        @include box-size(100%, 254px)
-      }
+      @include box-size(100%, auto);
     }
   }
 }
