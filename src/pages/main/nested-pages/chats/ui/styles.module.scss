@@ -8,7 +8,7 @@
     @include box-size(300px, 100%);
     min-width: 300px;
     @include flex;
-    border-right: 1px solid var(--bg-outside);
+    border-right: 1px solid var(--border-secondary);
 
     @media (max-width: 680px) {
       @include box-size(100%, 100%);
@@ -26,7 +26,7 @@
     .header {
       @include box-size(100%, auto);
       @include flex;
-      border-bottom: 1px solid var(--bg-outside);
+      border-bottom: 1px solid var(--border-secondary);
     }
 
     .outlet {

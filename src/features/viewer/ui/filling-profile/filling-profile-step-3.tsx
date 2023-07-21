@@ -41,41 +41,19 @@ function FillingProfileStep3() {
         const { error: birthError, value: birth } = await birthInput.asyncValidate();
         if (!emailError && !birthError) {
             const birthDate: any = Math.floor(new Date(birth).getTime() / 1000);
-            handleEditProfile(
-                { email, birth: birthDate },
-                {
-                    onSuccess: () => console.log('dwdd'),
-                }
-            );
+            handleEditProfile({ email, birth: birthDate });
             if (avatar) {
                 handleAddAvatar(
                     { file: avatar.formData },
                     {
                         onSuccess: (data: any) => {
-                            console.log(data.data);
-                            handleEditProfile(
-                                { avatar: data?.data?.avatar?.path || '' },
-                                {
-                                    onSuccess: () => console.log('dwdd'),
-                                }
-                            );
+                            handleEditProfile({ avatar: data?.data?.avatar?.path || '' });
                         },
                     }
                 );
             }
+            navigate('/main');
         }
-
-        // yup.checkEmail
-        //     .validate({ email: args.email })
-        //     .then(async () => {
-        //         setError('');
-        //         handleEditProfile(args, {
-        //             // onSuccess: () => navigate('/filling_profile/step3'),
-        //         });
-        //     })
-        //     .catch((err) => {
-        //         setError(err.errors[0]);
-        //     });
     };
 
     return (
