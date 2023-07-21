@@ -5,30 +5,34 @@ import { ViewerService } from 'entities/viewer';
 import { webView } from 'features/auth';
 import { SizeWarningPage } from 'pages/warning';
 import { useWindowSize } from 'shared/hooks';
-import { routing_tree } from 'shared/routing';
 import { TokenService } from 'shared/services';
 
+import chatsPageRouters from './chats';
+import ChatsPage from './chats/ui';
 import fillingProfilePageRouters from './filling-profile';
-import mainPageRouters from './main';
+import MainLayout from './layouts/main';
 import settingsPageRouters from './settings';
+import { routing_tree } from '../shared/routing';
 
 function Routing() {
     const { width, height } = useWindowSize();
 
     const location = useLocation();
 
-    const privateRoutes = (
+    const mainRoutes = (
         <Routes location={location}>
-            {mainPageRouters}
-            {settingsPageRouters}
-            <Route path="*" element={<Navigate to={routing_tree.main.base} replace />} />
+            <Route path="/" element={<MainLayout />}>
+                {chatsPageRouters}
+                {settingsPageRouters}
+            </Route>
+            <Route path="*" element={<Navigate to="chats" replace />} />
         </Routes>
     );
 
-    const fillingProfile = (
+    const fillingProfileRoutes = (
         <Routes>
             {fillingProfilePageRouters}
-            <Route path="*" element={<Navigate to={routing_tree.fillingProfile.base} replace />} />
+            <Route path="*" element={<Navigate to="/filling_profile" replace />} />
         </Routes>
     );
 
@@ -38,9 +42,9 @@ function Routing() {
         if (TokenService.checkAuth()) {
             const viewer = ViewerService.getViewer();
             if (!viewer?.nickname || location.pathname.includes('/filling_profile')) {
-                return fillingProfile;
+                return fillingProfileRoutes;
             }
-            return privateRoutes;
+            return mainRoutes;
         }
         return webView();
     };

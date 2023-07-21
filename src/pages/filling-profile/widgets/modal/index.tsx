@@ -6,7 +6,7 @@ import { Icons, Steps } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-function Main() {
+function Modal() {
     const navigate = useNavigate();
 
     const { pathname } = useLocation();
@@ -38,4 +38,4 @@ function Main() {
     );
 }
 
-export default Main;
+export default Modal;

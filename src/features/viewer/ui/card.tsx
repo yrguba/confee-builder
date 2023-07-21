@@ -13,8 +13,8 @@ function ViewerCard() {
 
     const switchingRoute = () => {
         const basePath = pathname.split('/')[1];
-        if (basePath === 'main') navigate('/settings');
-        if (basePath === 'settings') navigate('/main');
+        if (basePath === 'chats') navigate('/settings');
+        if (basePath === 'settings') navigate('/chats');
     };
 
     return <ViewerCardView viewer={data?.data?.data} onClick={switchingRoute} />;

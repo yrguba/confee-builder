@@ -1,8 +1,9 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { Icons } from 'shared/ui';
+
 import styles from './styles.module.scss';
-import { Icons } from '../../../../shared/ui';
 
 type Props = {
     toggleVisible: () => void;

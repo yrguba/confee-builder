@@ -11,7 +11,7 @@ import { Box, Icons, LoadingIndicator } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-function HeaderForChatsPage() {
+function Header() {
     const { pathname } = useLocation();
     const navigation = useNavigate();
     const { width } = useSize();
@@ -64,4 +64,4 @@ function HeaderForChatsPage() {
     );
 }
 
-export default HeaderForChatsPage;
+export default Header;

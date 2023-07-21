@@ -7,9 +7,9 @@ import { chatGateway, chatObserver, ChatService } from 'entities/chat';
 import { useMessageStore, messageGateway, messageObserver } from 'entities/message';
 import { useMedia, useHeightMediaQuery, useWidthMediaQuery } from 'shared/hooks';
 import { Box } from 'shared/ui';
-import { LeftSidebarForChatsPage, HeaderForChatsPage, MessagesListForChatsPage, MessageInputForChatsPage } from 'widgets/chats-page';
 
 import styles from './styles.module.scss';
+import { LeftSidebar, Header, Footer, MessagesList } from '../widgets';
 
 function ChatsPage() {
     chatObserver();
@@ -58,19 +58,19 @@ function ChatsPage() {
             <AnimatePresence mode="popLayout">
                 {isVisibleLeftSidebar() && (
                     <motion.div key={1} className={styles.leftSidebar} {...animation}>
-                        <LeftSidebarForChatsPage />
+                        <LeftSidebar />
                     </motion.div>
                 )}
                 {isVisibleChatList() && (
                     <motion.div key={2} className={styles.mainColumn} {...animation}>
                         {!!openChatId && (
                             <div className={styles.header}>
-                                <HeaderForChatsPage />
+                                <Header />
                             </div>
                         )}
                         <div className={styles.outlet}>
                             <div className={styles.messageList}>
-                                <MessagesListForChatsPage />
+                                <MessagesList />
                             </div>
                             <Box.Animated
                                 initial={{ height: 100 }}
@@ -79,7 +79,7 @@ function ChatsPage() {
                                 visible
                                 className={styles.messageInput}
                             >
-                                <MessageInputForChatsPage />
+                                <Footer />
                             </Box.Animated>
                         </div>
                     </motion.div>

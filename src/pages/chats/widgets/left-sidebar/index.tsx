@@ -4,7 +4,7 @@ import { ChatsList, SearchChats } from 'features/chat';
 
 import styles from './styles.module.scss';
 
-function LeftSidebarForChatsPage() {
+function LeftSidebar() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.search}>
@@ -17,4 +17,4 @@ function LeftSidebarForChatsPage() {
     );
 }
 
-export default LeftSidebarForChatsPage;
+export default LeftSidebar;

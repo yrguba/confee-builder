@@ -30,7 +30,7 @@ function Header() {
             disabled={isPending}
             loading={isPending && pathname.includes(item.path)}
             key={item.id}
-            onClick={() => startTransition(() => navigate(pathname.split('/').pop() === 'settings' ? `/main/${item.path}` : item.path))}
+            onClick={() => startTransition(() => navigate(pathname.split('/').pop() === 'settings' ? `/${item.path}` : item.path))}
             prefixIcon={<MenuIcons variants={item.icon} />}
             fontSize={16}
             fontWeight={600}

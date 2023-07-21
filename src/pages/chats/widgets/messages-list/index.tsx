@@ -3,19 +3,19 @@ import { useLocation } from 'react-router-dom';
 
 import { useChatStore } from 'entities/chat';
 import { ChatHeaderMenu } from 'features/chat';
-import { MessagesList } from 'features/message';
+import { MessagesList as MessagesListFeature } from 'features/message';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-function MessagesListForChatsPage() {
+function MessagesList() {
     const { pathname } = useLocation();
 
     const visibleHeaderMenu = useChatStore.use.visibleHeaderMenu();
 
     return (
         <Box.Animated visible key={pathname.split('/')[4]} className={styles.wrapper}>
-            <MessagesList />
+            <MessagesListFeature />
             <Box.Animated visible={visibleHeaderMenu} className={styles.headerMenu}>
                 <ChatHeaderMenu />
             </Box.Animated>
@@ -23,4 +23,4 @@ function MessagesListForChatsPage() {
     );
 }
 
-export default MessagesListForChatsPage;
+export default MessagesList;

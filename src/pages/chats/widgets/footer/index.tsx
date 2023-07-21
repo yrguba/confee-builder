@@ -6,7 +6,7 @@ import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-function MessageInputForChatsPage() {
+function Footer() {
     const params = useParams();
 
     return (
@@ -16,4 +16,4 @@ function MessageInputForChatsPage() {
     );
 }
 
-export default MessageInputForChatsPage;
+export default Footer;

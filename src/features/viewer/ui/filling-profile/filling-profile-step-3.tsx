@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useFileUploader from 'react-use-file-uploader';
 
-import { ViewerCardView, useViewerStore, ViewerApi, FillingProfileStep3View, yup } from 'entities/viewer';
-
-import { useInput } from '../../../../shared/hooks';
+import { ViewerApi, FillingProfileStep3View, yup } from 'entities/viewer';
+import { useInput } from 'shared/hooks';
 
 function FillingProfileStep3() {
     const navigate = useNavigate();
@@ -12,7 +11,7 @@ function FillingProfileStep3() {
     const { data } = ViewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
     const { mutate: handleAddAvatar } = ViewerApi.handleAddAvatar();
-    console.log(data);
+
     const emailInput = useInput({
         yupSchema: yup.checkEmail,
     });
@@ -45,7 +44,7 @@ function FillingProfileStep3() {
             if (avatar) {
                 handleAddAvatar({ file: avatar.formData });
             }
-            navigate('/main');
+            navigate('/chats');
         }
     };
 
