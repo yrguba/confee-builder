@@ -4,16 +4,24 @@
   @include flex;
   padding: 4px 16px;
   flex-shrink: 0;
-  background-color: var(--control-primary);
-  color: var(--text-fixed);
+  border: 1px solid var(--border-primary);
+  color: var(--text-action);
   border-radius: var(--border-radius);
   text-align: center;
   position: relative;
   overflow: hidden;
   white-space: nowrap;
   transition: all 0.5s;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
 }
 
+.primary{
+  background-color: var(--control-primary);
+  color: var(--text-fixed);
+}
 
 .active {
   border: none;

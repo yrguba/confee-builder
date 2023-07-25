@@ -12,7 +12,7 @@ type Props = {
     viewer: ViewerTypes.Viewer | BaseTypes.Empty;
     handleSubmit: () => void;
     selectFile: () => void;
-    makePhoto: (data: string) => void;
+    getScreenshot: (data: string) => void;
     deleteFile: () => void;
     avatar?: string;
     inputs: {
@@ -22,13 +22,13 @@ type Props = {
 };
 
 function FillingProfileStep3View(props: Props) {
-    const { viewer, inputs, avatar, handleSubmit, selectFile, deleteFile, makePhoto } = props;
+    const { viewer, inputs, avatar, handleSubmit, selectFile, deleteFile, getScreenshot } = props;
 
     return (
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.avatar}>
                 <div className={styles.title}>
-                    <AvatarEditor avatar={avatar} deleteFile={deleteFile} selectFile={selectFile} makePhoto={makePhoto} viewer={viewer} />
+                    <AvatarEditor avatar={avatar} deleteFile={deleteFile} selectFile={selectFile} getScreenshot={getScreenshot} viewer={viewer} />
                 </div>
             </div>
             <div className={styles.input}>

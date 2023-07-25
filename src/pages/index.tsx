@@ -41,10 +41,10 @@ function Routing() {
         if (height < 450) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (TokenService.checkAuth()) {
             const viewer = ViewerService.getViewer();
-            if (!viewer?.nickname || location.pathname.includes('/filling_profile')) {
-                return fillingProfileRoutes;
-            }
-            return mainRoutes;
+            // if (!viewer?.nickname || location.pathname.includes('/filling_profile')) {
+            return fillingProfileRoutes;
+            // }
+            // return mainRoutes;
         }
         return webView();
     };

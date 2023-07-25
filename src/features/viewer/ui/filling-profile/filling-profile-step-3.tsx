@@ -29,7 +29,7 @@ function FillingProfileStep3() {
         },
     });
 
-    const makePhoto = (data: string) => {
+    const getScreenshot = (data: string) => {
         const fd = new FormData();
         fd.append('images', data);
         setAvatar({ formData: fd, fileUrl: data });
@@ -50,7 +50,7 @@ function FillingProfileStep3() {
 
     return (
         <FillingProfileStep3View
-            makePhoto={makePhoto}
+            getScreenshot={getScreenshot}
             deleteFile={() => setAvatar(null)}
             selectFile={selectFile}
             handleSubmit={onsubmit}

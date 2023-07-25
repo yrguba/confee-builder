@@ -10,19 +10,19 @@ import { Viewer } from '../../model/types';
 type Props = {
     viewer: Viewer | BaseTypes.Empty;
     selectFile: () => void;
-    makePhoto: (data: string) => void;
+    getScreenshot: (data: string) => void;
     deleteFile: () => void;
     avatar?: string;
 };
 
 function AvatarEditor(props: Props) {
-    const { avatar, viewer, selectFile, deleteFile, makePhoto } = props;
+    const { avatar, viewer, selectFile, deleteFile, getScreenshot } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
 
     const action = (data: string) => {
         setVisibleCamera(false);
-        makePhoto(data);
+        getScreenshot(data);
     };
 
     const items: DropdownTypes.DropdownMenuItem[] = [
@@ -34,7 +34,7 @@ function AvatarEditor(props: Props) {
     return (
         <div className={styles.wrapper}>
             <Box.Animated visible={visibleCamera} className={styles.webCamera}>
-                <WebCamera makePhoto={action} />
+                <WebCamera getScreenshot={action} />
             </Box.Animated>
             <DropdownMenu closeAfterClick position="right-bottom" left={44} top={50} items={items}>
                 <div className={styles.circle}>

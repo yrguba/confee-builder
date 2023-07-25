@@ -1,3 +1,3 @@
 export type WebCameraProps = {
-    makePhoto: (arg: any) => void;
+    getScreenshot: (img: any) => void;
 };

@@ -4,6 +4,7 @@ import { BaseTypes } from 'shared/types';
 
 type SharedProps = {
     children: ReactNode;
+    primary?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement> &
     BaseTypes.Statuses;
 
