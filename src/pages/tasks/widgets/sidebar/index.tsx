@@ -5,7 +5,7 @@ import { Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-function SidebarTasksPage() {
+function Sidebar() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -22,4 +22,4 @@ function SidebarTasksPage() {
     );
 }
 
-export default SidebarTasksPage;
+export default Sidebar;

@@ -33,7 +33,7 @@ class UserApi {
     // }
 
     handleGetUsers() {
-        const getViewerFn = () => axiosClient.get(`${this.pathPrefix}`);
+        const getViewerFn = () => axiosClient.get(`/api/v2/company`);
         return useQuery(['get-users'], getViewerFn, {
             staleTime: 10000 * 30,
             select: (data) => {

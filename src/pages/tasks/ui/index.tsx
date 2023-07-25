@@ -2,9 +2,9 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Box } from 'shared/ui';
-import { HeaderTasksPage, SidebarTasksPage } from 'widgets/tasks-page';
 
 import styles from './styles.module.scss';
+import { Header, Sidebar } from '../widgets';
 
 function TasksPage() {
     return (

@@ -12,6 +12,7 @@ import ChatsPage from './chats/ui';
 import fillingProfilePageRouters from './filling-profile';
 import MainLayout from './layouts/main';
 import settingsPageRouters from './settings';
+import tasksPageRouters from './tasks';
 import { routing_tree } from '../shared/routing';
 
 function Routing() {
@@ -24,6 +25,7 @@ function Routing() {
             <Route path="/" element={<MainLayout />}>
                 {chatsPageRouters}
                 {settingsPageRouters}
+                {tasksPageRouters}
             </Route>
             <Route path="*" element={<Navigate to="/chats" replace />} />
         </Routes>
@@ -41,10 +43,10 @@ function Routing() {
         if (height < 450) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (TokenService.checkAuth()) {
             const viewer = ViewerService.getViewer();
-            // if (!viewer?.nickname || location.pathname.includes('/filling_profile')) {
-            return fillingProfileRoutes;
-            // }
-            // return mainRoutes;
+            if (!viewer?.nickname || location.pathname.includes('/filling_profile')) {
+                return fillingProfileRoutes;
+            }
+            return mainRoutes;
         }
         return webView();
     };

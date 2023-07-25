@@ -1,14 +1,20 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
+import { useWebSocket } from 'shared/hooks';
+
 import useMessageStore from './store';
 import { Message, MessageProxy } from './types';
 
 function messageGateway() {
     const queryClient = useQueryClient();
     const setSocketAction = useMessageStore.use.setSocketAction();
+    const { onMessage } = useWebSocket();
 
     useEffect(() => {
+        onMessage('UWS_CLIENT_IDENTIFICATION', (data: any) => {
+            console.log(data);
+        });
         // socketIo.on('receiveMessage', ({ message }) => {
         //     console.log('receiveMessage', message);
         //     const viewerData: any = queryClient.getQueryData(['get-viewer']);

@@ -12,7 +12,7 @@
 
     .header {
       @include box-size(100%, auto);
-      background-color: var(--bg-03);
+      background-color: var(--bg-secondary);
       border-radius: 10px 10px 0 0;
       position: relative;
 
@@ -32,7 +32,7 @@
           font-weight: 400;
           font-size: 14px;
           line-height: 21px;
-          color: var(--main-active);
+          color: var(--text-primary);
 
           &__answer{
             @include flex(flex-start, flex-start);
@@ -45,7 +45,7 @@
         font-weight: 400;
         font-size: 14px;
         line-height: 22px;
-        color: var(--text-0);
+        color: var(--text-primary);
         @include text-ellipsis(90%)
       }
     }
@@ -59,7 +59,7 @@
       @include flex;
       padding-top: 6px;
       gap: 10px;
-      background-color: var(--bg-03);
+      background-color: var(--bg-secondary);
       border-radius: 10px;
       z-index: 100;
 
@@ -103,7 +103,7 @@
           @include flex;
           @include box-size(60px, 100%);
           gap: 6px;
-          color: var(--text-0);
+          color: var(--text-primary);
           div{
             &:nth-child(1){
               @include flex(flex-end);

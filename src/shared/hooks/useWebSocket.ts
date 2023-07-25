@@ -7,15 +7,13 @@ const ws = new WebSocket(http.socketUrl);
 
 type Returned = {
     sendMessage: (event: string, message: string) => void;
-    onmessage: (event: any) => void;
+    onMessage: (event: string, callback: (arg: any) => void) => void;
     onclose: (event: any) => void;
-    onerror: (event: any) => void;
 };
 
 function useWebSocket(): Returned {
     const token = TokenService.get()?.access_token;
     ws.onopen = function () {
-        console.log('wdad');
         ws.send(
             JSON.stringify({
                 event: 'UWS_CLIENT_IDENTIFICATION',
@@ -25,16 +23,18 @@ function useWebSocket(): Returned {
             })
         );
     };
-    ws.onmessage = function (event) {
-        return event;
+
+    const onMessage = (event: string, callback: (arg: any) => void) => {
+        ws.addEventListener('message', function (e) {
+            const data = JSON.parse(e.data);
+            if (data.event === event) {
+                callback(data);
+            }
+        });
     };
 
     ws.onclose = function (event) {
         console.log('Соединение закрыто');
-    };
-
-    ws.onerror = function (error) {
-        console.log(`Ошибка: ${error}`);
     };
 
     const sendMessage = (event: string, message: string) => {
@@ -45,7 +45,7 @@ function useWebSocket(): Returned {
             })
         );
     };
-    return { sendMessage, onmessage: ws.onmessage, onclose: ws.onclose, onerror: ws.onerror };
+    return { sendMessage, onMessage, onclose: ws.onclose };
 }
 
 export default useWebSocket;

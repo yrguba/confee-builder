@@ -7,14 +7,14 @@
   justify-content: flex-start;
   word-wrap: break-word;
   white-space: pre-line;
-  color: var(--text-0);
+  color: var(--text-primary);
 
   .longWord{
     word-break: break-all;
   }
 
   .tag {
-    color: var(--main-active);
+    color: var(--text-action);
     cursor: pointer;
   }
 }

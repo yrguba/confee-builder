@@ -7,7 +7,7 @@ import Glare from '../../../loading-indicator/ui/glare';
 import { ButtonBaseProps } from '../../types';
 
 function BaseButton(props: ButtonBaseProps) {
-    const { children, disabled, loading, primary, error, size, active, ...other } = props;
+    const { children, disabled, loading, primary = true, error, size, active, ...other } = props;
 
     const classes = useStyles(styles, 'wrapper', {
         active,
