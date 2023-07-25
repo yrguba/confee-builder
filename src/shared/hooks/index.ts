@@ -36,6 +36,7 @@ import useSize from './useSize';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
 import useToggle from './useToggle';
+import useWebSocket from './useWebSocket';
 import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
@@ -77,6 +78,7 @@ export {
     useCopyToClipboard,
     useFileUploader,
     useAudioRecorder,
+    useWebSocket,
 };
 
 export type UseInputReturnedTypes = ReturnType<typeof useInput>;

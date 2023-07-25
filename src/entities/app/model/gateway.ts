@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 
 import { ChatService } from 'entities/chat';
 import { ViewerService } from 'entities/viewer';
-import { socketIo } from 'shared/configs';
 
 import useAppStore from './store';
 import { MessageTypes } from '../../message';

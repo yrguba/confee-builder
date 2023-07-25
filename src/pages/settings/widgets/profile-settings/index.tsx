@@ -4,7 +4,7 @@ import { ViewerDossier } from 'features/viewer';
 
 import styles from './styles.module.scss';
 
-function ProfileSettingsWidget() {
+function ProfileSettings() {
     return (
         <div className={styles.wrapper}>
             <ViewerDossier />
@@ -12,4 +12,4 @@ function ProfileSettingsWidget() {
     );
 }
 
-export default ProfileSettingsWidget;
+export default ProfileSettings;

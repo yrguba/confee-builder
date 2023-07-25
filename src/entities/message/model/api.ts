@@ -2,7 +2,7 @@ import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-q
 import { useEffect } from 'react';
 import { date } from 'yup';
 
-import { axiosClient, socketIo } from 'shared/configs';
+import { axiosClient } from 'shared/configs';
 import { uniqueArray } from 'shared/lib';
 
 import useMessageStore from './store';

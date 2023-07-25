@@ -19,25 +19,25 @@ function ChatsList() {
     const createPrivateChatModal = useModal();
     const createGroupChatModal = useModal();
 
-    const socketAction = useChatStore.use.socketAction();
+    useChatStore.use.socketAction();
 
     const { data: usersData } = UserApi.handleGetUsers();
 
     const { data: chatsData } = ChatApi.handleGetChats();
     const { mutate: handleCreateChat, isSuccess, isLoading: loadingCreateGroupChat } = ChatApi.handleCreateChat();
     const { mutate: handleAddAvatar } = ChatApi.handleAddAvatar();
-    console.log(chatsData);
+
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
         const { id, is_group } = chat;
         if (Number(params.chat_id) !== id) {
             if (ChatService.checkIsOpenChatInfo()) {
                 if (is_group) {
-                    return navigate(`/main/chats/chat/${id}/group_chat/${id}/users`);
+                    return navigate(`/chats/chat/${id}/group_chat/${id}/users`);
                 }
                 const userId = chat.members.find((member) => member.id !== viewer?.id);
-                return navigate(`/main/chats/chat/${id}/private_chat/${userId}/images`);
+                return navigate(`/chats/chat/${id}/private_chat/${userId}/images`);
             }
-            navigate(`/main/chats/chat/${id}`);
+            navigate(`/chats/chat/${id}`);
         }
     };
 
@@ -57,7 +57,7 @@ function ChatsList() {
                 onSuccess: (data) => {
                     createPrivateChatModal.close();
                     if (params.chat_id) {
-                        navigate(`/main/chats/chat/${data.data.data.id}`);
+                        navigate(`/chats/chat/${data.data.data.id}`);
                     } else {
                         navigate(`chat/${data.data.data.id}`);
                     }
@@ -83,7 +83,7 @@ function ChatsList() {
                     }
                     createGroupChatModal.close();
                     if (params.chat_id) {
-                        navigate(`/main/chats/chat/${res.data.data.id}`);
+                        navigate(`/chats/chat/${res.data.data.id}`);
                     } else {
                         navigate(`chat/${res.data.data.id}`);
                     }

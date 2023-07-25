@@ -1,6 +1,6 @@
-import AppSettingsWidget from './app-settings';
-import CheckUpdateWidget from './check-update';
-import PrivacySettingsWidget from './privacy-settings';
-import ProfileSettingsWidget from './profile-settings';
+import AppSettings from './app-settings';
+import CheckUpdate from './check-update';
+import PrivacySettings from './privacy-settings';
+import ProfileSettings from './profile-settings';
 
-export { AppSettingsWidget, CheckUpdateWidget, PrivacySettingsWidget, ProfileSettingsWidget };
+export { AppSettings, CheckUpdate, PrivacySettings, ProfileSettings };

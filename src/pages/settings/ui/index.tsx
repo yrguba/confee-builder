@@ -4,14 +4,14 @@ import { AppService } from 'entities/app';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { PrivacySettingsWidget, AppSettingsWidget, CheckUpdateWidget, ProfileSettingsWidget } from '../widgets';
+import { PrivacySettings, AppSettings, CheckUpdate, ProfileSettings } from '../widgets';
 
 function SettingsPage() {
     const items = [
-        { id: 0, element: <ProfileSettingsWidget /> },
-        { id: 1, element: <PrivacySettingsWidget /> },
-        { id: 2, element: <AppSettingsWidget /> },
-        { id: 3, element: AppService.tauriIsRunning ? <CheckUpdateWidget /> : null },
+        { id: 0, element: <ProfileSettings /> },
+        { id: 1, element: <PrivacySettings /> },
+        { id: 2, element: <AppSettings /> },
+        { id: 3, element: AppService.tauriIsRunning ? <CheckUpdate /> : null },
     ];
 
     return (

@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 
 import useMessageStore from './store';
 import { Message, MessageProxy } from './types';
-import { socketIo } from '../../../shared/configs';
 
 function messageGateway() {
     const queryClient = useQueryClient();

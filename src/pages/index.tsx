@@ -25,7 +25,7 @@ function Routing() {
                 {chatsPageRouters}
                 {settingsPageRouters}
             </Route>
-            <Route path="*" element={<Navigate to="chats" replace />} />
+            <Route path="*" element={<Navigate to="/chats" replace />} />
         </Routes>
     );
 

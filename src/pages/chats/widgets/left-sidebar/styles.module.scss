@@ -3,7 +3,7 @@
 .wrapper {
   @include box-size(100%, 100%);
   @include flex-column(center, flex-start, 20);
-  background-color: var(--bg-0);
+  background-color: var(--bg-primary);
 
   .search {
     @include box-size(100%, 40px);

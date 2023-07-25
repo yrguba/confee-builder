@@ -1,12 +1,20 @@
-import React, { ReactNode } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { Box } from 'shared/ui';
 import { Header } from 'widgets';
 
 import styles from './styles.module.scss';
 
 function MainLayout() {
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        if (pathname === '/') {
+            navigate('/chats');
+        }
+    }, [navigate]);
+
     return (
         <div className={styles.wrapper}>
             <Header />

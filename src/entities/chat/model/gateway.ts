@@ -1,8 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-import { socketIo } from 'shared/configs';
-
 import useChatStore from './store';
 import { Chat, ChatProxy } from './types';
 import chatProxy from '../lib/chat-proxy';

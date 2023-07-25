@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { PrivacySettings } from 'features/app';
+import { PrivacySettings as PrivacySettingsFeature } from 'features/app';
 
 import styles from './styles.module.scss';
 
-function PrivacySettingsWidget() {
+function PrivacySettings() {
     return (
         <div className={styles.wrapper}>
-            <PrivacySettings />
+            <PrivacySettingsFeature />
         </div>
     );
 }
 
-export default PrivacySettingsWidget;
+export default PrivacySettings;

@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { CheckUpdate } from 'features/app';
+import { CheckUpdate as CheckUpdateFeature } from 'features/app';
 
 import styles from './styles.module.scss';
 
-function CheckUpdateWidget() {
+function CheckUpdate() {
     return (
         <div className={styles.wrapper}>
-            <CheckUpdate />
+            <CheckUpdateFeature />
         </div>
     );
 }
 
-export default CheckUpdateWidget;
+export default CheckUpdate;

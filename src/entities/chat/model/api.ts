@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 import { MessageTypes } from 'entities/message';
-import { axiosClient, socketIo } from 'shared/configs';
+import { axiosClient } from 'shared/configs';
 import { handlers } from 'shared/lib';
 
 import useChatStore from './store';

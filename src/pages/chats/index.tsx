@@ -7,7 +7,7 @@ import ChatsPage from './ui';
 
 const chatsPageRouters = (
     <>
-        <Route path={routing_tree.main.chats.base} element={<ChatsPage />} />
+        <Route path="/chats" element={<ChatsPage />} />
         <Route path={routing_tree.main.chats.chat.base} element={<ChatsPage />}>
             {/* <Route path={routing_tree.main.chats.chat.private_chat.base} element={<PrivateChatInfoFromChatsPage />}> */}
             {/*    <Route path={routing_tree.main.chats.chat.private_chat.images} element={<MediaContentFromChatsPage />} /> */}

@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { AppSettings } from 'features/app';
+import { AppSettings as AppSettingsFeature } from 'features/app';
 
 import styles from './styles.module.scss';
 
-function AppSettingsWidget() {
+function AppSettings() {
     return (
         <div className={styles.wrapper}>
-            <AppSettings />
+            <AppSettingsFeature />
         </div>
     );
 }
 
-export default AppSettingsWidget;
+export default AppSettings;

@@ -1,15 +1,12 @@
 import React from 'react';
 
-import { project } from 'shared/constanst';
-import { Button, Select } from 'shared/ui';
+import { Button } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {};
 
 function PrivacySettingsView(props: Props) {
-    // const { updateApp, updateAvailable } = props;
-
     const items = [
         { id: 0, title: 'Кто может витеть мой статус:', value: 'Все пользователи' },
         { id: 1, title: 'Кто может витеть мои отпуска:', value: 'Мой отдел' },
