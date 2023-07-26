@@ -51,15 +51,6 @@
       .btns{
         @include flex;
         gap: 12px;
-        button {
-          width: 200px;
-
-          @include width-to('sm'){
-            width: 160px;
-
-          }
-
-        }
       }
     }
   }

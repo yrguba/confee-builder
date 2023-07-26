@@ -7,7 +7,7 @@ import Glare from '../../../loading-indicator/ui/glare';
 import { ButtonBaseProps } from '../../types';
 
 function BaseButton(props: ButtonBaseProps) {
-    const { children, disabled, loading, primary = true, error, size, active, ...other } = props;
+    const { children, disabled, loading, primary = true, error, size = 's', width, active, ...other } = props;
 
     const classes = useStyles(styles, 'wrapper', {
         active,
@@ -18,7 +18,7 @@ function BaseButton(props: ButtonBaseProps) {
     });
 
     return (
-        <button className={classes} {...other}>
+        <button className={classes} {...other} style={{ width }}>
             {children}
             <Glare visible={!!loading} />
         </button>

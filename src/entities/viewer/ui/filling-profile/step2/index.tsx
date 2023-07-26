@@ -31,7 +31,7 @@ function FillingProfileStep2View(props: Props) {
             <div className={styles.inputLastName}>
                 <Input placeholder="Фамилия" {...inputs.lastName} clearIcon size="xxl" />
             </div>
-            <Button disabled={inputs.lastName.error || inputs.firstName.error} onClick={() => handleSubmit()} size="xl">
+            <Button disabled={inputs.lastName.error || inputs.firstName.error} onClick={() => handleSubmit()} size="m" width="100%">
                 Далее
             </Button>
         </Box.Animated>

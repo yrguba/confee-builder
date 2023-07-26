@@ -38,7 +38,7 @@ function FillingProfileStep3View(props: Props) {
                 <Input type="date" {...inputs.birth} size="xxl" />
             </div>
 
-            <Button disabled={inputs.email.error} onClick={handleSubmit} size="xl">
+            <Button disabled={inputs.email.error} onClick={handleSubmit} size="m" width="100%">
                 Далее
             </Button>
         </Box.Animated>

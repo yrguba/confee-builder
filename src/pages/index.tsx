@@ -13,6 +13,7 @@ import fillingProfilePageRouters from './filling-profile';
 import MainLayout from './layouts/main';
 import settingsPageRouters from './settings';
 import tasksPageRouters from './tasks';
+import { ContactsModal } from '../features/user';
 import { routing_tree } from '../shared/routing';
 
 function Routing() {

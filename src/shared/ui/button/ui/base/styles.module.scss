@@ -2,20 +2,13 @@
 
 .wrapper {
   @include flex;
-  padding: 4px 16px;
-  flex-shrink: 0;
   border: 1px solid var(--border-primary);
   color: var(--text-action);
-  border-radius: var(--border-radius);
+  border-radius: 12px;
   text-align: center;
   position: relative;
   overflow: hidden;
   white-space: nowrap;
-  transition: all 0.5s;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 20px;
 }
 
 .primary{
@@ -39,24 +32,17 @@
   border: 1px solid var(--red);
 }
 
-
 .size-s {
-  width: calc(96px - 32px);
-  height: calc(32px - 8px);
+  width: 86px;
+  height: 48px;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .size-m {
-  width: calc(131px - 32px);
-  height: calc(48px - 8px);
-}
-
-.size-l {
-  width: calc(264px - 32px);
-  height: calc(40px - 8px);
-}
-
-.size-xl {
-  width: calc(100% - 32px);
-  height: calc(56px - 8px);
+  width: 92px;
+  height: 56px;
+  font-size: 16px;
+  line-height: 24px;
 }
 

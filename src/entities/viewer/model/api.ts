@@ -14,7 +14,6 @@ class ViewerApi {
         return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (data) => {
-                UniversalStorage.localStorageSet('viewer', data.data.data);
                 return handlers.response<{ data: Viewer }>(data);
             },
         });

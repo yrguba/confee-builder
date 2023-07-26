@@ -41,15 +41,15 @@ function WebCamera(props: WebCameraProps) {
                 <div className={styles.panel}>
                     {photoPreview ? (
                         <div className={styles.btns}>
-                            <Button size="xl" primary={false} onClick={() => setPhotoPreview(null)}>
+                            <Button size="s" width="50%" primary={false} onClick={() => setPhotoPreview(null)}>
                                 Сделать ещё раз
                             </Button>
-                            <Button size="xl" onClick={() => getScreenshot(photoPreview)}>
+                            <Button size="s" width="50%" onClick={() => getScreenshot(photoPreview)}>
                                 Установить снимок
                             </Button>
                         </div>
                     ) : (
-                        <Button primary size="xl" onClick={capture}>
+                        <Button primary size="s" width="100%" onClick={capture}>
                             Сделать снимок
                         </Button>
                     )}

@@ -9,7 +9,8 @@ type SharedProps = {
     BaseTypes.Statuses;
 
 export type ButtonBaseProps = {
-    size?: number | 's' | 'm' | 'l' | 'xl';
+    size?: number | 's' | 'm';
+    width?: string;
     inActive?: boolean;
 } & SharedProps;
 

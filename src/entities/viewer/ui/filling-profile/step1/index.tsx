@@ -27,7 +27,7 @@ function FillingProfileStep1View(props: Props) {
             </div>
             <div className={styles.help}>Можно использовать символы a-z, 0-9 и подчёркивания. Минимальная длина − 5 символов, максимальная − 20.</div>
 
-            <Button disabled={nicknameInput.error} onClick={() => handleSubmit(nicknameInput.value)} size="xl">
+            <Button disabled={nicknameInput.error} onClick={() => handleSubmit(nicknameInput.value)} size="m" width="100%">
                 Далее
             </Button>
         </Box.Animated>

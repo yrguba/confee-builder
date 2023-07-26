@@ -5,6 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { chatGateway, chatObserver, ChatService, useChatStore } from 'entities/chat';
 import { useMessageStore, messageGateway, messageObserver } from 'entities/message';
+import { ContactsModal } from 'features/user';
 import { useMedia, useHeightMediaQuery, useWidthMediaQuery } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
@@ -54,43 +55,46 @@ function ChatsPage() {
     };
 
     return (
-        <Box.Animated visible className={styles.page}>
-            <AnimatePresence mode="popLayout">
-                {isVisibleLeftSidebar() && (
-                    <motion.div key={1} className={styles.leftSidebar} {...animation}>
-                        <LeftSidebar />
-                    </motion.div>
-                )}
-                {isVisibleChatList() && (
-                    <motion.div key={2} className={styles.mainColumn} {...animation}>
-                        {!!openChatId && (
-                            <div className={styles.header}>
-                                <Header />
+        <>
+            <ContactsModal />
+            <Box.Animated visible className={styles.page}>
+                <AnimatePresence mode="popLayout">
+                    {isVisibleLeftSidebar() && (
+                        <motion.div key={1} className={styles.leftSidebar} {...animation}>
+                            <LeftSidebar />
+                        </motion.div>
+                    )}
+                    {isVisibleChatList() && (
+                        <motion.div key={2} className={styles.mainColumn} {...animation}>
+                            {!!openChatId && (
+                                <div className={styles.header}>
+                                    <Header />
+                                </div>
+                            )}
+                            <div className={styles.outlet}>
+                                <div className={styles.messageList}>
+                                    <Outlet />
+                                </div>
+                                <Box.Animated
+                                    initial={{ height: 100 }}
+                                    animate={{ height: 'auto', transition: { duration: 0 } }}
+                                    exit={{ transition: { duration: 1 } }}
+                                    visible
+                                    className={styles.messageInput}
+                                >
+                                    <Footer />
+                                </Box.Animated>
                             </div>
-                        )}
-                        <div className={styles.outlet}>
-                            <div className={styles.messageList}>
-                                <MessagesList />
-                            </div>
-                            <Box.Animated
-                                initial={{ height: 100 }}
-                                animate={{ height: 'auto', transition: { duration: 0 } }}
-                                exit={{ transition: { duration: 1 } }}
-                                visible
-                                className={styles.messageInput}
-                            >
-                                <Footer />
-                            </Box.Animated>
+                        </motion.div>
+                    )}
+                    {isVisibleRightSidebar() && (
+                        <div key={3} className={styles.rightSidebar} {...animation}>
+                            <RightSidebar />
                         </div>
-                    </motion.div>
-                )}
-                {isVisibleRightSidebar() && (
-                    <div key={3} className={styles.rightSidebar} {...animation}>
-                        <RightSidebar />
-                    </div>
-                )}
-            </AnimatePresence>
-        </Box.Animated>
+                    )}
+                </AnimatePresence>
+            </Box.Animated>
+        </>
     );
 }
 
