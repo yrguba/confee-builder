@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Img } from 'react-image';
 
 import { http } from 'shared/constanst';
 
 import styles from './styles.module.scss';
+import { Image } from '../../index';
 import { Props } from '../types';
 
 function Avatar(props: Props) {
     const { size = 20, name, img, circle = true, withHttp = true } = props;
+
+    const [err, setErr] = useState(false);
 
     const colors = [
         { id: 0, triggers: ['а', 'б', 'a', 'b'], color1: '#FF8A65', color2: '#EA5A5A' },
@@ -22,6 +26,7 @@ function Avatar(props: Props) {
         { id: 10, triggers: ['х', 'ц', 'u', 'v'], color1: '#BA68C8', color2: '#9575CD' },
         { id: 11, triggers: ['ч', 'ш', 'w', 'x'], color1: '#F06292', color2: '#BA68C8' },
         { id: 12, triggers: ['э', 'ю', 'y', 'z'], color1: '#E57373', color2: '#F06292' },
+        { id: 13, triggers: ['1', '2', '3', '4', '5', '6', 7, '8', '9', '10'], color1: '#E57373', color2: '#F06292' },
     ];
 
     const getColor = () => {
@@ -63,10 +68,11 @@ function Avatar(props: Props) {
                 height: size,
                 minHeight: size,
                 fontSize: size - size / 2,
-                background: !img ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
+                background: !img || err ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
             }}
         >
-            {img ? (
+            <img src={img} alt="" onError={() => setErr(true)} />
+            {img && !err ? (
                 <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${withHttp ? http.url : ''}${img})` }} />
             ) : (
                 preview

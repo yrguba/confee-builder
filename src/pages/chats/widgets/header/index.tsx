@@ -17,7 +17,7 @@ function Header() {
     const { width } = useSize();
 
     const openChatId = ChatService.getOpenChatId();
-
+    const openChatInfo = useChatStore.use.openChatInfo();
     const setVisibleHeaderMenu = useChatStore.use.setVisibleHeaderMenu();
     const network = useNetworkState();
 
@@ -27,7 +27,7 @@ function Header() {
                 <AnimatePresence mode="wait">
                     {network.online ? (
                         <>
-                            <Box.Animated visible={!!openChatId} key={pathname.split('/')[4]} className={styles.card}>
+                            <Box.Animated visible={!!openChatId} key={pathname.split('/')[3]} className={styles.card}>
                                 <Box.Animated
                                     onClick={() => navigation(pathname.split('/').splice(0, 3).join('/'))}
                                     visible={!!openChatId && width < 680}
@@ -37,11 +37,7 @@ function Header() {
                                 </Box.Animated>
                                 <ChatCard />
                             </Box.Animated>
-                            <Box.Animated
-                                visible={!!openChatId && !ChatService.checkIsOpenChatInfo()}
-                                animationVariant="autoWidth"
-                                className={styles.rightColumn}
-                            >
+                            <Box.Animated visible={!!openChatId && !openChatInfo} animationVariant="autoWidth" className={styles.rightColumn}>
                                 <SearchMessages mini={width < 900} />
                                 <VideoCallBtn />
                                 <AudioCallBtn />

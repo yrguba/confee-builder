@@ -24,7 +24,7 @@
         text-align: left;
         font-weight: 600;
         font-size: 16px;
-        color: var(--text-0);
+        color: var(--text-primary);
       }
 
       .lastMsg {
@@ -32,7 +32,7 @@
         max-width: 350px;
         font-weight: 500;
         font-size: 13px;
-        color: var(--text-1);
+        color: var(--text-secondary);
       }
     }
   }
@@ -44,7 +44,7 @@
     .date {
       font-weight: 600;
       font-size: 12px;
-      color: var(--text-0);
+      color: var(--text-secondary);
     }
     .checked{
       height: 16px;

@@ -8,7 +8,7 @@ import { MessageTypes } from '../../message';
 
 function AppGateway() {
     const setNotifications = useAppStore.use.setNotifications();
-    const viewer = ViewerService.getViewer();
+    // const viewer = ViewerService.getViewer();
     useEffect(() => {
         // socketIo.on('receiveMessage', ({ message }: { message: { chat_id: string } & MessageTypes.Message }) => {
         //     const openChatId = ChatService.getOpenChatId();

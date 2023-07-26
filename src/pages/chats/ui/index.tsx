@@ -3,13 +3,13 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { chatGateway, chatObserver, ChatService } from 'entities/chat';
+import { chatGateway, chatObserver, ChatService, useChatStore } from 'entities/chat';
 import { useMessageStore, messageGateway, messageObserver } from 'entities/message';
 import { useMedia, useHeightMediaQuery, useWidthMediaQuery } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { LeftSidebar, Header, Footer, MessagesList } from '../widgets';
+import { LeftSidebar, Header, Footer, MessagesList, RightSidebar } from '../widgets';
 
 function ChatsPage() {
     chatObserver();
@@ -26,7 +26,7 @@ function ChatsPage() {
 
     const isOpenEmojiPicker = useMessageStore.use.isOpenEmojiPicker();
     const isOpenInputMenu = useMessageStore.use.isOpenInputMenu();
-    const isOpenChatInfo = ChatService.checkIsOpenChatInfo();
+    const openChatInfo = useChatStore.use.openChatInfo();
     const openChatId = ChatService.getOpenChatId();
 
     const animation = {
@@ -41,15 +41,15 @@ function ChatsPage() {
     };
 
     const isVisibleChatList = () => {
-        if (breakpoint !== 'xxl' && isOpenChatInfo) return false;
+        if (breakpoint !== 'xxl' && openChatInfo) return false;
         if (breakpoint !== 'sm') return true;
-        if (params?.chat_id && !isOpenChatInfo) return true;
+        if (params?.chat_id && !openChatInfo) return true;
         return false;
     };
 
     const isVisibleRightSidebar = () => {
-        if (breakpoint !== 'sm' && isOpenChatInfo) return true;
-        if (isOpenChatInfo) return true;
+        if (breakpoint !== 'sm' && openChatInfo) return true;
+        if (openChatInfo) return true;
         return false;
     };
 
@@ -86,7 +86,7 @@ function ChatsPage() {
                 )}
                 {isVisibleRightSidebar() && (
                     <div key={3} className={styles.rightSidebar} {...animation}>
-                        <Outlet />
+                        <RightSidebar />
                     </div>
                 )}
             </AnimatePresence>

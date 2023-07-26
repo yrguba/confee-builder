@@ -22,6 +22,7 @@ function ChatsList() {
     useChatStore.use.socketAction();
 
     const { data: usersData } = UserApi.handleGetUsers();
+    const openChatInfo = useChatStore.use.openChatInfo();
 
     const { data: chatsData } = ChatApi.handleGetChats();
     const { mutate: handleCreateChat, isSuccess, isLoading: loadingCreateGroupChat } = ChatApi.handleCreateChat();
@@ -30,7 +31,7 @@ function ChatsList() {
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
         const { id, is_group } = chat;
         if (Number(params.chat_id) !== id) {
-            if (ChatService.checkIsOpenChatInfo()) {
+            if (openChatInfo) {
                 if (is_group) {
                     return navigate(`/chats/chat/${id}/group_chat/${id}/users`);
                 }

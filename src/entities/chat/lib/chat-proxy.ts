@@ -3,7 +3,7 @@ import { ViewerService } from 'entities/viewer';
 import { ChatProxy, Chat } from '../model/types';
 
 function chatProxy(chat: Chat): any {
-    const viewer = ViewerService.getViewer();
+    // const viewer = ViewerService.getViewer();
     return new Proxy(chat, {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver): ChatProxy[keyof ChatProxy] {
             switch (prop) {
@@ -11,8 +11,8 @@ function chatProxy(chat: Chat): any {
                     return target[prop];
                 case 'secondMember':
                     if (target.is_group) return null;
-                    const found = chat.members.find((i) => i.id !== viewer?.id);
-                    return found || null;
+                    // const found = chat.members.find((i) => i.id !== viewer?.id);
+                    return null;
 
                 case 'lastMessageTitle':
                     if (!target.last_message) return '';

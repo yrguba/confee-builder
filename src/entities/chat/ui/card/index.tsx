@@ -50,7 +50,7 @@ function ChatCardView(props: Props) {
                         {pending_messages_count ? (
                             <Counter height={18}>{pending_messages_count}</Counter>
                         ) : (
-                            Number(last_message.author.id) === Number(viewer?.id) && <Icons variants={last_message.is_read ? 'doubleCheck' : 'check'} />
+                            Number(last_message.author.id) === Number(viewer?.id) && <Icons variants={last_message?.is_read ? 'doubleCheck' : 'check'} />
                         )}
                     </div>
                 )}

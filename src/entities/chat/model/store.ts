@@ -10,10 +10,12 @@ type Store = {
     socketAction: string;
     selectedChats: ChatProxy[];
     visibleHeaderMenu: boolean;
+    openChatInfo: { chatId: number; userId?: number | null } | null;
     setSocketAction: (action: string) => void;
     setSelectedChats: (chat: ChatProxy) => void;
     clearSelectedChats: () => void;
     setVisibleHeaderMenu: (value?: boolean) => void;
+    setOpenChatInfo: (data: { chatId: number; userId?: number | null }) => void;
 };
 
 const chatStore = create<Store>()(
@@ -22,6 +24,7 @@ const chatStore = create<Store>()(
             socketAction: '',
             selectedChats: [],
             visibleHeaderMenu: false,
+            openChatInfo: null,
             setSocketAction: (action) =>
                 set((state) => {
                     state.socketAction = action;
@@ -42,6 +45,10 @@ const chatStore = create<Store>()(
                     } else {
                         state.visibleHeaderMenu = !state.visibleHeaderMenu;
                     }
+                }),
+            setOpenChatInfo: (data) =>
+                set((state) => {
+                    state.openChatInfo = data;
                 }),
         }))
     )

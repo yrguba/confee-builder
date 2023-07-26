@@ -13,20 +13,29 @@ function ChatCard() {
 
     const viewer = ViewerService.getViewer();
 
-    const socketAction = useChatStore.use.socketAction();
+    // useChatStore.use.socketAction();
+
+    const setOpenChatInfo = useChatStore.use.setOpenChatInfo();
+    const openChatInfo = useChatStore.use.openChatInfo();
 
     const { data: chatData } = ChatApi.handleGetChats();
+
     const chat = chatData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
     const clickOnChat = (chat: ChatTypes.Chat) => {
-        if (!ChatService.checkIsOpenChatInfo()) {
-            if (chat.is_group) {
-                navigate(`group_chat/${chat.id}/users`);
-            } else {
-                const userId = chat.members.find((user) => user.id !== viewer?.id);
-                navigate(`private_chat/${userId}/images`);
-            }
-        }
+        // if (!openChatInfo) {
+        //     if (chat.is_group) {
+        //         setOpenChatInfo({
+        //             chatId: chat.id,
+        //         });
+        //     } else {
+        //         const user = chat.members.find((user) => user.id !== viewer?.id);
+        //         setOpenChatInfo({
+        //             chatId: chat.id,
+        //             userId: user?.id || null,
+        //         });
+        //     }
+        // }
     };
 
     const getChatSubtitle = (chat: ChatTypes.ChatProxy | undefined): string => {
@@ -39,7 +48,8 @@ function ChatCard() {
             const word = useEnding(chat.members.length, ['участник', 'участника', 'участников']);
             return `${chat.members.length} ${word}`;
         }
-        return UserService.getUserNetworkStatus(chat.secondMember) || '';
+        const secondMember = chat?.members.find((i) => i.id !== viewer?.id);
+        return UserService.getUserNetworkStatus(secondMember || null) || '';
     };
 
     return (

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import { ViewerService } from 'entities/viewer';
+import { ViewerApi, ViewerService } from 'entities/viewer';
 import { webView } from 'features/auth';
 import { SizeWarningPage } from 'pages/warning';
 import { useWindowSize } from 'shared/hooks';
@@ -19,6 +19,8 @@ function Routing() {
     const { width, height } = useWindowSize();
 
     const location = useLocation();
+    const navigate = useNavigate();
+    const { data: viewerData, isLoading } = ViewerApi.handleGetViewer();
 
     const mainRoutes = (
         <Routes location={location}>
@@ -38,14 +40,20 @@ function Routing() {
         </Routes>
     );
 
+    useEffect(() => {
+        if (!isLoading && !viewerData?.data?.data?.nickname) {
+            navigate('/filling_profile');
+        }
+    }, [isLoading]);
+
     const getRouting = () => {
         if (width < 480) return <SizeWarningPage size={{ width, height }} error="width" />;
         if (height < 450) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (TokenService.checkAuth()) {
-            const viewer = ViewerService.getViewer();
-            if (!viewer?.nickname || location.pathname.includes('/filling_profile')) {
+            if (location.pathname.includes('/filling_profile')) {
                 return fillingProfileRoutes;
             }
+
             return mainRoutes;
         }
         return webView();

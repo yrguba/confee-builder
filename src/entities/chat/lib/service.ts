@@ -4,19 +4,16 @@ import { useEnding } from 'shared/hooks';
 import { UniversalStorage } from 'shared/services';
 
 import { messageConstants } from '../../message';
+import { ViewerService } from '../../viewer';
 import ChatApi from '../model/api';
 import { Chat, ChatProxy } from '../model/types';
 
 class ChatService {
     getOpenChatId(): number | null {
         if (window.location.href.split('/').find((i) => ['chat'].includes(i))) {
-            return Number(window.location.href.split('/')[6]);
+            return Number(window.location.href.split('/')[5]);
         }
         return null;
-    }
-
-    checkIsOpenChatInfo(): boolean {
-        return !!window.location.href.split('/').find((i) => ['group_chat', 'private_chat'].includes(i));
     }
 
     getChatInList(id: number | null) {
@@ -45,6 +42,14 @@ class ChatService {
         if (!chat) return undefined;
         if (chat.pending_messages_count === 0) return 1;
         return Math.ceil(chat.pending_messages_count / messageConstants.message_limit);
+    }
+
+    getSecondMember(chat: Chat) {
+        if (chat.is_group) return null;
+
+        const viewer = ViewerService.getViewer();
+        const found = chat.members.find((i) => i.id !== viewer?.id);
+        return null;
     }
 }
 
