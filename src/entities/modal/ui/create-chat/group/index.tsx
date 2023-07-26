@@ -62,7 +62,7 @@ function CreateGroupChatModal(props: Props) {
                 Участники ({selectedUsers.length}/{users.length})
             </div>
             <div className={styles.search}>
-                <Input.Search width="100%" {...search} placeholder="Поиск" />
+                <Input width="100%" {...search} placeholder="Поиск" />
             </div>
             <div className={styles.list}>
                 {usersList.map((user) => (

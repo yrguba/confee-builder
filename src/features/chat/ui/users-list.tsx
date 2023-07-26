@@ -28,9 +28,9 @@ function ChatUsersList(props: Props) {
     return (
         <>
             <ChatUsersListView users={data?.data?.data.members || []} userClick={userClick} />
-            <Modal {...userInfoModal} onOk={() => setUser(null)} onClose={() => setUser(null)}>
-                <UserDossierView direction="column" user={user} />
-            </Modal>
+            {/* <Modal {...userInfoModal} onOk={() => setUser(null)} onClose={() => setUser(null)}> */}
+            {/*    <UserDossierView direction="column" user={user} /> */}
+            {/* </Modal> */}
         </>
     );
 }

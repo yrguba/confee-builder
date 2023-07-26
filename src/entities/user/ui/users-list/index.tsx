@@ -30,7 +30,7 @@ function UsersListView(props: Props) {
                 <div className={styles.name}>{headerTitle}</div>
                 <div className={styles.filterAndSearch}>
                     {/* <UsersFilterView /> */}
-                    <Input.Search placeholder="Поиск по сотрудникам отдела" />
+                    <Input placeholder="Поиск по сотрудникам отдела" />
                 </div>
             </div>
             <div className={styles.columnsNames}>

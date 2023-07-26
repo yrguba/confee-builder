@@ -46,9 +46,9 @@ function ViewerDossier() {
     return (
         <>
             <ViewerDossierView viewer={data?.data?.data} logoutClick={logoutClick} replaceAvatarClick={open} loading={isLoading} />
-            <Modal {...modalAvatar} headerText="Изменить аватар чата ?" onClose={clear} onOk={sendAvatar}>
-                <SwiperModal startWithIt={1} files={[{ url: files[0]?.fileUrl, size: 0, name: '', extension: 'img' }]} />
-            </Modal>
+            {/* <Modal {...modalAvatar} onClose={clear} onOk={sendAvatar}> */}
+            {/*    <SwiperModal startWithIt={1} files={[{ url: files[0]?.fileUrl, size: 0, name: '', extension: 'img' }]} /> */}
+            {/* </Modal> */}
         </>
     );
 }

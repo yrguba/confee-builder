@@ -1,5 +1,46 @@
 @import "../../../../../app/styles/index";
 
 .wrapper {
-color: var(--text-primary);
+  @include box-size(416px, 100%);
+  @include flex-column(flex-start, center);
+  color: var(--text-primary);
+  max-height: 600px;
+
+  .header {
+    width: 90%;
+    @include flex-column();
+    gap: 4px;
+    margin-top: 28px;
+
+    .title {
+      width: 100%;
+      @include title(h2);
+      text-align: left;
+    }
+
+    .search {
+      width: 100%;
+    }
+  }
+
+  .body {
+    @include flex-column(flex-start, flex-start);
+
+    width: 90%;
+    flex: 1;
+    margin-top: 16px;
+
+    .nav{
+      @include flex;
+      gap: 8px;
+    }
+
+  }
+
+  .footer {
+    width: 90%;
+    margin-top: 16px;
+    margin-bottom: 28px;
+  }
+
 }

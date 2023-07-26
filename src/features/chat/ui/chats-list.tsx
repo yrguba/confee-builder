@@ -101,12 +101,12 @@ function ChatsList() {
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
             />
-            <Modal footer={false} headerText="Создание чата" {...createPrivateChatModal}>
-                <CreatePrivateChatModal users={usersData?.data?.data || []} userClick={createPrivateChat} />
-            </Modal>
-            <Modal loading={loadingCreateGroupChat} okText="Создать" headerText="Создание группы" {...createGroupChatModal}>
-                <CreateGroupChatModal loading={loadingCreateGroupChat} createChat={createGroupChat} users={usersData?.data?.data || []} />
-            </Modal>
+            {/* <Modal footer={false} {...createPrivateChatModal}> */}
+            {/*    <CreatePrivateChatModal users={usersData?.data?.data || []} userClick={createPrivateChat} /> */}
+            {/* </Modal> */}
+            {/* <Modal loading={loadingCreateGroupChat} okText="Создать" {...createGroupChatModal}> */}
+            {/*    <CreateGroupChatModal loading={loadingCreateGroupChat} createChat={createGroupChat} users={usersData?.data?.data || []} /> */}
+            {/* </Modal> */}
         </>
     );
 }

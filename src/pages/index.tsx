@@ -1,20 +1,17 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import { ViewerApi, ViewerService } from 'entities/viewer';
+import { ViewerApi } from 'entities/viewer';
 import { webView } from 'features/auth';
 import { SizeWarningPage } from 'pages/warning';
 import { useWindowSize } from 'shared/hooks';
 import { TokenService } from 'shared/services';
 
 import chatsPageRouters from './chats';
-import ChatsPage from './chats/ui';
-import fillingProfilePageRouters from './filling-profile';
+import initialFillingProfilePageRouters from './initial-filling-profile';
 import MainLayout from './layouts/main';
 import settingsPageRouters from './settings';
 import tasksPageRouters from './tasks';
-import { ContactsModal } from '../features/user';
-import { routing_tree } from '../shared/routing';
 
 function Routing() {
     const { width, height } = useWindowSize();
@@ -34,10 +31,10 @@ function Routing() {
         </Routes>
     );
 
-    const fillingProfileRoutes = (
+    const initialFillingProfileRoutes = (
         <Routes>
-            {fillingProfilePageRouters}
-            <Route path="*" element={<Navigate to="/filling_profile" replace />} />
+            {initialFillingProfilePageRouters}
+            <Route path="*" element={<Navigate to="/filling_profile/step1" replace />} />
         </Routes>
     );
 
@@ -52,7 +49,7 @@ function Routing() {
         if (height < 450) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (TokenService.checkAuth()) {
             if (location.pathname.includes('/filling_profile')) {
-                return fillingProfileRoutes;
+                return initialFillingProfileRoutes;
             }
 
             return mainRoutes;

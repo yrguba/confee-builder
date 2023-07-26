@@ -5,7 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { chatGateway, chatObserver, ChatService, useChatStore } from 'entities/chat';
 import { useMessageStore, messageGateway, messageObserver } from 'entities/message';
-import { ContactsModal } from 'features/user';
+import { AddContactModal, ContactsModal } from 'features/user';
 import { useMedia, useHeightMediaQuery, useWidthMediaQuery } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
@@ -57,6 +57,7 @@ function ChatsPage() {
     return (
         <>
             <ContactsModal />
+            <AddContactModal />
             <Box.Animated visible className={styles.page}>
                 <AnimatePresence mode="popLayout">
                     {isVisibleLeftSidebar() && (

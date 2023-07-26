@@ -28,12 +28,30 @@
   white-space: nowrap;
 }
 
-@mixin btn-actions() {
-  transition: transform var(--transition);
-  &:hover {
-    transform: scale(1.02);
+@mixin title($variant) {
+  @if ($variant == h1) {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 40px;
   }
-  &:active {
-    transform: scale(0.98);
+  @if ($variant == h2) {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+  @if ($variant == h3) {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+  @if ($variant == h4) {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+  @if ($variant == bodyL) {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
   }
 }

@@ -14,7 +14,9 @@ html {
   //input
   input {
     all: unset;
+    caret-color: var(--text-action-pressed);
   }
+
 
   ::-webkit-calendar-picker-indicator {
     cursor: pointer;
@@ -38,17 +40,18 @@ html {
   //scrollbar
 
   ::-webkit-scrollbar {
-    width: 4px;
+    width: 8px;
     height: 4px;
   }
 
   ::-webkit-scrollbar-track {
-    background: inherit;
+    background-color: var(--control-scroll-bg);
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--text-secondary);
+    background-color: var(--control-scroll);
     border-radius: 20px;
+
   }
 
   border-style: none;

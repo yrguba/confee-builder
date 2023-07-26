@@ -109,19 +109,19 @@ function MessageList(props: Props) {
                 reactionClick={reactionClick}
                 setContentForModal={setContentForModal}
             />
-            <Modal {...modalConfirmDelete} onOk={deleteMessages} onClose={() => setMessagesToDelete([])}>
-                <div>удалить сообщение ?</div>
-            </Modal>
-            <Modal {...modalChatsList} closeIcon={false} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}>
-                <ChatsListModal
-                    chats={chatsData?.data?.map((chat) => ChatProxy(chat)) || undefined}
-                    selectedChats={selectedChats}
-                    setSelectedChats={setSelectedChats}
-                />
-            </Modal>
-            <Modal {...modalSwiper} onOk={() => setContentForModal([])} onClose={() => setContentForModal([])}>
-                <SwiperModal startWithIt={1} files={contentForModal.map((i) => ({ ...i, url: `${http.url}${i.url}` }))} />
-            </Modal>
+            {/* <Modal {...modalConfirmDelete} onOk={deleteMessages} onClose={() => setMessagesToDelete([])}> */}
+            {/*    <div>удалить сообщение ?</div> */}
+            {/* </Modal> */}
+            {/* <Modal {...modalChatsList} closeIcon={false} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}> */}
+            {/*    <ChatsListModal */}
+            {/*        chats={chatsData?.data?.map((chat) => ChatProxy(chat)) || undefined} */}
+            {/*        selectedChats={selectedChats} */}
+            {/*        setSelectedChats={setSelectedChats} */}
+            {/*    /> */}
+            {/* </Modal> */}
+            {/* <Modal {...modalSwiper} onOk={() => setContentForModal([])} onClose={() => setContentForModal([])}> */}
+            {/*    <SwiperModal startWithIt={1} files={contentForModal.map((i) => ({ ...i, url: `${http.url}${i.url}` }))} /> */}
+            {/* </Modal> */}
         </>
     );
 }

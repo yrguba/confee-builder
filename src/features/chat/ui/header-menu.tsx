@@ -60,12 +60,12 @@ function ChatHeaderMenu() {
     return (
         <>
             <ChatHeaderMenuView openModal={confirmModal.isOpen || editChatModal.isOpen} items={openChat?.is_group ? itemsGroupChat : itemsPrivateChat} />
-            <Modal closeIcon={false} {...confirmModal} onOk={deleteChat} okText="Удалить" okStyle={{ backgroundColor: 'var(--red)' }}>
-                {openChat?.is_group ? 'Вы точно хотите удалить всю историю и выйти из группы?' : 'Вы точно хотите удалить чат?'}
-            </Modal>
-            <Modal {...editChatModal} headerText="Редактирование группы" okText="Сохранить">
-                <EditGroupChatModal chat={ChatService.getChatInList(chatId)} editChat={editChat} />
-            </Modal>
+            {/* <Modal closeIcon={false} {...confirmModal} onOk={deleteChat} okText="Удалить" okStyle={{ backgroundColor: 'var(--red)' }}> */}
+            {/*    {openChat?.is_group ? 'Вы точно хотите удалить всю историю и выйти из группы?' : 'Вы точно хотите удалить чат?'} */}
+            {/* </Modal> */}
+            {/* <Modal {...editChatModal} okText="Сохранить"> */}
+            {/*    <EditGroupChatModal chat={ChatService.getChatInList(chatId)} editChat={editChat} /> */}
+            {/* </Modal> */}
         </>
     );
 }

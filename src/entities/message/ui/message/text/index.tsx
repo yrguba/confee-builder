@@ -76,9 +76,9 @@ function TextMessageView(props: Props) {
                     <Message />
                 </Wrapper>
             )}
-            <Modal {...userInfoModal} onOk={() => setUser(null)} onClose={() => setUser(null)}>
-                <UserDossierView direction="column" user={user} />
-            </Modal>
+            {/* <Modal {...userInfoModal} onOk={() => setUser(null)} onClose={() => setUser(null)}> */}
+            {/*    <UserDossierView direction="column" user={user} /> */}
+            {/* </Modal> */}
         </>
     );
 }

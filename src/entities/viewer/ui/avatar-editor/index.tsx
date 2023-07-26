@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Avatar, Title, DropdownMenu, DropdownTypes, WebCamera, Box } from 'shared/ui';
+import { Avatar, Title, DropdownMenu, DropdownTypes, WebCameraPhoto, Box } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
@@ -34,7 +34,7 @@ function AvatarEditor(props: Props) {
     return (
         <div className={styles.wrapper}>
             <Box.Animated visible={visibleCamera} className={styles.webCamera}>
-                <WebCamera getScreenshot={action} />
+                <WebCameraPhoto getScreenshot={action} />
             </Box.Animated>
             <DropdownMenu closeAfterClick position="right-bottom" left={44} top={50} items={items}>
                 <div className={styles.circle}>

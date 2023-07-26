@@ -12,7 +12,6 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  @include btn-actions;
 
   svg{
     fill: var(--white) ;

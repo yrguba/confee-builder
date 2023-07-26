@@ -14,7 +14,7 @@ import AudioPlayer from './media-content/audio-player';
 import Document, { DocumentTypes } from './media-content/document';
 import Image, { ImageTypes } from './media-content/image';
 import ResponsiveMediaContents, { ResponsiveMediaContentsTypes } from './media-content/responsive-list';
-import WebCamera, { WebCamaraTypes } from './media-content/web-camera';
+import WebCameraPhoto, { WebCamaraPhotoTypes } from './media-content/web-camera-photo';
 import Modal, { ModalTypes, useModal } from './modal';
 import Navbar, { NavbarTypes } from './navbar';
 import Notification, { NotificationTypes } from './notification';
@@ -25,7 +25,7 @@ import Switch, { SwitchTypes } from './switch';
 import Title, { TitleTypes } from './title';
 
 export {
-    WebCamera,
+    WebCameraPhoto,
     Steps,
     Document,
     AudioPlayer,
@@ -55,7 +55,7 @@ export {
     DropdownMenu,
 };
 export type {
-    WebCamaraTypes,
+    WebCamaraPhotoTypes,
     StepsTypes,
     DocumentTypes,
     AvatarTypes,

@@ -9,7 +9,7 @@ type Props = {
 function SearchUsers(props: Props) {
     const { placeholder } = props;
 
-    return <Input.Search placeholder={placeholder} size="m" />;
+    return <Input placeholder={placeholder} size="m" />;
 }
 
 export default SearchUsers;

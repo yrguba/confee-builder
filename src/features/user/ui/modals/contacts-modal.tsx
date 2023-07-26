@@ -17,25 +17,23 @@ function ContactsModal(props: Props) {
 
     const openContactsModal = useUserStore.use.openContactsModal();
     const setOpenContactsModal = useUserStore.use.setOpenContactsModal();
+    const setOpenAddContactsModal = useUserStore.use.setOpenAddContactsModal();
 
     const contactsModal = useModal();
-    const addContactModal = useModal();
 
     useEffect(() => {
         openContactsModal ? contactsModal.open() : contactsModal.close();
     }, [openContactsModal]);
 
-    // useEffect(() => {
-    //     openAddContactModal ? addContactModal.open() : addContactModal.close();
-    // }, [openAddContactModal]);
+    const openAddContactsModal = () => {
+        setOpenContactsModal(false);
+        setOpenAddContactsModal(true);
+    };
 
     return (
         <>
             <Modal {...contactsModal} onClose={() => setOpenContactsModal(false)}>
-                <ContactsModalView />
-            </Modal>
-            <Modal {...addContactModal}>
-                <div>wdawdawdd</div>
+                <ContactsModalView openAddContactsModal={openAddContactsModal} />
             </Modal>
         </>
     );

@@ -2,6 +2,7 @@
 
 .wrapper {
   @include flex;
+  gap: 8px;
   border: 1px solid var(--border-primary);
   color: var(--text-action);
   border-radius: 12px;
@@ -9,16 +10,41 @@
   position: relative;
   overflow: hidden;
   white-space: nowrap;
+  transition: all .5s;
+  font-weight: 600;
 }
 
-.primary{
+.primary {
   background-color: var(--control-primary);
   color: var(--text-fixed);
+
+  &:hover {
+    background-color: var(--control-primary-pressed);
+  }
 }
 
-.active {
+.secondary {
+  color: var(--text-action-pressed);
+
+  &:hover {
+    border: 1px solid var(--border-primary-pressed);
+  }
+}
+
+.tertiary {
   border: none;
-  background-color: var(--control-primary);
+  color: var(--text-action);
+
+  &:hover {
+    color: var(--text-action-pressed);
+  }
+}
+
+.chips{
+  width: auto!important;
+  border-radius: 20px;
+  height: 40px !important;
+  padding: 0 16px;
 }
 
 .disabled {

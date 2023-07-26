@@ -27,7 +27,7 @@ function CreatePrivateChatModal(props: Props) {
         <div className={styles.wrapper}>
             <div className={styles.title}>Контакты ({users.length})</div>
             <div className={styles.search}>
-                <Input.Search width="100%" {...search} placeholder="Поиск" />
+                <Input width="100%" {...search} placeholder="Поиск" />
             </div>
             <div className={styles.list}>
                 {usersList.map((user) => (

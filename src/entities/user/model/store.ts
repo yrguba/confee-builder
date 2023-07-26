@@ -9,9 +9,11 @@ import { User } from './types';
 type Store = {
     selectedUsers: User[];
     openContactsModal: boolean;
+    openAddContactsModal: boolean;
     setSelectedUsers: (arg: User) => void;
     clearSelectedUsers: () => void;
     setOpenContactsModal: (val: boolean) => void;
+    setOpenAddContactsModal: (val: boolean) => void;
 };
 
 const userStore = create<Store>()(
@@ -19,6 +21,7 @@ const userStore = create<Store>()(
         immer((set) => ({
             selectedUsers: [],
             openContactsModal: false,
+            openAddContactsModal: false,
             setSelectedUsers: (user) =>
                 set((state) => {
                     const foundUserIndex = state.selectedUsers.findIndex((i) => i.id === user.id);
@@ -31,6 +34,10 @@ const userStore = create<Store>()(
             setOpenContactsModal: (val) =>
                 set((state) => {
                     state.openContactsModal = val;
+                }),
+            setOpenAddContactsModal: (val) =>
+                set((state) => {
+                    state.openAddContactsModal = val;
                 }),
         }))
     )

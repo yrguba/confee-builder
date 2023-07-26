@@ -6,7 +6,7 @@ export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'w
 
 export type InputValue = InputAttrs['value'];
 
-type Size = number | 's' | 'm' | 'l' | 'xl' | 'xxl';
+type Size = number | 's' | 'm';
 
 type Shared = {
     size?: Size;
@@ -19,21 +19,17 @@ type Shared = {
 } & InputAttrs &
     BaseTypes.Statuses;
 
-export type WrapperProps = {
-    children: ReactNode;
-    size?: Size;
-    width?: string | number;
-    height?: string | number;
-    title?: string;
-    errorTitle?: string;
-} & BaseTypes.Statuses;
-
 export type BaseInputProps = {
     clearIcon?: boolean;
     prefix?: string;
+    prefixIcon?: 'search';
     debounceDelay?: number;
     debounceCallback?: (arg: InputValue) => void;
     clear?: () => void;
+} & Shared;
+
+export type CountriesInputProps = {
+    getCode: (code: string) => void;
 } & Shared;
 
 export type InputDatePickerProps = {} & Shared;

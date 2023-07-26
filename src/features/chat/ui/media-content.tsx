@@ -50,9 +50,9 @@ function ChatMediaContent(props: Props) {
     return (
         <>
             <ResponsiveMediaContents imgClick={imgClick} type={type as any} list={files || []} gap={gap} imgSize={imgSize} hardGrid={hardGrid} />
-            <Modal {...modalSwiper} onOk={modalSwiper.close} onClose={modalSwiper.close}>
-                <SwiperModal startWithIt={startWithIt} files={files as any} />
-            </Modal>
+            {/* <Modal {...modalSwiper} onOk={modalSwiper.close} onClose={modalSwiper.close}> */}
+            {/*    <SwiperModal startWithIt={startWithIt} files={files as any} /> */}
+            {/* </Modal> */}
         </>
     );
 }
