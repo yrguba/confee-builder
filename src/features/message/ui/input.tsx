@@ -7,14 +7,12 @@ import { MessageApi, MessageInputView, useMessageStore } from 'entities/message'
 import { UserTypes } from 'entities/user';
 import { ViewerService } from 'entities/viewer';
 import { useAudioRecorder } from 'shared/hooks';
-import { Modal, useModal } from 'shared/ui';
 
 type Props = {};
 
 function MessageInput(props: Props) {
     const params = useParams();
     const chatId = Number(params.chat_id);
-    const modalMediaContent = useModal();
 
     const { mutate: handleSendTextMessage, isLoading } = MessageApi.handleSendTextMessage();
     const { mutate: handleSendFileMessage } = MessageApi.handleSendFileMessage();
@@ -109,7 +107,7 @@ function MessageInput(props: Props) {
     }, [messageToEdit]);
 
     useEffect(() => {
-        if (mediaContentToSend) modalMediaContent.open();
+        // if (mediaContentToSend) modalMediaContent.open();
     }, [mediaContentToSend]);
 
     useEffect(() => {

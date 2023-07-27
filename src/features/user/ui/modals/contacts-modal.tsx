@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { ContactsModalView, useUserStore } from 'entities/user';
-import { usePrevious } from 'shared/hooks';
-import { Modal, useModal } from 'shared/ui';
+import { useModal } from 'shared/hooks';
+import { Modal } from 'shared/ui';
 
 type Props = {
     direction?: 'column' | 'row';

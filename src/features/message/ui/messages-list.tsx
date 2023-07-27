@@ -4,8 +4,7 @@ import { useParams } from 'react-router';
 import { ChatApi, ChatService, useChatStore, ChatProxy } from 'entities/chat';
 import { messageProxy, MessageApi, MessagesListView, useMessageStore, MessageTypes } from 'entities/message';
 import { ViewerService } from 'entities/viewer';
-
-import { Modal, useModal } from '../../../shared/ui';
+import { useModal } from 'shared/hooks';
 
 type Props = {};
 

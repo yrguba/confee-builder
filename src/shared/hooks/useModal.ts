@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { UseModalReturned } from './types';
+import { UseModalReturned } from '../ui/modal/types';
 
 function useModal(): UseModalReturned {
     const [isOpen, setIsOpen] = useState<boolean>(false);

@@ -13,7 +13,7 @@ import AudioPlayer from './media-content/audio-player';
 import Document, { DocumentTypes } from './media-content/document';
 import Image, { ImageTypes } from './media-content/image';
 import WebCameraPhoto, { WebCamaraPhotoTypes } from './media-content/web-camera-photo';
-import Modal, { ModalTypes, useModal } from './modal';
+import Modal, { ModalTypes } from './modal';
 import Navbar, { NavbarTypes } from './navbar';
 import Notification, { NotificationTypes } from './notification';
 import Pagination, { PaginationTypes } from './pagination';
@@ -38,7 +38,6 @@ export {
     LoadingIndicator,
     Title,
     Modal,
-    useModal,
     Switch,
     Navbar,
     Select,

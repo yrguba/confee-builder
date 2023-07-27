@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChatListView, ChatApi, ChatTypes, ChatService, useChatStore } from 'entities/chat';
 import { UserTypes, UserApi } from 'entities/user';
 import { ViewerService } from 'entities/viewer';
-import { useModal, Modal } from 'shared/ui';
+import { useModal } from 'shared/hooks';
 
 import ChatProxy from '../../../entities/chat/lib/chat-proxy';
 

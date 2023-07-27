@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ChatHeaderMenuView, ChatApi, ChatService, useChatStore } from 'entities/chat';
-import { useModal, Modal } from 'shared/ui';
+import { useModal } from 'shared/hooks';
 
 function ChatHeaderMenu() {
     const navigate = useNavigate();

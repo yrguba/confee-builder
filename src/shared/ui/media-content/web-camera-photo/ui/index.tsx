@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
 
-import { useSize, useMedia } from 'shared/hooks';
+import { useModal, useMedia } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import Button from '../../../button';
-import { Modal, useModal } from '../../../index';
+import { Modal } from '../../../index';
 import Image from '../../image';
 import { WebCameraProps } from '../types';
 

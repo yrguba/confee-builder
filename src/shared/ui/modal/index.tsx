@@ -1,6 +1,5 @@
 import * as ModalTypes from './types';
 import Modal from './ui';
-import useModal from './useModal';
 
-export { ModalTypes, useModal };
+export { ModalTypes };
 export default Modal;

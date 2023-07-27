@@ -6,14 +6,15 @@ import styles from './styles.module.scss';
 import { Props } from '../types';
 
 function Title(props: Props) {
-    const { children, isError, variant } = props;
+    const { children, isError, primary = true, variant } = props;
 
     const cx = cnBind.bind(styles);
 
     const classes = cn(
-        cx('title', {
+        cx('wrapper', {
             error: isError,
-            variant,
+            [variant]: variant,
+            primary: !!primary,
         })
     );
 

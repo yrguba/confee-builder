@@ -26,6 +26,7 @@ import useEnding from './useEnding';
 import useFileDownloads from './useFileDownloads';
 import useInput from './useInput';
 import useMedia from './useMedia';
+import useModal from './useModal';
 import useRandomString from './useRandomString';
 import useReverseTimer from './useReverseTimer';
 import useRowAndDropdown from './useRowAndDropdown';
@@ -41,6 +42,7 @@ const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
     useWidthMediaQuery,
     useHeightMediaQuery,
+    useModal,
     useRandomString,
     useDownloader,
     useFileDownloads,

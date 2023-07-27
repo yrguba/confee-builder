@@ -25,14 +25,18 @@
 
   .body {
     @include flex-column(flex-start, flex-start);
-
     width: 90%;
     flex: 1;
     margin-top: 16px;
+    gap: 20px;
 
     .nav{
       @include flex;
       gap: 8px;
+    }
+
+    .list{
+      width: 100%;
     }
 
   }

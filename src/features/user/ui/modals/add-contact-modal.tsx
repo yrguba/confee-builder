@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { AddContactModalView, useUserStore } from 'entities/user';
-import { useInput, usePrevious } from 'shared/hooks';
-import { Modal, useModal } from 'shared/ui';
+import { useInput, useModal } from 'shared/hooks';
+import { Modal } from 'shared/ui';
 
 import { yup } from '../../../../entities/viewer';
 

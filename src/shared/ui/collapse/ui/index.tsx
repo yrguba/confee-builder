@@ -3,11 +3,11 @@ import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import { useToggle } from '../../../hooks';
 import Icons from '../../icons';
-import { Box } from '../../index';
+import { Box, Title } from '../../index';
 import { CollapseProps } from '../types';
 
 function Collapse(props: CollapseProps) {
-    const { title, children, titleClassName, isOpen, headerClassName, onTitleClick, openByClickingOnArrow, createAction } = props;
+    const { title, children, subtitle, titleClassName, isOpen, headerClassName, onTitleClick, openByClickingOnArrow, createAction } = props;
     const [visible, toggle] = useToggle();
 
     const headerClick = () => {
@@ -35,7 +35,15 @@ function Collapse(props: CollapseProps) {
         <div className={styles.wrapper}>
             <div className={`${styles.header} ${headerClassName}`} onClick={headerClick}>
                 <div className={`${styles.title} ${titleClassName}`} onClick={titleClick}>
-                    <div className={styles.text}> {title}</div>
+                    <div className={styles.caption}>
+                        <Title primary variant="H4S">
+                            {title}
+                        </Title>
+                        <Title primary={false} variant="H4M">
+                            {subtitle}
+                        </Title>
+                    </div>
+
                     {createAction && (
                         <div onClick={plusClick} className={styles.plus}>
                             <Icons variants="plus" />

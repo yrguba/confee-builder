@@ -2,6 +2,7 @@ import { ReactNode, CSSProperties } from 'react';
 
 export type CollapseProps = {
     title: string;
+    subtitle?: string;
     titleClassName?: string;
     headerClassName?: string;
     children: ReactNode;

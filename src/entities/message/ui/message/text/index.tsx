@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 
 import { UserTypes } from 'entities/user';
 import { BaseTypes } from 'shared/types';
-import { Modal, useModal } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { MessageProxy } from '../../../model/types';
@@ -21,7 +20,6 @@ function TextMessageView(props: Props) {
     const { message, wrapper = true, reactionClick, chatUsers } = props;
 
     const [user, setUser] = useState<UserTypes.User | null>(null);
-    const userInfoModal = useModal();
 
     const options = {
         render: {
@@ -42,10 +40,6 @@ function TextMessageView(props: Props) {
             },
         },
     };
-
-    useEffect(() => {
-        user ? userInfoModal.open() : userInfoModal.close();
-    }, [user]);
 
     const checkLongWord = (str: string) => {
         return str?.split(' ')?.map((word, index) =>
@@ -76,9 +70,6 @@ function TextMessageView(props: Props) {
                     <Message />
                 </Wrapper>
             )}
-            {/* <Modal {...userInfoModal} onOk={() => setUser(null)} onClose={() => setUser(null)}> */}
-            {/*    <UserDossierView direction="column" user={user} /> */}
-            {/* </Modal> */}
         </>
     );
 }

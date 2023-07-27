@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { useInput } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Icons, Input, LoadingIndicator } from 'shared/ui';
+import { Button, Icons, Input, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useInput, useStyles } from '../../../../../shared/hooks';
-import { ViewerTypes } from '../../../../viewer';
-import { User } from '../../../model/types';
-import UserStatusView from '../../status';
 
 type Props = {
     openAddContactsModal: () => void;
@@ -19,12 +16,25 @@ function ContactsModalView(props: Props) {
     const searchInput = useInput();
 
     const [activeTab, setActiveTab] = useState(0);
-
+    const [ac, setAc] = useState<any>([]);
     const btns = [
         { id: 0, title: 'Все', onClick: () => setActiveTab(0) },
         { id: 1, title: 'Softworks', onClick: () => setActiveTab(1) },
         { id: 2, title: 'Личные', onClick: () => setActiveTab(2) },
     ];
+
+    useEffect(() => {
+        const arr = [];
+        for (let i = 0; i < 10; i++) {
+            const obj = {
+                id: i,
+                title: `item${i}`,
+                subtitle: `sub${i}`,
+            };
+            arr.push(obj);
+        }
+        setAc(arr);
+    }, []);
 
     return (
         <div className={styles.wrapper}>
@@ -42,7 +52,11 @@ function ContactsModalView(props: Props) {
                         </Button>
                     ))}
                 </div>
-                <div className={styles.list}>dwd</div>
+                <div className={styles.list}>
+                    <Collapse subtitle="wdwd" title="wdad">
+                        eff
+                    </Collapse>
+                </div>
             </div>
             <div className={styles.footer}>
                 <Button onClick={openAddContactsModal} prefixIcon={<Icons variants="addContact" />} variant="secondary">
