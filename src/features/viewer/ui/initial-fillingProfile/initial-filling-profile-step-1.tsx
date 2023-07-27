@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { enums } from 'entities/app';
 import { useViewerStore, ViewerApi, InitialFillingProfileStep1View, yup } from 'entities/viewer';
-import { ErrorsNames } from 'shared/enums';
 import { useInput } from 'shared/hooks';
 
 function InitialFillingProfileStep1() {
@@ -22,7 +22,7 @@ function InitialFillingProfileStep1() {
         const { error } = await nicknameInput.asyncValidate();
         const { exists } = await handleCheckNickname({ nickname: nicknameInput.value });
         if (exists && data?.data?.data.nickname !== nicknameInput.value) {
-            return nicknameInput.setError(ErrorsNames.nickname_exists);
+            return nicknameInput.setError(enums.ErrorsNames.nickname_exists);
         }
         if (!error) {
             handleEditProfile(

@@ -1,6 +1,6 @@
 import Cookies from 'universal-cookie';
 
-import { StorageObjectsNames } from 'shared/enums';
+import StorageObjectsNames from './enums';
 
 const cookies = new Cookies();
 

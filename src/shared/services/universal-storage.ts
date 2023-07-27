@@ -4,8 +4,9 @@
 // что бы постоянно не лазитьь на жесткий диск, во время сессии берем то что нужно из лс или кук.
 // при каждом новом запуске таури, бновляем куки или лс по мере необходимости из файлов на жеском диске.
 
-import { StorageObjectsNames } from 'shared/enums';
 import { storages } from 'shared/lib';
+
+import StorageObjectsNames from '../lib/storages/enums';
 
 // @ts-ignore
 const tauriIsRunning = !!window.__TAURI__;

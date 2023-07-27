@@ -1,4 +1,5 @@
 import ViewerService from './lib/service';
+import TokensService from './lib/tokens-service';
 import * as yup from './lib/yup';
 import ViewerApi from './model/api';
 import useViewerStore from './model/store';
@@ -22,4 +23,5 @@ export {
     InitialFillingProfileStep3View,
     AvatarEditor,
     yup,
+    TokensService,
 };

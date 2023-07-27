@@ -1,7 +1,8 @@
 import { writeTextFile, BaseDirectory, createDir, exists, readTextFile, removeFile } from '@tauri-apps/api/fs';
 
 import { AppService } from 'entities/app';
-import { StorageObjectsNames } from 'shared/enums';
+
+import StorageObjectsNames from './enums';
 
 const { name: projectName } = AppService.getProjectInfo();
 const dirInDocument = BaseDirectory.Document;

@@ -2,9 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axiosClient } from 'shared/configs';
 import { handlers } from 'shared/lib';
-import { TokenService, UniversalStorage } from 'shared/services';
 
-import useViewerStore from './store';
 import { Viewer } from './types';
 
 class ViewerApi {

@@ -1,4 +1,4 @@
-import { StorageObjectsNames } from 'shared/enums';
+import StorageObjectsNames from './enums';
 
 const ls = window.localStorage;
 export const set = (name: keyof typeof StorageObjectsNames, value: any) => {

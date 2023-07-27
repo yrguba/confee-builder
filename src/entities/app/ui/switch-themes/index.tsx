@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { ThemesNames } from 'shared/enums';
 import { Button, Select, Switch } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
+import { ThemesNames } from '../../model/enums';
 
 type KeyofThemes = keyof typeof ThemesNames;
 

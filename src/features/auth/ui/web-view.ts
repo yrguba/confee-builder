@@ -8,8 +8,8 @@ import { useLocation } from 'react-router-dom';
 import { useSearchParam } from 'react-use';
 
 import { AppService } from 'entities/app';
+import { TokensService } from 'entities/viewer';
 import { useRandomString } from 'shared/hooks';
-import { TokenService } from 'shared/services';
 
 const authorizeEndpoint = 'oauth/authorize';
 const tokenEndpoint = 'oauth/token';
@@ -49,7 +49,7 @@ const webView = () => {
 
         axios.post(`${url}/${tokenEndpoint}`, body).then((res) => {
             if (res.data.access_token) {
-                TokenService.save({
+                TokensService.save({
                     access_token: res.data.access_token,
                     refresh_token: res.data.refresh_token,
                 });

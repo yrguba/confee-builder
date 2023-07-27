@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import 'moment/locale/ru';
-import { AppGateway } from 'entities/app';
+import { AppGateway, appObserver } from 'entities/app';
 import { Notification } from 'features/app';
 import Routing from 'pages';
 import './index.scss';
@@ -18,6 +18,7 @@ moment.locale('ru');
 function App() {
     useWebSocket();
     AppGateway();
+    appObserver();
 
     const isIdle = useIdle(5000);
 

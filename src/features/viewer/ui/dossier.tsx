@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { ViewerDossierView, ViewerApi, useViewerStore } from 'entities/viewer';
+import { ViewerDossierView, ViewerApi, useViewerStore, TokensService } from 'entities/viewer';
 import { useFileUploader } from 'shared/hooks';
-import { TokenService } from 'shared/services';
 import { Modal, useModal } from 'shared/ui';
 
 function ViewerDossier() {
@@ -23,7 +22,7 @@ function ViewerDossier() {
     const logoutClick = () => {
         handleLogout(null, {
             onSuccess: () => {
-                TokenService.remove();
+                TokensService.remove();
                 window.location.reload();
             },
         });

@@ -10,7 +10,7 @@ function Notification() {
     const deleteFirstNotifications = useAppStore.use.deleteFirstNotifications();
     const prev = usePrevious(notifications.length);
 
-    const not_scope = UniversalStorage.localStorageGet('not_scope');
+    const not_scope = UniversalStorage.localStorageGet('notification_scope');
 
     const timeout = 5000;
 

@@ -1,4 +1,4 @@
-enum ErrorsNames {
+export enum ErrorsNames {
     required = 'Поле обязательно для заполнения',
     login = 'Логин не найден',
     wrong_format = 'неверный формат',
@@ -13,4 +13,7 @@ enum ErrorsNames {
     long_nickname = 'Слишком длинный nickname',
 }
 
-export default ErrorsNames;
+export enum ThemesNames {
+    light = 'light',
+    dark = 'dark',
+}
