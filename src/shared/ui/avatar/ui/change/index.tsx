@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Avatar, Title, DropdownMenu, DropdownTypes, WebCameraPhoto, Box } from 'shared/ui';
 
@@ -10,17 +10,23 @@ function AvatarChange(props: AvatarChangeProps) {
     const { img, name, selectFile, size = 80, deleteFile, getScreenshot } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
-
+    const [screenshot, setScreenshot] = useState(false);
     const action = (data: string) => {
         setVisibleCamera(false);
         getScreenshot(data);
+        setScreenshot(true);
     };
 
     const items: DropdownTypes.DropdownMenuItem[] = [
         { id: 0, icon: <Icons variants="select" />, title: 'Выбрать файл', action: selectFile },
         { id: 1, icon: <Icons variants="makePhoto" />, title: 'Сделать фото', action: () => setVisibleCamera(!visibleCamera) },
-        { id: 2, icon: <Icons variants="delete" />, isRed: true, title: 'Удалить фото', action: deleteFile },
     ];
+
+    useEffect(() => {
+        if (screenshot) {
+            items.push({ id: 2, icon: <Icons variants="delete" />, isRed: true, title: 'Удалить фото', action: deleteFile });
+        }
+    }, [screenshot]);
 
     return (
         <div className={styles.wrapper}>

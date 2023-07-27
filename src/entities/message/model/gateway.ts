@@ -12,9 +12,6 @@ function messageGateway() {
     const { onMessage } = useWebSocket();
 
     useEffect(() => {
-        onMessage('UWS_CLIENT_IDENTIFICATION', (data: any) => {
-            console.log(data);
-        });
         // socketIo.on('receiveMessage', ({ message }) => {
         //     console.log('receiveMessage', message);
         //     const viewerData: any = queryClient.getQueryData(['get-viewer']);

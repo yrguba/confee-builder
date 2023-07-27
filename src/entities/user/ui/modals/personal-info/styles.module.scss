@@ -7,13 +7,6 @@
   gap: 24px;
   padding: 32px 24px;
 
-  .header {
-    width: 100%;
-    @include flex-column();
-    gap: 4px;
-    color: var(--text-primary);
-  }
-
   .body {
     @include flex-column(space-between, center);
     width: 100%;
@@ -28,7 +21,7 @@
       .left {
         width: 84%;
         @include flex-column;
-        gap: 6px;
+        gap: 2px;
 
         .aboutMe{
           width: 100%;

@@ -6,8 +6,6 @@
   cursor: pointer;
 
   .circle {
-    margin: 12px 0;
-    //@include box-size(100px, 100px);
     position: relative;
     overflow: hidden;
     border-radius: 50%;
@@ -22,7 +20,7 @@
       @include box-size(100px, 30px);
       position: absolute;
       bottom: 0;
-      left: 0;
+      left: -10px;
       font-style: normal;
       font-weight: 600;
       line-height: 18px;

@@ -1,14 +1,10 @@
-import React, { ReactNode, useState } from 'react';
+import React from 'react';
 
-import { UseInputReturnedTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Icons, Input, LoadingIndicator, Select, Title } from 'shared/ui';
+import { Avatar, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useInput, useStyles } from '../../../../../shared/hooks';
-import { ViewerTypes } from '../../../../viewer';
 import { User } from '../../../model/types';
-import UserStatusView from '../../status';
 
 type Props = {
     user: User | BaseTypes.Empty;
@@ -17,10 +13,6 @@ type Props = {
 
 function PersonalInfoModalView(props: Props) {
     const { user, isViewer } = props;
-    console.log(user);
-    const [codeCountry, setCodeCountry] = useState('+7');
-
-    const [activeTab, setActiveTab] = useState(0);
 
     const items = [
         { id: 0, title: `${user?.first_name} ${user?.last_active}`, subtitle: 'Имя и фамилия' },
@@ -37,12 +29,7 @@ function PersonalInfoModalView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.header}>
-                <Title variant="H2">Личная информация</Title>
-            </div>
-            {/* <ItemWrapper> */}
-            {/*    <div className={styles.header}>dwadd</div> */}
-            {/* </ItemWrapper> */}
+            <Title variant="H2">Личная информация</Title>
             <div className={styles.body}>
                 {items.map((item) => (
                     <div key={item.id} className={styles.item}>
