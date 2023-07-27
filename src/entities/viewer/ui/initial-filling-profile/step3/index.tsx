@@ -27,7 +27,7 @@ function InitialFillingProfileStep3View(props: Props) {
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.avatar}>
                 <div className={styles.title}>
-                    <Avatar.Change avatar={avatar} deleteFile={deleteFile} selectFile={selectFile} getScreenshot={getScreenshot} user={viewer} />
+                    <Avatar.Change img={avatar || ''} deleteFile={deleteFile} selectFile={selectFile} getScreenshot={getScreenshot} />
                 </div>
             </div>
             <div className={styles.input}>

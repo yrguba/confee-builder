@@ -14,7 +14,8 @@ export type BaseIconsProps = {
         | 'doubleCheck'
         | 'clock'
         | 'addContact'
-        | 'downArrow';
+        | 'downArrow'
+        | 'rightArrow';
 
     color?: string;
     size?: number;

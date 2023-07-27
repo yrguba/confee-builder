@@ -7,7 +7,7 @@
 
   .circle {
     margin: 12px 0;
-    @include box-size(100px, 100px);
+    //@include box-size(100px, 100px);
     position: relative;
     overflow: hidden;
     border-radius: 50%;

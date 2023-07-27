@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 import { Props } from '../types';
 
 function Title(props: Props) {
-    const { children, isError, primary = true, variant } = props;
+    const { children, isError, textWrap, primary = true, variant } = props;
 
     const cx = cnBind.bind(styles);
 
@@ -14,7 +14,8 @@ function Title(props: Props) {
         cx('wrapper', {
             error: isError,
             [variant]: variant,
-            primary: !!primary,
+            primary,
+            textWrap,
         })
     );
 

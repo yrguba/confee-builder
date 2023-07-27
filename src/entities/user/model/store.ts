@@ -9,8 +9,10 @@ import { User } from './types';
 type Store = {
     openContactsModal: boolean;
     openAddContactsModal: boolean;
+    openPersonalInfoModal: boolean;
     setOpenContactsModal: (val: boolean) => void;
     setOpenAddContactsModal: (val: boolean) => void;
+    setOpenPersonalInfoModal: (val: boolean) => void;
 };
 
 const userStore = create<Store>()(
@@ -18,6 +20,7 @@ const userStore = create<Store>()(
         immer((set) => ({
             openContactsModal: false,
             openAddContactsModal: false,
+            openPersonalInfoModal: false,
             setOpenContactsModal: (val) =>
                 set((state) => {
                     state.openContactsModal = val;
@@ -25,6 +28,10 @@ const userStore = create<Store>()(
             setOpenAddContactsModal: (val) =>
                 set((state) => {
                     state.openAddContactsModal = val;
+                }),
+            setOpenPersonalInfoModal: (val) =>
+                set((state) => {
+                    state.openPersonalInfoModal = val;
                 }),
         }))
     )

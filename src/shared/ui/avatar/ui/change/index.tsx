@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { AvatarChangeProps } from '../../types';
 
 function AvatarChange(props: AvatarChangeProps) {
-    const { avatar, user, selectFile, deleteFile, getScreenshot } = props;
+    const { img, name, selectFile, size = 80, deleteFile, getScreenshot } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
 
@@ -29,7 +29,7 @@ function AvatarChange(props: AvatarChangeProps) {
             </Box.Animated>
             <DropdownMenu closeAfterClick position="right-bottom" left={44} top={50} items={items}>
                 <div className={styles.circle}>
-                    <Avatar img={avatar || ''} name={user?.first_name} size={100} />
+                    <Avatar img={img || ''} name={name} size={size} />
                     <div className={styles.cover}>Сменить</div>
                 </div>
             </DropdownMenu>

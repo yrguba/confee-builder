@@ -9,9 +9,7 @@ export type AvatarProps = {
 };
 
 export type AvatarChangeProps = {
-    user: UserTypes.User | BaseTypes.Empty;
     selectFile: () => void;
     getScreenshot: (data: string) => void;
     deleteFile: () => void;
-    avatar?: string;
-};
+} & AvatarProps;
