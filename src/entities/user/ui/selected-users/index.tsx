@@ -5,7 +5,6 @@ import { BaseTypes } from 'shared/types';
 import { Box, Collapse, Avatar, Icons, Button, Navbar } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { http } from '../../../../shared/constanst';
 import { User } from '../../model/types';
 
 type Props = {

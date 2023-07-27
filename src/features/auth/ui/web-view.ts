@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSearchParam } from 'react-use';
 
-import { http } from 'shared/constanst';
+import { AppService } from 'entities/app';
 import { useRandomString } from 'shared/hooks';
 import { TokenService } from 'shared/services';
 
@@ -19,6 +19,8 @@ const codeVerifier = 'mYCO3rcUzhc6RkTKbwurKhDHIIHuc0ojKj2bH9xnOK0fUeSRwki8fSmLDj
 
 const webView = () => {
     const { pathname } = useLocation();
+
+    const { url } = AppService.getUrls();
 
     const hashed = SHA256(codeVerifier);
     const params = {
@@ -45,7 +47,7 @@ const webView = () => {
             code,
         };
 
-        axios.post(`${http.url}/${tokenEndpoint}`, body).then((res) => {
+        axios.post(`${url}/${tokenEndpoint}`, body).then((res) => {
             if (res.data.access_token) {
                 TokenService.save({
                     access_token: res.data.access_token,
@@ -53,11 +55,11 @@ const webView = () => {
                 });
                 window.location.reload();
             } else {
-                window.location.href = `${http.url}/${authorizeEndpoint}?${buildParams}`;
+                window.location.href = `${url}/${authorizeEndpoint}?${buildParams}`;
             }
         });
     } else {
-        window.location.href = `${http.url}/${authorizeEndpoint}?${buildParams}`;
+        window.location.href = `${url}/${authorizeEndpoint}?${buildParams}`;
     }
 
     return null;

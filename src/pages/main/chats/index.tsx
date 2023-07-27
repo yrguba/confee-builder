@@ -1,8 +1,6 @@
 import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
-import { routing_tree } from 'shared/routing';
-
 import ChatsPage from './ui';
 import { MessagesList } from './widgets';
 

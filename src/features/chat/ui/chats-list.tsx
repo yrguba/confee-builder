@@ -3,7 +3,6 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import { ChatListView, ChatApi, ChatTypes, ChatService, useChatStore } from 'entities/chat';
-import { CreatePrivateChatModal, CreateGroupChatModal } from 'entities/modal';
 import { UserTypes, UserApi } from 'entities/user';
 import { ViewerService } from 'entities/viewer';
 import { useModal, Modal } from 'shared/ui';
@@ -101,12 +100,6 @@ function ChatsList() {
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
             />
-            {/* <Modal footer={false} {...createPrivateChatModal}> */}
-            {/*    <CreatePrivateChatModal users={usersData?.data?.data || []} userClick={createPrivateChat} /> */}
-            {/* </Modal> */}
-            {/* <Modal loading={loadingCreateGroupChat} okText="Создать" {...createGroupChatModal}> */}
-            {/*    <CreateGroupChatModal loading={loadingCreateGroupChat} createChat={createGroupChat} users={usersData?.data?.data || []} /> */}
-            {/* </Modal> */}
         </>
     );
 }

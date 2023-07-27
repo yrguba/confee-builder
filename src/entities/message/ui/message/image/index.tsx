@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 
-import { http } from 'shared/constanst';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -26,7 +25,7 @@ function ImageMessageView(props: Props) {
                     <div key={row.id} className={styles.row}>
                         {row.columns.map((column) => (
                             <div key={column.id} style={{ width: column.width, height: column.height }} className={styles.column}>
-                                <Image img={http.url + column.url} />
+                                {/* <Image img={http.url + column.url} /> */}
                             </div>
                         ))}
                     </div>

@@ -38,7 +38,7 @@ function AvatarEditor(props: Props) {
             </Box.Animated>
             <DropdownMenu closeAfterClick position="right-bottom" left={44} top={50} items={items}>
                 <div className={styles.circle}>
-                    <Avatar withHttp={false} img={avatar || ''} name={viewer?.first_name} size={100} />
+                    <Avatar img={avatar || ''} name={viewer?.first_name} size={100} />
                     <div className={styles.cover}>Сменить</div>
                 </div>
             </DropdownMenu>

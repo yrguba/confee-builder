@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { useAppStore } from 'entities/app';
-import { tauri } from 'shared/constanst';
+import { useAppStore, AppService } from 'entities/app';
 import { useFileDownloads, useDownloader } from 'shared/hooks';
 
 import Icons from './icons';
@@ -13,12 +12,13 @@ function Document(props: DocumentProps) {
 
     const { save } = useFileDownloads();
 
+    const { tauriIsRunning } = AppService;
     const setNotifications = useAppStore.use.setNotifications();
 
     const { elapsed, percentage, download, cancel, error, isInProgress } = useDownloader();
 
     const click = async () => {
-        if (tauri.isRunning) {
+        if (tauriIsRunning) {
             await save(url, name);
             setNotifications({ text: `Файл ${name} сохранен в папку 'загрузки'`, description: '', scope: 'app', system: true });
         } else {

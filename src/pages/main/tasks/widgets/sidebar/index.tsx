@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { FilterByCreationDate, FilterByDeadLine, FilterByCustomer, FilterByPriority } from 'features/task';
 import { Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -12,12 +11,7 @@ function Sidebar() {
                 <Icons variants="filter" />
                 <div className={styles.title}>Фильтры</div>
             </div>
-            <div className={styles.filters}>
-                <FilterByCreationDate />
-                <FilterByDeadLine />
-                <FilterByCustomer />
-                <FilterByPriority />
-            </div>
+            <div className={styles.filters} />
         </div>
     );
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { project } from 'shared/constanst';
 import { Button } from 'shared/ui';
 
 import styles from './styles.module.scss';

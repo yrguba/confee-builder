@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 
-import { http } from 'shared/constanst';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -21,7 +20,7 @@ function DocumentMessageView(props: Props) {
             <div className={styles.wrapper}>
                 {message.files.map((file, index) => (
                     <div key={index} className={styles.row}>
-                        <Document url={http.url + file.url} size={file.size} name={file.name} />
+                        {/* <Document url={http.url + file.url} size={file.size} name={file.name} /> */}
                     </div>
                 ))}
             </div>

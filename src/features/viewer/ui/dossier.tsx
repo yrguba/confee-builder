@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { SwiperModal } from 'entities/modal';
 import { ViewerDossierView, ViewerApi, useViewerStore } from 'entities/viewer';
 import { useFileUploader } from 'shared/hooks';
 import { TokenService } from 'shared/services';
@@ -46,9 +45,6 @@ function ViewerDossier() {
     return (
         <>
             <ViewerDossierView viewer={data?.data?.data} logoutClick={logoutClick} replaceAvatarClick={open} loading={isLoading} />
-            {/* <Modal {...modalAvatar} onClose={clear} onOk={sendAvatar}> */}
-            {/*    <SwiperModal startWithIt={1} files={[{ url: files[0]?.fileUrl, size: 0, name: '', extension: 'img' }]} /> */}
-            {/* </Modal> */}
         </>
     );
 }

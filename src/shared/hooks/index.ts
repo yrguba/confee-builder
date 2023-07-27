@@ -23,9 +23,7 @@ import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
 import useDate from './useDate';
 import useEnding from './useEnding';
-import useError from './useError';
 import useFileDownloads from './useFileDownloads';
-import useGrid from './useGrid';
 import useInput from './useInput';
 import useMedia from './useMedia';
 import useRandomString from './useRandomString';
@@ -41,7 +39,6 @@ import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
-    useError,
     useWidthMediaQuery,
     useHeightMediaQuery,
     useRandomString,
@@ -66,7 +63,6 @@ export {
     usePrevious,
     useEnding,
     useWindowSize,
-    useGrid,
     useDate,
     useScroll,
     useScrollTo,

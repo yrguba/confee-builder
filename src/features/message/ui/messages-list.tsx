@@ -3,10 +3,8 @@ import { useParams } from 'react-router';
 
 import { ChatApi, ChatService, useChatStore, ChatProxy } from 'entities/chat';
 import { messageProxy, MessageApi, MessagesListView, useMessageStore, MessageTypes } from 'entities/message';
-import { ChatsListModal, MediaContentModal, SwiperModal } from 'entities/modal';
 import { ViewerService } from 'entities/viewer';
 
-import { http } from '../../../shared/constanst';
 import { Modal, useModal } from '../../../shared/ui';
 
 type Props = {};
@@ -109,19 +107,6 @@ function MessageList(props: Props) {
                 reactionClick={reactionClick}
                 setContentForModal={setContentForModal}
             />
-            {/* <Modal {...modalConfirmDelete} onOk={deleteMessages} onClose={() => setMessagesToDelete([])}> */}
-            {/*    <div>удалить сообщение ?</div> */}
-            {/* </Modal> */}
-            {/* <Modal {...modalChatsList} closeIcon={false} onOk={onOkModalChatsList} onClose={onCloseModalChatsList}> */}
-            {/*    <ChatsListModal */}
-            {/*        chats={chatsData?.data?.map((chat) => ChatProxy(chat)) || undefined} */}
-            {/*        selectedChats={selectedChats} */}
-            {/*        setSelectedChats={setSelectedChats} */}
-            {/*    /> */}
-            {/* </Modal> */}
-            {/* <Modal {...modalSwiper} onOk={() => setContentForModal([])} onClose={() => setContentForModal([])}> */}
-            {/*    <SwiperModal startWithIt={1} files={contentForModal.map((i) => ({ ...i, url: `${http.url}${i.url}` }))} /> */}
-            {/* </Modal> */}
         </>
     );
 }

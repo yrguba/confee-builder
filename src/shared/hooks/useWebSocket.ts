@@ -1,9 +1,11 @@
 import { useState } from 'react';
 
-import { http } from '../constanst';
+import { AppService } from 'entities/app';
+
 import { TokenService } from '../services';
 
-const ws = new WebSocket(http.socketUrl);
+const { socketUrl } = AppService.getUrls();
+const ws = new WebSocket(socketUrl);
 
 type Returned = {
     sendMessage: (event: string, message: string) => void;

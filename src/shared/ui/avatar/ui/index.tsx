@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { Img } from 'react-image';
-
-import { http } from 'shared/constanst';
 
 import styles from './styles.module.scss';
-import { Image } from '../../index';
 import { Props } from '../types';
 
 function Avatar(props: Props) {
-    const { size = 20, name, img, circle = true, withHttp = true } = props;
+    const { size = 20, name, img, circle = true } = props;
 
     const [err, setErr] = useState(false);
 
@@ -72,11 +68,7 @@ function Avatar(props: Props) {
             }}
         >
             <img src={img} alt="" onError={() => setErr(true)} />
-            {img && !err ? (
-                <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${withHttp ? http.url : ''}${img})` }} />
-            ) : (
-                preview
-            )}
+            {img && !err ? <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${img})` }} /> : preview}
         </div>
     );
 }

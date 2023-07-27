@@ -4,7 +4,6 @@ import { useParams } from 'react-router';
 import { useAppStore } from 'entities/app';
 import { ChatApi } from 'entities/chat';
 import { MessageApi, MessageInputView, useMessageStore } from 'entities/message';
-import { MediaContentModal, SwiperModal } from 'entities/modal';
 import { UserTypes } from 'entities/user';
 import { ViewerService } from 'entities/viewer';
 import { useAudioRecorder } from 'shared/hooks';
@@ -167,12 +166,6 @@ function MessageInput(props: Props) {
                 btnClick={sendMessage}
                 loading={isLoading}
             />
-            {/* <Modal {...modalMediaContent} onOk={onOkModalMediaContent} onClose={() => setMediaContentToSend(null)}> */}
-            {/*    {mediaContentToSend?.type === 'image' && ( */}
-            {/*        <SwiperModal startWithIt={1} files={mediaContentToSend?.list.map((i) => ({ url: i.url, size: 0, name: '', extension: 'img' })) || []} /> */}
-            {/*    )} */}
-            {/*    {mediaContentToSend?.type === 'document' && <MediaContentModal list={mediaContentToSend?.list.map((i) => i)} type="document" />} */}
-            {/* </Modal> */}
         </>
     );
 }

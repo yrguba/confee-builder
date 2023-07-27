@@ -3,7 +3,7 @@ import React from 'react';
 import { ViewerTypes } from 'entities/viewer';
 import { UseInputReturnedTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { DatePicker, Box, Button, Input } from 'shared/ui';
+import { Box, Button, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import AvatarEditor from '../../avatar-editor';

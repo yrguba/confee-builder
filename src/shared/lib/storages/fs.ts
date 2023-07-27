@@ -1,10 +1,12 @@
 import { writeTextFile, BaseDirectory, createDir, exists, readTextFile, removeFile } from '@tauri-apps/api/fs';
 
-import { project, tauri } from 'shared/constanst';
+import { AppService } from 'entities/app';
 import { StorageObjectsNames } from 'shared/enums';
 
+const { name: projectName } = AppService.getProjectInfo();
 const dirInDocument = BaseDirectory.Document;
-const storageBaseDir = `${project.name}/storage`;
+const storageBaseDir = `${projectName}/storage`;
+const { tauriIsRunning } = AppService;
 
 const paths = {
     tokens: `${storageBaseDir}/tokens.txt`,
@@ -17,7 +19,7 @@ const getPath = (name: string) => {
 };
 
 export const set = async (name: keyof typeof StorageObjectsNames, value: string) => {
-    if (!tauri.isRunning) return null;
+    if (!tauriIsRunning) return null;
     const path = getPath(name);
     const obj = { [name]: value };
     const checkPath = await exists(storageBaseDir, { dir: dirInDocument });
@@ -32,7 +34,7 @@ export const set = async (name: keyof typeof StorageObjectsNames, value: string)
 };
 
 export const get = async (name: keyof typeof StorageObjectsNames) => {
-    if (!tauri.isRunning) return null;
+    if (!tauriIsRunning) return null;
     const path = getPath(name);
     const checkPath = await exists(path, { dir: dirInDocument });
     if (!checkPath) return null;
@@ -42,7 +44,7 @@ export const get = async (name: keyof typeof StorageObjectsNames) => {
 };
 
 export const getAll = async (fileName: keyof typeof paths) => {
-    if (!tauri.isRunning) return null;
+    if (!tauriIsRunning) return null;
     const path = getPath(fileName);
     const checkPath = await exists(path, { dir: dirInDocument });
     if (!checkPath) return null;
@@ -51,7 +53,7 @@ export const getAll = async (fileName: keyof typeof paths) => {
 };
 
 export const remove = async (name: keyof typeof StorageObjectsNames) => {
-    if (!tauri.isRunning) return null;
+    if (!tauriIsRunning) return null;
     const path = getPath(name);
     const checkPath = await exists(path, { dir: dirInDocument });
     if (!checkPath) return null;
@@ -62,7 +64,7 @@ export const remove = async (name: keyof typeof StorageObjectsNames) => {
 };
 
 export const clear = async (fileName: keyof typeof paths) => {
-    if (!tauri.isRunning) return null;
+    if (!tauriIsRunning) return null;
     const path = getPath(fileName);
     const checkPath = await exists(path, { dir: dirInDocument });
     if (!checkPath) return null;

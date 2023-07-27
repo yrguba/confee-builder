@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 
-import { http } from 'shared/constanst';
 import { BaseTypes } from 'shared/types';
 import { AudioPlayer } from 'shared/ui';
 
@@ -18,9 +17,7 @@ function VoiceMessageView(props: Props) {
 
     return (
         <Wrapper message={message} reactionClick={reactionClick}>
-            <div className={styles.wrapper}>
-                <AudioPlayer.Voice url={http.url + message.files[0].url} size={message.files[0].size} />
-            </div>
+            <div className={styles.wrapper}>{/* <AudioPlayer.Voice url={http.url + message.files[0].url} size={message.files[0].size} /> */}</div>
         </Wrapper>
     );
 }

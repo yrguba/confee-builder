@@ -4,10 +4,11 @@
 // что бы постоянно не лазитьь на жесткий диск, во время сессии берем то что нужно из лс или кук.
 // при каждом новом запуске таури, бновляем куки или лс по мере необходимости из файлов на жеском диске.
 
-import { tauri } from 'shared/constanst';
 import { StorageObjectsNames } from 'shared/enums';
 import { storages } from 'shared/lib';
 
+// @ts-ignore
+const tauriIsRunning = !!window.__TAURI__;
 class UniversalStorage {
     localStorageSet(name: keyof typeof StorageObjectsNames, value: any) {
         storages.ls.set(name, value);
@@ -26,27 +27,27 @@ class UniversalStorage {
     }
 
     cookieSet(name: keyof typeof StorageObjectsNames, value: string) {
-        if (tauri.isRunning) return storages.ls.set(name, value);
+        if (tauriIsRunning) return storages.ls.set(name, value);
         storages.cookie.set(name, value);
     }
 
     cookieGet(name: keyof typeof StorageObjectsNames) {
-        if (tauri.isRunning) return storages.ls.get(name);
+        if (tauriIsRunning) return storages.ls.get(name);
         return storages.cookie.get(name);
     }
 
     cookieRemove(name: keyof typeof StorageObjectsNames) {
-        if (tauri.isRunning) return storages.ls.remove(name);
+        if (tauriIsRunning) return storages.ls.remove(name);
         storages.cookie.remove(name);
     }
 
     async cookieSetAsync(name: keyof typeof StorageObjectsNames, value: string) {
-        if (tauri.isRunning) await storages.fs.set(name, value);
+        if (tauriIsRunning) await storages.fs.set(name, value);
         storages.cookie.set(name, value);
     }
 
     async cookieGetAsync(name: keyof typeof StorageObjectsNames) {
-        if (!tauri.isRunning) {
+        if (!tauriIsRunning) {
             return storages.cookie.get(name);
         }
         const valueInCookie = storages.cookie.get(name);
@@ -57,7 +58,7 @@ class UniversalStorage {
     }
 
     async cookieRemoveAsync(name: keyof typeof StorageObjectsNames) {
-        if (tauri.isRunning) await storages.fs.remove(name);
+        if (tauriIsRunning) await storages.fs.remove(name);
         storages.cookie.remove(name);
     }
 }

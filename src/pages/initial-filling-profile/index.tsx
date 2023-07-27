@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import { InitialFillingProfileStep1, InitialFillingProfileStep2, InitialFillingProfileStep3 } from 'features/viewer';
-import { routing_tree } from 'shared/routing';
 
 import FillingProfilePage from './ui';
 import Modal from './widgets/modal';
