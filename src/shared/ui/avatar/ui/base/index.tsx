@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import styles from './styles.module.scss';
-import { Props } from '../types';
+import { AvatarProps } from '../../types';
 
-function Avatar(props: Props) {
+function Avatar(props: AvatarProps) {
     const { size = 20, name, img, circle = true } = props;
 
     const [err, setErr] = useState(false);

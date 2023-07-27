@@ -3,10 +3,9 @@ import React from 'react';
 import { ViewerTypes } from 'entities/viewer';
 import { UseInputReturnedTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Button, Input } from 'shared/ui';
+import { Box, Button, Input, Avatar } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import AvatarEditor from '../../avatar-editor';
 
 type Props = {
     viewer: ViewerTypes.Viewer | BaseTypes.Empty;
@@ -28,7 +27,7 @@ function InitialFillingProfileStep3View(props: Props) {
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.avatar}>
                 <div className={styles.title}>
-                    <AvatarEditor avatar={avatar} deleteFile={deleteFile} selectFile={selectFile} getScreenshot={getScreenshot} viewer={viewer} />
+                    <Avatar.Change avatar={avatar} deleteFile={deleteFile} selectFile={selectFile} getScreenshot={getScreenshot} user={viewer} />
                 </div>
             </div>
             <div className={styles.input}>

@@ -1,22 +1,13 @@
 import React, { useState } from 'react';
 
-import { BaseTypes } from 'shared/types';
 import { Avatar, Title, DropdownMenu, DropdownTypes, WebCameraPhoto, Box } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
-import { Viewer } from '../../model/types';
+import { AvatarChangeProps } from '../../types';
 
-type Props = {
-    viewer: Viewer | BaseTypes.Empty;
-    selectFile: () => void;
-    getScreenshot: (data: string) => void;
-    deleteFile: () => void;
-    avatar?: string;
-};
-
-function AvatarEditor(props: Props) {
-    const { avatar, viewer, selectFile, deleteFile, getScreenshot } = props;
+function AvatarChange(props: AvatarChangeProps) {
+    const { avatar, user, selectFile, deleteFile, getScreenshot } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
 
@@ -38,7 +29,7 @@ function AvatarEditor(props: Props) {
             </Box.Animated>
             <DropdownMenu closeAfterClick position="right-bottom" left={44} top={50} items={items}>
                 <div className={styles.circle}>
-                    <Avatar img={avatar || ''} name={viewer?.first_name} size={100} />
+                    <Avatar img={avatar || ''} name={user?.first_name} size={100} />
                     <div className={styles.cover}>Сменить</div>
                 </div>
             </DropdownMenu>
@@ -46,4 +37,4 @@ function AvatarEditor(props: Props) {
     );
 }
 
-export default AvatarEditor;
+export default AvatarChange;

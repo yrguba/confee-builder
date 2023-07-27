@@ -10,7 +10,7 @@
   }
 
   .inputWrapper {
-    width: 100% !important;
+    width: calc(100% - 24px) !important;
     display: flex;
     justify-content: space-between;
     align-items: center;

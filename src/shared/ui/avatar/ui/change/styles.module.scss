@@ -5,13 +5,20 @@
   gap: 12px;
   cursor: pointer;
 
-  .circle{
+  .circle {
     margin: 12px 0;
     @include box-size(100px, 100px);
     position: relative;
     overflow: hidden;
     border-radius: 50%;
-    .cover{
+
+    &:hover {
+      .cover {
+        opacity: 1;
+      }
+    }
+
+    .cover {
       @include box-size(100px, 30px);
       position: absolute;
       bottom: 0;
@@ -23,14 +30,16 @@
       background-color: var(--bg-dimming);
       text-align: center;
       font-size: 12px;
+      opacity: 0;
+      transition: opacity .5s;
     }
   }
 
-  .webCamera{
+  .webCamera {
     position: absolute;
   }
 
-  .menu{
+  .menu {
     background-color: #7B57C8;
   }
 }
