@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { useAppStore } from 'entities/app';
+import { useAppStore, Storage } from 'entities/app';
 import { usePrevious } from 'shared/hooks';
-import { UniversalStorage } from 'shared/services';
 import { Notification as NotificationUi } from 'shared/ui';
 
 function Notification() {
@@ -10,7 +9,7 @@ function Notification() {
     const deleteFirstNotifications = useAppStore.use.deleteFirstNotifications();
     const prev = usePrevious(notifications.length);
 
-    const not_scope = UniversalStorage.localStorageGet('notification_scope');
+    const not_scope = Storage.localStorageGet('notification_scope');
 
     const timeout = 5000;
 

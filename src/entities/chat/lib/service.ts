@@ -1,11 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
 
-import { useEnding } from 'shared/hooks';
-import { UniversalStorage } from 'shared/services';
+import { Storage } from 'entities/app';
 
 import { messageConstants } from '../../message';
 import { ViewerService } from '../../viewer';
-import ChatApi from '../model/api';
 import { Chat, ChatProxy } from '../model/types';
 
 class ChatService {
@@ -23,7 +21,7 @@ class ChatService {
     }
 
     checkChatIsSubscribed(): boolean {
-        return !!UniversalStorage.localStorageGet('subscribed_to_chat');
+        return !!Storage.localStorageGet('subscribed_to_chat');
     }
 
     subscribeToChat(id: number) {

@@ -1,8 +1,6 @@
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
-import { UniversalStorage } from 'shared/services';
-
 import { ChatService } from '../index';
 
 function chatObserver() {

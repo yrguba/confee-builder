@@ -6,8 +6,3 @@ export type Statuses = {
     disabled?: boolean;
     error?: boolean;
 };
-
-export type Error = {
-    message: string;
-    type: string;
-};
