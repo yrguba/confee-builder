@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 
-import { UserTypes, UserCardView } from 'entities/user';
+import { UserTypes } from 'entities/user';
 import { useToggle } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Input, Emoji, Box, Dropdown } from 'shared/ui';
@@ -96,7 +96,8 @@ function MessageInputView(props: Props) {
                     {tagAUsers?.length ? (
                         <div className={styles.mainColumn} style={{ gap: 4 }}>
                             {tagAUsers.map((user, index) => (
-                                <UserCardView onClick={() => clickUser(user)} key={index} user={user} subtitle={`@${user.nickname}`} />
+                                <div />
+                                // <UserCardView onClick={() => clickUser(user)} key={index} user={user} subtitle={`@${user.nickname}`} />
                             ))}
                         </div>
                     ) : (

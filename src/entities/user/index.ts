@@ -2,26 +2,8 @@ import UserService from './lib/service';
 import UserApi from './model/api';
 import useUserStore from './model/store';
 import * as UserTypes from './model/types';
-import UserCardView from './ui/card';
-import UserDossierView from './ui/dossier';
 import AddContactModalView from './ui/modals/add-contact-modal';
 import ContactsModalView from './ui/modals/contacts-modal';
-import SelectedUsersView from './ui/selected-users';
 import UserStatusView from './ui/status';
-import UsersFilterView from './ui/users-filter';
-import UsersListView from './ui/users-list';
 
-export {
-    UserService,
-    useUserStore,
-    UserTypes,
-    UserApi,
-    UserCardView,
-    UserStatusView,
-    UsersListView,
-    SelectedUsersView,
-    UserDossierView,
-    UsersFilterView,
-    ContactsModalView,
-    AddContactModalView,
-};
+export { UserService, useUserStore, UserTypes, UserApi, UserStatusView, ContactsModalView, AddContactModalView };

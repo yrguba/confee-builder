@@ -1,7 +1,7 @@
 import Linkify from 'linkify-react';
 import React, { useEffect, useState } from 'react';
 
-import { UserDossierView, UserTypes } from 'entities/user';
+import { UserTypes } from 'entities/user';
 import { BaseTypes } from 'shared/types';
 import { Modal, useModal } from 'shared/ui';
 
