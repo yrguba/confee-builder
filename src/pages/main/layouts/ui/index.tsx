@@ -1,0 +1,25 @@
+import React, { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+
+import styles from './styles.module.scss';
+import Header from '../widgets/header';
+
+function MainLayout() {
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        if (pathname === '/') {
+            navigate('/chats');
+        }
+    }, [navigate]);
+
+    return (
+        <div className={styles.wrapper}>
+            <Header />
+            <Outlet />
+        </div>
+    );
+}
+
+export default MainLayout;

@@ -7,11 +7,8 @@ import { SizeWarningPage } from 'pages/warning';
 import { useWindowSize } from 'shared/hooks';
 import { TokenService } from 'shared/services';
 
-import chatsPageRouters from './chats';
 import initialFillingProfilePageRouters from './initial-filling-profile';
-import MainLayout from './layouts/main';
-import settingsPageRouters from './settings';
-import tasksPageRouters from './tasks';
+import mainRoutes from './main';
 
 function Routing() {
     const { width, height } = useWindowSize();
@@ -19,17 +16,6 @@ function Routing() {
     const location = useLocation();
     const navigate = useNavigate();
     const { data: viewerData, isLoading } = ViewerApi.handleGetViewer();
-
-    const mainRoutes = (
-        <Routes location={location}>
-            <Route path="/" element={<MainLayout />}>
-                {chatsPageRouters}
-                {settingsPageRouters}
-                {tasksPageRouters}
-            </Route>
-            <Route path="*" element={<Navigate to="/chats" replace />} />
-        </Routes>
-    );
 
     const initialFillingProfileRoutes = (
         <Routes>
