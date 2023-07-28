@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { AppService } from 'entities/app';
 
 import styles from './styles.module.scss';
 import { AvatarProps } from '../../types';
 
 function Avatar(props: AvatarProps) {
-    const { size = 20, name, img, circle = true } = props;
+    const { size = 80, name, img, circle = true, withUrl } = props;
 
     const [err, setErr] = useState(false);
-
+    const { url } = AppService.getUrls();
     const colors = [
         { id: 0, triggers: ['а', 'б', 'a', 'b'], color1: '#FF8A65', color2: '#EA5A5A' },
         { id: 1, triggers: ['в', 'г', 'c', 'd'], color1: '#FF8A65', color2: '#FFB74D' },
@@ -54,6 +56,13 @@ function Avatar(props: AvatarProps) {
     const color = getColor();
     const preview = getPreview();
 
+    const getImgPath = () => {
+        if (withUrl && img) {
+            return `${url}/${img}`;
+        }
+        return img;
+    };
+
     return (
         <div
             className={styles.avatar}
@@ -67,8 +76,8 @@ function Avatar(props: AvatarProps) {
                 background: !img || err ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
             }}
         >
-            <img src={img} alt="" onError={() => setErr(true)} />
-            {img && !err ? <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${img})` }} /> : preview}
+            <img src={getImgPath() || ''} alt="" onError={() => setErr(true)} />
+            {img && !err ? <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${getImgPath()})` }} /> : preview}
         </div>
     );
 }

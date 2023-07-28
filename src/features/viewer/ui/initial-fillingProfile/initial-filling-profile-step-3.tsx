@@ -5,6 +5,8 @@ import useFileUploader from 'react-use-file-uploader';
 import { ViewerApi, InitialFillingProfileStep3View, yup } from 'entities/viewer';
 import { useInput } from 'shared/hooks';
 
+import { getFormData } from '../../../../shared/lib';
+
 function InitialFillingProfileStep3() {
     const navigate = useNavigate();
 
@@ -23,16 +25,12 @@ function InitialFillingProfileStep3() {
     const { open: selectFile, formData } = useFileUploader({
         accept: 'image',
         onAfterUploading: (data) => {
-            const fd = new FormData();
-            fd.append('images', data.files[0].file);
-            setAvatar({ formData: fd, fileUrl: data.files[0].fileUrl });
+            setAvatar({ formData: getFormData('images', data.files[0].file), fileUrl: data.files[0].fileUrl });
         },
     });
 
     const getScreenshot = (data: string) => {
-        const fd = new FormData();
-        fd.append('images', data);
-        setAvatar({ formData: fd, fileUrl: data });
+        setAvatar({ formData: getFormData('images', data), fileUrl: data });
     };
 
     const onsubmit = async () => {

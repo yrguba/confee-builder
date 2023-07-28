@@ -11,15 +11,14 @@ import styles from './styles.module.scss';
 function LeftSidebar() {
     const navigate = useNavigate();
 
-    const setOpenContactsModal = useUserStore.use.setOpenContactsModal();
-    const useeee = useUserStore.use.setOpenPersonalInfoModal();
-    const setOpenPersonalInfoModal = useViewerStore.use.setOpenPersonalInfoModal();
+    const setOpenUserModal = useUserStore.use.setOpenModal();
+    const setOpenViewerModal = useViewerStore.use.setOpenModal();
     return (
         <>
             <div className={styles.wrapper}>
-                <Button onClick={() => setOpenContactsModal(true)}>Contacts</Button>
-                <Button onClick={() => setOpenPersonalInfoModal(true)}>PersonalInfoViewer</Button>
-                <Button onClick={() => useeee(true)}>PersonalInfoUser</Button>
+                <Button onClick={() => setOpenUserModal('contacts')}>Contacts</Button>
+                <Button onClick={() => setOpenViewerModal('personal-info')}>PersonalInfoViewer</Button>
+                <Button onClick={() => setOpenUserModal('personal-info')}>PersonalInfoUser</Button>
                 <div className={styles.list}>
                     <ChatsList />
                 </div>

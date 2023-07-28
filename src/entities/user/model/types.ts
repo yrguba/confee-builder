@@ -1,7 +1,14 @@
 export type UserStatuses = 'in-office' | 'home-work' | 'business-trip' | 'vacation' | 'sick-leave' | 'meeting' | 'not-available';
 
 export type User = {
-    avatars: any[];
+    avatar: {
+        chat_id: number | null;
+        user_id: number | null;
+        created_at: Date;
+        update_at: Date;
+        id: number;
+        path: string;
+    };
     birth: string;
     contact_name: string;
     created_at: Date;

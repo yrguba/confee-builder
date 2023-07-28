@@ -20,12 +20,12 @@ function Wrapper(props: Props) {
     const { id, author, created_at, reactions } = message;
 
     const date = useDate(created_at);
-
+    console.log(message);
     return (
         <Box className={styles.wrapper}>
             {!message.isMy && (
                 <div className={styles.avatar}>
-                    <Avatar size={32} img={author?.avatars[0]} name={author?.first_name} />
+                    <Avatar size={32} img="" name={author?.first_name} />
                 </div>
             )}
             <div className={styles.mainColumn}>

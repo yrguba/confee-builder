@@ -17,21 +17,16 @@ function UserPersonalInfoModal(props: Props) {
 
     const personalInfoModal = useModal();
 
-    const openPersonalInfoModal = useUserStore.use.openPersonalInfoModal();
-    const setOpenPersonalInfoModal = useUserStore.use.setOpenPersonalInfoModal();
-
-    // const close = () => {
-    //     setOpenContactsModal(true);
-    //     setOpenAddContactsModal(false);
-    // };
+    const openUserModal = useUserStore.use.openModal();
+    const setOpenUserModal = useUserStore.use.setOpenModal();
 
     useEffect(() => {
-        openPersonalInfoModal ? personalInfoModal.open() : personalInfoModal.close();
-    }, [openPersonalInfoModal]);
+        openUserModal === 'personal-info' ? personalInfoModal.open() : personalInfoModal.close();
+    }, [openUserModal]);
 
     return (
-        <Modal {...personalInfoModal} onClose={() => setOpenPersonalInfoModal(false)}>
-            <PersonalInfoModalView user={null} />
+        <Modal {...personalInfoModal} onClose={() => setOpenUserModal(null)}>
+            <PersonalInfoModalView getScreenshot={() => ''} deleteFile={() => () => ''} selectFile={() => ''} user={null} />
         </Modal>
     );
 }

@@ -1,3 +1,4 @@
+import getFormData from './get-form-data';
 import * as handlers from './handlers';
 import reactionConverter from './reaction-converter';
 import * as cookie from './storages/cookie';
@@ -8,4 +9,4 @@ import uniqueArray from './unique-array';
 // лучше не обращаться напрямую, взаимодействовать с сторажем через сервис UniversalStorage.
 const storages = { cookie, fs, ls };
 
-export { storages, handlers, reactionConverter, uniqueArray };
+export { storages, handlers, reactionConverter, uniqueArray, getFormData };

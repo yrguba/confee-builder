@@ -18,7 +18,6 @@ export enum MediaContentType {
 
 export type MediaContentTypeKeys = keyof typeof MediaContentType;
 
-export type MessageStatus = 'pending' | 'read';
 export type File = {
     extension: string;
     name: string;

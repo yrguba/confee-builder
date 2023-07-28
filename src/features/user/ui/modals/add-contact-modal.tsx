@@ -1,39 +1,26 @@
-import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { useEffect } from 'react';
 
+import { yup } from 'entities/app';
 import { AddContactModalView, useUserStore } from 'entities/user';
 import { useInput, useModal } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
-import { yup } from '../../../../entities/viewer';
-
-type Props = {
-    direction?: 'column' | 'row';
-};
-
-function AddContactModal(props: Props) {
-    const { direction } = props;
-
-    const params = useParams();
-
+function AddContactModal() {
     const firstNameInput = useInput({
-        yupSchema: yup.checkRequired,
+        yupSchema: yup.required,
     });
 
-    const openAddContactsModal = useUserStore.use.openAddContactsModal();
-    const setOpenContactsModal = useUserStore.use.setOpenContactsModal();
-    const setOpenAddContactsModal = useUserStore.use.setOpenAddContactsModal();
+    const openUserModal = useUserStore.use.openModal();
+    const setOpenUserModal = useUserStore.use.setOpenModal();
 
     const addContactModal = useModal();
 
     useEffect(() => {
-        openAddContactsModal ? addContactModal.open() : addContactModal.close();
-    }, [openAddContactsModal]);
+        openUserModal === 'add-contact' ? addContactModal.open() : addContactModal.close();
+    }, [openUserModal]);
 
     const close = () => {
-        setOpenContactsModal(true);
-        setOpenAddContactsModal(false);
+        setOpenUserModal('contacts');
     };
 
     const addContact = async () => {

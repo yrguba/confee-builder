@@ -1,38 +1,38 @@
-import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { useEffect } from 'react';
+import useFileUploader from 'react-use-file-uploader';
 
-import { PersonalInfoModalView, useUserStore } from 'entities/user';
-import { ViewerApi, yup, useViewerStore } from 'entities/viewer';
-import { useInput, useModal } from 'shared/hooks';
+import { PersonalInfoModalView } from 'entities/user';
+import { ViewerApi, useViewerStore } from 'entities/viewer';
+import { useModal } from 'shared/hooks';
+import { getFormData } from 'shared/lib';
 import { Modal } from 'shared/ui';
 
-type Props = {
-    direction?: 'column' | 'row';
-};
-
-function ViewerPersonalInfoModal(props: Props) {
-    const { direction } = props;
-
-    const { data, isLoading } = ViewerApi.handleGetViewer();
-
+function ViewerPersonalInfoModal() {
+    const { data: viewerData } = ViewerApi.handleGetViewer();
+    const { mutate: handleAddAvatar } = ViewerApi.handleAddAvatar();
     const personalInfoModal = useModal();
 
-    const openPersonalInfoModal = useViewerStore.use.openPersonalInfoModal();
-    const setOpenPersonalInfoModal = useViewerStore.use.setOpenPersonalInfoModal();
+    const openViewerModal = useViewerStore.use.openModal();
+    const setViewerModal = useViewerStore.use.setOpenModal();
 
-    // const close = () => {
-    //     setOpenContactsModal(true);
-    //     setOpenAddContactsModal(false);
-    // };
+    const { open: selectFile } = useFileUploader({
+        accept: 'image',
+        onAfterUploading: (data) => {
+            handleAddAvatar({ file: getFormData('images', data.files[0].file) });
+        },
+    });
+
+    const getScreenshot = (data: string) => {
+        handleAddAvatar({ file: getFormData('images', data) });
+    };
 
     useEffect(() => {
-        openPersonalInfoModal ? personalInfoModal.open() : personalInfoModal.close();
-    }, [openPersonalInfoModal]);
+        openViewerModal === 'personal-info' ? personalInfoModal.open() : personalInfoModal.close();
+    }, [openViewerModal]);
 
     return (
-        <Modal {...personalInfoModal} onClose={() => setOpenPersonalInfoModal(false)}>
-            <PersonalInfoModalView isViewer user={data?.data?.data} />
+        <Modal {...personalInfoModal} onClose={() => setViewerModal(null)}>
+            <PersonalInfoModalView getScreenshot={getScreenshot} deleteFile={() => ''} selectFile={selectFile} isViewer user={viewerData?.data?.data} />
         </Modal>
     );
 }

@@ -8,8 +8,6 @@ import { useInput } from 'shared/hooks';
 function InitialFillingProfileStep1() {
     const navigate = useNavigate();
 
-    useViewerStore.use.socketAction();
-
     const { data, isLoading } = ViewerApi.handleGetViewer();
     const handleCheckNickname = ViewerApi.handleCheckNickname();
     const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
@@ -22,7 +20,7 @@ function InitialFillingProfileStep1() {
         const { error } = await nicknameInput.asyncValidate();
         const { exists } = await handleCheckNickname({ nickname: nicknameInput.value });
         if (exists && data?.data?.data.nickname !== nicknameInput.value) {
-            return nicknameInput.setError(enums.ErrorsNames.nickname_exists);
+            return nicknameInput.setError('Такой никнейм уже занят');
         }
         if (!error) {
             handleEditProfile(

@@ -1,15 +1,3 @@
-export type Viewer = {
-    avatars: any[];
-    birth: string;
-    contact_name: string;
-    created_at: Date;
-    email: string;
-    first_name: string;
-    id: number;
-    is_online: boolean;
-    last_active: Date;
-    last_name: string;
-    nickname: string;
-    phone: string;
-    updated_at: Date;
-};
+import { UserTypes } from 'entities/user';
+
+export type Viewer = {} & UserTypes.User;

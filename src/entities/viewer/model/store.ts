@@ -4,25 +4,20 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
+type ModalName = 'personal-info';
+
 type Store = {
-    socketAction: string;
-    openPersonalInfoModal: boolean;
-    setSocketAction: (action: string) => void;
-    setOpenPersonalInfoModal: (val: boolean) => void;
+    openModal: ModalName | null;
+    setOpenModal: (modalName: ModalName | null) => void;
 };
 
 const viewerStore = create<Store>()(
     devtools(
         immer((set) => ({
-            socketAction: '',
-            openPersonalInfoModal: false,
-            setSocketAction: (action) =>
+            openModal: null,
+            setOpenModal: (ModalName) =>
                 set((state) => {
-                    state.socketAction = action;
-                }),
-            setOpenPersonalInfoModal: (val) =>
-                set((state) => {
-                    state.openPersonalInfoModal = val;
+                    state.openModal = ModalName;
                 }),
         }))
     )
