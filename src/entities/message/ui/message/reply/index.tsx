@@ -22,7 +22,7 @@ function ReplyMessageView(props: Props) {
         <Wrapper message={message} reactionClick={reactionClick}>
             <div className={styles.wrapper}>
                 <div className={styles.reply}>
-                    <div className={styles.userName}> {MessageService.getNameMessageAuthor(reply)}</div>
+                    {/* <div className={styles.userName}> {MessageService.getNameMessageAuthor(reply)}</div> */}
                     <TextMessageView message={reply as MessageProxy} wrapper={false} />
                 </div>
                 <TextMessageView message={message} wrapper={false} />

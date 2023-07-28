@@ -12,7 +12,7 @@ function MessageList(props: Props) {
     const params = useParams();
 
     const chatId = Number(params.chat_id);
-    const viewer = ViewerService.getViewer();
+    const viewerId = ViewerService.getId();
 
     const modalConfirmDelete = useModal();
     const modalChatsList = useModal();
@@ -27,10 +27,6 @@ function MessageList(props: Props) {
     const setMessagesToDelete = useMessageStore.use.setMessagesToDelete();
     const setMessagesToForward = useMessageStore.use.setMessagesToForward();
     const setContentForModal = useMessageStore.use.setContentForModal();
-
-    const selectedChats = useChatStore.use.selectedChats();
-    const setSelectedChats = useChatStore.use.setSelectedChats();
-    const clearSelectedChats = useChatStore.use.clearSelectedChats();
 
     const { data: chatsData } = ChatApi.handleGetChats();
     const chat = chatsData?.data?.find((chat) => chat.id === Number(params.chat_id));
@@ -70,18 +66,18 @@ function MessageList(props: Props) {
     };
 
     const onCloseModalChatsList = () => {
-        clearSelectedChats();
-        setMessagesToForward([]);
+        // clearSelectedChats();
+        // setMessagesToForward([]);
     };
 
     const onOkModalChatsList = () => {
-        selectedChats.forEach((chat) => {
-            handleForwardMessages({
-                messagesIds: messagesToForward.map((i) => i.id),
-                chatId: chat.id,
-            });
-        });
-        onCloseModalChatsList();
+        // selectedChats.forEach((chat) => {
+        //     handleForwardMessages({
+        //         messagesIds: messagesToForward.map((i) => i.id),
+        //         chatId: chat.id,
+        //     });
+        // });
+        // onCloseModalChatsList();
     };
 
     useEffect(() => {
@@ -98,7 +94,7 @@ function MessageList(props: Props) {
             <MessagesListView
                 chat={chat}
                 messages={messageData?.pages.map((message: MessageTypes.Message, index: number) =>
-                    messageProxy(messageData?.pages[index - 1], message, viewer?.id || 0.6)
+                    messageProxy(messageData?.pages[index - 1], message, viewerId || 0.6)
                 )}
                 getNextPage={getNextPage}
                 getPrevPage={getPrevPage}

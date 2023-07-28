@@ -30,7 +30,7 @@ function PersonalInfoModalView(props: Props) {
         { id: 2, title: user?.nickname, subtitle: 'Никнейм', onClick: () => getChangeModals('change-nickname') },
         { id: 3, title: user?.phone, subtitle: 'Номер телефона', onClick: () => getChangeModals('change-name', true) },
         { id: 4, title: user?.email, subtitle: 'Почта', onClick: () => getChangeModals('change-name', true) },
-        { id: 5, title: user?.birth.split(' ')[0] || '', subtitle: 'Дата рождения', onClick: () => getChangeModals('change-birth') },
+        { id: 5, title: user?.birth?.split(' ')[0] || '', subtitle: 'Дата рождения', onClick: () => getChangeModals('change-birth') },
     ];
 
     return (
@@ -45,7 +45,7 @@ function PersonalInfoModalView(props: Props) {
                                 selectFile={selectFile}
                                 deleteFile={deleteFile}
                                 getScreenshot={getScreenshot}
-                                img={user?.avatar.path}
+                                img={user?.avatar?.path}
                                 name={user?.first_name}
                             />
                         )}

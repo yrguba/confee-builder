@@ -1,8 +1,6 @@
 import { writeTextFile, BaseDirectory, createDir, exists, readTextFile, removeFile } from '@tauri-apps/api/fs';
 
-import { AppService } from 'entities/app';
-
-import StorageObjectsNames from './enums';
+import { AppService, AppTypes } from 'entities/app';
 
 const { name: projectName } = AppService.getProjectInfo();
 const dirInDocument = BaseDirectory.Document;
@@ -19,7 +17,7 @@ const getPath = (name: string) => {
     return paths.config;
 };
 
-export const set = async (name: keyof typeof StorageObjectsNames, value: string) => {
+export const set = async (name: keyof typeof AppTypes.StorageObjectsNames, value: string) => {
     if (!tauriIsRunning) return null;
     const path = getPath(name);
     const obj = { [name]: value };
@@ -34,7 +32,7 @@ export const set = async (name: keyof typeof StorageObjectsNames, value: string)
     await writeTextFile({ path, contents: JSON.stringify(newTokens || obj) }, { dir: dirInDocument });
 };
 
-export const get = async (name: keyof typeof StorageObjectsNames) => {
+export const get = async (name: keyof typeof AppTypes.StorageObjectsNames) => {
     if (!tauriIsRunning) return null;
     const path = getPath(name);
     const checkPath = await exists(path, { dir: dirInDocument });
@@ -53,7 +51,7 @@ export const getAll = async (fileName: keyof typeof paths) => {
     return JSON.parse(file);
 };
 
-export const remove = async (name: keyof typeof StorageObjectsNames) => {
+export const remove = async (name: keyof typeof AppTypes.StorageObjectsNames) => {
     if (!tauriIsRunning) return null;
     const path = getPath(name);
     const checkPath = await exists(path, { dir: dirInDocument });

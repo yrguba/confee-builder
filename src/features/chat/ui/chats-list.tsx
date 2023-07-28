@@ -13,32 +13,19 @@ function ChatsList() {
     const navigate = useNavigate();
     const params = useParams();
 
-    const viewer = ViewerService.getViewer();
-
     const createPrivateChatModal = useModal();
     const createGroupChatModal = useModal();
 
     useChatStore.use.socketAction();
 
     const { data: usersData } = UserApi.handleGetUsers();
-    const openChatInfo = useChatStore.use.openChatInfo();
 
     const { data: chatsData } = ChatApi.handleGetChats();
     const { mutate: handleCreateChat, isSuccess, isLoading: loadingCreateGroupChat } = ChatApi.handleCreateChat();
     const { mutate: handleAddAvatar } = ChatApi.handleAddAvatar();
 
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
-        const { id, is_group } = chat;
-        if (Number(params.chat_id) !== id) {
-            if (openChatInfo) {
-                if (is_group) {
-                    return navigate(`/chats/chat/${id}/group_chat/${id}/users`);
-                }
-                const userId = chat.members.find((member) => member.id !== viewer?.id);
-                return navigate(`/chats/chat/${id}/private_chat/${userId}/images`);
-            }
-            navigate(`/chats/chat/${id}`);
-        }
+        navigate(`/chats/chat/${chat.id}`);
     };
 
     const openCreateChatModal = (name: string) => {

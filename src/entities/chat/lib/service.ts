@@ -14,10 +14,11 @@ class ChatService {
         return null;
     }
 
-    getChatInList(id: number | null) {
+    finById(id: string | number | null | undefined) {
         const queryClient = useQueryClient();
         const data: { data: { data: Chat[] } } | undefined = queryClient.getQueryData(['get-chats']);
-        return data ? data.data.data.find((chat) => chat.id === id) : null;
+        console.log(data);
+        return data ? data.data.data.find((chat) => Number(chat.id) === Number(id)) : null;
     }
 
     checkChatIsSubscribed(): boolean {
@@ -40,14 +41,6 @@ class ChatService {
         if (!chat) return undefined;
         if (chat.pending_messages_count === 0) return 1;
         return Math.ceil(chat.pending_messages_count / messageConstants.message_limit);
-    }
-
-    getSecondMember(chat: Chat) {
-        if (chat.is_group) return null;
-
-        const viewer = ViewerService.getViewer();
-        const found = chat.members.find((i) => i.id !== viewer?.id);
-        return null;
     }
 }
 

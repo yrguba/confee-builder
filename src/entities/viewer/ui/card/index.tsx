@@ -19,7 +19,7 @@ function ViewerCardView(props: Props) {
         <div className={styles.wrapper} onClick={onClick}>
             <div className={styles.name}>{viewer?.first_name}</div>
             <div className={styles.name}>
-                <Avatar img={viewer?.avatar.path} withUrl name={viewer?.first_name} size={31} />
+                <Avatar img={viewer?.avatar?.path} withUrl name={viewer?.first_name} size={31} />
             </div>
         </div>
     );

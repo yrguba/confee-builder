@@ -20,4 +20,6 @@ export type ChatProxy = {
     messageAction: string;
     secondMember: User | null;
     lastMessageTitle: string;
+    date: string;
+    checkIsMyLastMessage: boolean;
 } & Chat;

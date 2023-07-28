@@ -12,14 +12,14 @@ import chatProxy from '../lib/chat-proxy';
 class ChatApi {
     pathPrefix = '/api/v2/chats';
 
-    handleGetChat = (data: { chatId: number }) => {
+    handleGetChat = (data: { chatId: string | undefined }) => {
         return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
             staleTime: Infinity,
-            select: (data) => {
-                const res = handlers.response<{ data: ChatProxy }>(data);
-                return res.data ? { ...res, data: { data: res.data.data } } : res;
-            },
             enabled: !!data.chatId,
+            select: (data) => {
+                const res = handlers.response<{ data: Chat }>(data);
+                return res.data?.data;
+            },
         });
     };
 

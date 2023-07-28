@@ -29,6 +29,7 @@ import useMedia from './useMedia';
 import useModal from './useModal';
 import useRandomString from './useRandomString';
 import useReverseTimer from './useReverseTimer';
+import useRouter from './useRouter';
 import useRowAndDropdown from './useRowAndDropdown';
 import useScrollTo from './useScroll';
 import useSize from './useSize';
@@ -40,6 +41,7 @@ import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
+    useRouter,
     useWidthMediaQuery,
     useHeightMediaQuery,
     useModal,

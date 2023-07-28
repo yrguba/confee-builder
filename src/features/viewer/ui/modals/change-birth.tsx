@@ -15,7 +15,7 @@ function ChangeBirthModal() {
     const changeBirthModal = useModal();
 
     const birthInput = useInput({
-        initialValue: viewerData?.data?.data.birth.split(' ')[0] || '',
+        initialValue: viewerData?.data?.data?.birth?.split(' ')[0] || '',
     });
 
     const close = () => {

@@ -5,7 +5,8 @@
 // при каждом новом запуске таури, бновляем куки или лс по мере необходимости из файлов на жеском диске.
 
 import { storages } from 'shared/lib';
-import StorageObjectsNames from 'shared/lib/storages/enums';
+
+import { StorageObjectsNames } from '../model/types';
 
 // @ts-ignore
 const tauriIsRunning = !!window.__TAURI__;

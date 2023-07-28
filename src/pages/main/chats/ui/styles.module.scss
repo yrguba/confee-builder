@@ -1,74 +1,19 @@
 @import "./src/app/styles";
 
-.page {
+.wrapper {
   @include box-size(100%, 100%);
   @include flex(flex-start);
 
-  .leftSidebar {
+  .leftSidebar{
     @include box-size(300px, 100%);
-    min-width: 300px;
-    @include flex;
-    border-right: 1px solid var(--border-secondary);
 
-    @media (max-width: 680px) {
-      @include box-size(100%, 100%);
-    }
   }
-
-  .mainColumn {
-    @include flex-column;
-    @include box-size(calc(100% - 300px), 100%);
-
-    @media (max-width: 680px) {
-      @include box-size(100%, 100%);
-    }
-
-    .header {
-      @include box-size(100%, auto);
-      @include flex;
-      border-bottom: 1px solid var(--border-secondary);
-    }
-
-    .outlet {
-      @include flex-column();
-      width: 100%;
-      height: calc(100% - 60px);
-      background-color: var(--bg-1);
-      position: relative;
-
-      .messageList {
-        @include box-size(100%, calc(100% - 100px));
-        padding-top: 12px;
-        position: absolute;
-        top: 0;
-        right: 0;
-      }
-
-      .messageInput {
-        @include flex;
-        @include box-size(100%, auto);
-        position: absolute;
-        bottom: 10px;
-        z-index: 2;
-      }
-    }
+  .outlet{
+    @include box-size(300px, 100%);
+  flex: 1;
   }
+  .rightSidebar{
+    //@include box-size(300px, 100%);
 
-  .rightSidebar {
-    @include box-size(auto, 100%);
-    @include flex;
-    overflow: hidden;
-
-    @include width-from('xl'){
-      max-width: 600px;
-    }
-
-    @include width-from-to('md', 'xl'){
-      min-width: calc(100vw - 300px) ;
-    }
-
-    @include width-to('sm'){
-      min-width: 100vw ;
-    }
   }
 }

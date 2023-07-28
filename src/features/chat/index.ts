@@ -1,5 +1,4 @@
-import ChatCard from './ui/card';
+import ChatHeader from './ui/chat-header';
 import ChatsList from './ui/chats-list';
-import ChatHeaderMenu from './ui/header-menu';
 
-export { ChatHeaderMenu, ChatsList, ChatCard };
+export { ChatsList, ChatHeader };

@@ -1,0 +1,17 @@
+@import "./src/app/styles/index";
+
+
+.wrapper {
+  @include flex;
+  gap: 12px;
+
+
+  .avatar {
+
+  }
+
+  .caption{
+    @include flex-column;
+  }
+}
+

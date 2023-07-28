@@ -23,8 +23,6 @@ type Props = {
     onKeyDown: (arg: any) => void;
     onChange: (arg: any) => void;
     btnClick: (arg?: any) => void;
-    setIsOpenEmojiPicker: (arg: boolean) => void;
-    setIsOpenInputMenu: (arg: boolean) => void;
     clickOnEmoji: (arg?: any) => void;
     value: string;
 } & BaseTypes.Statuses;
@@ -39,8 +37,6 @@ function MessageInputView(props: Props) {
         removeMessageToEdit,
         removeMessageToReply,
         onKeyDown,
-        setIsOpenEmojiPicker,
-        setIsOpenInputMenu,
         clickOnEmoji,
         btnClick,
         onChange,
@@ -125,7 +121,7 @@ function MessageInputView(props: Props) {
 
                 <div className={`${styles.input} ${isVisibleHeader && styles.isVisibleHeader}`}>
                     <div className={styles.body}>
-                        <Dropdown top={-16} openCloseTrigger={setIsOpenInputMenu} position="right-top" content={<InputMenuView />}>
+                        <Dropdown top={-16} position="right-top" content={<InputMenuView />}>
                             <div className={styles.icon}>
                                 <Icons variants="clip" />
                             </div>
@@ -135,7 +131,7 @@ function MessageInputView(props: Props) {
                             <Input.Textarea ref={textAreaRef} defaultValue={messageToEdit?.id} value={value} onChange={onChange} onKeyDown={onKeyDown} />
                         </div>
                         <div className={styles.emoji}>
-                            <Emoji openCloseTrigger={setIsOpenEmojiPicker} clickOnEmoji={clickOnEmoji} />
+                            <Emoji clickOnEmoji={clickOnEmoji} />
                         </div>
                     </div>
                 </div>

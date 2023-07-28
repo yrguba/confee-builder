@@ -1,12 +1,12 @@
+import moment from 'moment/moment';
 import React from 'react';
 
 import { MessageTypes } from 'entities/message';
 import { BaseTypes } from 'shared/types';
-import { Box, Collapse } from 'shared/ui';
+import { Box, Card, Collapse, Title, Counter, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { ChatProxy } from '../../model/types';
-import ChatCardView from '../card';
 
 type Props = {
     chats: ChatProxy[];
@@ -38,15 +38,19 @@ function ChatListView(props: Props) {
                     >
                         <div className={styles.chatsList}>
                             {category.items.map((chat) => (
-                                <div key={chat.id} className={`${styles.chatWrapper} ${activeChatId === chat.id ? styles.itemActive : ''}`}>
-                                    <div className={styles.chatContent}>
-                                        <ChatCardView
-                                            showChecked
-                                            showDate
-                                            chat={chat}
-                                            subtitle={chat.messageAction || chat.lastMessageTitle}
-                                            onClick={clickOnChat}
-                                        />
+                                <div key={chat.id} className={styles.item} onClick={() => clickOnChat(chat)}>
+                                    <Card img={chat.avatar} title={chat.name} subtitle={chat.lastMessageTitle} />
+                                    <div className={styles.rightColumn}>
+                                        <Title variant="caption1S" primary={false}>
+                                            {chat.date}
+                                        </Title>
+                                        <div className={styles.checked}>
+                                            {chat.pending_messages_count ? (
+                                                <Counter height={18}>{chat.pending_messages_count}</Counter>
+                                            ) : (
+                                                chat.checkIsMyLastMessage && <Icons variants={chat.last_message?.is_read ? 'doubleCheck' : 'check'} />
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))}

@@ -22,3 +22,6 @@ declare global {
         webkitAudioContext: any;
     }
 }
+export declare type Params<Key extends string = string> = {
+    readonly [key in Key]: string | undefined;
+};

@@ -1,10 +1,8 @@
-import { ViewerApi } from '../index';
-import { Viewer } from '../model/types';
+import { Storage } from 'entities/app';
 
 class ViewerService {
-    getViewer(): Viewer | null {
-        const { data, isLoading } = ViewerApi.handleGetViewer();
-        return data?.data?.data || null;
+    getId(): number | null {
+        return Number(Storage.localStorageGet('viewerId')) || null;
     }
 }
 

@@ -30,9 +30,6 @@ function MessageInput(props: Props) {
     const mediaContentToSend = useMessageStore.use.mediaContentToSend();
     const setMediaContentToSend = useMessageStore.use.setMediaContentToSend();
 
-    const setIsOpenEmojiPicker = useMessageStore.use.setIsOpenEmojiPicker();
-    const setIsOpenInputMenu = useMessageStore.use.setIsOpenInputMenu();
-
     const { data: chatsData } = ChatApi.handleGetChats();
     const chat = chatsData?.data?.find((chat) => chat.id === Number(params.chat_id));
 
@@ -121,21 +118,21 @@ function MessageInput(props: Props) {
         const tags = words.filter((word) => /@[a-zA-Zа-яА-я0-9]/.test(word));
         const lastWordIsTag = /@[a-zA-Zа-яА-я0-9]/.test(words[words.length - 1]);
         const suitable: UserTypes.User[] = [];
-        const users = chat.members.filter((user) => !!user.nickname && user.id !== ViewerService.getViewer()?.id);
-        if (all) {
-            suitable.splice(0, 0, ...users);
-            return suitable;
-        }
-        if (tags.length && lastWordIsTag) {
-            tags.forEach((tag) => {
-                users.forEach((user) => {
-                    if (user.nickname.includes(tag.substring(1))) {
-                        suitable.push(user);
-                    }
-                });
-            });
-            return suitable;
-        }
+        // const users = chat.members.filter((user) => !!user.nickname && user.id !== ViewerService.getViewer()?.id);
+        // if (all) {
+        //     suitable.splice(0, 0, ...users);
+        //     return suitable;
+        // }
+        // if (tags.length && lastWordIsTag) {
+        //     tags.forEach((tag) => {
+        //         users.forEach((user) => {
+        //             if (user.nickname.includes(tag.substring(1))) {
+        //                 suitable.push(user);
+        //             }
+        //         });
+        //     });
+        //     return suitable;
+        // }
         return null;
     };
 
@@ -158,8 +155,6 @@ function MessageInput(props: Props) {
                 onChange={inputOnChange}
                 onKeyDown={onKeyDown}
                 value={valueTextMessage}
-                setIsOpenEmojiPicker={setIsOpenEmojiPicker}
-                setIsOpenInputMenu={setIsOpenInputMenu}
                 clickOnEmoji={clickOnEmoji}
                 btnClick={sendMessage}
                 loading={isLoading}

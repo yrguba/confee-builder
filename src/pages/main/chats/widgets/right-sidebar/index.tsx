@@ -8,7 +8,8 @@ function RightSidebar() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.list}>
-                <ChatsList />
+                RightSidebar
+                {/* <ChatsList /> */}
             </div>
         </div>
     );

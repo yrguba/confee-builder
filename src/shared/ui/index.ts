@@ -2,6 +2,7 @@ import Avatar, { AvatarTypes } from './avatar';
 import Box, { BoxTypes, animationVariants } from './box';
 import Breadcrumb, { BreadcrumbTypes } from './breadcrumb';
 import Button, { ButtonTypes } from './button';
+import Card, { CardTypes } from './card';
 import Collapse, { CollapseTypes } from './collapse';
 import Counter, { CounterTypes } from './counter';
 import Dropdown, { DropdownTypes, DropdownMenu } from './dropdown';
@@ -23,6 +24,7 @@ import Switch, { SwitchTypes } from './switch';
 import Title, { TitleTypes } from './title';
 
 export {
+    Card,
     WebCameraPhoto,
     Steps,
     Document,
@@ -50,6 +52,7 @@ export {
     DropdownMenu,
 };
 export type {
+    CardTypes,
     WebCamaraPhotoTypes,
     StepsTypes,
     DocumentTypes,

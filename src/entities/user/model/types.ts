@@ -9,7 +9,7 @@ export type User = {
         created_at: Date;
         update_at: Date;
         id: number;
-        path: string;
+        path?: string;
     };
     birth: string;
     contact_name: string;
