@@ -31,18 +31,20 @@
       @include width-to('sm'){
         top: -52px;
         right: 0;
+
+        @include height-to('sm'){
+          top: 12px!important;
+          right: 12px!important;
+          border: 2px solid var(--text-secondary);
+        }
       }
+
       @include height-to('sm'){
         top: 0;
         right: -52px;
       }
-    }
 
-    @include width-to('md'){
-      //width: 100%;
-      //height: 100%;
     }
-
 
     .content {
       @include flex;
