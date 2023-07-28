@@ -1,7 +1,5 @@
-import moment from 'moment/moment';
 import React from 'react';
 
-import { MessageTypes } from 'entities/message';
 import { BaseTypes } from 'shared/types';
 import { Box, Card, Collapse, Title, Counter, Icons } from 'shared/ui';
 

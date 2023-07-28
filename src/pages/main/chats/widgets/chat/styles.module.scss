@@ -1,9 +1,10 @@
 @import "./src/app/styles";
 
 .wrapper {
-  @include box-size(100%, 100%);
+  @include box-size(auto, 100%);
   @include flex-column;
   position: relative;
+  flex: 1;
 
   .header {
     @include box-size(100%, 60px);

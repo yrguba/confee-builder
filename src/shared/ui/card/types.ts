@@ -6,4 +6,5 @@ export type CardProps = {
     subtitle?: string;
     size?: 's';
     imgCover?: string;
+    onClick?: () => void;
 };

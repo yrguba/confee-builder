@@ -4,16 +4,23 @@
   @include box-size(100%, 100%);
   @include flex(flex-start);
 
-  .leftSidebar{
-    @include box-size(300px, 100%);
+  .leftSidebar {
+    height: 100%;
+    width: 300px;
 
+    @include width-to('sm') {
+      width: 100%;
+    }
   }
-  .outlet{
-    @include box-size(300px, 100%);
-  flex: 1;
-  }
-  .rightSidebar{
-    //@include box-size(300px, 100%);
 
+  .outlet {
+    height: 100%;
+    flex: 1;
+  }
+
+  .rightSidebar {
+    height: 100%;
+    width: 300px;
+    background-color: #7B57C8;
   }
 }

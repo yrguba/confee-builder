@@ -7,20 +7,6 @@ import { ViewerService } from '../../viewer';
 import { Chat, ChatProxy } from '../model/types';
 
 class ChatService {
-    getOpenChatId(): number | null {
-        if (window.location.href.split('/').find((i) => ['chat'].includes(i))) {
-            return Number(window.location.href.split('/')[5]);
-        }
-        return null;
-    }
-
-    finById(id: string | number | null | undefined) {
-        const queryClient = useQueryClient();
-        const data: { data: { data: Chat[] } } | undefined = queryClient.getQueryData(['get-chats']);
-        console.log(data);
-        return data ? data.data.data.find((chat) => Number(chat.id) === Number(id)) : null;
-    }
-
     checkChatIsSubscribed(): boolean {
         return !!Storage.localStorageGet('subscribed_to_chat');
     }

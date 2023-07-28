@@ -12,14 +12,19 @@ import { ChatProxy, Chat } from '../../model/types';
 
 type Props = {
     chat: Chat | BaseTypes.Empty;
+    clickChatCard: () => void;
+    back: () => void;
 } & BaseTypes.Statuses;
 
 function ChatHeaderView(props: Props) {
-    const { chat } = props;
+    const { chat, clickChatCard, back } = props;
 
     return (
         <div className={styles.wrapper}>
-            <Card img={chat?.avatar} title={chat?.name} subtitle="ddd" />
+            <div onClick={back}>
+                <Icons variants="leftArrow" />
+            </div>
+            <Card img={chat?.avatar} title={chat?.name} subtitle="ddd" onClick={clickChatCard} />
         </div>
     );
 }

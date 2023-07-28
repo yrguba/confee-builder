@@ -21,9 +21,9 @@
 
   .chatsList{
     @include flex-column(center, center);
-    margin-top: 10px;
+    //margin-top: 10px;
     width: 100%;
-    overflow-y: auto;
+    //overflow-y: auto;
     gap: 12px;
 
     .item {

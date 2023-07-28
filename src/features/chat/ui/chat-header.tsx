@@ -8,11 +8,17 @@ import { ChatHeaderView, ChatService, ChatApi, ChatTypes, useChatStore, ChatProx
 import { useRouter } from 'shared/hooks';
 
 function ChatHeader() {
-    const { params } = useRouter();
+    const { params, navigate } = useRouter();
 
     const { data: chatData } = ChatApi.handleGetChat({ chatId: params.chat_id });
 
-    return <ChatHeaderView chat={chatData} />;
+    const setOpenRightSidebar = useChatStore.use.setOpenRightSidebar();
+
+    const clickChatCard = () => {
+        setOpenRightSidebar(true);
+    };
+
+    return <ChatHeaderView back={() => navigate('/chats')} clickChatCard={clickChatCard} chat={chatData} />;
 }
 
 export default ChatHeader;

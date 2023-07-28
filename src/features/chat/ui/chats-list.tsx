@@ -33,52 +33,6 @@ function ChatsList() {
         if (name === 'Групповые чаты') return createGroupChatModal.open();
     };
 
-    const createPrivateChat = (user: UserTypes.User) => {
-        handleCreateChat(
-            {
-                name: '',
-                users: [user.id],
-                is_group: false,
-            },
-            {
-                onSuccess: (data) => {
-                    createPrivateChatModal.close();
-                    if (params.chat_id) {
-                        navigate(`/chats/chat/${data.data.data.id}`);
-                    } else {
-                        navigate(`chat/${data.data.data.id}`);
-                    }
-                },
-            }
-        );
-    };
-
-    const createGroupChat = (data: { name: string; avatar: FormData | null; users: number[] }) => {
-        handleCreateChat(
-            {
-                name: data.name,
-                users: data.users,
-                is_group: true,
-            },
-            {
-                onSuccess: (res) => {
-                    if (data.avatar) {
-                        handleAddAvatar({
-                            chatId: res.data.data.id,
-                            avatar: data.avatar,
-                        });
-                    }
-                    createGroupChatModal.close();
-                    if (params.chat_id) {
-                        navigate(`/chats/chat/${res.data.data.id}`);
-                    } else {
-                        navigate(`chat/${res.data.data.id}`);
-                    }
-                },
-            }
-        );
-    };
-
     return (
         <>
             <ChatListView

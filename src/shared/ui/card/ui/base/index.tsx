@@ -7,7 +7,7 @@ import Title from '../../../title';
 import { CardProps } from '../../types';
 
 function Card(props: CardProps) {
-    const { img, imgCover, title, subtitle, size = 's' } = props;
+    const { img, imgCover, title, subtitle, onClick, size = 's' } = props;
 
     const getAvatarSize = () => {
         if (size === 's') return 44;
@@ -17,7 +17,7 @@ function Card(props: CardProps) {
     const classes = useStyles(styles, 'wrapper', {});
 
     return (
-        <div className={classes}>
+        <div className={classes} onClick={onClick}>
             <div className={styles.avatar}>
                 <Avatar img={img} name={imgCover} size={getAvatarSize()} />
             </div>

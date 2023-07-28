@@ -3,7 +3,6 @@ import messageProxy from './lib/message-proxy';
 import MessageService from './lib/service';
 import MessageApi from './model/api';
 import messageGateway from './model/gateway';
-import messageObserver from './model/observer';
 import useMessageStore from './model/store';
 import * as MessageTypes from './model/types';
 import MessageInputView from './ui/input';
@@ -21,5 +20,4 @@ export {
     MessageMenuView,
     MessagesListView,
     MessageInputView,
-    messageObserver,
 };
