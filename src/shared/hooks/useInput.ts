@@ -2,12 +2,11 @@ import { useState, useCallback, ChangeEvent, useEffect } from 'react';
 
 type Props = {
     initialValue?: string;
-    leaveInitValueAfterClear?: boolean;
     yupSchema?: any;
     realtimeValidate?: boolean;
 };
 
-const useInput = ({ initialValue = '', leaveInitValueAfterClear = true, yupSchema, realtimeValidate }: Props) => {
+const useInput = ({ initialValue = '', yupSchema, realtimeValidate }: Props) => {
     const [value, setValue] = useState(initialValue || '');
     const [error, setError] = useState('');
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -19,13 +18,15 @@ const useInput = ({ initialValue = '', leaveInitValueAfterClear = true, yupSchem
     const clear = () => {
         setValue('');
         setError('');
-        if (leaveInitValueAfterClear) {
-            initialValue && setValue(initialValue);
-        }
+    };
+
+    const reload = () => {
+        setValue(initialValue);
+        setError('');
     };
 
     useEffect(() => {
-        initialValue && !value && setValue(initialValue);
+        initialValue && setValue(initialValue);
     }, [initialValue]);
 
     const asyncValidate = async (): Promise<{ error: string; value: string }> => {
@@ -49,7 +50,17 @@ const useInput = ({ initialValue = '', leaveInitValueAfterClear = true, yupSchem
         setError('');
     };
 
-    return { value, error: !!error, onChange, clear, errorTitle: error, asyncValidate, onFocus: onFocusClearError, setError };
+    return {
+        value,
+        error: !!error,
+        onChange,
+        clear,
+        errorTitle: error,
+        asyncValidate,
+        onFocus: onFocusClearError,
+        setError,
+        reload,
+    };
 };
 
 export default useInput;

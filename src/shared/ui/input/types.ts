@@ -26,6 +26,7 @@ export type BaseInputProps = {
     debounceDelay?: number;
     debounceCallback?: (arg: InputValue) => void;
     clear?: () => void;
+    reload?: any;
 } & Shared;
 
 export type CountriesInputProps = {

@@ -13,7 +13,7 @@ type Props = {
     selectFile: () => void;
     deleteFile: () => void;
     getScreenshot: (img: string) => void;
-    getChangeModals: (modalName: ViewerTypes.ModalName) => void;
+    getChangeModals: (modalName: ViewerTypes.ModalName, disabled?: boolean) => void;
 } & BaseTypes.Statuses;
 
 function PersonalInfoModalView(props: Props) {
@@ -21,11 +21,16 @@ function PersonalInfoModalView(props: Props) {
 
     const items = [
         { id: 0, title: `${user?.first_name} ${user?.last_name}`, subtitle: 'Имя и фамилия', onClick: () => getChangeModals('change-name') },
-        { id: 1, title: '12З', subtitle: 'О себе' },
-        { id: 2, title: user?.nickname, subtitle: 'Никнейм' },
-        { id: 3, title: user?.phone, subtitle: 'Номер телефона' },
-        { id: 4, title: user?.email, subtitle: 'Почта' },
-        { id: 5, title: user?.birth, subtitle: 'Дата рождения' },
+        {
+            id: 1,
+            title: '1dwdwd',
+            subtitle: 'О себе',
+            onClick: () => getChangeModals('change-name', true),
+        },
+        { id: 2, title: user?.nickname, subtitle: 'Никнейм', onClick: () => getChangeModals('change-nickname') },
+        { id: 3, title: user?.phone, subtitle: 'Номер телефона', onClick: () => getChangeModals('change-name', true) },
+        { id: 4, title: user?.email, subtitle: 'Почта', onClick: () => getChangeModals('change-name', true) },
+        { id: 5, title: user?.birth.split(' ')[0] || '', subtitle: 'Дата рождения', onClick: () => getChangeModals('change-birth') },
     ];
 
     return (
@@ -33,21 +38,17 @@ function PersonalInfoModalView(props: Props) {
             <Title variant="H2">Личная информация</Title>
             <div className={styles.body}>
                 {items.map((item) => (
-                    <div key={item.id} className={styles.item} onClick={isViewer ? item.onClick : () => ''}>
-                        {item.id === 0 ? (
-                            isViewer ? (
-                                <Avatar.Change
-                                    withUrl
-                                    selectFile={selectFile}
-                                    deleteFile={deleteFile}
-                                    getScreenshot={getScreenshot}
-                                    img={user?.avatar.path}
-                                    name={user?.first_name}
-                                />
-                            ) : (
-                                <Avatar withUrl img={user?.avatar.path} name={user?.first_name} />
-                            )
-                        ) : null}
+                    <div key={item.id} className={styles.item} style={{ pointerEvents: isViewer ? 'visible' : 'none' }} onClick={item.onClick}>
+                        {item.id === 0 && (
+                            <Avatar.Change
+                                withUrl
+                                selectFile={selectFile}
+                                deleteFile={deleteFile}
+                                getScreenshot={getScreenshot}
+                                img={user?.avatar.path}
+                                name={user?.first_name}
+                            />
+                        )}
                         <div className={styles.left}>
                             <div className={styles.aboutMe}>
                                 <Title textWrap variant="H3M">

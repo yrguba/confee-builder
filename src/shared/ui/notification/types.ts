@@ -1,7 +1,7 @@
 export type Notification = {
     id: number;
     text: string;
-    description: string;
+    description?: string;
     scope: 'app' | 'desktop' | 'all';
     system?: boolean;
 };

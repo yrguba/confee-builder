@@ -12,9 +12,9 @@
     gap: 12px;
   }
 
-  .inputs {
+  .input {
     @include flex-column;
-    gap: 16px;
+    gap: 8px;
     width: 100%;
   }
 

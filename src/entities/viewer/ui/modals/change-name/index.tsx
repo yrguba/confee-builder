@@ -28,8 +28,8 @@ function ChangeNameModalView(props: Props) {
                 </Title>
             </div>
             <div className={styles.inputs}>
-                <Input placeholder="Имя" {...inputs.firstName} clearIcon size="m" width="100%" />
-                <Input placeholder="Фамилия" {...inputs.lastName} clearIcon size="m" width="100%" />
+                <Input placeholder="Имя" {...inputs.firstName} clearIcon size="m" />
+                <Input placeholder="Фамилия" {...inputs.lastName} clearIcon size="m" />
             </div>
             <div className={styles.buttons}>
                 <Button variant="secondary" onClick={back} size="m" width="50%">

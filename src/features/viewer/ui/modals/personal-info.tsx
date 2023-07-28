@@ -7,11 +7,14 @@ import { useModal } from 'shared/hooks';
 import { getFormData } from 'shared/lib';
 import { Modal } from 'shared/ui';
 
+import { useAppStore } from '../../../../entities/app';
+
 function ViewerPersonalInfoModal() {
     const { data: viewerData } = ViewerApi.handleGetViewer();
     const { mutate: handleAddAvatar } = ViewerApi.handleAddAvatar();
     const personalInfoModal = useModal();
 
+    const setNotifications = useAppStore.use.setNotifications();
     const openViewerModal = useViewerStore.use.openModal();
     const setOpenViewerModal = useViewerStore.use.setOpenModal();
 
@@ -30,8 +33,8 @@ function ViewerPersonalInfoModal() {
         openViewerModal === 'personal-info' ? personalInfoModal.open() : personalInfoModal.close();
     }, [openViewerModal]);
 
-    const getChangeModals = (modalName: ViewerTypes.ModalName) => {
-        setOpenViewerModal(modalName);
+    const getChangeModals = (modalName: ViewerTypes.ModalName, disabled?: boolean) => {
+        disabled ? setNotifications({ text: 'Пока невозможно редактировать', scope: 'app', system: true }) : setOpenViewerModal(modalName);
     };
 
     return (

@@ -32,7 +32,10 @@
         top: -52px;
         right: 0;
       }
-
+      @include height-to('sm'){
+        top: 0;
+        right: -52px;
+      }
     }
 
     @include width-to('md'){

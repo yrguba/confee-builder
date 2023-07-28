@@ -26,7 +26,7 @@ function Modal(props: ModalProps) {
                       <div className={styles.closeIcon} onClick={closeClick}>
                           <Icons variants="exit" />
                       </div>
-                      <div className={styles.content}>{children}</div>
+                      <div className={styles.content}>{isOpen && children}</div>
                   </div>
               </Box.Animated>,
               modal_root

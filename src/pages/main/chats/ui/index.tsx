@@ -6,11 +6,11 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { chatGateway, chatObserver, ChatService, useChatStore } from 'entities/chat';
 import { useMessageStore, messageGateway, messageObserver } from 'entities/message';
 import { AddContactModal, ContactsModal, UserPersonalInfoModal } from 'features/user';
+import { ViewerPersonalInfoModal, ChangeNameModal, ChangeNicknameModal, ChangeBirthModal } from 'features/viewer';
 import { useMedia, useHeightMediaQuery, useWidthMediaQuery } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { ViewerPersonalInfoModal, ChangeNameModal } from '../../../../features/viewer';
 import { LeftSidebar, Header, Footer, MessagesList, RightSidebar } from '../widgets';
 
 function ChatsPage() {
@@ -57,6 +57,8 @@ function ChatsPage() {
 
     return (
         <>
+            <ChangeBirthModal />
+            <ChangeNicknameModal />
             <ChangeNameModal />
             <ViewerPersonalInfoModal />
             <UserPersonalInfoModal />

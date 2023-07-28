@@ -26,8 +26,10 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         width = '100%',
         height,
         clear,
+        reload,
         asyncValidate,
         setError,
+
         ...other
     } = props;
 

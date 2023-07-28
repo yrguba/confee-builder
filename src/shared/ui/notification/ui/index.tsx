@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import { AppService } from 'entities/app';
-import { Box } from 'shared/ui';
+import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import * as NotificationTypes from '../types';
@@ -17,7 +17,7 @@ function Notification(props: NotificationTypes.NotificationProps) {
         if (!disabledDesktop && AppService.tauriIsRunning) {
             items.forEach((i) => {
                 if ((!i.system && i.scope === 'desktop') || i.scope === 'all') {
-                    sendNotification({ title: i.description, body: i.text });
+                    sendNotification({ title: i.description || '', body: i.text });
                 }
             });
         }
@@ -25,10 +25,10 @@ function Notification(props: NotificationTypes.NotificationProps) {
 
     function Item({ i }: { i: NotificationTypes.Notification }) {
         return (
-            <Box.Animated animationVariant="autoHeight" visible className={styles.item}>
-                {i.description && <div className={styles.description}>{i.description}</div>}
-                <div className={styles.text}>{i.text}</div>
-            </Box.Animated>
+            <div className={styles.item}>
+                {i.description && <Title variant="H2">{i.description}</Title>}
+                <Title variant="H4M">{i.text}</Title>
+            </div>
         );
     }
 

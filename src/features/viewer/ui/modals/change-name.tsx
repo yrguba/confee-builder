@@ -26,8 +26,8 @@ function ChangeNameModal() {
 
     const close = () => {
         setViewerModal('personal-info');
-        firstNameInput.clear();
-        lastNameInput.clear();
+        firstNameInput.reload();
+        lastNameInput.reload();
     };
 
     const onsubmit = async () => {

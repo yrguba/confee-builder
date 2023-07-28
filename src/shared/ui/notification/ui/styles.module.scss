@@ -6,22 +6,14 @@
   right: 12px;
   @include flex-column(flex-end, flex-end);
   gap: 8px;
-z-index: 100;
+  z-index: 12323232322100;
+
   .item {
     @include flex-column(flex-start, flex-start);
     gap: 12px;
-    color: var(--text-0);
-    background-color: var(--bg-01);
+    background-color: var(--bg-secondary);
     padding: 12px;
-    border-radius: 8px 0 8px 8px ;
+    border-radius: 8px 0 8px 8px;
     box-shadow: var(--box-shadow-active);
-
-    .description{
-
-    }
-
-    .text{
-
-    }
   }
 }
