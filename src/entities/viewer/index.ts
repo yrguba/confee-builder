@@ -8,6 +8,7 @@ import ViewerCardView from './ui/card';
 import InitialFillingProfileStep1View from './ui/initial-filling-profile/step1';
 import InitialFillingProfileStep2View from './ui/initial-filling-profile/step2';
 import InitialFillingProfileStep3View from './ui/initial-filling-profile/step3';
+import ChangeNameModalView from './ui/modals/change-name';
 
 export {
     useViewerStore,
@@ -20,4 +21,5 @@ export {
     InitialFillingProfileStep3View,
     yup,
     TokensService,
+    ChangeNameModalView,
 };

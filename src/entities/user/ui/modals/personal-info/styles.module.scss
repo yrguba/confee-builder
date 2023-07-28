@@ -16,19 +16,19 @@
       @include flex(space-between);
       width: 100%;
       gap: 20px;
-
+      cursor: pointer;
 
       .left {
         width: 84%;
         @include flex-column;
         gap: 2px;
 
-        .aboutMe{
+        .aboutMe {
           width: 100%;
           @include flex(flex-start, flex-start);
           max-height: 140px;
           overflow-y: auto;
-      }
+        }
       }
     }
   }

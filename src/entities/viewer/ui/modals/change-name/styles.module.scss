@@ -1,0 +1,27 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include box-size(calc(416px - 48px), auto);
+  @include flex-column(flex-start);
+  gap: 28px;
+  padding: 32px 24px;
+
+  .description {
+    width: 100%;
+    @include flex-column(flex-start,flex-start);
+    gap: 12px;
+  }
+
+  .inputs {
+    @include flex-column;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .buttons {
+    @include flex;
+    gap: 16px;
+    width: 100%;
+  }
+}

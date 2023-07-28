@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { AppService } from 'entities/app';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { ViewerTypes } from '../../../../viewer';
 import { User } from '../../../model/types';
 
 type Props = {
@@ -13,15 +13,14 @@ type Props = {
     selectFile: () => void;
     deleteFile: () => void;
     getScreenshot: (img: string) => void;
+    getChangeModals: (modalName: ViewerTypes.ModalName) => void;
 } & BaseTypes.Statuses;
 
 function PersonalInfoModalView(props: Props) {
-    const { user, isViewer, deleteFile, selectFile, getScreenshot } = props;
-
-    const { url } = AppService.getUrls();
+    const { user, isViewer, deleteFile, selectFile, getScreenshot, getChangeModals } = props;
 
     const items = [
-        { id: 0, title: `${user?.first_name} ${user?.last_name}`, subtitle: 'Имя и фамилия' },
+        { id: 0, title: `${user?.first_name} ${user?.last_name}`, subtitle: 'Имя и фамилия', onClick: () => getChangeModals('change-name') },
         { id: 1, title: '12З', subtitle: 'О себе' },
         { id: 2, title: user?.nickname, subtitle: 'Никнейм' },
         { id: 3, title: user?.phone, subtitle: 'Номер телефона' },
@@ -34,7 +33,7 @@ function PersonalInfoModalView(props: Props) {
             <Title variant="H2">Личная информация</Title>
             <div className={styles.body}>
                 {items.map((item) => (
-                    <div key={item.id} className={styles.item}>
+                    <div key={item.id} className={styles.item} onClick={isViewer ? item.onClick : () => ''}>
                         {item.id === 0 ? (
                             isViewer ? (
                                 <Avatar.Change

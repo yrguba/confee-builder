@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
-import { PersonalInfoModalView, useUserStore } from 'entities/user';
+import { PersonalInfoModalView, useUserStore, UserTypes } from 'entities/user';
 import { useInput, useModal } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
@@ -26,7 +26,7 @@ function UserPersonalInfoModal(props: Props) {
 
     return (
         <Modal {...personalInfoModal} onClose={() => setOpenUserModal(null)}>
-            <PersonalInfoModalView getScreenshot={() => ''} deleteFile={() => () => ''} selectFile={() => ''} user={null} />
+            <PersonalInfoModalView getChangeModals={() => ''} getScreenshot={() => ''} deleteFile={() => () => ''} selectFile={() => ''} user={null} />
         </Modal>
     );
 }

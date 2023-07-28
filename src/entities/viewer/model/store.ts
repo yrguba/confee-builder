@@ -4,7 +4,7 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
-type ModalName = 'personal-info';
+import { ModalName } from './types';
 
 type Store = {
     openModal: ModalName | null;

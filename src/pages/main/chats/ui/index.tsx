@@ -10,7 +10,7 @@ import { useMedia, useHeightMediaQuery, useWidthMediaQuery } from 'shared/hooks'
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { ViewerPersonalInfoModal } from '../../../../features/viewer';
+import { ViewerPersonalInfoModal, ChangeNameModal } from '../../../../features/viewer';
 import { LeftSidebar, Header, Footer, MessagesList, RightSidebar } from '../widgets';
 
 function ChatsPage() {
@@ -57,6 +57,7 @@ function ChatsPage() {
 
     return (
         <>
+            <ChangeNameModal />
             <ViewerPersonalInfoModal />
             <UserPersonalInfoModal />
             <ContactsModal />

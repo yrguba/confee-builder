@@ -13,7 +13,7 @@ type Props = {
 function ContactsModalView(props: Props) {
     const { openAddContactsModal } = props;
 
-    const searchInput = useInput();
+    const searchInput = useInput({});
 
     const [activeTab, setActiveTab] = useState(0);
     const [ac, setAc] = useState<any>([]);
