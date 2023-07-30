@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { UseInputReturnedTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Icons, Input, LoadingIndicator, Select } from 'shared/ui';
+import { Avatar, Box, Button, Icons, Input, LoadingIndicator, Select, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useInput, useStyles } from '../../../../../shared/hooks';
@@ -28,7 +28,7 @@ function AddContactModalView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                <div className={styles.title}>Новый контакт</div>
+                <Title variant="H2">Личная информация</Title>
             </div>
             <div className={styles.body}>
                 <div className={styles.inputsName}>

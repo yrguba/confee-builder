@@ -3,8 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { chatGateway, ChatService, useChatStore } from 'entities/chat';
-import { useMessageStore, messageGateway } from 'entities/message';
+import { useChatStore } from 'entities/chat';
 import { useMedia, useHeightMediaQuery, useWidthMediaQuery, useRouter } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
@@ -13,9 +12,6 @@ import Modals from '../modals';
 import { LeftSidebar, Chat, RightSidebar } from '../widgets';
 
 function ChatsPage() {
-    chatGateway();
-    messageGateway();
-
     const openRightSidebar = useChatStore.use.openRightSidebar();
 
     const { params } = useRouter();

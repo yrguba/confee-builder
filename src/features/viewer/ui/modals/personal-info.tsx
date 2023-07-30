@@ -14,7 +14,6 @@ function ViewerPersonalInfoModal() {
     const { mutate: handleAddAvatar } = ViewerApi.handleAddAvatar();
     const personalInfoModal = useModal();
 
-    const setNotifications = useAppStore.use.setNotifications();
     const openViewerModal = useViewerStore.use.openModal();
     const setOpenViewerModal = useViewerStore.use.setOpenModal();
 
@@ -34,7 +33,7 @@ function ViewerPersonalInfoModal() {
     }, [openViewerModal]);
 
     const getChangeModals = (modalName: ViewerTypes.ModalName, disabled?: boolean) => {
-        disabled ? setNotifications({ text: 'Пока невозможно редактировать', scope: 'app', system: true }) : setOpenViewerModal(modalName);
+        disabled ? alert('Пока невозможно редактировать') : setOpenViewerModal(modalName);
     };
 
     return (

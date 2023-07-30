@@ -13,14 +13,12 @@ function Document(props: DocumentProps) {
     const { save } = useFileDownloads();
 
     const { tauriIsRunning } = AppService;
-    const setNotifications = useAppStore.use.setNotifications();
 
     const { elapsed, percentage, download, cancel, error, isInProgress } = useDownloader();
 
     const click = async () => {
         if (tauriIsRunning) {
             await save(url, name);
-            setNotifications({ text: `Файл ${name} сохранен в папку 'загрузки'`, description: '', scope: 'app', system: true });
         } else {
             await download(url, name);
         }

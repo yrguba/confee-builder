@@ -1,13 +1,8 @@
-import { useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
 
 import { User } from '../model/types';
 
 class UserService {
-    getUserById(id: string | number | undefined) {
-        const queryClient = useQueryClient();
-    }
-
     getUserNetworkStatus(user: User | null) {
         if (!user?.last_active) return null;
         if (user.is_online) return 'В сети';

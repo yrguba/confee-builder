@@ -14,8 +14,7 @@ function chatProxy(chat: Chat): any {
 
                 case 'secondMember':
                     if (target.is_group) return null;
-                    const found = chat.members.find((i) => i.id !== viewerId);
-                    return null;
+                    return chat.members.find((i) => i.id !== viewerId);
 
                 case 'checkIsMyLastMessage':
                     return target.last_message.author.id === viewerId;

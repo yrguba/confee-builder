@@ -1,7 +1,3 @@
-import { NotificationTypes } from 'shared/ui';
-
-export type Notification = NotificationTypes.Notification;
-
 export enum StorageObjectsNames {
     access_token = 'access_token',
     refresh_token = 'refresh_token',

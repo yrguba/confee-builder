@@ -16,13 +16,7 @@ function ChatsList() {
     const createPrivateChatModal = useModal();
     const createGroupChatModal = useModal();
 
-    useChatStore.use.socketAction();
-
-    const { data: usersData } = UserApi.handleGetUsers();
-
     const { data: chatsData } = ChatApi.handleGetChats();
-    const { mutate: handleCreateChat, isSuccess, isLoading: loadingCreateGroupChat } = ChatApi.handleCreateChat();
-    const { mutate: handleAddAvatar } = ChatApi.handleAddAvatar();
 
     const clickOnChatCard = (chat: ChatTypes.Chat) => {
         navigate(`/chats/chat/${chat.id}`);

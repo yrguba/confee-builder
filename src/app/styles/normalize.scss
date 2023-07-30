@@ -11,32 +11,6 @@ html {
     color: var(--main-active);
   }
 
-  //input
-  input {
-    all: unset;
-    caret-color: var(--text-action-pressed);
-  }
-
-
-  ::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-  }
-
-  ::placeholder {
-    color: var(--text-inactive);
-    //font-size: 12px;
-  }
-
-  input[type=password]::-ms-reveal,
-  input[type=password]::-ms-clear {
-    display: none;
-  }
-
-  input:-webkit-autofill,
-  input:-webkit-autofill:focus {
-    transition: background-color 600000s 0s, color 600000s 0s;
-  }
-
   //scrollbar
 
   ::-webkit-scrollbar {
@@ -62,14 +36,6 @@ html {
   }
 
   //npm
-  .react-switch-handle {
-    div {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-
 
   .EmojiPickerReact, .epr-main{
     background-color: var(--bg-0) !important;

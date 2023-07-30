@@ -63,7 +63,6 @@
         "react-router-dom": "^6.8.1",
         "react-screen-hooks": "^0.0.3",
         "react-scripts": "5.0.1",
-        "react-switch": "^7.0.0",
         "react-use": "^17.4.0",
         "react-use-downloader": "^1.2.4",
         "react-use-file-uploader": "^0.0.24",

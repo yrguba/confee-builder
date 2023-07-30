@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-import { MessageTypes } from 'entities/message';
 import { axiosClient } from 'shared/configs';
 import { handlers } from 'shared/lib';
 
@@ -32,68 +31,6 @@ class ChatApi {
             },
         });
     };
-
-    handleGetChatWithUser = (data: { userId: number }) => {
-        return useQuery(['get-chat-with-user', data.userId], () => axiosClient.get(`${this.pathPrefix}/chat/with-user/${data.userId}`), {
-            staleTime: Infinity,
-            select: (data) => {
-                return handlers.response<{ data: Chat }>(data);
-            },
-        });
-    };
-
-    handleGetChatFiles = (data: { id: string | undefined; byUserId: boolean; fileType: any }) => {
-        const getFiles = (chatId: number | undefined) => {
-            return useQuery(['get-chat-files', Number(data.id), data.fileType], () => axiosClient.get(`${this.pathPrefix}/${chatId}/files/${data.fileType}`), {
-                staleTime: Infinity,
-                enabled: !!chatId || !!data.fileType,
-                select: (data) => {
-                    return handlers.response<{ data: { files: MessageTypes.File[] } }>(data);
-                },
-            });
-        };
-        if (data.byUserId) {
-            const { data: privateChatData } = this.handleGetChatWithUser({ userId: Number(data.id) });
-            return getFiles(privateChatData?.data?.data.id);
-        }
-        return getFiles(Number(data.id));
-    };
-
-    handleCreateChat() {
-        return useMutation((data: { name?: string; users: number[]; is_group: boolean }) => axiosClient.post(this.pathPrefix, data));
-    }
-
-    handleEditName() {
-        return useMutation((data: { chatId: number; name: string }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/name`, { name: data.name }));
-    }
-
-    handleAddAvatar() {
-        return useMutation((data: { chatId: number; avatar: FormData }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/avatar`, data.avatar));
-    }
-
-    handleDeleteChat() {
-        return useMutation((data: { chatId: number | null }) => axiosClient.delete(`${this.pathPrefix}/${data.chatId}`));
-    }
-
-    handleExitFromChat() {
-        return useMutation((data: { chatId: number | null }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`));
-    }
-
-    // handleSubscribeToChat = () => ({
-    //     mutate: (chatId: number) => {
-    //         socketIo.emit('chatListeners', {
-    //             sub: chatId,
-    //         });
-    //     },
-    // });
-    //
-    // handleUnsubscribeFromChat = () => ({
-    //     mutate: (chatId: number) => {
-    //         socketIo.emit('chatListeners', {
-    //             unsub: chatId,
-    //         });
-    //     },
-    // });
 }
 
 export default new ChatApi();

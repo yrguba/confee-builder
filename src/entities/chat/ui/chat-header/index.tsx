@@ -7,7 +7,6 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Counter, Icons, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { MessageProxy } from '../../../message/model/types';
 import { ChatProxy, Chat } from '../../model/types';
 
 type Props = {

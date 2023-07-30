@@ -4,11 +4,10 @@ import { AppService } from 'entities/app';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { PrivacySettings, AppSettings, CheckUpdate } from '../widgets';
+import { AppSettings, CheckUpdate } from '../widgets';
 
 function SettingsPage() {
     const items = [
-        { id: 1, element: <PrivacySettings /> },
         { id: 2, element: <AppSettings /> },
         { id: 3, element: AppService.tauriIsRunning ? <CheckUpdate /> : null },
     ];

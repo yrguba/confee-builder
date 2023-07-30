@@ -1,4 +1,3 @@
-import { Message } from '../../message/model/types';
 import { User } from '../../user/model/types';
 
 export type Chat = {
@@ -6,7 +5,7 @@ export type Chat = {
     created_at: Date;
     id: number;
     is_group: boolean;
-    last_message: Message;
+    last_message: any;
     members: User[];
     members_count: number;
     messages_count: number;

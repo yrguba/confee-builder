@@ -14,7 +14,6 @@
     &__body{
       width: 100%;
       @include flex(flex-start);
-      @include title(bodyL);
       color: var(--text-inactive);
       gap: 4px;
       &_left{
