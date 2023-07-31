@@ -19,7 +19,11 @@ type Props = {
 function MessagesListView(props: Props) {
     const { chat, messages, getPrevPage, getNextPage } = props;
 
-    const { executeScrollToElement } = useScroll();
+    const [initOnce, setInitOnce] = useState(true);
+
+    const prevChat = usePrevious(chat);
+
+    const { executeScrollToElement, getScrollPosition } = useScroll();
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -27,11 +31,14 @@ function MessagesListView(props: Props) {
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
+    const { ref: firstUnreadMessageRef2, inView: inViewFirstUnreadMessageRef2 } = useInView({ delay: 200 });
 
     useEffect(() => {
         if (wrapperRef?.current && chat) {
             executeScrollToElement({ ref: lastMessageRef, disabled: !!chat?.pending_messages_count });
-            executeScrollToElement({ ref: firstUnreadMessageRef, disabled: !chat?.pending_messages_count });
+            executeScrollToElement({ ref: firstUnreadMessageRef, disabled: !chat?.pending_messages_count || !initOnce });
+            if (prevChat?.id !== chat.id) setInitOnce(true);
+            setTimeout(() => setInitOnce(false), 1000);
         }
     }, [messages]);
 
@@ -49,14 +56,16 @@ function MessagesListView(props: Props) {
     const getMessageRefs = (message: MessageProxy, index: number) => {
         if (!messages?.length) return null;
         const refs = [];
-        if (message.isFirstUnread) refs.push(firstUnreadMessageRef);
+        if (message.isFirstUnread) {
+            refs.push(firstUnreadMessageRef);
+            refs.push(firstUnreadMessageRef2);
+        }
         if (messages.length - 1 === index) refs.push(lastMessageRef);
         return mergeRefs(refs);
     };
 
     return (
         <div className={styles.wrapper} ref={wrapperRef}>
-            <div ref={nextPageRef} />
             {messages?.map((message, index) => (
                 <div
                     key={message.id}
@@ -64,10 +73,11 @@ function MessagesListView(props: Props) {
                     style={{ justifyContent: message.type === 'system' ? 'center' : message.isMy ? 'flex-end' : 'flex-start' }}
                     ref={getMessageRefs(message, index)}
                 >
+                    {index === 5 && <div ref={nextPageRef} />}
                     <Message message={message} />
+                    {messages?.length - 5 === index && <div ref={prevPageRef} />}
                 </div>
             ))}
-            <div ref={prevPageRef} />
         </div>
     );
 }

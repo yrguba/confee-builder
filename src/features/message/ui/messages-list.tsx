@@ -11,11 +11,8 @@ function MessageList(props: Props) {
     const { params } = useRouter();
 
     const chatId = Number(params.chat_id);
-    const viewerId = viewerService.getId();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
-
-    const { mutate: handleSendReaction } = messageApi.handleSendReaction();
 
     const {
         data: messageData,
