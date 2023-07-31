@@ -1,4 +1,4 @@
-const UseRandomString = (length: number): string => {
+const getRandomString = (length: number): string => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
@@ -10,4 +10,4 @@ const UseRandomString = (length: number): string => {
     return result;
 };
 
-export default UseRandomString;
+export default getRandomString;

@@ -1,3 +1,1 @@
-import { ReactSwitchProps } from 'react-switch';
-
-export type BaseSwitchProps = {} & ReactSwitchProps;
+export type BaseSwitchProps = {};

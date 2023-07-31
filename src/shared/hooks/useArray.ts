@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { uniqueArray } from 'shared/lib';
-
 type Options = {
     multiple?: boolean;
     selfDestruction?: boolean;
@@ -10,13 +8,32 @@ type Options = {
 
 function useArray<T extends { id: number; [key: string]: any }>(
     options: Options
-): { arr: T[]; push: (item: T) => void; unshift: (item: T) => void; findById: (id: number) => T | null; deleteById: (id: number) => void; clear: () => void } {
+): {
+    arr: T[];
+    getUniqueArr: (arr: T[], check: keyof T) => T[];
+    push: (item: T) => void;
+    unshift: (item: T) => void;
+    findById: (id: number) => T | null;
+    deleteById: (id: number) => void;
+    clear: () => void;
+} {
     const [arr, setArr] = useState<T[]>([]);
+
+    function getUniqueArr<T>(arr: T[], check: keyof T): T[] {
+        const flags = new Set();
+        return arr.filter((entry) => {
+            if (flags.has(entry[check])) {
+                return false;
+            }
+            flags.add(entry[check]);
+            return true;
+        });
+    }
 
     const push = (item: T) => {
         if (options.multiple) {
             if (options.unique) {
-                uniqueArray([...arr, item], 'id');
+                getUniqueArr([...arr, item], 'id');
             }
             if (options.selfDestruction) {
                 if (arr.find((i) => i.id === item.id)) {
@@ -39,7 +56,7 @@ function useArray<T extends { id: number; [key: string]: any }>(
     const unshift = (item: T) => {
         if (options.multiple) {
             if (options.unique) {
-                uniqueArray([...arr, item], 'id');
+                getUniqueArr([...arr, item], 'id');
             }
             if (options.selfDestruction) {
                 if (arr.find((i) => i.id === item.id)) {
@@ -72,7 +89,7 @@ function useArray<T extends { id: number; [key: string]: any }>(
     const clear = () => {
         setArr([]);
     };
-    console.log(arr);
-    return { arr, push, unshift, findById, deleteById, clear };
+
+    return { arr, getUniqueArr, push, unshift, findById, deleteById, clear };
 }
 export default useArray;

@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { useChatStore } from 'entities/chat';
-import { useMedia, useHeightMediaQuery, useWidthMediaQuery, useRouter } from 'shared/hooks';
+import { useHeightMediaQuery, useWidthMediaQuery, useRouter } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';

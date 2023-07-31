@@ -1,15 +1,10 @@
-import * as process from 'process';
-
 import axios from 'axios';
 import Base64url from 'crypto-js/enc-base64url';
 import SHA256 from 'crypto-js/sha256';
-import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useSearchParam } from 'react-use';
 
 import { AppService } from 'entities/app';
 import { TokensService } from 'entities/viewer';
-import { useRandomString } from 'shared/hooks';
 
 const authorizeEndpoint = 'oauth/authorize';
 const tokenEndpoint = 'oauth/token';

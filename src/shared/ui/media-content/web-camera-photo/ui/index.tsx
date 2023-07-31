@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
 
-import { useModal, useMedia } from 'shared/hooks';
+import { useModal, useWidthMediaQuery, useHeightMediaQuery } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import Button from '../../../button';
@@ -12,7 +12,7 @@ import { WebCameraProps } from '../types';
 function WebCameraPhoto(props: WebCameraProps) {
     const { getScreenshot } = props;
     const webcamRef = React.useRef<any>(null);
-    const { breakpoint } = useMedia();
+
     const [photoPreview, setPhotoPreview] = useState(null);
 
     const capture = React.useCallback(() => {
@@ -21,8 +21,8 @@ function WebCameraPhoto(props: WebCameraProps) {
     }, [webcamRef]);
 
     const videoConstraints = {
-        width: breakpoint === 'sm' ? 400 : 480,
-        height: breakpoint === 'sm' ? 400 : 480,
+        width: useWidthMediaQuery().to('sm') ? 400 : 480,
+        height: useHeightMediaQuery().to('sm') ? 400 : 480,
         facingMode: 'user',
         'border-radius': '8px',
     };

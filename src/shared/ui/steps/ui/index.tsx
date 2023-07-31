@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ReactSwitch from 'react-switch';
 
 import styles from './styles.module.scss';
 import { StepsProps } from '../types';

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useToggle, useClickAway, useStyles, useMedia, useSize } from 'shared/hooks';
+import { useClickAway, useStyles } from 'shared/hooks';
 import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
@@ -24,8 +24,6 @@ function Dropdown(props: DropdownBaseProps) {
     } = props;
 
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const bodyRef = useRef<any>(null);
-    const { breakpoint } = useMedia();
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [pos, setPos] = useState({ x: 0, y: 0 });

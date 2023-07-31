@@ -21,17 +21,13 @@ import useArray from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
-import useDate from './useDate';
 import useEnding from './useEnding';
 import useFileDownloads from './useFileDownloads';
 import useInput from './useInput';
-import useMedia from './useMedia';
 import useModal from './useModal';
-import useRandomString from './useRandomString';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useRowAndDropdown from './useRowAndDropdown';
-import useScrollTo from './useScroll';
 import useSize from './useSize';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
@@ -45,7 +41,6 @@ export {
     useWidthMediaQuery,
     useHeightMediaQuery,
     useModal,
-    useRandomString,
     useDownloader,
     useFileDownloads,
     useNetworkState,
@@ -61,15 +56,12 @@ export {
     useStyles,
     useScrolling,
     useSize,
-    useMedia,
     useRowAndDropdown,
     useArray,
     usePrevious,
     useEnding,
     useWindowSize,
-    useDate,
     useScroll,
-    useScrollTo,
     useReverseTimer,
     useInView,
     useAnimation,

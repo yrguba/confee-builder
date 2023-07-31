@@ -1,8 +1,6 @@
 import moment from 'moment';
 import React from 'react';
 
-import { ViewerService } from 'entities/viewer';
-import { useDate } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Counter, Icons, Card } from 'shared/ui';
 
