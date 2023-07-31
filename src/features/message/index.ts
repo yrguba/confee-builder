@@ -1,4 +1,5 @@
-import MessageInput from './ui/message-input';
+import MessageInput from './ui/input';
 import MessagesList from './ui/messages-list';
+import SearchMessages from './ui/search';
 
-export { MessagesList, MessageInput };
+export { MessagesList, MessageInput, SearchMessages };

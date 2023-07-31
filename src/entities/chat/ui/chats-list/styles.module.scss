@@ -20,10 +20,8 @@
   }
 
   .chatsList{
-    @include flex-column(center, center);
-    //margin-top: 10px;
+    @include flex-column;
     width: 100%;
-    //overflow-y: auto;
     gap: 12px;
 
     .item {
@@ -31,6 +29,10 @@
       @include box-size(90%, 100%);
       cursor: pointer;
       transition: background-color var(--transition);
+
+      .card{
+        width: 84%;
+      }
 
       .rightColumn {
         @include flex-column(flex-end, flex-end, 6);

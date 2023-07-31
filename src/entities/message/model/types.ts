@@ -1,9 +1,33 @@
-import { User } from '../../user/model/types';
+import { UserTypes } from '../../user';
+
+export type Content = {
+    extension: string;
+    name: string;
+    size: number;
+    url: string;
+};
 
 export type MessageType = 'text' | 'images' | 'videos' | 'audios' | 'documents' | 'voices' | 'system';
 
+export enum MediaContentType {
+    'image' = 'фото',
+    'audio' = 'аудио',
+    'video' = 'видео',
+    'document' = 'документы',
+}
+
+export type MediaContentTypeKeys = keyof typeof MediaContentType;
+
+export type MessageStatus = 'pending' | 'read';
+export type File = {
+    extension: string;
+    name: string;
+    size: number;
+    url: string;
+};
+
 export type Message = {
-    author: User;
+    author: UserTypes.User;
     chat_id?: number;
     created_at: Date;
     files: any[];
@@ -26,5 +50,15 @@ export type MessageProxy = {
     firstOfDay: string;
 } & Message;
 
-type SocketIn = 'MessageCreated' | 'MessageRead' | 'ChatListenersUpdated';
-type SocketOut = '';
+export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
+export type InputMenuIcons = MediaContentTypeKeys;
+
+type MenuItem<T> = {
+    id: number;
+    title: string;
+    icon: T;
+    onClick: () => void;
+};
+
+export type MessageMenuItem = MenuItem<MessageMenuIcons>;
+export type InputMenuItem = MenuItem<InputMenuIcons>;

@@ -1,0 +1,37 @@
+@import "./src/app/styles";
+
+.wrapper{
+  @include flex-column(flex-start, flex-start);
+  gap: 12px;
+
+  .title{
+    color: var(--text-0);
+  }
+
+  .list{
+    @include flex(flex-start, flex-start);
+    gap: 4px;
+    height: auto;
+
+    .leftColumn{
+    }
+
+    .messagesColumn{
+      padding-left: 6px;
+      border-left: 1px solid var(--main-active);
+
+      .message{
+        @include flex-column(flex-start, flex-start);
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+
+        .userName{
+          color: var(--main-active);
+        }
+      }
+    }
+  }
+}
+
+

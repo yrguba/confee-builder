@@ -37,7 +37,9 @@ function ChatsListView(props: Props) {
                         <div className={styles.chatsList}>
                             {category.items.map((chat) => (
                                 <div key={chat.id} className={styles.item} onClick={() => clickOnChat(chat)}>
-                                    <Card img={chat.avatar} title={chat.name} subtitle={chat.lastMessageTitle} />
+                                    <div className={styles.card}>
+                                        <Card img={chat.avatar} title={chat.name} subtitle={chat.lastMessageTitle} />
+                                    </div>
                                     <div className={styles.rightColumn}>
                                         <Title variant="caption1S" primary={false}>
                                             {chat.date}

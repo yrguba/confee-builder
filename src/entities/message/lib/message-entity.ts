@@ -1,6 +1,8 @@
+import { useQueryClient } from '@tanstack/react-query';
+
 import { ViewerTypes } from 'entities/viewer';
 
-import { Message, MessageProxy, MessageType } from './types';
+import { Message, MessageProxy, MessageType } from '../model/types';
 
 export default function (data: { text?: string; content?: any; type?: MessageType; viewer: ViewerTypes.Viewer | undefined; reply?: Message | null }): Message {
     return {

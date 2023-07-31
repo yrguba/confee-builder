@@ -1,0 +1,20 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include flex-column(flex-start, flex-start);
+  gap: 8px;
+
+  .reply {
+    padding-left: 11px;
+    border-left: 1px solid var(--main-active);
+    color: var(--text-0);
+    font-size: 12px;
+    line-height: 18px;
+
+    .userName {
+      font-weight: 600;
+    }
+  }
+}
+
+
