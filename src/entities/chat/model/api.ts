@@ -11,7 +11,7 @@ import chatProxy from '../lib/chat-proxy';
 class ChatApi {
     pathPrefix = '/api/v2/chats';
 
-    handleGetChat = (data: { chatId: string | undefined }) => {
+    handleGetChat = (data: { chatId: number | undefined }) => {
         return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
             staleTime: Infinity,
             enabled: !!data.chatId,

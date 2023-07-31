@@ -6,7 +6,7 @@ import { useRouter } from 'shared/hooks';
 function ChatHeader() {
     const { params, navigate } = useRouter();
 
-    const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
+    const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
     const setOpenRightSidebar = useChatStore.use.setOpenRightSidebar();
 
     const clickChatCard = () => {

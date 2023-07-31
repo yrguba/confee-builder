@@ -13,7 +13,7 @@ function MessageList(props: Props) {
     const chatId = Number(params.chat_id);
     const viewerId = ViewerService.getId();
 
-    const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
+    const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
     const { mutate: handleSendReaction } = messageApi.handleSendReaction();
 

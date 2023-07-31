@@ -3,117 +3,28 @@ import { useEffect } from 'react';
 
 import { useWebSocket } from 'shared/hooks';
 
-import useMessageStore from './store';
-import { Message, MessageProxy } from './types';
+import { Message } from './types';
+
+type SocketIn = 'MessageCreated';
+type SocketOut = '';
 
 function messageGateway() {
+    const { onMessage } = useWebSocket<SocketIn, SocketOut>();
     const queryClient = useQueryClient();
-    const setSocketAction = useMessageStore.use.setSocketAction();
-    const { onMessage } = useWebSocket();
-
     useEffect(() => {
-        onMessage('UWS_CLIENT_IDENTIFICATION', (data: any) => {
-            console.log(data);
+        onMessage('MessageCreated', (socketData) => {
+            queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
+                if (!cacheData?.pages.length) return cacheData;
+
+                return {
+                    ...cacheData,
+                    data: {
+                        ...cacheData.data.data,
+                        data: [...cacheData.data.data, socketData.data.message],
+                    },
+                };
+            });
         });
-        // socketIo.on('receiveMessage', ({ message }) => {
-        //     console.log('receiveMessage', message);
-        //     const viewerData: any = queryClient.getQueryData(['get-viewer']);
-        //     queryClient.setQueryData(['get-messages', Number(message.chat_id)], (cacheData: any) => {
-        //         if (cacheData) {
-        //             if (message.is_edited) {
-        //                 cacheData.pages.length &&
-        //                     cacheData.pages.forEach((page: any) => {
-        //                         page?.data?.data.forEach((messageInCache: MessageProxy, index: number) => {
-        //                             if (message?.id === messageInCache?.id) {
-        //                                 page.data.data.splice(index, 1, { ...messageInCache, text: message.text, is_edited: true });
-        //                             }
-        //                         });
-        //                     });
-        //             } else {
-        //                 const viewerId = viewerData?.data.data.id;
-        //                 const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
-        //                 if (viewerId === message.user.id) {
-        //                     pageOne.data.data.find((myMessage: MessageProxy, index: number) => {
-        //                         if (myMessage.user?.id === viewerId && myMessage.isMock) {
-        //                             pageOne.data.data.splice(index, 1, { ...message, isMy: true });
-        //                         }
-        //                         if (message.message_type !== 'text') {
-        //                             pageOne.data.data.unshift(message);
-        //                         }
-        //                     });
-        //                 } else if (pageOne) {
-        //                     pageOne.data.data.unshift(message);
-        //                 }
-        //             }
-        //             setSocketAction(`receiveMessage:${message.id}:${new Date()}`);
-        //         }
-        //         return cacheData;
-        //     });
-        // });
-        // socketIo.on('receiveDeleteMessage', ({ chat_id, messages }) => {
-        //     queryClient.setQueryData(['get-messages', chat_id], (cacheData: any) => {
-        //         cacheData &&
-        //             cacheData.pages.forEach((page: any) => {
-        //                 page.data.data.forEach((message: Message, index: number) => {
-        //                     messages.forEach((deletedMessage: Message) => {
-        //                         if (message.id === deletedMessage.id) {
-        //                             page.data.data.splice(index, 1);
-        //                             setSocketAction(`receiveReactions:${message.id}:${new Date()}`);
-        //                         }
-        //                     });
-        //                 });
-        //             });
-        //         return cacheData;
-        //     });
-        // });
-        // socketIo.on('receiveReactions', ({ data }) => {
-        //     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-        //         cacheData.pages.forEach((page: any) => {
-        //             page.data.data.forEach((message: any) => {
-        //                 if (message.id === data.messageId) {
-        //                     message.reactions = { ...data.reactions };
-        //                     setSocketAction(`receiveReactions:${message.id}:${new Date()}`);
-        //                 }
-        //             });
-        //         });
-        //         return cacheData;
-        //     });
-        // });
-        // socketIo.on('receiveMessageStatus', (data) => {
-        //     console.log('receiveMessageStatus', data);
-        //     queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
-        //         cacheData &&
-        //             cacheData.pages.forEach((page: any) => {
-        //                 page.data.data.forEach((message: Record<string, any>) => {
-        //                     data.messages.forEach((responseMessage: Record<string, any>, index: number) => {
-        //                         if (responseMessage.id === message.id) {
-        //                             Object.keys(responseMessage).forEach((key) => {
-        //                                 if (key !== 'content' && key !== 'forwarded_messages' && key !== 'text') {
-        //                                     message[key] = responseMessage[key];
-        //                                 }
-        //                             });
-        //                             message.message_status = responseMessage.message_status;
-        //                             setSocketAction(`receiveMessageStatus:${message.id}:${responseMessage.id}`);
-        //                         }
-        //                     });
-        //                 });
-        //             });
-        //         return cacheData;
-        //     });
-        // });
-        // socketIo.on('receiveForwardMessage', ({ chat_id, message }) => {
-        //     console.log('receiveForwardMessage', message);
-        //     queryClient.setQueryData(['get-messages', chat_id], (cacheData: any) => {
-        //         if (cacheData) {
-        //             const pageOne = cacheData.pages.find((page: any) => page.data.page === 1);
-        //             if (pageOne) {
-        //                 pageOne.data.data.unshift(message);
-        //             }
-        //         }
-        //         setSocketAction(`receiveForwardMessage:${message.id}:${new Date()}`);
-        //         return cacheData;
-        //     });
-        // });
     }, []);
 }
 

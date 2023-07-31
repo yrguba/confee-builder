@@ -8,11 +8,13 @@ import { useHeightMediaQuery, useWidthMediaQuery, useRouter } from 'shared/hooks
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { messageGateway } from '../../../../entities/message';
 import Modals from '../modals';
 import { LeftSidebar, Chat, RightSidebar } from '../widgets';
 
 function ChatsPage() {
     chatGateway();
+    messageGateway();
 
     const openRightSidebar = useChatStore.use.openRightSidebar();
 
