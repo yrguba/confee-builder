@@ -5,10 +5,6 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Button, Icons, Input, LoadingIndicator, Select, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useInput, useStyles } from '../../../../../shared/hooks';
-import { ViewerTypes } from '../../../../viewer';
-import { User } from '../../../model/types';
-import UserStatusView from '../../status';
 
 type Props = {
     back: () => void;

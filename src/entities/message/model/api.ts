@@ -20,6 +20,7 @@ class MessageApi {
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
+                console.log(initialPage);
                 return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
                     params: {
                         page: pageParam || initialPage,

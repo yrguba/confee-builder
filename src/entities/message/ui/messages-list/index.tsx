@@ -1,4 +1,5 @@
 import React, { useRef, Fragment, useEffect, useState } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 
 import { useInView, usePrevious, useScroll } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -22,6 +23,7 @@ function MessagesListView(props: Props) {
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
+    const firstUnreadMessageRef = useRef<HTMLDivElement>(null);
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
@@ -29,13 +31,28 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         if (wrapperRef?.current && chat) {
             executeScrollToElement({ ref: lastMessageRef, disabled: !!chat?.pending_messages_count });
+            executeScrollToElement({ ref: firstUnreadMessageRef, disabled: !chat?.pending_messages_count });
         }
     }, [messages]);
+
+    useEffect(() => {
+        if (firstUnreadMessageRef.current) {
+            firstUnreadMessageRef.current.style.backgroundColor = 'red';
+        }
+    }, [firstUnreadMessageRef.current]);
 
     useEffect(() => {
         if (inViewPrevPage) return getPrevPage();
         if (inViewNextPage) return getNextPage();
     }, [inViewPrevPage, inViewNextPage]);
+
+    const getMessageRefs = (message: MessageProxy, index: number) => {
+        if (!messages?.length) return null;
+        const refs = [];
+        if (message.isFirstUnread) refs.push(firstUnreadMessageRef);
+        if (messages.length - 1 === index) refs.push(lastMessageRef);
+        return mergeRefs(refs);
+    };
 
     return (
         <div className={styles.wrapper} ref={wrapperRef}>
@@ -45,7 +62,7 @@ function MessagesListView(props: Props) {
                     key={message.id}
                     className={styles.row}
                     style={{ justifyContent: message.type === 'system' ? 'center' : message.isMy ? 'flex-end' : 'flex-start' }}
-                    ref={messages?.length - 1 === index ? lastMessageRef : null}
+                    ref={getMessageRefs(message, index)}
                 >
                     <Message message={message} />
                 </div>

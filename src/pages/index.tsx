@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import { ViewerApi, TokensService } from 'entities/viewer';
+import { viewerApi, tokensService } from 'entities/viewer';
 import { webView } from 'features/auth';
 import { SizeWarningPage } from 'pages/warning';
 import { useWindowSize } from 'shared/hooks';
@@ -14,7 +14,7 @@ function Routing() {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const { data: viewerData, isLoading } = ViewerApi.handleGetViewer();
+    const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
 
     const initialFillingProfileRoutes = (
         <Routes>
@@ -32,7 +32,7 @@ function Routing() {
     const getRouting = () => {
         if (width < 480) return <SizeWarningPage size={{ width, height }} error="width" />;
         if (height < 450) return <SizeWarningPage size={{ width, height }} error="height" />;
-        if (TokensService.checkAuth()) {
+        if (tokensService.checkAuth()) {
             if (location.pathname.includes('/filling_profile')) {
                 return initialFillingProfileRoutes;
             }

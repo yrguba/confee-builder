@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import useFileUploader from 'react-use-file-uploader';
 
-import { PersonalInfoModalView, UserTypes } from 'entities/user';
-import { ViewerApi, useViewerStore, ViewerTypes } from 'entities/viewer';
+import { PersonalInfoModalView, userTypes } from 'entities/user';
+import { viewerApi, useViewerStore, viewerTypes } from 'entities/viewer';
 import { useModal } from 'shared/hooks';
 import { getFormData } from 'shared/lib';
 import { Modal } from 'shared/ui';
@@ -10,8 +10,8 @@ import { Modal } from 'shared/ui';
 import { useAppStore } from '../../../../entities/app';
 
 function ViewerPersonalInfoModal() {
-    const { data: viewerData } = ViewerApi.handleGetViewer();
-    const { mutate: handleAddAvatar } = ViewerApi.handleAddAvatar();
+    const { data: viewerData } = viewerApi.handleGetViewer();
+    const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
     const personalInfoModal = useModal();
 
     const openViewerModal = useViewerStore.use.openModal();
@@ -32,7 +32,7 @@ function ViewerPersonalInfoModal() {
         openViewerModal === 'personal-info' ? personalInfoModal.open() : personalInfoModal.close();
     }, [openViewerModal]);
 
-    const getChangeModals = (modalName: ViewerTypes.ModalName, disabled?: boolean) => {
+    const getChangeModals = (modalName: viewerTypes.ModalName, disabled?: boolean) => {
         disabled ? alert('Пока невозможно редактировать') : setOpenViewerModal(modalName);
     };
 

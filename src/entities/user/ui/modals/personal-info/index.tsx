@@ -4,7 +4,7 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { ViewerTypes } from '../../../../viewer';
+import { viewerTypes } from '../../../../viewer';
 import { User } from '../../../model/types';
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
     selectFile: () => void;
     deleteFile: () => void;
     getScreenshot: (img: string) => void;
-    getChangeModals: (modalName: ViewerTypes.ModalName, disabled?: boolean) => void;
+    getChangeModals: (modalName: viewerTypes.ModalName, disabled?: boolean) => void;
 } & BaseTypes.Statuses;
 
 function PersonalInfoModalView(props: Props) {

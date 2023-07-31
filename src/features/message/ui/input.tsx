@@ -4,8 +4,8 @@ import { useParams } from 'react-router';
 import { useAppStore } from 'entities/app';
 import { chatApi } from 'entities/chat';
 import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
-import { UserTypes } from 'entities/user';
-import { ViewerService } from 'entities/viewer';
+import { userTypes } from 'entities/user';
+import { viewerService } from 'entities/viewer';
 import { useAudioRecorder } from 'shared/hooks';
 
 type Props = {};
@@ -73,14 +73,14 @@ function MessageInput(props: Props) {
         setValueTextMessage('');
     }, [chatId]);
 
-    const getTagAUsers = (): UserTypes.User[] | null => {
+    const getTagAUsers = (): userTypes.User[] | null => {
         if (!chat || !chat.is_group) return null;
         const words = valueTextMessage.split(' ');
         const all = words.find((word) => /^@$/.test(word));
         const tags = words.filter((word) => /@[a-zA-Zа-яА-я0-9]/.test(word));
         const lastWordIsTag = /@[a-zA-Zа-яА-я0-9]/.test(words[words.length - 1]);
-        const suitable: UserTypes.User[] = [];
-        const users = chat.members.filter((user) => !!user.nickname && user.id !== ViewerService.getId());
+        const suitable: userTypes.User[] = [];
+        const users = chat.members.filter((user) => !!user.nickname && user.id !== viewerService.getId());
         if (all) {
             suitable.splice(0, 0, ...users);
             return suitable;
@@ -98,7 +98,7 @@ function MessageInput(props: Props) {
         return null;
     };
 
-    const clickUser = (user: UserTypes.User) => {
+    const clickUser = (user: userTypes.User) => {
         const val = valueTextMessage.split('@');
         val[val.length - 1] = `${user.nickname} `;
         setValueTextMessage(val.join('@'));

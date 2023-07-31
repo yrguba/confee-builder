@@ -3,10 +3,10 @@
 .wrapper {
   overflow: hidden;
   @include flex;
-  min-width: 12px;
-  background-color: var(--main-active);
-  color: var(--text-0);
-  border-radius: var(--border-radius);
+  min-width: 20px;
+  background-color: var(--control-primary);
+  color: var(--text-primary);
+  border-radius: 12px;
   font-weight: 500;
   font-size: 12px;
 }

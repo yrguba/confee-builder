@@ -1,13 +1,13 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ViewerCardView, useViewerStore, ViewerApi } from 'entities/viewer';
+import { ViewerCardView, useViewerStore, viewerApi } from 'entities/viewer';
 
 function ViewerCard() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
-    const { data, isLoading } = ViewerApi.handleGetViewer();
+    const { data, isLoading } = viewerApi.handleGetViewer();
 
     const switchingRoute = () => {
         const basePath = pathname.split('/')[1];

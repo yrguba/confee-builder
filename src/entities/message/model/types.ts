@@ -1,4 +1,4 @@
-import { UserTypes } from '../../user';
+import { userTypes } from '../../user';
 
 export type Content = {
     extension: string;
@@ -27,7 +27,7 @@ export type File = {
 };
 
 export type Message = {
-    author: UserTypes.User;
+    author: userTypes.User;
     chat_id?: number;
     created_at: Date;
     files: any[];

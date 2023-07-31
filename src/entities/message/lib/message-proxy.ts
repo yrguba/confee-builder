@@ -1,10 +1,10 @@
 import moment from 'moment';
 
-import { ViewerService } from '../../viewer';
+import { viewerService } from '../../viewer';
 import { Message, MessageProxy } from '../model/types';
 
 function messageProxy(prevMessage: any, message: Message): any {
-    const viewerId = ViewerService.getId();
+    const viewerId = viewerService.getId();
     return new Proxy(message, {
         get(target: MessageProxy, prop: keyof MessageProxy, receiver): MessageProxy[keyof MessageProxy] {
             switch (prop) {

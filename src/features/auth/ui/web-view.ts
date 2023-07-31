@@ -4,7 +4,7 @@ import SHA256 from 'crypto-js/sha256';
 import { useLocation } from 'react-router-dom';
 
 import { AppService } from 'entities/app';
-import { TokensService } from 'entities/viewer';
+import { tokensService } from 'entities/viewer';
 
 const authorizeEndpoint = 'oauth/authorize';
 const tokenEndpoint = 'oauth/token';
@@ -44,7 +44,7 @@ const webView = () => {
 
         axios.post(`${url}/${tokenEndpoint}`, body).then((res) => {
             if (res.data.access_token) {
-                TokensService.save({
+                tokensService.save({
                     access_token: res.data.access_token,
                     refresh_token: res.data.refresh_token,
                 });

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 
-import { ViewerApi, ChangeBirthModalView, useViewerStore } from 'entities/viewer';
+import { viewerApi, ChangeBirthModalView, useViewerStore } from 'entities/viewer';
 import { useInput, useModal } from 'shared/hooks';
 
 import { Modal } from '../../../../shared/ui';
 
 function ChangeBirthModal() {
-    const { data: viewerData } = ViewerApi.handleGetViewer();
-    const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
+    const { data: viewerData } = viewerApi.handleGetViewer();
+    const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
     const openViewerModal = useViewerStore.use.openModal();
     const setViewerModal = useViewerStore.use.setOpenModal();

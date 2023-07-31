@@ -1,11 +1,14 @@
 import moment from 'moment';
 
-import { ViewerService } from 'entities/viewer';
+import { viewerService } from 'entities/viewer';
 
+import { useEnding } from '../../../shared/hooks';
+import { userService } from '../../user';
 import { ChatProxy, Chat } from '../model/types';
 
-function chatProxy(chat: Chat): any {
-    const viewerId = ViewerService.getId();
+function chatProxy(chat: Chat | undefined): any {
+    const viewerId = viewerService.getId();
+    if (!chat) return null;
     return new Proxy(chat, {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver): ChatProxy[keyof ChatProxy] {
             switch (prop) {
@@ -34,6 +37,14 @@ function chatProxy(chat: Chat): any {
                         return moment(target.updated_at).format('LT');
                     }
                     return moment(target.updated_at).format('llll')?.split(',')[0];
+
+                case 'subtitle':
+                    if (target.messageAction) return target.messageAction;
+                    if (target.is_group) {
+                        const word = useEnding(target.members.length, ['участник', 'участника', 'участников']);
+                        return `${target.members.length} ${word}`;
+                    }
+                    return userService.getUserNetworkStatus(chat.members.find((i) => i.id !== viewerId) || null) || 'dwd';
 
                 default:
                     return target[prop];

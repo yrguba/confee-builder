@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ViewerTypes } from 'entities/viewer';
 import { useInput } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Button, Input, Title } from 'shared/ui';

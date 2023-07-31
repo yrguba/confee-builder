@@ -1,5 +1,5 @@
 import { AppService } from 'entities/app';
-import { TokensService } from 'entities/viewer';
+import { tokensService } from 'entities/viewer';
 
 const { socketUrl } = AppService.getUrls();
 const ws = new WebSocket(socketUrl);
@@ -12,7 +12,7 @@ type Returned<In, Out> = {
 };
 
 function useWebSocket<In, Out>(): Returned<In, Out> {
-    const token = TokensService.get()?.access_token;
+    const token = tokensService.get()?.access_token;
     ws.onopen = function () {
         ws.send(
             JSON.stringify({

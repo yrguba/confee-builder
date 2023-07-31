@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { chatApi, chatService, useChatStore, chatProxy } from 'entities/chat';
 import { messageProxy, messageApi, MessagesListView, useMessageStore, messageTypes } from 'entities/message';
-import { ViewerService } from 'entities/viewer';
+import { viewerService } from 'entities/viewer';
 import { useRouter } from 'shared/hooks';
 
 type Props = {};
@@ -11,7 +11,7 @@ function MessageList(props: Props) {
     const { params } = useRouter();
 
     const chatId = Number(params.chat_id);
-    const viewerId = ViewerService.getId();
+    const viewerId = viewerService.getId();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
@@ -27,9 +27,9 @@ function MessageList(props: Props) {
     } = messageApi.handleGetMessages({ chatId, initialPage: chatService.getInitialPage(chatData) });
 
     const getPrevPage = () => {
-        // readMessage(messageData?.pages[messageData?.pages.length - 1].id || 0);
-        // hasPreviousPage && !isFetching && fetchPreviousPage().then();
+        hasPreviousPage && !isFetching && fetchPreviousPage().then();
     };
+
     const getNextPage = () => {
         hasNextPage && !isFetching && fetchNextPage().then();
     };

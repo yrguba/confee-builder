@@ -5,10 +5,10 @@ import { BaseTypes } from 'shared/types';
 import { Icons, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Chat } from '../../model/types';
+import { Chat, ChatProxy } from '../../model/types';
 
 type Props = {
-    chat: Chat | BaseTypes.Empty;
+    chat: ChatProxy | BaseTypes.Empty;
     clickChatCard: () => void;
     back: () => void;
 } & BaseTypes.Statuses;
@@ -23,7 +23,7 @@ function ChatHeaderView(props: Props) {
                     <Icons variants="leftArrow" />
                 </div>
             )}
-            <Card img={chat?.avatar} title={chat?.name} subtitle="ddd" onClick={clickChatCard} />
+            <Card img={chat?.avatar} title={chat?.name} subtitle={chat?.subtitle} onClick={clickChatCard} />
         </div>
     );
 }

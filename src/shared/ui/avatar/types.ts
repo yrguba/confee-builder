@@ -1,4 +1,3 @@
-import { UserTypes } from '../../../entities/user';
 import { BaseTypes } from '../../types';
 
 export type AvatarProps = {

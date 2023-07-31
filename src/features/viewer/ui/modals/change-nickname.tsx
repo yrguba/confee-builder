@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 
-import { useViewerStore, ViewerApi, ChangeNickNameModalView, yup } from 'entities/viewer';
+import { useViewerStore, viewerApi, ChangeNickNameModalView, yup } from 'entities/viewer';
 import { useInput, useModal } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
 function ChangeNicknameModal() {
-    const { data: viewerData, isLoading } = ViewerApi.handleGetViewer();
-    const handleCheckNickname = ViewerApi.handleCheckNickname();
-    const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
+    const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
+    const handleCheckNickname = viewerApi.handleCheckNickname();
+    const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
     const openViewerModal = useViewerStore.use.openModal();
     const setViewerModal = useViewerStore.use.setOpenModal();

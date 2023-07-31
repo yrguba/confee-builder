@@ -3,6 +3,8 @@ import React from 'react';
 import { ChatHeaderView, useChatStore, chatApi } from 'entities/chat';
 import { useRouter } from 'shared/hooks';
 
+import ChatProxy from '../../../entities/chat/lib/chat-proxy';
+
 function ChatHeader() {
     const { params, navigate } = useRouter();
 
@@ -13,7 +15,7 @@ function ChatHeader() {
         setOpenRightSidebar(true);
     };
 
-    return <ChatHeaderView back={() => navigate('/chats')} clickChatCard={clickChatCard} chat={chatData} />;
+    return <ChatHeaderView back={() => navigate('/chats')} clickChatCard={clickChatCard} chat={ChatProxy(chatData)} />;
 }
 
 export default ChatHeader;

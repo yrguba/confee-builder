@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 
-import { ViewerApi, ChangeNameModalView, yup, useViewerStore } from 'entities/viewer';
+import { viewerApi, ChangeNameModalView, yup, useViewerStore } from 'entities/viewer';
 
 import { PersonalInfoModalView } from '../../../../entities/user';
 import { useInput, useModal } from '../../../../shared/hooks';
 import { Modal } from '../../../../shared/ui';
 
 function ChangeNameModal() {
-    const { data: viewerData } = ViewerApi.handleGetViewer();
-    const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
+    const { data: viewerData } = viewerApi.handleGetViewer();
+    const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
     const changeNameModal = useModal();
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ViewerTypes } from 'entities/viewer';
+import { viewerTypes } from 'entities/viewer';
 import { UseInputReturnedTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Button, Input } from 'shared/ui';
@@ -8,7 +8,7 @@ import { Box, Button, Input } from 'shared/ui';
 import styles from './styles.module.scss';
 
 type Props = {
-    viewer: ViewerTypes.Viewer | BaseTypes.Empty;
+    viewer: viewerTypes.Viewer | BaseTypes.Empty;
     handleSubmit: () => void;
     inputs: {
         lastName: UseInputReturnedTypes;

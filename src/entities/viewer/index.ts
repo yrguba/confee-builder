@@ -1,9 +1,9 @@
-import ViewerService from './lib/service';
-import TokensService from './lib/tokens-service';
+import viewerService from './lib/service';
+import tokensService from './lib/tokens-service';
 import * as yup from './lib/yup';
-import ViewerApi from './model/api';
+import viewerApi from './model/api';
 import useViewerStore from './model/store';
-import * as ViewerTypes from './model/types';
+import * as viewerTypes from './model/types';
 import ViewerCardView from './ui/card';
 import InitialFillingProfileStep1View from './ui/initial-filling-profile/step1';
 import InitialFillingProfileStep2View from './ui/initial-filling-profile/step2';
@@ -14,15 +14,15 @@ import ChangeNickNameModalView from './ui/modals/change-nickname';
 
 export {
     useViewerStore,
-    ViewerTypes,
-    ViewerApi,
-    ViewerService,
+    viewerTypes,
+    viewerApi,
+    viewerService,
     ViewerCardView,
     InitialFillingProfileStep1View,
     InitialFillingProfileStep2View,
     InitialFillingProfileStep3View,
     yup,
-    TokensService,
+    tokensService,
     ChangeNameModalView,
     ChangeNickNameModalView,
     ChangeBirthModalView,

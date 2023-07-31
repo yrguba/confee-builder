@@ -21,4 +21,5 @@ export type ChatProxy = {
     lastMessageTitle: string;
     date: string;
     checkIsMyLastMessage: boolean;
+    subtitle: string;
 } & Chat;

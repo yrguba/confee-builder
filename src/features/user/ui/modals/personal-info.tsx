@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
-import { PersonalInfoModalView, useUserStore, UserTypes } from 'entities/user';
+import { PersonalInfoModalView, useUserStore } from 'entities/user';
 import { useInput, useModal } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 
 import { AppService } from 'entities/app';
-import { TokensService } from 'entities/viewer';
+import { tokensService } from 'entities/viewer';
 
 const { url } = AppService.getUrls();
 const { auth } = AppService.getSecret();
@@ -12,7 +12,7 @@ const config: AxiosRequestConfig = {
 const axiosClient = axios.create(config);
 
 axiosClient.interceptors.request.use(async (config: any) => {
-    const tokens = TokensService.get();
+    const tokens = tokensService.get();
     if (tokens?.access_token) {
         return {
             ...config,
@@ -32,7 +32,7 @@ axiosClient.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
-        const currentTokens = TokensService.get();
+        const currentTokens = tokensService.get();
         if (error.response.status === 401 && error.config && currentTokens && !error.config._isRetry) {
             error.config._isRetry = true;
             try {
@@ -41,14 +41,14 @@ axiosClient.interceptors.response.use(
                 const res: any = await axiosClient.post('api/v2/authorization/refresh', currentTokens);
                 if (res.data.data) {
                     const { access_token, refresh_token } = res.data.data;
-                    await TokensService.save({ access_token, refresh_token });
+                    await tokensService.save({ access_token, refresh_token });
                     return await axiosClient.request(originalRequest);
                 }
-                await TokensService.remove();
+                await tokensService.remove();
                 window.location.reload();
                 return null;
             } catch (err) {
-                await TokensService.remove();
+                await tokensService.remove();
                 window.location.reload();
                 return null;
             }

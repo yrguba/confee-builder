@@ -10,5 +10,7 @@
   .row {
     @include box-size(98%, auto);
     display: flex;
+    transition: background-color .5s;
+    border-radius: 12px;
   }
 }

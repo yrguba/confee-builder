@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ViewerTypes } from 'entities/viewer';
+import { viewerTypes } from 'entities/viewer';
 import { useDebounce, useInput } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Button, Input, Title } from 'shared/ui';
@@ -8,7 +8,7 @@ import { Avatar, Box, Button, Input, Title } from 'shared/ui';
 import styles from './styles.module.scss';
 
 type Props = {
-    viewer: ViewerTypes.Viewer | BaseTypes.Empty;
+    viewer: viewerTypes.Viewer | BaseTypes.Empty;
     handleSubmit: (arg: string) => void;
     nicknameInput: ReturnType<typeof useInput>;
 };

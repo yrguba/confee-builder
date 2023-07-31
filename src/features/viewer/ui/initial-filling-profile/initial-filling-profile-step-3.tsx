@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useFileUploader from 'react-use-file-uploader';
 
-import { ViewerApi, InitialFillingProfileStep3View, yup } from 'entities/viewer';
+import { viewerApi, InitialFillingProfileStep3View, yup } from 'entities/viewer';
 import { useInput } from 'shared/hooks';
 
 import { getFormData } from '../../../../shared/lib';
@@ -10,9 +10,9 @@ import { getFormData } from '../../../../shared/lib';
 function InitialFillingProfileStep3() {
     const navigate = useNavigate();
 
-    const { data } = ViewerApi.handleGetViewer();
-    const { mutate: handleEditProfile } = ViewerApi.handleEditProfile();
-    const { mutate: handleAddAvatar } = ViewerApi.handleAddAvatar();
+    const { data } = viewerApi.handleGetViewer();
+    const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
+    const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
     const emailInput = useInput({
         yupSchema: yup.checkEmail,

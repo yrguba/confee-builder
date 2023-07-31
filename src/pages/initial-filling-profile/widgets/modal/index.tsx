@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { ViewerApi } from 'entities/viewer';
+import { viewerApi } from 'entities/viewer';
 import { Icons, Steps } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -10,7 +10,7 @@ function Modal() {
     const navigate = useNavigate();
 
     const { pathname } = useLocation();
-    const { mutate: handleLogout } = ViewerApi.handleLogout();
+    const { mutate: handleLogout } = viewerApi.handleLogout();
     const activeStep = Number(pathname.slice(-1));
 
     const goBack = () => {

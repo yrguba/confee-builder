@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 
-import { UserTypes } from 'entities/user';
+import { userTypes } from 'entities/user';
 import { useToggle } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Input, Emoji, Box, Dropdown } from 'shared/ui';
@@ -12,8 +12,8 @@ import logo from '../../../../shared/ui/icons/ui/logo';
 import { MessageProxy } from '../../model/types';
 
 type Props = {
-    clickUser: (arg: UserTypes.User) => void;
-    tagAUsers: UserTypes.User[] | null;
+    clickUser: (arg: userTypes.User) => void;
+    tagAUsers: userTypes.User[] | null;
     audioRecorder?: { startRecording: () => any; cancelRecording: () => any; saveRecording: () => any; recorderState: any };
     messageToEdit: MessageProxy | null;
     messageToReply: MessageProxy | null;
