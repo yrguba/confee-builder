@@ -14,16 +14,11 @@ function LeftSidebar() {
     const setOpenUserModal = useUserStore.use.setOpenModal();
     const setOpenViewerModal = useViewerStore.use.setOpenModal();
     return (
-        <>
-            <div className={styles.wrapper}>
-                <Button onClick={() => setOpenUserModal('contacts')}>Contacts</Button>
-                <Button onClick={() => setOpenViewerModal('personal-info')}>PersonalInfoViewer</Button>
-                <Button onClick={() => setOpenUserModal('personal-info')}>PersonalInfoUser</Button>
-                <div className={styles.list}>
-                    <ChatsList />
-                </div>
+        <div className={styles.wrapper}>
+            <div className={styles.list}>
+                <ChatsList />
             </div>
-        </>
+        </div>
     );
 }
 

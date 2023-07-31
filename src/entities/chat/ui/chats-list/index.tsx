@@ -13,7 +13,7 @@ type Props = {
     createChat: (value: string) => void;
 } & BaseTypes.Statuses;
 
-function ChatListView(props: Props) {
+function ChatsListView(props: Props) {
     const { chats, clickOnChat, loading, createChat, activeChatId } = props;
 
     const data = [
@@ -59,4 +59,4 @@ function ChatListView(props: Props) {
     );
 }
 
-export default ChatListView;
+export default ChatsListView;

@@ -1,20 +1,17 @@
-import { useState } from 'react';
-
 import { AppService } from 'entities/app';
 import { TokensService } from 'entities/viewer';
 
 const { socketUrl } = AppService.getUrls();
 const ws = new WebSocket(socketUrl);
 
-type InEvents = 'MessageCreated' | 'MessageRead' | 'ChatListenersUpdated';
-type OutEvents = '';
-type Returned = {
-    sendMessage: (event: OutEvents, message: string) => void;
-    onMessage: (event: InEvents, callback: (arg: any) => void) => void;
-    onclose: (event: any) => void;
+type Returned<In, Out> = {
+    sendMessage: (event: Out, message: string) => void;
+    onMessage: (event: In, callback: (arg: any) => void) => void;
+    onClose: (event: any) => void;
+    onOpen: (event: any) => void;
 };
 
-function useWebSocket(): Returned {
+function useWebSocket<In, Out>(): Returned<In, Out> {
     const token = TokensService.get()?.access_token;
     ws.onopen = function () {
         ws.send(
@@ -27,20 +24,19 @@ function useWebSocket(): Returned {
         );
     };
 
-    const onMessage = (event: InEvents, callback: (arg: any) => void) => {
+    const onMessage = (event: In, callback: (arg: any) => void) => {
         ws.addEventListener('message', function (e) {
             const data = JSON.parse(e.data);
+            console.log('wdawd', data);
             if (data.event === event) {
                 callback(data);
             }
         });
     };
 
-    ws.onclose = function (event) {
-        console.log('Соединение закрыто');
-    };
+    ws.onclose = function (event) {};
 
-    const sendMessage = (event: OutEvents, message: string) => {
+    const sendMessage = (event: Out, message: string) => {
         ws.send(
             JSON.stringify({
                 event,
@@ -48,7 +44,8 @@ function useWebSocket(): Returned {
             })
         );
     };
-    return { sendMessage, onMessage, onclose: ws.onclose };
+
+    return { sendMessage, onMessage, onClose: ws.onclose, onOpen: ws.onopen };
 }
 
 export default useWebSocket;

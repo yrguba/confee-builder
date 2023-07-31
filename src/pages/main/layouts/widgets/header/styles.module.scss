@@ -5,6 +5,7 @@
   @include flex(space-between, center, 12);
   background-color: var(--bg-primary);
   min-height: 60px;
+  border-bottom: 1px solid var(--border-primary);
 
   .logo {
     @include flex(flex-start);

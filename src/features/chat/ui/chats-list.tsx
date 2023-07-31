@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
-import { ChatListView, ChatApi, ChatTypes, ChatService, useChatStore } from 'entities/chat';
-import { UserTypes, UserApi } from 'entities/user';
-import { ViewerService } from 'entities/viewer';
+import { ChatsListView, chatApi, chatTypes } from 'entities/chat';
 import { useModal } from 'shared/hooks';
 
 import ChatProxy from '../../../entities/chat/lib/chat-proxy';
@@ -16,9 +14,9 @@ function ChatsList() {
     const createPrivateChatModal = useModal();
     const createGroupChatModal = useModal();
 
-    const { data: chatsData } = ChatApi.handleGetChats();
+    const { data: chatsData } = chatApi.handleGetChats();
 
-    const clickOnChatCard = (chat: ChatTypes.Chat) => {
+    const clickOnChatCard = (chat: chatTypes.Chat) => {
         navigate(`/chats/chat/${chat.id}`);
     };
 
@@ -29,7 +27,7 @@ function ChatsList() {
 
     return (
         <>
-            <ChatListView
+            <ChatsListView
                 createChat={openCreateChatModal}
                 chats={chatsData?.data?.map((chat) => ChatProxy(chat)) || []}
                 clickOnChat={clickOnChatCard}

@@ -1,0 +1,24 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include flex;
+  @include box-size(100%, 100%);
+
+  .body {
+    @include box-size(90%, 100%);
+    @include flex;
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+
+    .textarea {
+      padding: 2px;
+      @include flex;
+      @include box-size(98%, auto);
+      min-height: 24px;
+      align-self: flex-end;
+    }
+  }
+
+}
+
+

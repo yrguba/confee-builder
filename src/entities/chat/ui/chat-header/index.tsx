@@ -1,11 +1,11 @@
-import moment from 'moment';
 import React from 'react';
 
+import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Counter, Icons, Card } from 'shared/ui';
+import { Icons, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { ChatProxy, Chat } from '../../model/types';
+import { Chat } from '../../model/types';
 
 type Props = {
     chat: Chat | BaseTypes.Empty;
@@ -18,9 +18,11 @@ function ChatHeaderView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <div onClick={back}>
-                <Icons variants="leftArrow" />
-            </div>
+            {useWidthMediaQuery().to('sm') && (
+                <div onClick={back}>
+                    <Icons variants="leftArrow" />
+                </div>
+            )}
             <Card img={chat?.avatar} title={chat?.name} subtitle="ddd" onClick={clickChatCard} />
         </div>
     );

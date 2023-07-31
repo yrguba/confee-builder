@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { useChatStore } from 'entities/chat';
+import { chatGateway, useChatStore } from 'entities/chat';
 import { useHeightMediaQuery, useWidthMediaQuery, useRouter } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
@@ -12,6 +12,8 @@ import Modals from '../modals';
 import { LeftSidebar, Chat, RightSidebar } from '../widgets';
 
 function ChatsPage() {
+    chatGateway();
+
     const openRightSidebar = useChatStore.use.openRightSidebar();
 
     const { params } = useRouter();
@@ -19,14 +21,14 @@ function ChatsPage() {
     const { to, from } = useWidthMediaQuery();
 
     const isVisibleLeftSidebar = () => {
-        if (to('md')) {
+        if (to('sm')) {
             return !params.chat_id && !openRightSidebar;
         }
         return true;
     };
 
     const isVisibleOutlet = () => {
-        if (to('md')) {
+        if (to('sm')) {
             return !!params.chat_id && !openRightSidebar;
         }
         return true;

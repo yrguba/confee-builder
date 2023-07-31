@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { ChatHeader } from 'features/chat';
+import { MessagesList, MessageInput } from 'features/message';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -11,8 +12,12 @@ function Chat() {
             <div className={styles.header}>
                 <ChatHeader />
             </div>
-            <div className={styles.messageList}>{/* <MessagesList /> */}</div>
-            <div className={styles.input}>{/* <MessageInput /> */}</div>
+            <div className={styles.messageList}>
+                <MessagesList />
+            </div>
+            <div className={styles.input}>
+                <MessageInput />
+            </div>
         </Box.Animated>
     );
 }

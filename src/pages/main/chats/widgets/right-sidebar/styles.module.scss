@@ -3,7 +3,8 @@
 .wrapper {
   @include box-size(300px, 100%);
   @include flex-column(center, flex-start, 20);
-  background-color: var(--bg-secondary);
+  border-left: 1px solid var(--border-primary);
+
 
   @include width-to('md') {
     width: 100vw;
