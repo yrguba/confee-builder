@@ -1,5 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
+import produce from 'immer';
 import { useEffect } from 'react';
+import { number } from 'yup';
 
 import { useWebSocket } from 'shared/hooks';
 
@@ -15,14 +17,9 @@ function messageGateway() {
         onMessage('MessageCreated', (socketData) => {
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.pages.length) return cacheData;
-
-                return {
-                    ...cacheData,
-                    data: {
-                        ...cacheData.data.data,
-                        data: [...cacheData.data.data, socketData.data.message],
-                    },
-                };
+                return produce(cacheData, (draft: any) => {
+                    draft.pages[0].data.data.unshift(socketData.data.message);
+                });
             });
         });
     }, []);

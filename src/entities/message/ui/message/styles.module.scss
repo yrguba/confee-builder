@@ -1,14 +1,22 @@
 @import "./src/app/styles";
 
-.myMessage{
-  justify-self: center !important;
-  background-color: #2A313C!important;
-}
-
 .wrapper {
-  @include box-size(90%, 300px);
-  @include flex;
-  background-color: #7B57C8;
+  @include box-size(auto, auto);
+  @include flex(center, flex-end);
+
+  .content{
+    @include box-size(100%, auto);
+
+    .bubble{
+      padding: 12px;
+      border-radius: 12px 12px 12px 0;
+      background-color: #7B57C8;
+
+      &_my{
+        border-radius: 12px 12px 0 12px
+      }
+    }
+  }
 }
 
 

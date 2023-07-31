@@ -7,7 +7,6 @@ import { BaseTypes } from 'shared/types';
 import { Button, Input, Emoji, Box, Dropdown } from 'shared/ui';
 
 import Icons from './icons';
-import InputMenuView from './menu';
 import styles from './styles.module.scss';
 import logo from '../../../../shared/ui/icons/ui/logo';
 import { MessageProxy } from '../../model/types';
@@ -125,11 +124,11 @@ function MessageInputView(props: Props) {
 
                 <div className={`${styles.input} ${isVisibleHeader && styles.isVisibleHeader}`}>
                     <div className={styles.body}>
-                        <Dropdown top={-16} openCloseTrigger={setIsOpenInputMenu} position="right-top" content={<InputMenuView />}>
-                            <div className={styles.icon}>
-                                <Icons variants="clip" />
-                            </div>
-                        </Dropdown>
+                        {/* <Dropdown top={-16} openCloseTrigger={setIsOpenInputMenu} position="right-top" content={<InputMenuView />}> */}
+                        {/*    <div className={styles.icon}> */}
+                        {/*        <Icons variants="clip" /> */}
+                        {/*    </div> */}
+                        {/* </Dropdown> */}
 
                         <div className={styles.textarea}>
                             <Input.Textarea ref={textAreaRef} defaultValue={messageToEdit?.id} value={value} onChange={onChange} onKeyDown={onKeyDown} />

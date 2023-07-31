@@ -1,10 +1,13 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import produce from 'immer';
+import { number } from 'yup';
 
 import { axiosClient } from 'shared/configs';
 import { useArray } from 'shared/hooks';
 
 import useMessageStore from './store';
 import { Message, MessageProxy } from './types';
+import pages from '../../../pages';
 import { chatService } from '../../chat';
 import { message_limit } from '../lib/constants';
 import messageEntity from '../lib/message-entity';
@@ -26,7 +29,7 @@ class MessageApi {
             },
             {
                 getPreviousPageParam: (lastPage, pages) => {
-                    const { current_page, last_page } = lastPage?.data.meta;
+                    const { current_page } = lastPage?.data.meta;
                     return current_page > 1 ? current_page - 1 : undefined;
                 },
                 getNextPageParam: (lastPage, pages) => {
@@ -36,7 +39,7 @@ class MessageApi {
                 select: (data) => {
                     return {
                         pages: getUniqueArr(
-                            data.pages.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []),
+                            data.pages?.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []),
                             'id'
                         ),
                         pageParams: [...data.pageParams].reverse(),
@@ -50,7 +53,6 @@ class MessageApi {
 
     handleSendTextMessage() {
         const queryClient = useQueryClient();
-        const setSocketAction = useMessageStore.use.setSocketAction();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
             (data: { text: string; chatId: number }) =>
@@ -59,9 +61,9 @@ class MessageApi {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
                         const message = messageEntity({ text: data.text, viewer: viewerData?.data.data });
-                        cacheData.pages[0].data.data.unshift(message);
-                        setSocketAction(`add${message.id}`);
-                        return cacheData;
+                        return produce(cacheData, (draft: any) => {
+                            draft.pages[0].data.data.unshift(message);
+                        });
                     });
                 },
             }
@@ -82,7 +84,6 @@ class MessageApi {
 
     handleReplyMessage() {
         const queryClient = useQueryClient();
-        const setSocketAction = useMessageStore.use.setSocketAction();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
             (data: { text: string; messageId: number; chatId: number; reply: MessageProxy }) =>
@@ -92,7 +93,6 @@ class MessageApi {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
                         const message = messageEntity({ text: data.text, viewer: viewerData?.data.data, reply: data.reply });
                         cacheData.pages[0].data.data.unshift(message);
-                        setSocketAction(`add${message.id}`);
                         return cacheData;
                     });
                 },

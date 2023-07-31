@@ -8,7 +8,7 @@
   overflow-x: hidden;
 
   .row {
-    @include box-size(100%, auto);
+    @include box-size(98%, auto);
     display: flex;
   }
 }
