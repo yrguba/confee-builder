@@ -1,49 +1,14 @@
 @import "./src/app/styles";
 
-
-.wrapper{
+.wrapper {
   @include box-size(100%, 100%);
-  @include flex-column(flex-start, flex-start);
+  @include flex-column(flex-start);
   gap: 8px;
   overflow-y: auto;
   overflow-x: hidden;
-  //flex-direction: column-reverse;
-  position: relative;
 
-  .scrollDate{
-    @include flex;
-    @include box-size(200px, 40px);
-    background-color: var(--bg-1);
-    position: sticky;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    color: var(--text-0);
-  }
-
-  .messageWrapper{
-    @include box-size(calc(100% - 12px), auto);
-    @include flex(flex-start);
-    padding: 0 0 0 12px;
-
-    &_my{
-      justify-content: flex-end;
-      padding: 0 12px 0 0;
-    }
-
-    .messageContent{
-      @include flex(flex-start, flex-start);
-      @include box-size(100%, 100%);
-      max-width: 70%;
-      &_my{
-        justify-content: flex-end;
-      }
-    }
-  }
-
-  .btnDown{
-    position: fixed;
-    right: 30px;
-    bottom: 90px;
+  .row {
+    @include box-size(100%, auto);
+    display: flex;
   }
 }

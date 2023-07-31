@@ -10,7 +10,7 @@ type Returned<In, Out> = {
     onClose: (event: any) => void;
     onOpen: (event: any) => void;
 };
-console.log('dwd');
+
 function useWebSocket<In, Out>(): Returned<In, Out> {
     const token = TokensService.get()?.access_token;
     ws.onopen = function () {

@@ -1,0 +1,14 @@
+@import "./src/app/styles";
+
+.myMessage{
+  justify-self: center !important;
+  background-color: #2A313C!important;
+}
+
+.wrapper {
+  @include box-size(90%, 300px);
+  @include flex;
+  background-color: #7B57C8;
+}
+
+

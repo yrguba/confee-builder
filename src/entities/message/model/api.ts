@@ -20,18 +20,18 @@ class MessageApi {
                 return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
                     params: {
                         page: pageParam || initialPage,
-                        limit: message_limit,
+                        per_page: 100,
                     },
                 });
             },
             {
                 getPreviousPageParam: (lastPage, pages) => {
-                    if (lastPage?.data.page === 1) return undefined;
-                    return lastPage?.data.page - 1;
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page > 1 ? current_page - 1 : undefined;
                 },
                 getNextPageParam: (lastPage, pages) => {
-                    if (lastPage?.data.page === Math.ceil(lastPage.data.total / message_limit)) return undefined;
-                    return lastPage?.data.page + 1;
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
                 },
                 select: (data) => {
                     return {

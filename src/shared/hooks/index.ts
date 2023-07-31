@@ -6,7 +6,6 @@ import {
     useScrolling,
     usePrevious,
     useWindowSize,
-    useScroll,
     useLocation,
     useEffectOnce,
     useCopyToClipboard,
@@ -28,6 +27,7 @@ import useModal from './useModal';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useRowAndDropdown from './useRowAndDropdown';
+import useScroll from './useScroll';
 import useSize from './useSize';
 import useStyles from './useStyles';
 import useTheme from './useTheme';

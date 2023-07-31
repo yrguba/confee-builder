@@ -15,6 +15,7 @@ function LeftSidebar() {
     const setOpenViewerModal = useViewerStore.use.setOpenModal();
     return (
         <div className={styles.wrapper}>
+            {/* <Button onClick={() => setOpenViewerModal('change-nickname')}>ff</Button> */}
             <div className={styles.list}>
                 <ChatsList />
             </div>
