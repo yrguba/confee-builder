@@ -1,7 +1,6 @@
 import React, { useTransition } from 'react';
 
-import { ViewerCard } from 'features/viewer';
-import { useRouter, useWidthMediaQuery } from 'shared/hooks';
+import { useRouter } from 'shared/hooks';
 import { Button, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -34,7 +33,7 @@ function Header() {
                     </Button.Link>
                 ))}
             </div>
-            <div className={styles.viewer}>{/* <ViewerCard /> */}</div>
+            <div className={styles.viewer} />
         </div>
     );
 }

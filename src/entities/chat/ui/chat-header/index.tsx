@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Icons, Card } from 'shared/ui';
+import { Icons, Card, Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { Chat, ChatProxy } from '../../model/types';
@@ -23,7 +23,9 @@ function ChatHeaderView(props: Props) {
                     <Icons variants="leftArrow" />
                 </div>
             )}
-            <Card img={chat?.avatar} title={chat?.name} subtitle={chat?.subtitle} onClick={clickChatCard} />
+            <Box.Animated visible>
+                <Card img={chat?.avatar} title={chat?.name} subtitle={chat?.subtitle} onClick={clickChatCard} />
+            </Box.Animated>
         </div>
     );
 }
