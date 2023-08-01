@@ -4,6 +4,7 @@ import { BaseTypes } from 'shared/types';
 
 export type ImageProps = {
     img: string;
-    size?: number;
+    width?: string;
+    height?: string;
 } & ButtonHTMLAttributes<HTMLImageElement> &
     BaseTypes.Statuses;

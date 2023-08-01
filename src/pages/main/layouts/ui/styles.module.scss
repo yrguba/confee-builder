@@ -1,14 +1,15 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(100%, 100vh);
+  @include box-size(100%, 100%);
   @include flex-column;
+  min-height: 90vh;
   display: flex;
   justify-content: center;
   background-color: var(--bg-primary);
   overflow: hidden;
 
   .outlet{
-    @include box-size(100%, calc(100% - 60px));
+    @include box-size(100%, calc(100vh - 60px));
   }
 }

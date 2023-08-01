@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import { useStyles } from 'shared/hooks';
 
@@ -6,7 +7,7 @@ import styles from './styles.module.scss';
 import { ImageProps } from '../types';
 
 function Image(props: ImageProps) {
-    const { img, size, ...other } = props;
+    const { img, width, height, ...other } = props;
 
     const [error, setError] = useState(false);
 
@@ -15,7 +16,7 @@ function Image(props: ImageProps) {
     });
 
     return (
-        <div className={styles.wrapper} style={size ? { width: size, height: size } : {}}>
+        <div className={styles.wrapper} style={{ width, height }}>
             <img className={classes} src={img} alt="" onError={() => setError(true)} />
             {error && icon}
         </div>

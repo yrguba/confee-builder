@@ -34,9 +34,9 @@ function MessageList(props: Props) {
         hasNextPage && !isFetching && fetchNextPage().then();
     };
 
-    const hoverMessage = (messages: MessageProxy) => {
-        if (!messages.is_read && messages.type !== 'system') {
-            handleReadMessage({ chat_id: chatId, message_id: messages.id });
+    const hoverMessage = (message: MessageProxy) => {
+        if (!message.is_read && message.type !== 'system') {
+            handleReadMessage({ chat_id: chatId, message_id: message.id });
         }
     };
 

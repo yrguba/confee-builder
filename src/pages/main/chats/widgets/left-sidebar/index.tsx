@@ -8,6 +8,8 @@ import { Button } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useAppStore } from '../../../../../entities/app';
+import ImagesMessage from '../../../../../entities/message/ui/message/variants/images';
+import { useFileDownloads, useFileUploader } from '../../../../../shared/hooks';
 
 function LeftSidebar() {
     const navigate = useNavigate();
@@ -15,6 +17,12 @@ function LeftSidebar() {
     const setOpenUserModal = useUserStore.use.setOpenModal();
     const setOpenViewerModal = useViewerStore.use.setOpenModal();
     const setNotifications = useAppStore.use.setNotifications();
+
+    const { Uploader, files } = useFileUploader({
+        accept: 'image',
+        multiple: true,
+    });
+
     return (
         <div className={styles.wrapper}>
             {/* <Button onClick={() => setNotifications({ title: 'dawddadw', description: 'dwaddwdwd' })}>ff</Button> */}
