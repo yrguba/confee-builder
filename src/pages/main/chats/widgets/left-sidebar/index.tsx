@@ -17,7 +17,7 @@ function LeftSidebar() {
     const setNotifications = useAppStore.use.setNotifications();
     return (
         <div className={styles.wrapper}>
-            <Button onClick={() => setNotifications({ title: 'dawddadw', description: 'dwaddwdwd' })}>ff</Button>
+            {/* <Button onClick={() => setNotifications({ title: 'dawddadw', description: 'dwaddwdwd' })}>ff</Button> */}
             <div className={styles.list}>
                 <ChatsList />
             </div>

@@ -8,16 +8,18 @@ import styles from './styles.module.scss';
 import { chatTypes } from '../../../chat';
 import { MessageProxy } from '../../model/types';
 import Message from '../message';
+import SystemMessage from '../message/variants/system';
 
 type Props = {
     chat: chatTypes.Chat | BaseTypes.Empty;
     messages: MessageProxy[] | BaseTypes.Empty;
     getPrevPage: () => void;
     getNextPage: () => void;
+    hoverMessage: (message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, getPrevPage, getNextPage } = props;
+    const { chat, messages, getPrevPage, getNextPage, hoverMessage } = props;
 
     const [initOnce, setInitOnce] = useState(true);
 
@@ -42,12 +44,6 @@ function MessagesListView(props: Props) {
     }, [messages]);
 
     useEffect(() => {
-        if (firstUnreadMessageRef.current) {
-            firstUnreadMessageRef.current.style.backgroundColor = 'red';
-        }
-    }, [firstUnreadMessageRef.current]);
-
-    useEffect(() => {
         if (inViewPrevPage) return getPrevPage();
         if (inViewNextPage) return getNextPage();
     }, [inViewPrevPage, inViewNextPage]);
@@ -60,19 +56,27 @@ function MessagesListView(props: Props) {
         return mergeRefs(refs);
     };
 
+    const getSystemMessageText = (message: MessageProxy) => {
+        if (message.isFirstUnread) return 'Непрочитанные';
+        return '';
+    };
+
     return (
         <div className={styles.wrapper} ref={wrapperRef}>
             {messages?.map((message, index) => (
-                <div
-                    key={message.id}
-                    className={styles.row}
-                    style={{ justifyContent: message.type === 'system' ? 'center' : message.isMy ? 'flex-end' : 'flex-start' }}
-                    ref={getMessageRefs(message, index)}
-                >
-                    {index === 5 && <div ref={nextPageRef} />}
-                    <Message message={message} />
-                    {messages?.length - 5 === index && <div ref={prevPageRef} />}
-                </div>
+                <Fragment key={message.id}>
+                    <SystemMessage text={getSystemMessageText(message)} />
+                    <div
+                        onMouseEnter={() => hoverMessage(message)}
+                        className={styles.row}
+                        style={{ justifyContent: message.type === 'system' ? 'center' : message.isMy ? 'flex-end' : 'flex-start' }}
+                        ref={getMessageRefs(message, index)}
+                    >
+                        {index === 5 && <div ref={nextPageRef} />}
+                        <Message message={message} />
+                        {messages?.length - 5 === index && <div ref={prevPageRef} />}
+                    </div>
+                </Fragment>
             ))}
         </div>
     );

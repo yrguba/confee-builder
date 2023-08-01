@@ -3,8 +3,10 @@ import moment from 'moment';
 import { viewerService } from '../../viewer';
 import { Message, MessageProxy } from '../model/types';
 
+const findFirstUnread = false;
 function messageProxy(prevMessage: any, message: Message): any {
     const viewerId = viewerService.getId();
+
     return new Proxy(message, {
         get(target: MessageProxy, prop: keyof MessageProxy, receiver): MessageProxy[keyof MessageProxy] {
             switch (prop) {

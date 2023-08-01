@@ -3,7 +3,7 @@ import produce from 'immer';
 import { number } from 'yup';
 
 import { axiosClient } from 'shared/configs';
-import { useArray } from 'shared/hooks';
+import { useArray, useWebSocket } from 'shared/hooks';
 
 import useMessageStore from './store';
 import { Message, MessageProxy } from './types';
@@ -20,7 +20,6 @@ class MessageApi {
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
-                console.log(initialPage);
                 return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
                     params: {
                         page: pageParam || initialPage,
@@ -108,10 +107,11 @@ class MessageApi {
     }
 
     handleReadMessage() {
+        const { sendMessage } = useWebSocket();
         return {
-            // mutate: (data: { chat_id: number; messages: number[] }) => {
-            //     data.messages && socketIo.emit('messageRead', data);
-            // },
+            mutate: (data: { chat_id: number; message_id: number }) => {
+                data.message_id && sendMessage('MessageRead', data);
+            },
         };
     }
 

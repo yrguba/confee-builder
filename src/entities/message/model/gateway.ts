@@ -6,11 +6,10 @@ import { useWebSocket } from 'shared/hooks';
 
 import { Chat } from '../../chat/model/types';
 
-type SocketIn = 'MessageCreated';
-type SocketOut = '';
+type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated';
 
 function messageGateway() {
-    const { onMessage } = useWebSocket<SocketIn, SocketOut>();
+    const { onMessage } = useWebSocket<SocketIn, any>();
     const queryClient = useQueryClient();
     useEffect(() => {
         onMessage('MessageCreated', (socketData) => {

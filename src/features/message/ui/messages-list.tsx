@@ -5,6 +5,8 @@ import { messageProxy, messageApi, MessagesListView, useMessageStore, messageTyp
 import { viewerService } from 'entities/viewer';
 import { useRouter } from 'shared/hooks';
 
+import { MessageProxy } from '../../../entities/message/model/types';
+
 type Props = {};
 
 function MessageList(props: Props) {
@@ -12,7 +14,8 @@ function MessageList(props: Props) {
 
     const chatId = Number(params.chat_id);
 
-    const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
+    const { data: chatData } = chatApi.handleGetChat({ chatId });
+    const { mutate: handleReadMessage } = messageApi.handleReadMessage();
 
     const {
         data: messageData,
@@ -31,6 +34,12 @@ function MessageList(props: Props) {
         hasNextPage && !isFetching && fetchNextPage().then();
     };
 
+    const hoverMessage = (messages: MessageProxy) => {
+        if (!messages.is_read && messages.type !== 'system') {
+            handleReadMessage({ chat_id: chatId, message_id: messages.id });
+        }
+    };
+
     return (
         <>
             <MessagesListView
@@ -38,6 +47,7 @@ function MessageList(props: Props) {
                 messages={messageData?.pages.map((message: any, index: number) => messageProxy(messageData?.pages[index - 1], message))}
                 getNextPage={getNextPage}
                 getPrevPage={getPrevPage}
+                hoverMessage={hoverMessage}
             />
         </>
     );

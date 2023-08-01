@@ -5,7 +5,7 @@ const { socketUrl } = appService.getUrls();
 const ws = new WebSocket(socketUrl);
 
 type Returned<In, Out> = {
-    sendMessage: (event: Out, message: string) => void;
+    sendMessage: (event: Out, message: any) => void;
     onMessage: (event: In, callback: (arg: any) => void) => void;
     onClose: (event: any) => void;
     onOpen: (event: any) => void;
@@ -27,7 +27,6 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
     const onMessage = (event: In, callback: (arg: any) => void) => {
         ws.addEventListener('message', function (e) {
             const data = JSON.parse(e.data);
-
             if (data.event === event) {
                 callback(data);
             }
@@ -36,11 +35,11 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
 
     ws.onclose = function (event) {};
 
-    const sendMessage = (event: Out, message: string) => {
+    const sendMessage = (event: Out, data: string) => {
         ws.send(
             JSON.stringify({
                 event,
-                message,
+                data,
             })
         );
     };

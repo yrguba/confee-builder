@@ -16,9 +16,7 @@ function Notifications() {
         deleteNotificationsById(id);
     };
 
-    const actionClick = (data: any) => {
-        console.log(data);
-    };
+    const actionClick = (data: any) => {};
 
     useEffect(() => {
         if (notifications.length && !prev) {
