@@ -49,6 +49,7 @@ export type MessageProxy = {
     firstOfDay: string;
     date: string;
     authorName: string;
+    systemMessageText: string;
 } & Message;
 
 export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';

@@ -1,12 +1,10 @@
-import React, { useRef, Fragment, useEffect, useState, UIEvent } from 'react';
+import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 
-import { storage } from 'entities/app';
-import { useInView, usePrevious, useScroll, useTimeout } from 'shared/hooks';
+import { useInView, usePrevious, useScroll } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
-import { useDebounce } from '../../../../shared/hooks';
 import { chatTypes } from '../../../chat';
 import { MessageProxy } from '../../model/types';
 import Message from '../message';
@@ -25,10 +23,10 @@ function MessagesListView(props: Props) {
     const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat } = props;
 
     const [initOnce, setInitOnce] = useState(true);
-    const [contextMenuPosition, setContextMenuPosition] = useState<number>(0);
+
     const prevChat = usePrevious(chat);
 
-    const { executeScrollToElement, getScrollPosition } = useScroll();
+    const { executeScrollToElement } = useScroll();
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -45,13 +43,6 @@ function MessagesListView(props: Props) {
         if (messages.length - 1 === index) refs.push(lastMessageRef);
         if (messages.length - 1 === index) refs.push(lastMessageCheckVisibleRef);
         return mergeRefs(refs);
-    };
-
-    const getSystemMessageText = (message: MessageProxy) => {
-        if (message.firstOfDay) return message.firstOfDay;
-        if (message.type === 'system') return message.text;
-        if (message.isFirstUnread) return 'Непрочитанные';
-        return '';
     };
 
     useEffect(() => {
@@ -76,7 +67,7 @@ function MessagesListView(props: Props) {
         <div className={styles.wrapper} ref={wrapperRef}>
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
-                    <SystemMessage text={getSystemMessageText(message)} />
+                    <SystemMessage text={message.systemMessageText} />
                     {message.type !== 'system' && (
                         <div
                             onMouseEnter={() => hoverMessage(message)}

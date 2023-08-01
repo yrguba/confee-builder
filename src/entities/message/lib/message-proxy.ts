@@ -20,6 +20,12 @@ function messageProxy(prevMessage: any, message: Message): any {
                     if (!prevMessage) return false;
                     return target.is_read && !prevMessage.is_read;
 
+                case 'systemMessageText':
+                    if (receiver.firstOfDay) return receiver.firstOfDay;
+                    if (receiver.type === 'system') return receiver.text;
+                    if (receiver.isFirstUnread) return 'Непрочитанные';
+                    return '';
+
                 case 'firstOfDay':
                     if (!prevMessage || moment(prevMessage?.created_at).startOf('day').unix() < moment(message?.created_at).startOf('day').unix()) {
                         const dateNow = moment().unix();
