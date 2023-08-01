@@ -9,7 +9,12 @@
   background-color: var(--bg-primary);
   overflow: hidden;
 
-  .outlet{
+  .header {
+    @include box-size(100%, 60px);
+    min-height: 60px;
+  }
+
+  .outlet {
     @include box-size(100%, calc(100vh - 60px));
   }
 }

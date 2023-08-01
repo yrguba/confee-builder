@@ -16,7 +16,9 @@ function MainLayout() {
 
     return (
         <div className={styles.wrapper}>
-            <Header />
+            <div className={styles.header}>
+                <Header />
+            </div>
             <div className={styles.outlet}>
                 <Outlet />
             </div>
