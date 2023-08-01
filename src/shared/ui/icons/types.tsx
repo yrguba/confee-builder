@@ -16,7 +16,11 @@ export type BaseIconsProps = {
         | 'addContact'
         | 'downArrow'
         | 'rightArrow'
-        | 'leftArrow';
+        | 'leftArrow'
+        | 'contacts'
+        | 'messages'
+        | 'tasks'
+        | 'profile';
 
     color?: string;
     size?: number;

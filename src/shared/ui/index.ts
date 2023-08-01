@@ -15,7 +15,6 @@ import Document, { DocumentTypes } from './media-content/document';
 import Image, { ImageTypes } from './media-content/image';
 import WebCameraPhoto, { WebCamaraPhotoTypes } from './media-content/web-camera-photo';
 import Modal, { ModalTypes } from './modal';
-import Navbar, { NavbarTypes } from './navbar';
 import Notification, { NotificationTypes } from './notification';
 import Pagination, { PaginationTypes } from './pagination';
 import Select, { SelectTypes } from './select';
@@ -41,7 +40,6 @@ export {
     Title,
     Modal,
     Switch,
-    Navbar,
     Select,
     Emoji,
     Breadcrumb,
@@ -67,7 +65,6 @@ export type {
     TitleTypes,
     ModalTypes,
     SwitchTypes,
-    NavbarTypes,
     SelectTypes,
     EmojiTypes,
     CollapseTypes,

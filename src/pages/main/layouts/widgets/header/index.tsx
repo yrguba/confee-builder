@@ -1,43 +1,26 @@
 import React, { useTransition } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ViewerCard } from 'features/viewer';
-import { Button, Icons, Navbar, NavbarTypes } from 'shared/ui';
+import { useRouter, useWidthMediaQuery } from 'shared/hooks';
+import { Button, Icons } from 'shared/ui';
 
-import { Icons as MenuIcons } from './icons';
 import styles from './styles.module.scss';
-import { useRowAndDropdown } from '../../../../../shared/hooks';
-
-type Item = NavbarTypes.ResponsiveItem<any, any>;
 
 function Header() {
-    const navigate = useNavigate();
-    const { pathname } = useLocation();
+    const { pathname, navigate } = useRouter();
 
-    const items: Item[] = [
-        { id: 0, text: 'Компания', icon: 'company', path: 'companies', breakpoint: 500 },
-        { id: 1, text: 'Чаты и каналы', icon: 'chats', path: 'chats', breakpoint: 680 },
-        { id: 2, text: 'Задачи', icon: 'tasks', path: 'tasks', breakpoint: 730 },
+    const items = [
+        { id: 0, text: 'Компания', icon: 'contacts', path: '/companies' },
+        { id: 1, text: 'Чаты и каналы', icon: 'messages', path: '/chats' },
+        { id: 2, text: 'Задачи', icon: 'tasks', path: '/tasks' },
+        { id: 3, text: 'Профиль', icon: 'profile', path: '/settings' },
     ];
-
-    const { itemsInRow, itemsInDropdown } = useRowAndDropdown<Item>(items);
 
     const [isPending, startTransition] = useTransition();
 
-    const item = (item: Item) => (
-        <Button.Link
-            active={pathname.includes(item.path)}
-            disabled={isPending}
-            loading={isPending && pathname.includes(item.path)}
-            key={item.id}
-            onClick={() => startTransition(() => navigate(pathname.split('/').pop() === 'settings' ? `/${item.path}` : item.path))}
-            prefixIcon={<MenuIcons variants={item.icon} />}
-            fontSize={16}
-            fontWeight={600}
-        >
-            {item.text}
-        </Button.Link>
-    );
+    const itemClick = (path: string) => {
+        startTransition(() => navigate(path));
+    };
 
     return (
         <div className={styles.header}>
@@ -45,11 +28,13 @@ function Header() {
                 <Icons.Logo variants="confee" />
             </div>
             <div className={styles.nav}>
-                <Navbar.Responsive btnRadius={30} itemsInDropdown={itemsInDropdown} itemsInRow={itemsInRow} item={item} columnGap={30} />
+                {items.map((i: any) => (
+                    <Button.Link key={i.id} onClick={() => itemClick(i.path)} active={pathname === i.path} prefixIcon={<Icons variants={i.icon} />}>
+                        {i.text}
+                    </Button.Link>
+                ))}
             </div>
-            <div className={styles.viewer}>
-                <ViewerCard />
-            </div>
+            <div className={styles.viewer}>{/* <ViewerCard /> */}</div>
         </div>
     );
 }

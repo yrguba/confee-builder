@@ -27,7 +27,6 @@ import useInput from './useInput';
 import useModal from './useModal';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
-import useRowAndDropdown from './useRowAndDropdown';
 import useScroll from './useScroll';
 import useSize from './useSize';
 import useStyles from './useStyles';
@@ -58,7 +57,6 @@ export {
     useStyles,
     useScrolling,
     useSize,
-    useRowAndDropdown,
     useArray,
     usePrevious,
     useEnding,

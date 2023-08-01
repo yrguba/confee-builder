@@ -14,13 +14,13 @@
 
   .nav {
     @include flex;
-    flex: 1;
+    gap: 22px;
   }
 
-  .viewer {
-    @include flex(flex-end);
-    width: auto;
-    margin-right: 20px;
-    flex-shrink: 0;
-  }
+  //.viewer {
+  //  @include flex(flex-end);
+  //  width: auto;
+  //  margin-right: 20px;
+  //  flex-shrink: 0;
+  //}
 }
