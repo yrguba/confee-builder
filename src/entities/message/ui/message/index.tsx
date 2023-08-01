@@ -1,29 +1,61 @@
-import React, { ReactNode } from 'react';
+import React, { useRef } from 'react';
 
-import { reactionConverter } from 'shared/lib';
+import { storage } from 'entities/app';
+import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Emoji, EmojiTypes, Icons } from 'shared/ui';
+import { Avatar, Box, Dropdown } from 'shared/ui';
 
+import MessageMenu from './menu';
 import styles from './styles.module.scss';
 import TextMessage from './variants/text';
-import { useStyles } from '../../../../shared/hooks';
 import { MessageProxy } from '../../model/types';
 
 type Props = {
     message: MessageProxy;
+    lastFive: boolean;
 } & BaseTypes.Statuses;
 
 function Message(props: Props) {
-    const { message } = props;
+    const { message, lastFive } = props;
 
     const { id, type } = message;
+
+    const clickMenuItem = (data: any) => {
+        console.log(data);
+    };
+
+    const sm = useWidthMediaQuery().to('sm');
+
+    const messageRef = useRef<HTMLDivElement>(null);
+
+    const getBlock = () => {
+        if (sm) return lastFive ? 'end' : 'start';
+        return 'center';
+    };
+
+    const openCloseTrigger = (value: boolean) => {
+        if (messageRef.current && value) {
+            messageRef.current.scrollIntoView({ behavior: 'smooth', block: getBlock(), inline: 'nearest' });
+        }
+    };
 
     return (
         <Box className={styles.wrapper}>
             {!message.isMy && <Avatar size={52} withUrl img={message.author?.avatar?.path} />}
-            <div className={styles.content}>
-                <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>{type === 'text' && <TextMessage text={message.text} />}</div>
-            </div>
+            <Dropdown
+                openCloseTrigger={openCloseTrigger}
+                stopPropagation={false}
+                dynamicPosition
+                left={sm ? (message.isMy ? (messageRef?.current?.clientWidth || 0) - 50 : 50) : 0}
+                reverseX={message.isMy}
+                reverseY={lastFive}
+                trigger="right-click"
+                content={<MessageMenu clickMenuItem={clickMenuItem} />}
+            >
+                <div className={styles.content} ref={messageRef}>
+                    <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>{type === 'text' && <TextMessage text={message.text} />}</div>
+                </div>
+            </Dropdown>
         </Box>
     );
 }

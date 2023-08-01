@@ -21,6 +21,7 @@ export type DropdownBaseProps = {
     reverseY?: boolean;
     reverseX?: boolean;
     closeAfterClick?: boolean;
+    stopPropagation?: boolean;
 } & BaseTypes.Statuses;
 
 export type DropdownMenuItem = {

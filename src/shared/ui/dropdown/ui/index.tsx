@@ -21,6 +21,7 @@ function Dropdown(props: DropdownBaseProps) {
         reverseY,
         reverseX,
         closeAfterClick,
+        stopPropagation = true,
     } = props;
 
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -45,13 +46,13 @@ function Dropdown(props: DropdownBaseProps) {
     const click = (event: any) => {
         if (trigger !== null) {
             event.preventDefault();
-            event.stopPropagation();
+            stopPropagation && event.stopPropagation();
             setIsOpen(true);
             if (dynamicPosition && wrapperRef.current) {
                 const rect = wrapperRef.current?.getBoundingClientRect();
                 setPos({
                     // x: breakpoint === 'sm' || breakpoint === 'md' ? (reverseX ? rect.width : rect.left) : event.clientX - rect.left,
-                    x: reverseX ? rect.width : 32,
+                    x: event.clientX - rect.left,
                     y: reverseY ? -230 : event.clientY - rect.top,
                 });
             }

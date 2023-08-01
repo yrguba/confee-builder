@@ -1,12 +1,10 @@
-import { useQueryClient } from '@tanstack/react-query';
-
-import { viewerService } from '../../viewer';
-import { Message } from '../model/types';
+import { Chat } from '../../chat/model/types';
 
 class MessageService {
-    getNameMessageAuthor(message: Message) {
-        const viewerId = viewerService.getId();
-        return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;
+    getInitialPage(chat: Chat | undefined) {
+        if (!chat) return undefined;
+        if (chat.pending_messages_count === 0) return 1;
+        return Math.ceil(chat.pending_messages_count / 15);
     }
 }
 

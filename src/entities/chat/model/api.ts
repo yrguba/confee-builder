@@ -1,15 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
+import { storage } from 'entities/app';
 import { axiosClient } from 'shared/configs';
+import { useWebSocket } from 'shared/hooks';
 import { handlers } from 'shared/lib';
 
-import useChatStore from './store';
-import { Chat, ChatProxy } from './types';
-import chatProxy from '../lib/chat-proxy';
+import { Chat } from './types';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
+
+    socket = useWebSocket<any, 'ChatListenersUpdated'>();
 
     handleGetChat = (data: { chatId: number | undefined }) => {
         return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
@@ -31,6 +32,28 @@ class ChatApi {
             },
         });
     };
+
+    handleSubscribeToChat() {
+        return {
+            mutate: (chatId: number) => {
+                storage.localStorageSet('subscribed_to_chat', chatId);
+                this.socket.sendMessage('ChatListenersUpdated', {
+                    sub: chatId,
+                });
+            },
+        };
+    }
+
+    handleUnsubscribeFromChat() {
+        return {
+            mutate: (chatId: number) => {
+                storage.localStorageRemove('subscribed_to_chat');
+                this.socket.sendMessage('ChatListenersUpdated', {
+                    unsub: chatId,
+                });
+            },
+        };
+    }
 }
 
 export default new ChatApi();

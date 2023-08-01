@@ -3,16 +3,17 @@
 .wrapper {
   @include box-size(auto, auto);
   @include flex(center, flex-end);
+  max-width: 70%;
 
-  .content{
+  .content {
     @include box-size(100%, auto);
 
-    .bubble{
+    .bubble {
       padding: 12px;
       border-radius: 12px 12px 12px 0;
       background-color: #7B57C8;
 
-      &_my{
+      &_my {
         border-radius: 12px 12px 0 12px
       }
     }

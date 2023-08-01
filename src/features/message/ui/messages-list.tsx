@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 
+import { storage } from 'entities/app';
 import { chatApi, chatService, useChatStore, chatProxy } from 'entities/chat';
-import { messageProxy, messageApi, MessagesListView, useMessageStore, messageTypes } from 'entities/message';
+import { messageProxy, messageApi, MessagesListView, useMessageStore, messageTypes, messageService } from 'entities/message';
 import { viewerService } from 'entities/viewer';
 import { useRouter } from 'shared/hooks';
 
@@ -15,6 +16,9 @@ function MessageList(props: Props) {
     const chatId = Number(params.chat_id);
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
+    const { mutate: handleSubscribeToChat } = chatApi.handleSubscribeToChat();
+    const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
+
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
 
     const {
@@ -24,7 +28,7 @@ function MessageList(props: Props) {
         fetchPreviousPage,
         fetchNextPage,
         isFetching,
-    } = messageApi.handleGetMessages({ chatId, initialPage: chatService.getInitialPage(chatData) });
+    } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
 
     const getPrevPage = () => {
         hasPreviousPage && !isFetching && fetchPreviousPage().then();
@@ -40,14 +44,19 @@ function MessageList(props: Props) {
         }
     };
 
+    const subscribeToChat = (action: 'sub' | 'unsub') => {
+        action === 'sub' ? handleSubscribeToChat(chatId) : handleUnsubscribeFromChat(storage.localStorageGet('subscribed_to_chat'));
+    };
+
     return (
         <>
             <MessagesListView
                 chat={chatData}
-                messages={messageData?.pages.map((message: any, index: number) => messageProxy(messageData?.pages[index - 1], message))}
+                messages={messageData?.pages.map((message: any, index: number) => messageProxy(messageData?.pages[index - 1], message)) || []}
                 getNextPage={getNextPage}
                 getPrevPage={getPrevPage}
                 hoverMessage={hoverMessage}
+                subscribeToChat={subscribeToChat}
             />
         </>
     );

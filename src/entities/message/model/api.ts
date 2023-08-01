@@ -15,6 +15,8 @@ import messageEntity from '../lib/message-entity';
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
 
+    socket = useWebSocket<any, 'MessageRead'>();
+
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined; chatId: number }) {
         const { getUniqueArr } = useArray({});
         return useInfiniteQuery(
@@ -107,10 +109,28 @@ class MessageApi {
     }
 
     handleReadMessage() {
-        const { sendMessage } = useWebSocket();
+        const queryClient = useQueryClient();
+
         return {
             mutate: (data: { chat_id: number; message_id: number }) => {
-                data.message_id && sendMessage('MessageRead', data);
+                // queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
+                //     if (!cacheData?.pages?.length) return cacheData;
+                //     return produce(cacheData, (draft: any) => {
+                //         draft?.pages?.forEach((page: any) => {
+                //             page?.data?.data.forEach((msg: any) => {
+                //                 // console.log(data.message_id);
+                //                 if (data.message_id > msg.id) {
+                //                     console.log(msg.id);
+                //                     console.log('read', data.message_id);
+                //                     msg.is_read = true;
+                //                 } else {
+                //                     msg.is_read = false;
+                //                 }
+                //             });
+                //         });
+                //     });
+                // });
+                data.message_id && this.socket.sendMessage('MessageRead', data);
             },
         };
     }

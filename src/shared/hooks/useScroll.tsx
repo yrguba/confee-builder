@@ -1,14 +1,22 @@
-import { ReactNode, RefObject, useEffect, useRef } from 'react';
-import { useScroll as scrollPosition } from 'react-use';
+import { RefObject } from 'react';
 
 type ExecuteScrollToElementProps = { ref: RefObject<any>; disabled?: boolean; smooth?: boolean };
 
 function useScroll(): {
     executeScrollToElement: (props: ExecuteScrollToElementProps) => void;
-    getScrollPosition: (arg: RefObject<any>) => { x: number; y: number };
+    getScrollPosition: (arg: RefObject<any>) => { top: number; bottom: number; right: number; left: number } | undefined;
 } {
-    const getScrollPosition = (ref: RefObject<any>) => {
-        return scrollPosition(ref);
+    const getScrollPosition = (ref: RefObject<any>): { top: number; bottom: number; right: number; left: number } | undefined => {
+        if (ref.current) {
+            const target = ref.current as HTMLDivElement;
+            const bottom = Math.floor(target.scrollHeight - target.scrollTop - target.clientHeight);
+            return {
+                top: target.scrollTop < 0 ? 0 : Math.floor(target.scrollTop),
+                bottom: bottom < 0 ? 0 : bottom,
+                left: 0,
+                right: 0,
+            };
+        }
     };
 
     const executeScrollToElement = ({ ref, smooth, disabled }: ExecuteScrollToElementProps) => {

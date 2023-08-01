@@ -13,7 +13,19 @@ type Props = {
 function TextMessage(props: Props) {
     const { text } = props;
 
-    return <Box className={styles.wrapper}>{text}</Box>;
+    const checkLongWord = (str: string) => {
+        return str?.split(' ')?.map((word, index) =>
+            word.length > 30 ? (
+                <span key={index} className={styles.longWord}>
+                    {word}
+                </span>
+            ) : (
+                `${word} `
+            )
+        );
+    };
+
+    return <Box className={styles.wrapper}>{checkLongWord(text)}</Box>;
 }
 
 export default TextMessage;

@@ -18,7 +18,6 @@ export enum MediaContentType {
 
 export type MediaContentTypeKeys = keyof typeof MediaContentType;
 
-export type MessageStatus = 'pending' | 'read';
 export type File = {
     extension: string;
     name: string;
@@ -48,6 +47,8 @@ export type MessageProxy = {
     isMy: boolean;
     isFirstUnread: boolean;
     firstOfDay: string;
+    date: string;
+    authorName: string;
 } & Message;
 
 export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';

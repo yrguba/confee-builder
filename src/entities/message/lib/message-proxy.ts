@@ -3,7 +3,6 @@ import moment from 'moment';
 import { viewerService } from '../../viewer';
 import { Message, MessageProxy } from '../model/types';
 
-const findFirstUnread = false;
 function messageProxy(prevMessage: any, message: Message): any {
     const viewerId = viewerService.getId();
 
@@ -12,6 +11,9 @@ function messageProxy(prevMessage: any, message: Message): any {
             switch (prop) {
                 case 'isMy':
                     return target?.author?.id === viewerId && target.type !== 'system';
+
+                case 'authorName':
+                    return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;
 
                 case 'isFirstUnread':
                     if (!prevMessage && !target.is_read) return true;

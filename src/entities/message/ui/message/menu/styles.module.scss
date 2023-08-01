@@ -1,0 +1,17 @@
+@import "./src/app/styles";
+
+.wrapper {
+  @include box-size(auto, auto);
+  @include flex-column(center, flex-start);
+  background-color: var(--bg-secondary);
+ color: var(--text-primary);
+  padding: 12px;
+  gap: 12px;
+  width: 200px;
+  
+  .item{
+    cursor: pointer;
+  }
+}
+
+

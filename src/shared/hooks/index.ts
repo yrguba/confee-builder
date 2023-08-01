@@ -11,6 +11,7 @@ import {
     useCopyToClipboard,
     useIdle,
     useNetworkState,
+    useTimeout,
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
 import useFileUploader from 'react-use-file-uploader';
@@ -37,6 +38,7 @@ import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
+    useTimeout,
     useRouter,
     useWidthMediaQuery,
     useHeightMediaQuery,
