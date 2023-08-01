@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useAppStore, AppService } from 'entities/app';
+import { useAppStore, appService } from 'entities/app';
 import { useFileDownloads, useDownloader } from 'shared/hooks';
 
 import Icons from './icons';
@@ -12,7 +12,7 @@ function Document(props: DocumentProps) {
 
     const { save } = useFileDownloads();
 
-    const { tauriIsRunning } = AppService;
+    const { tauriIsRunning } = appService;
 
     const { elapsed, percentage, download, cancel, error, isInProgress } = useDownloader();
 

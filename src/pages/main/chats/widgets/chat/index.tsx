@@ -2,23 +2,26 @@ import React from 'react';
 
 import { ChatHeader } from 'features/chat';
 import { MessagesList, MessageInput } from 'features/message';
+import { useRouter } from 'shared/hooks';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 function Chat() {
+    const { params } = useRouter();
+
     return (
-        <Box.Animated visible className={styles.wrapper}>
+        <div className={styles.wrapper}>
             <div className={styles.header}>
                 <ChatHeader />
             </div>
-            <div className={styles.messageList}>
+            <Box.Animated key={params.chat_id} visible className={styles.messageList}>
                 <MessagesList />
-            </div>
+            </Box.Animated>
             <div className={styles.input}>
                 <MessageInput />
             </div>
-        </Box.Animated>
+        </div>
     );
 }
 

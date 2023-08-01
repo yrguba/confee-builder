@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { AppService } from 'entities/app';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Title } from 'shared/ui';
 

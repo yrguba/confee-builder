@@ -1,41 +1,64 @@
 import { isPermissionGranted, sendNotification } from '@tauri-apps/api/notification';
+import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-import { AppService } from 'entities/app';
-import { Box, Title } from 'shared/ui';
+import { appService } from 'entities/app';
+import { Box, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import * as NotificationTypes from '../types';
 
 function Notification(props: NotificationTypes.NotificationProps) {
-    const { items, disabledDesktop, disabledApp } = props;
+    const { items, disabledDesktop, disabledApp, closeClick, actionClick } = props;
 
     const notification_root = document.querySelector('#notification-root');
 
     useEffect(() => {
-        if (!disabledDesktop && AppService.tauriIsRunning) {
+        if (!disabledDesktop && appService.tauriIsRunning) {
             items.forEach((i) => {
                 if ((!i.system && i.scope === 'desktop') || i.scope === 'all') {
-                    sendNotification({ title: i.description || '', body: i.text });
+                    sendNotification({ title: i.description || '', body: i.title });
                 }
             });
         }
     }, [items]);
 
-    function Item({ i }: { i: NotificationTypes.Notification }) {
-        return (
-            <div className={styles.item}>
-                {i.description && <Title variant="H2">{i.description}</Title>}
-                <Title variant="H4M">{i.text}</Title>
-            </div>
-        );
-    }
+    const isVisible = (i: NotificationTypes.Notification) => {
+        if (!disabledApp) return true;
+        return !!i.system;
+    };
 
     return notification_root
         ? ReactDOM.createPortal(
               <div className={styles.wrapper}>
-                  {items?.map((i) => (i.system ? <Item key={i.id} i={i} /> : disabledApp ? null : <Item i={i} key={i.id} />))}
+                  <AnimatePresence initial={false} presenceAffectsLayout>
+                      {items?.map(
+                          (i) =>
+                              isVisible(i) && (
+                                  <motion.div
+                                      onClick={(e) => actionClick(i)}
+                                      key={i.id}
+                                      initial={{ x: 100 }}
+                                      animate={{ x: 0 }}
+                                      exit={{ x: 200 }}
+                                      className={styles.item}
+                                  >
+                                      {i.description && <Title variant="H2">{i.description}</Title>}
+                                      <Title variant="H4M">{i.title}</Title>
+                                      <div
+                                          onClick={(e) => {
+                                              e.stopPropagation();
+                                              closeClick(i.id);
+                                          }}
+                                          className={styles.item_close}
+                                      >
+                                          <Icons variants="exit" />
+                                      </div>
+                                  </motion.div>
+                              )
+                      )}
+                  </AnimatePresence>
               </div>,
               notification_root
           )

@@ -1,7 +1,7 @@
-import { AppService } from 'entities/app';
+import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
-const { socketUrl } = AppService.getUrls();
+const { socketUrl } = appService.getUrls();
 const ws = new WebSocket(socketUrl);
 
 type Returned<In, Out> = {

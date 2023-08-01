@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { AppService } from 'entities/app';
+import { appService } from 'entities/app';
 
 import styles from './styles.module.scss';
 import { AvatarProps } from '../../types';
@@ -9,7 +9,7 @@ function Avatar(props: AvatarProps) {
     const { size = 80, name, img, circle = true, withUrl } = props;
 
     const [err, setErr] = useState(false);
-    const { url } = AppService.getUrls();
+    const { url } = appService.getUrls();
     const colors = [
         { id: 0, triggers: ['а', 'б', 'a', 'b'], color1: '#FF8A65', color2: '#EA5A5A' },
         { id: 1, triggers: ['в', 'г', 'c', 'd'], color1: '#FF8A65', color2: '#FFB74D' },

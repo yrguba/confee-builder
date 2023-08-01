@@ -3,7 +3,7 @@ import Base64url from 'crypto-js/enc-base64url';
 import SHA256 from 'crypto-js/sha256';
 import { useLocation } from 'react-router-dom';
 
-import { AppService } from 'entities/app';
+import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
 const authorizeEndpoint = 'oauth/authorize';
@@ -15,7 +15,7 @@ const codeVerifier = 'mYCO3rcUzhc6RkTKbwurKhDHIIHuc0ojKj2bH9xnOK0fUeSRwki8fSmLDj
 const webView = () => {
     const { pathname } = useLocation();
 
-    const { url } = AppService.getUrls();
+    const { url } = appService.getUrls();
 
     const hashed = SHA256(codeVerifier);
     const params = {

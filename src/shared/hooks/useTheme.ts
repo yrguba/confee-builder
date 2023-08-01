@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Storage } from 'entities/app';
+import { storage } from 'entities/app';
 
 enum ThemesNames {
     light = 'light',
@@ -12,18 +12,18 @@ function useTheme(): [theme: Themes, setTheme: (arg: Themes) => void] {
 
     const setTheme = (theme: Themes) => {
         document.documentElement.dataset.theme = theme;
-        Storage.cookieSet('theme', theme);
+        storage.cookieSet('theme', theme);
         setActiveTheme(theme);
     };
 
     useEffect(() => {
-        const themeFromStorage = Storage.cookieGet('theme');
+        const themeFromStorage = storage.cookieGet('theme');
         if (themeFromStorage) {
             document.documentElement.dataset.theme = themeFromStorage;
             setActiveTheme(themeFromStorage);
         } else {
             document.documentElement.dataset.theme = ThemesNames.light;
-            Storage.cookieSet('theme', ThemesNames.light);
+            storage.cookieSet('theme', ThemesNames.light);
             setActiveTheme('light');
         }
     }, []);

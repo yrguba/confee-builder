@@ -31,7 +31,6 @@ function MessagesListView(props: Props) {
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
-    const { ref: firstUnreadMessageRef2, inView: inViewFirstUnreadMessageRef2 } = useInView({ delay: 200 });
 
     useEffect(() => {
         if (wrapperRef?.current && chat) {
@@ -56,10 +55,7 @@ function MessagesListView(props: Props) {
     const getMessageRefs = (message: MessageProxy, index: number) => {
         if (!messages?.length) return null;
         const refs = [];
-        if (message.isFirstUnread) {
-            refs.push(firstUnreadMessageRef);
-            refs.push(firstUnreadMessageRef2);
-        }
+        if (message.isFirstUnread) refs.push(firstUnreadMessageRef);
         if (messages.length - 1 === index) refs.push(lastMessageRef);
         return mergeRefs(refs);
     };

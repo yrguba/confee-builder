@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AppService } from 'entities/app';
+import { appService } from 'entities/app';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -9,14 +9,14 @@ import { AppSettings, CheckUpdate } from '../widgets';
 function SettingsPage() {
     const items = [
         { id: 2, element: <AppSettings /> },
-        { id: 3, element: AppService.tauriIsRunning ? <CheckUpdate /> : null },
+        { id: 3, element: appService.tauriIsRunning ? <CheckUpdate /> : null },
     ];
 
     return (
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.body}>
                 {items.map((i) => (
-                    <div key={i.id} className={styles.row} style={{ display: !AppService.tauriIsRunning && i.id === 3 ? 'none' : 'flex' }}>
+                    <div key={i.id} className={styles.row} style={{ display: !appService.tauriIsRunning && i.id === 3 ? 'none' : 'flex' }}>
                         {i.element}
                     </div>
                 ))}

@@ -1,8 +1,8 @@
-import { Storage } from 'entities/app';
+import { storage } from 'entities/app';
 
 class ViewerService {
     getId(): number | null {
-        return Number(Storage.localStorageGet('viewerId')) || null;
+        return Number(storage.localStorageGet('viewerId')) || null;
     }
 }
 

@@ -11,9 +11,9 @@
     }
 
   .list {
-    @include flex(center, flex-start);
+    @include flex(flex-start, flex-start);
     overflow-y: auto;
     width: 100%;
-    height: calc(100% - 80px);
+    height: 100%;
   }
 }

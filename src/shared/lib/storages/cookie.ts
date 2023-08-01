@@ -1,14 +1,14 @@
 import Cookies from 'universal-cookie';
 
-import { AppTypes } from 'entities/app';
+import { appTypes } from 'entities/app';
 
 const cookies = new Cookies();
 
-export const set = (name: keyof typeof AppTypes.StorageObjectsNames, value: string) => {
+export const set = (name: keyof typeof appTypes.StorageObjectsNames, value: string) => {
     cookies.set(name, value, { path: '/', domain: window.location.hostname });
 };
 
-export const get = (name: keyof typeof AppTypes.StorageObjectsNames) => {
+export const get = (name: keyof typeof appTypes.StorageObjectsNames) => {
     return cookies.get(name);
 };
 
@@ -16,7 +16,7 @@ export const getAll = () => {
     return cookies.getAll();
 };
 
-export const remove = (name: keyof typeof AppTypes.StorageObjectsNames) => {
+export const remove = (name: keyof typeof appTypes.StorageObjectsNames) => {
     cookies.remove(name, { path: '/', domain: window.location.hostname });
 };
 

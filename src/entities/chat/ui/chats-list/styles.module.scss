@@ -10,7 +10,7 @@
   .headerCollapse{
     width: auto;
     padding-left: 18px;
-    background-color: var(--bg-03);
+    background-color: var(--bg-secondary);
   }
 
   .categoryTitle{
@@ -22,6 +22,7 @@
   .chatsList{
     @include flex-column;
     width: 100%;
+    //margin-top: 4px;
     gap: 12px;
 
     .item {

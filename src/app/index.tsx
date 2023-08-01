@@ -10,7 +10,8 @@ import Routing from 'pages';
 import './index.scss';
 import { useWebSocket } from 'shared/hooks';
 
-import { AppService } from '../entities/app';
+import { appService } from '../entities/app';
+import { Notifications } from '../features/app';
 
 const queryClient = new QueryClient();
 moment.locale('ru');
@@ -18,13 +19,14 @@ moment.locale('ru');
 function App() {
     useWebSocket();
 
-    const { clientDomain } = AppService.getUrls();
+    const { clientDomain } = appService.getUrls();
 
     console.log('client domain: ', clientDomain);
 
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
+                <Notifications />
                 <Routing />
                 <ReactQueryDevtools position="bottom-right" />
             </QueryClientProvider>

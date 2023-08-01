@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 
-import { AppService } from 'entities/app';
+import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
-const { url } = AppService.getUrls();
-const { auth } = AppService.getSecret();
+const { url } = appService.getUrls();
+const { auth } = appService.getSecret();
 const config: AxiosRequestConfig = {
     baseURL: `${url}`,
 };

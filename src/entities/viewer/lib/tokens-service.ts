@@ -1,4 +1,4 @@
-import { Storage } from 'entities/app';
+import { storage } from 'entities/app';
 import { useCrypto } from 'shared/hooks';
 
 type Tokens = {
@@ -8,16 +8,16 @@ type Tokens = {
 
 class TokenService {
     checkAuth() {
-        const access_token = Storage.cookieGet('access_token');
-        const refresh_token = Storage.cookieGet('refresh_token');
+        const access_token = storage.cookieGet('access_token');
+        const refresh_token = storage.cookieGet('refresh_token');
         return !!(access_token && refresh_token);
     }
 
     save(tokens: Tokens) {
         const accessEncoded = useCrypto(tokens.access_token, 'encode');
         const refreshEncoded = useCrypto(tokens.refresh_token, 'encode');
-        Storage.cookieSet('access_token', accessEncoded);
-        Storage.cookieSet('refresh_token', refreshEncoded);
+        storage.cookieSet('access_token', accessEncoded);
+        storage.cookieSet('refresh_token', refreshEncoded);
     }
 
     get() {
@@ -25,14 +25,14 @@ class TokenService {
             access_token: useCrypto(access_token, 'decode'),
             refresh_token: useCrypto(refresh_token, 'decode'),
         });
-        const access_token = Storage.cookieGet('access_token');
-        const refresh_token = Storage.cookieGet('refresh_token');
+        const access_token = storage.cookieGet('access_token');
+        const refresh_token = storage.cookieGet('refresh_token');
         if (access_token && refresh_token) return getDecoded(access_token, refresh_token);
     }
 
     remove() {
-        Storage.cookieRemove('access_token');
-        Storage.cookieRemove('refresh_token');
+        storage.cookieRemove('access_token');
+        storage.cookieRemove('refresh_token');
     }
 }
 

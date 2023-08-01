@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
-import { AppSettingsView, Storage } from 'entities/app';
+import { AppSettingsView, storage } from 'entities/app';
 import { useToggle, useTheme } from 'shared/hooks';
 
 function AppSettings() {
-    const not_scope = Storage.localStorageGet('notification_scope');
+    const not_scope = storage.localStorageGet('notification_scope');
     const [appScope, toggleAppScope] = useToggle(!!not_scope?.app);
     const [deskScope, toggleDeskScope] = useToggle(!!not_scope?.desk);
     const [theme, setTheme] = useTheme();
 
     useEffect(() => {
-        Storage.localStorageSet('notification_scope', { app: appScope, desk: deskScope });
+        storage.localStorageSet('notification_scope', { app: appScope, desk: deskScope });
     }, [appScope, deskScope]);
 
     const items = [
