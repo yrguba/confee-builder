@@ -1,34 +1,35 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
-import { reactionConverter } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Emoji, EmojiTypes, Icons } from 'shared/ui';
+import { Box, IconsTypes, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { MessageMenuActions } from '../../../model/types';
+import { MessageMenuActions, MessageProxy } from '../../../model/types';
 
 type Props = {
-    messageMenuAction: (action: MessageMenuActions) => void;
+    message: MessageProxy;
+    messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 function MessageMenu(props: Props) {
-    const { messageMenuAction } = props;
+    const { messageMenuAction, message } = props;
 
-    const items: { id: number; title: string; action: MessageMenuActions }[] = [
-        { id: 0, title: 'Ответить на сообщение', action: 'answer' },
-        { id: 1, title: 'Переслать сообщение', action: 'forward' },
-        { id: 2, title: 'Скопировать текст', action: 'copy' },
-        { id: 3, title: 'Редактировать сообщение', action: 'edit' },
-        { id: 4, title: 'Удалить сообщение', action: 'delete' },
-        { id: 5, title: 'Упомянуть автора', action: 'mention' },
-        { id: 6, title: 'Преобразовать в задачу', action: 'convert' },
+    const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions>[] = [
+        { id: 0, title: 'Ответить', icon: 'add', payload: 'answer' },
+        { id: 1, title: 'Переслать', icon: 'add', payload: 'forward' },
+        { id: 2, title: 'Скопировать текст', icon: 'add', payload: 'copy' },
+        { id: 3, title: 'Редактировать', icon: 'add', payload: 'edit' },
+        { id: 4, title: 'Удалить', icon: 'delete', payload: 'delete' },
+        { id: 5, title: 'Упомянуть автора', icon: 'add', payload: 'mention' },
+        { id: 6, title: 'Преобразовать в задачу', icon: 'add', payload: 'convert' },
     ];
 
     return (
         <Box className={styles.wrapper}>
             {items.map((i) => (
-                <div className={styles.item} key={i.id} onClick={() => messageMenuAction(i.action)}>
-                    {i.title}
+                <div className={styles.item} key={i.id} onClick={() => messageMenuAction(i.payload, message)}>
+                    <Icons variants={i.icon} />
+                    <Title variant="H3M">{i.title}</Title>
                 </div>
             ))}
         </Box>

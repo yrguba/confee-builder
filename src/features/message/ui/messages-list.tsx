@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { storage } from 'entities/app';
+import { storage, useAppStore } from 'entities/app';
 import { chatApi } from 'entities/chat';
 import { messageApi, MessagesListView, messageService } from 'entities/message';
-import { useRouter } from 'shared/hooks';
+import { useRouter, useCopyToClipboard } from 'shared/hooks';
 
 import { MessageMenuActions, MessageProxy } from '../../../entities/message/model/types';
 
 function MessageList() {
     const { params } = useRouter();
+    const [state, copyToClipboard] = useCopyToClipboard();
 
     const chatId = Number(params.chat_id);
 
@@ -17,6 +18,9 @@ function MessageList() {
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
 
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
+    const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
+
+    // const setNotifications = useAppStore.use.setNotifications()
 
     const {
         data: messageData,
@@ -31,8 +35,14 @@ function MessageList() {
         action === 'sub' ? handleSubscribeToChat(chatId) : handleUnsubscribeFromChat(storage.localStorageGet('subscribed_to_chat'));
     };
 
-    const messageMenuAction = (action: MessageMenuActions) => {
-        console.log(action);
+    const messageMenuAction = (action: MessageMenuActions, message: MessageProxy) => {
+        switch (action) {
+            case 'copy':
+                copyToClipboard(message.text);
+                break;
+            case 'delete':
+                handleDeleteMessage({ chatId, fromAll: true, messageIds: [message.id] });
+        }
     };
 
     return (

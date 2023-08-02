@@ -101,8 +101,8 @@ class MessageApi {
     }
 
     handleDeleteMessage() {
-        return useMutation((data: { messages: string[]; fromAll: boolean; chatId: number }) =>
-            axiosClient.delete(`${this.pathPrefix}/${data.chatId}/messages`, { data: { fromAll: data.fromAll, messages: data.messages } })
+        return useMutation((data: { messageIds: number[]; fromAll: boolean; chatId: number }) =>
+            axiosClient.delete(`${this.pathPrefix}/${data.chatId}/messages`, { data: { fromAll: data.fromAll, messageIds: data.messageIds } })
         );
     }
 

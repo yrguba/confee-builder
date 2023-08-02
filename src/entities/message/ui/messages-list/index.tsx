@@ -17,7 +17,7 @@ type Props = {
     getNextPage: () => void;
     hoverMessage: (message: MessageProxy) => void;
     subscribeToChat: (action: 'sub' | 'unsub') => void;
-    messageMenuAction: (action: MessageMenuActions) => void;
+    messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {

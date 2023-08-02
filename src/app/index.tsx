@@ -9,9 +9,9 @@ import 'moment/locale/ru';
 import Routing from 'pages';
 import './index.scss';
 import { useWebSocket, useTheme } from 'shared/hooks';
+import { Notification } from 'shared/ui';
 
 import { appService } from '../entities/app';
-import { Notifications } from '../features/app';
 
 const queryClient = new QueryClient();
 moment.locale('ru');
@@ -27,7 +27,7 @@ function App() {
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
-                <Notifications />
+                <Notification />
                 <Routing />
                 <ReactQueryDevtools position="bottom-right" />
             </QueryClientProvider>

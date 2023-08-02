@@ -13,7 +13,7 @@ import { MessageProxy, MessageMenuActions } from '../../model/types';
 type Props = {
     message: MessageProxy;
     lastFive: boolean;
-    messageMenuAction: (action: MessageMenuActions) => void;
+    messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 function Message(props: Props) {
@@ -47,7 +47,7 @@ function Message(props: Props) {
                 reverseX={message.isMy}
                 reverseY={lastFive}
                 trigger="right-click"
-                content={<MessageMenu messageMenuAction={messageMenuAction} />}
+                content={<MessageMenu messageMenuAction={messageMenuAction} message={message} />}
             >
                 <div className={styles.content} ref={messageRef}>
                     <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>{type === 'text' && <TextMessage text={message.text} />}</div>

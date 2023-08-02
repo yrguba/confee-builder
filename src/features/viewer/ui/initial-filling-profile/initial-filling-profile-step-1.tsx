@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { enums } from 'entities/app';
-import { useViewerStore, viewerApi, InitialFillingProfileStep1View, yup } from 'entities/viewer';
+import { viewerApi, InitialFillingProfileStep1View, yup } from 'entities/viewer';
 import { useInput } from 'shared/hooks';
 
 function InitialFillingProfileStep1() {

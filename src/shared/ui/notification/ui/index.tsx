@@ -3,29 +3,50 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-import { appService } from 'entities/app';
-import { Box, Icons, Title } from 'shared/ui';
+import { Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import * as NotificationTypes from '../types';
+import { usePrevious } from '../../../hooks';
+import useNotificationStore from '../model/store';
+import * as NotificationsTypes from '../model/types';
 
-function Notification(props: NotificationTypes.NotificationProps) {
-    const { items, disabledDesktop, disabledApp, closeClick, actionClick } = props;
+function Notification(props: NotificationsTypes.NotificationProps) {
+    const { options } = props;
 
     const notification_root = document.querySelector('#notification-root');
 
+    const notifications = useNotificationStore.use.notifications();
+    const deleteFirstNotifications = useNotificationStore.use.deleteFirstNotifications();
+    const deleteNotificationsById = useNotificationStore.use.deleteNotificationsById();
+    const prev = usePrevious(notifications.length);
+
+    const timeout = options?.visionTime || 5000;
+
+    const closeClick = (id: number) => {
+        deleteNotificationsById(id);
+    };
+
     useEffect(() => {
-        if (!disabledDesktop && appService.tauriIsRunning) {
-            items.forEach((i) => {
+        if (notifications.length && !prev) {
+            setTimeout(() => deleteFirstNotifications(), timeout);
+        }
+        if (notifications.length && prev && notifications.length > prev) {
+            setTimeout(() => deleteFirstNotifications(), timeout);
+        }
+    }, [notifications.length]);
+
+    useEffect(() => {
+        if (!options?.disabledDesktop && !!window.__TAURI__) {
+            notifications.forEach((i) => {
                 if ((!i.system && i.scope === 'desktop') || i.scope === 'all') {
-                    sendNotification({ title: i.description || '', body: i.title });
+                    sendNotification({ title: i.body || '', body: i.title });
                 }
             });
         }
-    }, [items]);
+    }, [notifications]);
 
-    const isVisible = (i: NotificationTypes.Notification) => {
-        if (!disabledApp) return true;
+    const isVisible = (i: NotificationsTypes.Notification) => {
+        if (!options?.disabledApp) return true;
         return !!i.system;
     };
 
@@ -33,18 +54,11 @@ function Notification(props: NotificationTypes.NotificationProps) {
         ? ReactDOM.createPortal(
               <div className={styles.wrapper}>
                   <AnimatePresence initial={false} presenceAffectsLayout>
-                      {items?.map(
+                      {notifications?.map(
                           (i) =>
                               isVisible(i) && (
-                                  <motion.div
-                                      onClick={(e) => actionClick(i)}
-                                      key={i.id}
-                                      initial={{ x: 100 }}
-                                      animate={{ x: 0 }}
-                                      exit={{ x: 200 }}
-                                      className={styles.item}
-                                  >
-                                      {i.description && <Title variant="H2">{i.description}</Title>}
+                                  <motion.div onClick={i.callback} key={i.id} initial={{ x: 100 }} animate={{ x: 0 }} exit={{ x: 200 }} className={styles.item}>
+                                      {i.body && <Title variant="H2">{i.body}</Title>}
                                       <Title variant="H4M">{i.title}</Title>
                                       <div
                                           onClick={(e) => {

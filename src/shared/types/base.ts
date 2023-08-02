@@ -11,5 +11,5 @@ export type Item<I, P> = {
     id: number;
     title: string;
     icon?: I;
-    payload?: P;
+    payload: P;
 };

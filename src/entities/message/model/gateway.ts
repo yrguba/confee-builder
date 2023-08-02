@@ -10,6 +10,7 @@ type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated';
 
 function messageGateway() {
     const { onMessage } = useWebSocket<SocketIn, any>();
+
     const queryClient = useQueryClient();
     useEffect(() => {
         onMessage('MessageCreated', (socketData) => {
