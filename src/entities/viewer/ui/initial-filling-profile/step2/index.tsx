@@ -1,23 +1,19 @@
 import React from 'react';
 
-import { viewerTypes } from 'entities/viewer';
-import { UseInputReturnedTypes } from 'shared/hooks';
-import { BaseTypes } from 'shared/types';
-import { Box, Button, Input } from 'shared/ui';
+import { Box, Button, Input, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
-    viewer: viewerTypes.Viewer | BaseTypes.Empty;
     handleSubmit: () => void;
     inputs: {
-        lastName: UseInputReturnedTypes;
-        firstName: UseInputReturnedTypes;
+        lastName: InputTypes.UseReturnedType;
+        firstName: InputTypes.UseReturnedType;
     };
 };
 
 function InitialFillingProfileStep2View(props: Props) {
-    const { viewer, inputs, handleSubmit } = props;
+    const { inputs, handleSubmit } = props;
 
     return (
         <Box.Animated visible className={styles.wrapper}>

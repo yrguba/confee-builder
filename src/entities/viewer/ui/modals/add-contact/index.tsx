@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
-import { UseInputReturnedTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Icons, Input, LoadingIndicator, Select, Title } from 'shared/ui';
+import { Button, Input, InputTypes, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -10,7 +9,7 @@ type Props = {
     back: () => void;
     addContact: (data: any) => void;
     inputs: {
-        firstName: UseInputReturnedTypes;
+        firstName: InputTypes.UseReturnedType;
     };
 } & BaseTypes.Statuses;
 

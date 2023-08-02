@@ -1,16 +1,15 @@
 import React from 'react';
 
 import { viewerTypes } from 'entities/viewer';
-import { useDebounce, useInput } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Input, Title } from 'shared/ui';
+import { Box, Button, Input, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
     viewer: viewerTypes.Viewer | BaseTypes.Empty;
     handleSubmit: (arg: string) => void;
-    nicknameInput: ReturnType<typeof useInput>;
+    nicknameInput: InputTypes.UseReturnedType;
 };
 
 function InitialFillingProfileStep1View(props: Props) {

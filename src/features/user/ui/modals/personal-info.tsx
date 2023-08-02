@@ -1,12 +1,8 @@
-import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { useEffect } from 'react';
 
 import { PersonalInfoModalView, useUserStore } from 'entities/user';
-import { useInput, useModal } from 'shared/hooks';
+import { useModal } from 'shared/hooks';
 import { Modal } from 'shared/ui';
-
-import { yup } from '../../../../entities/viewer';
 
 type Props = {
     direction?: 'column' | 'row';

@@ -1,7 +1,8 @@
-import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react';
+import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
-import { BaseTypes } from '../../types';
-import { IconsTypes } from '../icons';
+import use from './use';
+import { BaseTypes } from '../../../types';
+import { IconsTypes } from '../../icons';
 
 export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'width' | 'height'>;
 
@@ -20,6 +21,12 @@ type Shared = {
 } & InputAttrs &
     BaseTypes.Statuses;
 
+export type UseProps = {
+    initialValue?: string;
+    yupSchema?: any;
+    realtimeValidate?: boolean;
+};
+
 export type BaseInputProps = {
     clearIcon?: boolean;
     prefix?: string;
@@ -34,14 +41,5 @@ export type CountriesInputProps = {
     getCode: (code: string) => void;
 } & Shared;
 
-export type InputDatePickerProps = {} & Shared;
-
-export type PasswordInputProps = {} & Shared;
-
 export type TextareaInputProps = {} & TextareaHTMLAttributes<HTMLTextAreaElement> & Shared;
-
-export type SearchInputProps = {
-    mini?: boolean;
-    debounceDelay?: number;
-    debounceCallback?: (arg: InputValue) => void;
-} & Shared;
+export type UseReturnedType = ReturnType<typeof use>;

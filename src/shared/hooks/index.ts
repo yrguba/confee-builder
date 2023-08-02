@@ -23,7 +23,6 @@ import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
 import useEnding from './useEnding';
 import useFileDownloads from './useFileDownloads';
-import useInput from './useInput';
 import useModal from './useModal';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
@@ -48,7 +47,6 @@ export {
     useIdle,
     useTimer,
     useTheme,
-    useInput,
     useCreateSelectors,
     useCrypto,
     useDebounce,
@@ -72,5 +70,3 @@ export {
     useAudioRecorder,
     useWebSocket,
 };
-
-export type UseInputReturnedTypes = ReturnType<typeof useInput>;

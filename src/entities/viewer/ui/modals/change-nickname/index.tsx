@@ -1,15 +1,13 @@
 import React from 'react';
 
-import { useInput } from 'shared/hooks';
-import { BaseTypes } from 'shared/types';
-import { Box, Button, Input, Title } from 'shared/ui';
+import { Box, Button, Input, Title, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
     handleSubmit: () => void;
     back: () => void;
-    nicknameInput: ReturnType<typeof useInput>;
+    nicknameInput: InputTypes.UseReturnedType;
 };
 
 function ChangeNickNameModalView(props: Props) {

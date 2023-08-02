@@ -1,15 +1,13 @@
 import React from 'react';
 
-import { UseInputReturnedTypes } from 'shared/hooks';
-import { BaseTypes } from 'shared/types';
-import { Box, Button, Input, Avatar, Title } from 'shared/ui';
+import { Box, Button, Input, InputTypes, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
     handleSubmit: () => void;
     back: () => void;
-    birthInput: UseInputReturnedTypes;
+    birthInput: InputTypes.UseReturnedType;
 };
 
 function ChangeBirthModalView(props: Props) {

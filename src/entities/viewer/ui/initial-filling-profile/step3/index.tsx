@@ -1,27 +1,23 @@
 import React from 'react';
 
-import { viewerTypes } from 'entities/viewer';
-import { UseInputReturnedTypes } from 'shared/hooks';
-import { BaseTypes } from 'shared/types';
-import { Box, Button, Input, Avatar } from 'shared/ui';
+import { Box, Button, Input, InputTypes, Avatar } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
-    viewer: viewerTypes.Viewer | BaseTypes.Empty;
     handleSubmit: () => void;
     selectFile: () => void;
     getScreenshot: (data: string) => void;
     deleteFile: () => void;
     avatar?: string;
     inputs: {
-        email: UseInputReturnedTypes;
-        birth: UseInputReturnedTypes;
+        email: InputTypes.UseReturnedType;
+        birth: InputTypes.UseReturnedType;
     };
 };
 
 function InitialFillingProfileStep3View(props: Props) {
-    const { viewer, inputs, avatar, handleSubmit, selectFile, deleteFile, getScreenshot } = props;
+    const { inputs, avatar, handleSubmit, selectFile, deleteFile, getScreenshot } = props;
 
     return (
         <Box.Animated visible className={styles.wrapper}>

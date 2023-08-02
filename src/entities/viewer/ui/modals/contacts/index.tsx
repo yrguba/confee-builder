@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
-import { useInput } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, Input, Collapse } from 'shared/ui';
+import { Button, Icons, Input, Collapse, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
     openAddContactsModal: () => void;
+    searchContactsInput: InputTypes.UseReturnedType;
 } & BaseTypes.Statuses;
 
 function ContactsModalView(props: Props) {
-    const { openAddContactsModal } = props;
-
-    const searchInput = useInput({});
+    const { openAddContactsModal, searchContactsInput } = props;
 
     const [activeTab, setActiveTab] = useState(0);
     const [ac, setAc] = useState<any>([]);
@@ -41,7 +39,7 @@ function ContactsModalView(props: Props) {
             <div className={styles.header}>
                 <div className={styles.title}>Контакты</div>
                 <div className={styles.search}>
-                    <Input width="100%" {...searchInput} placeholder="Поиск" prefixIcon="search" clearIcon />
+                    <Input width="100%" {...searchContactsInput} placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
             </div>
             <div className={styles.body}>

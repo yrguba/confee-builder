@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { UseInputReturnedTypes } from 'shared/hooks';
-import { BaseTypes } from 'shared/types';
-import { Box, Button, Input, Title } from 'shared/ui';
+import { Box, Button, Input, Title, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -10,8 +8,8 @@ type Props = {
     handleSubmit: () => void;
     back: () => void;
     inputs: {
-        lastName: UseInputReturnedTypes;
-        firstName: UseInputReturnedTypes;
+        lastName: InputTypes.UseReturnedType;
+        firstName: InputTypes.UseReturnedType;
     };
 };
 

@@ -3,11 +3,11 @@ import React, { useEffect } from 'react';
 import { yup } from 'entities/app';
 import { useUserStore } from 'entities/user';
 import { AddContactModalView } from 'entities/viewer';
-import { useInput, useModal } from 'shared/hooks';
-import { Modal } from 'shared/ui';
+import { useModal } from 'shared/hooks';
+import { Modal, Input } from 'shared/ui';
 
 function AddContactModal() {
-    const firstNameInput = useInput({
+    const firstNameInput = Input.use({
         yupSchema: yup.required,
     });
 

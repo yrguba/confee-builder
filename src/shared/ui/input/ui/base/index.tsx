@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { useDebounce } from '../../../../hooks';
 import Box from '../../../box';
 import Icons from '../../../icons';
-import { BaseInputProps } from '../../types';
+import { BaseInputProps } from '../../model/types';
 
 const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
     const {

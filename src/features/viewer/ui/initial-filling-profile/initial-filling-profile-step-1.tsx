@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { viewerApi, InitialFillingProfileStep1View, yup } from 'entities/viewer';
-import { useInput } from 'shared/hooks';
+import { Input } from 'shared/ui';
 
 function InitialFillingProfileStep1() {
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ function InitialFillingProfileStep1() {
     const handleCheckNickname = viewerApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const nicknameInput = useInput({
+    const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,
     });
 

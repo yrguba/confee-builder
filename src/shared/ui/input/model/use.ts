@@ -1,12 +1,8 @@
 import { useState, useCallback, ChangeEvent, useEffect } from 'react';
 
-type Props = {
-    initialValue?: string;
-    yupSchema?: any;
-    realtimeValidate?: boolean;
-};
+import { UseProps } from './types';
 
-const useInput = ({ initialValue = '', yupSchema, realtimeValidate }: Props) => {
+const use = ({ initialValue = '', yupSchema, realtimeValidate }: UseProps) => {
     const [value, setValue] = useState(initialValue || '');
     const [error, setError] = useState('');
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -63,4 +59,4 @@ const useInput = ({ initialValue = '', yupSchema, realtimeValidate }: Props) => 
     };
 };
 
-export default useInput;
+export default use;

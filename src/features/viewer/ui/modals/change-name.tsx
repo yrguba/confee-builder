@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 
 import { viewerApi, ChangeNameModalView, yup, useViewerStore } from 'entities/viewer';
 
-import { PersonalInfoModalView } from '../../../../entities/user';
-import { useInput, useModal } from '../../../../shared/hooks';
-import { Modal } from '../../../../shared/ui';
+import { useModal } from '../../../../shared/hooks';
+import { Modal, Input } from '../../../../shared/ui';
 
 function ChangeNameModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
@@ -12,11 +11,11 @@ function ChangeNameModal() {
 
     const changeNameModal = useModal();
 
-    const firstNameInput = useInput({
+    const firstNameInput = Input.use({
         yupSchema: yup.checkName,
         initialValue: viewerData?.data?.data.first_name,
     });
-    const lastNameInput = useInput({
+    const lastNameInput = Input.use({
         yupSchema: yup.checkName,
         initialValue: viewerData?.data?.data.last_name,
     });

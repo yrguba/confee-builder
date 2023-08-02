@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 
 import { viewerApi, ChangeBirthModalView, useViewerStore } from 'entities/viewer';
-import { useInput, useModal } from 'shared/hooks';
-
-import { Modal } from '../../../../shared/ui';
+import { useModal } from 'shared/hooks';
+import { Modal, Input } from 'shared/ui';
 
 function ChangeBirthModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
@@ -14,7 +13,7 @@ function ChangeBirthModal() {
 
     const changeBirthModal = useModal();
 
-    const birthInput = useInput({
+    const birthInput = Input.use({
         initialValue: viewerData?.data?.data?.birth?.split(' ')[0] || '',
     });
 

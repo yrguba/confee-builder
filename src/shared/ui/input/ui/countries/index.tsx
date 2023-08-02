@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { useDebounce } from '../../../../hooks';
 import Box from '../../../box';
 import { Dropdown, Icons } from '../../../index';
-import { BaseInputProps, CountriesInputProps } from '../../types';
+import { BaseInputProps, CountriesInputProps } from '../../model/types';
 
 const InputCountries = forwardRef<HTMLInputElement, CountriesInputProps>((props, ref) => {
     const { getCode } = props;

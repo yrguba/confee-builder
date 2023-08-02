@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 
 import { useViewerStore, viewerApi, ChangeNickNameModalView, yup } from 'entities/viewer';
-import { useInput, useModal } from 'shared/hooks';
-import { Modal } from 'shared/ui';
+import { useModal } from 'shared/hooks';
+import { Modal, Input } from 'shared/ui';
 
 function ChangeNicknameModal() {
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
@@ -14,7 +14,7 @@ function ChangeNicknameModal() {
 
     const changeNicknameModal = useModal();
 
-    const nicknameInput = useInput({
+    const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,
         initialValue: viewerData?.data?.data.nickname,
     });

@@ -2,8 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { viewerApi, InitialFillingProfileStep2View, yup } from 'entities/viewer';
-
-import { useInput } from '../../../../shared/hooks';
+import { Input } from 'shared/ui';
 
 function InitialFillingProfileStep2() {
     const navigate = useNavigate();
@@ -11,11 +10,13 @@ function InitialFillingProfileStep2() {
     const { data } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const firstNameInput = useInput({
+    const firstNameInput = Input.use({
         yupSchema: yup.checkName,
+        initialValue: data?.data?.data.first_name || '',
     });
-    const lastNameInput = useInput({
+    const lastNameInput = Input.use({
         yupSchema: yup.checkName,
+        initialValue: data?.data?.data.last_name || '',
     });
 
     const onsubmit = async () => {
@@ -30,7 +31,7 @@ function InitialFillingProfileStep2() {
             );
         }
     };
-    return <InitialFillingProfileStep2View handleSubmit={onsubmit} viewer={data?.data?.data} inputs={{ lastName: lastNameInput, firstName: firstNameInput }} />;
+    return <InitialFillingProfileStep2View handleSubmit={onsubmit} inputs={{ lastName: lastNameInput, firstName: firstNameInput }} />;
 }
 
 export default InitialFillingProfileStep2;

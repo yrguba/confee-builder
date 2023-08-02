@@ -16,7 +16,7 @@ function LeftSidebar() {
 
     const setOpenUserModal = useUserStore.use.setOpenModal();
     const setOpenViewerModal = useViewerStore.use.setOpenModal();
-    const notification = Notification.Manager();
+    const notification = Notification.use();
 
     const { Uploader, files } = useFileUploader({
         accept: 'image',

@@ -8,15 +8,15 @@ export type NotificationProps = {
 
 export type Status = 'info' | 'success' | 'warning' | 'error';
 
-export type Notification = {
-    id: number;
-    status: Status;
-} & ManagerProps;
-
-export type ManagerProps = {
+export type UseProps = {
     title: string;
     body?: string;
     scope?: 'app' | 'desktop' | 'all';
     system?: boolean;
     callback?: () => void;
 };
+
+export type Notification = {
+    id: number;
+    status: Status;
+} & UseProps;

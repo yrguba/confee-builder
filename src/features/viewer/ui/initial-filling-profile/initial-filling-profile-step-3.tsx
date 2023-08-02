@@ -1,28 +1,27 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useFileUploader from 'react-use-file-uploader';
 
 import { viewerApi, InitialFillingProfileStep3View, yup } from 'entities/viewer';
-import { useInput } from 'shared/hooks';
+import { Input } from 'shared/ui';
 
 import { getFormData } from '../../../../shared/lib';
 
 function InitialFillingProfileStep3() {
     const navigate = useNavigate();
 
-    const { data } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
-    const emailInput = useInput({
+    const emailInput = Input.use({
         yupSchema: yup.checkEmail,
     });
 
-    const birthInput = useInput({});
+    const birthInput = Input.use({});
 
     const [avatar, setAvatar] = useState<{ formData: FormData | null; fileUrl: string } | null>(null);
 
-    const { open: selectFile, formData } = useFileUploader({
+    const { open: selectFile } = useFileUploader({
         accept: 'image',
         onAfterUploading: (data) => {
             setAvatar({ formData: getFormData('images', data.files[0].file), fileUrl: data.files[0].fileUrl });
@@ -52,7 +51,6 @@ function InitialFillingProfileStep3() {
             deleteFile={() => setAvatar(null)}
             selectFile={selectFile}
             handleSubmit={onsubmit}
-            viewer={data?.data?.data}
             avatar={avatar?.fileUrl}
             inputs={{ email: emailInput, birth: birthInput }}
         />
