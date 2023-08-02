@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import useModalStore from './store';
 
-function use<MN>(modalNames: MN) {
+function use<MN>(modalNames: MN, onClose?: () => void) {
+    const first = useRef(true);
+
     const openModal = useModalStore.use.openModal();
     const setOpenModal = useModalStore.use.setOpenModal();
     const open = () => {
@@ -12,6 +14,13 @@ function use<MN>(modalNames: MN) {
     const close = () => setOpenModal(null);
 
     const isOpen = !!openModal && openModal === modalNames;
+
+    useEffect(() => {
+        if (!isOpen && onClose && !first.current) {
+            onClose();
+        }
+        first.current = false;
+    }, [isOpen]);
 
     return { isOpen, open, close };
 }

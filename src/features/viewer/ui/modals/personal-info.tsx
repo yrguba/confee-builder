@@ -11,6 +11,7 @@ function ViewerPersonalInfoModal() {
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
     const personalInfoModal = Modal.use<viewerTypes.ModalName>('viewer-personal-info');
+    const changeNicknameModal = Modal.use<viewerTypes.ModalName>('change-nickname', () => personalInfoModal.open());
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',
@@ -24,7 +25,10 @@ function ViewerPersonalInfoModal() {
     };
 
     const getChangeModals = (modalName: viewerTypes.ModalName, disabled?: boolean) => {
-        // disabled ? alert('Пока невозможно редактировать') : setOpenViewerModal(modalName);
+        switch (modalName) {
+            case 'change-nickname':
+                changeNicknameModal.open();
+        }
     };
 
     return (

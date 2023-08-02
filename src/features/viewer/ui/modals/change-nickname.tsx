@@ -17,7 +17,7 @@ function ChangeNicknameModal() {
 
     const close = () => {
         nicknameInput.reload();
-        // setViewerModal('personal-info');
+        changeNicknameModal.close();
     };
 
     const onsubmit = async () => {
