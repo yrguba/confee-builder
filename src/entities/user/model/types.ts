@@ -1,6 +1,6 @@
 export type UserStatuses = 'in-office' | 'home-work' | 'business-trip' | 'vacation' | 'sick-leave' | 'meeting' | 'not-available';
 
-export type ModalName = 'contacts' | 'add-contact' | 'personal-info';
+export type ModalName = 'personal-info';
 
 export type User = {
     avatar: {

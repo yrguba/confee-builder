@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 
-import { viewerApi, ChangeBirthModalView, useViewerStore } from 'entities/viewer';
+import { viewerApi, ChangeBirthModalView, viewerTypes } from 'entities/viewer';
 import { Modal, Input } from 'shared/ui';
 
 function ChangeBirthModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const openViewerModal = useViewerStore.use.openModal();
-    const setViewerModal = useViewerStore.use.setOpenModal();
-
-    const changeBirthModal = Modal.use();
+    const changeBirthModal = Modal.use<viewerTypes.ModalName>('change-birth');
+    const personaModal = Modal.use<viewerTypes.ModalName>('change-birth');
 
     const birthInput = Input.use({
         initialValue: viewerData?.data?.data?.birth?.split(' ')[0] || '',
@@ -18,7 +16,7 @@ function ChangeBirthModal() {
 
     const close = () => {
         birthInput.reload();
-        setViewerModal('personal-info');
+        // setViewerModal('personal-info');
     };
 
     const onsubmit = async () => {
@@ -33,10 +31,6 @@ function ChangeBirthModal() {
             );
         }
     };
-
-    useEffect(() => {
-        openViewerModal === 'change-birth' ? changeBirthModal.open() : changeBirthModal.close();
-    }, [openViewerModal]);
 
     return (
         <Modal {...changeBirthModal} onClose={close}>

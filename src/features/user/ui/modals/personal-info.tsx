@@ -1,20 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { PersonalInfoModalView, useUserStore } from 'entities/user';
+import { PersonalInfoModalView, userTypes } from 'entities/user';
 import { Modal } from 'shared/ui';
 
 function UserPersonalInfoModal() {
-    const personalInfoModal = Modal.use();
-
-    const openUserModal = useUserStore.use.openModal();
-    const setOpenUserModal = useUserStore.use.setOpenModal();
-
-    useEffect(() => {
-        openUserModal === 'personal-info' ? personalInfoModal.open() : personalInfoModal.close();
-    }, [openUserModal]);
+    const personalInfoModal = Modal.use<userTypes.ModalName>('personal-info');
 
     return (
-        <Modal {...personalInfoModal} onClose={() => setOpenUserModal(null)}>
+        <Modal {...personalInfoModal}>
             <PersonalInfoModalView getChangeModals={() => ''} getScreenshot={() => ''} deleteFile={() => () => ''} selectFile={() => ''} user={null} />
         </Modal>
     );

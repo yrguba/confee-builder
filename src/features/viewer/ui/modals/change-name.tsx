@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { viewerApi, ChangeNameModalView, yup, useViewerStore } from 'entities/viewer';
+import { viewerApi, ChangeNameModalView, yup, viewerTypes } from 'entities/viewer';
 import { Modal, Input } from 'shared/ui';
 
 function ChangeNameModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const changeNameModal = Modal.use();
+    const changeNameModal = Modal.use<viewerTypes.ModalName>('change-name');
 
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
@@ -18,11 +18,8 @@ function ChangeNameModal() {
         initialValue: viewerData?.data?.data.last_name,
     });
 
-    const openViewerModal = useViewerStore.use.openModal();
-    const setViewerModal = useViewerStore.use.setOpenModal();
-
     const close = () => {
-        setViewerModal('personal-info');
+        // setViewerModal('personal-info');
         firstNameInput.reload();
         lastNameInput.reload();
     };
@@ -39,10 +36,6 @@ function ChangeNameModal() {
             );
         }
     };
-
-    useEffect(() => {
-        openViewerModal === 'change-name' ? changeNameModal.open() : changeNameModal.close();
-    }, [openViewerModal]);
 
     return (
         <Modal {...changeNameModal} onClose={close}>

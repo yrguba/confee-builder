@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { useViewerStore, viewerApi, ChangeNickNameModalView, yup } from 'entities/viewer';
+import { viewerTypes, viewerApi, ChangeNickNameModalView, yup } from 'entities/viewer';
 import { Modal, Input } from 'shared/ui';
 
 function ChangeNicknameModal() {
@@ -8,10 +8,7 @@ function ChangeNicknameModal() {
     const handleCheckNickname = viewerApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const openViewerModal = useViewerStore.use.openModal();
-    const setViewerModal = useViewerStore.use.setOpenModal();
-
-    const changeNicknameModal = Modal.use();
+    const changeNicknameModal = Modal.use<viewerTypes.ModalName>('change-nickname');
 
     const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,
@@ -20,7 +17,7 @@ function ChangeNicknameModal() {
 
     const close = () => {
         nicknameInput.reload();
-        setViewerModal('personal-info');
+        // setViewerModal('personal-info');
     };
 
     const onsubmit = async () => {
@@ -38,10 +35,6 @@ function ChangeNicknameModal() {
             );
         }
     };
-
-    useEffect(() => {
-        openViewerModal === 'change-nickname' ? changeNicknameModal.open() : changeNicknameModal.close();
-    }, [openViewerModal]);
 
     return (
         <Modal {...changeNicknameModal} onClose={close}>

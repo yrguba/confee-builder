@@ -10,10 +10,7 @@ function ViewerPersonalInfoModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
-    const personalInfoModal = Modal.use();
-
-    const openViewerModal = useViewerStore.use.openModal();
-    const setOpenViewerModal = useViewerStore.use.setOpenModal();
+    const personalInfoModal = Modal.use<viewerTypes.ModalName>('viewer-personal-info');
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',
@@ -26,16 +23,12 @@ function ViewerPersonalInfoModal() {
         handleAddAvatar({ file: getFormData('images', data) });
     };
 
-    useEffect(() => {
-        openViewerModal === 'personal-info' ? personalInfoModal.open() : personalInfoModal.close();
-    }, [openViewerModal]);
-
     const getChangeModals = (modalName: viewerTypes.ModalName, disabled?: boolean) => {
-        disabled ? alert('Пока невозможно редактировать') : setOpenViewerModal(modalName);
+        // disabled ? alert('Пока невозможно редактировать') : setOpenViewerModal(modalName);
     };
 
     return (
-        <Modal {...personalInfoModal} onClose={() => setOpenViewerModal(null)}>
+        <Modal {...personalInfoModal}>
             <PersonalInfoModalView
                 getChangeModals={getChangeModals}
                 getScreenshot={getScreenshot}

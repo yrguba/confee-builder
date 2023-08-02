@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { useStyles } from 'shared/hooks';
-import { Button, Box, Icons } from 'shared/ui';
+import { Box, Icons } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
-import { ModalProps } from '../model/types';
+import { BaseModalProps } from '../../model/types';
 
-function Modal(props: ModalProps) {
-    const { isOpen, open, close, children, onClose, loading } = props;
+function Modal(props: BaseModalProps) {
+    const { isOpen, close, children, onClose } = props;
 
     const modal_root = document.querySelector('#modal-root');
 

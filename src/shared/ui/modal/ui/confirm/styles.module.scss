@@ -1,0 +1,19 @@
+@import "src/app/styles/index";
+
+
+.wrapper {
+  @include box-size(300px, 180px);
+  @include flex-column();
+  padding: 12px;
+
+  .body {
+    @include flex;
+    flex: 1;
+  }
+
+  .footer {
+    @include flex;
+    gap: 12px;
+    width: 100%;
+  }
+}

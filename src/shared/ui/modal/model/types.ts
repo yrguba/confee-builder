@@ -2,11 +2,11 @@ import { ReactNode } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
-import use from './use';
+import { use } from './use';
 
 export type UseReturnedType = ReturnType<typeof use>;
 
-export type ModalProps = {
+export type BaseModalProps = {
     children: ReactNode;
     onClose?: () => void;
 } & UseReturnedType &

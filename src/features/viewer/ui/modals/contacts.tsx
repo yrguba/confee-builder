@@ -1,23 +1,16 @@
 import React, { useEffect } from 'react';
 
-import { useUserStore } from 'entities/user';
-import { ContactsModalView } from 'entities/viewer';
+import { ContactsModalView, viewerTypes } from 'entities/viewer';
 import { Input, Modal } from 'shared/ui';
 
 function ContactsModal() {
-    const openUserModal = useUserStore.use.openModal();
-    const setOpenUserModal = useUserStore.use.setOpenModal();
-
-    const contactsModal = Modal.use();
+    const contactsModal = Modal.use<viewerTypes.ModalName>('contacts');
     const searchContactsInput = Input.use({});
-    useEffect(() => {
-        openUserModal === 'contacts' ? contactsModal.open() : contactsModal.close();
-    }, [openUserModal]);
 
     return (
         <>
-            <Modal {...contactsModal} onClose={() => setOpenUserModal(null)}>
-                <ContactsModalView openAddContactsModal={() => setOpenUserModal('add-contact')} searchContactsInput={searchContactsInput} />
+            <Modal {...contactsModal}>
+                <ContactsModalView openAddContactsModal={() => console.log('add-contact')} searchContactsInput={searchContactsInput} />
             </Modal>
         </>
     );

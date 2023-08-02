@@ -4,24 +4,9 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
-import { ModalName } from './types';
+type Store = {};
 
-type Store = {
-    openModal: ModalName | null;
-    setOpenModal: (modalName: ModalName | null) => void;
-};
-
-const viewerStore = create<Store>()(
-    devtools(
-        immer((set) => ({
-            openModal: null,
-            setOpenModal: (ModalName) =>
-                set((state) => {
-                    state.openModal = ModalName;
-                }),
-        }))
-    )
-);
+const viewerStore = create<Store>()(devtools(immer((set) => ({}))));
 
 const useViewerStore = useCreateSelectors(viewerStore);
 

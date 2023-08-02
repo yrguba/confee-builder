@@ -9,7 +9,7 @@ import 'moment/locale/ru';
 import Routing from 'pages';
 import './index.scss';
 import { useWebSocket, useTheme } from 'shared/hooks';
-import { Notification } from 'shared/ui';
+import { Notification, Modal } from 'shared/ui';
 
 import { appService } from '../entities/app';
 
@@ -27,6 +27,7 @@ function App() {
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
+                <Modal.Confirm />
                 <Notification />
                 <Routing />
                 <ReactQueryDevtools position="bottom-right" />

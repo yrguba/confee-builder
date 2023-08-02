@@ -26,7 +26,7 @@ function WebCameraPhoto(props: WebCameraProps) {
         facingMode: 'user',
         'border-radius': '8px',
     };
-    const modal = Modal.use();
+    const modal = Modal.use('web-camera');
 
     useEffect(() => {
         modal.open();
