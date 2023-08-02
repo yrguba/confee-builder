@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { AddContactModal, ContactsModal, UserPersonalInfoModal } from 'features/user';
-import { ChangeBirthModal, ChangeNameModal, ChangeNicknameModal, ViewerPersonalInfoModal } from 'features/viewer';
+import { UserPersonalInfoModal } from 'features/user';
+import { AddContactModal, ContactsModal, ChangeBirthModal, ChangeNameModal, ChangeNicknameModal, ViewerPersonalInfoModal } from 'features/viewer';
 
 function Modals() {
     return (

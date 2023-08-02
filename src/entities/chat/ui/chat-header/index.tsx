@@ -20,7 +20,7 @@ function ChatHeaderView(props: Props) {
         <div className={styles.wrapper}>
             {useWidthMediaQuery().to('sm') && (
                 <div onClick={back}>
-                    <Icons variants="leftArrow" />
+                    <Icons variants="arrow-left" />
                 </div>
             )}
             <Box.Animated visible>

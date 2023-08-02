@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { ContactsModalView, useUserStore } from 'entities/user';
+import { useUserStore } from 'entities/user';
+import { ContactsModalView } from 'entities/viewer';
 import { useModal } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 

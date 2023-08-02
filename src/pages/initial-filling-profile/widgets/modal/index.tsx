@@ -26,7 +26,7 @@ function Modal() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.backArrow} onClick={goBack}>
-                <Icons variants="backArrow2" />
+                <Icons variants="arrow-left" />
             </div>
             <div className={styles.steps}>
                 <Steps stepsCount={3} activeStep={activeStep || 1} />

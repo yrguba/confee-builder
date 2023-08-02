@@ -1,6 +1,7 @@
 import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react';
 
 import { BaseTypes } from '../../types';
+import { IconsTypes } from '../icons';
 
 export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'width' | 'height'>;
 
@@ -22,7 +23,7 @@ type Shared = {
 export type BaseInputProps = {
     clearIcon?: boolean;
     prefix?: string;
-    prefixIcon?: 'search';
+    prefixIcon?: IconsTypes.BaseIconsVariants;
     debounceDelay?: number;
     debounceCallback?: (arg: InputValue) => void;
     clear?: () => void;

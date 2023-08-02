@@ -59,7 +59,7 @@ function ContactsModalView(props: Props) {
                 </div>
             </div>
             <div className={styles.footer}>
-                <Button onClick={openAddContactsModal} prefixIcon={<Icons variants="addContact" />} variant="secondary">
+                <Button onClick={openAddContactsModal} prefixIcon={<Icons variants="add-contact" />} variant="secondary">
                     Добавить контакт
                 </Button>
             </div>

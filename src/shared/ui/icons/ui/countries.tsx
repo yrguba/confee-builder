@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { useTheme } from '../../../hooks';
 import { CountriesIconsProps } from '../types';
 
 function Countries(props: CountriesIconsProps) {
-    const [activeTheme] = useTheme();
     const { variants } = props;
 
     switch (variants) {

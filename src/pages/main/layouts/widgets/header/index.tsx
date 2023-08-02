@@ -1,18 +1,19 @@
 import React, { useTransition } from 'react';
 
 import { useRouter } from 'shared/hooks';
-import { Button, Icons } from 'shared/ui';
+import { BaseTypes } from 'shared/types';
+import { Button, Icons, IconsTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 function Header() {
     const { pathname, navigate } = useRouter();
 
-    const items = [
-        { id: 0, text: 'Компания', icon: 'contacts', path: '/companies' },
-        { id: 1, text: 'Чаты и каналы', icon: 'messages', path: '/chats' },
-        { id: 2, text: 'Задачи', icon: 'tasks', path: '/tasks' },
-        { id: 3, text: 'Профиль', icon: 'profile', path: '/settings' },
+    const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
+        { id: 0, title: 'Компания', icon: 'contacts', payload: '/companies' },
+        { id: 1, title: 'Чаты и каналы', icon: 'messages', payload: '/chats' },
+        { id: 2, title: 'Задачи', icon: 'tasks', payload: '/tasks' },
+        { id: 3, title: 'Профиль', icon: 'profile', payload: '/settings' },
     ];
 
     const [isPending, startTransition] = useTransition();
@@ -27,9 +28,9 @@ function Header() {
                 <Icons.Logo variants="confee" />
             </div>
             <div className={styles.nav}>
-                {items.map((i: any) => (
-                    <Button.Link key={i.id} onClick={() => itemClick(i.path)} active={pathname === i.path} prefixIcon={<Icons variants={i.icon} />}>
-                        {i.text}
+                {items.map((i) => (
+                    <Button.Link key={i.id} onClick={() => itemClick(i.payload)} active={pathname === i.payload} prefixIcon={<Icons variants={i.icon} />}>
+                        {i.title}
                     </Button.Link>
                 ))}
             </div>

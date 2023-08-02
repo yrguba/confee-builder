@@ -53,7 +53,7 @@ function Notification(props: NotificationTypes.NotificationProps) {
                                           }}
                                           className={styles.item_close}
                                       >
-                                          <Icons variants="exit" />
+                                          <Icons variants="close" />
                                       </div>
                                   </motion.div>
                               )

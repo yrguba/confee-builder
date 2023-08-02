@@ -46,7 +46,7 @@ function Collapse(props: CollapseProps) {
 
                     {createAction && (
                         <div onClick={plusClick} className={styles.plus}>
-                            <Icons variants="plus" />
+                            <Icons variants="add" />
                         </div>
                     )}
                 </div>

@@ -25,7 +25,7 @@ function LeftSidebar() {
 
     return (
         <div className={styles.wrapper}>
-            {/* <Button onClick={() => setNotifications({ title: 'dawddadw', description: 'dwaddwdwd' })}>ff</Button> */}
+            {/* <Button onClick={() => setOpenUserModal('add-contact')}>ff</Button> */}
             <div className={styles.list}>
                 <ChatsList />
             </div>

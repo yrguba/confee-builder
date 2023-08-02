@@ -52,15 +52,5 @@ export type MessageProxy = {
     systemMessageText: string;
 } & Message;
 
-export type MessageMenuIcons = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
+export type MessageMenuActions = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
 export type InputMenuIcons = MediaContentTypeKeys;
-
-type MenuItem<T> = {
-    id: number;
-    title: string;
-    icon: T;
-    onClick: () => void;
-};
-
-export type MessageMenuItem = MenuItem<MessageMenuIcons>;
-export type InputMenuItem = MenuItem<InputMenuIcons>;

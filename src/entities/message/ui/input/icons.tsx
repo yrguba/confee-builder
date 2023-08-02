@@ -12,7 +12,7 @@ function BaseIcons(props: Props) {
 
     switch (variants) {
         case 'exit': {
-            return <Icons variants="exit" size={8} />;
+            return <Icons variants="close" />;
         }
         case 'micro': {
             return (

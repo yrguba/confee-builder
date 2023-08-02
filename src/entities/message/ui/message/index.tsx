@@ -8,21 +8,18 @@ import { Avatar, Box, Dropdown } from 'shared/ui';
 import MessageMenu from './menu';
 import styles from './styles.module.scss';
 import TextMessage from './variants/text';
-import { MessageProxy } from '../../model/types';
+import { MessageProxy, MessageMenuActions } from '../../model/types';
 
 type Props = {
     message: MessageProxy;
     lastFive: boolean;
+    messageMenuAction: (action: MessageMenuActions) => void;
 } & BaseTypes.Statuses;
 
 function Message(props: Props) {
-    const { message, lastFive } = props;
+    const { message, lastFive, messageMenuAction } = props;
 
     const { id, type } = message;
-
-    const clickMenuItem = (data: any) => {
-        console.log(data);
-    };
 
     const sm = useWidthMediaQuery().to('sm');
 
@@ -50,7 +47,7 @@ function Message(props: Props) {
                 reverseX={message.isMy}
                 reverseY={lastFive}
                 trigger="right-click"
-                content={<MessageMenu clickMenuItem={clickMenuItem} />}
+                content={<MessageMenu messageMenuAction={messageMenuAction} />}
             >
                 <div className={styles.content} ref={messageRef}>
                     <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>{type === 'text' && <TextMessage text={message.text} />}</div>

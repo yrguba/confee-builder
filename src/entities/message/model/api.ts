@@ -9,6 +9,7 @@ import useMessageStore from './store';
 import { Message, MessageProxy } from './types';
 import pages from '../../../pages';
 import { chatService } from '../../chat';
+import { messageProxy } from '../index';
 import { message_limit } from '../lib/constants';
 import messageEntity from '../lib/message-entity';
 
@@ -40,10 +41,7 @@ class MessageApi {
                 },
                 select: (data) => {
                     return {
-                        pages: getUniqueArr(
-                            data.pages?.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []),
-                            'id'
-                        ),
+                        pages: data.pages,
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },
@@ -113,23 +111,18 @@ class MessageApi {
 
         return {
             mutate: (data: { chat_id: number; message_id: number }) => {
-                // queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
-                //     if (!cacheData?.pages?.length) return cacheData;
-                //     return produce(cacheData, (draft: any) => {
-                //         draft?.pages?.forEach((page: any) => {
-                //             page?.data?.data.forEach((msg: any) => {
-                //                 // console.log(data.message_id);
-                //                 if (data.message_id > msg.id) {
-                //                     console.log(msg.id);
-                //                     console.log('read', data.message_id);
-                //                     msg.is_read = true;
-                //                 } else {
-                //                     msg.is_read = false;
-                //                 }
-                //             });
-                //         });
-                //     });
-                // });
+                queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
+                    if (!cacheData?.pages?.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft?.pages?.forEach((page: any) => {
+                            page?.data?.data.forEach((msg: any) => {
+                                if (msg.id <= data.message_id) {
+                                    msg.is_read = true;
+                                }
+                            });
+                        });
+                    });
+                });
                 data.message_id && this.socket.sendMessage('MessageRead', data);
             },
         };

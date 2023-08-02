@@ -6,8 +6,8 @@ import { useStyles } from 'shared/hooks';
 import styles from './styles.module.scss';
 import { useDebounce } from '../../../../hooks';
 import Box from '../../../box';
+import Icons from '../../../icons';
 import { BaseInputProps } from '../../types';
-import Icons from '../icons';
 
 const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
     const {
@@ -65,13 +65,11 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
                 )}
                 {prefix && <div className={styles.inputPrefix}>{prefix}</div>}
                 <input ref={mergeRefs([inputRef, ref])} className={styles.input} {...other} />
-                <div onClick={clear} className={styles.clearIcon}>
-                    {clearIcon && (
-                        <Box.Animated visible={!!other?.value}>
-                            <Icons variants="clear" />
-                        </Box.Animated>
-                    )}
-                </div>
+                {clearIcon && (
+                    <Box.Animated onClick={clear} className={styles.clearIcon} visible={!!other?.value}>
+                        <Icons variants="close" />
+                    </Box.Animated>
+                )}
             </div>
             <Box.Animated animationVariant="autoHeight" visible={!!errorTitle} className={styles.errorTitle}>
                 {errorTitle}

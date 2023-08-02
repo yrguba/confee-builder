@@ -6,7 +6,7 @@ import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
 import { chatTypes } from '../../../chat';
-import { MessageProxy } from '../../model/types';
+import { MessageMenuActions, MessageProxy } from '../../model/types';
 import Message from '../message';
 import SystemMessage from '../message/variants/system';
 
@@ -17,10 +17,11 @@ type Props = {
     getNextPage: () => void;
     hoverMessage: (message: MessageProxy) => void;
     subscribeToChat: (action: 'sub' | 'unsub') => void;
+    messageMenuAction: (action: MessageMenuActions) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat } = props;
+    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, messageMenuAction } = props;
 
     const [initOnce, setInitOnce] = useState(true);
 
@@ -55,8 +56,8 @@ function MessagesListView(props: Props) {
     }, [messages]);
 
     useEffect(() => {
-        if (inViewPrevPage) return getPrevPage();
-        if (inViewNextPage) return getNextPage();
+        if (inViewPrevPage) getPrevPage();
+        if (inViewNextPage) getNextPage();
     }, [inViewPrevPage, inViewNextPage]);
 
     useEffect(() => {
@@ -76,7 +77,7 @@ function MessagesListView(props: Props) {
                             ref={getMessageRefs(message, index)}
                         >
                             {index === 5 && <div ref={nextPageRef} />}
-                            <Message message={message} lastFive={messages.length - 5 < index && messages.length > 6} />
+                            <Message message={message} lastFive={messages.length - 5 < index && messages.length > 6} messageMenuAction={messageMenuAction} />
                             {messages?.length - 5 === index && <div ref={prevPageRef} />}
                         </div>
                     )}

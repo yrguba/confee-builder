@@ -8,7 +8,7 @@ import 'moment/locale/ru';
 
 import Routing from 'pages';
 import './index.scss';
-import { useWebSocket } from 'shared/hooks';
+import { useWebSocket, useTheme } from 'shared/hooks';
 
 import { appService } from '../entities/app';
 import { Notifications } from '../features/app';
@@ -18,6 +18,7 @@ moment.locale('ru');
 
 function App() {
     useWebSocket();
+    useTheme();
 
     const { clientDomain } = appService.getUrls();
 

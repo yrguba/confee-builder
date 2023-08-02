@@ -1,16 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { storage } from 'entities/app';
-import { chatApi, chatService, useChatStore, chatProxy } from 'entities/chat';
-import { messageProxy, messageApi, MessagesListView, useMessageStore, messageTypes, messageService } from 'entities/message';
-import { viewerService } from 'entities/viewer';
+import { chatApi } from 'entities/chat';
+import { messageApi, MessagesListView, messageService } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 
-import { MessageProxy } from '../../../entities/message/model/types';
+import { MessageMenuActions, MessageProxy } from '../../../entities/message/model/types';
 
-type Props = {};
-
-function MessageList(props: Props) {
+function MessageList() {
     const { params } = useRouter();
 
     const chatId = Number(params.chat_id);
@@ -30,33 +27,24 @@ function MessageList(props: Props) {
         isFetching,
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
 
-    const getPrevPage = () => {
-        hasPreviousPage && !isFetching && fetchPreviousPage().then();
-    };
-
-    const getNextPage = () => {
-        hasNextPage && !isFetching && fetchNextPage().then();
-    };
-
-    const hoverMessage = (message: MessageProxy) => {
-        if (!message.is_read && message.type !== 'system') {
-            handleReadMessage({ chat_id: chatId, message_id: message.id });
-        }
-    };
-
     const subscribeToChat = (action: 'sub' | 'unsub') => {
         action === 'sub' ? handleSubscribeToChat(chatId) : handleUnsubscribeFromChat(storage.localStorageGet('subscribed_to_chat'));
+    };
+
+    const messageMenuAction = (action: MessageMenuActions) => {
+        console.log(action);
     };
 
     return (
         <>
             <MessagesListView
                 chat={chatData}
-                messages={messageData?.pages.map((message: any, index: number) => messageProxy(messageData?.pages[index - 1], message)) || []}
-                getNextPage={getNextPage}
-                getPrevPage={getPrevPage}
-                hoverMessage={hoverMessage}
+                messages={messageService.getUpdatedList(messageData)}
+                getNextPage={() => hasNextPage && !isFetching && fetchNextPage().then()}
+                getPrevPage={() => hasPreviousPage && !isFetching && fetchPreviousPage().then()}
+                hoverMessage={(message: MessageProxy) => !message.is_read && handleReadMessage({ chat_id: chatId, message_id: message.id })}
                 subscribeToChat={subscribeToChat}
+                messageMenuAction={messageMenuAction}
             />
         </>
     );

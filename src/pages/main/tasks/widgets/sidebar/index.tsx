@@ -8,7 +8,6 @@ function Sidebar() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                <Icons variants="filter" />
                 <div className={styles.title}>Фильтры</div>
             </div>
             <div className={styles.filters} />
