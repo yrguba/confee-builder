@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { yup } from 'entities/app';
 import { useUserStore } from 'entities/user';
 import { AddContactModalView } from 'entities/viewer';
-import { useModal } from 'shared/hooks';
 import { Modal, Input } from 'shared/ui';
 
 function AddContactModal() {
@@ -14,7 +13,7 @@ function AddContactModal() {
     const openUserModal = useUserStore.use.openModal();
     const setOpenUserModal = useUserStore.use.setOpenModal();
 
-    const addContactModal = useModal();
+    const addContactModal = Modal.use();
 
     useEffect(() => {
         openUserModal === 'add-contact' ? addContactModal.open() : addContactModal.close();

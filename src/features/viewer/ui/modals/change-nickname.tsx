@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 import { useViewerStore, viewerApi, ChangeNickNameModalView, yup } from 'entities/viewer';
-import { useModal } from 'shared/hooks';
 import { Modal, Input } from 'shared/ui';
 
 function ChangeNicknameModal() {
@@ -12,7 +11,7 @@ function ChangeNicknameModal() {
     const openViewerModal = useViewerStore.use.openModal();
     const setViewerModal = useViewerStore.use.setOpenModal();
 
-    const changeNicknameModal = useModal();
+    const changeNicknameModal = Modal.use();
 
     const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,

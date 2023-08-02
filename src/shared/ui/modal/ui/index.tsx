@@ -5,10 +5,10 @@ import { useStyles } from 'shared/hooks';
 import { Button, Box, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { ModalProps } from '../types';
+import { ModalProps } from '../model/types';
 
 function Modal(props: ModalProps) {
-    const { isOpen, open, width, close, children, onClose, loading } = props;
+    const { isOpen, open, close, children, onClose, loading } = props;
 
     const modal_root = document.querySelector('#modal-root');
 
@@ -22,7 +22,7 @@ function Modal(props: ModalProps) {
     return modal_root
         ? ReactDOM.createPortal(
               <Box.Animated visible={isOpen} presence className={styles.mask}>
-                  <div className={classes} style={{ width }} onClick={(e) => e.stopPropagation()}>
+                  <div className={classes} onClick={(e) => e.stopPropagation()}>
                       <div className={styles.closeIcon} onClick={closeClick}>
                           <Icons variants="close" />
                       </div>

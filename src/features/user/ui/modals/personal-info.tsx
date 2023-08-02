@@ -1,17 +1,10 @@
 import React, { useEffect } from 'react';
 
 import { PersonalInfoModalView, useUserStore } from 'entities/user';
-import { useModal } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
-type Props = {
-    direction?: 'column' | 'row';
-};
-
-function UserPersonalInfoModal(props: Props) {
-    const { direction } = props;
-
-    const personalInfoModal = useModal();
+function UserPersonalInfoModal() {
+    const personalInfoModal = Modal.use();
 
     const openUserModal = useUserStore.use.openModal();
     const setOpenUserModal = useUserStore.use.setOpenModal();

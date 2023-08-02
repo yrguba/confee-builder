@@ -24,7 +24,8 @@ function LeftSidebar() {
     });
 
     const click = () => {
-        notification.success({ title: 'wd', callback: () => console.log('wdawd') });
+        setOpenViewerModal('change-nickname');
+        // notification.success({ title: 'wd', callback: () => console.log('wdawd') });
     };
 
     return (

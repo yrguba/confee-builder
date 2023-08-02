@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
 
-import { useModal, useWidthMediaQuery, useHeightMediaQuery } from 'shared/hooks';
+import { useWidthMediaQuery, useHeightMediaQuery } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import Button from '../../../button';
@@ -26,7 +26,7 @@ function WebCameraPhoto(props: WebCameraProps) {
         facingMode: 'user',
         'border-radius': '8px',
     };
-    const modal = useModal();
+    const modal = Modal.use();
 
     useEffect(() => {
         modal.open();

@@ -1,18 +1,16 @@
 import React, { useEffect } from 'react';
 import useFileUploader from 'react-use-file-uploader';
 
-import { PersonalInfoModalView, userTypes } from 'entities/user';
+import { PersonalInfoModalView } from 'entities/user';
 import { viewerApi, useViewerStore, viewerTypes } from 'entities/viewer';
-import { useModal } from 'shared/hooks';
 import { getFormData } from 'shared/lib';
 import { Modal } from 'shared/ui';
-
-import { useAppStore } from '../../../../entities/app';
 
 function ViewerPersonalInfoModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
-    const personalInfoModal = useModal();
+
+    const personalInfoModal = Modal.use();
 
     const openViewerModal = useViewerStore.use.openModal();
     const setOpenViewerModal = useViewerStore.use.setOpenModal();

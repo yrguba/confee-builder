@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-import { UseModalReturned } from '../ui/modal/types';
-
-function useModal(): UseModalReturned {
+function use() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const open = () => setIsOpen(true);
@@ -11,4 +9,4 @@ function useModal(): UseModalReturned {
     return { isOpen, open, close };
 }
 
-export default useModal;
+export default use;

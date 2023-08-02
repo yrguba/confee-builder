@@ -28,6 +28,10 @@
       border-radius: 50%;
       background-color: var(--bg-secondary);
 
+      svg{
+        fill: var(--text-primary);
+      }
+
       @include width-to('sm'){
         top: -52px;
         right: 0;

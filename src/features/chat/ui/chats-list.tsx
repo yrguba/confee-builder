@@ -3,16 +3,14 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import { ChatsListView, chatApi, chatTypes } from 'entities/chat';
-import { useModal } from 'shared/hooks';
-
-import ChatProxy from '../../../entities/chat/lib/chat-proxy';
+import ChatProxy from 'entities/chat/lib/chat-proxy';
 
 function ChatsList() {
     const navigate = useNavigate();
     const params = useParams();
 
-    const createPrivateChatModal = useModal();
-    const createGroupChatModal = useModal();
+    // const createPrivateChatModal = useModal();
+    // const createGroupChatModal = useModal();
 
     const { data: chatsData } = chatApi.handleGetChats();
 
@@ -21,8 +19,8 @@ function ChatsList() {
     };
 
     const openCreateChatModal = (name: string) => {
-        if (name === 'Личные чаты') return createPrivateChatModal.open();
-        if (name === 'Групповые чаты') return createGroupChatModal.open();
+        // if (name === 'Личные чаты') return createPrivateChatModal.open();
+        // if (name === 'Групповые чаты') return createGroupChatModal.open();
     };
 
     return (

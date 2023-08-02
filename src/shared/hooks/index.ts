@@ -23,7 +23,6 @@ import useCreateSelectors from './useCreateSelectors';
 import useCrypto from './useCrypto';
 import useEnding from './useEnding';
 import useFileDownloads from './useFileDownloads';
-import useModal from './useModal';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useScroll from './useScroll';
@@ -40,7 +39,6 @@ export {
     useRouter,
     useWidthMediaQuery,
     useHeightMediaQuery,
-    useModal,
     useDownloader,
     useFileDownloads,
     useNetworkState,

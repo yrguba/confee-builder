@@ -2,7 +2,7 @@ import React, { ForwardRefExoticComponent } from 'react';
 
 import * as InputTypes from './model/types';
 import use from './model/use';
-import InputBase from './ui/base';
+import Base from './ui/base';
 import InputCountries from './ui/countries';
 import Textarea from './ui/textarea';
 
@@ -12,7 +12,7 @@ type CompoundedComponent = ForwardRefExoticComponent<InputTypes.BaseInputProps> 
     Countries: typeof InputCountries;
 };
 
-const Input = InputBase as CompoundedComponent;
+const Input = Base as CompoundedComponent;
 Input.use = use;
 
 Input.Textarea = Textarea;
