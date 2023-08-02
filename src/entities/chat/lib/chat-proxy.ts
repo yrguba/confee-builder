@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { viewerService } from 'entities/viewer';
 
-import { useEnding } from '../../../shared/hooks';
+import { getEnding } from '../../../shared/lib';
 import { userService } from '../../user';
 import { ChatProxy, Chat } from '../model/types';
 
@@ -41,7 +41,7 @@ function chatProxy(chat: Chat | undefined): any {
                 case 'subtitle':
                     if (target.messageAction) return target.messageAction;
                     if (target.is_group) {
-                        const word = useEnding(target.members.length, ['участник', 'участника', 'участников']);
+                        const word = getEnding(target.members.length, ['участник', 'участника', 'участников']);
                         return `${target.members.length} ${word}`;
                     }
                     return userService.getUserNetworkStatus(chat.members.find((i) => i.id !== viewerId) || null) || 'dwd';

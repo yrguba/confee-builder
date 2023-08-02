@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { storage } from 'entities/app';
 import { axiosClient } from 'shared/configs';
-import { handlers } from 'shared/lib';
+import { httpHandlers } from 'shared/lib';
 
 import { Viewer } from './types';
 
@@ -14,7 +14,7 @@ class ViewerApi {
             staleTime: Infinity,
             select: (data) => {
                 storage.localStorageSet('viewerId', data.data.data.id);
-                return handlers.response<{ data: Viewer }>(data);
+                return httpHandlers.response<{ data: Viewer }>(data);
             },
         });
     }

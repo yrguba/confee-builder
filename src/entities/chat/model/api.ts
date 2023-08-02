@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { storage } from 'entities/app';
 import { axiosClient } from 'shared/configs';
 import { useWebSocket } from 'shared/hooks';
-import { handlers } from 'shared/lib';
+import { httpHandlers } from 'shared/lib';
 
 import { Chat } from './types';
 
@@ -17,7 +17,7 @@ class ChatApi {
             staleTime: Infinity,
             enabled: !!data.chatId,
             select: (data) => {
-                const res = handlers.response<{ data: Chat }>(data);
+                const res = httpHandlers.response<{ data: Chat }>(data);
                 return res.data?.data;
             },
         });
@@ -27,7 +27,7 @@ class ChatApi {
         return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix, { params: { limit: 100 } }), {
             staleTime: Infinity,
             select: (data) => {
-                const res = handlers.response<{ data: Chat[] }>(data);
+                const res = httpHandlers.response<{ data: Chat[] }>(data);
                 return { ...res, data: res.data?.data.map((chat): Chat => chat) };
             },
         });

@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTransition } from 'react';
 
 import { axiosClient } from 'shared/configs';
-import { handlers } from 'shared/lib';
+import { httpHandlers } from 'shared/lib';
 
 import { User } from './types';
 
@@ -17,7 +17,7 @@ class UserApi {
             enabled: false,
             staleTime: 10000 * 30,
             select: (data) => {
-                return handlers.response<User>(data);
+                return httpHandlers.response<User>(data);
             },
         });
     }

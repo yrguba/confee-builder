@@ -1,5 +1,5 @@
 import { storage } from 'entities/app';
-import { useCrypto } from 'shared/hooks';
+import { crypto } from 'shared/lib';
 
 type Tokens = {
     access_token: string;
@@ -14,16 +14,16 @@ class TokenService {
     }
 
     save(tokens: Tokens) {
-        const accessEncoded = useCrypto(tokens.access_token, 'encode');
-        const refreshEncoded = useCrypto(tokens.refresh_token, 'encode');
+        const accessEncoded = crypto(tokens.access_token, 'encode');
+        const refreshEncoded = crypto(tokens.refresh_token, 'encode');
         storage.cookieSet('access_token', accessEncoded);
         storage.cookieSet('refresh_token', refreshEncoded);
     }
 
     get() {
         const getDecoded = (access_token: string, refresh_token: string) => ({
-            access_token: useCrypto(access_token, 'decode'),
-            refresh_token: useCrypto(refresh_token, 'decode'),
+            access_token: crypto(access_token, 'decode'),
+            refresh_token: crypto(refresh_token, 'decode'),
         });
         const access_token = storage.cookieGet('access_token');
         const refresh_token = storage.cookieGet('refresh_token');

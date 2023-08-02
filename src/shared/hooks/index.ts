@@ -20,8 +20,6 @@ import { useTimer } from 'use-timer';
 import useArray from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCreateSelectors from './useCreateSelectors';
-import useCrypto from './useCrypto';
-import useEnding from './useEnding';
 import useFileDownloads from './useFileDownloads';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
@@ -46,7 +44,6 @@ export {
     useTimer,
     useTheme,
     useCreateSelectors,
-    useCrypto,
     useDebounce,
     useToggle,
     useClickAway,
@@ -55,7 +52,6 @@ export {
     useSize,
     useArray,
     usePrevious,
-    useEnding,
     useWindowSize,
     useScroll,
     useReverseTimer,
