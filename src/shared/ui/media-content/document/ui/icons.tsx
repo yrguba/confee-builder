@@ -2,13 +2,13 @@ import React from 'react';
 
 type Props = {
     color?: string;
-    variants: 'doc';
+    variant: 'doc';
 };
 
 function Icons(props: Props) {
-    const { variants, color } = props;
+    const { variant, color } = props;
 
-    switch (variants) {
+    switch (variant) {
         case 'doc': {
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" version="1.1" viewBox="0 0 48 48" xmlSpace="preserve">

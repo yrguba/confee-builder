@@ -4,7 +4,7 @@ import { BaseTypes } from 'shared/types';
 
 type SharedProps = {
     children: ReactNode;
-    variant?: 'primary' | 'secondary' | 'tertiary';
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'negative';
     chips?: boolean;
     prefixIcon?: ReactNode;
     suffixIcon?: ReactNode;

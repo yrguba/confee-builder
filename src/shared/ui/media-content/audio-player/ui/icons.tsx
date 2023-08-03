@@ -2,13 +2,13 @@ import React from 'react';
 
 type Props = {
     color?: string;
-    variants: 'play' | 'pause';
+    variant: 'play' | 'pause';
 };
 
 function Icons(props: Props) {
-    const { variants, color } = props;
+    const { variant, color } = props;
 
-    switch (variants) {
+    switch (variant) {
         case 'play': {
             return (
                 <svg

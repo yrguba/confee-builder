@@ -12,12 +12,37 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-
+  transition: all .5s;
   svg{
-    fill: var(--white) ;
+    fill: var(--text-fixed) ;
   }
 }
 
+.primary {
+  background-color: var(--control-primary);
+  color: var(--text-fixed);
+
+  &:hover {
+    background-color: var(--control-primary-pressed);
+  }
+}
+
+.secondary {
+  color: var(--text-action-pressed);
+
+  &:hover {
+    border: 1px solid var(--border-primary-pressed);
+  }
+}
+
+.tertiary {
+  border: none;
+  color: var(--text-action);
+
+  &:hover {
+    color: var(--text-action-pressed);
+  }
+}
 .active {
   background-color: var(--main-active);
   fill:var(--main-active);
@@ -28,5 +53,13 @@
   cursor: default;
 }
 
+.negative {
+  background-color: var(--control-negative);
+  &:hover {
+    color: var(--text-negative-pressed);
+  }
+}
+
 .error {
+  background-color: var(--control-negative);
 }

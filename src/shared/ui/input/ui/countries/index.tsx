@@ -45,11 +45,11 @@ const InputCountries = forwardRef<HTMLInputElement, CountriesInputProps>((props,
                             {countries.map((country) => (
                                 <div className={styles.item} key={country.id} onClick={country.action}>
                                     <div className={styles.left}>
-                                        <Icons.Countries variants={country.icon} />
+                                        <Icons.Countries variant={country.icon} />
                                         <div>{country.title}</div>
                                     </div>
                                     <Box.Animated visible={activeItem === country.id}>
-                                        <Icons variants="check" />
+                                        <Icons variant="check" />
                                     </Box.Animated>
                                 </div>
                             ))}
@@ -63,11 +63,11 @@ const InputCountries = forwardRef<HTMLInputElement, CountriesInputProps>((props,
                             i.id === activeItem && (
                                 <div className={styles.input__body} key={i.id}>
                                     <div className={styles.input__body_left}>
-                                        <Icons.Countries variants={i.icon} />
+                                        <Icons.Countries variant={i.icon} />
                                         {i.code}
                                     </div>
 
-                                    <Icons.ArrowAnimated activeAnimate={openDropdown} initialDeg={90} animateDeg={270} variants="rotate" />
+                                    <Icons.ArrowAnimated activeAnimate={openDropdown} initialDeg={90} animateDeg={270} variant="rotate" />
                                 </div>
                             )
                     )}

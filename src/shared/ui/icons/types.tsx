@@ -32,23 +32,26 @@ export type BaseIconsVariants =
     | 'contacts'
     | 'messages'
     | 'tasks'
-    | 'profile';
+    | 'profile'
+    | 'microphone'
+    | 'microphone-off'
+    | 'call-end';
 
 export type BaseIconsProps = {
-    variants: BaseIconsVariants | undefined;
+    variant: BaseIconsVariants | undefined;
     size?: 24 | 48 | number;
 };
 
 export type LogoIconsProps = {
-    variants: 'confee' | 'softworks' | 'tfn' | 'premium';
+    variant: 'confee' | 'softworks' | 'tfn' | 'premium';
 };
 
 export type CountriesIconsProps = {
-    variants: 'armenia' | 'belarus' | 'kazakhstan' | 'kyrgyzstan' | 'russia' | 'uzbekistan';
+    variant: 'armenia' | 'belarus' | 'kazakhstan' | 'kyrgyzstan' | 'russia' | 'uzbekistan';
 };
 
 export type ArrowAnimatedProps = {
-    variants: 'rotate' | 'visible';
+    variant: 'rotate' | 'visible';
     initialDeg?: number;
     animateDeg?: number;
     activeAnimate?: boolean;

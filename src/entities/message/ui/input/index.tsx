@@ -102,14 +102,14 @@ function MessageInputView(props: Props) {
                     ) : (
                         <>
                             <div className={styles.exitIcon} onClick={exit}>
-                                <Icons variants="exit" />
+                                <Icons variant="exit" />
                             </div>
                             <div className={styles.mainColumn}>
                                 <div className={styles.title}>
                                     {messageToEdit && 'Редактирование'}
                                     {messageToReply && (
                                         <div className={styles.title__answer}>
-                                            <Icons variants="answer" size={16} />
+                                            <Icons variant="answer" size={16} />
                                             {messageToReply?.author.first_name}
                                         </div>
                                     )}
@@ -152,13 +152,13 @@ function MessageInputView(props: Props) {
                                     <div>{min < 10 ? `0${min}` : min}</div>:<div>{sec < 10 ? `0${sec}` : sec}</div>
                                 </div>
                                 <Button.Circle onClick={audioRecorder?.cancelRecording} radius={20}>
-                                    <Icons variants="exit" />
+                                    <Icons variant="exit" />
                                 </Button.Circle>
                             </div>
                         }
                     >
                         <Button.Circle active onClick={clickBtn}>
-                            <Icons variants={value || recordingRunning ? 'arrow' : 'micro'} />
+                            <Icons variant={value || recordingRunning ? 'arrow' : 'micro'} />
                         </Button.Circle>
                     </Dropdown>
                 </div>

@@ -18,13 +18,13 @@ function AvatarChange(props: AvatarChangeProps) {
     };
 
     const items: DropdownTypes.DropdownMenuItem[] = [
-        { id: 0, icon: <Icons variants="select" />, title: 'Выбрать файл', action: selectFile },
-        { id: 1, icon: <Icons variants="makePhoto" />, title: 'Сделать фото', action: () => setVisibleCamera(!visibleCamera) },
+        { id: 0, icon: <Icons variant="select" />, title: 'Выбрать файл', action: selectFile },
+        { id: 1, icon: <Icons variant="makePhoto" />, title: 'Сделать фото', action: () => setVisibleCamera(!visibleCamera) },
     ];
 
     useEffect(() => {
         if (screenshot) {
-            items.push({ id: 2, icon: <Icons variants="delete" />, isRed: true, title: 'Удалить фото', action: deleteFile });
+            items.push({ id: 2, icon: <Icons variant="delete" />, isRed: true, title: 'Удалить фото', action: deleteFile });
         }
     }, [screenshot]);
 

@@ -27,7 +27,7 @@ function VoiceAudioPlayer(props: VoiceAudioPlayerProps) {
         <div className={styles.wrapper}>
             <div className={styles.controls}>
                 <Button.Circle onClick={playPauseClick}>
-                    <Icons variants={isPlaying ? 'pause' : 'play'} />
+                    <Icons variant={isPlaying ? 'pause' : 'play'} />
                 </Button.Circle>
             </div>
             <div className={styles.time}>

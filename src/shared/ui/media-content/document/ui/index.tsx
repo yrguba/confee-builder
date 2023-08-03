@@ -27,7 +27,7 @@ function Document(props: DocumentProps) {
     return (
         <div className={styles.wrapper} onClick={click}>
             <div className={styles.icon}>
-                <Icons variants="doc" />
+                <Icons variant="doc" />
             </div>
             <div className={styles.info}>
                 <div className={styles.name}>{name}</div>

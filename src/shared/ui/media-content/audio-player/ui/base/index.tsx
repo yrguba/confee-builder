@@ -55,7 +55,7 @@ function BaseAudioPlayer(props: BaseAudioPlayerProps) {
             {audio}
             <div className={styles.controls}>
                 <Button.Circle onClick={playPauseClick}>
-                    <Icons variants={isPlaying ? 'pause' : 'play'} />
+                    <Icons variant={isPlaying ? 'pause' : 'play'} />
                 </Button.Circle>
             </div>
             <div className={styles.waveform}>{waveform}</div>

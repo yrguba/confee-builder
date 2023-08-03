@@ -60,7 +60,7 @@ function PersonalInfoModalView(props: Props) {
                         </div>
                         {isViewer && (
                             <div>
-                                <Icons variants="arrow-drop-right" />
+                                <Icons variant="arrow-drop-right" />
                             </div>
                         )}
                     </div>

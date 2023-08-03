@@ -25,11 +25,11 @@ function Header() {
     return (
         <div className={styles.header}>
             <div className={styles.logo}>
-                <Icons.Logo variants="confee" />
+                <Icons.Logo variant="confee" />
             </div>
             <div className={styles.nav}>
                 {items.map((i) => (
-                    <Button.Link key={i.id} onClick={() => itemClick(i.payload)} active={pathname === i.payload} prefixIcon={<Icons variants={i.icon} />}>
+                    <Button.Link key={i.id} onClick={() => itemClick(i.payload)} active={pathname === i.payload} prefixIcon={<Icons variant={i.icon} />}>
                         {i.title}
                     </Button.Link>
                 ))}

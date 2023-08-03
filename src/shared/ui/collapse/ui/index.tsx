@@ -46,12 +46,12 @@ function Collapse(props: CollapseProps) {
 
                     {createAction && (
                         <div onClick={plusClick} className={styles.plus}>
-                            <Icons variants="add" />
+                            <Icons variant="add" />
                         </div>
                     )}
                 </div>
                 <div className={styles.arrow} onClick={arrowClick}>
-                    <Icons.ArrowAnimated animateDeg={90} initialDeg={0} activeAnimate={visible} variants="rotate" />
+                    <Icons.ArrowAnimated animateDeg={90} initialDeg={0} activeAnimate={visible} variant="rotate" />
                 </div>
             </div>
 

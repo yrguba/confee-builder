@@ -28,7 +28,7 @@ function MessageMenu(props: Props) {
         <Box className={styles.wrapper}>
             {items.map((i) => (
                 <div className={styles.item} key={i.id} onClick={() => messageMenuAction(i.payload, message)}>
-                    <Icons variants={i.icon} />
+                    <Icons variant={i.icon} />
                     <Title variant="H3M">{i.title}</Title>
                 </div>
             ))}

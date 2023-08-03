@@ -3,10 +3,10 @@ import cnBind from 'classnames/bind';
 import React from 'react';
 
 import styles from './styles.module.scss';
-import { Props } from '../types';
+import { TitleProps } from '../types';
 
-function Title(props: Props) {
-    const { children, isError, textWrap, primary = true, variant } = props;
+function Title(props: TitleProps) {
+    const { children, isError, textWrap, primary = true, variant, textAlign } = props;
 
     const cx = cnBind.bind(styles);
 
@@ -19,7 +19,11 @@ function Title(props: Props) {
         })
     );
 
-    return <div className={classes}>{children}</div>;
+    return (
+        <div style={{ textAlign }} className={classes}>
+            {children}
+        </div>
+    );
 }
 
 export default Title;

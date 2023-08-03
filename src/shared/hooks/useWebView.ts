@@ -1,0 +1,35 @@
+import { WebviewWindow } from '@tauri-apps/api/window';
+import { useEffect, useState } from 'react';
+
+import { getRandomString } from '../lib';
+
+function useWebView(path: '/calls', title?: string): { open: () => void; close: () => void } | null {
+    if (!window.__TAURI__) return null;
+    const [id, setId] = useState('wda');
+
+    const webview: any = new WebviewWindow(id, {
+        url: `${window.location.origin}${path}`,
+        title: title || '',
+        center: true,
+        visible: false,
+    });
+
+    const close = () => {
+        setId(getRandomString(20));
+        webview.close();
+    };
+    useEffect(() => {
+        webview.onCloseRequested(() => {
+            close();
+        });
+        // webview.once('tauri://created', async function () {});
+        // webview.once('tauri://error', function (e: any) {});
+    }, []);
+
+    const open = () => {
+        webview.show();
+    };
+    return { close, open };
+}
+
+export default useWebView;

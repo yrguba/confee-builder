@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import chatsPageRouters from './chats';
 import companiesPageRouters from './companies';
@@ -8,7 +8,7 @@ import settingsPageRouters from './settings';
 import tasksPageRouters from './tasks';
 
 const mainRoutes = (
-    <Routes location={window.location}>
+    <>
         <Route path="/" element={<MainLayout />}>
             {chatsPageRouters}
             {settingsPageRouters}
@@ -16,7 +16,7 @@ const mainRoutes = (
             {companiesPageRouters}
         </Route>
         <Route path="*" element={<Navigate to="/chats" replace />} />
-    </Routes>
+    </>
 );
 
 export default mainRoutes;

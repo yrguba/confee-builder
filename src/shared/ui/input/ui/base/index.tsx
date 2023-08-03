@@ -60,14 +60,14 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
             <div className={classes} onFocus={onFocus} onBlur={onBlur}>
                 {prefixIcon && (
                     <div className={styles.prefixIcon}>
-                        <Icons variants={prefixIcon} />
+                        <Icons variant={prefixIcon} />
                     </div>
                 )}
                 {prefix && <div className={styles.inputPrefix}>{prefix}</div>}
                 <input ref={mergeRefs([inputRef, ref])} className={styles.input} {...other} />
                 {clearIcon && (
                     <Box.Animated onClick={clear} className={styles.clearIcon} visible={!!other?.value}>
-                        <Icons variants="close" />
+                        <Icons variant="close" />
                     </Box.Animated>
                 )}
             </div>

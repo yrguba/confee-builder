@@ -51,7 +51,7 @@
       "iconAsTemplate": true
     },
     "allowlist": {
-      "all": false,
+      "all": true,
       "clipboard": {
         "all": false,
         "readText": false,

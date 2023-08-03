@@ -67,7 +67,7 @@ function Notification(props: NotificationsTypes.NotificationProps) {
                                           }}
                                           className={styles.item_close}
                                       >
-                                          <Icons variants="close" />
+                                          <Icons variant="close" />
                                       </div>
                                   </motion.div>
                               )

@@ -3,16 +3,16 @@ import React from 'react';
 import { Icons } from 'shared/ui';
 
 type Props = {
-    variants: 'clip' | 'arrow' | 'exit' | 'answer' | 'micro';
+    variant: 'clip' | 'arrow' | 'exit' | 'answer' | 'micro';
     size?: number;
 };
 
 function BaseIcons(props: Props) {
-    const { variants, size } = props;
+    const { variant, size } = props;
 
-    switch (variants) {
+    switch (variant) {
         case 'exit': {
-            return <Icons variants="close" />;
+            return <Icons variant="close" />;
         }
         case 'micro': {
             return (

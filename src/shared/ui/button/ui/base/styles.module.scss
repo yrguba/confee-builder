@@ -40,6 +40,13 @@
   }
 }
 
+.negative {
+  background-color: var(--control-negative);
+  &:hover {
+    color: var(--text-negative-pressed);
+  }
+}
+
 .chips{
   width: auto!important;
   border-radius: 20px;

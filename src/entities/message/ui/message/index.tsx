@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 
-import { storage } from 'entities/app';
 import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Dropdown } from 'shared/ui';
@@ -39,6 +38,7 @@ function Message(props: Props) {
     return (
         <Box className={styles.wrapper}>
             {!message.isMy && <Avatar size={52} img={message.author?.avatar?.path} />}
+
             <Dropdown
                 openCloseTrigger={openCloseTrigger}
                 stopPropagation={false}

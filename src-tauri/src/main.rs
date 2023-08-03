@@ -64,7 +64,7 @@ fn main() {
        }
        _ => {}
      })
-
+//--------------------------------------------------------------------
   .on_window_event(|event| match event.event() {
    tauri::WindowEvent::CloseRequested { api, .. } => {
      event.window().hide().unwrap();

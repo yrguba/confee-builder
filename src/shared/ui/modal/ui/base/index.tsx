@@ -24,7 +24,7 @@ function Modal(props: BaseModalProps) {
               <Box.Animated visible={isOpen} presence className={styles.mask}>
                   <div className={classes} onClick={(e) => e.stopPropagation()}>
                       <div className={styles.closeIcon} onClick={closeClick}>
-                          <Icons variants="close" />
+                          <Icons variant="close" />
                       </div>
                       <div className={styles.content}>{isOpen && children}</div>
                   </div>

@@ -6,6 +6,7 @@ import { webView } from 'features/auth';
 import { SizeWarningPage } from 'pages/warning';
 import { useWindowSize } from 'shared/hooks';
 
+import callsPageRouters from './calls';
 import initialFillingProfilePageRouters from './initial-filling-profile';
 import mainRoutes from './main';
 
@@ -16,10 +17,12 @@ function Routing() {
     const navigate = useNavigate();
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
 
-    const initialFillingProfileRoutes = (
-        <Routes>
+    const routes = (
+        <Routes location={location}>
+            {mainRoutes}
+            {callsPageRouters}
             {initialFillingProfilePageRouters}
-            <Route path="*" element={<Navigate to="/filling_profile/step1" replace />} />
+            <Route path="*" element={<Navigate to="/chats" replace />} />
         </Routes>
     );
 
@@ -33,11 +36,7 @@ function Routing() {
         if (width < 480) return <SizeWarningPage size={{ width, height }} error="width" />;
         if (height < 450) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (tokensService.checkAuth()) {
-            if (location.pathname.includes('/filling_profile')) {
-                return initialFillingProfileRoutes;
-            }
-
-            return mainRoutes;
+            return routes;
         }
         return webView();
     };

@@ -3,9 +3,9 @@ import React from 'react';
 import { LogoIconsProps } from '../types';
 
 function Logo(props: LogoIconsProps) {
-    const { variants } = props;
+    const { variant } = props;
 
-    switch (variants) {
+    switch (variant) {
         case 'confee': {
             return (
                 <svg width="124" height="34" viewBox="0 0 124 34" fill="none" xmlns="http://www.w3.org/2000/svg">

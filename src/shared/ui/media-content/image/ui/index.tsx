@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import { useStyles } from 'shared/hooks';
 

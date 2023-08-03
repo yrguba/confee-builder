@@ -22,6 +22,7 @@ function Dropdown(props: DropdownBaseProps) {
         reverseX,
         closeAfterClick,
         stopPropagation = true,
+        disabled,
     } = props;
 
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -34,7 +35,7 @@ function Dropdown(props: DropdownBaseProps) {
     });
 
     useEffect(() => {
-        setIsOpen(!!visible);
+        !disabled && setIsOpen(!!visible);
     }, [visible]);
 
     const classes = useStyles(styles, 'body', {
@@ -44,9 +45,9 @@ function Dropdown(props: DropdownBaseProps) {
     });
 
     const click = (event: any) => {
-        if (trigger !== null) {
-            event.preventDefault();
-            stopPropagation && event.stopPropagation();
+        event.preventDefault();
+        stopPropagation && event.stopPropagation();
+        if (trigger !== null && !disabled) {
             setIsOpen(true);
             if (dynamicPosition && wrapperRef.current) {
                 const rect = wrapperRef.current?.getBoundingClientRect();
