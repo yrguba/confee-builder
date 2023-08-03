@@ -17,8 +17,8 @@ const queryClient = new QueryClient();
 moment.locale('ru');
 
 function App() {
-    useWebSocket();
     useTheme();
+    useWebSocket();
 
     const { clientDomain } = appService.getUrls();
 
