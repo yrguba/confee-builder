@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { storage } from 'entities/app';
 import { axiosClient } from 'shared/configs';
@@ -30,6 +30,15 @@ class ChatApi {
             },
         });
     };
+
+    handleAddAvatar() {
+        const queryClient = useQueryClient();
+        return useMutation((data: { chatId: number; file: FormData | null }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar'`, data.file), {
+            // onSuccess: async (data) => {
+            //     queryClient.invalidateQueries(['get-viewer']);
+            // },
+        });
+    }
 
     handleSubscribeToChat() {
         return {

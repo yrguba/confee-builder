@@ -5,7 +5,7 @@ import { BaseTypes } from 'shared/types';
 import { Icons, Card, Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Chat, ChatProxy } from '../../model/types';
+import { ChatProxy } from '../../model/types';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;

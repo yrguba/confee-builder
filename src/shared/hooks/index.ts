@@ -20,6 +20,7 @@ import { useTimer } from 'use-timer';
 import useArray from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCreateSelectors from './useCreateSelectors';
+import useFetchMediaContent from './useFetchMediaContent';
 import useFileDownloads from './useFileDownloads';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
@@ -33,6 +34,7 @@ import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
+    useFetchMediaContent,
     useTimeout,
     useRouter,
     useWidthMediaQuery,

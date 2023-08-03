@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { appService } from 'entities/app';
+import { useFetchMediaContent } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { AvatarProps } from '../../types';
 
 function Avatar(props: AvatarProps) {
-    const { size = 80, name, img, circle = true, withUrl } = props;
+    const { size = 80, name, img, circle = true } = props;
 
-    const [err, setErr] = useState(false);
-    const { url } = appService.getUrls();
+    const { src, error, isLoading } = useFetchMediaContent(img || '');
+
     const colors = [
         { id: 0, triggers: ['а', 'б', 'a', 'b'], color1: '#FF8A65', color2: '#EA5A5A' },
         { id: 1, triggers: ['в', 'г', 'c', 'd'], color1: '#FF8A65', color2: '#FFB74D' },
@@ -56,13 +56,6 @@ function Avatar(props: AvatarProps) {
     const color = getColor();
     const preview = getPreview();
 
-    const getImgPath = () => {
-        if (withUrl && img) {
-            return `${url}/${img}`;
-        }
-        return img;
-    };
-
     return (
         <div
             className={styles.avatar}
@@ -73,11 +66,11 @@ function Avatar(props: AvatarProps) {
                 height: size,
                 minHeight: size,
                 fontSize: size - size / 2,
-                background: !img || err ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
+                background: !img || error ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
             }}
         >
-            <img src={getImgPath() || ''} alt="" onError={() => setErr(true)} />
-            {img && !err ? <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${getImgPath()})` }} /> : preview}
+            <img src={src} alt="" />
+            {img && !error ? <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${src})` }} /> : preview}
         </div>
     );
 }

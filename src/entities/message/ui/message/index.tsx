@@ -38,7 +38,7 @@ function Message(props: Props) {
 
     return (
         <Box className={styles.wrapper}>
-            {!message.isMy && <Avatar size={52} withUrl img={message.author?.avatar?.path} />}
+            {!message.isMy && <Avatar size={52} img={message.author?.avatar?.path} />}
             <Dropdown
                 openCloseTrigger={openCloseTrigger}
                 stopPropagation={false}

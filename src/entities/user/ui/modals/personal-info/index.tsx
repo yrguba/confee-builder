@@ -41,7 +41,6 @@ function PersonalInfoModalView(props: Props) {
                     <div key={item.id} className={styles.item} style={{ pointerEvents: isViewer ? 'visible' : 'none' }} onClick={item.onClick}>
                         {item.id === 0 && (
                             <Avatar.Change
-                                withUrl
                                 selectFile={selectFile}
                                 deleteFile={deleteFile}
                                 getScreenshot={getScreenshot}

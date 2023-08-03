@@ -5,7 +5,6 @@ export type AvatarProps = {
     name?: string;
     img: string | BaseTypes.Empty;
     circle?: boolean;
-    withUrl?: boolean;
 };
 
 export type AvatarChangeProps = {
