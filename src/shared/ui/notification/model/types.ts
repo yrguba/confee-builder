@@ -1,3 +1,5 @@
+import use from './use';
+
 export type NotificationProps = {
     options?: {
         disabledApp?: boolean;
@@ -20,3 +22,4 @@ export type Notification = {
     id: number;
     status: Status;
 } & UseProps;
+export type UseReturnedType = ReturnType<typeof use>;

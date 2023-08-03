@@ -15,7 +15,7 @@ function ChatHeader() {
         setOpenRightSidebar(true);
     };
 
-    return <ChatHeaderView back={() => navigate('/chats')} clickChatCard={clickChatCard} chat={ChatProxy(chatData)} />;
+    return <ChatHeaderView back={() => navigate('/chats')} clickChatCard={clickChatCard} chat={ChatProxy(chatData?.data?.data)} />;
 }
 
 export default ChatHeader;

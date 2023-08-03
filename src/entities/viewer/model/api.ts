@@ -13,8 +13,9 @@ class ViewerApi {
         return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (data) => {
-                storage.localStorageSet('viewerId', data.data.data.id);
-                return httpHandlers.response<{ data: Viewer }>(data);
+                const updRes = { ...data, data: { data: data.data.data.user } };
+                storage.localStorageSet('viewerId', updRes.data.data.id);
+                return httpHandlers.response<{ data: Viewer }>(updRes);
             },
         });
     }

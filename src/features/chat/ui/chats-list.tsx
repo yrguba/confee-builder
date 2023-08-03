@@ -27,7 +27,7 @@ function ChatsList() {
         <>
             <ChatsListView
                 createChat={openCreateChatModal}
-                chats={chatsData?.data?.map((chat) => ChatProxy(chat)) || []}
+                chats={chatsData?.data?.data?.map((chat) => ChatProxy(chat)) || []}
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
             />

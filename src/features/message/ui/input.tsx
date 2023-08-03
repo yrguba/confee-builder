@@ -20,8 +20,8 @@ function MessageInput(props: Props) {
     const { mutate: handleReplyMessage } = messageApi.handleReplyMessage();
     const { mutate: handleChangeTextInMessages } = messageApi.handleChangeTextInMessages();
 
-    const { data: chatsData } = chatApi.handleGetChats();
-    const chat = chatsData?.data?.find((chat) => chat.id === Number(params.chat_id));
+    const { data: chatsData } = chatApi.handleGetChat({ chatId });
+    const chat = chatsData?.data?.data;
 
     const [valueTextMessage, setValueTextMessage] = useState('');
 

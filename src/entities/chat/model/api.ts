@@ -17,8 +17,7 @@ class ChatApi {
             staleTime: Infinity,
             enabled: !!data.chatId,
             select: (data) => {
-                const res = httpHandlers.response<{ data: Chat }>(data);
-                return res.data?.data;
+                return httpHandlers.response<{ data: Chat }>(data);
             },
         });
     };
@@ -27,8 +26,7 @@ class ChatApi {
         return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix, { params: { limit: 100 } }), {
             staleTime: Infinity,
             select: (data) => {
-                const res = httpHandlers.response<{ data: Chat[] }>(data);
-                return { ...res, data: res.data?.data.map((chat): Chat => chat) };
+                return httpHandlers.response<{ data: Chat[] }>(data);
             },
         });
     };
