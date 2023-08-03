@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
@@ -7,13 +9,13 @@ const ws = new WebSocket(socketUrl);
 type Returned<In, Out> = {
     sendMessage: (event: Out, message: any) => void;
     onMessage: (event: In, callback: (arg: any) => void) => void;
-    onClose: (event: any) => void;
-    onOpen: (event: any) => void;
 };
 
 function useWebSocket<In, Out>(): Returned<In, Out> {
     const token = tokensService.get()?.access_token;
+    let isReady = false;
     ws.onopen = function () {
+        isReady = true;
         ws.send(
             JSON.stringify({
                 event: 'UWS_CLIENT_IDENTIFICATION',
@@ -36,15 +38,16 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
     ws.onclose = function (event) {};
 
     const sendMessage = (event: Out, data: string) => {
-        ws.send(
-            JSON.stringify({
-                event,
-                data,
-            })
-        );
+        isReady &&
+            ws.send(
+                JSON.stringify({
+                    event,
+                    data,
+                })
+            );
     };
 
-    return { sendMessage, onMessage, onClose: ws.onclose, onOpen: ws.onopen };
+    return { sendMessage, onMessage };
 }
 
 export default useWebSocket;

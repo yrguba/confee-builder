@@ -3,6 +3,7 @@ import React from 'react';
 import { useFetchMediaContent } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import LoadingIndicator from '../../../loading-indicator';
 import { AvatarProps } from '../../types';
 
 function Avatar(props: AvatarProps) {
@@ -69,8 +70,15 @@ function Avatar(props: AvatarProps) {
                 background: !img || error ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
             }}
         >
-            <img src={src} alt="" />
-            {img && !error ? <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${src})` }} /> : preview}
+            {isLoading ? (
+                <div className={styles.loading}>
+                    <LoadingIndicator visible />
+                </div>
+            ) : img && !error ? (
+                <div className={styles.avatarBc} style={{ borderRadius: circle ? '50%' : 8, backgroundImage: `url(${src})` }} />
+            ) : (
+                preview
+            )}
         </div>
     );
 }

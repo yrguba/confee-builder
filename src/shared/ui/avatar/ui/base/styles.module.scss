@@ -1,4 +1,4 @@
-@import "../../../../../app/styles/index";
+@import "src/app/styles/index";
 
 
 .avatar {
@@ -7,9 +7,20 @@
   border-radius: 50%;
   white-space: nowrap;
   overflow: hidden;
+  position: relative;
 
-  img {
-  }
+ .loading{
+   @include box-size(100%, 100%);
+   @include flex;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   z-index: 100;
+   background-color: #7B57C8;
+
+   border-radius: 50%;
+ }
 
   svg {
     fill: #fafafa;

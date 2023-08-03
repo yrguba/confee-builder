@@ -25,7 +25,7 @@ function useFetchMediaContent(url: string) {
         } else {
             setSrc(url);
         }
-    }, []);
+    }, [url]);
 
     return {
         src,
