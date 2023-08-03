@@ -7,7 +7,7 @@ import { Button } from 'shared/ui';
 import styles from './styles.module.scss';
 
 function LeftSidebar() {
-    const webView = useWebView('/calls', 'аудио звонок');
+    const webView = useWebView('/calls/audio_group', 'аудио звонок');
 
     const close = () => {
         webView?.close();

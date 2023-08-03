@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import AudioPrivate from 'features/calls/ui/audio-private';
+import { Outlet } from 'react-router-dom';
 
 import styles from './styles.module.scss';
 
@@ -11,7 +10,7 @@ function CallsPage() {
     return calls_root
         ? ReactDOM.createPortal(
               <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
-                  <AudioPrivate />
+                  <Outlet />
               </div>,
               calls_root
           )

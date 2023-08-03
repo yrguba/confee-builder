@@ -37,10 +37,10 @@
 
 .tertiary {
   border: none;
-  color: var(--text-action);
-
+  color: var(--text-fixed);
+  background-color: var(--control-tertiary);
   &:hover {
-    color: var(--text-action-pressed);
+    color: var(--control-tertiary-active);
   }
 }
 .active {

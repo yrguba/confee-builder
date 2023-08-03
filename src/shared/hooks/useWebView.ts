@@ -1,9 +1,13 @@
 import { WebviewWindow } from '@tauri-apps/api/window';
 import { useEffect, useState } from 'react';
 
+import { callsTypes } from 'entities/calls';
+
 import { getRandomString } from '../lib';
 
-function useWebView(path: '/calls', title?: string): { open: () => void; close: () => void } | null {
+type Paths = callsTypes.Paths;
+
+function useWebView(path: Paths, title?: string): { open: () => void; close: () => void } | null {
     if (!window.__TAURI__) return null;
     const [id, setId] = useState('wda');
 

@@ -20,6 +20,7 @@ import { useTimer } from 'use-timer';
 import useArray from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCreateSelectors from './useCreateSelectors';
+import useEasyState, { UseEasyStateReturnedType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFileDownloads from './useFileDownloads';
 import useReverseTimer from './useReverseTimer';
@@ -35,6 +36,7 @@ import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
+    useEasyState,
     useWebView,
     useFetchMediaContent,
     useTimeout,
@@ -68,3 +70,5 @@ export {
     useAudioRecorder,
     useWebSocket,
 };
+
+export type { UseEasyStateReturnedType };

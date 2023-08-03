@@ -7,13 +7,13 @@ import { Avatar, Button, Icons, Title } from '../../../../shared/ui';
 
 type Props = {} & BaseTypes.Statuses;
 
-function PrivateAudioCallView(props: Props) {
+function PrivateVideoCallView(props: Props) {
     // const { status } = props;
 
     return (
         <div className={styles.wrapper}>
             <Title textAlign="center" variant="H1">
-                PrivateAudioCallView
+                PrivateVideoCallView
             </Title>
             <div className={styles.body}>
                 <Avatar img="" size={200} />
@@ -39,4 +39,4 @@ function PrivateAudioCallView(props: Props) {
     );
 }
 
-export default PrivateAudioCallView;
+export default PrivateVideoCallView;
