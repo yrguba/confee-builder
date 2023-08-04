@@ -21,6 +21,11 @@ function ChatsListView(props: Props) {
             <div className={styles.search}>
                 <Input {...searchInput} clearIcon prefixIcon="search" placeholder="Поиск" />
             </div>
+            <div className={styles.tabs}>
+                <Button variant="primary" chips>
+                    Общие
+                </Button>
+            </div>
             <div className={styles.list}>
                 {chats.map((chat, index: number) => (
                     <div key={chat.id} className={`${styles.item} ${activeChatId === chat.id ? styles.item_active : ''}`} onClick={() => clickOnChat(chat)}>

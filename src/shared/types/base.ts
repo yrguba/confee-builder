@@ -12,4 +12,5 @@ export type Item<I, P> = {
     title: string;
     icon?: I;
     payload: P;
+    callback?: () => void;
 };

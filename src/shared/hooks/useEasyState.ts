@@ -8,7 +8,7 @@ const useEasyState = <T>(initial: T) => {
 
     const callbackRef: any = useRef();
 
-    const set = useCallback((newState: any, callback?: () => void) => {
+    const set = useCallback((newState: T, callback?: () => void) => {
         callbackRef.current = callback;
         setState((prev) => (typeof newState === 'function' ? newState(prev) : newState));
     }, []);
