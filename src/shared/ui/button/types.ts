@@ -5,7 +5,6 @@ import { BaseTypes } from 'shared/types';
 type SharedProps = {
     children: ReactNode;
     variant?: 'primary' | 'secondary' | 'tertiary' | 'negative';
-    chips?: boolean;
     prefixIcon?: ReactNode;
     suffixIcon?: ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement> &
@@ -14,6 +13,8 @@ type SharedProps = {
 export type ButtonBaseProps = {
     size?: number | 's' | 'm';
     width?: string;
+    chips?: boolean;
+    tag?: boolean;
 } & SharedProps;
 
 export type LinkButtonProps = {

@@ -54,6 +54,16 @@
   padding: 0 16px;
 }
 
+.tag{
+  width: auto!important;
+  height: 18px!important;
+  border-radius: 20px;
+  padding: 0 16px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
 .disabled {
   pointer-events: none;
   cursor: default;

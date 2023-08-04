@@ -11,6 +11,7 @@
 
   .caption{
     @include flex-column;
+    gap: 4px;
   }
 }
 

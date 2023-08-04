@@ -1,48 +1,85 @@
 @import "./src/app/styles";
 
 .wrapper {
-  @include box-size(100%, auto);
+  @include box-size(100%, 100%);
   @include flex-column(flex-start, flex-start);
   gap: 10px;
   border-radius: var(--border-radius);
-  overflow-x: hidden;
 
-  .headerCollapse{
-    width: auto;
-    padding-left: 18px;
-    background-color: var(--bg-secondary);
-  }
 
-  .categoryTitle{
-    font-weight: 800;
-    font-size: 14px;
-    color: var(--text-primary);
-  }
-
-  .chatsList{
+  .list {
     @include flex-column;
     width: 100%;
-    //margin-top: 4px;
-    gap: 12px;
 
     .item {
-      @include flex(space-between);
-      @include box-size(90%, 100%);
+      @include flex;
+      @include box-size(100%, 74px);
+      gap: 16px;
       cursor: pointer;
       transition: background-color var(--transition);
 
-      .card{
-        width: 84%;
-      }
+      .body {
+        @include box-size(calc(100% - 32px), 100%);
+        @include flex(flex-start);
+        padding: 0 16px;
+        gap: 16px;
 
-      .rightColumn {
-        @include flex-column(flex-end, flex-end, 6);
-        justify-self: flex-end;
-
-        .checked{
-          width: 20px;
-          height: 16px;
+        .avatar {
+          @include flex;
         }
+
+        .content {
+          @include flex-column;
+          width: calc(100% - 68px);
+          gap: 4px;
+
+          .top {
+            @include flex(space-between);
+            width: 100%;
+
+            .left {
+              @include flex(flex-start);
+
+              max-width: 80%;
+            }
+
+            .right {
+              @include flex(flex-end);
+              min-width: 10%;
+              width: auto;
+            }
+          }
+
+          .bottom {
+            @include flex;
+            width: 100%;
+
+            .left {
+              @include flex(flex-start);
+              max-width: 90%;
+              flex: 1;
+            }
+
+            .right {
+              @include flex(flex-end);
+              min-width: 10%;
+              width: auto;
+
+              svg {
+                fill: var(--text-action);
+              }
+            }
+          }
+
+        }
+
       }
-    }}
+
+      &_active {
+        background-color: var(--bg-primary);
+      }
+    }
+  }
+
+
 }

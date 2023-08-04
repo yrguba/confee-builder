@@ -7,25 +7,37 @@ import Title from '../../../title';
 import { CardProps } from '../../types';
 
 function Card(props: CardProps) {
-    const { img, imgCover, title, subtitle, onClick, size = 's' } = props;
+    const { img, title, subtitle, onClick, size = 's', name } = props;
 
     const getAvatarSize = () => {
         if (size === 's') return 44;
-        return 80;
+        if (size === 'm') return 52;
     };
 
     const avatarSize = getAvatarSize();
 
-    const classes = useStyles(styles, 'wrapper', {});
+    const classes = useStyles(styles, 'wrapper', {
+        [size]: size,
+    });
+
+    const titleVar: any = {
+        s: 'H4S',
+        m: 'H3S',
+    };
+
+    const subtitleVar: any = {
+        s: 'H4M',
+        m: 'H3R',
+    };
 
     return (
         <div className={classes} onClick={onClick}>
             <div className={styles.avatar}>
-                <Avatar img={img} name={imgCover} size={avatarSize} />
+                <Avatar img={img} name={name} size={avatarSize} />
             </div>
             <div className={styles.caption} style={{ width: `calc(100% - ${avatarSize}px - 12px)` }}>
-                <Title variant="H4S">{title}</Title>
-                <Title primary={false} variant="H4M">
+                <Title variant={titleVar[size]}>{title}</Title>
+                <Title primary={false} variant={subtitleVar}>
                     {subtitle}
                 </Title>
             </div>

@@ -35,7 +35,8 @@ export type BaseIconsVariants =
     | 'profile'
     | 'microphone'
     | 'microphone-off'
-    | 'call-end';
+    | 'call-end'
+    | 'new-message';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;
