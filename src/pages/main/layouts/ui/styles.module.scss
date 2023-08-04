@@ -1,20 +1,17 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(100%, 100%);
-  @include flex-column;
-  min-height: 90vh;
-  display: flex;
-  justify-content: center;
+  @include box-size(100%, 100vh);
+  @include flex(flex-start);
   background-color: var(--bg-primary);
   overflow: hidden;
 
-  .header {
-    @include box-size(100%, 60px);
-    min-height: 60px;
+  .sidebar {
+    @include box-size(88px, 100%);
+    min-width: 88px;
   }
 
   .outlet {
-    @include box-size(100%, calc(100vh - 60px));
+    @include box-size(calc(100% - 288px),100%);
   }
 }

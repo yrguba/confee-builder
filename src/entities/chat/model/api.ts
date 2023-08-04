@@ -32,6 +32,16 @@ class ChatApi {
         });
     };
 
+    handleGetTotalPendingMessages = () => {
+        return useQuery(['get-total-pending-messages'], () => axiosClient.get(`${this.pathPrefix}/total-pending-messages`), {
+            staleTime: Infinity,
+            select: (data) => {
+                console.log(data);
+                return httpHandlers.response<{ data: Chat[] }>(data);
+            },
+        });
+    };
+
     handleAddAvatar() {
         const queryClient = useQueryClient();
         return useMutation((data: { chatId: number; file: FormData | null }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar'`, data.file), {

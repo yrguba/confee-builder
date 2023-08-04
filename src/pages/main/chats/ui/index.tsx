@@ -10,7 +10,7 @@ import { Box } from 'shared/ui';
 import styles from './styles.module.scss';
 import { messageGateway } from '../../../../entities/message';
 import Modals from '../modals';
-import { LeftSidebar, Chat, RightSidebar } from '../widgets';
+import { LeftSidebar } from '../widgets';
 
 function ChatsPage() {
     chatGateway();
@@ -42,9 +42,6 @@ function ChatsPage() {
             <Box.Animated visible className={styles.wrapper}>
                 {isVisibleLeftSidebar() && <LeftSidebar />}
                 {isVisibleOutlet() && <Outlet />}
-                <Box.Animated className={styles.rightSidebar} visible={openRightSidebar} animationVariant={to('md') ? 'visibleHidden' : 'autoWidth'}>
-                    <RightSidebar />
-                </Box.Animated>
             </Box.Animated>
         </>
     );
