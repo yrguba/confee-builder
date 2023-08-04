@@ -10,7 +10,7 @@ import { Box } from 'shared/ui';
 import styles from './styles.module.scss';
 import { messageGateway } from '../../../../entities/message';
 import Modals from '../modals';
-import { LeftSidebar } from '../widgets';
+import { Sidebar } from '../widgets';
 
 function ChatsPage() {
     chatGateway();
@@ -22,7 +22,7 @@ function ChatsPage() {
 
     const { to, from } = useWidthMediaQuery();
 
-    const isVisibleLeftSidebar = () => {
+    const isVisibleSidebar = () => {
         if (to('sm')) {
             return !params.chat_id && !openRightSidebar;
         }
@@ -40,8 +40,16 @@ function ChatsPage() {
         <>
             <Modals />
             <Box.Animated visible className={styles.wrapper}>
-                {isVisibleLeftSidebar() && <LeftSidebar />}
-                {isVisibleOutlet() && <Outlet />}
+                {isVisibleSidebar() && (
+                    <div className={styles.sidebar}>
+                        <Sidebar />
+                    </div>
+                )}
+                {isVisibleOutlet() && (
+                    <div className={styles.outlet}>
+                        <Outlet />
+                    </div>
+                )}
             </Box.Animated>
         </>
     );

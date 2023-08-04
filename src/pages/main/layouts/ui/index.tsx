@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './styles.module.scss';
-import Sidebar from '../widgets/sidebar';
+import Navbar from '../widgets/navbar';
 
 function MainLayout() {
     const navigate = useNavigate();
@@ -16,8 +16,8 @@ function MainLayout() {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.sidebar}>
-                <Sidebar />
+            <div className={styles.navbar}>
+                <Navbar />
             </div>
             <div className={styles.outlet}>
                 <Outlet />

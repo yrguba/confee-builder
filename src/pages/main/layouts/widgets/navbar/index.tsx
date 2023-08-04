@@ -2,16 +2,16 @@ import React, { useTransition } from 'react';
 
 import { useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, IconsTypes, Title } from 'shared/ui';
+import { Counter, Icons, IconsTypes, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { chatApi } from '../../../../../entities/chat';
 
-function Sidebar() {
+function Navbar() {
     const { pathname, navigate } = useRouter();
 
-    const a = chatApi.handleGetTotalPendingMessages();
-    // console.log(a);
+    const { data: totalPendingMessages } = chatApi.handleGetTotalPendingMessages();
+
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Контакты', icon: 'contacts', payload: '/contacts' },
         { id: 1, title: 'Сообщения', icon: 'messages', payload: '/chats' },
@@ -30,6 +30,11 @@ function Sidebar() {
             <div className={styles.list}>
                 {items.map((i) => (
                     <div key={i.id} className={`${styles.item} ${pathname === i.payload ? styles.item_active : ''}`} onClick={() => itemClick(i.payload)}>
+                        <div className={styles.counter}>
+                            <Counter maxVisibleNumber={999} variant="negative">
+                                {totalPendingMessages}
+                            </Counter>
+                        </div>
                         <Icons variant={i.icon} />
                         <Title textAlign="center" primary={false} variant="caption1M">
                             {i.title}
@@ -42,4 +47,4 @@ function Sidebar() {
     );
 }
 
-export default Sidebar;
+export default Navbar;

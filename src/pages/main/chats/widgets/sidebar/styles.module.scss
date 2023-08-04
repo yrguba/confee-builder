@@ -1,13 +1,12 @@
 @import "./src/app/styles";
 
 .wrapper {
-  @include box-size(300px, 100%);
+  @include box-size(100%, 100%);
   @include flex-column(flex-start, flex-start);
-  border-right: 1px solid var(--border-primary);
+  background-color: var(--bg-secondary);
 
-  background-color: var(--bg-primary);
-  @include width-to('sm') {
-    width: 100%;
+  @include width-to(sm) {
+    background-color: var(--bg-primary);
   }
 
   .list {

@@ -1,4 +1,4 @@
 import Chat from './chat';
-import LeftSidebar from './left-sidebar';
+import Sidebar from './sidebar';
 
-export { LeftSidebar, Chat };
+export { Sidebar, Chat };

@@ -8,7 +8,7 @@ import { Button, Modal } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-function LeftSidebar() {
+function Sidebar() {
     const close = () => {};
     const a = Modal.use<viewerTypes.ModalName>('viewer-personal-info');
     const click = () => {
@@ -17,7 +17,7 @@ function LeftSidebar() {
 
     return (
         <div className={styles.wrapper}>
-            <Button onClick={click}>ff</Button>
+            {/* <Button onClick={click}>ff</Button> */}
             {/* <Button onClick={() => close()}>close</Button> */}
             <div className={styles.list}>
                 <ChatsList />
@@ -26,4 +26,4 @@ function LeftSidebar() {
     );
 }
 
-export default LeftSidebar;
+export default Sidebar;
