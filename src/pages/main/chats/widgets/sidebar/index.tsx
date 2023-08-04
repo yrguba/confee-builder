@@ -12,10 +12,6 @@ function Sidebar() {
                 <Title variant="H2">Сообщения</Title>
                 <Icons variant="new-message" />
             </div>
-
-            <div className={styles.search}>
-                <Input prefixIcon="search" placeholder="Поиск" />
-            </div>
             <div className={styles.list}>
                 <ChatsList />
             </div>

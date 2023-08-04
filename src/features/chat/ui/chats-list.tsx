@@ -4,10 +4,18 @@ import { useNavigate } from 'react-router-dom';
 
 import { ChatsListView, chatApi, chatTypes } from 'entities/chat';
 import ChatProxy from 'entities/chat/lib/chat-proxy';
+import { Input } from 'shared/ui';
 
 function ChatsList() {
     const navigate = useNavigate();
     const params = useParams();
+
+    const searchInput = Input.use({
+        debounceDelay: 1000,
+        debounceCallback: (value) => {
+            console.log('search value', value);
+        },
+    });
 
     const { data: chatsData } = chatApi.handleGetChats();
 
@@ -18,6 +26,7 @@ function ChatsList() {
     return (
         <>
             <ChatsListView
+                searchInput={searchInput}
                 chats={chatsData?.map((chat) => ChatProxy(chat)) || []}
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}

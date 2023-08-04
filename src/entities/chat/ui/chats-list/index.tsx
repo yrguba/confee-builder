@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button } from 'shared/ui';
+import { Box, Title, Counter, Icons, Avatar, Button, Input, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { ChatProxy } from '../../model/types';
@@ -10,13 +10,17 @@ type Props = {
     chats: ChatProxy[];
     clickOnChat: (arg: ChatProxy) => void;
     activeChatId: number | null;
+    searchInput: InputTypes.UseReturnedType;
 } & BaseTypes.Statuses;
 
 function ChatsListView(props: Props) {
-    const { chats, clickOnChat, loading, activeChatId } = props;
+    const { chats, clickOnChat, loading, activeChatId, searchInput } = props;
 
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
+            <div className={styles.search}>
+                <Input {...searchInput} clearIcon prefixIcon="search" placeholder="Поиск" />
+            </div>
             <div className={styles.list}>
                 {chats.map((chat, index: number) => (
                     <div key={chat.id} className={`${styles.item} ${activeChatId === chat.id ? styles.item_active : ''}`} onClick={() => clickOnChat(chat)}>

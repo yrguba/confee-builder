@@ -1,8 +1,9 @@
 import { useState, useCallback, ChangeEvent, useEffect } from 'react';
 
 import { UseProps } from './types';
+import { useDebounce } from '../../../hooks';
 
-const use = ({ initialValue = '', yupSchema, realtimeValidate }: UseProps) => {
+const use = ({ initialValue = '', yupSchema, realtimeValidate, debounceCallback, debounceDelay }: UseProps) => {
     const [value, setValue] = useState(initialValue || '');
     const [error, setError] = useState('');
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +46,14 @@ const use = ({ initialValue = '', yupSchema, realtimeValidate }: UseProps) => {
     const onFocusClearError = () => {
         setError('');
     };
+
+    useDebounce(
+        () => {
+            debounceCallback && debounceCallback(value);
+        },
+        debounceDelay || 2000,
+        [value]
+    );
 
     return {
         value,

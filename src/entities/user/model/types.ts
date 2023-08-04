@@ -1,4 +1,11 @@
-export type UserStatuses = 'in-office' | 'home-work' | 'business-trip' | 'vacation' | 'sick-leave' | 'meeting' | 'not-available';
+export enum Statuses {
+    'IN_OFFICE' = '#29CC39',
+    'HOME_WORK' = '#8833FF',
+    'BUSINESS_TRIP' = '#33BFFF',
+    'VACATION' = '#2EE5C9',
+    'SICK_LEAVE' = '#EFF2F7',
+    'NOT_AVAILABLE' = '#E62E7B',
+}
 
 export type ModalName = 'personal-info';
 

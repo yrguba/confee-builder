@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { userTypes } from 'entities/user';
 import { useFetchMediaContent } from 'shared/hooks';
 
 import styles from './styles.module.scss';
@@ -7,7 +8,7 @@ import LoadingIndicator from '../../../loading-indicator';
 import { AvatarProps } from '../../types';
 
 function Avatar(props: AvatarProps) {
-    const { size = 80, name, img, circle = true } = props;
+    const { size = 80, name, img, circle = true, status } = props;
 
     const { src, error, isLoading } = useFetchMediaContent(img || '');
 
@@ -59,7 +60,7 @@ function Avatar(props: AvatarProps) {
 
     return (
         <div
-            className={styles.avatar}
+            className={styles.wrapper}
             style={{
                 borderRadius: circle ? '50%' : 8,
                 width: size,
@@ -70,6 +71,7 @@ function Avatar(props: AvatarProps) {
                 background: !img || error ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
             }}
         >
+            {status && <div className={styles.status} style={{ backgroundColor: status ? userTypes.Statuses[status] : '' }} />}
             {isLoading ? (
                 <div className={styles.loading}>
                     <LoadingIndicator visible />
