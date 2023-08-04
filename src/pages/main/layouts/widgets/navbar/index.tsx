@@ -31,7 +31,7 @@ function Navbar() {
                 {items.map((i) => (
                     <div
                         key={i.id}
-                        className={`${styles.item} ${pathname === i.payload.path ? styles.item_active : ''}`}
+                        className={`${styles.item} ${`/${pathname?.split('/')[1]}` === i.payload.path ? styles.item_active : ''}`}
                         onClick={() => itemClick(i.payload.path)}
                     >
                         <div className={styles.counter}>

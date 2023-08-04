@@ -12,6 +12,7 @@ function Chat() {
 
     return (
         <div className={styles.wrapper}>
+            efesfeswdawd
             <div className={styles.header}>
                 <ChatHeader />
             </div>

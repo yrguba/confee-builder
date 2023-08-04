@@ -33,7 +33,7 @@
           width: calc(100% - 68px);
           gap: 4px;
 
-          .top {
+          .row {
             @include flex(space-between);
             width: 100%;
 
@@ -48,26 +48,8 @@
               min-width: 10%;
               width: auto;
             }
-          }
-
-          .bottom {
-            @include flex;
-            width: 100%;
-
-            .left {
-              @include flex(flex-start);
-              max-width: 90%;
-              flex: 1;
-            }
-
-            .right {
-              @include flex(flex-end);
-              min-width: 10%;
-              width: auto;
-
-              svg {
-                fill: var(--text-action);
-              }
+            svg {
+              fill: var(--text-action);
             }
           }
 

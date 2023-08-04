@@ -14,6 +14,7 @@
   }
 
   .outlet {
+    @include flex;
     height: 100%;
     flex: 1;
   }

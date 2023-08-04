@@ -5,7 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { chatGateway, useChatStore } from 'entities/chat';
 import { useHeightMediaQuery, useWidthMediaQuery, useRouter } from 'shared/hooks';
-import { Box } from 'shared/ui';
+import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { messageGateway } from '../../../../entities/message';
@@ -47,6 +47,11 @@ function ChatsPage() {
                 )}
                 {isVisibleOutlet() && (
                     <div className={styles.outlet}>
+                        {!params.chat_id && (
+                            <Title textWrap primary={false} textAlign="center" variant="H2">
+                                Выберите чат, для начала диалога
+                            </Title>
+                        )}
                         <Outlet />
                     </div>
                 )}

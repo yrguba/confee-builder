@@ -16,7 +16,7 @@ function ChatsListView(props: Props) {
     const { chats, clickOnChat, loading, activeChatId } = props;
 
     return (
-        <Box loading={loading} className={styles.wrapper}>
+        <Box.Animated visible loading={loading} className={styles.wrapper}>
             <div className={styles.list}>
                 {chats.map((chat, index: number) => (
                     <div key={chat.id} className={`${styles.item} ${activeChatId === chat.id ? styles.item_active : ''}`} onClick={() => clickOnChat(chat)}>
@@ -25,7 +25,7 @@ function ChatsListView(props: Props) {
                                 <Avatar size={52} img={chat.avatar} name={chat.name} />
                             </div>
                             <div className={styles.content}>
-                                <div className={styles.top}>
+                                <div className={styles.row}>
                                     <div className={styles.left}>
                                         <Title variant="H3S">{chat.name}</Title>
                                         <Button tag>TFN</Button>
@@ -36,7 +36,7 @@ function ChatsListView(props: Props) {
                                         </Title>
                                     </div>
                                 </div>
-                                <div className={styles.bottom}>
+                                <div className={styles.row}>
                                     <div className={styles.left}>
                                         <Title primary={false} variant="H3R">
                                             {chat.lastMessageTitle}
@@ -55,7 +55,7 @@ function ChatsListView(props: Props) {
                     </div>
                 ))}
             </div>
-        </Box>
+        </Box.Animated>
     );
 }
 
