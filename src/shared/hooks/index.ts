@@ -27,6 +27,7 @@ import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useScroll from './useScroll';
 import useSize from './useSize';
+import useStorage from './useStorage';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
 import useToggle from './useToggle';
@@ -36,6 +37,7 @@ import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
+    useStorage,
     useEasyState,
     useWebView,
     useFetchMediaContent,

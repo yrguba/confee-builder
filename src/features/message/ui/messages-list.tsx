@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { storage, useAppStore } from 'entities/app';
 import { chatApi } from 'entities/chat';
 import { messageApi, MessagesListView, messageService } from 'entities/message';
-import { useRouter, useCopyToClipboard } from 'shared/hooks';
-
-import { MessageMenuActions, MessageProxy } from '../../../entities/message/model/types';
+import { MessageMenuActions, MessageProxy } from 'entities/message/model/types';
+import { useRouter, useCopyToClipboard, useStorage } from 'shared/hooks';
 
 function MessageList() {
     const { params } = useRouter();
     const [state, copyToClipboard] = useCopyToClipboard();
+
+    const storage = useStorage();
 
     const chatId = Number(params.chat_id);
 
@@ -32,7 +32,7 @@ function MessageList() {
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
 
     const subscribeToChat = (action: 'sub' | 'unsub') => {
-        action === 'sub' ? handleSubscribeToChat(chatId) : handleUnsubscribeFromChat(storage.localStorageGet('subscribed_to_chat'));
+        action === 'sub' ? handleSubscribeToChat(chatId) : handleUnsubscribeFromChat(storage.get('subscribed_to_chat'));
     };
 
     const messageMenuAction = (action: MessageMenuActions, message: MessageProxy) => {

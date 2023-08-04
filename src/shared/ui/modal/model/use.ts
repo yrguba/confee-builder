@@ -1,26 +1,27 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import { usePrevious } from 'react-use';
 
 import useModalStore from './store';
 
-function use<MN>(modalNames: MN, onClose?: () => void) {
-    const first = useRef(true);
+function use<MN>(modalNames: MN, options?: { showPrevModalAfterClose: boolean }) {
+    const openModal: any = useModalStore.use.openModal();
 
-    const openModal = useModalStore.use.openModal();
-    const setOpenModal = useModalStore.use.setOpenModal();
+    const prevValue = usePrevious(openModal);
+    const setOpenModal: any = useModalStore.use.setOpenModal();
+
     const open = () => {
         setOpenModal(modalNames as string);
     };
 
-    const close = () => setOpenModal(null);
+    const close = () => {
+        if (options?.showPrevModalAfterClose && prevValue) {
+            setOpenModal(prevValue || null);
+        } else {
+            setOpenModal(null);
+        }
+    };
 
     const isOpen = !!openModal && openModal === modalNames;
-
-    useEffect(() => {
-        if (!isOpen && onClose && !first.current) {
-            onClose();
-        }
-        first.current = false;
-    }, [isOpen]);
 
     return { isOpen, open, close };
 }

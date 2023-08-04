@@ -7,7 +7,7 @@ function ChangeNameModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const changeNameModal = Modal.use<viewerTypes.ModalName>('change-name');
+    const changeNameModal = Modal.use<viewerTypes.ModalName>('change-name', { showPrevModalAfterClose: true });
 
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
@@ -19,9 +19,9 @@ function ChangeNameModal() {
     });
 
     const close = () => {
-        // setViewerModal('personal-info');
         firstNameInput.reload();
         lastNameInput.reload();
+        changeNameModal.close();
     };
 
     const onsubmit = async () => {

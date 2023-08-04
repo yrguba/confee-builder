@@ -3,6 +3,7 @@ import { usePrevious } from 'react-use';
 
 const useEasyState = <T>(initial: T) => {
     const [state, setState] = useState<T>(initial);
+
     const prevValue = usePrevious(state);
 
     const callbackRef: any = useRef();

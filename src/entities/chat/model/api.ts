@@ -1,14 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { storage } from 'entities/app';
 import { axiosClient } from 'shared/configs';
-import { useWebSocket } from 'shared/hooks';
+import { useWebSocket, useStorage } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
+
+    storage = useStorage();
 
     socket = useWebSocket<SocketIn, SocketOut>();
 
@@ -54,7 +55,6 @@ class ChatApi {
     handleSubscribeToChat() {
         return {
             mutate: (chatId: number) => {
-                storage.localStorageSet('subscribed_to_chat', chatId);
                 this.socket.sendMessage('ChatListenersUpdated', {
                     sub: chatId,
                 });
@@ -65,7 +65,6 @@ class ChatApi {
     handleUnsubscribeFromChat() {
         return {
             mutate: (chatId: number) => {
-                storage.localStorageRemove('subscribed_to_chat');
                 this.socket.sendMessage('ChatListenersUpdated', {
                     unsub: chatId,
                 });

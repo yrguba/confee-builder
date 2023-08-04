@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import { useStyles } from 'shared/hooks';
 import { Box, Icons } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
+import useModalStore from '../../model/store';
 import { BaseModalProps } from '../../model/types';
+import { use } from '../../model/use';
 
 function Modal(props: BaseModalProps) {
     const { isOpen, close, children, onClose } = props;
-
+    const openModal: any = useModalStore.use.openModal();
     const modal_root = document.querySelector('#modal-root');
+    const useModal = use(openModal);
 
     const closeClick = () => {
         onClose && onClose();
+        useModal.close();
         close();
     };
 

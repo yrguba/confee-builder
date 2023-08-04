@@ -11,7 +11,12 @@ function ViewerPersonalInfoModal() {
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
     const personalInfoModal = Modal.use<viewerTypes.ModalName>('viewer-personal-info');
-    const changeNicknameModal = Modal.use<viewerTypes.ModalName>('change-nickname', () => personalInfoModal.open());
+    const changeNameModal = Modal.use<viewerTypes.ModalName>('change-name');
+    const changeAboutMeModal = Modal.use<viewerTypes.ModalName>('change-about-me');
+    const changeNicknameModal = Modal.use<viewerTypes.ModalName>('change-nickname');
+    const changePhoneModal = Modal.use<viewerTypes.ModalName>('change-phone');
+    const changeEmailModal = Modal.use<viewerTypes.ModalName>('change-email');
+    const changeBirthModal = Modal.use<viewerTypes.ModalName>('change-birth');
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',
@@ -26,8 +31,23 @@ function ViewerPersonalInfoModal() {
 
     const getChangeModals = (modalName: viewerTypes.ModalName, disabled?: boolean) => {
         switch (modalName) {
+            case 'change-name':
+                changeNameModal.open();
+                break;
+            case 'change-about-me':
+                changeAboutMeModal.open();
+                break;
             case 'change-nickname':
                 changeNicknameModal.open();
+                break;
+            case 'change-phone':
+                changePhoneModal.open();
+                break;
+            case 'change-email':
+                changeEmailModal.open();
+                break;
+            case 'change-birth':
+                changeBirthModal.open();
         }
     };
 

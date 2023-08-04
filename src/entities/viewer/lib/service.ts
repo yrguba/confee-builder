@@ -1,8 +1,11 @@
-import { storage } from 'entities/app';
+import { appTypes } from 'entities/app';
+import { useStorage } from 'shared/hooks';
 
 class ViewerService {
+    storage = useStorage<appTypes.ValuesInStorage>();
+
     getId(): number | null {
-        return Number(storage.localStorageGet('viewerId')) || null;
+        return Number(this.storage.get('viewer_id')) || null;
     }
 }
 

@@ -7,16 +7,15 @@ function ChangeBirthModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const changeBirthModal = Modal.use<viewerTypes.ModalName>('change-birth');
-    const personaModal = Modal.use<viewerTypes.ModalName>('change-birth');
+    const changeBirthModal = Modal.use<viewerTypes.ModalName>('change-birth', { showPrevModalAfterClose: true });
 
     const birthInput = Input.use({
         initialValue: viewerData?.data?.data?.birth?.split(' ')[0] || '',
     });
 
     const close = () => {
+        changeBirthModal.close();
         birthInput.reload();
-        // setViewerModal('personal-info');
     };
 
     const onsubmit = async () => {

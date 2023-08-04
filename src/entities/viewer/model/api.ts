@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { storage } from 'entities/app';
+import { appTypes } from 'entities/app';
 import { axiosClient } from 'shared/configs';
+import { useStorage } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
 import { Viewer } from './types';
@@ -9,12 +10,14 @@ import { Viewer } from './types';
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
 
+    private storage = useStorage<appTypes.ValuesInStorage>();
+
     handleGetViewer() {
         return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (data) => {
                 const updRes = { ...data, data: { data: data.data.data.user } };
-                storage.localStorageSet('viewerId', updRes.data.data.id);
+                this.storage.set('viewer_id', updRes.data.data.id);
                 return httpHandlers.response<{ data: Viewer }>(updRes);
             },
         });

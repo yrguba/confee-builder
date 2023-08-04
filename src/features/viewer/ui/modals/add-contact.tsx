@@ -9,7 +9,7 @@ function AddContactModal() {
         yupSchema: yup.required,
     });
 
-    const addContactModal = Modal.use<viewerTypes.ModalName>('add-contact');
+    const addContactModal = Modal.use<viewerTypes.ModalName>('add-contact', { showPrevModalAfterClose: true });
 
     const close = () => {
         addContactModal.close();
