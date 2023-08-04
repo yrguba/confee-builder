@@ -2,8 +2,9 @@
 
 
 .wrapper {
-  @include flex(flex-start);
-  @include box-size(100%, 100%);
+  @include flex(space-between);
+  @include box-size(calc(100% - 24px), 100%);
   gap: 16px;
   border-bottom: 1px solid var(--border-primary);
+  padding: 0 12px;
 }

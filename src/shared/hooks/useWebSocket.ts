@@ -7,7 +7,7 @@ const { socketUrl } = appService.getUrls();
 const ws = new WebSocket(socketUrl);
 
 type Returned<In, Out> = {
-    sendMessage: (event: Out, message: any) => void;
+    sendMessage: (event: Out, message?: any) => void;
     onMessage: (event: In, callback: (arg: any) => void) => void;
 };
 

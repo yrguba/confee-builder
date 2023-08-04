@@ -7,7 +7,7 @@ import { getRandomString } from '../lib';
 
 type Paths = callsTypes.Paths;
 
-function useWebView(path: Paths, title?: string): { open: () => void; close: () => void } | null {
+function useWebView(path: string, title?: string): { open: () => void; close: () => void } | null {
     if (!window.__TAURI__) return null;
     const [id, setId] = useState('wda');
 

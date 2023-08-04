@@ -29,7 +29,7 @@ function MessageList() {
         fetchPreviousPage,
         fetchNextPage,
         isFetching,
-    } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData?.data?.data) });
+    } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
 
     const subscribeToChat = (action: 'sub' | 'unsub') => {
         action === 'sub' ? handleSubscribeToChat(chatId) : handleUnsubscribeFromChat(storage.localStorageGet('subscribed_to_chat'));
@@ -48,7 +48,7 @@ function MessageList() {
     return (
         <>
             <MessagesListView
-                chat={chatData?.data?.data}
+                chat={chatData}
                 messages={messageService.getUpdatedList(messageData)}
                 getNextPage={() => hasNextPage && !isFetching && fetchNextPage().then()}
                 getPrevPage={() => hasPreviousPage && !isFetching && fetchPreviousPage().then()}

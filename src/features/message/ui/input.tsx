@@ -20,8 +20,7 @@ function MessageInput(props: Props) {
     const { mutate: handleReplyMessage } = messageApi.handleReplyMessage();
     const { mutate: handleChangeTextInMessages } = messageApi.handleChangeTextInMessages();
 
-    const { data: chatsData } = chatApi.handleGetChat({ chatId });
-    const chat = chatsData?.data?.data;
+    const { data: chatData } = chatApi.handleGetChat({ chatId });
 
     const [valueTextMessage, setValueTextMessage] = useState('');
 
@@ -74,13 +73,13 @@ function MessageInput(props: Props) {
     }, [chatId]);
 
     const getTagAUsers = (): userTypes.User[] | null => {
-        if (!chat || !chat.is_group) return null;
+        if (!chatData || !chatData.is_group) return null;
         const words = valueTextMessage.split(' ');
         const all = words.find((word) => /^@$/.test(word));
         const tags = words.filter((word) => /@[a-zA-Zа-яА-я0-9]/.test(word));
         const lastWordIsTag = /@[a-zA-Zа-яА-я0-9]/.test(words[words.length - 1]);
         const suitable: userTypes.User[] = [];
-        const users = chat.members.filter((user) => !!user.nickname && user.id !== viewerService.getId());
+        const users = chatData.members.filter((user) => !!user.nickname && user.id !== viewerService.getId());
         if (all) {
             suitable.splice(0, 0, ...users);
             return suitable;

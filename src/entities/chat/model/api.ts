@@ -17,7 +17,8 @@ class ChatApi {
             staleTime: Infinity,
             enabled: !!data.chatId,
             select: (data) => {
-                return httpHandlers.response<{ data: Chat }>(data);
+                const res = httpHandlers.response<{ data: Chat }>(data);
+                return res.data?.data;
             },
         });
     };

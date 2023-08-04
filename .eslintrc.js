@@ -71,6 +71,7 @@ module.exports = {
                         },
                     },
                 ],
+                'jsx-a11y/media-has-caption': 0,
                 'react/jsx-no-constructed-context-values': 0,
                 'react/no-unstable-nested-components': 0,
                 'no-unsafe-optional-chaining': 0,
