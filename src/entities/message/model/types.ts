@@ -53,4 +53,6 @@ export type MessageProxy = {
 } & Message;
 
 export type MessageMenuActions = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
-export type InputMenuIcons = MediaContentTypeKeys;
+
+export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated';
+export type SocketOut = 'ChatListenersUpdated';

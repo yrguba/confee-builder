@@ -4,12 +4,11 @@ import { useEffect } from 'react';
 
 import { useWebSocket } from 'shared/hooks';
 
+import { SocketIn, SocketOut } from './types';
 import { Chat } from '../../chat/model/types';
 
-type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated';
-
 function messageGateway() {
-    const { onMessage } = useWebSocket<SocketIn, any>();
+    const { onMessage } = useWebSocket<SocketIn, SocketOut>();
 
     const queryClient = useQueryClient();
     useEffect(() => {

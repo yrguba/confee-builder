@@ -4,12 +4,13 @@ class AppService {
     // @ts-ignore
     tauriIsRunning = !!window.__TAURI__;
 
-    getUrls(): { clientDomain: string; url: string; socketUrl: string; host: string } {
+    getUrls(): { clientBaseURL: string; clientFullURL: string; socketUrl: string; backBaseURL: string; localSocketUrl: string } {
         return {
-            clientDomain: window.location.origin,
-            host: window.location.href.split('/')[2],
-            url: 'https://dev.api.confee.ru',
+            clientBaseURL: window.location.origin,
+            clientFullURL: window.location.href,
+            backBaseURL: 'https://dev.api.confee.ru',
             socketUrl: 'wss://dev.ws.confee.ru:9003/ws',
+            localSocketUrl: 'ws://localhost:3001',
         };
     }
 

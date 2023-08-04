@@ -15,7 +15,7 @@ const codeVerifier = 'mYCO3rcUzhc6RkTKbwurKhDHIIHuc0ojKj2bH9xnOK0fUeSRwki8fSmLDj
 const webView = () => {
     const { pathname } = useLocation();
 
-    const { url } = appService.getUrls();
+    const { backBaseURL } = appService.getUrls();
 
     const hashed = SHA256(codeVerifier);
     const params = {
@@ -42,7 +42,7 @@ const webView = () => {
             code,
         };
 
-        axios.post(`${url}/${tokenEndpoint}`, body).then((res) => {
+        axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res) => {
             if (res.data.access_token) {
                 tokensService.save({
                     access_token: res.data.access_token,
@@ -50,11 +50,11 @@ const webView = () => {
                 });
                 window.location.reload();
             } else {
-                window.location.href = `${url}/${authorizeEndpoint}?${buildParams}`;
+                window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
             }
         });
     } else {
-        window.location.href = `${url}/${authorizeEndpoint}?${buildParams}`;
+        window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
     }
 
     return null;

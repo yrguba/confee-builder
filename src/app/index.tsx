@@ -20,9 +20,9 @@ function App() {
     useTheme();
     useWebSocket();
 
-    const { clientDomain } = appService.getUrls();
+    const { clientBaseURL } = appService.getUrls();
 
-    console.log('client domain: ', clientDomain);
+    console.log('clientBaseURL: ', clientBaseURL);
 
     return (
         <BrowserRouter>

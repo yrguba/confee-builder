@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { appService } from 'entities/app';
-import { callsTypes } from 'entities/calls';
+import { callsTypes, callsApi } from 'entities/calls';
 import { ChatHeaderView, useChatStore, chatApi } from 'entities/chat';
 import ChatProxy from 'entities/chat/lib/chat-proxy';
 import { useRouter, useWebView } from 'shared/hooks';

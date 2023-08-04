@@ -1,9 +1,7 @@
-import { useState } from 'react';
-
 import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
-const { socketUrl } = appService.getUrls();
+const { socketUrl, localSocketUrl } = appService.getUrls();
 const ws = new WebSocket(socketUrl);
 
 type Returned<In, Out> = {

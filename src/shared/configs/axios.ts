@@ -3,10 +3,10 @@ import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
-const { url } = appService.getUrls();
+const { backBaseURL } = appService.getUrls();
 const { auth } = appService.getSecret();
 const config: AxiosRequestConfig = {
-    baseURL: `${url}`,
+    baseURL: `${backBaseURL}`,
 };
 
 const axiosClient = axios.create(config);

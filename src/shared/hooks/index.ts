@@ -30,14 +30,12 @@ import useSize from './useSize';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
 import useToggle from './useToggle';
-import useWebRTC from './useWebRTC';
 import useWebSocket from './useWebSocket';
 import useWebView from './useWebView';
 import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
-    useWebRTC,
     useEasyState,
     useWebView,
     useFetchMediaContent,

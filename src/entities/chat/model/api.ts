@@ -5,12 +5,12 @@ import { axiosClient } from 'shared/configs';
 import { useWebSocket } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
-import { Chat } from './types';
+import { Chat, SocketIn, SocketOut } from './types';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
 
-    socket = useWebSocket<any, 'ChatListenersUpdated'>();
+    socket = useWebSocket<SocketIn, SocketOut>();
 
     handleGetChat = (data: { chatId: number | undefined }) => {
         return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {

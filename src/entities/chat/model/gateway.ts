@@ -4,10 +4,7 @@ import { useEffect } from 'react';
 
 import { useWebSocket } from 'shared/hooks';
 
-import { Chat } from './types';
-
-type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated' | 'ChatPendingMessagesCountUpdated';
-type SocketOut = '';
+import { Chat, SocketOut, SocketIn } from './types';
 
 function chatGateway() {
     const { onMessage } = useWebSocket<SocketIn, SocketOut>();
