@@ -20,6 +20,7 @@ declare global {
         __TAURI__: any;
         Recorder: any;
         webkitAudioContext: any;
+        token: any;
     }
 }
 export declare type Params<Key extends string = string> = {
