@@ -1,4 +1,3 @@
-import firebase from 'firebase/compat';
 import { useEffect, useState } from 'react';
 
 import { axiosClient } from '../configs';

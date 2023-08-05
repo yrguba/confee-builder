@@ -15,7 +15,6 @@ import {
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
 import useFileUploader from 'react-use-file-uploader';
-import { useTimer } from 'use-timer';
 
 import useArray from './useArray';
 import useAudioRecorder from './useAudioRecord';
@@ -49,7 +48,6 @@ export {
     useFileDownloads,
     useNetworkState,
     useIdle,
-    useTimer,
     useTheme,
     useCreateSelectors,
     useDebounce,

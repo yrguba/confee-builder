@@ -1,10 +1,8 @@
-import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
-import { useParams } from 'react-router';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import { chatGateway, useChatStore } from 'entities/chat';
-import { useHeightMediaQuery, useWidthMediaQuery, useRouter } from 'shared/hooks';
+import { useWidthMediaQuery, useRouter } from 'shared/hooks';
 import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -20,7 +18,7 @@ function ChatsPage() {
 
     const { params } = useRouter();
 
-    const { to, from } = useWidthMediaQuery();
+    const { to } = useWidthMediaQuery();
 
     const isVisibleSidebar = () => {
         if (to('sm')) {
