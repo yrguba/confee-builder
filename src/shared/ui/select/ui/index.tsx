@@ -3,7 +3,7 @@ import React from 'react';
 import { useToggle } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import DropdownMenu from '../../dropdown/ui/dropdown-menu';
+import DropdownMenu from '../../dropdown/ui/menu';
 import Icons from '../../icons';
 import { SelectProps } from '../types';
 

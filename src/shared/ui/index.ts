@@ -5,7 +5,7 @@ import Button, { Types as ButtonTypes } from './button';
 import Card, { Types as CardTypes } from './card';
 import Collapse, { CollapseTypes } from './collapse';
 import Counter, { CounterTypes } from './counter';
-import Dropdown, { DropdownTypes, DropdownMenu } from './dropdown';
+import Dropdown, { Types as DropdownTypes } from './dropdown';
 import Emoji, { Types as EmojiTypes } from './emoji';
 import Icons, { Types as IconsTypes } from './icons';
 import Input, { Types as InputTypes } from './input';
@@ -48,7 +48,6 @@ export {
     Pagination,
     Image,
     Notification,
-    DropdownMenu,
 };
 export type {
     TabBarTypes,

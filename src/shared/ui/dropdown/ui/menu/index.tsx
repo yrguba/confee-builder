@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 
 import styles from './styles.module.scss';
-import { DropdownMenuProps } from '../types';
-
-import Dropdown from './index';
+import { DropdownMenuProps } from '../../types';
+import Dropdown from '../base';
 
 function DropdownMenu(props: DropdownMenuProps) {
     const { items, ...other } = props;
@@ -12,7 +11,7 @@ function DropdownMenu(props: DropdownMenuProps) {
         <Dropdown
             {...other}
             content={
-                <div className={styles.dropdownMenu}>
+                <div className={styles.wrapper}>
                     {items.map((i) => (
                         <div key={i.id} className={styles.item} onClick={i.action}>
                             <div className={`${styles.content} ${i.isRed && styles.content_red}`}>

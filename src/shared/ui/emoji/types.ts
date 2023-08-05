@@ -1,11 +1,11 @@
-import { DropdownTypes } from '../dropdown';
+import { Types } from '../dropdown';
 
 type SharedProps = {
     onClick: (arg: string) => void;
 };
 
 export type BaseEmojiProps = {
-    position?: DropdownTypes.Position;
+    position?: Types.Position;
     clickOnEmoji: (arg: string) => void;
     openCloseTrigger?: (isOpen: boolean) => void;
 };

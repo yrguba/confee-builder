@@ -15,16 +15,15 @@ export type BaseDropdownProps = {
     position?: Position;
     animationVariant?: AnimationVariants;
     openCloseTrigger?: (arg: boolean) => void;
-    top?: number | string;
-    left?: number | string;
-    dynamicPosition?: boolean;
+    closeAfterClick?: boolean;
+    top?: number;
+    left?: number;
+} & BaseTypes.Statuses;
+
+export type DynamicDropdownProps = {
     reverseY?: boolean;
     reverseX?: boolean;
-    closeAfterClick?: boolean;
-    stopPropagation?: boolean;
-    wrapperSize?: { width: number; height: number } | undefined;
-    contentWidth?: number;
-} & BaseTypes.Statuses;
+} & BaseDropdownProps;
 
 export type DropdownMenuItem = {
     id: number;

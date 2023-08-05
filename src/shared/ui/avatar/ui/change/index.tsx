@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Avatar, Title, DropdownMenu, DropdownTypes, WebCameraPhoto, Box } from 'shared/ui';
+import { Avatar, Title, Dropdown, DropdownTypes, WebCameraPhoto, Box } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
@@ -33,12 +33,12 @@ function AvatarChange(props: AvatarChangeProps) {
             <Box.Animated visible={visibleCamera} className={styles.webCamera}>
                 <WebCameraPhoto getScreenshot={action} />
             </Box.Animated>
-            <DropdownMenu closeAfterClick position="right-bottom" left={44} top={50} items={items}>
+            <Dropdown.Menu closeAfterClick position="right-bottom" left={44} top={50} items={items}>
                 <div className={styles.circle}>
                     <Avatar img={img || ''} name={name} size={size} />
                     <div className={styles.cover}>Сменить</div>
                 </div>
-            </DropdownMenu>
+            </Dropdown.Menu>
         </div>
     );
 }

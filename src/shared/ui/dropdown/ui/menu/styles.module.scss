@@ -1,0 +1,33 @@
+@import "src/app/styles/index";
+
+
+.wrapper {
+  background-color: var(--bg-secondary);
+  padding: 8px 0;
+
+  .item {
+    min-width: 200px;
+    height: 40px;
+    @include flex();
+    transition: background-color 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--bg-primary);
+    }
+
+    .content {
+      color: var(--text-primary);
+      @include flex(flex-start);
+      width: 86%;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+
+      &_red {
+        color: var(--text-negative) !important;
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ForwardedRef, forwardRef, RefObject, useRef } from 'react';
 
 import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -13,11 +13,10 @@ type Props = {
     message: MessageProxy;
     lastFive: boolean;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
-    wrapperSize: { width: number; height: number } | undefined;
 } & BaseTypes.Statuses;
 
-function Message(props: Props) {
-    const { message, lastFive, messageMenuAction, wrapperSize } = props;
+const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
+    const { message, lastFive, messageMenuAction } = props;
 
     const { id, type } = message;
 
@@ -56,24 +55,19 @@ function Message(props: Props) {
         <Box className={styles.wrapper}>
             {!message.isMy && <Avatar size={52} img={message.author?.avatar?.path} />}
 
-            <Dropdown
-                contentWidth={280}
-                wrapperSize={wrapperSize}
+            <Dropdown.Dynamic
+                ref={ref}
                 openCloseTrigger={openCloseTrigger}
-                stopPropagation={false}
-                dynamicPosition
                 left={getLeftPositionMenu()}
-                reverseX={message.isMy}
-                reverseY={lastFive}
                 trigger="right-click"
                 content={<MessageMenu messageMenuAction={messageMenuAction} message={message} />}
             >
                 <div className={styles.content} ref={messageRef}>
                     <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>{type === 'text' && <TextMessage text={message.text} />}</div>
                 </div>
-            </Dropdown>
+            </Dropdown.Dynamic>
         </Box>
     );
-}
+});
 
 export default Message;
