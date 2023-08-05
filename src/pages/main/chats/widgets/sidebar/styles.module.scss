@@ -5,7 +5,7 @@
   @include flex-column(flex-start);
   background-color: var(--bg-secondary);
   padding-top: 16px;
-
+  gap: 8px;
   @include width-to(sm) {
     background-color: var(--bg-primary);
   }
@@ -15,9 +15,16 @@
     @include flex(space-between);
     padding: 0 16px;
 
-    svg {
-      fill: var(--text-primary);
+    .icons{
+      @include flex;
+      gap: 24px;
     }
+  }
+
+  .search {
+    @include box-size(calc(100% - 8px), 48px);
+    @include flex(space-between);
+    padding: 0 4px;
   }
 
   .list {

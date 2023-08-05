@@ -4,9 +4,9 @@ import { useClickAway, useStyles } from 'shared/hooks';
 import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
-import { DropdownBaseProps } from '../types';
+import { BaseDropdownProps } from '../types';
 
-function Dropdown(props: DropdownBaseProps) {
+function Dropdown(props: BaseDropdownProps) {
     const {
         children,
         visible,

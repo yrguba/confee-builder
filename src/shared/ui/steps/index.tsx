@@ -1,5 +1,5 @@
-import * as StepsTypes from './types';
+import * as Types from './types';
 import Steps from './ui';
 
-export { StepsTypes };
+export { Types };
 export default Steps;

@@ -1,5 +1,5 @@
-import * as SelectTypes from './types';
+import * as Types from './types';
 import Switch from './ui';
 
-export { SelectTypes };
+export { Types };
 export default Switch;

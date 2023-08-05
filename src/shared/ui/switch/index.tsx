@@ -1,5 +1,5 @@
-import * as SwitchTypes from './types';
+import * as Types from './types';
 import Switch from './ui';
 
-export { SwitchTypes };
+export { Types };
 export default Switch;

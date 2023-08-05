@@ -10,13 +10,6 @@ function ChatsList() {
     const navigate = useNavigate();
     const params = useParams();
 
-    const searchInput = Input.use({
-        debounceDelay: 1000,
-        debounceCallback: (value) => {
-            console.log('search value', value);
-        },
-    });
-
     const { data: chatsData } = chatApi.handleGetChats();
 
     const clickOnChatCard = (chat: chatTypes.Chat) => {
@@ -26,7 +19,6 @@ function ChatsList() {
     return (
         <>
             <ChatsListView
-                searchInput={searchInput}
                 chats={chatsData?.map((chat) => ChatProxy(chat)) || []}
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}

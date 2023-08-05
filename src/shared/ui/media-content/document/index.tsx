@@ -1,7 +1,7 @@
 import React from 'react';
 
-import * as DocumentTypes from './types';
+import * as Types from './types';
 import Document from './ui';
 
-export { DocumentTypes };
+export { Types };
 export default Document;

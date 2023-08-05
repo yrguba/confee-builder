@@ -1,5 +1,5 @@
-import * as BreadcrumbTypes from './types';
+import * as Types from './types';
 import Breadcrumb from './ui';
 
-export { BreadcrumbTypes };
+export { Types };
 export default Breadcrumb;

@@ -1,5 +1,5 @@
-import * as PaginationTypes from './types';
+import * as Types from './types';
 import Pagination from './ui';
 
-export { PaginationTypes };
+export { Types };
 export default Pagination;

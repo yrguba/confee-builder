@@ -1,26 +1,26 @@
-import Avatar, { AvatarTypes } from './avatar';
-import Box, { BoxTypes, animationVariants } from './box';
-import Breadcrumb, { BreadcrumbTypes } from './breadcrumb';
-import Button, { ButtonTypes } from './button';
-import Card, { CardTypes } from './card';
+import Avatar, { Types as AvatarTypes } from './avatar';
+import Box, { Types as BoxTypes } from './box';
+import Breadcrumb, { Types as BreadcrumbTypes } from './breadcrumb';
+import Button, { Types as ButtonTypes } from './button';
+import Card, { Types as CardTypes } from './card';
 import Collapse, { CollapseTypes } from './collapse';
 import Counter, { CounterTypes } from './counter';
 import Dropdown, { DropdownTypes, DropdownMenu } from './dropdown';
-import Emoji, { EmojiTypes } from './emoji';
-import Icons, { IconsTypes } from './icons';
-import Input, { InputTypes } from './input';
-import LoadingIndicator, { LoadingIndicatorTypes } from './loading-indicator';
+import Emoji, { Types as EmojiTypes } from './emoji';
+import Icons, { Types as IconsTypes } from './icons';
+import Input, { Types as InputTypes } from './input';
+import LoadingIndicator, { Types as LoadingIndicatorTypes } from './loading-indicator';
 import AudioPlayer from './media-content/audio-player';
-import Document, { DocumentTypes } from './media-content/document';
-import Image, { ImageTypes } from './media-content/image';
-import WebCameraPhoto, { WebCamaraPhotoTypes } from './media-content/web-camera-photo';
-import Modal, { ModalTypes } from './modal';
-import Notification, { NotificationTypes } from './notification';
-import Pagination, { PaginationTypes } from './pagination';
-import Select, { SelectTypes } from './select';
-import Steps, { StepsTypes } from './steps';
-import Switch, { SwitchTypes } from './switch';
-import Title, { TitleTypes } from './title';
+import Document, { Types as DocumentTypes } from './media-content/document';
+import Image, { Types as ImageTypes } from './media-content/image';
+import WebCameraPhoto, { Types as WebCamaraPhotoTypes } from './media-content/web-camera-photo';
+import Modal, { Types as ModalTypes } from './modal';
+import Notification, { Types as NotificationTypes } from './notification';
+import Pagination, { Types as PaginationTypes } from './pagination';
+import Select, { Types as SelectTypes } from './select';
+import Steps, { Types as StepsTypes } from './steps';
+import Switch, { Types as SwitchTypes } from './switch';
+import Title, { Types as TitleTypes } from './title';
 
 export {
     Card,
@@ -46,7 +46,6 @@ export {
     Pagination,
     Image,
     Notification,
-    animationVariants,
     DropdownMenu,
 };
 export type {

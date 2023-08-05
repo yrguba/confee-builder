@@ -4,16 +4,9 @@
   @include box-size(100%, 100%);
   @include flex-column(flex-start);
   border-radius: var(--border-radius);
-  gap: 8px;
 
 
-  .search {
-    @include flex;
-    @include box-size(calc(100% - 8px), 48px);
-    padding: 0 4px;
-  }
-
-  .tabs{
+  .tabs {
     @include flex(flex-start);
     @include box-size(calc(100% - 32px), 48px);
     padding: 0 16px;
@@ -52,8 +45,7 @@
 
             .left {
               @include flex(flex-start);
-
-              max-width: 80%;
+              max-width: 90%;
             }
 
             .right {

@@ -11,6 +11,8 @@ type Shared = {
 } & HTMLAttributes<HTMLDivElement> &
     BaseTypes.Statuses;
 
+export type BaseBoxProps = {} & Shared;
+
 export type AnimatedBoxProps = {
     visible: boolean;
     animationVariant?: AnimationVariants;
@@ -19,5 +21,3 @@ export type AnimatedBoxProps = {
 } & Shared &
     AnimationProps &
     MotionProps;
-
-export type BaseBoxProps = {} & Shared;

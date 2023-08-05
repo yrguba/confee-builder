@@ -2,7 +2,7 @@ import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
 import use from './use';
 import { BaseTypes } from '../../../types';
-import { IconsTypes } from '../../icons';
+import { Types as IconsTypes } from '../../icons';
 
 export type InputAttrs = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'width' | 'height'>;
 

@@ -5,9 +5,9 @@ import { useFetchMediaContent } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import LoadingIndicator from '../../../loading-indicator';
-import { AvatarProps } from '../../types';
+import { BaseAvatarProps } from '../../types';
 
-function Avatar(props: AvatarProps) {
+function Avatar(props: BaseAvatarProps) {
     const { size = 80, name, img, circle = true, status } = props;
 
     const { src, error, isLoading } = useFetchMediaContent(img || '');

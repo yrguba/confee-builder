@@ -7,7 +7,7 @@ import { AnimationVariants } from '../box/types';
 export type Position = 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
 export type Trigger = 'left-click' | 'right-click' | 'hover' | null;
 
-export type DropdownBaseProps = {
+export type BaseDropdownProps = {
     children?: ReactNode;
     visible?: boolean;
     content?: ReactNode;
@@ -34,4 +34,4 @@ export type DropdownMenuItem = {
 
 export type DropdownMenuProps = {
     items: DropdownMenuItem[];
-} & DropdownBaseProps;
+} & BaseDropdownProps;

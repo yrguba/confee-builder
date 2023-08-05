@@ -1,11 +1,11 @@
-import React, { ForwardRefExoticComponent } from 'react';
+import { ForwardRefExoticComponent } from 'react';
 
-import * as CardTypes from './types';
+import * as Types from './types';
 import Base from './ui/base';
 
-type CompoundedComponent = ForwardRefExoticComponent<CardTypes.CardProps> & {};
+type CompoundedComponent = ForwardRefExoticComponent<Types.BaseCardProps> & {};
 
 const Card = Base as CompoundedComponent;
 
-export { CardTypes };
+export { Types };
 export default Card;

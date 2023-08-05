@@ -1,7 +1,7 @@
 import React from 'react';
 
-import * as WebCamaraPhotoTypes from './types';
+import * as Types from './types';
 import WebCameraPhoto from './ui';
 
-export { WebCamaraPhotoTypes };
+export { Types };
 export default WebCameraPhoto;

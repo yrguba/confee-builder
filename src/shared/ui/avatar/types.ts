@@ -2,7 +2,7 @@ import { userTypes } from 'entities/user';
 
 import { BaseTypes } from '../../types';
 
-export type AvatarProps = {
+export type BaseAvatarProps = {
     size?: number;
     name?: string;
     img: string | BaseTypes.Empty;
@@ -14,4 +14,4 @@ export type AvatarChangeProps = {
     selectFile: () => void;
     getScreenshot: (data: string) => void;
     deleteFile: () => void;
-} & AvatarProps;
+} & BaseAvatarProps;

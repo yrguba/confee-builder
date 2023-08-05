@@ -50,13 +50,16 @@ const use = ({ initialValue = '', yupSchema, realtimeValidate, debounceCallback,
 
     useDebounce(
         () => {
-            debounceCallback && !firstRender && debounceCallback(value);
+            debounceCallback && !firstRender.current && debounceCallback(value);
         },
         debounceDelay || 2000,
         [value]
     );
 
-    firstRender.current = false;
+    useEffect(() => {
+        if (value) firstRender.current = false;
+    }, [value]);
+
     return {
         value,
         error: !!error,

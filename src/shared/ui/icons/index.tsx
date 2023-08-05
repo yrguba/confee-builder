@@ -1,12 +1,12 @@
 import React, { ForwardRefExoticComponent } from 'react';
 
-import * as IconsTypes from './types';
+import * as Types from './types';
 import { ArrowAnimated } from './ui/animated';
 import Base from './ui/base';
 import Countries from './ui/countries';
 import Logo from './ui/logo';
 
-type CompoundedComponent = ForwardRefExoticComponent<IconsTypes.BaseIconsProps> & {
+type CompoundedComponent = ForwardRefExoticComponent<Types.BaseIconsProps> & {
     Logo: typeof Logo;
     ArrowAnimated: typeof ArrowAnimated;
     Countries: typeof Countries;
@@ -18,5 +18,5 @@ Icons.Countries = Countries;
 Icons.Logo = Logo;
 Icons.ArrowAnimated = ArrowAnimated;
 
-export { IconsTypes };
+export { Types };
 export default Icons;

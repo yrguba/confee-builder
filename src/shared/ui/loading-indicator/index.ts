@@ -1,10 +1,10 @@
 import { ForwardRefExoticComponent } from 'react';
 
-import * as LoadingIndicatorTypes from './types';
+import * as Types from './types';
 import Glare from './ui/glare';
 import Spinner from './ui/spinner';
 
-type CompoundedComponent = ForwardRefExoticComponent<LoadingIndicatorTypes.SpinnerProps> & {
+type CompoundedComponent = ForwardRefExoticComponent<Types.SpinnerProps> & {
     Glare: typeof Glare;
 };
 
@@ -12,5 +12,5 @@ const LoadingIndicator = Spinner as CompoundedComponent;
 
 LoadingIndicator.Glare = Glare;
 
-export { LoadingIndicatorTypes };
+export { Types };
 export default LoadingIndicator;

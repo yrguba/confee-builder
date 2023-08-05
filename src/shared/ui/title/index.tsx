@@ -1,5 +1,5 @@
-import * as TitleTypes from './types';
+import * as Types from './types';
 import Title from './ui';
 
-export { TitleTypes };
+export { Types };
 export default Title;

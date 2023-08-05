@@ -4,9 +4,9 @@ import styles from './styles.module.scss';
 import { useStyles } from '../../../../hooks';
 import { Avatar } from '../../../index';
 import Title from '../../../title';
-import { CardProps } from '../../types';
+import { BaseCardProps } from '../../types';
 
-function Card(props: CardProps) {
+function Card(props: BaseCardProps) {
     const { img, title, subtitle, onClick, size = 's', name } = props;
 
     const getAvatarSize = () => {

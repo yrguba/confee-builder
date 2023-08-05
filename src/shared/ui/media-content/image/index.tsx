@@ -1,7 +1,7 @@
 import React from 'react';
 
-import * as ImageTypes from './types';
+import * as Types from './types';
 import Image from './ui';
 
-export { ImageTypes };
+export { Types };
 export default Image;

@@ -10,7 +10,7 @@ type SharedProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement> &
     BaseTypes.Statuses;
 
-export type ButtonBaseProps = {
+export type BaseButtonProps = {
     size?: number | 's' | 'm';
     width?: string;
     chips?: boolean;

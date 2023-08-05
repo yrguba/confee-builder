@@ -1,10 +1,10 @@
-import React, { ForwardRefExoticComponent } from 'react';
+import { ForwardRefExoticComponent } from 'react';
 
-import * as AvatarTypes from './types';
+import * as Types from './types';
 import Base from './ui/base';
 import AvatarChange from './ui/change';
 
-type CompoundedComponent = ForwardRefExoticComponent<AvatarTypes.AvatarProps> & {
+type CompoundedComponent = ForwardRefExoticComponent<Types.BaseAvatarProps> & {
     Change: typeof AvatarChange;
 };
 
@@ -12,5 +12,5 @@ const Avatar = Base as CompoundedComponent;
 
 Avatar.Change = AvatarChange;
 
-export { AvatarTypes };
+export { Types };
 export default Avatar;

@@ -4,9 +4,9 @@ import { useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import Glare from '../../../loading-indicator/ui/glare';
-import { ButtonBaseProps } from '../../types';
+import { BaseButtonProps } from '../../types';
 
-function BaseButton(props: ButtonBaseProps) {
+function BaseButton(props: BaseButtonProps) {
     const { children, disabled, loading, variant = 'primary', tag, prefixIcon, chips, error, size = 's', width = '100%', active, ...other } = props;
 
     const classes = useStyles(styles, 'wrapper', {

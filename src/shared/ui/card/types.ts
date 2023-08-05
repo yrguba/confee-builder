@@ -1,6 +1,6 @@
 import { BaseTypes } from '../../types';
 
-export type CardProps = {
+export type BaseCardProps = {
     img?: string | BaseTypes.Empty;
     name?: string;
     title?: string;
