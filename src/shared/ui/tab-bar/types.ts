@@ -1,7 +1,7 @@
 import { BaseTypes } from 'shared/types';
 
 export type TabBarItem = {
-    id: number;
+    id: number | string;
     title: string;
     callback: () => void;
 };

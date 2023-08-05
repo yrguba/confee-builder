@@ -16,7 +16,7 @@ function BaseTabBar(props: BaseTabBarProps) {
         <div className={classes}>
             <div className={styles.body}>
                 {items.map((i) => (
-                    <Button key={i.id} variant={i.id === activeItemId ? 'primary' : 'secondary'} chips>
+                    <Button onClick={i.callback} key={i.id} variant={i.id === activeItemId ? 'primary' : 'secondary'} chips>
                         {i.title}
                     </Button>
                 ))}

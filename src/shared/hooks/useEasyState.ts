@@ -1,16 +1,21 @@
+import { produce, freeze } from 'immer';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePrevious } from 'react-use';
 
 const useEasyState = <T>(initial: T) => {
-    const [state, setState] = useState<T>(initial);
+    const [state, setState] = useState<T>(() => freeze(typeof initial === 'function' ? initial() : initial, true));
 
-    const prevValue = usePrevious(state);
+    const prevValue = usePrevious<T>(state);
 
-    const callbackRef: any = useRef();
+    const callbackRef = useRef<((state: T) => void) | undefined | null>();
 
-    const set = useCallback((newState: T, callback?: () => void) => {
+    const set = useCallback((newState: ((state: T) => void) | T, callback?: (state: T) => void) => {
         callbackRef.current = callback;
-        setState((prev) => (typeof newState === 'function' ? newState(prev) : newState));
+        // @ts-ignore
+        if (typeof newState === 'function') setState(produce(newState));
+        else {
+            setState(freeze(newState));
+        }
     }, []);
 
     useEffect(() => {
