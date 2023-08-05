@@ -21,7 +21,7 @@ function Message(props: Props) {
     const { id, type } = message;
 
     const sm = useWidthMediaQuery().to('sm');
-
+    const md = useWidthMediaQuery().to('md');
     const messageRef = useRef<HTMLDivElement>(null);
 
     const getBlock = () => {
@@ -35,6 +35,11 @@ function Message(props: Props) {
         }
     };
 
+    const getLeftPositionMenu = () => {
+        if (md || sm) return message.isMy ? (messageRef?.current?.clientWidth || 0) - 50 : 50;
+        return 0;
+    };
+
     return (
         <Box className={styles.wrapper}>
             {!message.isMy && <Avatar size={52} img={message.author?.avatar?.path} />}
@@ -43,7 +48,7 @@ function Message(props: Props) {
                 openCloseTrigger={openCloseTrigger}
                 stopPropagation={false}
                 dynamicPosition
-                left={sm ? (message.isMy ? (messageRef?.current?.clientWidth || 0) - 50 : 50) : 0}
+                left={getLeftPositionMenu()}
                 reverseX={message.isMy}
                 reverseY={lastFive}
                 trigger="right-click"

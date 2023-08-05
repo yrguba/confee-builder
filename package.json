@@ -44,6 +44,7 @@
         "crypto-js": "^4.1.1",
         "emoji-picker-react": "^4.4.7",
         "framer-motion": "^9.1.7",
+        "jssip": "^3.10.0",
         "moment": "^2.29.4",
         "normalize.css": "^8.0.1",
         "or": "^0.2.0",

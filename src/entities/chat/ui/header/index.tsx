@@ -19,17 +19,13 @@ function ChatHeaderView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <div>
-                {useWidthMediaQuery().to('sm') && (
-                    <div onClick={back}>
-                        <Icons variant="arrow-left" />
-                    </div>
-                )}
-                <Box.Animated visible>
-                    <Card img={chat?.avatar} title={chat?.name} subtitle={chat?.subtitle} onClick={clickChatCard} />
+            <div className={styles.left}>
+                <Box.Animated visible={useWidthMediaQuery().to('sm')} onClick={back}>
+                    <Icons variant="arrow-left" />
                 </Box.Animated>
+                <Card img={chat?.avatar} title={chat?.name} subtitle={chat?.subtitle} onClick={clickChatCard} />
             </div>
-            <div>
+            <div className={styles.right}>
                 <Button.Circle onClick={clickChatAudioCall}>
                     <Icons variant="phone" />
                 </Button.Circle>

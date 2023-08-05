@@ -4,13 +4,12 @@ import { appService } from 'entities/app';
 import { callsTypes, callsApi } from 'entities/calls';
 import { ChatHeaderView, useChatStore, chatApi } from 'entities/chat';
 import ChatProxy from 'entities/chat/lib/chat-proxy';
-import { useRouter, useWebView } from 'shared/hooks';
-
-import { getRandomString } from '../../../shared/lib';
+import { useRouter, useWebView, useSip } from 'shared/hooks';
+import { getRandomString } from 'shared/lib';
 
 function ChatHeader() {
     const { params, navigate } = useRouter();
-
+    const sip = useSip();
     const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
     const setOpenRightSidebar = useChatStore.use.setOpenRightSidebar();
