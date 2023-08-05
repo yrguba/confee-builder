@@ -20,9 +20,11 @@ import Pagination, { Types as PaginationTypes } from './pagination';
 import Select, { Types as SelectTypes } from './select';
 import Steps, { Types as StepsTypes } from './steps';
 import Switch, { Types as SwitchTypes } from './switch';
+import TabBar, { Types as TabBarTypes } from './tab-bar';
 import Title, { Types as TitleTypes } from './title';
 
 export {
+    TabBar,
     Card,
     WebCameraPhoto,
     Steps,
@@ -49,6 +51,7 @@ export {
     DropdownMenu,
 };
 export type {
+    TabBarTypes,
     CardTypes,
     WebCamaraPhotoTypes,
     StepsTypes,

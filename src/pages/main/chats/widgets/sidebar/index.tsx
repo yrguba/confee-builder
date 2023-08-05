@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { viewerTypes } from 'entities/viewer';
-import { ChatsList, SearchChats } from 'features/chat';
+import { ChatsList, SearchChats, TabsChats } from 'features/chat';
 import { useHeightMediaQuery } from 'shared/hooks';
 import { Button, Icons, Modal, Title } from 'shared/ui';
 
@@ -28,6 +28,9 @@ function Sidebar() {
                     <SearchChats />
                 </div>
             )}
+            <div className={styles.tabs}>
+                <TabsChats />
+            </div>
             <div className={styles.list}>
                 <ChatsList />
             </div>

@@ -5,14 +5,6 @@
   @include flex-column(flex-start);
   border-radius: var(--border-radius);
 
-
-  .tabs {
-    @include flex(flex-start);
-    @include box-size(calc(100% - 32px), 48px);
-    padding: 0 16px;
-    gap: 8px;
-  }
-
   .list {
     @include flex-column;
     width: 100%;

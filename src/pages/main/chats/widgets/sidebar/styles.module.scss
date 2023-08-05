@@ -27,16 +27,17 @@
     padding: 0 4px;
   }
 
+  .tabs{
+    @include box-size(calc(100% - 16px), 48px);
+    @include flex(flex-start);
+    padding-left: 16px;
+  }
+
   .list {
     @include flex(center, flex-start);
     flex: 1;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-
-    &::-webkit-scrollbar {
-      width: 0;
-      height: 0;
-    }
   }
 }

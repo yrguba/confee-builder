@@ -1,5 +1,6 @@
-import ChatHeader from './ui/chat-header';
-import ChatsList from './ui/chats-list';
+import ChatHeader from './ui/header';
+import ChatsList from './ui/list';
 import SearchChats from './ui/search';
+import TabsChats from './ui/tabs';
 
-export { ChatsList, ChatHeader, SearchChats };
+export { ChatsList, ChatHeader, SearchChats, TabsChats };

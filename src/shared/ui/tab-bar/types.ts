@@ -1,8 +1,12 @@
 import { BaseTypes } from 'shared/types';
 
+export type TabBarItem = {
+    id: number;
+    title: string;
+    callback: () => void;
+};
+
 export type BaseTabBarProps = {
-    // size?: number | 's' | 'm';
-    // width?: string;
-    // chips?: boolean;
-    // tag?: boolean;
+    items: TabBarItem[];
+    activeItemId: number;
 };
