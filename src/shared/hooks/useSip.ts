@@ -3,14 +3,14 @@ import JsSIP from 'jssip';
 import { appService } from 'entities/app';
 
 function useSip() {
-    // const socket = new JsSIP.WebSocketInterface(appService.getUrls().localSocketUrl);
-    // const configuration = {
-    //     sockets: [socket],
-    //     uri: '79.137.209.164',
-    //     password: 'bf8c7669af148ada38a0d6ff323a065f',
-    // };
-    // const ua = new JsSIP.UA(configuration);
-    // console.log(socket);
+    const socket = new JsSIP.WebSocketInterface('wss://sip.myhost.com');
+    const configuration = {
+        sockets: [socket],
+        uri: 'sip:alice@example.com',
+        password: 'superpassword',
+    };
+
+    const ua = new JsSIP.UA(configuration);
 }
 
 export default useSip;
