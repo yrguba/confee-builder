@@ -1,5 +1,6 @@
 import { useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useDimensionsObserver, useElementDimensions, useWindowDimensions } from 'react-screen-hooks';
 import {
     useDebounce,
     useClickAway,
@@ -37,6 +38,9 @@ import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
+    useDimensionsObserver,
+    useElementDimensions,
+    useWindowDimensions,
     useSip,
     useStorage,
     useEasyState,

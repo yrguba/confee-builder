@@ -23,14 +23,16 @@ function Dropdown(props: BaseDropdownProps) {
         closeAfterClick,
         stopPropagation = true,
         disabled,
+        wrapperSize,
+        contentWidth,
     } = props;
 
-    const wrapperRef = useRef<HTMLDivElement>(null);
+    const elementRef = useRef<HTMLDivElement>(null);
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [pos, setPos] = useState({ x: 0, y: 0 });
 
-    useClickAway(wrapperRef, () => {
+    useClickAway(elementRef, () => {
         isOpen && setIsOpen(false);
     });
 
@@ -49,12 +51,22 @@ function Dropdown(props: BaseDropdownProps) {
         stopPropagation && event.stopPropagation();
         if (trigger !== null && !disabled) {
             setIsOpen(true);
-            if (dynamicPosition && wrapperRef.current) {
-                const rect = wrapperRef.current?.getBoundingClientRect();
+            if (dynamicPosition && elementRef.current && wrapperSize) {
+                const elementRect = elementRef.current?.getBoundingClientRect();
+
+                const freeDistance = wrapperSize.width - elementRect.width;
+                console.log('wrapperSize', wrapperSize);
+                console.log('children width', elementRect.width);
+                console.log('menu width', contentWidth);
+                console.log('freeDistance', freeDistance);
+                const getX = () => {
+                    return event.clientX - elementRect.left;
+                };
+
                 setPos({
                     // x: breakpoint === 'sm' || breakpoint === 'md' ? (reverseX ? rect.width : rect.left) : event.clientX - rect.left,
-                    x: event.clientX - rect.left,
-                    y: reverseY ? -230 : event.clientY - rect.top,
+                    x: getX(),
+                    y: reverseY ? -230 : event.clientY - elementRect.top,
                 });
             }
         }
@@ -66,7 +78,7 @@ function Dropdown(props: BaseDropdownProps) {
 
     return (
         <div
-            ref={wrapperRef}
+            ref={elementRef}
             className={styles.wrapper}
             onClick={trigger === 'left-click' ? click : undefined}
             onContextMenu={trigger === 'right-click' ? click : undefined}

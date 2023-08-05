@@ -22,6 +22,8 @@ export type BaseDropdownProps = {
     reverseX?: boolean;
     closeAfterClick?: boolean;
     stopPropagation?: boolean;
+    wrapperSize?: { width: number; height: number } | undefined;
+    contentWidth?: number;
 } & BaseTypes.Statuses;
 
 export type DropdownMenuItem = {

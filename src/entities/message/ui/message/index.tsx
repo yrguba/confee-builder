@@ -13,10 +13,11 @@ type Props = {
     message: MessageProxy;
     lastFive: boolean;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
+    wrapperSize: { width: number; height: number } | undefined;
 } & BaseTypes.Statuses;
 
 function Message(props: Props) {
-    const { message, lastFive, messageMenuAction } = props;
+    const { message, lastFive, messageMenuAction, wrapperSize } = props;
 
     const { id, type } = message;
 
@@ -36,7 +37,18 @@ function Message(props: Props) {
     };
 
     const getLeftPositionMenu = () => {
-        if (md || sm) return message.isMy ? (messageRef?.current?.clientWidth || 0) - 50 : 50;
+        // if (messageRef.current && wrapperSize) {
+        //     console.log('wrapper width', wrapperSize.width);
+        //     const mirror = (width: number) => wrapperSize.width - width;
+        //     const messageWidth = messageRef.current.clientWidth;
+        //     const freeDistance = wrapperSize?.width - messageWidth;
+        //     console.log(`freeDistance ${message.text}`, freeDistance);
+        //     console.log(`message width ${message.text}`, messageWidth);
+        //     if (freeDistance < 200) return messageWidth;
+        //     if (freeDistance < 300) return messageWidth - 20;
+        //     if (md || sm) return 0;
+        // }
+
         return 0;
     };
 
@@ -45,6 +57,8 @@ function Message(props: Props) {
             {!message.isMy && <Avatar size={52} img={message.author?.avatar?.path} />}
 
             <Dropdown
+                contentWidth={280}
+                wrapperSize={wrapperSize}
                 openCloseTrigger={openCloseTrigger}
                 stopPropagation={false}
                 dynamicPosition

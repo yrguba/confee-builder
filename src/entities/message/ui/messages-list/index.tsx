@@ -1,7 +1,7 @@
 import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 
-import { useInView, usePrevious, useScroll } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, useElementDimensions } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -28,6 +28,7 @@ function MessagesListView(props: Props) {
     const prevChat = usePrevious(chat);
 
     const { executeScrollToElement } = useScroll();
+    const [wrapperSize, wrapperSizeRef] = useElementDimensions(true);
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -65,7 +66,7 @@ function MessagesListView(props: Props) {
     }, [inViewLastMessageCheckVisibleRef, chat?.pending_messages_count]);
 
     return (
-        <div className={styles.wrapper} ref={wrapperRef}>
+        <div className={styles.wrapper} ref={mergeRefs([wrapperRef, wrapperSizeRef])}>
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
                     <SystemMessage text={message.systemMessageText} />
@@ -77,7 +78,12 @@ function MessagesListView(props: Props) {
                             ref={getMessageRefs(message, index)}
                         >
                             {index === 5 && <div ref={nextPageRef} />}
-                            <Message message={message} lastFive={messages.length - 5 < index && messages.length > 6} messageMenuAction={messageMenuAction} />
+                            <Message
+                                wrapperSize={wrapperSize}
+                                message={message}
+                                lastFive={messages.length - 5 < index && messages.length > 6}
+                                messageMenuAction={messageMenuAction}
+                            />
                             {messages?.length - 5 === index && <div ref={prevPageRef} />}
                         </div>
                     )}
