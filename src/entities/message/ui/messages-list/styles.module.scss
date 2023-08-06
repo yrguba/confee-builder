@@ -6,6 +6,7 @@
   gap: 8px;
   overflow-y: auto;
   overflow-x: hidden;
+  position: relative;
 
   .row {
     @include box-size(98%, auto);

@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, RefObject, useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 
 import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -31,24 +31,8 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
 
     const openCloseTrigger = (value: boolean) => {
         if (messageRef.current && value) {
-            messageRef.current.scrollIntoView({ behavior: 'smooth', block: getBlock(), inline: 'nearest' });
+            // messageRef.current.scrollIntoView({ behavior: 'smooth', block: getBlock(), inline: 'nearest' });
         }
-    };
-
-    const getLeftPositionMenu = () => {
-        // if (messageRef.current && wrapperSize) {
-        //     console.log('wrapper width', wrapperSize.width);
-        //     const mirror = (width: number) => wrapperSize.width - width;
-        //     const messageWidth = messageRef.current.clientWidth;
-        //     const freeDistance = wrapperSize?.width - messageWidth;
-        //     console.log(`freeDistance ${message.text}`, freeDistance);
-        //     console.log(`message width ${message.text}`, messageWidth);
-        //     if (freeDistance < 200) return messageWidth;
-        //     if (freeDistance < 300) return messageWidth - 20;
-        //     if (md || sm) return 0;
-        // }
-
-        return 0;
     };
 
     return (
@@ -56,9 +40,9 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
             {!message.isMy && <Avatar size={52} img={message.author?.avatar?.path} />}
 
             <Dropdown.Dynamic
+                reverseX={message.isMy}
                 ref={ref}
                 openCloseTrigger={openCloseTrigger}
-                left={getLeftPositionMenu()}
                 trigger="right-click"
                 content={<MessageMenu messageMenuAction={messageMenuAction} message={message} />}
             >

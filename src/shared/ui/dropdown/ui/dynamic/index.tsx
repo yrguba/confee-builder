@@ -1,32 +1,74 @@
-import React, { forwardRef, RefObject, useEffect, useRef, useState } from 'react';
+import { freeze, produce } from 'immer';
+import React, { forwardRef, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 
-import { useClickAway, useStyles } from 'shared/hooks';
+import { useClickAway, useEasyState, useStyles, useCallbackRef } from 'shared/hooks';
 import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
-import { BaseDropdownProps } from '../../types';
+import { DynamicDropdownProps } from '../../types';
 
-const DynamicDropdown = forwardRef<any, BaseDropdownProps>((props, wrapperRef: any) => {
+const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef: any) => {
     const {
         children,
         visible,
         openCloseTrigger,
         content,
+        reverseX,
+        reverseY,
         trigger = 'left-click',
-        position = 'left-bottom',
         animationVariant = 'visibleHidden',
-        top,
-        left,
         closeAfterClick,
         disabled,
     } = props;
 
-    const elementRef = useRef<HTMLDivElement>(null);
+    const childrenRef = useRef<HTMLDivElement>(null);
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [pos, setPos] = useState({ x: 0, y: 0 });
+    const positionState = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
+    const itemClickPosition = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
+    const wrapperClickPosition = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-    useClickAway(elementRef, () => {
+    const contentRef = useCallbackRef<HTMLDivElement>((element) => {
+        if (element) {
+            const wrapperRect = wrapperRef.current?.getBoundingClientRect();
+            const contentRect = element?.getBoundingClientRect();
+            const childrenRect = childrenRef.current?.getBoundingClientRect();
+
+            if (contentRect) {
+                // console.log('wrapperRect', wrapperRect);
+                // console.log('contentRect', contentRect);
+                // if (wrapperClickPosition.value.x < contentRect.width) {
+                //     console.log(wrapperRect.left);
+                //     const hiddenNum = wrapperClickPosition.value.x - contentRect.width;
+                //     return positionState.set({
+                //         x: wrapperClickPosition.value.x,
+                //         y: wrapperClickPosition.value.y,
+                //     });
+                // }
+                positionState.set({
+                    x: reverseX ? wrapperClickPosition.value.x - contentRect.width : wrapperClickPosition.value.x,
+                    y: wrapperClickPosition.value.y,
+                });
+            }
+            if (!isOpen) {
+                wrapperRef.current.addEventListener('contextmenu', null);
+            }
+        }
+    });
+
+    useEffect(() => {
+        const wrapperRect = wrapperRef.current?.getBoundingClientRect();
+        wrapperRef.current.addEventListener('contextmenu', (e: MouseEvent) => {
+            wrapperClickPosition.set({
+                x: e.clientX - wrapperRect.left,
+                y: e.pageY - wrapperRect.top + wrapperRef.current.scrollTop,
+            });
+        });
+        return () => wrapperRef.current.addEventListener('contextmenu', null);
+    }, []);
+
+    useClickAway(childrenRef, () => {
         isOpen && setIsOpen(false);
     });
 
@@ -34,38 +76,20 @@ const DynamicDropdown = forwardRef<any, BaseDropdownProps>((props, wrapperRef: a
         !disabled && setIsOpen(!!visible);
     }, [visible]);
 
-    const classes = useStyles(styles, 'body', {
-        // [`position-${position}`]: position && !dynamicPosition,
-        // reverseY,
-        // reverseX,
-    });
+    const classes = useStyles(styles, 'content', {});
 
     const click = (event: any) => {
-        // event.preventDefault();
-        // stopPropagation && event.stopPropagation();
-        // if (trigger !== null && !disabled) {
-        //     setIsOpen(true);
-        //     if (dynamicPosition && wrapperRef?.current && elementRef.current) {
-        //         const childRect = elementRef.current?.getBoundingClientRect();
-        //         const parentRect = wrapperRef.current?.getBoundingClientRect();
-        //         // const mouseClickX = event.clientX - childRect.left;
-        //         // console.log(parentRect);
-        //         //
-        //         const getX = () => {
-        //             // const x = parentRect.left >= mouseClickX;
-        //             //
-        //             // const a = parentRect.left >= childRect.right || parentRect.right <= childRect.left;
-        //             // console.log('out', x);
-        //             return event.clientX - childRect.left;
-        //         };
-        //
-        //         setPos({
-        //             // x: breakpoint === 'sm' || breakpoint === 'md' ? (reverseX ? rect.width : rect.left) : event.clientX - rect.left,
-        //             x: getX(),
-        //             y: reverseY ? -230 : event.clientY - childRect.top,
-        //         });
-        //     }
-        // }
+        event.preventDefault();
+        event.stopPropagation();
+        if (trigger !== null && !disabled) {
+            const childrenRect = childrenRef.current?.getBoundingClientRect();
+            setIsOpen(true);
+            // if (!childrenRect) return;
+            // itemClickPosition.set({
+            //     x: reverseX ? event.clientX - childrenRect.left : event.clientX - childrenRect.left,
+            //     y: event.clientY - childrenRect.top,
+            // });
+        }
     };
 
     useEffect(() => {
@@ -74,7 +98,7 @@ const DynamicDropdown = forwardRef<any, BaseDropdownProps>((props, wrapperRef: a
 
     return (
         <div
-            ref={elementRef}
+            ref={childrenRef}
             className={styles.wrapper}
             onClick={trigger === 'left-click' ? click : undefined}
             onContextMenu={trigger === 'right-click' ? click : undefined}
@@ -83,10 +107,11 @@ const DynamicDropdown = forwardRef<any, BaseDropdownProps>((props, wrapperRef: a
         >
             {children}
             <Box.Animated
+                ref={contentRef}
                 animationVariant={animationVariant}
-                style={{ position: 'absolute', top: top || pos.y, left: left || pos.x }}
                 className={classes}
                 visible={visible || isOpen}
+                style={{ top: positionState.value.y, left: positionState.value.x }}
                 presence
                 onClick={(e) => {
                     closeAfterClick && setIsOpen(false);
@@ -100,3 +125,16 @@ const DynamicDropdown = forwardRef<any, BaseDropdownProps>((props, wrapperRef: a
 });
 
 export default DynamicDropdown;
+
+function isHidden(element: any, wrapper: any) {
+    const elementRect = element.getBoundingClientRect();
+    const wrapperRect = wrapper.getBoundingClientRect();
+    console.log('elementRect', elementRect);
+    console.log('wrapperRect', wrapperRect);
+    const elementHidesUp = elementRect.top < 0;
+    const elementHidesLeft = elementRect.left < 0;
+    const elementHidesDown = elementRect.bottom > wrapperRect.innerHeight;
+    const elementHidesRight = elementRect.right > wrapperRect.innerWidth;
+    const elementHides = elementHidesUp || elementHidesLeft || elementHidesDown || elementHidesRight;
+    return elementHides;
+}

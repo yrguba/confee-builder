@@ -13,12 +13,14 @@ import {
     useIdle,
     useNetworkState,
     useTimeout,
+    useRendersCount,
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
 import useFileUploader from 'react-use-file-uploader';
 
 import useArray from './useArray';
 import useAudioRecorder from './useAudioRecord';
+import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
 import useEasyState, { UseEasyStateReturnedType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
@@ -38,6 +40,8 @@ import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
+    useCallbackRef,
+    useRendersCount,
     useDimensionsObserver,
     useElementDimensions,
     useWindowDimensions,
