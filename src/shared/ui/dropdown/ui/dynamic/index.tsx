@@ -50,9 +50,9 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
                     prev.y = padding;
                 });
             }
-        } else if (wrapperRef.current.scrollHeight - wrapperClickPosition.value.y < contentRect.width) {
+        } else if (wrapperRef.current.scrollTop + wrapperRect.height - wrapperClickPosition.value.y < contentRect.width) {
             return positionState.set((prev) => {
-                prev.y = wrapperRef.current.scrollHeight - padding - contentRect.height;
+                prev.y = wrapperRef.current.scrollTop + wrapperRect.height - padding - contentRect.height;
             });
         }
         positionState.set((prev) => {
