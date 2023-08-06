@@ -73,6 +73,7 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
     });
 
     useEffect(() => {
+        wrapperRef.current.style.position = 'relative';
         const wrapperRect = wrapperRef.current?.getBoundingClientRect();
         wrapperRef?.current?.addEventListener('contextmenu', (e: MouseEvent) => {
             wrapperClickPosition.set({
