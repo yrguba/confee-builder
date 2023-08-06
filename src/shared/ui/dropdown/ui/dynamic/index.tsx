@@ -1,6 +1,4 @@
-import { freeze, produce } from 'immer';
-import React, { forwardRef, RefObject, useCallback, useEffect, useRef, useState } from 'react';
-import { mergeRefs } from 'react-merge-refs';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import { useClickAway, useEasyState, useStyles, useCallbackRef } from 'shared/hooks';
 import { Box } from 'shared/ui/index';
@@ -26,44 +24,50 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const positionState = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
-    const itemClickPosition = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
     const wrapperClickPosition = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
+
+    const updateX = (contentRect: any, wrapperRect: any, padding: any) => {
+        if (reverseX) {
+            if (wrapperClickPosition.value.x - padding < contentRect.width) {
+                return positionState.set((prev) => {
+                    prev.x = padding;
+                });
+            }
+        } else if (wrapperRect.width - wrapperClickPosition.value.x - padding < contentRect.width) {
+            return positionState.set((prev) => {
+                prev.x = wrapperRect.width - contentRect.width - padding;
+            });
+        }
+        positionState.set((prev) => {
+            prev.x = reverseX ? wrapperClickPosition.value.x - contentRect.width : wrapperClickPosition.value.x;
+        });
+    };
+
+    const updateY = (contentRect: any, wrapperRect: any, padding: any) => {
+        if (reverseY) {
+            if (wrapperClickPosition.value.y < contentRect.height) {
+                return positionState.set((prev) => {
+                    prev.y = padding;
+                });
+            }
+        } else if (wrapperRef.current.scrollHeight - wrapperClickPosition.value.y < contentRect.width) {
+            return positionState.set((prev) => {
+                prev.y = wrapperRef.current.scrollHeight - padding - contentRect.height;
+            });
+        }
+        positionState.set((prev) => {
+            prev.y = reverseY ? wrapperClickPosition.value.y - contentRect.height : wrapperClickPosition.value.y;
+        });
+    };
 
     const contentRef = useCallbackRef<HTMLDivElement>((element) => {
         if (element) {
             const wrapperRect = wrapperRef.current?.getBoundingClientRect();
             const contentRect = element?.getBoundingClientRect();
-            const childrenRect = childrenRef.current?.getBoundingClientRect();
             const padding = 8;
-            console.log();
             if (contentRect) {
-                if (reverseX) {
-                    if (wrapperClickPosition.value.x < contentRect.width) {
-                        return positionState.set({
-                            x: padding,
-                            y: wrapperClickPosition.value.y,
-                        });
-                    }
-                } else if (wrapperRect.width - wrapperClickPosition.value.x < contentRect.width) {
-                    return positionState.set({
-                        x: wrapperRect.width - contentRect.width - padding,
-                        y: wrapperClickPosition.value.y,
-                    });
-                }
-
-                // if (reverseX) {
-                //     console.log(wrapperRect.width - wrapperClickPosition.value.x);
-                //     if (wrapperRect.width - wrapperClickPosition.value.x < contentRect.width) {
-                //         return positionState.set({
-                //             x: wrapperRect.width - padding,
-                //             y: wrapperClickPosition.value.y,
-                //         });
-                //     }
-                // }
-                positionState.set({
-                    x: reverseX ? wrapperClickPosition.value.x - contentRect.width : wrapperClickPosition.value.x,
-                    y: wrapperClickPosition.value.y,
-                });
+                updateX(contentRect, wrapperRect, padding);
+                updateY(contentRect, wrapperRect, padding);
             }
         }
     });
@@ -93,13 +97,7 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
         event.preventDefault();
         event.stopPropagation();
         if (trigger !== null && !disabled) {
-            const childrenRect = childrenRef.current?.getBoundingClientRect();
             setIsOpen(true);
-            // if (!childrenRect) return;
-            // itemClickPosition.set({
-            //     x: reverseX ? event.clientX - childrenRect.left : event.clientX - childrenRect.left,
-            //     y: event.clientY - childrenRect.top,
-            // });
         }
     };
 
@@ -136,16 +134,3 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
 });
 
 export default DynamicDropdown;
-
-function isHidden(element: any, wrapper: any) {
-    const elementRect = element.getBoundingClientRect();
-    const wrapperRect = wrapper.getBoundingClientRect();
-    console.log('elementRect', elementRect);
-    console.log('wrapperRect', wrapperRect);
-    const elementHidesUp = elementRect.top < 0;
-    const elementHidesLeft = elementRect.left < 0;
-    const elementHidesDown = elementRect.bottom > wrapperRect.innerHeight;
-    const elementHidesRight = elementRect.right > wrapperRect.innerWidth;
-    const elementHides = elementHidesUp || elementHidesLeft || elementHidesDown || elementHidesRight;
-    return elementHides;
-}
