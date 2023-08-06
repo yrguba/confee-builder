@@ -1,4 +1,4 @@
-import { appService, notifications } from 'entities/app';
+import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
 const { socketUrl, localSocketUrl } = appService.getUrls();
