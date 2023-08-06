@@ -34,38 +34,49 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
             const wrapperRect = wrapperRef.current?.getBoundingClientRect();
             const contentRect = element?.getBoundingClientRect();
             const childrenRect = childrenRef.current?.getBoundingClientRect();
-
+            const padding = 8;
+            console.log();
             if (contentRect) {
-                // console.log('wrapperRect', wrapperRect);
-                // console.log('contentRect', contentRect);
-                // if (wrapperClickPosition.value.x < contentRect.width) {
-                //     console.log(wrapperRect.left);
-                //     const hiddenNum = wrapperClickPosition.value.x - contentRect.width;
-                //     return positionState.set({
-                //         x: wrapperClickPosition.value.x,
-                //         y: wrapperClickPosition.value.y,
-                //     });
+                if (reverseX) {
+                    if (wrapperClickPosition.value.x < contentRect.width) {
+                        return positionState.set({
+                            x: padding,
+                            y: wrapperClickPosition.value.y,
+                        });
+                    }
+                } else if (wrapperRect.width - wrapperClickPosition.value.x < contentRect.width) {
+                    return positionState.set({
+                        x: wrapperRect.width - contentRect.width - padding,
+                        y: wrapperClickPosition.value.y,
+                    });
+                }
+
+                // if (reverseX) {
+                //     console.log(wrapperRect.width - wrapperClickPosition.value.x);
+                //     if (wrapperRect.width - wrapperClickPosition.value.x < contentRect.width) {
+                //         return positionState.set({
+                //             x: wrapperRect.width - padding,
+                //             y: wrapperClickPosition.value.y,
+                //         });
+                //     }
                 // }
                 positionState.set({
                     x: reverseX ? wrapperClickPosition.value.x - contentRect.width : wrapperClickPosition.value.x,
                     y: wrapperClickPosition.value.y,
                 });
             }
-            if (!isOpen) {
-                wrapperRef.current.addEventListener('contextmenu', null);
-            }
         }
     });
 
     useEffect(() => {
         const wrapperRect = wrapperRef.current?.getBoundingClientRect();
-        wrapperRef.current.addEventListener('contextmenu', (e: MouseEvent) => {
+        wrapperRef?.current?.addEventListener('contextmenu', (e: MouseEvent) => {
             wrapperClickPosition.set({
                 x: e.clientX - wrapperRect.left,
                 y: e.pageY - wrapperRect.top + wrapperRef.current.scrollTop,
             });
         });
-        return () => wrapperRef.current.addEventListener('contextmenu', null);
+        // return () => wrapperRef.current && wrapperRef?.current?.removeListener('contextmenu', null);
     }, []);
 
     useClickAway(childrenRef, () => {
