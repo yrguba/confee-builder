@@ -1,37 +1,33 @@
 @import "./src/app/styles";
 
 .wrapper {
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  background-color: var(--icon-inactive);
-  color: var(--text-0);
+  @include flex;
+  color: var(--text-primary);
   border-radius: 50%;
   text-align: center;
   position: relative;
   overflow: hidden;
   transition: all .5s;
-  svg{
-    fill: var(--text-fixed) ;
+
+  svg {
+    fill: var(--text-fixed);
   }
 }
 
 .primary {
   background-color: var(--control-primary);
   color: var(--text-fixed);
-
   &:hover {
     background-color: var(--control-primary-pressed);
   }
 }
 
 .secondary {
+  background-color: inherit;
   color: var(--text-action-pressed);
-
+  transition: all .5s;
   &:hover {
-    border: 1px solid var(--border-primary-pressed);
+    //background-color: var(--control-primary);
   }
 }
 
@@ -39,13 +35,15 @@
   border: none;
   color: var(--text-fixed);
   background-color: var(--control-tertiary);
+
   &:hover {
     color: var(--control-tertiary-active);
   }
 }
+
 .active {
   background-color: var(--main-active);
-  fill:var(--main-active);
+  fill: var(--main-active);
 }
 
 .disabled {
@@ -55,6 +53,7 @@
 
 .negative {
   background-color: var(--control-negative);
+
   &:hover {
     color: var(--text-negative-pressed);
   }

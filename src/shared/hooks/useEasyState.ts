@@ -2,7 +2,14 @@ import { produce, freeze } from 'immer';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePrevious } from 'react-use';
 
-const useEasyState = <T>(initial: T) => {
+type Returned<T> = {
+    value: T;
+    set: (newState: T | ((state: T) => void), callback?: ((state: T) => void) | undefined) => void;
+    prevValue: T | undefined;
+    toggle: T extends boolean ? () => void : undefined;
+};
+
+const useEasyState = <T>(initial: T): Returned<T> => {
     const [state, setState] = useState<T>(() => freeze(typeof initial === 'function' ? initial() : initial, true));
 
     const prevValue = usePrevious<T>(state);
@@ -18,6 +25,13 @@ const useEasyState = <T>(initial: T) => {
         }
     }, []);
 
+    const toggle = () => {
+        if (typeof state === 'boolean') {
+            // @ts-ignore
+            setState(!state);
+        }
+    };
+
     useEffect(() => {
         if (callbackRef.current) {
             callbackRef.current(state);
@@ -29,6 +43,8 @@ const useEasyState = <T>(initial: T) => {
         value: state,
         set,
         prevValue,
+        // @ts-ignore
+        toggle: typeof state === 'boolean' ? toggle : undefined,
     };
 };
 

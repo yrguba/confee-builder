@@ -4,7 +4,7 @@ import { appService } from 'entities/app';
 import { callsTypes, callsApi } from 'entities/calls';
 import { ChatHeaderView, useChatStore, chatApi } from 'entities/chat';
 import ChatProxy from 'entities/chat/lib/chat-proxy';
-import { useRouter, useWebView } from 'shared/hooks';
+import { useEasyState, useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 
 function ChatHeader() {
@@ -24,9 +24,12 @@ function ChatHeader() {
         setOpenRightSidebar(true);
     };
 
+    const testState = useEasyState(true);
     const clickChatAudioCall = () => {
-        appService.tauriIsRunning ? webView?.open() : navigate(callUrl);
+        testState.toggle();
+        // appService.tauriIsRunning ? webView?.open() : navigate(callUrl);
     };
+    console.log(testState.value);
 
     return <ChatHeaderView back={() => navigate('/chats')} clickChatCard={clickChatCard} clickChatAudioCall={clickChatAudioCall} chat={ChatProxy(chatData)} />;
 }
