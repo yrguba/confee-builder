@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { userTypes } from 'entities/user';
 import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Icons, Card, Box, Button } from 'shared/ui';
@@ -25,7 +26,14 @@ function ChatHeaderView(props: Props) {
                 </Button.Circle>
             )}
             <div className={styles.left}>
-                <Card img={chat?.avatar} title={chat?.name} subtitle={chat?.subtitle} onClick={clickChatCard} />
+                <Card
+                    avatarStatus={chat?.secondMemberStatus || null}
+                    img={chat?.avatar}
+                    name={chat?.name}
+                    title={chat?.name}
+                    subtitle={chat?.subtitle}
+                    onClick={clickChatCard}
+                />
             </div>
             <div className={styles.right}>
                 <Button.Circle onClick={clickChatAudioCall}>

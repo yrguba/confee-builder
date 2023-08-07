@@ -1,4 +1,4 @@
-import { User } from '../../user/model/types';
+import { User, Statuses } from '../../user/model/types';
 
 export type Chat = {
     avatar: string;
@@ -22,6 +22,7 @@ export type ChatProxy = {
     date: string;
     checkIsMyLastMessage: boolean;
     subtitle: string;
+    secondMemberStatus: keyof typeof Statuses | null;
 } & Chat;
 
 export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated' | 'ChatPendingMessagesCountUpdated';

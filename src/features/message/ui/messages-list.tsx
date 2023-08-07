@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { chatApi } from 'entities/chat';
-import { messageApi, MessagesListView, messageService } from 'entities/message';
-import { MessageMenuActions, MessageProxy } from 'entities/message/model/types';
+import { chatApi, useChatStore } from 'entities/chat';
+import { messageApi, MessagesListView, messageService, messageTypes } from 'entities/message';
 import { useRouter, useCopyToClipboard, useStorage } from 'shared/hooks';
 
 function MessageList() {
@@ -20,7 +19,8 @@ function MessageList() {
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
 
-    // const setNotifications = useAppStore.use.setNotifications()
+    const setChatSubscription = useChatStore.use.setChatSubscription();
+    const chatSubscription = useChatStore.use.chatSubscription();
 
     const {
         data: messageData,
@@ -32,10 +32,16 @@ function MessageList() {
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
 
     const subscribeToChat = (action: 'sub' | 'unsub') => {
-        action === 'sub' ? handleSubscribeToChat(chatId) : handleUnsubscribeFromChat(storage.get('subscribed_to_chat'));
+        if (action === 'sub') {
+            handleSubscribeToChat(chatId);
+            setChatSubscription(chatId);
+        } else {
+            if (chatSubscription) handleUnsubscribeFromChat(chatSubscription);
+            setChatSubscription(null);
+        }
     };
 
-    const messageMenuAction = (action: MessageMenuActions, message: MessageProxy) => {
+    const messageMenuAction = (action: messageTypes.MessageMenuActions, message: messageTypes.MessageProxy) => {
         switch (action) {
             case 'copy':
                 copyToClipboard(message.text);
@@ -52,8 +58,9 @@ function MessageList() {
                 messages={messageService.getUpdatedList(messageData)}
                 getNextPage={() => hasNextPage && !isFetching && fetchNextPage().then()}
                 getPrevPage={() => hasPreviousPage && !isFetching && fetchPreviousPage().then()}
-                hoverMessage={(message: MessageProxy) => !message.is_read && handleReadMessage({ chat_id: chatId, message_id: message.id })}
+                hoverMessage={(message: messageTypes.MessageProxy) => !message.is_read && handleReadMessage({ chat_id: chatId, message_id: message.id })}
                 subscribeToChat={subscribeToChat}
+                chatSubscription={chatSubscription}
                 messageMenuAction={messageMenuAction}
             />
         </>

@@ -1,15 +1,10 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import produce from 'immer';
-import { number } from 'yup';
 
 import { axiosClient } from 'shared/configs';
 import { useArray, useWebSocket } from 'shared/hooks';
 
-import useMessageStore from './store';
-import { Message, MessageProxy } from './types';
-import pages from '../../../pages';
-import { chatService } from '../../chat';
-import { messageProxy } from '../index';
+import { MessageProxy } from './types';
 import { message_limit } from '../lib/constants';
 import messageEntity from '../lib/entity';
 
@@ -26,7 +21,7 @@ class MessageApi {
                 return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
                     params: {
                         page: pageParam || initialPage,
-                        per_page: 100,
+                        per_page: message_limit,
                     },
                 });
             },
@@ -40,7 +35,6 @@ class MessageApi {
                     return current_page < last_page ? current_page + 1 : undefined;
                 },
                 select: (data) => {
-                    console.log(data);
                     return {
                         pages: data.pages,
                         pageParams: [...data.pageParams].reverse(),
@@ -109,22 +103,22 @@ class MessageApi {
 
     handleReadMessage() {
         const queryClient = useQueryClient();
-
         return {
             mutate: (data: { chat_id: number; message_id: number }) => {
-                queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
-                    if (!cacheData?.pages?.length) return cacheData;
-                    return produce(cacheData, (draft: any) => {
-                        draft?.pages?.forEach((page: any) => {
-                            page?.data?.data.forEach((msg: any) => {
-                                if (msg.id <= data.message_id) {
-                                    msg.is_read = true;
-                                }
-                            });
-                        });
-                    });
-                });
                 data.message_id && this.socket.sendMessage('MessageRead', data);
+                // queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
+                //     if (!cacheData?.pages?.length) return cacheData;
+                //     return produce(cacheData, (draft: any) => {
+                //         draft?.pages?.forEach((page: any) => {
+                //             page?.data?.data.forEach((msg: any) => {
+                //                 if (msg.id <= data.message_id) {
+                //                     msg.is_read = true;
+                //                 }
+                //             });
+                //         });
+                //     });
+                // });
+                // data.message_id && this.socket.sendMessage('MessageRead', data);
             },
         };
     }

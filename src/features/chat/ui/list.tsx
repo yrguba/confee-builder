@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import { ChatsListView, chatApi, chatTypes } from 'entities/chat';
-import ChatProxy from 'entities/chat/lib/chat-proxy';
+import ChatProxy from 'entities/chat/lib/proxy';
 import { Input } from 'shared/ui';
 
 function ChatsList() {

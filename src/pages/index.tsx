@@ -33,8 +33,8 @@ function Routing() {
     }, [isLoading]);
 
     const getRouting = () => {
-        if (width < 400) return <SizeWarningPage size={{ width, height }} error="width" />;
-        if (height < 400) return <SizeWarningPage size={{ width, height }} error="height" />;
+        if (width < 450) return <SizeWarningPage size={{ width, height }} error="width" />;
+        if (height < 470) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (tokensService.checkAuth()) {
             return routes;
         }

@@ -7,11 +7,13 @@ import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { messageGateway } from '../../../../entities/message';
+import { userGateway } from '../../../../entities/user';
 import Modals from '../modals';
 import { Sidebar } from '../widgets';
 
 function ChatsPage() {
     chatGateway();
+    userGateway();
     messageGateway();
 
     const openRightSidebar = useChatStore.use.openRightSidebar();

@@ -22,7 +22,7 @@ function ChatsListView(props: Props) {
                     <div key={chat.id} className={`${styles.item} ${activeChatId === chat.id ? styles.item_active : ''}`} onClick={() => clickOnChat(chat)}>
                         <div className={styles.body}>
                             <div className={styles.avatar}>
-                                <Avatar size={52} img={chat.avatar} name={chat.name} />
+                                <Avatar status={chat.secondMemberStatus} size={52} img={chat.avatar} name={chat.name} />
                             </div>
                             <div className={styles.content}>
                                 <div className={styles.row}>

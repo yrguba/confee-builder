@@ -21,4 +21,5 @@ export type TitleProps = {
     className?: string;
     textWrap?: boolean;
     textAlign?: 'center' | 'left' | 'right';
+    animate?: boolean;
 };

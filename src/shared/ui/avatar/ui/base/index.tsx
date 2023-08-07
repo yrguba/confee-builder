@@ -4,6 +4,7 @@ import { userTypes } from 'entities/user';
 import { useFetchMediaContent } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import Box from '../../../box';
 import LoadingIndicator from '../../../loading-indicator';
 import { BaseAvatarProps } from '../../types';
 
@@ -71,7 +72,12 @@ function Avatar(props: BaseAvatarProps) {
                 background: !img || error ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
             }}
         >
-            {status && <div className={styles.status} style={{ backgroundColor: status ? userTypes.Statuses[status] : '' }} />}
+            <Box.Animated
+                visible={!!status}
+                className={styles.status}
+                style={{ backgroundColor: status ? userTypes.Statuses[status] : '', width: size / 4, height: size / 4 }}
+            />
+
             {isLoading ? (
                 <div className={styles.loading}>
                     <LoadingIndicator visible />

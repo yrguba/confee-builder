@@ -55,7 +55,7 @@ class ChatApi {
 
     handleSubscribeToChat() {
         return {
-            mutate: (chatId: number) => {
+            mutate: (chatId: number | null) => {
                 this.socket.sendMessage('ChatListenersUpdated', {
                     sub: chatId,
                 });

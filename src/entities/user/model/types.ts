@@ -5,6 +5,8 @@ export enum Statuses {
     'VACATION' = '#2EE5C9',
     'SICK_LEAVE' = '#EFF2F7',
     'NOT_AVAILABLE' = '#E62E7B',
+    'ONLINE' = '#0000ff',
+    'OFFLINE' = '',
 }
 
 export type ModalName = 'personal-info';
@@ -31,3 +33,6 @@ export type User = {
     phone: string;
     updated_at: Date;
 };
+
+export type SocketIn = 'UserUpdated';
+export type SocketOut = '';

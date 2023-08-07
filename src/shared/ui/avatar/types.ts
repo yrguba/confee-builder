@@ -7,7 +7,7 @@ export type BaseAvatarProps = {
     name?: string;
     img: string | BaseTypes.Empty;
     circle?: boolean;
-    status?: keyof typeof userTypes.Statuses;
+    status?: keyof typeof userTypes.Statuses | null;
 };
 
 export type AvatarChangeProps = {

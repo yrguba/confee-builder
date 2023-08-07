@@ -7,7 +7,7 @@ import { BaseTypes } from '../../types';
 export type AnimationVariants = keyof typeof animationVariants;
 
 type Shared = {
-    children: ReactNode;
+    children?: ReactNode;
 } & HTMLAttributes<HTMLDivElement> &
     BaseTypes.Statuses;
 

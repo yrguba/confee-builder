@@ -17,7 +17,11 @@ function chatProxy(chat: Chat | undefined): any {
 
                 case 'secondMember':
                     if (target.is_group) return null;
-                    return chat.members.find((i) => i.id !== viewerId);
+                    return chat?.members?.find((i) => i.id !== viewerId);
+
+                case 'secondMemberStatus':
+                    if (chat?.is_group) return null;
+                    return receiver?.secondMember?.is_online ? 'ONLINE' : null;
 
                 case 'checkIsMyLastMessage':
                     return target.last_message.author.id === viewerId;
@@ -44,7 +48,7 @@ function chatProxy(chat: Chat | undefined): any {
                         const word = getEnding(target.members.length, ['участник', 'участника', 'участников']);
                         return `${target.members.length} ${word}`;
                     }
-                    return userService.getUserNetworkStatus(chat.members.find((i) => i.id !== viewerId) || null) || 'dwd';
+                    return userService.getUserNetworkStatus(chat.members?.find((i) => i.id !== viewerId) || null);
 
                 default:
                     return target[prop];

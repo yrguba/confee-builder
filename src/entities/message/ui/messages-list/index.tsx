@@ -17,11 +17,12 @@ type Props = {
     getNextPage: () => void;
     hoverMessage: (message: MessageProxy) => void;
     subscribeToChat: (action: 'sub' | 'unsub') => void;
+    chatSubscription: number | null;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, messageMenuAction } = props;
+    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, chatSubscription, messageMenuAction } = props;
 
     const [initOnce, setInitOnce] = useState(true);
 
@@ -49,7 +50,7 @@ function MessagesListView(props: Props) {
 
     useEffect(() => {
         if (wrapperRef?.current && chat) {
-            executeScrollToElement({ ref: lastMessageRef, disabled: !!chat?.pending_messages_count });
+            executeScrollToElement({ ref: lastMessageRef, disabled: !chatSubscription });
             executeScrollToElement({ ref: firstUnreadMessageRef, disabled: !chat?.pending_messages_count || !initOnce });
             if (prevChat?.id !== chat.id) setInitOnce(true);
             setTimeout(() => setInitOnce(false), 1000);
@@ -62,7 +63,7 @@ function MessagesListView(props: Props) {
     }, [inViewPrevPage, inViewNextPage]);
 
     useEffect(() => {
-        subscribeToChat(inViewLastMessageCheckVisibleRef && !chat?.pending_messages_count ? 'sub' : 'unsub');
+        subscribeToChat(inViewLastMessageCheckVisibleRef ? 'sub' : 'unsub');
     }, [inViewLastMessageCheckVisibleRef, chat?.pending_messages_count]);
 
     return (

@@ -1,3 +1,4 @@
+import { message_limit } from './constants';
 import { useArray } from '../../../shared/hooks';
 import { Chat } from '../../chat/model/types';
 import { messageProxy } from '../index';
@@ -13,7 +14,7 @@ class MessageService {
     getInitialPage(chat: Chat | undefined) {
         if (!chat) return undefined;
         if (chat.pending_messages_count === 0) return 1;
-        return Math.ceil(chat.pending_messages_count / 15);
+        return Math.ceil(chat.pending_messages_count / message_limit);
     }
 }
 

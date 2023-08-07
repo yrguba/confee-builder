@@ -1,3 +1,5 @@
+import { userTypes } from 'entities/user';
+
 import { BaseTypes } from '../../types';
 
 export type BaseCardProps = {
@@ -7,4 +9,5 @@ export type BaseCardProps = {
     subtitle?: string;
     size?: 's' | 'm';
     onClick?: () => void;
+    avatarStatus?: keyof typeof userTypes.Statuses | null;
 };

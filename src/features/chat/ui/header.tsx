@@ -3,7 +3,7 @@ import React from 'react';
 
 import { callsTypes } from 'entities/calls';
 import { ChatHeaderView, useChatStore, chatApi } from 'entities/chat';
-import ChatProxy from 'entities/chat/lib/chat-proxy';
+import ChatProxy from 'entities/chat/lib/proxy';
 import { useRouter, useSip, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 
@@ -38,25 +38,25 @@ function ChatHeader() {
     };
 
     const clickChatAudioCall = async () => {
-        const eventHandlers = {
-            progress(e: any) {
-                console.log('call is in progress');
-            },
-            failed(e: any) {
-                console.log(`call failed with cause: `, e);
-            },
-            ended(e: any) {
-                console.log(`call ended with cause: ${e}`);
-            },
-            confirmed(e: any) {
-                console.log('call confirmed');
-            },
-        };
-
-        const options = {
-            eventHandlers,
-        };
-        sip.sendMessage(browserSip.sip, 'text', options);
+        // const eventHandlers = {
+        //     progress(e: any) {
+        //         console.log('call is in progress');
+        //     },
+        //     failed(e: any) {
+        //         console.log(`call failed with cause: `, e);
+        //     },
+        //     ended(e: any) {
+        //         console.log(`call ended with cause: ${e}`);
+        //     },
+        //     confirmed(e: any) {
+        //         console.log('call confirmed');
+        //     },
+        // };
+        //
+        // const options = {
+        //     eventHandlers,
+        // };
+        // sip.sendMessage(browserSip.sip, 'text', options);
     };
 
     return <ChatHeaderView back={() => navigate('/chats')} clickChatCard={clickChatCard} clickChatAudioCall={clickChatAudioCall} chat={ChatProxy(chatData)} />;
