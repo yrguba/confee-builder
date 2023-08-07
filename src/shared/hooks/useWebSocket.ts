@@ -16,7 +16,7 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
         isReady = true;
         ws.send(
             JSON.stringify({
-                event: 'UWS_CLIENT_IDENTIFICATION',
+                event: 'Auth',
                 data: {
                     token: token || '',
                 },

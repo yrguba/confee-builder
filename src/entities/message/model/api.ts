@@ -11,7 +11,7 @@ import pages from '../../../pages';
 import { chatService } from '../../chat';
 import { messageProxy } from '../index';
 import { message_limit } from '../lib/constants';
-import messageEntity from '../lib/message-entity';
+import messageEntity from '../lib/entity';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
@@ -40,6 +40,7 @@ class MessageApi {
                     return current_page < last_page ? current_page + 1 : undefined;
                 },
                 select: (data) => {
+                    console.log(data);
                     return {
                         pages: data.pages,
                         pageParams: [...data.pageParams].reverse(),

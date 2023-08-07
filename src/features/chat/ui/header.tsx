@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 
 import { callsTypes } from 'entities/calls';
@@ -36,7 +37,7 @@ function ChatHeader() {
         setOpenRightSidebar(true);
     };
 
-    const clickChatAudioCall = () => {
+    const clickChatAudioCall = async () => {
         const eventHandlers = {
             progress(e: any) {
                 console.log('call is in progress');

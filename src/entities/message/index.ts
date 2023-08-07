@@ -1,5 +1,5 @@
 import * as messageConstants from './lib/constants';
-import messageProxy from './lib/message-proxy';
+import messageProxy from './lib/proxy';
 import messageService from './lib/service';
 import messageApi from './model/api';
 import messageGateway from './model/gateway';

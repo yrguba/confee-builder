@@ -10,7 +10,7 @@ function ChangeBirthModal() {
     const changeBirthModal = Modal.use<viewerTypes.ModalName>('change-birth', { showPrevModalAfterClose: true });
 
     const birthInput = Input.use({
-        initialValue: viewerData?.data?.data?.birth?.split(' ')[0] || '',
+        initialValue: viewerData?.birth?.split(' ')[0] || '',
     });
 
     const close = () => {

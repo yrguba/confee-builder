@@ -17,8 +17,9 @@ class ViewerApi {
             staleTime: Infinity,
             select: (data) => {
                 const updRes = { ...data, data: { data: data.data.data.user } };
-                this.storage.set('viewer_id', updRes.data.data.id);
-                return httpHandlers.response<{ data: Viewer }>(updRes);
+                const res = httpHandlers.response<{ data: Viewer }>(updRes);
+                this.storage.set('viewer_id', res.data?.data.id);
+                return res.data?.data;
             },
         });
     }

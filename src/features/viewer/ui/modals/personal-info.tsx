@@ -59,7 +59,7 @@ function ViewerPersonalInfoModal() {
                 deleteFile={() => ''}
                 selectFile={selectFile}
                 isViewer
-                user={viewerData?.data?.data}
+                user={viewerData}
             />
         </Modal>
     );

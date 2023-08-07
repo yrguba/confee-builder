@@ -27,7 +27,7 @@ function Routing() {
     );
 
     useEffect(() => {
-        if (!isLoading && !viewerData?.data?.data?.nickname) {
+        if (!isLoading && !viewerData?.nickname) {
             navigate('/filling_profile');
         }
     }, [isLoading]);

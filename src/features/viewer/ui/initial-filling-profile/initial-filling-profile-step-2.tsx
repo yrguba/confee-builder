@@ -7,16 +7,16 @@ import { Input } from 'shared/ui';
 function InitialFillingProfileStep2() {
     const navigate = useNavigate();
 
-    const { data } = viewerApi.handleGetViewer();
+    const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: data?.data?.data.first_name || '',
+        initialValue: viewerData?.first_name || '',
     });
     const lastNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: data?.data?.data.last_name || '',
+        initialValue: viewerData?.last_name || '',
     });
 
     const onsubmit = async () => {

@@ -10,6 +10,7 @@ function messageProxy(prevMessage: any, message: Message, firstUnreadMessage?: M
         get(target: MessageProxy, prop: keyof MessageProxy, receiver): MessageProxy[keyof MessageProxy] {
             switch (prop) {
                 case 'isMy':
+                    if (target.isMock) return true;
                     return target?.author?.id === viewerId && target.type !== 'system';
 
                 case 'authorName':

@@ -11,11 +11,11 @@ function ChangeNameModal() {
 
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.data?.data.first_name,
+        initialValue: viewerData?.first_name,
     });
     const lastNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.data?.data.last_name,
+        initialValue: viewerData?.last_name,
     });
 
     const close = () => {

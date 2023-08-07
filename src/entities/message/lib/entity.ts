@@ -18,5 +18,6 @@ export default function (data: { text?: string; content?: any; type?: MessageTyp
         reactions: {},
         reply_to_message: data.reply || null,
         isMock: true,
+        isMy: true,
     } as MessageProxy;
 }
