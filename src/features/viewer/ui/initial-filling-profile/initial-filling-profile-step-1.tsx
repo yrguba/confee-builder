@@ -8,6 +8,7 @@ function InitialFillingProfileStep1() {
     const navigate = useNavigate();
 
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
+
     const handleCheckNickname = viewerApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 

@@ -10,12 +10,6 @@
     @include box-size(100%, calc(100% - 16px));
     padding-top: 16px;
 
-    @include width-to(sm){
-      @include flex;
-      @include box-size(100%, 100%);
-      padding-top: 0;
-    }
-
     .item{
       @include flex-column;
       @include box-size(88px, 72px);
