@@ -6,18 +6,20 @@
   flex: 1;
 
   .header {
+    @include flex;
     @include box-size(100%, 60px);
   }
 
   .messageList {
     @include flex;
     width: 100%;
-    height: 70%;
+    height: 0;
     flex: 1;
     margin: 12px 0;
   }
 
   .input {
+    @include flex(center, flex-start);
     @include box-size(100%, auto);
     margin-bottom: 12px;
   }

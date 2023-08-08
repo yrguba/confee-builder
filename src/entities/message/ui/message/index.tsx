@@ -5,6 +5,7 @@ import { Avatar, Box, Dropdown } from 'shared/ui';
 
 import MessageMenu from './menu';
 import styles from './styles.module.scss';
+import ImagesMessage from './variants/images';
 import TextMessage from './variants/text';
 import { MessageProxy, MessageMenuActions } from '../../model/types';
 
@@ -30,7 +31,10 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
             >
                 <div className={styles.content}>
                     <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>
-                        <div>{type === 'text' && <TextMessage text={message.text} />}</div>
+                        <div>
+                            {type === 'text' && <TextMessage text={message.text} />}
+                            {type === 'images' && <ImagesMessage images={message.files} />}
+                        </div>
                         <Box.Animated visible={message.isMock}>sending...</Box.Animated>
                     </div>
                 </div>

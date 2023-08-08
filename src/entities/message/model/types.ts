@@ -53,6 +53,7 @@ export type MessageProxy = {
 } & Message;
 
 export type MessageMenuActions = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
+export type InputMenuActions = 'select-images';
 
 export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated';
 export type SocketOut = 'ChatListenersUpdated';

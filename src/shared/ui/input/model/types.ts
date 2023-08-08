@@ -43,5 +43,8 @@ export type CountriesInputProps = {
     getCode: (code: string) => void;
 } & Shared;
 
-export type TextareaInputProps = {} & TextareaHTMLAttributes<HTMLTextAreaElement> & Shared;
+export type TextareaInputProps = {
+    focus?: boolean;
+} & TextareaHTMLAttributes<HTMLTextAreaElement> &
+    Shared;
 export type UseReturnedType = ReturnType<typeof use>;

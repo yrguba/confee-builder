@@ -4,6 +4,7 @@ import { axiosClient } from '../configs';
 
 function useFetchMediaContent(url = '') {
     const [src, setSrc] = useState('');
+    const [orientation, setOrientation] = useState<'vertical' | 'horizontal'>('vertical');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
 
@@ -21,6 +22,9 @@ function useFetchMediaContent(url = '') {
                 .get(url, { responseType: 'blob' })
                 .then(getBase64)
                 .then((res: any) => {
+                    const file = document.createElement('img');
+                    file.src = res;
+                    setOrientation(file.width > file.height ? 'horizontal' : 'vertical');
                     setSrc(res);
                     error && setError(false);
                 })
@@ -33,6 +37,7 @@ function useFetchMediaContent(url = '') {
 
     return {
         src,
+        orientation,
         error,
         isLoading,
     };
