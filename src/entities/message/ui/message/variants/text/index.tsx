@@ -1,10 +1,11 @@
+import Linkify from 'linkify-react';
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { MessageProxy } from '../../../../model/types';
+import 'linkify-plugin-mention';
 
 type Props = {
     text: string;
@@ -12,6 +13,26 @@ type Props = {
 
 function TextMessage(props: Props) {
     const { text } = props;
+
+    const options = {
+        render: {
+            mention: ({ attributes, content }: any) => {
+                const { href, ...props } = attributes;
+                return (
+                    <span
+                        // onClick={() => {
+                        //     const found = chatUsers?.find((user) => user.nickname === href.substring(1));
+                        //     found && setUser(found);
+                        // }}
+                        className={styles.tag}
+                        {...props}
+                    >
+                        {content}
+                    </span>
+                );
+            },
+        },
+    };
 
     const checkLongWord = (str: string) => {
         return str?.split(' ')?.map((word, index) =>
@@ -25,7 +46,11 @@ function TextMessage(props: Props) {
         );
     };
 
-    return <Box className={styles.wrapper}>{checkLongWord(text)}</Box>;
+    return (
+        <Box className={styles.wrapper}>
+            <Linkify options={options}>{checkLongWord(text)}</Linkify>
+        </Box>
+    );
 }
 
 export default TextMessage;

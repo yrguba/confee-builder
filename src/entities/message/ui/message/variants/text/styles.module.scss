@@ -13,8 +13,12 @@
     word-break: break-all;
   }
 
+  a{
+    color: var(--text-positive) !important;
+  }
+
   .tag {
-    color: var(--text-action);
+    color: var(--text-action) !important;
     cursor: pointer;
   }
 }
