@@ -50,12 +50,12 @@ function MessagesListView(props: Props) {
 
     useEffect(() => {
         if (wrapperRef?.current && chat) {
-            executeScrollToElement({ ref: lastMessageRef, disabled: !chatSubscription });
-            executeScrollToElement({ ref: firstUnreadMessageRef, disabled: !chat?.pending_messages_count || !initOnce });
+            executeScrollToElement({ ref: lastMessageRef, enable: (initOnce && !chat?.pending_messages_count) || !!chatSubscription });
+            executeScrollToElement({ ref: firstUnreadMessageRef, enable: !!chat?.pending_messages_count && initOnce });
             if (prevChat?.id !== chat.id) setInitOnce(true);
             setTimeout(() => setInitOnce(false), 1000);
         }
-    }, [messages]);
+    }, [messages, chatSubscription]);
 
     useEffect(() => {
         if (inViewPrevPage) getPrevPage();

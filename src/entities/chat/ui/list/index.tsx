@@ -46,7 +46,7 @@ function ChatsListView(props: Props) {
                                         {chat.pending_messages_count ? (
                                             <Counter height={18}>{chat.pending_messages_count}</Counter>
                                         ) : (
-                                            chat.checkIsMyLastMessage && <Icons variant={chat.last_message?.is_read ? 'double-check' : 'check'} />
+                                            chat.checkIsMyLastMessage && <Icons variant={chat.last_message.users_have_read.length ? 'double-check' : 'check'} />
                                         )}
                                     </div>
                                 </div>

@@ -31,10 +31,13 @@ function MessageList() {
         isFetching,
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
 
+    const messages = messageService.getUpdatedList(messageData);
+
     const subscribeToChat = (action: 'sub' | 'unsub') => {
         if (action === 'sub') {
             handleSubscribeToChat(chatId);
             setChatSubscription(chatId);
+            handleReadMessage({ chat_id: chatId, message_id: messages[messages.length - 1]?.id });
         } else {
             if (chatSubscription) handleUnsubscribeFromChat(chatSubscription);
             setChatSubscription(null);
@@ -55,7 +58,7 @@ function MessageList() {
         <>
             <MessagesListView
                 chat={chatData}
-                messages={messageService.getUpdatedList(messageData)}
+                messages={messages}
                 getNextPage={() => hasNextPage && !isFetching && fetchNextPage().then()}
                 getPrevPage={() => hasPreviousPage && !isFetching && fetchPreviousPage().then()}
                 hoverMessage={(message: messageTypes.MessageProxy) => !message.is_read && handleReadMessage({ chat_id: chatId, message_id: message.id })}

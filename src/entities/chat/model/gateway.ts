@@ -35,6 +35,17 @@ function chatGateway() {
                 });
             });
         });
+        onMessage('ChatPendingMessagesCountUpdated', (socketData) => {
+            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                if (!cacheData?.data?.data.length) return cacheData;
+                return produce(cacheData, (draft: any) => {
+                    draft.data.data = draft?.data?.data.map((chat: Chat) => {
+                        if (socketData.data.chat_id === chat.id) return { ...chat, ...socketData.data };
+                        return chat;
+                    });
+                });
+            });
+        });
     }, []);
 }
 

@@ -106,19 +106,18 @@ class MessageApi {
         return {
             mutate: (data: { chat_id: number; message_id: number }) => {
                 data.message_id && this.socket.sendMessage('MessageRead', data);
-                // queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
-                //     if (!cacheData?.pages?.length) return cacheData;
-                //     return produce(cacheData, (draft: any) => {
-                //         draft?.pages?.forEach((page: any) => {
-                //             page?.data?.data.forEach((msg: any) => {
-                //                 if (msg.id <= data.message_id) {
-                //                     msg.is_read = true;
-                //                 }
-                //             });
-                //         });
-                //     });
-                // });
-                // data.message_id && this.socket.sendMessage('MessageRead', data);
+                queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
+                    if (!cacheData?.pages?.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft?.pages?.forEach((page: any) => {
+                            page?.data?.data.forEach((msg: any) => {
+                                if (msg.id <= data.message_id) {
+                                    msg.is_read = true;
+                                }
+                            });
+                        });
+                    });
+                });
             },
         };
     }

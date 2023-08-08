@@ -26,11 +26,11 @@ function Routing() {
         </Routes>
     );
 
-    useEffect(() => {
-        if (!isLoading && !viewerData?.nickname) {
-            navigate('/filling_profile');
-        }
-    }, [isLoading]);
+    // useEffect(() => {
+    //     if (!isLoading && !viewerData?.nickname) {
+    //         navigate('/filling_profile');
+    //     }
+    // }, [isLoading]);
 
     const getRouting = () => {
         if (width < 450) return <SizeWarningPage size={{ width, height }} error="width" />;

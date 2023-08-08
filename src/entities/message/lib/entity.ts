@@ -10,7 +10,7 @@ export default function (data: { text?: string; content?: any; type?: MessageTyp
         id: new Date().valueOf(),
         text: data.text || '',
         files: data.content || null,
-        is_read: false,
+        is_read: true,
         created_at: new Date(),
         type: data.type || 'text',
         users_have_read: [],

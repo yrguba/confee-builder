@@ -56,6 +56,7 @@ class ChatApi {
     handleSubscribeToChat() {
         return {
             mutate: (chatId: number | null) => {
+                console.log('ChatListenersUpdated', chatId);
                 this.socket.sendMessage('ChatListenersUpdated', {
                     sub: chatId,
                 });
@@ -66,6 +67,7 @@ class ChatApi {
     handleUnsubscribeFromChat() {
         return {
             mutate: (chatId: number) => {
+                console.log('ChatListenersUpdated', chatId);
                 this.socket.sendMessage('ChatListenersUpdated', {
                     unsub: chatId,
                 });

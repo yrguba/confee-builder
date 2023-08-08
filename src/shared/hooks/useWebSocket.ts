@@ -11,9 +11,8 @@ type Returned<In, Out> = {
 
 function useWebSocket<In, Out>(): Returned<In, Out> {
     const token = tokensService.get()?.access_token;
-    let isReady = false;
+
     ws.onopen = function () {
-        isReady = true;
         ws.send(
             JSON.stringify({
                 event: 'Auth',
@@ -35,9 +34,8 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
     };
 
     ws.onclose = function (event) {};
-
     const sendMessage = (event: Out, data: string) => {
-        isReady &&
+        ws.readyState &&
             ws.send(
                 JSON.stringify({
                     event,

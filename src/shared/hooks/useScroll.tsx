@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 
-type ExecuteScrollToElementProps = { ref: RefObject<any>; disabled?: boolean; smooth?: boolean };
+type ExecuteScrollToElementProps = { ref: RefObject<any>; enable?: boolean; smooth?: boolean };
 
 function useScroll(): {
     executeScrollToElement: (props: ExecuteScrollToElementProps) => void;
@@ -19,8 +19,8 @@ function useScroll(): {
         }
     };
 
-    const executeScrollToElement = ({ ref, smooth, disabled }: ExecuteScrollToElementProps) => {
-        if (ref?.current && !disabled) {
+    const executeScrollToElement = ({ ref, smooth, enable }: ExecuteScrollToElementProps) => {
+        if (ref?.current && enable) {
             ref.current.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'end', inline: 'nearest' });
         }
     };

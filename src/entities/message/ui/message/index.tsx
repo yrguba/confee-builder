@@ -47,7 +47,10 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 content={<MessageMenu messageMenuAction={messageMenuAction} message={message} />}
             >
                 <div className={styles.content} ref={messageRef}>
-                    <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>{type === 'text' && <TextMessage text={message.text} />}</div>
+                    <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>
+                        <div>{type === 'text' && <TextMessage text={message.text} />}</div>
+                        <Box.Animated visible={message.isMock}>sending...</Box.Animated>
+                    </div>
                 </div>
             </Dropdown.Dynamic>
         </Box>
