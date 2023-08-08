@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { chatApi } from 'entities/chat';
+import { chatApi, chatProxy } from 'entities/chat';
 import { messageApi, MessageInputView, messageTypes } from 'entities/message';
-import { userTypes } from 'entities/user';
 import { viewerService } from 'entities/viewer';
-import { useEasyState } from 'shared/hooks';
+import { useEasyState, useFileUploader, UseFileUploaderTypes } from 'shared/hooks';
 
 function MessageInput() {
     const params = useParams();
@@ -20,6 +19,14 @@ function MessageInput() {
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
     const messageTextState = useEasyState('');
+    const contentTypeState = useEasyState<UseFileUploaderTypes.Accept>('image');
+
+    const { open: openDownloadFiles } = useFileUploader({
+        accept: contentTypeState.value,
+        onAfterUploading: (data) => {
+            console.log(data);
+        },
+    });
 
     const sendMessage = () => {
         if (messageTextState.value) {
@@ -43,6 +50,14 @@ function MessageInput() {
         messageTextState.set((prev) => prev + emoji);
     };
 
+    const inputMenuAction = (action: messageTypes.InputMenuActions) => {
+        switch (action) {
+            case 'select-images':
+                // open()
+                break;
+        }
+    };
+
     useEffect(() => {
         messageTextState.set('');
     }, [chatId]);
@@ -50,11 +65,13 @@ function MessageInput() {
     return (
         <>
             <MessageInputView
+                chat={chatProxy(chatData)}
                 onKeyDown={onKeyDown}
                 messageTextState={messageTextState}
                 clickOnEmoji={clickOnEmoji}
                 btnClick={sendMessage}
                 loading={isLoading}
+                inputMenuAction={inputMenuAction}
             />
         </>
     );

@@ -12,19 +12,17 @@ function userGateway() {
     const { onMessage } = useWebSocket<SocketIn, SocketOut>();
     const queryClient = useQueryClient();
     const { params } = useRouter();
-    console.log(params);
     useEffect(() => {
         onMessage('UserUpdated', (socketData) => {
-            console.log('update', socketData);
-            // queryClient.setQueryData(['get-chats'], (cacheData: any) => {
-            //     if (!cacheData?.data?.data.length) return cacheData;
-            //     return produce(cacheData, (draft: any) => {
-            //         draft.data.data = draft?.data?.data.map((chat: chatTypes.Chat) => {
-            //             if (socketData.data.chat_id === chat.id) return { ...chat, ...socketData.data.updated_values };
-            //             return chat;
-            //         });
-            //     });
-            // });
+            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                if (!cacheData?.data?.data.length) return cacheData;
+                return produce(cacheData, (draft: any) => {
+                    draft.data.data = draft?.data?.data.map((chat: chatTypes.Chat) => {
+                        if (socketData.data.chat_id === chat.id) return { ...chat, ...socketData.data.updated_values };
+                        return chat;
+                    });
+                });
+            });
             params.chat_id &&
                 queryClient.setQueryData(['get-chat', Number(params.chat_id)], (cacheData: any) => {
                     if (cacheData?.data?.data.is_group) return cacheData;

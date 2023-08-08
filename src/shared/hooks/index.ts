@@ -16,7 +16,7 @@ import {
     useRendersCount,
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
-import useFileUploader from 'react-use-file-uploader';
+import useFileUploader, { Types as UseFileUploaderTypes } from 'react-use-file-uploader';
 
 import useArray from './useArray';
 import useAudioRecorder from './useAudioRecord';
@@ -81,4 +81,4 @@ export {
     useWebSocket,
 };
 
-export type { UseEasyStateReturnedType };
+export type { UseEasyStateReturnedType, UseFileUploaderTypes };
