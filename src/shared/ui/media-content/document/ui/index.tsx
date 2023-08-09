@@ -12,20 +12,20 @@ function Document(props: DocumentProps) {
 
     const { save } = useFileDownloads();
 
-    const { tauriIsRunning } = appService;
-
-    const { elapsed, percentage, download, cancel, error, isInProgress } = useDownloader();
-
-    const click = async () => {
-        if (tauriIsRunning) {
-            await save(url, name);
-        } else {
-            await download(url, name);
-        }
-    };
+    // const { tauriIsRunning } = appService;
+    //
+    // const { elapsed, percentage, download, cancel, error, isInProgress } = useDownloader();
+    //
+    // const click = async () => {
+    //     if (tauriIsRunning) {
+    //         await save(url, name);
+    //     } else {
+    //         await download(url, name);
+    //     }
+    // };
 
     return (
-        <div className={styles.wrapper} onClick={click}>
+        <div className={styles.wrapper}>
             <div className={styles.icon}>
                 <Icons variant="doc" />
             </div>
