@@ -1,0 +1,116 @@
+
+.EmojiPickerReact, .epr-main {
+  background-color: var(--bg-0) !important;
+
+  .epr-body {
+    .epr-emoji-list {
+
+      .epr-emoji-category {
+        &:nth-child(1) {
+          .epr-emoji-category-label {
+            visibility: hidden;
+
+            &:before {
+              visibility: visible;
+              content: 'Часто используемые';
+            }
+          }
+        }
+        &:nth-child(2) {
+          .epr-emoji-category-label {
+            visibility: hidden;
+
+            &:before {
+              visibility: visible;
+              content: 'Смайлы и люди';
+            }
+          }
+        }
+        &:nth-child(3) {
+          .epr-emoji-category-label {
+            visibility: hidden;
+
+            &:before {
+              visibility: visible;
+              content: 'Животные и природа';
+            }
+          }
+        }
+        &:nth-child(4) {
+          .epr-emoji-category-label {
+            visibility: hidden;
+
+            &:before {
+              visibility: visible;
+              content: 'Еда и напитки';
+            }
+          }
+        }
+        &:nth-child(5) {
+          .epr-emoji-category-label {
+            visibility: hidden;
+
+            &:before {
+              visibility: visible;
+              content: 'Путешествия и места';
+            }
+          }
+        }
+        &:nth-child(6) {
+          .epr-emoji-category-label {
+            visibility: hidden;
+
+            &:before {
+              visibility: visible;
+              content: 'Деятельность';
+            }
+          }
+        }
+        &:nth-child(7) {
+          .epr-emoji-category-label {
+            visibility: hidden;
+
+            &:before {
+              visibility: visible;
+              content: 'Объекты';
+            }
+          }
+        }
+        &:nth-child(8) {
+          .epr-emoji-category-label {
+            visibility: hidden;
+
+            &:before {
+              visibility: visible;
+              content: 'Символы';
+            }
+          }
+        }
+        &:nth-child(9) {
+          .epr-emoji-category-label {
+            visibility: hidden;
+
+            &:before {
+              visibility: visible;
+              content: 'Флаги';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .epr-emoji-category-label {
+    background-color: var(--bg-03) !important;
+  }
+
+  .epr-preview, .epr-header-overlay {
+    display: none;
+  }
+
+  .epr-search {
+    background-color: var(--bg-1) !important;
+  }
+
+
+}

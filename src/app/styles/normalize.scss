@@ -8,12 +8,14 @@ html {
     cursor: pointer;
   }
 
-  a{
+  a {
     color: var(--main-active);
   }
+
   svg {
     fill: var(--text-primary);
   }
+
   //scrollbar
 
   ::-webkit-scrollbar {
@@ -34,25 +36,8 @@ html {
   border-style: none;
 
 
-  li{
+  li {
     list-style-type: none;
   }
 
-  //npm
-
-  .EmojiPickerReact, .epr-main{
-    background-color: var(--bg-0) !important;
-
-    .epr-emoji-category-label{
-      background-color: var(--bg-03) !important;
-    }
-
-    .epr-preview, .epr-header-overlay{
-      display: none;
-    }
-
-    .epr-search{
-      background-color: var(--bg-1) !important;
-    }
-  }
 }
