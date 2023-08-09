@@ -22,7 +22,6 @@ function useFetchMediaContent(url = '') {
     useEffect(() => {
         const fn = async () => {
             const fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop() });
-            console.log(fileInCache);
             if (fileInCache && typeof fileInCache === 'string') {
                 const file = document.createElement('img');
                 file.src = fileInCache;

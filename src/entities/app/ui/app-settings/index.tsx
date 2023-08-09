@@ -1,16 +1,19 @@
 import React from 'react';
+import { number } from 'yup';
 
-import { Button, Select } from 'shared/ui';
+import { useTheme } from 'shared/hooks';
+import { Button, Select, InputTypes, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useTheme } from '../../../../shared/hooks';
 
 type Props = {
     items: { id: number; title: string; value: string; onClick?: () => void }[];
+    cacheSizeInput: InputTypes.UseReturnedType;
+    currentCacheSize: string | null;
 };
 
 function AppSettingsView(props: Props) {
-    const { items } = props;
+    const { items, cacheSizeInput, currentCacheSize } = props;
     const [theme, setTheme] = useTheme();
 
     const themes = [
@@ -36,6 +39,14 @@ function AppSettingsView(props: Props) {
                         </div>
                     </div>
                 ))}
+                <div className={styles.item}>
+                    <div>
+                        <Title variant="Body14">Введите максимальный размер кэша в гб.</Title>
+                        <Title variant="Body14">{`Занято: ${currentCacheSize}`}</Title>
+                    </div>
+
+                    <Input type="number" width="24%" height="40px" {...cacheSizeInput} />
+                </div>
             </div>
         </div>
     );

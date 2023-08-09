@@ -21,7 +21,6 @@ fn main() {
       .with_menu(tray_menu);
 
   tauri::Builder::default().system_tray(system_tray)
-
      .on_system_tray_event(|app, event| match event {
        SystemTrayEvent::LeftClick {
          position: _,

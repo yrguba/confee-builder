@@ -1,3 +1,3 @@
-export type ValuesInStorage = 'access_token' | 'refresh_token' | 'theme' | 'subscribed_to_chat' | 'notification_scope' | 'viewer_id';
+export type ValuesInStorage = 'access_token' | 'refresh_token' | 'theme' | 'notification_scope' | 'viewer_id' | 'cache_size';
 
 export type SocketIn = 'UWS_CLIENT_IDENTIFICATION';

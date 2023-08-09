@@ -20,13 +20,13 @@
       width: 380px;
       @include flex(space-between);
 
-      &_title{
+      &_title {
         font-weight: 400;
         font-size: 12px;
         color: var(--text-primary);
       }
 
-      &_value{
+      &_value {
         width: 40%;
         @include flex(flex-start);
         font-size: 12px;

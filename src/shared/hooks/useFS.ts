@@ -1,6 +1,6 @@
-import { writeBinaryFile, BaseDirectory, createDir, exists, readBinaryFile, readTextFile, removeFile } from '@tauri-apps/api/fs';
+import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, readTextFile, removeFile } from '@tauri-apps/api/fs';
 
-import { fileConverter } from '../lib';
+import { fileConverter, sizeConverter } from '../lib';
 
 type SaveFileProps = {
     baseDir: 'Download' | 'Document';
@@ -10,9 +10,11 @@ type SaveFileProps = {
 };
 
 type GetFileProps = {} & Omit<SaveFileProps, 'fileBlob'>;
-
+type GetFolderSizeProps = {} & Omit<GetFileProps, 'fileName'>;
 const useFS = () => {
+    const disabled = !window.__TAURI__;
     const saveFile = async (props: SaveFileProps) => {
+        if (disabled) return null;
         if (!props.fileName) return null;
         const baseDir: any = BaseDirectory[props.baseDir];
         const folderDir: any = `Confee/${props.folderDir}`;
@@ -30,6 +32,7 @@ const useFS = () => {
         return '';
     };
     const getFile = async (props: GetFileProps) => {
+        if (disabled) return null;
         if (!props.fileName) return null;
         const baseDir: any = BaseDirectory[props.baseDir];
         const folderDir: any = `Confee/${props.folderDir}`;
@@ -41,7 +44,23 @@ const useFS = () => {
         return base64;
     };
 
-    return { saveFile, getFile };
+    const getFolderSize = async (props: GetFolderSizeProps) => {
+        if (disabled) return null;
+        const baseDir: any = BaseDirectory[props.baseDir];
+        const folderDir: any = `Confee/${props.folderDir}`;
+        const checkPath = await exists(`${folderDir}`, { dir: baseDir });
+        if (!checkPath) return null;
+        const entries = await readDir(folderDir, { dir: baseDir, recursive: true });
+        const sizes = await Promise.all(
+            entries.map(async (file) => {
+                const contents = await readBinaryFile(`${folderDir}/${file.name}`, { dir: baseDir });
+                return contents.byteLength;
+            })
+        );
+        return sizeConverter(sizes.reduce((acc, i) => i + acc, 0));
+    };
+
+    return { saveFile, getFile, getFolderSize };
 };
 
 export default useFS;
