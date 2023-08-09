@@ -21,6 +21,7 @@ function ViewerPersonalInfoModal() {
     const { open: selectFile } = useFileUploader({
         accept: 'image',
         onAfterUploading: (data) => {
+            const fd = getFormData('images', data.files[0].file);
             handleAddAvatar({ file: getFormData('images', data.files[0].file) });
         },
     });

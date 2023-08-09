@@ -40,7 +40,7 @@ class ViewerApi {
     handleAddAvatar() {
         const queryClient = useQueryClient();
 
-        return useMutation((data: { file: FormData | null }) => axiosClient.post(`${this.pathPrefix}`, data.file), {
+        return useMutation((data: { file: FormData | null }) => axiosClient.post(`/api/v2/profile`, { images: data.file }), {
             onSuccess: async (data) => {
                 queryClient.invalidateQueries(['get-viewer']);
             },
