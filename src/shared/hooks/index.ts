@@ -24,7 +24,7 @@ import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
 import useEasyState, { UseEasyStateReturnedType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
-import useFileDownloads from './useFileDownloads';
+import useFs from './useFS';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useScroll from './useScroll';
@@ -55,7 +55,7 @@ export {
     useWidthMediaQuery,
     useHeightMediaQuery,
     useDownloader,
-    useFileDownloads,
+    useFs,
     useNetworkState,
     useIdle,
     useTheme,

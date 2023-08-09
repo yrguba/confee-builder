@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import useFileDownloads from './useFileDownloads';
+import useFS from './useFS';
 import { axiosClient } from '../configs';
+import { fileConverter } from '../lib';
 
 function useFetchMediaContent(url = '') {
     const [src, setSrc] = useState<any>('');
@@ -9,7 +10,7 @@ function useFetchMediaContent(url = '') {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const { save: saveFile } = useFileDownloads();
+    const { saveFile, getFile } = useFS();
 
     const checkFetch = () => {
         if (!url || typeof url !== 'string') return false;
@@ -19,25 +20,36 @@ function useFetchMediaContent(url = '') {
     };
 
     useEffect(() => {
-        if (checkFetch()) {
-            setIsLoading(true);
-            axiosClient
-                .get(url, { responseType: 'blob' })
-                // .then(getBase64)
-                .then(async (res: any) => {
-                    await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop(), fileBlob: res.data });
-                    const file = document.createElement('img');
-                    file.src = res;
-                    setOrientation(file.width > file.height ? 'horizontal' : 'vertical');
-                    const base64 = await getBase64(res);
-                    setSrc(base64);
-                    error && setError(false);
-                })
-                .catch(() => setError(true))
-                .finally(() => setIsLoading(false));
-        } else {
-            setSrc(url);
-        }
+        const fn = async () => {
+            const fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop() });
+            console.log(fileInCache);
+            if (fileInCache && typeof fileInCache === 'string') {
+                const file = document.createElement('img');
+                file.src = fileInCache;
+                setOrientation(file.width > file.height ? 'horizontal' : 'vertical');
+                setSrc(fileInCache);
+                error && setError(false);
+            } else if (checkFetch()) {
+                setIsLoading(true);
+                axiosClient
+                    .get(url, { responseType: 'blob' })
+                    // .then(getBase64)
+                    .then(async (res: any) => {
+                        await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop(), fileBlob: res.data });
+                        const file = document.createElement('img');
+                        file.src = res.data;
+                        setOrientation(file.width > file.height ? 'horizontal' : 'vertical');
+                        const base64 = await fileConverter.fromBlobToBase64(res.data);
+                        setSrc(base64);
+                        error && setError(false);
+                    })
+                    .catch(() => setError(true))
+                    .finally(() => setIsLoading(false));
+            } else {
+                setSrc(url);
+            }
+        };
+        fn().then();
     }, [url]);
 
     return {
@@ -49,13 +61,3 @@ function useFetchMediaContent(url = '') {
 }
 
 export default useFetchMediaContent;
-
-async function getBase64(blob: any) {
-    const reader = new FileReader();
-    await new Promise((resolve, reject) => {
-        reader.onload = resolve;
-        reader.onerror = reject;
-        reader.readAsDataURL(blob.data);
-    });
-    return reader.result;
-}

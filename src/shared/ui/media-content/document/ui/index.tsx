@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useAppStore, appService } from 'entities/app';
-import { useFileDownloads, useDownloader } from 'shared/hooks';
+import { useDownloader } from 'shared/hooks';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
@@ -10,7 +10,7 @@ import { DocumentProps } from '../types';
 function Document(props: DocumentProps) {
     const { url, size, name } = props;
 
-    const { save } = useFileDownloads();
+    // const { save } = useFileDownloads();
 
     // const { tauriIsRunning } = appService;
     //
