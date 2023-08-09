@@ -1,7 +1,7 @@
 import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
-const { socketUrl, localSocketUrl } = appService.getUrls();
+const { socketUrl } = appService.getUrls();
 const ws = new WebSocket(socketUrl);
 
 type Returned<In, Out> = {
@@ -23,10 +23,10 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
         );
     };
 
-    const onMessage = (event: In, callback: (arg: any) => void) => {
+    const onMessage = (event: In | 'all', callback: (arg: any) => void) => {
         ws.addEventListener('message', function (e) {
             const data = JSON.parse(e.data);
-            if (data.event === event) {
+            if (data.event === event || event === 'all') {
                 callback(data);
             }
         });

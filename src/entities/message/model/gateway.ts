@@ -10,11 +10,11 @@ import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
 
 function messageGateway() {
-    const { onMessage } = useWebSocket<SocketIn, SocketOut>();
     const viewerId = viewerService.getId();
     const chatSubscription = useChatStore.use.chatSubscription();
     const queryClient = useQueryClient();
     useEffect(() => {
+        const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.pages.length) return cacheData;

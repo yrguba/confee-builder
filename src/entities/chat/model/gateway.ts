@@ -7,9 +7,9 @@ import { useWebSocket } from 'shared/hooks';
 import { Chat, SocketOut, SocketIn } from './types';
 
 function chatGateway() {
-    const { onMessage } = useWebSocket<SocketIn, SocketOut>();
     const queryClient = useQueryClient();
     useEffect(() => {
+        const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('ChatUpdated', (socketData) => {
             queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;

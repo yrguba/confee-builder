@@ -9,10 +9,10 @@ import { SocketOut, SocketIn } from './types';
 import { Chat } from '../../chat/model/types';
 
 function userGateway() {
-    const { onMessage } = useWebSocket<SocketIn, SocketOut>();
     const queryClient = useQueryClient();
     const { params } = useRouter();
     useEffect(() => {
+        const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('UserUpdated', (socketData) => {
             queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
