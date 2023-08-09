@@ -27,15 +27,14 @@ class MessageApi {
             },
             {
                 getPreviousPageParam: (lastPage, pages) => {
-                    const { current_page } = lastPage?.data.meta;
-                    return current_page > 1 ? current_page - 1 : undefined;
+                    // const { current_page } = lastPage?.data.meta;
+                    // return current_page > 1 ? current_page - 1 : undefined;
                 },
                 getNextPageParam: (lastPage, pages) => {
-                    const { current_page, last_page } = lastPage?.data.meta;
-                    return current_page < last_page ? current_page + 1 : undefined;
+                    // const { current_page, last_page } = lastPage?.data.meta;
+                    // return current_page < last_page ? current_page + 1 : undefined;
                 },
                 select: (data) => {
-                    console.log(data);
                     return {
                         pages: data.pages,
                         pageParams: [...data.pageParams].reverse(),

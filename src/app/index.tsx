@@ -29,7 +29,6 @@ function App() {
             // });
         });
         onMessage('all', (socketData) => {
-            console.log(socketData);
             // notification.success({ title: 'test', scope: 'all' });
         });
     }, []);

@@ -3,6 +3,7 @@ import React from 'react';
 
 import { useTheme } from 'shared/hooks';
 
+import styles from './styles.module.scss';
 import Dropdown from '../../../dropdown';
 import { BaseEmojiProps } from '../../types';
 

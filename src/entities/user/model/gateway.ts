@@ -7,18 +7,29 @@ import { useRouter, useWebSocket } from 'shared/hooks';
 
 import { SocketOut, SocketIn } from './types';
 import { Chat } from '../../chat/model/types';
+import { viewerService } from '../../viewer';
 
 function userGateway() {
     const queryClient = useQueryClient();
     const { params } = useRouter();
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
+        const viewerId = viewerService.getId();
         onMessage('UserUpdated', (socketData) => {
             queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data = draft?.data?.data.map((chat: chatTypes.Chat) => {
-                        if (socketData.data.chat_id === chat.id) return { ...chat, ...socketData.data.updated_values };
+                        if (!chat.is_group && viewerId !== socketData.data.user_id) {
+                            return {
+                                ...chat,
+                                members: chat.members.map((i) => {
+                                    if (i.id === socketData.data.user_id) return { ...i, ...socketData.data.updated_values };
+                                    return i;
+                                }),
+                            };
+                        }
+
                         return chat;
                     });
                 });

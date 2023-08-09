@@ -17,9 +17,6 @@
       transition: all .5s;
       cursor: pointer;
       position: relative;
-      @include width-to(sm){
-        @include box-size(90px, 60px);
-      }
 
       svg{
         fill: var(--control-tertiary);

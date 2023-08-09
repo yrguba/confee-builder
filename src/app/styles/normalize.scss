@@ -47,6 +47,10 @@ html {
       background-color: var(--bg-03) !important;
     }
 
+    .epr-preview, .epr-header-overlay{
+      display: none;
+    }
+
     .epr-search{
       background-color: var(--bg-1) !important;
     }
