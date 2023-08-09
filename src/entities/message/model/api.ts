@@ -5,7 +5,7 @@ import { axiosClient } from 'shared/configs';
 import { useArray, useWebSocket } from 'shared/hooks';
 
 import { MessageProxy } from './types';
-import { message_limit } from '../lib/constants';
+import { messages_limit } from '../lib/constants';
 import messageEntity from '../lib/entity';
 
 class MessageApi {
@@ -21,7 +21,7 @@ class MessageApi {
                 return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
                     params: {
                         page: pageParam || initialPage,
-                        per_page: message_limit,
+                        per_page: messages_limit,
                     },
                 });
             },
@@ -35,6 +35,7 @@ class MessageApi {
                     return current_page < last_page ? current_page + 1 : undefined;
                 },
                 select: (data) => {
+                    console.log(data);
                     return {
                         pages: data.pages,
                         pageParams: [...data.pageParams].reverse(),

@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { viewerApi, InitialFillingProfileStep1View, yup } from 'entities/viewer';
 import { Input } from 'shared/ui';
 
+import { userApi } from '../../../../entities/user';
+
 function InitialFillingProfileStep1() {
     const navigate = useNavigate();
 
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
 
-    const handleCheckNickname = viewerApi.handleCheckNickname();
+    const handleCheckNickname = userApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
     const nicknameInput = Input.use({

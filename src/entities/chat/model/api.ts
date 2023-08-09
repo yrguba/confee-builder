@@ -25,7 +25,7 @@ class ChatApi {
     };
 
     handleGetChats = () => {
-        return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix, { params: { limit: 100 } }), {
+        return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix, { params: { per_page: 100 } }), {
             staleTime: Infinity,
             select: (data) => {
                 const res = httpHandlers.response<{ data: Chat[] }>(data);

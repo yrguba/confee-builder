@@ -3,9 +3,11 @@ import React from 'react';
 import { viewerTypes, viewerApi, ChangeNickNameModalView, yup } from 'entities/viewer';
 import { Modal, Input } from 'shared/ui';
 
+import { userApi } from '../../../../entities/user';
+
 function ChangeNicknameModal() {
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
-    const handleCheckNickname = viewerApi.handleCheckNickname();
+    const handleCheckNickname = userApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
     const changeNicknameModal = Modal.use<viewerTypes.ModalName>('change-nickname', { showPrevModalAfterClose: true });

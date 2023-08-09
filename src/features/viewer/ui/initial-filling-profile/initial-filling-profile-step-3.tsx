@@ -5,6 +5,7 @@ import useFileUploader from 'react-use-file-uploader';
 import { viewerApi, InitialFillingProfileStep3View, yup } from 'entities/viewer';
 import { Input } from 'shared/ui';
 
+import { userApi } from '../../../../entities/user';
 import { getFormData } from '../../../../shared/lib';
 
 function InitialFillingProfileStep3() {
@@ -12,6 +13,8 @@ function InitialFillingProfileStep3() {
 
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
+    const { data: viewerData } = viewerApi.handleGetViewer();
+    const handleCheckEmail = userApi.handleCheckEmail();
 
     const emailInput = Input.use({
         yupSchema: yup.checkEmail,
@@ -35,6 +38,12 @@ function InitialFillingProfileStep3() {
     const onsubmit = async () => {
         const { error: emailError, value: email } = await emailInput.asyncValidate();
         const { error: birthError, value: birth } = await birthInput.asyncValidate();
+        if (emailInput.value) {
+            const checkEmail = await handleCheckEmail({ email: emailInput.value });
+            if (checkEmail?.exists && viewerData?.email !== checkEmail.identifier) {
+                return emailInput.setError('Такая почта уже занята');
+            }
+        }
         if (!emailError && !birthError) {
             const birthDate: any = Math.floor(new Date(birth).getTime() / 1000);
             handleEditProfile({ email, birth: birthDate });

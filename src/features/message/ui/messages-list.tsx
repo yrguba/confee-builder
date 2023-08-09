@@ -37,7 +37,7 @@ function MessageList() {
         if (action === 'sub') {
             handleSubscribeToChat(chatId);
             setChatSubscription(chatId);
-            handleReadMessage({ chat_id: chatId, message_id: messages[messages.length - 1]?.id });
+            handleReadMessage({ chat_id: chatId, message_id: messages[messages?.length - 1]?.id });
         } else {
             if (chatSubscription) handleUnsubscribeFromChat(chatSubscription);
             setChatSubscription(null);
