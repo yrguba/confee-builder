@@ -2,13 +2,12 @@ import React from 'react';
 
 import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes } from 'entities/message';
-import { useRouter, useCopyToClipboard, useStorage } from 'shared/hooks';
+import { MessageProxy } from 'entities/message/model/types';
+import { useRouter, useCopyToClipboard } from 'shared/hooks';
 
 function MessageList() {
     const { params } = useRouter();
     const [state, copyToClipboard] = useCopyToClipboard();
-
-    const storage = useStorage();
 
     const chatId = Number(params.chat_id);
 
@@ -31,13 +30,16 @@ function MessageList() {
         isFetching,
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
 
-    const messages = messageService.getUpdatedList(messageData);
+    const messages: MessageProxy[] = messageService.getUpdatedList(messageData);
 
     const subscribeToChat = (action: 'sub' | 'unsub') => {
         if (action === 'sub') {
             handleSubscribeToChat(chatId);
             setChatSubscription(chatId);
-            handleReadMessage({ chat_id: chatId, message_id: messages[messages?.length - 1]?.id });
+            const lastMessage = messages[messages?.length - 1];
+            if (lastMessage && !lastMessage?.is_read) {
+                handleReadMessage({ chat_id: chatId, message_id: messages[messages?.length - 1]?.id });
+            }
         } else {
             if (chatSubscription) handleUnsubscribeFromChat(chatSubscription);
             setChatSubscription(null);

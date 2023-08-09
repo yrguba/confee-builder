@@ -21,7 +21,7 @@ function MessageInput() {
     const messageTextState = useEasyState('');
     const contentTypeState = useEasyState<UseFileUploaderTypes.Accept>('image');
 
-    const { open: openDownloadFiles } = useFileUploader({
+    const { open: openFilesDownloader } = useFileUploader({
         accept: contentTypeState.value,
         onAfterUploading: (data) => {
             console.log(data);
@@ -52,8 +52,9 @@ function MessageInput() {
 
     const inputMenuAction = (action: messageTypes.InputMenuActions) => {
         switch (action) {
-            case 'select-images':
-                // open()
+            case 'image':
+                openFilesDownloader();
+                contentTypeState.set(action);
                 break;
         }
     };

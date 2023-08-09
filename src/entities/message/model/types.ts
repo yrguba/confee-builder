@@ -1,3 +1,5 @@
+import { UseFileUploaderTypes } from 'shared/hooks';
+
 import { userTypes } from '../../user';
 
 export type Content = {
@@ -53,7 +55,7 @@ export type MessageProxy = {
 } & Message;
 
 export type MessageMenuActions = 'answer' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
-export type InputMenuActions = 'select-images';
+export type InputMenuActions = UseFileUploaderTypes.Accept;
 
 export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated';
 export type SocketOut = 'ChatListenersUpdated';

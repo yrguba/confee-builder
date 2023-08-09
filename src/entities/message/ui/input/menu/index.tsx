@@ -14,9 +14,9 @@ function InputMenu(props: Props) {
     const { inputMenuAction } = props;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, InputMenuActions>[] = [
-        { id: 0, title: 'image', icon: 'add', payload: 'select-images' },
-        // { id: 1, title: 'Переслать', icon: 'add', payload: 'select-images' },
-        // { id: 2, title: 'Скопировать текст', icon: 'add', payload: 'select-images' },
+        { id: 0, title: 'image', icon: 'add', payload: 'image' },
+        { id: 1, title: 'video', icon: 'add', payload: 'video' },
+        { id: 2, title: 'audio', icon: 'add', payload: 'audio' },
         // { id: 3, title: 'Редактировать', icon: 'add', payload: 'select-images' },
         // { id: 4, title: 'Удалить', icon: 'delete', payload: 'select-images' },
         // { id: 5, title: 'Упомянуть автора', icon: 'add', payload: 'select-images' },
