@@ -18,11 +18,10 @@ const queryClient = new QueryClient();
 moment.locale('ru');
 
 function App() {
-    const notification = Notification.use();
-    useTheme();
-    const { onMessage } = useWebSocket();
     const { clientBaseURL } = appService.getUrls();
+    useTheme();
     useEffect(() => {
+        const { onMessage } = useWebSocket();
         OneSignal.init({ appId: '977e9b8a-5cf3-401b-b801-3c62e346cfde' }).then(() => {
             // OneSignal.getUserId().then(async (res) => {
             //     res && (await handleSendOneSignalToken({ onesignal_player_id: res }));

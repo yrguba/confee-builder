@@ -2,7 +2,7 @@ import React from 'react';
 
 import { viewerTypes } from 'entities/viewer';
 import { ChatsList, SearchChats, TabsChats } from 'features/chat';
-import { useHeightMediaQuery } from 'shared/hooks';
+import { useHeightMediaQuery, useSip } from 'shared/hooks';
 import { Button, Icons, Modal, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -11,6 +11,8 @@ function Sidebar() {
     const miniSearch = useHeightMediaQuery().to('sm');
 
     const a = Modal.use<viewerTypes.ModalName>('viewer-personal-info');
+
+    const sip = useSip({});
 
     return (
         <div className={styles.wrapper}>
