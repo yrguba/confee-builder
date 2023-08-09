@@ -1,4 +1,4 @@
-import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, readTextFile, removeFile } from '@tauri-apps/api/fs';
+import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, removeDir, readTextFile, removeFile } from '@tauri-apps/api/fs';
 
 import { fileConverter, sizeConverter } from '../lib';
 
@@ -11,6 +11,7 @@ type SaveFileProps = {
 
 type GetFileProps = {} & Omit<SaveFileProps, 'fileBlob'>;
 type GetFolderSizeProps = {} & Omit<GetFileProps, 'fileName'>;
+type DeleteFolderProps = {} & GetFolderSizeProps;
 const useFS = () => {
     const disabled = !window.__TAURI__;
     const saveFile = async (props: SaveFileProps) => {
@@ -57,10 +58,24 @@ const useFS = () => {
                 return contents.byteLength;
             })
         );
-        return sizeConverter(sizes.reduce((acc, i) => i + acc, 0));
+        const bytes = sizes.reduce((acc, i) => i + acc, 0);
+
+        return {
+            human: sizeConverter(bytes) || '',
+            bytes,
+        };
     };
 
-    return { saveFile, getFile, getFolderSize };
+    const deleteFolder = async (props: DeleteFolderProps) => {
+        if (disabled) return null;
+        const baseDir: any = BaseDirectory[props.baseDir];
+        const folderDir: any = `Confee/${props.folderDir}`;
+        const checkPath = await exists(`${folderDir}`, { dir: baseDir });
+        if (!checkPath) return null;
+        await removeDir(folderDir, { dir: baseDir, recursive: true });
+    };
+
+    return { saveFile, getFile, getFolderSize, deleteFolder };
 };
 
 export default useFS;

@@ -8,12 +8,10 @@ import styles from './styles.module.scss';
 
 type Props = {
     items: { id: number; title: string; value: string; onClick?: () => void }[];
-    cacheSizeInput: InputTypes.UseReturnedType;
-    currentCacheSize: string | null;
 };
 
 function AppSettingsView(props: Props) {
-    const { items, cacheSizeInput, currentCacheSize } = props;
+    const { items } = props;
     const [theme, setTheme] = useTheme();
 
     const themes = [
@@ -39,14 +37,6 @@ function AppSettingsView(props: Props) {
                         </div>
                     </div>
                 ))}
-                <div className={styles.item}>
-                    <div>
-                        <Title variant="Body14">Введите максимальный размер кэша в гб.</Title>
-                        <Title variant="Body14">{`Занято: ${currentCacheSize}`}</Title>
-                    </div>
-
-                    <Input type="number" width="24%" height="40px" {...cacheSizeInput} />
-                </div>
             </div>
         </div>
     );

@@ -26,7 +26,7 @@ export type UseProps = {
     yupSchema?: any;
     realtimeValidate?: boolean;
     debounceDelay?: number;
-    debounceCallback?: (arg: InputValue) => void;
+    callback?: (arg: InputValue) => void;
 };
 
 export type BaseInputProps = {
