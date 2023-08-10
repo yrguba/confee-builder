@@ -15,23 +15,25 @@ function MessageMenu(props: Props) {
     const { messageMenuAction, message } = props;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions>[] = [
-        { id: 0, title: 'Ответить', icon: 'add', payload: 'answer' },
-        { id: 1, title: 'Переслать', icon: 'add', payload: 'forward' },
-        { id: 2, title: 'Скопировать текст', icon: 'add', payload: 'copy' },
-        { id: 3, title: 'Редактировать', icon: 'add', payload: 'edit' },
-        { id: 4, title: 'Удалить', icon: 'delete', payload: 'delete' },
-        { id: 5, title: 'Упомянуть автора', icon: 'add', payload: 'mention' },
-        { id: 6, title: 'Преобразовать в задачу', icon: 'add', payload: 'convert' },
+        { id: 0, title: 'Ответить', icon: 'reply', payload: 'answer' },
+        { id: 1, title: 'Изменить', icon: 'edit', payload: 'forward' },
+        { id: 2, title: 'Закрепить', icon: 'pin', payload: 'forward' },
+        { id: 3, title: 'Копировать текст', icon: 'copy', payload: 'forward' },
+        { id: 4, title: 'Переслать', icon: 'redirect', payload: 'forward' },
+        { id: 5, title: 'Удалить', icon: 'delete', payload: 'forward' },
+        { id: 6, title: 'Выделить', icon: 'check-circle', payload: 'forward' },
     ];
 
     return (
         <Box className={styles.wrapper}>
-            {items.map((i) => (
-                <div className={styles.item} key={i.id} onClick={() => messageMenuAction(i.payload, message)}>
-                    <Icons variant={i.icon} />
-                    <Title variant="H3M">{i.title}</Title>
-                </div>
-            ))}
+            <div className={styles.items}>
+                {items.map((i) => (
+                    <div className={styles.item} key={i.id} onClick={() => messageMenuAction(i.payload, message)}>
+                        <Icons variant={i.icon} />
+                        <Title variant="H3M">{i.title}</Title>
+                    </div>
+                ))}
+            </div>
         </Box>
     );
 }

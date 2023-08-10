@@ -1,23 +1,35 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(250px, auto);
-  @include flex-column(center, flex-start);
+  @include box-size(200px, auto);
+  @include flex-column();
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-  padding: 12px;
   gap: 12px;
+  padding: 8px 0;
 
-  .item {
+  .items {
+    @include flex-column();
     width: 100%;
-    @include flex(flex-start);
-    gap: 12px;
-    cursor: pointer;
 
-    svg{
-      fill: var(--text-primary);
+    .item {
+      width: calc(100% - 16px);
+      height: 40px;
+      @include flex(flex-start);
+      gap: 12px;
+      cursor: pointer;
+      padding-left: 16px;
+
+      &:hover {
+        background-color: var(--bg-primary);
+      }
+
+      svg {
+        fill: var(--text-primary);
+      }
     }
   }
+
 }
 
 

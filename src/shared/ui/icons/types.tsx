@@ -38,7 +38,13 @@ export type BaseIconsVariants =
     | 'call-end'
     | 'attach-file'
     | 'emoji'
-    | 'send';
+    | 'send'
+    | 'reply'
+    | 'edit'
+    | 'pin'
+    | 'copy'
+    | 'redirect'
+    | 'check-circle';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;
