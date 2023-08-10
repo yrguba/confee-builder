@@ -1,4 +1,4 @@
-import { isPermissionGranted, sendNotification } from '@tauri-apps/api/notification';
+import { sendNotification } from '@tauri-apps/api/notification';
 import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';

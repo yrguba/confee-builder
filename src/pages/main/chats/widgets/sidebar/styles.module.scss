@@ -1,11 +1,13 @@
 @import "./src/app/styles";
 
 .wrapper {
-  @include box-size(100%, calc(100% - 16px));
+  @include box-size(calc(100% - 1px), calc(100% - 16px));
   @include flex-column(flex-start);
   background-color: var(--bg-secondary);
   padding-top: 16px;
   gap: 8px;
+  border-right: 1px solid var(--border-secondary);
+
   @include width-to(sm) {
     background-color: var(--bg-primary);
   }

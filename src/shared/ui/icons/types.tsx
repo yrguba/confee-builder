@@ -36,7 +36,9 @@ export type BaseIconsVariants =
     | 'microphone'
     | 'microphone-off'
     | 'call-end'
-    | 'new-message';
+    | 'attach-file'
+    | 'emoji'
+    | 'send';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

@@ -7,7 +7,8 @@
 
   .header {
     @include flex;
-    @include box-size(100%, 60px);
+    @include box-size(100%, 70px);
+    max-height: 70px;
   }
 
   .messageList {
@@ -15,7 +16,6 @@
     width: 100%;
     height: 0;
     flex: 1;
-    margin: 12px 0;
   }
 
   .input {

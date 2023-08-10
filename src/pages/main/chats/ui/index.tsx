@@ -16,22 +16,20 @@ function ChatsPage() {
     userGateway();
     messageGateway();
 
-    const openRightSidebar = useChatStore.use.openRightSidebar();
-
     const { params } = useRouter();
 
     const { to } = useWidthMediaQuery();
 
     const isVisibleSidebar = () => {
         if (to('sm')) {
-            return !params.chat_id && !openRightSidebar;
+            return !params.chat_id;
         }
         return true;
     };
 
     const isVisibleOutlet = () => {
         if (to('sm')) {
-            return !!params.chat_id && !openRightSidebar;
+            return !!params.chat_id;
         }
         return true;
     };

@@ -8,7 +8,7 @@ export type NotificationProps = {
     };
 };
 
-export type Status = 'info' | 'success' | 'warning' | 'error';
+export type Status = 'info' | 'success' | 'warning' | 'error' | 'inDev';
 
 export type UseProps = {
     title: string;

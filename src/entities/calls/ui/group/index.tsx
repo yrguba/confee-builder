@@ -11,13 +11,13 @@ type Props = {
     microphoneState: UseEasyStateReturnedType<boolean>;
 } & BaseTypes.Statuses;
 
-function GroupAudioCallView(props: Props) {
+function GroupCallView(props: Props) {
     const { callStartedState, microphoneState } = props;
 
     return (
         <div className={styles.wrapper}>
             <Title textAlign="center" variant="H1">
-                GroupAudioCallView
+                GroupCallView
             </Title>
             <div className={styles.body}>
                 <Avatar img="" size={200} />
@@ -47,4 +47,4 @@ function GroupAudioCallView(props: Props) {
     );
 }
 
-export default GroupAudioCallView;
+export default GroupCallView;

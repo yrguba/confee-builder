@@ -1,65 +1,41 @@
-import axios from 'axios';
 import React from 'react';
 
+import { appService } from 'entities/app';
 import { callsTypes } from 'entities/calls';
-import { ChatHeaderView, useChatStore, chatApi } from 'entities/chat';
+import { ChatHeaderView, chatApi } from 'entities/chat';
 import ChatProxy from 'entities/chat/lib/proxy';
-import { useRouter, useSip, useWebView } from 'shared/hooks';
+import { useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
-
-import { viewerService } from '../../../entities/viewer';
+import { TabBarTypes, Notification } from 'shared/ui';
 
 function ChatHeader() {
     const { params, navigate } = useRouter();
 
-    const tauriSip = {
-        sip: 'sip:00015@79.137.209.164',
-        pass: '1MQaEtmtETAguoLY',
-    };
-    const browserSip = {
-        sip: 'sip:00001@79.137.209.164',
-        pass: 'yj0OPzEOJ0JIMqqcO',
-    };
-
     const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
-    const viewerId = viewerService.getId();
-    const setOpenRightSidebar = useChatStore.use.setOpenRightSidebar();
 
-    const sip = useSip(viewerId === 18 ? tauriSip : browserSip);
-
+    const notification = Notification.use();
     const callUrl: string = chatData?.is_group
         ? `${callsTypes.Paths.AUDIO_GROUP}/${getRandomString(20)}`
         : `${callsTypes.Paths.AUDIO_PRIVATE}/${getRandomString(20)}`;
 
     const webView = useWebView(callUrl, 'аудио звонок');
 
-    const clickChatCard = () => {
-        setOpenRightSidebar(true);
-    };
-
     const clickChatAudioCall = async () => {
-        // const eventHandlers = {
-        //     progress(e: any) {
-        //         console.log('call is in progress');
-        //     },
-        //     failed(e: any) {
-        //         console.log(`call failed with cause: `, e);
-        //     },
-        //     ended(e: any) {
-        //         console.log(`call ended with cause: ${e}`);
-        //     },
-        //     confirmed(e: any) {
-        //         console.log('call confirmed');
-        //     },
-        // };
-        //
-        // const options = {
-        //     eventHandlers,
-        // };
-        // sip.sendMessage(browserSip.sip, 'text', options);
+        if (appService.tauriIsRunning) {
+            webView?.open();
+        } else {
+            navigate(`/calls/${chatData?.is_group ? 'group' : 'private'}/${getRandomString(20)}`);
+        }
     };
 
-    return <ChatHeaderView back={() => navigate('/chats')} clickChatCard={clickChatCard} clickChatAudioCall={clickChatAudioCall} chat={ChatProxy(chatData)} />;
+    const tabs: TabBarTypes.TabBarItem[] = [
+        { id: 0, icon: 'search', callback: () => notification.inDev() },
+        { id: 1, icon: 'phone', callback: clickChatAudioCall },
+        { id: 2, icon: 'videocam', callback: () => notification.inDev() },
+        { id: 3, icon: 'more', callback: () => 'more' },
+    ];
+
+    return <ChatHeaderView back={() => navigate('/chats')} chat={ChatProxy(chatData)} tabs={tabs} />;
 }
 
 export default ChatHeader;

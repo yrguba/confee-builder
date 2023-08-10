@@ -1,7 +1,7 @@
 import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 
-import { useInView, usePrevious, useScroll, useElementDimensions } from 'shared/hooks';
+import { useInView, usePrevious, useScroll } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -28,8 +28,7 @@ function MessagesListView(props: Props) {
 
     const prevChat = usePrevious(chat);
 
-    const { executeScrollToElement } = useScroll();
-    const [wrapperSize, wrapperSizeRef] = useElementDimensions(true);
+    const { executeScrollToElement, scrollBottom } = useScroll();
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -50,7 +49,7 @@ function MessagesListView(props: Props) {
 
     useEffect(() => {
         if (wrapperRef?.current && chat) {
-            executeScrollToElement({ ref: lastMessageRef, enable: (initOnce && !chat?.pending_messages_count) || !!chatSubscription });
+            scrollBottom({ ref: wrapperRef, enable: (initOnce && !chat?.pending_messages_count) || !!chatSubscription });
             executeScrollToElement({ ref: firstUnreadMessageRef, enable: !!chat?.pending_messages_count && initOnce });
             if (prevChat?.id !== chat.id) setInitOnce(true);
             setTimeout(() => setInitOnce(false), 1000);
@@ -67,7 +66,7 @@ function MessagesListView(props: Props) {
     }, [inViewLastMessageCheckVisibleRef, chat?.pending_messages_count]);
 
     return (
-        <div className={styles.wrapper} ref={mergeRefs([wrapperRef, wrapperSizeRef])}>
+        <div className={styles.wrapper} ref={wrapperRef}>
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
                     <SystemMessage text={message.systemMessageText} />

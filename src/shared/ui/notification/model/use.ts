@@ -12,12 +12,14 @@ function use() {
     const success = (props: UseProps) => set(props, 'success');
     const warning = (props: UseProps) => set(props, 'warning');
     const error = (props: UseProps) => set(props, 'error');
+    const inDev = () => set({ body: 'В разработке', title: 'Пока недоступно', system: true }, 'inDev');
 
     return {
         info,
         success,
         warning,
         error,
+        inDev,
     };
 }
 

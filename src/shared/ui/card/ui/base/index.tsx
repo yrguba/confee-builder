@@ -7,9 +7,10 @@ import Title from '../../../title';
 import { BaseCardProps } from '../../types';
 
 function Card(props: BaseCardProps) {
-    const { img, title, subtitle, onClick, size = 's', name, avatarStatus } = props;
+    const { img, title, subtitle, onClick, size = 's', name, avatarStatus, visibleAvatar = true } = props;
 
     const getAvatarSize = () => {
+        if (!visibleAvatar) return 0;
         if (size === 's') return 44;
         if (size === 'm') return 52;
     };
@@ -32,9 +33,11 @@ function Card(props: BaseCardProps) {
 
     return (
         <div className={classes} onClick={onClick}>
-            <div className={styles.avatar}>
-                <Avatar status={avatarStatus} img={img} name={name} size={avatarSize} />
-            </div>
+            {visibleAvatar && (
+                <div className={styles.avatar}>
+                    <Avatar status={avatarStatus} img={img} name={name} size={avatarSize} />
+                </div>
+            )}
             <div className={styles.caption} style={{ width: `calc(100% - ${avatarSize}px - 12px)` }}>
                 <Title variant={titleVar[size]}>{title}</Title>
                 <Title primary={false} variant={subtitleVar[size]}>

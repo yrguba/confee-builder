@@ -7,6 +7,7 @@ export type BaseCardProps = {
     name?: string;
     title?: string;
     subtitle?: string;
+    visibleAvatar?: boolean;
     size?: 's' | 'm';
     onClick?: () => void;
     avatarStatus?: keyof typeof userTypes.Statuses | null;

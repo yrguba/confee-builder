@@ -11,7 +11,14 @@ const configuration = {
     uri: 'sip:119@79.137.209.164',
     password: 'bf8c7669af148ada38a0d6ff323a065f',
 };
-
+const tauriSip = {
+    sip: 'sip:00015@79.137.209.164',
+    pass: '1MQaEtmtETAguoLY',
+};
+const browserSip = {
+    sip: 'sip:00001@79.137.209.164',
+    pass: 'yj0OPzEOJ0JIMqqcO',
+};
 const sip = new JsSIP.UA(configuration);
 // JsSIP.debug.enable('JsSIP:*');
 // JsSIP.debug.disable();

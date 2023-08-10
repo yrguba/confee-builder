@@ -1,10 +1,11 @@
 import { RefObject } from 'react';
 
 type ExecuteScrollToElementProps = { ref: RefObject<any>; enable?: boolean; smooth?: boolean };
-
+type ScrollBottomProps = ExecuteScrollToElementProps;
 function useScroll(): {
     executeScrollToElement: (props: ExecuteScrollToElementProps) => void;
     getScrollPosition: (arg: RefObject<any>) => { top: number; bottom: number; right: number; left: number } | undefined;
+    scrollBottom: (props: ScrollBottomProps) => void;
 } {
     const getScrollPosition = (ref: RefObject<any>): { top: number; bottom: number; right: number; left: number } | undefined => {
         if (ref.current) {
@@ -25,7 +26,13 @@ function useScroll(): {
         }
     };
 
-    return { executeScrollToElement, getScrollPosition };
+    const scrollBottom = ({ ref, smooth, enable }: ScrollBottomProps) => {
+        if (ref?.current && enable) {
+            ref?.current.scrollTo({ top: ref?.current.scrollHeight, behavior: smooth ? 'smooth' : 'auto' });
+        }
+    };
+
+    return { executeScrollToElement, getScrollPosition, scrollBottom };
 }
 
 export default useScroll;
