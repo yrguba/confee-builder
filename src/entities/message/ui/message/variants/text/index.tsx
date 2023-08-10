@@ -2,7 +2,7 @@ import { getLinkPreview, getPreviewFromContent } from 'link-preview-js';
 import Linkify from 'linkify-react';
 import React, { useCallback, useEffect, useRef } from 'react';
 
-import { useArray, useEasyState } from 'shared/hooks';
+import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { regex } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
 import { Box, Image, Title } from 'shared/ui';
@@ -19,41 +19,46 @@ function TextMessage(props: Props) {
     const { text } = props;
     const once = useRef(true);
     const linksInfo = useArray([]);
-
-    const checkLongWord = useCallback(
-        (str: string) => {
-            return str
-                ?.replace(/\n/g, ' ')
-                .split(' ')
-                ?.map((word, index) =>
-                    word.length > 30 ? (
-                        regex.url.test(word) ? (
-                            <div key={index} className={styles.longUrl}>
-                                {word}
-                            </div>
-                        ) : (
-                            <span key={index} className={styles.longWord}>
-                                {word}
-                            </span>
-                        )
+    const { navigate } = useRouter();
+    const checkLongWord = useCallback((str: string) => {
+        return str
+            ?.replace(/\n/g, ' ')
+            .split(' ')
+            ?.map((word, index) =>
+                word.length > 30 ? (
+                    regex.url.test(word) ? (
+                        <div key={index} className={styles.longUrl}>
+                            {word}
+                        </div>
                     ) : (
-                        `${word} `
+                        <span key={index} className={styles.longWord}>
+                            {word}
+                        </span>
                     )
-                );
-        },
-        [text]
-    );
+                ) : (
+                    `${word} `
+                )
+            );
+    }, []);
 
     useEffect(() => {
         if (text && once.current) {
-            text.split(' ').forEach((word) => {
-                if (regex.url.test(word) && !word.includes('localhost')) {
-                    console.log(word);
-                    // getLinkPreview(word).then((data: any) => {
-                    //     linksInfo.push({ fullUrl: word, ...data });
-                    // });
-                }
-            });
+            const infoArr = Promise.all(
+                text
+                    ?.replace(/\n/g, ' ')
+                    .split(' ')
+                    .map(async (word, index) => {
+                        if (regex.url.test(word) && !word.includes('localhost')) {
+                            const data = await getLinkPreview(word);
+                            if (data) return { fullUrl: word, ...data, id: index };
+                        }
+                    })
+            )
+                .then((res) => {
+                    const arr: any = res.filter((i) => i !== undefined) || [];
+                    linksInfo.replace(arr);
+                })
+                .catch((e) => {});
         }
         once.current = false;
     }, []);
@@ -63,21 +68,24 @@ function TextMessage(props: Props) {
             url: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
                 const preview: any = linksInfo.array.find((i) => i?.fullUrl === href);
-                console.log('preview', preview);
                 return (
                     <div {...props} className={styles.linkBlock}>
-                        <div className={styles.link}>{checkLongWord(content)}</div>
+                        <div
+                            className={styles.link}
+                            onClick={() => {
+                                window.open(content, '_blank');
+                            }}
+                        >
+                            {checkLongWord(content)}
+                        </div>
                         <div className={styles.info}>
                             <div className={styles.description}>
-                                <Title variant="H3M">{preview?.siteName || 'wdbnawbnduwahbdubwaidbwahbdhwbadbawjbdjabdjbsjdbjwbdjbajwbdwj'}</Title>
-                                <Title variant="H4S">{preview?.title || 'wdbnawbnduwahbdubwaidbwahbdhwbadbawjbdjabdjbsjdbjwbdjbajwbdwj'}</Title>
-                                <Title variant="Body14">
-                                    {preview?.description ||
-                                        'wdbnawbnduwahbdubwaidbwahbdhwbadbawjbdjabdjbsjdbjwbdjbajwbdwjwdbnawbnduwahbdubwaidbwahbdhwbadbawjbdjabdjbsjdbjwbdjbajwbdwj'}
-                                </Title>
+                                <Title variant="H3M">{preview?.siteName || 'Неопределенно'}</Title>
+                                <Title variant="H4S">{preview?.title || 'Неопределенно'}</Title>
+                                <Title variant="Body14">{preview?.description || 'Небезопасный ресурс !'}</Title>
                             </div>
                             <div className={styles.img}>
-                                <Image width="60px" height="60px" img={preview?.images[0] || ''} />
+                                <Image width="70px" height="70px" img={preview?.images[0]} />
                             </div>
                         </div>
                     </div>

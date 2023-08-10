@@ -14,6 +14,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>(
     findById: (id: number) => T | null;
     deleteById: (id: number) => void;
     clear: () => void;
+    replace: (arr: T[]) => void;
 } {
     const array = useEasyState<T[]>([]);
 
@@ -32,6 +33,10 @@ function useArray<T extends { id: number | string; [key: string]: any }>(
         array.set((prev) => {
             prev.push(item);
         });
+    };
+
+    const replace = (arr: T[]) => {
+        array.set(arr);
     };
 
     const unshift = (item: T) => {
@@ -55,6 +60,6 @@ function useArray<T extends { id: number | string; [key: string]: any }>(
         array.set([]);
     };
 
-    return { array: array.value, getUniqueArr, push, unshift, findById, deleteById, clear };
+    return { array: array.value, getUniqueArr, push, unshift, findById, replace, deleteById, clear };
 }
 export default useArray;

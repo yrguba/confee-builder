@@ -7,17 +7,16 @@ import { ImageProps } from '../types';
 
 function Image(props: ImageProps) {
     const { img, width, height, ...other } = props;
-
     const [error, setError] = useState(false);
 
     const classes = useStyles(styles, 'img', {
-        error,
+        error: error || !img,
     });
 
     return (
         <div className={styles.wrapper} style={{ width, height }}>
             <img className={classes} src={img} alt="" onError={() => setError(true)} />
-            {error && icon}
+            {(error || !img) && icon}
         </div>
     );
 }

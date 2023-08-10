@@ -2,7 +2,7 @@
 
 .wrapper {
   @include flex;
-  width: 100%;
+  width: auto;
   flex-wrap: wrap;
   column-gap: 6px;
   justify-content: flex-start;
@@ -18,7 +18,7 @@
     word-break: break-all;
   }
 
-  .longUrl{
+  .longUrl {
     @include flex;
     width: 100%;
     word-break: break-all;
@@ -37,8 +37,10 @@
     @include flex-column(flex-start, flex-start);
     gap: 4px;
     width: 100%;
+    margin-bottom: 12px;
 
     .link {
+      cursor: pointer;
       color: var(--text-action);
     }
 
@@ -49,14 +51,18 @@
       padding-left: 8px;
       border-left: 2px solid var(--border-primary);
 
+
       .description {
         @include flex-column(flex-start, flex-start);
         align-self: flex-start;
-        width: 70%;
+        width: 0;
+        flex: 1;
+        //max-width: 60%;
       }
 
       .img {
-
+        border-radius: 12px;
+        overflow: hidden;
       }
     }
   }
