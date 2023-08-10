@@ -1,4 +1,5 @@
 import crypto from './crypto';
+import dateConverter from './date-converter';
 import * as fileConverter from './file-converter';
 import getEnding from './get-ending';
 import getFormData from './get-form-data';
@@ -7,4 +8,4 @@ import * as httpHandlers from './http-handlers';
 import reactionConverter from './reaction-converter';
 import sizeConverter from './size-converter';
 
-export { fileConverter, sizeConverter, httpHandlers, getRandomString, reactionConverter, getFormData, getEnding, crypto };
+export { fileConverter, sizeConverter, httpHandlers, getRandomString, reactionConverter, getFormData, getEnding, crypto, dateConverter };

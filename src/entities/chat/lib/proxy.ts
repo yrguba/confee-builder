@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { viewerService } from 'entities/viewer';
 
-import { getEnding } from '../../../shared/lib';
+import { dateConverter, getEnding } from '../../../shared/lib';
 import { userService } from '../../user';
 import { ChatProxy, Chat } from '../model/types';
 
@@ -37,10 +37,7 @@ function chatProxy(chat: Chat | undefined): any {
                     return text;
 
                 case 'date':
-                    if (moment(target.updated_at).startOf('day').unix() === moment().startOf('day').unix()) {
-                        return moment(target.updated_at).format('LT');
-                    }
-                    return moment(target.updated_at).format('llll')?.split(',')[0];
+                    return dateConverter(target.updated_at);
 
                 case 'subtitle':
                     if (target.messageAction) return target.messageAction;

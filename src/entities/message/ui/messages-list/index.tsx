@@ -78,7 +78,7 @@ function MessagesListView(props: Props) {
                             ref={getMessageRefs(message, index)}
                         >
                             {index === 5 && <div ref={nextPageRef} />}
-                            <Message ref={wrapperRef} message={message} messageMenuAction={messageMenuAction} />
+                            <Message chat={chat} ref={wrapperRef} message={message} messageMenuAction={messageMenuAction} />
                             {messages?.length - 5 === index && <div ref={prevPageRef} />}
                         </div>
                     )}

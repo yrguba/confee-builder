@@ -32,7 +32,7 @@ function ChatHeader() {
         { id: 0, icon: 'search', callback: () => notification.inDev() },
         { id: 1, icon: 'phone', callback: clickChatAudioCall },
         { id: 2, icon: 'videocam', callback: () => notification.inDev() },
-        { id: 3, icon: 'more', callback: () => 'more' },
+        // { id: 3, icon: 'more', callback: () => 'more' },
     ];
 
     return <ChatHeaderView back={() => navigate('/chats')} chat={ChatProxy(chatData)} tabs={tabs} />;

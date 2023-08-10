@@ -1,5 +1,6 @@
 import moment from 'moment';
 
+import { dateConverter } from '../../../shared/lib';
 import { viewerService } from '../../viewer';
 import { Message, MessageProxy } from '../model/types';
 
@@ -15,6 +16,9 @@ function messageProxy(prevMessage: any, message: Message, firstUnreadMessage?: M
 
                 case 'authorName':
                     return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;
+
+                case 'date':
+                    return dateConverter(target.created_at, true);
 
                 case 'isFirstUnread':
                     return firstUnreadMessage?.id === message.id;

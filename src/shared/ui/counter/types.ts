@@ -3,5 +3,5 @@ export type CounterProps = {
     height?: number;
     maxVisibleNumber?: number;
     zeroVisible?: boolean;
-    variant?: 'primary' | 'secondary' | 'tertiary' | 'negative';
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'negative' | 'quaternary';
 };
