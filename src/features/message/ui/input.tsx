@@ -27,13 +27,7 @@ function MessageInput() {
         accept: 'all',
         multiple: true,
         onAfterUploading: (data) => {
-            if (data?.sortByAccept) {
-                const { sortByAccept } = data;
-                if (typeof sortByAccept !== 'object') return null;
-                filesState.set((prev) => {
-                    prev.forPreview = data.files;
-                });
-            }
+            console.log('wdad');
         },
     });
 
