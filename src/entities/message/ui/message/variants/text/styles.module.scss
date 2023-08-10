@@ -33,38 +33,6 @@
     cursor: pointer;
   }
 
-  .linkBlock {
-    @include flex-column(flex-start, flex-start);
-    gap: 4px;
-    width: 100%;
-    margin-bottom: 12px;
 
-    .link {
-      cursor: pointer;
-      color: var(--text-action);
-    }
-
-    .info {
-      @include flex(flex-start);
-      width: 100%;
-      gap: 12px;
-      padding-left: 8px;
-      border-left: 2px solid var(--border-primary);
-
-
-      .description {
-        @include flex-column(flex-start, flex-start);
-        align-self: flex-start;
-        width: 0;
-        flex: 1;
-        //max-width: 60%;
-      }
-
-      .img {
-        border-radius: 12px;
-        overflow: hidden;
-      }
-    }
-  }
 }
 

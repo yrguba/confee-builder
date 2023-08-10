@@ -1,13 +1,14 @@
-import { getLinkPreview, getPreviewFromContent } from 'link-preview-js';
+import { getLinkPreview } from 'link-preview-js';
 import Linkify from 'linkify-react';
 import React, { useCallback, useEffect, useRef } from 'react';
 
-import { useArray, useEasyState, useRouter } from 'shared/hooks';
+import { useArray, useRouter } from 'shared/hooks';
 import { regex } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Box, Image, Title } from 'shared/ui';
+import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import LinkInfo from './widgets/link-info';
 
 import 'linkify-plugin-mention';
 
@@ -19,7 +20,7 @@ function TextMessage(props: Props) {
     const { text } = props;
     const once = useRef(true);
     const linksInfo = useArray([]);
-    const { navigate } = useRouter();
+
     const checkLongWord = useCallback((str: string) => {
         return str
             ?.replace(/\n/g, ' ')
@@ -43,12 +44,12 @@ function TextMessage(props: Props) {
 
     useEffect(() => {
         if (text && once.current) {
-            const infoArr = Promise.all(
+            Promise.all(
                 text
                     ?.replace(/\n/g, ' ')
                     .split(' ')
                     .map(async (word, index) => {
-                        if (regex.url.test(word) && !word.includes('localhost')) {
+                        if (!regex.youTubeUrl.test(word) && regex.url.test(word) && !word.includes('localhost')) {
                             const data = await getLinkPreview(word);
                             if (data) return { fullUrl: word, ...data, id: index };
                         }
@@ -69,38 +70,15 @@ function TextMessage(props: Props) {
                 const { href, ...props } = attributes;
                 const preview: any = linksInfo.array.find((i) => i?.fullUrl === href);
                 return (
-                    <div {...props} className={styles.linkBlock}>
-                        <div
-                            className={styles.link}
-                            onClick={() => {
-                                window.open(content, '_blank');
-                            }}
-                        >
-                            {checkLongWord(content)}
-                        </div>
-                        <div className={styles.info}>
-                            <div className={styles.description}>
-                                <Title variant="H3M">{preview?.siteName || 'Неопределенно'}</Title>
-                                <Title variant="H4S">{preview?.title || 'Неопределенно'}</Title>
-                                <Title variant="Body14">{preview?.description || 'Небезопасный ресурс !'}</Title>
-                            </div>
-                            <div className={styles.img}>
-                                <Image width="70px" height="70px" img={preview?.images[0]} />
-                            </div>
-                        </div>
-                    </div>
+                    <LinkInfo preview={preview} content={content}>
+                        {checkLongWord(content)}
+                    </LinkInfo>
                 );
             },
             mention: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
                 return (
-                    <span
-                        onClick={() => {
-                            console.log('click tag', content);
-                        }}
-                        className={styles.tag}
-                        {...props}
-                    >
+                    <span onClick={() => console.log('click tag', content)} className={styles.tag} {...props}>
                         {content}
                     </span>
                 );
@@ -111,7 +89,6 @@ function TextMessage(props: Props) {
     return (
         <Box className={styles.wrapper}>
             <Linkify options={options}>{checkLongWord(text)}</Linkify>
-            {/* <LinkPreview url="https://gitlab.srv.mf-t.ru/Confee-client/confee/-/blob/main/src/features/message/ui/input.tsx" width="400px" /> */}
         </Box>
     );
 }
