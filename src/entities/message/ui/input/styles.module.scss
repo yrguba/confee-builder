@@ -1,69 +1,24 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex(center, flex-start);
-  @include box-size(90%, auto);
+  @include flex(center, flex-end);
+  @include box-size(calc(100% - 32px), auto);
+  gap: 14px;
+  padding: 0 16px;
 
-
-    .input {
-      @include box-size(calc(100% - 12px), auto);
-      @include flex(center, flex-start);
-      padding: 6px 12px;
-      gap: 10px;
-      background-color: var(--bg-secondary);
-      border-radius: 10px;
-      z-index: 100;
-
-        .icon, .emoji {
-          @include flex;
-          cursor: pointer;
-          z-index: 1000;
-          margin-bottom: 12px;
-        }
-
-        .emoji{
-          margin-bottom: 4px;
-        }
-
-        .textarea {
-          padding: 2px;
-          @include flex;
-          @include box-size(98%, auto);
-          min-height: 24px;
-          align-self: flex-end;
-        }
-      }
-
+  .openDownloads,.openEmoji, .sendBtn {
+    height: 56px;
+    @include flex;
+    cursor: pointer;
   }
 
-  .btnColumn {
-    @include box-size(90px, 100%);
-    @include flex(center, flex-end);
-
-    .sendBtn{
-
-      .dropdownRecord{
-        @include flex;
-        gap: 20px;
-        padding: 4px 8px;
-
-        .timer{
-          @include flex;
-          @include box-size(60px, 100%);
-          gap: 6px;
-          color: var(--text-primary);
-          div{
-            &:nth-child(1){
-              @include flex(flex-end);
-            }
-            &:nth-child(2){
-              @include flex(flex-start);
-            }
-            width: 50%;
-          }
-        }
-      }
-    }
+  .input {
+    //@include box-size(calc(100% - 12px), auto);
+    @include flex;
+    flex: 1;
+    //padding: 6px 12px;
+    z-index: 100;
+    margin: 8px 0;
+  }
 }
-
 

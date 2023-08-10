@@ -9,6 +9,7 @@
     @include flex;
     @include box-size(100%, 70px);
     max-height: 70px;
+    background-color: var(--bg-secondary);
   }
 
   .messageList {
@@ -21,6 +22,7 @@
   .input {
     @include flex(center, flex-start);
     @include box-size(100%, auto);
-    margin-bottom: 12px;
+    min-height: 56px;
+    background-color: var(--bg-secondary);
   }
 }

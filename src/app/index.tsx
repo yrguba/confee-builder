@@ -38,7 +38,7 @@ function App() {
                 <Modal.Confirm />
                 <Notification />
                 <Routing />
-                <ReactQueryDevtools position="bottom-right" />
+                <ReactQueryDevtools position="bottom-left" />
             </QueryClientProvider>
         </BrowserRouter>
     );
