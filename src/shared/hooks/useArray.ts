@@ -1,15 +1,13 @@
 import { useState } from 'react';
 
-type Options = {
-    multiple?: boolean;
-    selfDestruction?: boolean;
-    unique?: boolean;
-};
+import { useEasyState } from './index';
 
-function useArray<T extends { id: number; [key: string]: any }>(
+type Options = {};
+
+function useArray<T extends { id: number | string; [key: string]: any }>(
     options: Options
 ): {
-    arr: T[];
+    array: T[];
     getUniqueArr: (arr: T[], check: keyof T) => T[];
     push: (item: T) => void;
     unshift: (item: T) => void;
@@ -17,7 +15,7 @@ function useArray<T extends { id: number; [key: string]: any }>(
     deleteById: (id: number) => void;
     clear: () => void;
 } {
-    const [arr, setArr] = useState<T[]>([]);
+    const array = useEasyState<T[]>([]);
 
     function getUniqueArr<T>(arr: T[], check: keyof T): T[] {
         const flags = new Set();
@@ -31,65 +29,32 @@ function useArray<T extends { id: number; [key: string]: any }>(
     }
 
     const push = (item: T) => {
-        if (options.multiple) {
-            if (options.unique) {
-                getUniqueArr([...arr, item], 'id');
-            }
-            if (options.selfDestruction) {
-                if (arr.find((i) => i.id === item.id)) {
-                    setArr((prev) => prev.filter((i) => i.id !== item.id));
-                } else {
-                    setArr((prev) => [...prev, item]);
-                }
-            } else {
-                setArr((prev) => [...prev, item]);
-            }
-        } else if (options.selfDestruction) {
-            if (arr.find((i) => i.id === item.id)) {
-                setArr((prev) => prev.filter((i) => i.id !== item.id));
-            } else {
-                setArr([item]);
-            }
-        }
+        array.set((prev) => {
+            prev.push(item);
+        });
     };
 
     const unshift = (item: T) => {
-        if (options.multiple) {
-            if (options.unique) {
-                getUniqueArr([...arr, item], 'id');
-            }
-            if (options.selfDestruction) {
-                if (arr.find((i) => i.id === item.id)) {
-                    setArr((prev) => prev.filter((i) => i.id !== item.id));
-                } else {
-                    setArr((prev) => [item, ...prev]);
-                }
-            } else {
-                setArr((prev) => [item, ...prev]);
-            }
-        } else if (options.selfDestruction) {
-            if (arr.find((i) => i.id === item.id)) {
-                setArr((prev) => prev.filter((i) => i.id !== item.id));
-            } else {
-                setArr((prev) => [item, ...prev]);
-            }
-        } else {
-            setArr([item]);
-        }
+        array.set((prev) => {
+            prev.unshift(item);
+        });
     };
 
     const findById = (id: number) => {
-        return arr.find((i) => i.id === id) || null;
+        if (array.value.length) {
+            return array.value.find((i) => i.id === id) || null;
+        }
+        return null;
     };
 
-    const deleteById = (id: number) => {
-        setArr((prev) => prev.filter((i) => i.id !== id));
+    const deleteById = (id: number | string) => {
+        array.set((prev) => prev.filter((i) => i.id !== id));
     };
 
     const clear = () => {
-        setArr([]);
+        array.set([]);
     };
 
-    return { arr, getUniqueArr, push, unshift, findById, deleteById, clear };
+    return { array: array.value, getUniqueArr, push, unshift, findById, deleteById, clear };
 }
 export default useArray;

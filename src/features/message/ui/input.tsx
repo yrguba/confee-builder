@@ -4,7 +4,9 @@ import { useParams } from 'react-router';
 import { chatApi, chatProxy } from 'entities/chat';
 import { messageApi, MessageInputView, messageTypes } from 'entities/message';
 import { viewerService } from 'entities/viewer';
-import { useEasyState, useFileUploader, UseFileUploaderTypes } from 'shared/hooks';
+import { useArray, useEasyState, useFileUploader, UseFileUploaderTypes } from 'shared/hooks';
+
+import { getFormData } from '../../../shared/lib';
 
 function MessageInput() {
     const params = useParams();
@@ -19,12 +21,19 @@ function MessageInput() {
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
     const messageTextState = useEasyState('');
+    const filesState = useEasyState<{ forPreview: any[]; forApi: any[] }>({ forPreview: [], forApi: [] });
 
     const { open: openFilesDownloader } = useFileUploader({
         accept: 'all',
         multiple: true,
         onAfterUploading: (data) => {
-            console.log(data);
+            if (data?.sortByAccept) {
+                const { sortByAccept } = data;
+                if (typeof sortByAccept !== 'object') return null;
+                filesState.set((prev) => {
+                    prev.forPreview = data.files;
+                });
+            }
         },
     });
 
