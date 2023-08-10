@@ -19,10 +19,10 @@ function MessageInput() {
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
     const messageTextState = useEasyState('');
-    const contentTypeState = useEasyState<UseFileUploaderTypes.Accept>('image');
 
     const { open: openFilesDownloader } = useFileUploader({
-        accept: contentTypeState.value,
+        accept: 'all',
+        multiple: true,
         onAfterUploading: (data) => {
             console.log(data);
         },
@@ -46,19 +46,6 @@ function MessageInput() {
         }
     };
 
-    const clickOnEmoji = (emoji: string) => {
-        messageTextState.set((prev) => prev + emoji);
-    };
-
-    const inputMenuAction = (action: messageTypes.InputMenuActions) => {
-        switch (action) {
-            case 'image':
-                openFilesDownloader();
-                contentTypeState.set(action);
-                break;
-        }
-    };
-
     useEffect(() => {
         messageTextState.set('');
     }, [chatId]);
@@ -69,10 +56,9 @@ function MessageInput() {
                 chat={chatProxy(chatData)}
                 onKeyDown={onKeyDown}
                 messageTextState={messageTextState}
-                clickOnEmoji={clickOnEmoji}
                 btnClick={sendMessage}
                 loading={isLoading}
-                inputMenuAction={inputMenuAction}
+                clickUploadFiles={openFilesDownloader}
             />
         </>
     );

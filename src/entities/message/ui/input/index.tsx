@@ -5,7 +5,6 @@ import { UseEasyStateReturnedType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Input, Emoji, Dropdown, Icons } from 'shared/ui';
 
-import InputMenu from './menu';
 import styles from './styles.module.scss';
 import { ChatProxy } from '../../../chat/model/types';
 
@@ -14,22 +13,18 @@ type Props = {
     onKeyDown: (arg: any) => void;
     messageTextState: UseEasyStateReturnedType<string>;
     btnClick: (arg?: any) => void;
-    clickOnEmoji: (arg?: any) => void;
-    inputMenuAction: (action: messageTypes.InputMenuActions) => void;
+    clickUploadFiles: () => void;
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
-    const { chat, messageTextState, onKeyDown, clickOnEmoji, btnClick, inputMenuAction } = props;
+    const { chat, messageTextState, onKeyDown, btnClick, clickUploadFiles } = props;
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.input}>
-                <Dropdown top={-16} position="right-top" content={<InputMenu inputMenuAction={inputMenuAction} />}>
-                    <div className={styles.icon}>
-                        <Icons variant="add" />
-                    </div>
-                </Dropdown>
-
+                <div className={styles.icon} onClick={clickUploadFiles}>
+                    <Icons variant="attach-file" />
+                </div>
                 <div className={styles.textarea}>
                     <Input.Textarea
                         id={String(chat?.id)}
@@ -40,7 +35,7 @@ function MessageInputView(props: Props) {
                     />
                 </div>
                 <div className={styles.emoji}>
-                    <Emoji clickOnEmoji={clickOnEmoji} />
+                    <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} />
                 </div>
             </div>
             <div className={styles.btnColumn}>

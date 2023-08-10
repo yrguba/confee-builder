@@ -22,6 +22,7 @@ export type BaseIconsVariants =
     | 'chat'
     | 'phone'
     | 'videocam'
+    | 'videocam-outlined'
     | 'block'
     | 'volume-off'
     | 'add-photo'

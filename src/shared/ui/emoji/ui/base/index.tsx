@@ -1,9 +1,8 @@
-import EmojiPicker, { Emoji, Theme } from 'emoji-picker-react';
+// import EmojiPicker, { Emoji, Theme } from 'emoji-picker-react';
 import React from 'react';
 
 import { useTheme } from 'shared/hooks';
 
-import styles from './styles.module.scss';
 import Dropdown from '../../../dropdown';
 import { BaseEmojiProps } from '../../types';
 
@@ -15,9 +14,9 @@ function EmojiBase(props: BaseEmojiProps) {
             left={40}
             openCloseTrigger={openCloseTrigger}
             position={position}
-            content={<EmojiPicker theme={activeTheme === 'light' ? Theme.LIGHT : Theme.DARK} onEmojiClick={(data) => clickOnEmoji(data.emoji)} />}
+            // content={<EmojiPicker theme={activeTheme === 'light' ? Theme.LIGHT : Theme.DARK} onEmojiClick={(data) => clickOnEmoji(data.emoji)} />}
         >
-            <Emoji unified="1f642" />
+            {/* <Emoji unified="1f642" /> */}
         </Dropdown>
     );
 }

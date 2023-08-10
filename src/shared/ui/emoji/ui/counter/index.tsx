@@ -1,4 +1,4 @@
-import { Emoji } from 'emoji-picker-react';
+// import { Emoji } from 'emoji-picker-react';
 import React from 'react';
 
 import styles from './styles.module.scss';
@@ -10,7 +10,7 @@ function EmojiCounter(props: EmojiCounterProps) {
 
     return items?.length ? (
         <div className={styles.wrapper} onClick={() => onClick(emoji)}>
-            <Emoji unified={emoji.toLowerCase()} size={16} />
+            {/* <Emoji unified={emoji.toLowerCase()} size={16} /> */}
             {maxAvatars >= items?.length ? (
                 <div className={styles.avatars}>
                     {items.map((item, index: number) => (
