@@ -6,6 +6,7 @@ import getFormData from './get-form-data';
 import getRandomString from './get-random-string';
 import * as httpHandlers from './http-handlers';
 import reactionConverter from './reaction-converter';
+import * as regex from './regex';
 import sizeConverter from './size-converter';
 
-export { fileConverter, sizeConverter, httpHandlers, getRandomString, reactionConverter, getFormData, getEnding, crypto, dateConverter };
+export { fileConverter, regex, sizeConverter, httpHandlers, getRandomString, reactionConverter, getFormData, getEnding, crypto, dateConverter };

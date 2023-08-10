@@ -2,26 +2,63 @@
 
 .wrapper {
   @include flex;
+  width: 100%;
   flex-wrap: wrap;
   column-gap: 6px;
   justify-content: flex-start;
+  align-items: flex-start;
   word-wrap: break-word;
   white-space: pre-line;
   color: var(--text-primary);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-  .longWord{
+
+  .longWord {
     word-break: break-all;
   }
 
-  a{
+  .longUrl{
+    @include flex;
+    width: 100%;
+    word-break: break-all;
+  }
+
+  a {
     color: var(--text-action) !important;
   }
 
   .tag {
     color: var(--text-action) !important;
     cursor: pointer;
+  }
+
+  .linkBlock {
+    @include flex-column(flex-start, flex-start);
+    gap: 4px;
+    width: 100%;
+
+    .link {
+      color: var(--text-action);
+    }
+
+    .info {
+      @include flex(flex-start);
+      width: 100%;
+      gap: 12px;
+      padding-left: 8px;
+      border-left: 2px solid var(--border-primary);
+
+      .description {
+        @include flex-column(flex-start, flex-start);
+        align-self: flex-start;
+        width: 70%;
+      }
+
+      .img {
+
+      }
+    }
   }
 }
 

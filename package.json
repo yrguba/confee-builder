@@ -46,6 +46,7 @@
         "emoji-picker-react": "^4.4.10",
         "framer-motion": "^9.1.7",
         "jssip": "^3.10.0",
+        "link-preview-js": "^3.0.4",
         "linkify-plugin-mention": "^4.1.1",
         "linkify-react": "^4.1.1",
         "moment": "^2.29.4",
