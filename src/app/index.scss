@@ -1,1 +1,8 @@
-@import "./styles/index.scss";
+@import "styles/themes/leght";
+@import "styles/themes/dark";
+@import "src/shared/ui/emoji/ui/base/styles.module";
+@import "~normalize.css/normalize.css";
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import "styles/normalize.scss";
+@import "styles/vars.scss";

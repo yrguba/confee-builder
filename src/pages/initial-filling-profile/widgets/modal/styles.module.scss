@@ -1,5 +1,4 @@
-@import "./src/app/styles";
-
+@import "src/app/styles";
 .wrapper {
   padding: 40px 0;
   @include box-size(440px, auto);

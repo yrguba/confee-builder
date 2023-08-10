@@ -44,7 +44,7 @@ function ChatsListView(props: Props) {
                                     </div>
                                     <div className={styles.right}>
                                         {chat.pending_messages_count ? (
-                                            <Counter variant="quaternary" height={18}>
+                                            <Counter variant="primary" height={18}>
                                                 {chat.pending_messages_count}
                                             </Counter>
                                         ) : (

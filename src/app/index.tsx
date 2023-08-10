@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import produce from 'immer';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import OneSignal from 'react-onesignal';

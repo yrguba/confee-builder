@@ -1,4 +1,4 @@
-@import "../../../../../app/styles/index";
+@import "src/app/styles";
 
 .wrapper {
   @include box-size(250px, auto);
