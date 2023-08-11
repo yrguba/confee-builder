@@ -16,7 +16,9 @@ function YouTubePlayer(props: Props) {
     return (
         <div {...props} className={styles.wrapper}>
             <div className={styles.link}>{children}</div>
-            <div className={styles.player}>{/* <ReactPlayer width="100%" controls url={url} config={{}} /> */}</div>
+            <div className={styles.player}>
+                <ReactPlayer width="100%" controls url={url} config={{}} />
+            </div>
         </div>
     );
 }

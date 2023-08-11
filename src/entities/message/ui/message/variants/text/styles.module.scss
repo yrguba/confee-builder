@@ -21,9 +21,8 @@
   }
 
   .url {
-    @include flex(flex-start);
+    @include flex-column(flex-start,flex-start);
     gap: 22px;
-    flex-wrap: wrap;
     width: 100%;
     word-break: break-all;
   }

@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 
-import { useStyles } from 'shared/hooks';
+import { useFetchMediaContent, useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { ImageProps } from '../types';
 
 function Image(props: ImageProps) {
     const { img, width, height, ...other } = props;
-    const [error, setError] = useState(false);
 
+    const { src, error, isLoading } = useFetchMediaContent(img || '');
     const classes = useStyles(styles, 'img', {
         error: error || !img,
     });
 
     return (
         <div className={styles.wrapper} style={{ width, height }}>
-            <img className={classes} src={img} alt="" onError={() => setError(true)} />
+            <img className={classes} src={src} alt="" />
             {(error || !img) && icon}
         </div>
     );

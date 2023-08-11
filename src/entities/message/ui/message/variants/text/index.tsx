@@ -21,30 +21,21 @@ function TextMessage(props: Props) {
     const once = useRef(true);
     const linksInfo = useArray([]);
 
-    const checkLongWord = useCallback((str: string) => {
+    const checkLongWord = useCallback((str: string, checkLink = true) => {
         return str.split(' ')?.map((word, index) => {
-            if (regex.url.test(word)) {
-                if (word.split('\n').length > 1) {
-                    return word.split('\n').map((i) => {
-                        return (
-                            <div key={index} className={styles.url}>
-                                {i}
-                            </div>
-                        );
-                    });
-                }
-                return (
-                    <div key={index} className={styles.url}>
+            if (!regex.url.test(word)) {
+                return word.length > 30 ? (
+                    <span key={index} className={styles.longWord}>
                         {word}
-                    </div>
+                    </span>
+                ) : (
+                    word
                 );
             }
-            return word.length > 30 ? (
-                <span key={index} className={styles.longWord}>
+            return (
+                <div key={index} className={styles.url}>
                     {word}
-                </span>
-            ) : (
-                `${word} `
+                </div>
             );
         });
     }, []);
@@ -94,7 +85,7 @@ function TextMessage(props: Props) {
 
     return (
         <Box className={styles.wrapper}>
-            <Linkify options={options}>{checkLongWord(text)}</Linkify>
+            <Linkify options={options}>{checkLongWord(text, false)}</Linkify>
         </Box>
     );
 }
