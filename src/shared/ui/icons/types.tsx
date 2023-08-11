@@ -45,7 +45,8 @@ export type BaseIconsVariants =
     | 'pin'
     | 'copy'
     | 'redirect'
-    | 'check-circle';
+    | 'check-circle'
+    | 'clock';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

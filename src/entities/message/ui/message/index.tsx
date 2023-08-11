@@ -41,9 +41,16 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                             <Title primary={false} variant="H4M">
                                 {message.date}
                             </Title>
-                            {message.isMy && <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />}
+                            <div className={styles.icon}>
+                                <Box.Animated className={styles.checkIcon} visible={message.isMy && !message.isMock}>
+                                    <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />
+                                </Box.Animated>
+
+                                <Box.Animated visible={message.isMock}>
+                                    <Icons variant="clock" />
+                                </Box.Animated>
+                            </div>
                         </div>
-                        <Box.Animated visible={message.isMock}>sending...</Box.Animated>
                     </div>
                 </div>
             </Dropdown.Dynamic>

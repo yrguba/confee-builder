@@ -27,9 +27,17 @@
       .info {
         @include flex(flex-end);
         align-self: flex-end;
+        gap: 4px;
+        .icon {
+          width: 24px;
+          height: 24px;
+          .checkIcon {
+            @include flex;
+          }
 
-        svg {
-          fill: var(--text-action);
+          svg {
+            fill: var(--text-action);
+          }
         }
       }
 

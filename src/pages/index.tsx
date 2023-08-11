@@ -15,7 +15,7 @@ function Routing() {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
+    const { data: viewerData, isLoading, error } = viewerApi.handleGetViewer();
 
     const routes = (
         <Routes location={location}>
@@ -27,8 +27,9 @@ function Routing() {
     );
 
     useEffect(() => {
-        if (!isLoading && !viewerData?.nickname) {
-            navigate('/filling_profile');
+        if (!isLoading) {
+            // if (error) return navigate('/login');
+            if (!viewerData?.nickname) return navigate('/filling_profile');
         }
     }, [isLoading]);
 
