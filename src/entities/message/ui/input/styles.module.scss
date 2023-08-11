@@ -1,24 +1,42 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex(center, flex-end);
-  @include box-size(calc(100% - 32px), auto);
-  gap: 14px;
-  padding: 0 16px;
+  @include box-size(100%, auto);
 
-  .openDownloads,.openEmoji, .sendBtn {
-    height: 56px;
-    @include flex;
-    cursor: pointer;
+
+  .header {
+    @include flex(flex-start);
+    @include box-size(calc(100% - 32px), 40px);
+    gap: 14px;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border-secondary);
+
+    .description{
+      flex: 1;
+      width: 0;
+    }
   }
 
-  .input {
-    //@include box-size(calc(100% - 12px), auto);
-    @include flex;
-    flex: 1;
-    //padding: 6px 12px;
-    z-index: 100;
-    margin: 8px 0;
+  .main {
+    @include flex(center, flex-end);
+    @include box-size(calc(100% - 32px), auto);
+    gap: 14px;
+    padding: 0 16px;
+
+    .openDownloads, .openEmoji, .sendBtn {
+      height: 56px;
+      @include flex;
+      cursor: pointer;
+    }
+
+    .input {
+      @include flex;
+      flex: 1;
+      z-index: 100;
+      margin: 8px 0;
+    }
   }
+
+
 }
 

@@ -4,7 +4,7 @@
   @include box-size(auto, auto);
   @include flex(center, flex-end);
   gap: 12px;
-  max-width: 70%;
+  max-width: 90%;
 
   .content {
     @include box-size(100%, auto);
@@ -12,14 +12,14 @@
 
     .bubble {
       @include flex(flex-start);
-      min-width: 120px;
+      //min-width: 120px;
       gap: 12px;
       padding: 12px;
       border-radius: 12px 12px 12px 0;
       background-color: var(--bg-secondary);
 
       .body {
-        flex: 1;
+        //flex: 1;
         margin-bottom: 8px;
       }
 

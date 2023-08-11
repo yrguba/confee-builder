@@ -22,19 +22,26 @@ function TextMessage(props: Props) {
     const linksInfo = useArray([]);
 
     const checkLongWord = useCallback((str: string, checkLink = true) => {
-        return str.split(' ')?.map((word, index) => {
-            if (!regex.url.test(word)) {
-                return word.length > 30 ? (
-                    <span key={index} className={styles.longWord}>
-                        {word}
-                    </span>
-                ) : (
-                    word
-                );
-            }
+        return str.split('\n')?.map((row, index) => {
             return (
-                <div key={index} className={styles.url}>
-                    {word}
+                <div key={index} className={styles.row}>
+                    {row.split(' ')?.map((word, index) => {
+                        if (regex.url.test(word)) {
+                            return (
+                                <div key={index} className={styles.url}>
+                                    {word}
+                                </div>
+                            );
+                        }
+                        if (word.length > 5) {
+                            return (
+                                <span key={index} className={styles.longWord}>
+                                    {word}
+                                </span>
+                            );
+                        }
+                        return <span key={index}>{word}</span>;
+                    })}
                 </div>
             );
         });
@@ -45,8 +52,8 @@ function TextMessage(props: Props) {
             Promise.all(
                 text.split(' ').map(async (word, index) => {
                     if (!regex.youTubeUrl.test(word) && regex.url.test(word) && !word.includes('localhost')) {
-                        const data = await getLinkPreview(word);
-                        if (data) return { fullUrl: word, ...data, id: index };
+                        // const data = await getLinkPreview(word);
+                        // if (data) return { fullUrl: word, ...data, id: index };
                     }
                 })
             )

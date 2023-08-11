@@ -7,14 +7,14 @@
   margin-bottom: 12px;
 
   .link {
+    word-break: break-all;
     cursor: pointer;
     color: var(--text-action);
   }
 
   .info {
-    @include flex(flex-start);
-    width: 40%;
-    min-width: 220px;
+    @include flex(space-between);
+    flex-wrap: wrap;
     gap: 12px;
     padding-left: 8px;
     border-left: 2px solid var(--border-primary);
@@ -23,9 +23,7 @@
     .description {
       @include flex-column(flex-start, flex-start);
       align-self: flex-start;
-      width: 0;
-      flex: 1;
-      //max-width: 60%;
+      max-width: 70%;
     }
 
     .img {

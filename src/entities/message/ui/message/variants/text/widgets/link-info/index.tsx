@@ -15,7 +15,7 @@ function LinkInfo(props: Props) {
     const { content, children, preview } = props;
 
     return (
-        <div {...props} className={styles.wrapper}>
+        <div className={styles.wrapper}>
             <div
                 className={styles.link}
                 onClick={() => {

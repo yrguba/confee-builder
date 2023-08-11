@@ -6,6 +6,13 @@ function BaseIcons(props: BaseIconsProps) {
     const { variant, size = 24 } = props;
 
     switch (variant) {
+        case 'reply-black': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.4947 7.8623V6.10785C10.4947 5.1258 9.26687 4.62926 8.55066 5.32442L3.33253 10.3892C2.88916 10.8195 2.88916 11.5146 3.33253 11.945L8.55066 17.0097C9.26687 17.7049 10.4947 17.2194 10.4947 16.2373V14.3725C16.1789 14.3725 20.1579 16.138 23 20C21.8632 14.4829 18.4526 8.96573 10.4947 7.8623Z" />
+                </svg>
+            );
+        }
         case 'clock': {
             return (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

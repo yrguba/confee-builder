@@ -15,7 +15,7 @@ function MessageMenu(props: Props) {
     const { messageMenuAction, message } = props;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions>[] = [
-        { id: 0, title: 'Ответить', icon: 'reply', payload: 'answer' },
+        { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
         { id: 1, title: 'Изменить', icon: 'edit', payload: 'forward' },
         { id: 2, title: 'Закрепить', icon: 'pin', payload: 'forward' },
         { id: 3, title: 'Копировать текст', icon: 'copy', payload: 'forward' },

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { chatApi, chatProxy } from 'entities/chat';
-import { messageApi, MessageInputView, messageTypes } from 'entities/message';
+import { messageApi, MessageInputView, messageTypes, useMessageStore } from 'entities/message';
 import { viewerService } from 'entities/viewer';
 import { useArray, useEasyState, useFileUploader, UseFileUploaderTypes } from 'shared/hooks';
 
@@ -20,8 +20,10 @@ function MessageInput() {
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
+    const setReplyMessage = useMessageStore.use.setReplyMessage();
+    const replyMessage = useMessageStore.use.replyMessage();
+
     const messageTextState = useEasyState('');
-    const filesState = useEasyState<{ forPreview: any[]; forApi: any[] }>({ forPreview: [], forApi: [] });
 
     const { open: openFilesDownloader } = useFileUploader({
         accept: 'all',
@@ -62,6 +64,7 @@ function MessageInput() {
                 btnClick={sendMessage}
                 loading={isLoading}
                 clickUploadFiles={openFilesDownloader}
+                replyMessage={{ value: replyMessage, set: setReplyMessage }}
             />
         </>
     );

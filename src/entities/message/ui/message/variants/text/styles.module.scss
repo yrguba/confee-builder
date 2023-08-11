@@ -1,7 +1,7 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex;
+  @include flex-column;
   width: auto;
   max-width: 800px;
   flex-wrap: wrap;
@@ -15,17 +15,19 @@
   font-weight: 400;
   line-height: 24px;
 
+  .row {
 
-  .longWord {
-    word-break: break-all;
+
+    .longWord {
+      word-break: break-all;
+    }
+
+    .url {
+      @include flex-column(flex-start, flex-start);
+      word-break: break-all;
+    }
   }
 
-  .url {
-    @include flex-column(flex-start,flex-start);
-    gap: 22px;
-    width: 100%;
-    word-break: break-all;
-  }
 
   a {
     color: var(--text-action) !important;

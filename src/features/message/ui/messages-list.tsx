@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { chatApi, useChatStore } from 'entities/chat';
-import { messageApi, MessagesListView, messageService, messageTypes } from 'entities/message';
+import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { MessageProxy } from 'entities/message/model/types';
 import { useRouter, useCopyToClipboard } from 'shared/hooks';
 
@@ -20,6 +20,8 @@ function MessageList() {
 
     const setChatSubscription = useChatStore.use.setChatSubscription();
     const chatSubscription = useChatStore.use.chatSubscription();
+
+    const setReplyMessage = useMessageStore.use.setReplyMessage();
 
     const {
         data: messageData,
@@ -48,6 +50,9 @@ function MessageList() {
 
     const messageMenuAction = (action: messageTypes.MessageMenuActions, message: messageTypes.MessageProxy) => {
         switch (action) {
+            case 'reply':
+                setReplyMessage(message);
+                break;
             case 'copy':
                 copyToClipboard(message.text);
                 break;

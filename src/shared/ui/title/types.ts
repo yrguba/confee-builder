@@ -1,3 +1,5 @@
+import { BaseTypes } from 'shared/types';
+
 export type TitleVariants =
     | 'H1'
     | 'H2'
@@ -22,4 +24,4 @@ export type TitleProps = {
     textWrap?: boolean;
     textAlign?: 'center' | 'left' | 'right';
     animate?: boolean;
-};
+} & BaseTypes.Statuses;
