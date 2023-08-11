@@ -52,8 +52,8 @@ function TextMessage(props: Props) {
             Promise.all(
                 text.split(' ').map(async (word, index) => {
                     if (!regex.youTubeUrl.test(word) && regex.url.test(word) && !word.includes('localhost')) {
-                        // const data = await getLinkPreview(word);
-                        // if (data) return { fullUrl: word, ...data, id: index };
+                        const data = await getLinkPreview(word);
+                        if (data) return { fullUrl: word, ...data, id: index };
                     }
                 })
             )
