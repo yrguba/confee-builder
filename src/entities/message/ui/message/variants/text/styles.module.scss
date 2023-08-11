@@ -3,6 +3,7 @@
 .wrapper {
   @include flex;
   width: auto;
+  max-width: 800px;
   flex-wrap: wrap;
   column-gap: 6px;
   justify-content: flex-start;
@@ -13,7 +14,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-  max-width: 800px;
+
 
   .longWord {
     word-break: break-all;
