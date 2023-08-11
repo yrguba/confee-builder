@@ -13,7 +13,8 @@
 
   .info {
     @include flex(flex-start);
-    width: 100%;
+    width: 40%;
+    min-width: 220px;
     gap: 12px;
     padding-left: 8px;
     border-left: 2px solid var(--border-primary);

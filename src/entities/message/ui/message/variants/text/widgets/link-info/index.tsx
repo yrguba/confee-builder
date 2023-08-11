@@ -31,7 +31,7 @@ function LinkInfo(props: Props) {
                     <Title variant="Body14">{preview?.description || 'Небезопасный ресурс !'}</Title>
                 </div>
                 <div className={styles.img}>
-                    <Image width="70px" height="70px" img={preview?.images[0]} />
+                    <Image width="70px" height="70px" img={preview?.images?.length ? preview?.images[0] : ''} />
                 </div>
             </div>
         </div>

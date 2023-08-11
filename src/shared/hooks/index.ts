@@ -14,6 +14,7 @@ import {
     useNetworkState,
     useTimeout,
     useRendersCount,
+    useVideo,
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
 import useFileUploader, { Types as UseFileUploaderTypes } from 'react-use-file-uploader';
@@ -40,6 +41,7 @@ import ConfigMediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
 export {
+    useVideo,
     useCallbackRef,
     useRendersCount,
     useDimensionsObserver,

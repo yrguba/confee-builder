@@ -2,14 +2,14 @@ import { getLinkPreview } from 'link-preview-js';
 import Linkify from 'linkify-react';
 import React, { useCallback, useEffect, useRef } from 'react';
 
-import { useArray, useRouter } from 'shared/hooks';
+import { useArray } from 'shared/hooks';
 import { regex } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import LinkInfo from './widgets/link-info';
-
+import YouTubePlayer from './widgets/youTube-player';
 import 'linkify-plugin-mention';
 
 type Props = {
@@ -22,38 +22,42 @@ function TextMessage(props: Props) {
     const linksInfo = useArray([]);
 
     const checkLongWord = useCallback((str: string) => {
-        return str
-            ?.replace(/\n/g, ' ')
-            .split(' ')
-            ?.map((word, index) =>
-                word.length > 30 ? (
-                    regex.url.test(word) ? (
-                        <div key={index} className={styles.longUrl}>
-                            {word}
-                        </div>
-                    ) : (
-                        <span key={index} className={styles.longWord}>
-                            {word}
-                        </span>
-                    )
-                ) : (
-                    `${word} `
-                )
+        return str.split(' ')?.map((word, index) => {
+            if (regex.url.test(word)) {
+                if (word.split('\n').length > 1) {
+                    return word.split('\n').map((i) => {
+                        return (
+                            <div key={index} className={styles.url}>
+                                {i}
+                            </div>
+                        );
+                    });
+                }
+                return (
+                    <div key={index} className={styles.url}>
+                        {word}
+                    </div>
+                );
+            }
+            return word.length > 30 ? (
+                <span key={index} className={styles.longWord}>
+                    {word}
+                </span>
+            ) : (
+                `${word} `
             );
+        });
     }, []);
 
     useEffect(() => {
         if (text && once.current) {
             Promise.all(
-                text
-                    ?.replace(/\n/g, ' ')
-                    .split(' ')
-                    .map(async (word, index) => {
-                        if (!regex.youTubeUrl.test(word) && regex.url.test(word) && !word.includes('localhost')) {
-                            const data = await getLinkPreview(word);
-                            if (data) return { fullUrl: word, ...data, id: index };
-                        }
-                    })
+                text.split(' ').map(async (word, index) => {
+                    if (!regex.youTubeUrl.test(word) && regex.url.test(word) && !word.includes('localhost')) {
+                        const data = await getLinkPreview(word);
+                        if (data) return { fullUrl: word, ...data, id: index };
+                    }
+                })
             )
                 .then((res) => {
                     const arr: any = res.filter((i) => i !== undefined) || [];
@@ -69,7 +73,9 @@ function TextMessage(props: Props) {
             url: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
                 const preview: any = linksInfo.array.find((i) => i?.fullUrl === href);
-                return (
+                return regex.youTubeUrl.test(href) ? (
+                    <YouTubePlayer url={href}>{checkLongWord(content)}</YouTubePlayer>
+                ) : (
                     <LinkInfo preview={preview} content={content}>
                         {checkLongWord(content)}
                     </LinkInfo>
@@ -78,9 +84,9 @@ function TextMessage(props: Props) {
             mention: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
                 return (
-                    <span onClick={() => console.log('click tag', content)} className={styles.tag} {...props}>
+                    <div onClick={() => console.log('click tag', content)} className={styles.tag} {...props}>
                         {content}
-                    </span>
+                    </div>
                 );
             },
         },

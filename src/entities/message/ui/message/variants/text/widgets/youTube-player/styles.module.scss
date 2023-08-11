@@ -1,0 +1,20 @@
+@import "src/app/styles";
+
+.wrapper {
+  @include flex-column(flex-start, flex-start);
+  gap: 4px;
+  width: 100%;
+
+  margin-bottom: 12px;
+
+  .link {
+    cursor: pointer;
+    color: var(--text-action);
+  }
+
+  .player{
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+}
