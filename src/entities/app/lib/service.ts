@@ -4,6 +4,8 @@ class AppService {
     // @ts-ignore
     tauriIsRunning = !!window.__TAURI__;
 
+    isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
     getUrls(): { clientBaseURL: string; clientFullURL: string; socketUrl: string; backBaseURL: string; localSocketUrl: string } {
         return {
             clientBaseURL: window.location.origin,

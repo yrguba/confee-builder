@@ -64,6 +64,7 @@ function TextMessage(props: Props) {
             url: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
                 const preview: any = linksInfo.array.find((i) => i?.fullUrl === href);
+
                 return regex.youTubeUrl.test(href) ? (
                     <YouTubePlayer url={href}>{checkLongWord(content)}</YouTubePlayer>
                 ) : (
