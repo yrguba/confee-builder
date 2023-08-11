@@ -4,6 +4,7 @@ import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { MessageProxy } from 'entities/message/model/types';
 import { useRouter, useCopyToClipboard } from 'shared/hooks';
+import { Modal } from 'shared/ui';
 
 function MessageList() {
     const { params } = useRouter();
@@ -11,18 +12,17 @@ function MessageList() {
 
     const chatId = Number(params.chat_id);
 
+    const { mutate: handleReadMessage } = messageApi.handleReadMessage();
+    const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
+
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleSubscribeToChat } = chatApi.handleSubscribeToChat();
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
-
-    const { mutate: handleReadMessage } = messageApi.handleReadMessage();
-    const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
 
     const setChatSubscription = useChatStore.use.setChatSubscription();
     const chatSubscription = useChatStore.use.chatSubscription();
 
     const setReplyMessage = useMessageStore.use.setReplyMessage();
-
     const {
         data: messageData,
         hasNextPage,
@@ -33,6 +33,15 @@ function MessageList() {
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
 
     const messages: MessageProxy[] = messageService.getUpdatedList(messageData);
+
+    const confirmModal = Modal.useConfirm({
+        title: 'Удалить сообщение',
+        closeText: 'Отмена',
+        okText: 'Удалить',
+        callback: (value) => {
+            // value && handleDeleteMessage({ chatId, messageIds });
+        },
+    });
 
     const subscribeToChat = (action: 'sub' | 'unsub') => {
         if (action === 'sub') {
@@ -57,7 +66,8 @@ function MessageList() {
                 copyToClipboard(message.text);
                 break;
             case 'delete':
-                handleDeleteMessage({ chatId, fromAll: true, messageIds: [message.id] });
+                confirmModal.open();
+            // handleDeleteMessage({ chatId, fromAll: true, messageIds: [message.id] });
         }
     };
 

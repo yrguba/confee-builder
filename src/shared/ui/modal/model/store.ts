@@ -4,17 +4,19 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useCreateSelectors } from 'shared/hooks';
 
+import { UseConfirmProps } from './types';
+
 type Store = {
     openModal: string | null;
     openConfirmModal: boolean;
-    confirmTitle: string;
+    confirm: UseConfirmProps | null;
     confirmModalPayload: {
         value?: boolean;
         date?: number;
     };
     setOpenModal: (modalName: string | null) => void;
-    setOpenConfirmModal: (title: boolean) => void;
-    setConfirmTitle: (modalName: string) => void;
+    setOpenConfirmModal: (value: boolean) => void;
+    setConfirm: (props: UseConfirmProps | null) => void;
     setConfirmModalPayload: (data: { value: boolean; date?: number }) => void;
 };
 
@@ -23,7 +25,7 @@ const modalStore = create<Store>()(
         immer((set) => ({
             openModal: null,
             openConfirmModal: false,
-            confirmTitle: '',
+            confirm: null,
             confirmModalPayload: {},
             setOpenModal: (ModalName) =>
                 set((state) => {
@@ -37,9 +39,9 @@ const modalStore = create<Store>()(
                 set((state) => {
                     state.confirmModalPayload = value;
                 }),
-            setConfirmTitle: (title) =>
+            setConfirm: (props) =>
                 set((state) => {
-                    state.confirmTitle = title;
+                    state.confirm = props;
                 }),
         }))
     )

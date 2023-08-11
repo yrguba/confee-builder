@@ -10,7 +10,7 @@ import { BaseModalProps } from '../../model/types';
 import { use } from '../../model/use';
 
 function Modal(props: BaseModalProps) {
-    const { isOpen, close, children, onClose } = props;
+    const { isOpen, close, children, onClose, closeIcon = true } = props;
     const openModal: any = useModalStore.use.openModal();
     const modal_root = document.querySelector('#modal-root');
     const useModal = use(openModal);
@@ -27,9 +27,11 @@ function Modal(props: BaseModalProps) {
         ? ReactDOM.createPortal(
               <Box.Animated visible={isOpen} presence className={styles.mask}>
                   <div className={classes} onClick={(e) => e.stopPropagation()}>
-                      <div className={styles.closeIcon} onClick={closeClick}>
-                          <Icons variant="close" />
-                      </div>
+                      {closeIcon && (
+                          <div className={styles.closeIcon} onClick={closeClick}>
+                              <Icons variant="close" />
+                          </div>
+                      )}
                       <div className={styles.content}>{isOpen && children}</div>
                   </div>
               </Box.Animated>,

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { usePrevious } from 'react-use';
 
 import useModalStore from './store';
+import { UseConfirmProps } from './types';
 
 function use<MN>(modalNames: MN, options?: { showPrevModalAfterClose: boolean }) {
     const openModal: any = useModalStore.use.openModal();
@@ -26,19 +27,20 @@ function use<MN>(modalNames: MN, options?: { showPrevModalAfterClose: boolean })
     return { isOpen, open, close };
 }
 
-function useConfirm(props: { title: string; callback: (value: boolean) => void }) {
+function useConfirm(props: UseConfirmProps) {
     const openConfirmModal = useModalStore.use.openConfirmModal();
     const confirmModalPayload = useModalStore.use.confirmModalPayload();
     const setOpenConfirmModal = useModalStore.use.setOpenConfirmModal();
-    const setConfirmTitle = useModalStore.use.setConfirmTitle();
+    const setConfirm = useModalStore.use.setConfirm();
+
     const open = () => {
         setOpenConfirmModal(true);
-        setConfirmTitle(props.title);
+        setConfirm(props);
     };
 
     const close = () => {
         setOpenConfirmModal(false);
-        setConfirmTitle('');
+        setConfirm(null);
     };
 
     useEffect(() => {

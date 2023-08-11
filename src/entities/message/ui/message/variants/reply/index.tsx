@@ -5,7 +5,7 @@ import { Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import MessageService from '../../../../lib/service';
-import { Message, MessageProxy } from '../../../../model/types';
+import { Message } from '../../../../model/types';
 
 type Props = {
     message: Message | null;

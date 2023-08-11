@@ -8,7 +8,7 @@ import Modal from '../base';
 
 function ConfirmModal() {
     const openConfirmModal = useModalStore.use.openConfirmModal();
-    const confirmTitle = useModalStore.use.confirmTitle();
+    const confirm = useModalStore.use.confirm();
     const setConfirmModalPayload = useModalStore.use.setConfirmModalPayload();
     const setOpenConfirmModal = useModalStore.use.setOpenConfirmModal();
 
@@ -18,14 +18,15 @@ function ConfirmModal() {
     };
 
     return (
-        <Modal isOpen={!!openConfirmModal} open={() => ''} close={() => ''} onClose={() => click(false)}>
+        <Modal closeIcon={false} isOpen={!!openConfirmModal} open={() => ''} close={() => ''} onClose={() => click(false)}>
             <div className={styles.wrapper}>
                 <div className={styles.body}>
-                    <Title variant="H2">{confirmTitle}</Title>
+                    <Title variant="H2">{confirm?.title}</Title>
+                    {confirm?.subtitle && <Title variant="H2">{confirm?.subtitle}</Title>}
                 </div>
                 <div className={styles.footer}>
-                    <Button onClick={() => click(false)}>no</Button>
-                    <Button onClick={() => click(true)}>ok</Button>
+                    <Button onClick={() => click(false)}>{confirm?.closeText}</Button>
+                    <Button onClick={() => click(true)}>{confirm?.okText}</Button>
                 </div>
             </div>
         </Modal>
