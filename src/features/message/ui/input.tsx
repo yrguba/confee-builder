@@ -2,21 +2,14 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { chatApi, chatProxy } from 'entities/chat';
-import { messageApi, MessageInputView, messageTypes, useMessageStore } from 'entities/message';
-import { viewerService } from 'entities/viewer';
-import { useArray, useEasyState, useFileUploader, UseFileUploaderTypes } from 'shared/hooks';
-
-import { getFormData } from '../../../shared/lib';
+import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
+import { useEasyState, useFileUploader } from 'shared/hooks';
 
 function MessageInput() {
     const params = useParams();
     const chatId = Number(params.chat_id);
 
     const { mutate: handleSendTextMessage, isLoading } = messageApi.handleSendTextMessage();
-    const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
-    // const { mutate: handleMessageAction } = MessageApi.handleMessageAction();
-    const { mutate: handleReplyMessage } = messageApi.handleReplyMessage();
-    const { mutate: handleChangeTextInMessages } = messageApi.handleChangeTextInMessages();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
@@ -35,8 +28,13 @@ function MessageInput() {
 
     const sendMessage = () => {
         if (messageTextState.value) {
-            handleSendTextMessage({ text: messageTextState.value, chatId });
+            if (replyMessage) {
+                setReplyMessage(null);
+                messageTextState.set('');
+                return handleSendTextMessage({ text: messageTextState.value, chatId, params: { reply_to_message_id: replyMessage.id } });
+            }
             messageTextState.set('');
+            return handleSendTextMessage({ text: messageTextState.value, chatId });
         }
     };
 

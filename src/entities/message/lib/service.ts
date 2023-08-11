@@ -1,7 +1,9 @@
 import { messages_limit } from './constants';
 import { useArray } from '../../../shared/hooks';
 import { Chat } from '../../chat/model/types';
+import { viewerService } from '../../viewer';
 import { messageProxy } from '../index';
+import { Message } from '../model/types';
 
 class MessageService {
     getUpdatedList(messageData: any) {
@@ -15,6 +17,12 @@ class MessageService {
         if (!chat) return undefined;
         if (chat.pending_messages_count === 0) return 1;
         return Math.ceil(chat.pending_messages_count / messages_limit);
+    }
+
+    getAuthorName(message: Message | null) {
+        if (!message) return '';
+        const viewerId = viewerService.getId();
+        return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;
     }
 }
 

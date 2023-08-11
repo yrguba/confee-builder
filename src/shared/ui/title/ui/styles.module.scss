@@ -15,6 +15,10 @@
   white-space: nowrap;
 }
 
+.active{
+  color: var(--text-action) !important;
+}
+
 .H1 {
   font-size: 24px;
   font-style: normal;

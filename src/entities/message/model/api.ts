@@ -27,12 +27,12 @@ class MessageApi {
             },
             {
                 getPreviousPageParam: (lastPage, pages) => {
-                    // const { current_page } = lastPage?.data.meta;
-                    // return current_page > 1 ? current_page - 1 : undefined;
+                    const { current_page } = lastPage?.data.meta;
+                    return current_page > 1 ? current_page - 1 : undefined;
                 },
                 getNextPageParam: (lastPage, pages) => {
-                    // const { current_page, last_page } = lastPage?.data.meta;
-                    // return current_page < last_page ? current_page + 1 : undefined;
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
                 },
                 select: (data) => {
                     return {
@@ -50,8 +50,8 @@ class MessageApi {
         const queryClient = useQueryClient();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
-            (data: { text: string; chatId: number }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages`, { text: data.text, message_type: 'text' }),
+            (data: { text: string; chatId: number; params?: { reply_to_message_id?: number } }) =>
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages`, { text: data.text, message_type: 'text' }, { params: data.params }),
             {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
@@ -74,24 +74,6 @@ class MessageApi {
     handleForwardMessages() {
         return useMutation((data: { messagesIds: number[]; chatId: number }) =>
             axiosClient.post(`${this.pathPrefix}/forward/message/${data.chatId}`, { messages: data.messagesIds })
-        );
-    }
-
-    handleReplyMessage() {
-        const queryClient = useQueryClient();
-        const viewerData: any = queryClient.getQueryData(['get-viewer']);
-        return useMutation(
-            (data: { text: string; messageId: number; chatId: number; reply: MessageProxy }) =>
-                axiosClient.post(`${this.pathPrefix}/reply/message/${data.chatId}/${data.messageId}`, { text: data.text, message_type: 'text' }),
-            {
-                onMutate: async (data) => {
-                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                        const message = messageEntity({ text: data.text, viewer: viewerData?.data.data, reply: data.reply });
-                        cacheData.pages[0].data.data.unshift(message);
-                        return cacheData;
-                    });
-                },
-            }
         );
     }
 

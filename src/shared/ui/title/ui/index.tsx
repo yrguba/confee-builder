@@ -7,7 +7,7 @@ import Box from '../../box';
 import { TitleProps } from '../types';
 
 function Title(props: TitleProps) {
-    const { children, isError, textWrap, primary = true, variant, textAlign, animate } = props;
+    const { children, isError, textWrap, primary = true, variant, textAlign, animate, active = false } = props;
 
     const cx = cnBind.bind(styles);
 
@@ -17,6 +17,7 @@ function Title(props: TitleProps) {
             [variant]: variant,
             primary,
             textWrap,
+            active,
         })
     );
 

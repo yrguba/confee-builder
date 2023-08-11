@@ -7,6 +7,7 @@ import { Avatar, Box, Dropdown, Icons, Title } from 'shared/ui';
 import MessageMenu from './menu';
 import styles from './styles.module.scss';
 import ImagesMessage from './variants/images';
+import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
 import { MessageProxy, MessageMenuActions } from '../../model/types';
 
@@ -19,7 +20,7 @@ type Props = {
 const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
     const { message, messageMenuAction, chat } = props;
 
-    const { id, type } = message;
+    const { id, type, reply_to_message } = message;
 
     return (
         <Box className={styles.wrapper}>
@@ -34,6 +35,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 <div className={styles.content}>
                     <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>
                         <div className={styles.body}>
+                            {reply_to_message && <ReplyMessage message={message.reply_to_message} />}
                             {type === 'text' && <TextMessage text={message.text} />}
                             {type === 'images' && <ImagesMessage images={message.files} />}
                         </div>

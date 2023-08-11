@@ -16,6 +16,7 @@ function messageGateway() {
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
+            console.log('MessageCreated', socketData);
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.pages.length) return cacheData;
                 if (socketData.data.message.author.id === viewerId || chatSubscription === socketData.data.message.chat_id) {
