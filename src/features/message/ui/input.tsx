@@ -31,7 +31,12 @@ function MessageInput() {
             if (replyMessage) {
                 setReplyMessage(null);
                 messageTextState.set('');
-                return handleSendTextMessage({ text: messageTextState.value, chatId, params: { reply_to_message_id: replyMessage.id } });
+                return handleSendTextMessage({
+                    text: messageTextState.value,
+                    chatId,
+                    params: { reply_to_message_id: replyMessage.id },
+                    replyMessage,
+                });
             }
             messageTextState.set('');
             return handleSendTextMessage({ text: messageTextState.value, chatId });

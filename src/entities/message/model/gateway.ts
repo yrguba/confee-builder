@@ -16,7 +16,6 @@ function messageGateway() {
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
-            console.log('MessageCreated', socketData);
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.pages.length) return cacheData;
                 if (socketData.data.message.author.id === viewerId || chatSubscription === socketData.data.message.chat_id) {
@@ -37,6 +36,17 @@ function messageGateway() {
                 return produce(cacheData, (draft: any) => {
                     draft.data.data = draft?.data?.data.map((chat: Chat) => {
                         if (socketData.data.message.chat_id === chat.id) return { ...chat, last_message: socketData.data.message };
+                        return chat;
+                    });
+                });
+            });
+        });
+        onMessage('MessageUpdated', (socketData) => {
+            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                if (!cacheData?.data?.data.length) return cacheData;
+                return produce(cacheData, (draft: any) => {
+                    draft.data.data = draft?.data?.data.map((chat: Chat) => {
+                        if (socketData.data.chat_id === chat.id) return { ...chat, last_message: { ...chat.last_message, ...socketData.data.updated_values } };
                         return chat;
                     });
                 });

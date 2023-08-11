@@ -6,7 +6,7 @@ import { useArray, useWebSocket } from 'shared/hooks';
 
 import { MessageProxy } from './types';
 import { messages_limit } from '../lib/constants';
-import messageEntity from '../lib/entity';
+import mockMessage from '../lib/mock';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
@@ -50,12 +50,12 @@ class MessageApi {
         const queryClient = useQueryClient();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
-            (data: { text: string; chatId: number; params?: { reply_to_message_id?: number } }) =>
+            (data: { text: string; chatId: number; params?: { reply_to_message_id?: number }; replyMessage?: MessageProxy }) =>
                 axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages`, { text: data.text, message_type: 'text' }, { params: data.params }),
             {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                        const message = messageEntity({ text: data.text, viewer: viewerData?.data.data });
+                        const message = mockMessage({ text: data.text, viewer: viewerData?.data.data, reply: data.replyMessage });
                         return produce(cacheData, (draft: any) => {
                             draft.pages[0].data.data.unshift(message);
                         });

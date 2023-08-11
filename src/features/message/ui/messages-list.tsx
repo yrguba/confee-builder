@@ -67,7 +67,6 @@ function MessageList() {
                 break;
             case 'delete':
                 confirmModal.open({ messageId: message.id });
-            // handleDeleteMessage({ chatId, fromAll: true, messageIds: [message.id] });
         }
     };
 
