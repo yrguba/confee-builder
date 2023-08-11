@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePrevious } from 'react-use';
 
 import useModalStore from './store';
@@ -27,24 +27,27 @@ function use<MN>(modalNames: MN, options?: { showPrevModalAfterClose: boolean })
     return { isOpen, open, close };
 }
 
-function useConfirm(props: UseConfirmProps) {
+function useConfirm<T = null>(props: UseConfirmProps<T>) {
     const openConfirmModal = useModalStore.use.openConfirmModal();
     const confirmModalPayload = useModalStore.use.confirmModalPayload();
     const setOpenConfirmModal = useModalStore.use.setOpenConfirmModal();
     const setConfirm = useModalStore.use.setConfirm();
+    const [callbackData, setCallbackData] = useState<T | null>(null);
 
-    const open = () => {
+    const open = (callbackData?: T) => {
+        callbackData && setCallbackData(callbackData);
         setOpenConfirmModal(true);
         setConfirm(props);
     };
 
     const close = () => {
+        setCallbackData(null);
         setOpenConfirmModal(false);
         setConfirm(null);
     };
 
     useEffect(() => {
-        confirmModalPayload.date && props.callback(!!confirmModalPayload.value);
+        confirmModalPayload.date && props.callback(!!confirmModalPayload.value, callbackData as T);
     }, [confirmModalPayload.date]);
 
     return { isOpen: openConfirmModal, open, close };

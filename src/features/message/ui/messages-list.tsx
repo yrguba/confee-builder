@@ -34,12 +34,12 @@ function MessageList() {
 
     const messages: MessageProxy[] = messageService.getUpdatedList(messageData);
 
-    const confirmModal = Modal.useConfirm({
+    const confirmModal = Modal.useConfirm<{ messageId: number }>({
         title: 'Удалить сообщение',
         closeText: 'Отмена',
         okText: 'Удалить',
-        callback: (value) => {
-            // value && handleDeleteMessage({ chatId, messageIds });
+        callback: (value, callbackData) => {
+            value && handleDeleteMessage({ chatId, messageIds: [callbackData.messageId], fromAll: true });
         },
     });
 
@@ -66,7 +66,7 @@ function MessageList() {
                 copyToClipboard(message.text);
                 break;
             case 'delete':
-                confirmModal.open();
+                confirmModal.open({ messageId: message.id });
             // handleDeleteMessage({ chatId, fromAll: true, messageIds: [message.id] });
         }
     };
