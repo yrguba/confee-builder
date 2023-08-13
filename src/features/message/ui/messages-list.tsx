@@ -25,7 +25,9 @@ function MessageList() {
     const setChatSubscription = useChatStore.use.setChatSubscription();
     const chatSubscription = useChatStore.use.chatSubscription();
 
-    const setReplyMessage = useMessageStore.use.setReplyMessage();
+    const replyMessage = useMessageStore.use.replyMessage();
+    const editMessage = useMessageStore.use.editMessage();
+
     const {
         data: messageData,
         hasNextPage,
@@ -65,10 +67,10 @@ function MessageList() {
     const messageMenuAction = (action: messageTypes.MessageMenuActions, message: messageTypes.MessageProxy) => {
         switch (action) {
             case 'reply':
-                setReplyMessage(message);
+                replyMessage.set(message);
                 break;
             case 'edit':
-                notification.inDev();
+                editMessage.set(message);
                 break;
             case 'fixed':
                 notification.inDev();

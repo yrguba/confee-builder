@@ -2,8 +2,9 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useCreateSelectors } from 'shared/hooks';
+import { useStore } from 'shared/hooks';
 
+const { createSelectors, createObject } = useStore();
 type Store = {
     chatSubscription: number | null;
     setChatSubscription: (id: number | null) => void;
@@ -21,6 +22,6 @@ const chatStore = create<Store>()(
     )
 );
 
-const useChatStore = useCreateSelectors(chatStore);
+const useChatStore = createSelectors(chatStore);
 
 export default useChatStore;

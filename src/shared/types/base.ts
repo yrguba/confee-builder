@@ -14,3 +14,8 @@ export type Item<I, P> = {
     payload: P;
     callback?: () => void;
 };
+
+export type StoreSelectorType<T> = {
+    value: T;
+    set: (arg: T) => void;
+};

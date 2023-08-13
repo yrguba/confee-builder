@@ -2,27 +2,33 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useCreateSelectors } from 'shared/hooks';
+import { useStore } from 'shared/hooks';
+import { BaseTypes } from 'shared/types';
 
-import { MessageProxy, MediaContentType, MediaContentTypeKeys, File } from './types';
+import { MessageProxy } from './types';
 
 type Store = {
-    replyMessage: MessageProxy | null;
-    setReplyMessage: (message: MessageProxy | null) => void;
+    replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
+    editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
 };
+
+const { createSelectors, createObject } = useStore<Store>();
 
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
-            replyMessage: null,
-            setReplyMessage: (message) =>
-                set((state) => {
-                    state.replyMessage = message;
-                }),
+            replyMessage: createObject('replyMessage', set),
+            editMessage: {
+                value: null,
+                set: (message) =>
+                    set((state) => {
+                        state.editMessage.value = message;
+                    }),
+            },
         }))
     )
 );
 
-const useMessageStore = useCreateSelectors(messageStore);
+const useMessageStore = createSelectors(messageStore);
 
 export default useMessageStore;

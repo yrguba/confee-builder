@@ -13,7 +13,6 @@ function MessageInput() {
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
-    const setReplyMessage = useMessageStore.use.setReplyMessage();
     const replyMessage = useMessageStore.use.replyMessage();
 
     const messageTextState = useEasyState('');
@@ -29,13 +28,13 @@ function MessageInput() {
     const sendMessage = () => {
         if (messageTextState.value) {
             if (replyMessage) {
-                setReplyMessage(null);
+                replyMessage.set(null);
                 messageTextState.set('');
                 return handleSendTextMessage({
                     text: messageTextState.value,
                     chatId,
-                    params: { reply_to_message_id: replyMessage.id },
-                    replyMessage,
+                    params: { reply_to_message_id: replyMessage.value?.id },
+                    replyMessage: replyMessage.value,
                 });
             }
             messageTextState.set('');
@@ -67,7 +66,7 @@ function MessageInput() {
                 btnClick={sendMessage}
                 loading={isLoading}
                 clickUploadFiles={openFilesDownloader}
-                replyMessage={{ value: replyMessage, set: setReplyMessage }}
+                replyMessage={replyMessage}
             />
         </>
     );

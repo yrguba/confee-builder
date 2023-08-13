@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useCreateSelectors } from 'shared/hooks';
+import { useStore } from 'shared/hooks';
 
 import { Notification } from './types';
 
@@ -12,7 +12,7 @@ type Store = {
     deleteFirstNotifications: () => void;
     deleteNotificationsById: (id: number) => void;
 };
-
+const { createSelectors, createObject } = useStore();
 const NotificationStore = create<Store>()(
     devtools(
         immer((set) => ({
@@ -39,6 +39,6 @@ const NotificationStore = create<Store>()(
     )
 );
 
-const useNotificationStore = useCreateSelectors(NotificationStore);
+const useNotificationStore = createSelectors(NotificationStore);
 
 export default useNotificationStore;

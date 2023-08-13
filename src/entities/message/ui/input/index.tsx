@@ -14,7 +14,7 @@ type Props = {
     messageTextState: UseEasyStateReturnedType<string>;
     btnClick: (arg?: any) => void;
     clickUploadFiles: () => void;
-    replyMessage: { value: MessageProxy | null; set: (message: MessageProxy | null) => void };
+    replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {

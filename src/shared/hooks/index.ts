@@ -22,7 +22,6 @@ import useFileUploader, { Types as UseFileUploaderTypes } from 'react-use-file-u
 import useArray from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
-import useCreateSelectors from './useCreateSelectors';
 import useEasyState, { UseEasyStateReturnedType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
@@ -32,6 +31,7 @@ import useScroll from './useScroll';
 import useSip from './useSip';
 import useSize from './useSize';
 import useStorage from './useStorage';
+import useStore from './useStore';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
 import useToggle from './useToggle';
@@ -61,7 +61,7 @@ export {
     useNetworkState,
     useIdle,
     useTheme,
-    useCreateSelectors,
+    useStore,
     useDebounce,
     useToggle,
     useClickAway,
