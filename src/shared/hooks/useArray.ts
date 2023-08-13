@@ -2,21 +2,24 @@ import { useState } from 'react';
 
 import { useEasyState } from './index';
 
-type Options = {};
+type Options<T> = {
+    initialArr?: T[];
+};
 
 function useArray<T extends { id: number | string; [key: string]: any }>(
-    options: Options
+    options: Options<T>
 ): {
     array: T[];
     getUniqueArr: (arr: T[], check: keyof T) => T[];
     push: (item: T) => void;
     unshift: (item: T) => void;
     findById: (id: number) => T | null;
-    deleteById: (id: number) => void;
+    deleteById: (id: number | string) => void;
+    deleteByIds: (id: number[] | string[]) => void;
     clear: () => void;
     replace: (arr: T[]) => void;
 } {
-    const array = useEasyState<T[]>([]);
+    const array = useEasyState<T[]>(options.initialArr || []);
 
     function getUniqueArr<T>(arr: T[], check: keyof T): T[] {
         const flags = new Set();
@@ -56,10 +59,15 @@ function useArray<T extends { id: number | string; [key: string]: any }>(
         array.set((prev) => prev.filter((i) => i.id !== id));
     };
 
+    const deleteByIds = (ids: number[] | string[]) => {
+        // @ts-ignore
+        array.set((prev) => prev.filter((i) => !ids.includes(i.id)));
+    };
+
     const clear = () => {
         array.set([]);
     };
 
-    return { array: array.value, getUniqueArr, push, unshift, findById, replace, deleteById, clear };
+    return { array: array.value, getUniqueArr, push, unshift, findById, replace, deleteById, deleteByIds, clear };
 }
 export default useArray;

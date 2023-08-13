@@ -1,5 +1,7 @@
-import React from 'react';
+import moment from 'moment';
+import React, { useEffect } from 'react';
 
+import { useArray } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, IconsTypes, Icons, Title } from 'shared/ui';
 
@@ -24,10 +26,19 @@ function MessageMenu(props: Props) {
         { id: 6, title: 'Выделить', icon: 'check-circle', payload: 'highlight' },
     ];
 
+    const { array, deleteByIds, deleteById } = useArray({
+        initialArr: items,
+    });
+
+    useEffect(() => {
+        if (!message.isMy) deleteByIds([1, 5]);
+        if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 || message.type !== 'text') deleteById(1);
+    }, []);
+
     return (
         <Box className={styles.wrapper}>
             <div className={styles.items}>
-                {items.map((i) => (
+                {array.map((i) => (
                     <div className={styles.item} key={i.id} onClick={() => messageMenuAction(i.payload, message)}>
                         <Icons variant={i.icon} />
                         <Title variant="H3M">{i.title}</Title>

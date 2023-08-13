@@ -12,7 +12,7 @@ type Props = {
 
 function ImagesMessage(props: Props) {
     const { images } = props;
-    console.log(images);
+
     return (
         <div className={styles.wrapper}>
             {images.map((i, index) => (

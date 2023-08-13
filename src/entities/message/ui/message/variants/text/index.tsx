@@ -19,7 +19,7 @@ type Props = {
 function TextMessage(props: Props) {
     const { text } = props;
     const once = useRef(true);
-    const linksInfo = useArray([]);
+    const linksInfo = useArray({});
 
     const checkLongWord = useCallback((str: string, checkLink = true) => {
         return str.split('\n')?.map((row, index) => {

@@ -1,7 +1,9 @@
+import { ReactNode } from 'react';
+
 import { Types } from '../dropdown';
 
 type SharedProps = {
-    onClick: (arg: string) => void;
+    onClick: (arg: ReactNode) => void;
 };
 
 export type BaseEmojiProps = {
