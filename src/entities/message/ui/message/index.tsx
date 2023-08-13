@@ -9,6 +9,7 @@ import styles from './styles.module.scss';
 import ImagesMessage from './variants/images';
 import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
+import { useStyles } from '../../../../shared/hooks';
 import { MessageProxy, MessageMenuActions } from '../../model/types';
 
 type Props = {
@@ -20,11 +21,17 @@ type Props = {
 const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
     const { message, messageMenuAction, chat } = props;
 
-    const { id, type, reply_to_message } = message;
+    const { id, type, reply_to_message, lastMessageInBlock, isMy } = message;
+
+    const classes = useStyles(styles, 'bubble', {
+        isMy,
+        my_last: lastMessageInBlock && isMy,
+        another_last: lastMessageInBlock && !isMy,
+    });
 
     return (
         <Box className={styles.wrapper}>
-            {!message.isMy && chat?.is_group && <Avatar size={52} img={message.author?.avatar?.path} />}
+            {!message.isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={message.author?.avatar?.path} />}
 
             <Dropdown.Dynamic
                 reverseX={message.isMy}
@@ -33,7 +40,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 content={<MessageMenu messageMenuAction={messageMenuAction} message={message} />}
             >
                 <div className={styles.content}>
-                    <div className={`${styles.bubble} ${message.isMy ? styles.bubble_my : ''}`}>
+                    <div className={classes}>
                         <div className={styles.body}>
                             {reply_to_message && <ReplyMessage message={message.reply_to_message} />}
                             {type === 'text' && <TextMessage text={message.text} />}

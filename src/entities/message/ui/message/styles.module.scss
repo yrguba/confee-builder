@@ -10,12 +10,24 @@
     @include box-size(100%, auto);
     flex: 1;
 
+    .isMy {
+      background-color: var(--bg-primary);
+    }
+
+    .my_last{
+      border-radius: 12px 12px 0 12px !important;
+    }
+
+    .another_last{
+      border-radius: 12px 12px 12px 0!important;
+    }
+
     .bubble {
       @include flex(flex-start);
       //min-width: 120px;
       gap: 12px;
       padding: 12px;
-      border-radius: 12px 12px 12px 0;
+      border-radius:12px;
       background-color: var(--bg-secondary);
 
       .body {
@@ -37,11 +49,6 @@
             fill: var(--text-action);
           }
         }
-      }
-
-      &_my {
-        border-radius: 12px 12px 0 12px;
-        background-color: var(--bg-primary);
       }
     }
   }

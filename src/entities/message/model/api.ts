@@ -91,8 +91,13 @@ class MessageApi {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
                         return produce(cacheData, (draft: any) => {
-                            console.log(cacheData);
-                            // draft.pages[0].data.data.unshift(message);
+                            if (draft?.pages?.length) {
+                                draft?.pages.forEach((page: any) => {
+                                    if (page?.data?.data.length) {
+                                        page.data.data = page.data?.data.filter((msg: MessageProxy) => !data?.messageIds?.includes(msg.id));
+                                    }
+                                });
+                            }
                         });
                     });
                 },

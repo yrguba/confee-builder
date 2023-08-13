@@ -52,9 +52,10 @@ export type MessageProxy = {
     date: string;
     authorName: string;
     systemMessageText: string;
+    lastMessageInBlock: boolean;
 } & Message;
 
-export type MessageMenuActions = 'reply' | 'forward' | 'copy' | 'edit' | 'delete' | 'mention' | 'convert';
+export type MessageMenuActions = 'reply' | 'edit' | 'fixed' | 'copy' | 'forward' | 'delete' | 'highlight';
 export type InputMenuActions = UseFileUploaderTypes.Accept;
 
 export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated';

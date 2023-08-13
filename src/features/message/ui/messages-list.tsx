@@ -4,7 +4,7 @@ import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { MessageProxy } from 'entities/message/model/types';
 import { useRouter, useCopyToClipboard } from 'shared/hooks';
-import { Modal } from 'shared/ui';
+import { Modal, Notification } from 'shared/ui';
 
 function MessageList() {
     const { params } = useRouter();
@@ -34,6 +34,8 @@ function MessageList() {
 
     const messages: MessageProxy[] = messageService.getUpdatedList(messageData);
 
+    const notification = Notification.use();
+
     const confirmModal = Modal.useConfirm<{ messageId: number }>({
         title: 'Удалить сообщение',
         closeText: 'Отмена',
@@ -62,11 +64,25 @@ function MessageList() {
             case 'reply':
                 setReplyMessage(message);
                 break;
+            case 'edit':
+                notification.inDev();
+                break;
+            case 'fixed':
+                notification.inDev();
+                break;
             case 'copy':
                 copyToClipboard(message.text);
+                notification.success({ title: 'Текст скопирован в буфер', system: true });
+                break;
+            case 'forward':
+                notification.inDev();
                 break;
             case 'delete':
                 confirmModal.open({ messageId: message.id });
+                break;
+            case 'highlight':
+                notification.inDev();
+                break;
         }
     };
 

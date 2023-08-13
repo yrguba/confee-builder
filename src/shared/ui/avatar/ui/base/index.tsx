@@ -9,7 +9,7 @@ import LoadingIndicator from '../../../loading-indicator';
 import { BaseAvatarProps } from '../../types';
 
 function Avatar(props: BaseAvatarProps) {
-    const { size = 80, name, img, circle = true, status } = props;
+    const { size = 80, name, img, circle = true, status, opacity = 1 } = props;
 
     const { src, error, isLoading } = useFetchMediaContent(img || '');
 
@@ -63,6 +63,7 @@ function Avatar(props: BaseAvatarProps) {
         <div
             className={styles.wrapper}
             style={{
+                opacity,
                 borderRadius: circle ? '50%' : 8,
                 width: size,
                 minWidth: size,

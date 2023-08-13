@@ -4,7 +4,7 @@ import { dateConverter } from '../../../shared/lib';
 import { viewerService } from '../../viewer';
 import { Message, MessageProxy } from '../model/types';
 
-function messageProxy(prevMessage: any, message: Message, firstUnreadMessage?: Message): any {
+function messageProxy(prevMessage: Message | null, message: Message, nextMessage: Message): any {
     const viewerId = viewerService.getId();
 
     return new Proxy(message, {
@@ -14,6 +14,10 @@ function messageProxy(prevMessage: any, message: Message, firstUnreadMessage?: M
                     if (target.isMock) return true;
                     return target?.author?.id === viewerId && target.type !== 'system';
 
+                case 'lastMessageInBlock':
+                    console.log(nextMessage);
+                    return message?.author?.id !== nextMessage?.author?.id;
+
                 case 'authorName':
                     return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;
 
@@ -21,7 +25,7 @@ function messageProxy(prevMessage: any, message: Message, firstUnreadMessage?: M
                     return dateConverter(target.created_at, true);
 
                 case 'isFirstUnread':
-                    return firstUnreadMessage?.id === message.id;
+                    return prevMessage?.is_read && !message.is_read;
 
                 case 'systemMessageText':
                     if (receiver.firstOfDay) return receiver.firstOfDay;
