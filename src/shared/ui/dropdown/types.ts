@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
@@ -18,11 +18,13 @@ export type BaseDropdownProps = {
     closeAfterClick?: boolean;
     top?: number;
     left?: number;
+    style?: CSSProperties;
 } & BaseTypes.Statuses;
 
 export type DynamicDropdownProps = {
     reverseY?: boolean;
     reverseX?: boolean;
+    style?: CSSProperties;
 } & BaseDropdownProps;
 
 export type DropdownMenuItem = {

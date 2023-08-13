@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 
 import { chatTypes } from 'entities/chat';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Dropdown, Icons, Title } from 'shared/ui';
+import { Avatar, Box, Dropdown, Icons, IconsTypes, Title } from 'shared/ui';
 
 import MessageMenu from './menu';
 import styles from './styles.module.scss';
@@ -37,7 +37,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 reverseX={message.isMy}
                 ref={ref}
                 trigger="right-click"
-                content={<MessageMenu messageMenuAction={messageMenuAction} message={message} />}
+                content={<MessageMenu chat={chat} messageMenuAction={messageMenuAction} message={message} />}
             >
                 <div className={styles.content}>
                     <div className={classes}>

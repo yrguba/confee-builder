@@ -18,6 +18,7 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
         animationVariant = 'visibleHidden',
         closeAfterClick,
         disabled,
+        style,
     } = props;
 
     const childrenRef = useRef<HTMLDivElement>(null);
@@ -121,7 +122,7 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
                 animationVariant={animationVariant}
                 className={classes}
                 visible={visible || isOpen}
-                style={{ top: positionState.value.y, left: positionState.value.x }}
+                style={{ top: positionState.value.y, left: positionState.value.x, ...style }}
                 presence
                 onClick={(e) => {
                     closeAfterClick && setIsOpen(false);

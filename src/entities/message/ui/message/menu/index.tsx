@@ -1,20 +1,22 @@
 import moment from 'moment';
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 
-import { useArray } from 'shared/hooks';
+import { useArray, useEasyState } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, IconsTypes, Icons, Title } from 'shared/ui';
+import { Box, IconsTypes, Icons, Title, Emoji, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { chatTypes } from '../../../../chat';
 import { MessageMenuActions, MessageProxy } from '../../../model/types';
 
 type Props = {
+    chat: chatTypes.Chat | BaseTypes.Empty;
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 function MessageMenu(props: Props) {
-    const { messageMenuAction, message } = props;
+    const { messageMenuAction, message, chat } = props;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
@@ -25,6 +27,9 @@ function MessageMenu(props: Props) {
         { id: 5, title: 'Удалить', icon: 'delete', payload: 'delete' },
         { id: 6, title: 'Выделить', icon: 'check-circle', payload: 'highlight' },
     ];
+    const reactions = ['1f4a3', '1f440', '26d4', '1f49c', '1f4a5', '1f34c', '1f44c', '1f44d'];
+
+    const visibleAllReactions = useEasyState(false);
 
     const { array, deleteByIds, deleteById } = useArray({
         initialArr: items,
@@ -34,9 +39,30 @@ function MessageMenu(props: Props) {
         if (!message.isMy) deleteByIds([1, 5]);
         if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 || message.type !== 'text') deleteById(1);
     }, []);
-
+    const reactionClick = (emoji: ReactNode) => {
+        console.log(emoji);
+    };
     return (
         <Box className={styles.wrapper}>
+            <div className={styles.reactions}>
+                <div className={styles.baseList}>
+                    <div className={styles.list}>
+                        {reactions.map((i) => (
+                            <Emoji.Item key={i} unified={i} onClick={reactionClick} />
+                        ))}
+                    </div>
+                    <div className={styles.btn} onClick={visibleAllReactions.toggle}>
+                        <Icons.ArrowAnimated variant="rotate" activeAnimate={visibleAllReactions.value} initialDeg={0} animateDeg={90} />
+                    </div>
+                </div>
+                <Box.Animated visible={visibleAllReactions.value} animationVariant="autoHeight">
+                    <div className={styles.allList}>
+                        {reactions.map((i) => (
+                            <Emoji.Item key={i} unified={i} onClick={reactionClick} />
+                        ))}
+                    </div>
+                </Box.Animated>
+            </div>
             <div className={styles.items}>
                 {array.map((i) => (
                     <div className={styles.item} key={i.id} onClick={() => messageMenuAction(i.payload, message)}>

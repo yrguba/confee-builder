@@ -12,8 +12,13 @@ export type BaseEmojiProps = {
     openCloseTrigger?: (isOpen: boolean) => void;
 };
 
+export type EmojiItemProps = {
+    unified: string;
+} & SharedProps;
+
 export type EmojiListProps = {
     emojiList: string[];
+    wrap?: boolean;
 } & SharedProps;
 
 export type EmojiCounterItem = {

@@ -8,10 +8,6 @@
   position: relative;
   overflow: hidden;
   transition: all .5s;
-
-  svg {
-    fill: var(--text-fixed);
-  }
 }
 
 .primary {
@@ -33,8 +29,8 @@
 
 .tertiary {
   border: none;
-  color: var(--text-fixed);
-  background-color: var(--control-tertiary);
+  color: var(--text-fixed) !important;
+  background-color: var(--control-tertiary) !important;
 
   &:hover {
     color: var(--control-tertiary-active);

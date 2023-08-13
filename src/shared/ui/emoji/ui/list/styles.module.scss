@@ -3,9 +3,8 @@
 .wrapper {
   @include flex(flex-start);
   @include box-size(100%, 100%);
-  gap: 16px;
+  gap: 12px;
   background-color: var(--bg-03);
-  padding: 0 12px;
 
   .item{
     cursor: pointer;
