@@ -136,7 +136,7 @@ class MessageApi {
 
     handleSendReaction() {
         return useMutation((data: { chatId: number; messageId: number; reaction: string }) =>
-            axiosClient.post(`${this.pathPrefix}/${data.chatId}/message/${data.messageId}/reaction`, { reaction: data.reaction })
+            axiosClient.post(`${this.pathPrefix}/${data.chatId}/message/${data.messageId}`, { reaction: data.reaction })
         );
     }
 }

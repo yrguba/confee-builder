@@ -1,19 +1,19 @@
+import { EmojiClickData } from 'emoji-picker-react';
 import { ReactNode } from 'react';
 
 import { Types } from '../dropdown';
 
-type SharedProps = {
-    onClick: (arg: ReactNode) => void;
-};
+type SharedProps = {};
 
 export type BaseEmojiProps = {
     position?: Types.Position;
-    clickOnEmoji: (arg: string) => void;
+    clickOnEmoji: (arg: EmojiClickData) => void;
     openCloseTrigger?: (isOpen: boolean) => void;
 };
 
 export type EmojiItemProps = {
     unified: string;
+    clickOnEmoji: (arg: string) => void;
 } & SharedProps;
 
 export type EmojiListProps = {
@@ -30,4 +30,7 @@ export type EmojiCounterProps = {
     emoji: string;
     items?: EmojiCounterItem[];
     maxAvatars?: number;
+    clickOnEmoji: (arg: string) => void;
 } & SharedProps;
+
+export type { EmojiClickData };

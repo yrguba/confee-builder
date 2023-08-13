@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 
 import { chatTypes } from 'entities/chat';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Dropdown, Icons, IconsTypes, Title } from 'shared/ui';
+import { Avatar, Box, Dropdown, Icons, Title } from 'shared/ui';
 
 import MessageMenu from './menu';
 import styles from './styles.module.scss';
@@ -16,10 +16,11 @@ type Props = {
     chat: chatTypes.Chat | BaseTypes.Empty;
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
+    sendReaction: (emoji: string, messageId: number) => void;
 } & BaseTypes.Statuses;
 
 const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
-    const { message, messageMenuAction, chat } = props;
+    const { message, messageMenuAction, chat, sendReaction } = props;
 
     const { text, files, type, reply_to_message, lastMessageInBlock, isMy, isMock, author } = message;
 
@@ -28,7 +29,6 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
         my_last: lastMessageInBlock && isMy,
         another_last: lastMessageInBlock && !isMy,
     });
-
     return (
         <Box className={styles.wrapper}>
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={author?.avatar?.path} />}
@@ -37,7 +37,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 reverseX={message.isMy}
                 ref={ref}
                 trigger="right-click"
-                content={<MessageMenu chat={chat} messageMenuAction={messageMenuAction} message={message} />}
+                content={<MessageMenu sendReaction={sendReaction} chat={chat} messageMenuAction={messageMenuAction} message={message} />}
             >
                 <div className={styles.content}>
                     <div className={classes}>

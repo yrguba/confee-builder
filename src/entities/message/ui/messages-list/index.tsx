@@ -19,10 +19,11 @@ type Props = {
     subscribeToChat: (action: 'sub' | 'unsub') => void;
     chatSubscription: number | null;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
+    sendReaction: (emoji: string, messageId: number) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, chatSubscription, messageMenuAction } = props;
+    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, chatSubscription, messageMenuAction, sendReaction } = props;
 
     const [initOnce, setInitOnce] = useState(true);
 
@@ -78,7 +79,7 @@ function MessagesListView(props: Props) {
                             ref={getMessageRefs(message, index)}
                         >
                             {index === 5 && <div ref={nextPageRef} />}
-                            <Message chat={chat} ref={wrapperRef} message={message} messageMenuAction={messageMenuAction} />
+                            <Message sendReaction={sendReaction} chat={chat} ref={wrapperRef} message={message} messageMenuAction={messageMenuAction} />
                             {messages?.length - 5 === index && <div ref={prevPageRef} />}
                         </div>
                     )}

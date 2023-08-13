@@ -3,7 +3,7 @@ import React, { ReactNode, useEffect } from 'react';
 
 import { useArray, useEasyState } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, IconsTypes, Icons, Title, Emoji, Collapse } from 'shared/ui';
+import { Box, IconsTypes, Icons, Title, Emoji } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { chatTypes } from '../../../../chat';
@@ -13,10 +13,11 @@ type Props = {
     chat: chatTypes.Chat | BaseTypes.Empty;
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
+    sendReaction: (emoji: string, messageId: number) => void;
 } & BaseTypes.Statuses;
 
 function MessageMenu(props: Props) {
-    const { messageMenuAction, message, chat } = props;
+    const { messageMenuAction, message, sendReaction, chat } = props;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
@@ -39,8 +40,9 @@ function MessageMenu(props: Props) {
         if (!message.isMy) deleteByIds([1, 5]);
         if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 || message.type !== 'text') deleteById(1);
     }, []);
-    const reactionClick = (emoji: ReactNode) => {
-        console.log(emoji);
+
+    const reactionClick = (emoji: string) => {
+        sendReaction(emoji, message.id);
     };
     return (
         <Box className={styles.wrapper}>
@@ -48,7 +50,7 @@ function MessageMenu(props: Props) {
                 <div className={styles.baseList}>
                     <div className={styles.list}>
                         {reactions.map((i) => (
-                            <Emoji.Item key={i} unified={i} onClick={reactionClick} />
+                            <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} />
                         ))}
                     </div>
                     <div className={styles.btn} onClick={visibleAllReactions.toggle}>
@@ -58,7 +60,7 @@ function MessageMenu(props: Props) {
                 <Box.Animated visible={visibleAllReactions.value} animationVariant="autoHeight">
                     <div className={styles.allList}>
                         {reactions.map((i) => (
-                            <Emoji.Item key={i} unified={i} onClick={reactionClick} />
+                            <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} />
                         ))}
                     </div>
                 </Box.Animated>

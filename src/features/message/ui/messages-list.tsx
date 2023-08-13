@@ -6,6 +6,8 @@ import { MessageProxy } from 'entities/message/model/types';
 import { useRouter, useCopyToClipboard } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
+import { reactionConverter } from '../../../shared/lib';
+
 function MessageList() {
     const { params } = useRouter();
     const [state, copyToClipboard] = useCopyToClipboard();
@@ -14,6 +16,7 @@ function MessageList() {
 
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
+    const { mutate: handleSendReaction } = messageApi.handleSendReaction();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleSubscribeToChat } = chatApi.handleSubscribeToChat();
@@ -86,6 +89,14 @@ function MessageList() {
         }
     };
 
+    const clickReaction = (emoji: string, messageId: number) => {
+        handleSendReaction({
+            chatId,
+            messageId,
+            reaction: reactionConverter(emoji, 'html'),
+        });
+    };
+
     return (
         <>
             <MessagesListView
@@ -97,6 +108,7 @@ function MessageList() {
                 subscribeToChat={subscribeToChat}
                 chatSubscription={chatSubscription}
                 messageMenuAction={messageMenuAction}
+                sendReaction={clickReaction}
             />
         </>
     );

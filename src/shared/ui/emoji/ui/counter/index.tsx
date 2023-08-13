@@ -6,10 +6,10 @@ import Avatar from '../../../avatar';
 import { EmojiCounterProps } from '../../types';
 
 function EmojiCounter(props: EmojiCounterProps) {
-    const { onClick, items, emoji, maxAvatars = 3 } = props;
+    const { clickOnEmoji, items, emoji, maxAvatars = 3 } = props;
 
     return items?.length ? (
-        <div className={styles.wrapper} onClick={() => onClick(emoji)}>
+        <div className={styles.wrapper} onClick={() => clickOnEmoji(emoji)}>
             {/* <Emoji unified={emoji.toLowerCase()} size={16} /> */}
             {maxAvatars >= items?.length ? (
                 <div className={styles.avatars}>
