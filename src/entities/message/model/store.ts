@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useStore } from 'shared/hooks';
+import { useStore, useCreateSelectors } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import { MessageProxy } from './types';
@@ -22,6 +22,6 @@ const messageStore = create<Store>()(
     )
 );
 
-const useMessageStore = createSelectors(messageStore);
+const useMessageStore = useCreateSelectors(messageStore);
 
 export default useMessageStore;

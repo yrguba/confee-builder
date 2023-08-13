@@ -6,5 +6,6 @@ import useChatStore from './model/store';
 import * as chatTypes from './model/types';
 import ChatHeaderView from './ui/header';
 import ChatsListView from './ui/list';
+import ChatSettingsModalView from './ui/modals/settings';
 
-export { chatProxy, chatApi, useChatStore, chatTypes, chatService, chatGateway, ChatHeaderView, ChatsListView };
+export { chatProxy, chatApi, useChatStore, chatTypes, chatService, chatGateway, ChatHeaderView, ChatsListView, ChatSettingsModalView };

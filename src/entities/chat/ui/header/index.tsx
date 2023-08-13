@@ -27,14 +27,7 @@ function ChatHeaderView(props: Props) {
                 </Button.Circle>
             )}
             <div className={styles.left}>
-                <Card
-                    visibleAvatar={sm}
-                    avatarStatus={chat?.secondMemberStatus || null}
-                    img={chat?.avatar}
-                    name={chat?.name}
-                    title={chat?.name}
-                    subtitle={chat?.subtitle}
-                />
+                <Card avatarStatus={chat?.secondMemberStatus || null} img={chat?.avatar} name={chat?.name} title={chat?.name} subtitle={chat?.subtitle} />
             </div>
             <div>
                 <TabBar variant="icons" items={tabs} activeItemId={0} />

@@ -46,19 +46,21 @@ function messageGateway() {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data = draft?.data?.data.map((chat: Chat) => {
-                        if (socketData.data.chat_id === chat.id) return { ...chat, last_message: { ...chat.last_message, ...socketData.data.updated_values } };
+                        if (socketData.data.chat_id === chat.id && chat.last_message.id === socketData.data.message_id)
+                            return { ...chat, last_message: { ...chat.last_message, ...socketData.data.updated_values } };
                         return chat;
                     });
                 });
             });
-        });
-        onMessage('MessageUpdated', (socketData) => {
-            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
-                if (!cacheData?.data?.data.length) return cacheData;
+            queryClient.setQueryData(['get-messages', socketData.data.chat_id], (cacheData: any) => {
+                if (!cacheData?.pages.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
-                    draft.data.data = draft?.data?.data.map((chat: Chat) => {
-                        if (socketData.data.chat_id === chat.id) return { ...chat, last_message: { ...chat.last_message, ...socketData.data.updated_values } };
-                        return chat;
+                    draft.pages.forEach((page: any) => {
+                        page.data.data.forEach((msg: MessageProxy, index: number) => {
+                            if (msg.id === socketData.data.message_id) {
+                                page.data.data[index] = { ...msg, ...socketData.data.updated_values };
+                            }
+                        });
                     });
                 });
             });
