@@ -21,7 +21,7 @@ type Props = {
 const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
     const { message, messageMenuAction, chat } = props;
 
-    const { id, type, reply_to_message, lastMessageInBlock, isMy } = message;
+    const { text, files, type, reply_to_message, lastMessageInBlock, isMy, isMock, author } = message;
 
     const classes = useStyles(styles, 'bubble', {
         isMy,
@@ -31,7 +31,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
 
     return (
         <Box className={styles.wrapper}>
-            {!message.isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={message.author?.avatar?.path} />}
+            {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={author?.avatar?.path} />}
 
             <Dropdown.Dynamic
                 reverseX={message.isMy}
@@ -42,20 +42,20 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 <div className={styles.content}>
                     <div className={classes}>
                         <div className={styles.body}>
-                            {reply_to_message && <ReplyMessage message={message.reply_to_message} />}
-                            {type === 'text' && <TextMessage text={message.text} />}
-                            {type === 'images' && <ImagesMessage images={message.files} />}
+                            {reply_to_message && <ReplyMessage message={reply_to_message} />}
+                            {type === 'text' && <TextMessage text={text} />}
+                            {type === 'images' && <ImagesMessage images={files} />}
                         </div>
                         <div className={styles.info}>
                             <Title primary={false} variant="H4M">
                                 {message.date}
                             </Title>
                             <div className={styles.icon}>
-                                <Box.Animated className={styles.checkIcon} visible={message.isMy && !message.isMock}>
+                                <Box.Animated className={styles.checkIcon} visible={isMy && !isMock}>
                                     <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />
                                 </Box.Animated>
 
-                                <Box.Animated visible={message.isMock}>
+                                <Box.Animated visible={isMock}>
                                     <Icons variant="clock" />
                                 </Box.Animated>
                             </div>

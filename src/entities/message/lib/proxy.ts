@@ -15,7 +15,6 @@ function messageProxy(prevMessage: Message | null, message: Message, nextMessage
                     return target?.author?.id === viewerId && target.type !== 'system';
 
                 case 'lastMessageInBlock':
-                    console.log(nextMessage);
                     return message?.author?.id !== nextMessage?.author?.id;
 
                 case 'authorName':
