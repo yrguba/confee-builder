@@ -37,6 +37,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 reverseX={message.isMy}
                 ref={ref}
                 trigger="right-click"
+                closeAfterClick
                 content={<MessageMenu sendReaction={sendReaction} chat={chat} messageMenuAction={messageMenuAction} message={message} />}
             >
                 <div className={styles.content}>

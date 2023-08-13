@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import { TextareaInputProps } from '../../model/types';
 
 const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, ref: any) => {
-    const { active, width, height, loading, error, disabled, defaultValue, focus, id, ...other } = props;
+    const { active, width, height, loading, error, disabled, defaultValue, focus, focusTrigger, ...other } = props;
 
     const textAreaRef = useRef<HTMLInputElement>(null);
 
@@ -13,7 +13,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         if (textAreaRef.current && focus) {
             textAreaRef.current.focus();
         }
-    }, [focus, id]);
+    }, [focus, focusTrigger]);
 
     useEffect(() => {
         if (textAreaRef.current && typeof other.value === 'string') {

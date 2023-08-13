@@ -15,24 +15,42 @@ type Props = {
     btnClick: (arg?: any) => void;
     clickUploadFiles: () => void;
     replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
+    editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
-    const { chat, messageTextState, onKeyDown, btnClick, clickUploadFiles, replyMessage } = props;
+    const { chat, messageTextState, onKeyDown, btnClick, clickUploadFiles, replyMessage, editMessage } = props;
+
+    const getHeaderTitle = () => {
+        if (replyMessage.value) return replyMessage.value?.authorName;
+        if (editMessage.value) return 'Редактировать';
+    };
+
+    const getHeaderSubtitle = () => {
+        if (replyMessage.value) return replyMessage.value?.text;
+        if (editMessage.value) return editMessage.value?.text;
+    };
+
+    const closeHeader = () => {
+        if (replyMessage.value) replyMessage.set(null);
+        if (editMessage.value) editMessage.set(null);
+        messageTextState.set('');
+    };
 
     return (
         <div className={styles.wrapper}>
-            <Box.Animated visible={!!replyMessage.value} className={styles.header}>
+            <Box.Animated visible={!!replyMessage.value || !!editMessage.value} className={styles.header} animationVariant="autoHeight">
                 <div className={styles.icon}>
-                    <Icons variant={replyMessage.value ? 'reply-black' : 'work-acc'} />
+                    <Icons variant={replyMessage.value ? 'reply-black' : 'edit'} />
                 </div>
                 <div className={styles.description}>
                     <Title active variant="H4S">
-                        {replyMessage.value?.authorName}
+                        {getHeaderTitle()}
                     </Title>
-                    <Title active variant="H4M">
-                        {replyMessage.value?.text}
-                    </Title>
+                    <Title variant="H4M">{getHeaderSubtitle()}</Title>
+                </div>
+                <div className={styles.close} onClick={closeHeader}>
+                    <Icons variant="close" />
                 </div>
             </Box.Animated>
             <div className={styles.main}>
@@ -41,7 +59,7 @@ function MessageInputView(props: Props) {
                 </div>
                 <div className={styles.input}>
                     <Input.Textarea
-                        id={String(chat?.id)}
+                        focusTrigger={replyMessage.value || editMessage.value || chat?.id}
                         focus
                         value={messageTextState.value}
                         onChange={(e) => messageTextState.set(e.target.value)}

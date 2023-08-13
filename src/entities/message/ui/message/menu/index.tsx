@@ -53,7 +53,13 @@ function MessageMenu(props: Props) {
                             <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} />
                         ))}
                     </div>
-                    <div className={styles.btn} onClick={visibleAllReactions.toggle}>
+                    <div
+                        className={styles.btn}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            visibleAllReactions.toggle();
+                        }}
+                    >
                         <Icons.ArrowAnimated variant="rotate" activeAnimate={visibleAllReactions.value} initialDeg={0} animateDeg={90} />
                     </div>
                 </div>

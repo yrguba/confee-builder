@@ -11,7 +11,15 @@
     padding: 8px 16px;
     border-bottom: 1px solid var(--border-secondary);
 
-    .description{
+    .icon, .close {
+      cursor: pointer;
+
+      svg {
+        fill: var(--text-action);
+      }
+    }
+
+    .description {
       flex: 1;
       width: 0;
     }
@@ -22,6 +30,12 @@
     @include box-size(calc(100% - 32px), auto);
     gap: 14px;
     padding: 0 16px;
+
+    .openDownloads {
+      svg {
+        fill: var(--text-primary);
+      }
+    }
 
     .openDownloads, .openEmoji, .sendBtn {
       height: 56px;

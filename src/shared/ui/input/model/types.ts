@@ -45,7 +45,7 @@ export type CountriesInputProps = {
 
 export type TextareaInputProps = {
     focus?: boolean;
-    id?: number | string | undefined;
+    focusTrigger?: any;
 } & TextareaHTMLAttributes<HTMLTextAreaElement> &
     Shared;
 export type UseReturnedType = ReturnType<typeof use>;

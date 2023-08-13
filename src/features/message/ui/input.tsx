@@ -10,10 +10,12 @@ function MessageInput() {
     const chatId = Number(params.chat_id);
 
     const { mutate: handleSendTextMessage, isLoading } = messageApi.handleSendTextMessage();
+    const { mutate: handleEditTextMessage } = messageApi.handleEditTextMessage();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
     const replyMessage = useMessageStore.use.replyMessage();
+    const editMessage = useMessageStore.use.editMessage();
 
     const messageTextState = useEasyState('');
 
@@ -27,7 +29,7 @@ function MessageInput() {
 
     const sendMessage = () => {
         if (messageTextState.value) {
-            if (replyMessage) {
+            if (replyMessage.value) {
                 replyMessage.set(null);
                 messageTextState.set('');
                 return handleSendTextMessage({
@@ -35,6 +37,15 @@ function MessageInput() {
                     chatId,
                     params: { reply_to_message_id: replyMessage.value?.id },
                     replyMessage: replyMessage.value,
+                });
+            }
+            if (editMessage.value) {
+                editMessage.set(null);
+                messageTextState.set('');
+                return handleEditTextMessage({
+                    text: messageTextState.value,
+                    chatId,
+                    messageId: editMessage.value.id,
                 });
             }
             messageTextState.set('');
@@ -57,6 +68,10 @@ function MessageInput() {
         messageTextState.set('');
     }, [chatId]);
 
+    useEffect(() => {
+        editMessage.value && messageTextState.set(editMessage.value.text);
+    }, [editMessage.value]);
+
     return (
         <>
             <MessageInputView
@@ -67,6 +82,7 @@ function MessageInput() {
                 loading={isLoading}
                 clickUploadFiles={openFilesDownloader}
                 replyMessage={replyMessage}
+                editMessage={editMessage}
             />
         </>
     );
