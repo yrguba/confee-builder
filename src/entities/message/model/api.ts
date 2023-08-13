@@ -14,7 +14,6 @@ class MessageApi {
     socket = useWebSocket<any, 'MessageRead'>();
 
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined; chatId: number }) {
-        const { getUniqueArr } = useArray({});
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {
@@ -84,8 +83,20 @@ class MessageApi {
     }
 
     handleDeleteMessage() {
-        return useMutation((data: { messageIds: number[]; fromAll: boolean; chatId: number }) =>
-            axiosClient.delete(`${this.pathPrefix}/${data.chatId}/messages`, { data: { fromAll: data.fromAll, messageIds: data.messageIds } })
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { messageIds: number[]; fromAll: boolean; chatId: number }) =>
+                axiosClient.delete(`${this.pathPrefix}/${data.chatId}/messages`, { data: { fromAll: data.fromAll, messageIds: data.messageIds } }),
+            {
+                onMutate: async (data) => {
+                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                        return produce(cacheData, (draft: any) => {
+                            console.log(cacheData);
+                            // draft.pages[0].data.data.unshift(message);
+                        });
+                    });
+                },
+            }
         );
     }
 

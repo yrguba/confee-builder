@@ -19,19 +19,14 @@ moment.locale('ru');
 function App() {
     const { clientBaseURL } = appService.getUrls();
     useTheme();
-    // useEffect(() => {
-    //     const { onMessage } = useWebSocket();
-    //     OneSignal.init({ appId: '977e9b8a-5cf3-401b-b801-3c62e346cfde' }).then(() => {
-    //         // OneSignal.getUserId().then(async (res) => {
-    //         //     res && (await handleSendOneSignalToken({ onesignal_player_id: res }));
-    //         //     window.location.href = '/main/chats';
-    //         // });
-    //     });
-    //     onMessage('all', (socketData) => {
-    //         // notification.success({ title: 'test', scope: 'all' });
-    //     });
-    // }, []);
-    console.log('clientBaseURL: ', clientBaseURL);
+    useEffect(() => {
+        const { onMessage } = useWebSocket();
+        onMessage('all', (socketData) => {
+            // notification.success({ title: 'test', scope: 'all' });
+        });
+        console.log('clientBaseURL: ', clientBaseURL);
+    }, []);
+
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
