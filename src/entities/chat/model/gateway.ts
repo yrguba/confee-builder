@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { useWebSocket } from 'shared/hooks';
 
-import { Chat, SocketOut, SocketIn } from './types';
+import { Chat, SocketOut, SocketIn, ChatProxy } from './types';
 
 function chatGateway() {
     const queryClient = useQueryClient();
@@ -32,6 +32,14 @@ function chatGateway() {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data.unshift(socketData.data.chat);
+                });
+            });
+        });
+        onMessage('ChatDeleted', (socketData) => {
+            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                if (!cacheData?.data?.data.length) return cacheData;
+                return produce(cacheData, (draft: any) => {
+                    draft.data.data.filter((chat: ChatProxy) => chat.id !== socketData.data.chat_id);
                 });
             });
         });

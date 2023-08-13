@@ -32,7 +32,7 @@ function Card(props: BaseCardProps) {
     };
 
     return (
-        <div className={classes} onClick={onClick}>
+        <div className={classes} onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
             {visibleAvatar && (
                 <div className={styles.avatar}>
                     <Avatar status={avatarStatus} img={img} name={name} size={avatarSize} />

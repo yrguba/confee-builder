@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import produce from 'immer';
 
 import { axiosClient } from 'shared/configs';
-import { useWebSocket, useStorage } from 'shared/hooks';
+import { useWebSocket, useStorage, useRouter } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
+import { chatTypes } from '../index';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
@@ -33,6 +35,22 @@ class ChatApi {
             },
         });
     };
+
+    handleDeleteChat() {
+        const queryClient = useQueryClient();
+        const { navigate } = useRouter();
+        return useMutation((data: { chatId: number }) => axiosClient.delete(`${this.pathPrefix}/${data.chatId}`), {
+            onSuccess: async (res, data) => {
+                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                    if (!cacheData?.data?.data.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data = draft?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+                    });
+                });
+                navigate('/chat');
+            },
+        });
+    }
 
     handleGetTotalPendingMessages = () => {
         return useQuery(['get-total-pending-messages'], () => axiosClient.get(`${this.pathPrefix}/total-pending-messages`), {

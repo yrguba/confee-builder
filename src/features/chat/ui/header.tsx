@@ -2,11 +2,11 @@ import React from 'react';
 
 import { appService } from 'entities/app';
 import { callsTypes } from 'entities/calls';
-import { ChatHeaderView, chatApi } from 'entities/chat';
+import { ChatHeaderView, chatApi, chatTypes } from 'entities/chat';
 import ChatProxy from 'entities/chat/lib/proxy';
 import { useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
-import { TabBarTypes, Notification } from 'shared/ui';
+import { TabBarTypes, Notification, Modal } from 'shared/ui';
 
 function ChatHeader() {
     const { params, navigate } = useRouter();
@@ -19,6 +19,8 @@ function ChatHeader() {
         : `${callsTypes.Paths.AUDIO_PRIVATE}/${getRandomString(20)}`;
 
     const webView = useWebView(callUrl, 'аудио звонок');
+
+    const chatSettingsModal = Modal.use<chatTypes.ModalName>('chat-settings');
 
     const clickChatAudioCall = async () => {
         if (appService.tauriIsRunning) {
@@ -35,7 +37,7 @@ function ChatHeader() {
         // { id: 3, icon: 'more', callback: () => 'more' },
     ];
 
-    return <ChatHeaderView back={() => navigate('/chats')} chat={ChatProxy(chatData)} tabs={tabs} />;
+    return <ChatHeaderView back={() => navigate('/chats')} chat={ChatProxy(chatData)} tabs={tabs} clickCard={chatSettingsModal.open} />;
 }
 
 export default ChatHeader;

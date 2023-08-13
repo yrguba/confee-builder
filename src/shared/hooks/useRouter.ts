@@ -10,6 +10,7 @@ function useRouter(): { navigate: ReturnType<typeof useNavigate>; params: UrlPar
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const params = useParams<keyof UrlParams>();
+
     return { navigate, params, pathname };
 }
 

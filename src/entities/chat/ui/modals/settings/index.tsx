@@ -1,17 +1,24 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Avatar, Icons, Title } from 'shared/ui';
+import { Button } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { viewerTypes } from '../../../../viewer';
+import { ChatProxy } from '../../../model/types';
 
-type Props = {} & BaseTypes.Statuses;
+type Props = {
+    chat: ChatProxy | undefined;
+    deleteChat: () => void;
+} & BaseTypes.Statuses;
 
 function ChatSettingsModalView(props: Props) {
-    // const {  } = props;
+    const { chat, deleteChat } = props;
 
-    return <div className={styles.wrapper}>ChatSettingsModalView</div>;
+    return (
+        <div className={styles.wrapper}>
+            <Button onClick={deleteChat}>delete chat</Button>
+        </div>
+    );
 }
 
 export default ChatSettingsModalView;

@@ -9,8 +9,6 @@ export enum Statuses {
     'OFFLINE' = '',
 }
 
-export type ModalName = 'personal-info';
-
 export type User = {
     avatar: {
         chat_id: number | null;
@@ -34,5 +32,6 @@ export type User = {
     updated_at: Date;
 };
 
+export type ModalName = 'personal-info';
 export type SocketIn = 'UserUpdated';
 export type SocketOut = '';

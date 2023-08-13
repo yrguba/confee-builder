@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { userTypes } from 'entities/user';
 import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Icons, Card, Box, Button, TabBarTypes, IconsTypes, TabBar } from 'shared/ui';
+import { Icons, Card, Button, TabBarTypes, TabBar } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { ChatProxy } from '../../model/types';
@@ -12,12 +11,11 @@ type Props = {
     chat: ChatProxy | BaseTypes.Empty;
     back: () => void;
     tabs: TabBarTypes.TabBarItem[];
+    clickCard: () => void;
 } & BaseTypes.Statuses;
 
 function ChatHeaderView(props: Props) {
-    const { chat, back, tabs } = props;
-
-    const sm = useWidthMediaQuery().to('sm');
+    const { chat, back, tabs, clickCard } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -27,7 +25,14 @@ function ChatHeaderView(props: Props) {
                 </Button.Circle>
             )}
             <div className={styles.left}>
-                <Card avatarStatus={chat?.secondMemberStatus || null} img={chat?.avatar} name={chat?.name} title={chat?.name} subtitle={chat?.subtitle} />
+                <Card
+                    onClick={clickCard}
+                    avatarStatus={chat?.secondMemberStatus || null}
+                    img={chat?.avatar}
+                    name={chat?.name}
+                    title={chat?.name}
+                    subtitle={chat?.subtitle}
+                />
             </div>
             <div>
                 <TabBar variant="icons" items={tabs} activeItemId={0} />
