@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useStore } from 'shared/hooks';
+import { useCreateSelectors } from 'shared/hooks';
 
 import { UseConfirmProps } from './types';
 
@@ -19,7 +19,7 @@ type Store = {
     setConfirm: (props: UseConfirmProps | null) => void;
     setConfirmModalPayload: (data: { value: boolean; date?: number }) => void;
 };
-const { createSelectors, createObject } = useStore();
+// const { createSelectors, createObject } = useStore();
 const modalStore = create<Store>()(
     devtools(
         immer((set) => ({
@@ -47,6 +47,6 @@ const modalStore = create<Store>()(
     )
 );
 
-const useModalStore = createSelectors(modalStore);
+const useModalStore = useCreateSelectors(modalStore);
 
 export default useModalStore;

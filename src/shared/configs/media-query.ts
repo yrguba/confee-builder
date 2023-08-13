@@ -1,6 +1,6 @@
 import { ConfigMediaQuery } from 'react-screen-hooks';
 
-export default ConfigMediaQuery({
+const mediaQuery = ConfigMediaQuery({
     widthBreakpoints: {
         sm: 680,
         md: 800,
@@ -14,3 +14,5 @@ export default ConfigMediaQuery({
         xl: 1400,
     },
 });
+
+export default mediaQuery;

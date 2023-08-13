@@ -22,6 +22,7 @@ import useFileUploader, { Types as UseFileUploaderTypes } from 'react-use-file-u
 import useArray from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
+import useCreateSelectors from './useCreateSelectors';
 import useEasyState, { UseEasyStateReturnedType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
@@ -37,9 +38,9 @@ import useTheme from './useTheme';
 import useToggle from './useToggle';
 import useWebSocket from './useWebSocket';
 import useWebView from './useWebView';
-import ConfigMediaQuery from '../configs/media-query';
+import mediaQuery from '../configs/media-query';
 
-const { useWidthMediaQuery, useHeightMediaQuery } = ConfigMediaQuery;
+const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
     useVideo,
     useCallbackRef,
@@ -60,8 +61,9 @@ export {
     useFs,
     useNetworkState,
     useIdle,
-    useTheme,
     useStore,
+    useTheme,
+    useCreateSelectors,
     useDebounce,
     useToggle,
     useClickAway,

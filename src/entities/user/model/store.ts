@@ -2,12 +2,12 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useStore } from 'shared/hooks';
+import { useCreateSelectors } from 'shared/hooks';
 
 type Store = {};
-const { createSelectors, createObject } = useStore();
+// const { createSelectors, createObject } = useStore();
 const userStore = create<Store>()(devtools(immer((set) => ({}))));
 
-const useUserStore = createSelectors(userStore);
+const useUserStore = useCreateSelectors(userStore);
 
 export default useUserStore;

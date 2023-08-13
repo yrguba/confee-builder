@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useStore } from 'shared/hooks';
+import { useCreateSelectors } from 'shared/hooks';
 
 type Store = {
     testState: {
@@ -10,7 +10,7 @@ type Store = {
         set: () => void;
     };
 };
-const { createSelectors, createObject } = useStore();
+// const { createSelectors, createObject } = useStore();
 const callsStore = create<Store>()(
     devtools(
         immer((set) => ({
@@ -25,6 +25,6 @@ const callsStore = create<Store>()(
     )
 );
 
-const useCallsStore = createSelectors(callsStore);
+const useCallsStore = useCreateSelectors(callsStore);
 
 export default useCallsStore;

@@ -12,19 +12,12 @@ type Store = {
     editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
 };
 
-const { createSelectors, createObject } = useStore<Store>();
+const { createSelectors, generateState } = useStore<Store>();
 
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
-            replyMessage: createObject('replyMessage', set),
-            editMessage: {
-                value: null,
-                set: (message) =>
-                    set((state) => {
-                        state.editMessage.value = message;
-                    }),
-            },
+            ...generateState(['replyMessage', 'editMessage'], set),
         }))
     )
 );
