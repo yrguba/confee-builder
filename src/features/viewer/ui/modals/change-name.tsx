@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { viewerApi, ChangeNameModalView, yup, viewerTypes } from 'entities/viewer';
+import { viewerApi, ChangeNameModalView, viewerTypes } from 'entities/viewer';
+import { useYup } from 'shared/hooks';
 import { Modal, Input } from 'shared/ui';
 
 function ChangeNameModal() {
@@ -8,7 +9,7 @@ function ChangeNameModal() {
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
     const changeNameModal = Modal.use<viewerTypes.ModalName>('change-name', { showPrevModalAfterClose: true });
-
+    const yup = useYup();
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
         initialValue: viewerData?.first_name,

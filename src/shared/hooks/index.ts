@@ -38,10 +38,12 @@ import useTheme from './useTheme';
 import useToggle from './useToggle';
 import useWebSocket from './useWebSocket';
 import useWebView from './useWebView';
+import useYup from './useYup';
 import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useYup,
     useVideo,
     useCallbackRef,
     useRendersCount,

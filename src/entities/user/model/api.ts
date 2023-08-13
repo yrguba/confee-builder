@@ -34,6 +34,13 @@ class UserApi {
             return response.data;
         };
     }
+
+    handleCheckPhone() {
+        return async (data: { phone: string }) => {
+            const response = await axiosClient.get('/api/v2/check-identifier', { params: { identifier: data.phone } });
+            return response.data;
+        };
+    }
 }
 
 export default new UserApi();

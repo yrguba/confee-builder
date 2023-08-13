@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFileUploader from 'react-use-file-uploader';
 
-import { viewerApi, InitialFillingProfileStep3View, yup } from 'entities/viewer';
+import { viewerApi, InitialFillingProfileStep3View } from 'entities/viewer';
+import { useYup } from 'shared/hooks';
 import { Input } from 'shared/ui';
 
 import { userApi } from '../../../../entities/user';
@@ -15,7 +16,7 @@ function InitialFillingProfileStep3() {
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
     const { data: viewerData } = viewerApi.handleGetViewer();
     const handleCheckEmail = userApi.handleCheckEmail();
-
+    const yup = useYup();
     const emailInput = Input.use({
         yupSchema: yup.checkEmail,
     });

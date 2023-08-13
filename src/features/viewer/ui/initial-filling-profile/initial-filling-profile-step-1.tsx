@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { viewerApi, InitialFillingProfileStep1View, yup } from 'entities/viewer';
+import { userApi } from 'entities/user';
+import { viewerApi, InitialFillingProfileStep1View } from 'entities/viewer';
+import { useYup } from 'shared/hooks';
 import { Input } from 'shared/ui';
-
-import { userApi } from '../../../../entities/user';
 
 function InitialFillingProfileStep1() {
     const navigate = useNavigate();
@@ -13,6 +13,8 @@ function InitialFillingProfileStep1() {
 
     const handleCheckNickname = userApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
+
+    const yup = useYup();
 
     const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,

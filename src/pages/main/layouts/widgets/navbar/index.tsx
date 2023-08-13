@@ -1,14 +1,16 @@
 import React, { useTransition } from 'react';
 
+import { chatApi } from 'entities/chat';
+import { viewerTypes } from 'entities/viewer';
 import { useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Counter, Icons, IconsTypes, Title } from 'shared/ui';
+import { Counter, Icons, IconsTypes, Title, Modal } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { chatApi } from '../../../../../entities/chat';
 
 function Navbar() {
     const { pathname, navigate } = useRouter();
+    const [isPending, startTransition] = useTransition();
 
     const { data: totalPendingMessages } = chatApi.handleGetTotalPendingMessages();
 
@@ -19,10 +21,11 @@ function Navbar() {
         { id: 3, title: 'Профиль', icon: 'profile', payload: { path: '/settings', counter: 0 } },
     ];
 
-    const [isPending, startTransition] = useTransition();
+    const contactsModal = Modal.use<viewerTypes.ModalName>('contacts');
 
     const itemClick = (path: string) => {
-        startTransition(() => navigate(path));
+        if (path === '/contacts') contactsModal.open();
+        else startTransition(() => navigate(path));
     };
 
     return (

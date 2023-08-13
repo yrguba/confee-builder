@@ -1,6 +1,5 @@
 import viewerService from './lib/service';
 import tokensService from './lib/tokens-service';
-import * as yup from './lib/yup';
 import viewerApi from './model/api';
 import useViewerStore from './model/store';
 import * as viewerTypes from './model/types';
@@ -15,7 +14,6 @@ import ChangeNickNameModalView from './ui/modals/change-nickname';
 import ContactsModalView from './ui/modals/contacts';
 
 export {
-    yup,
     useViewerStore,
     viewerTypes,
     viewerApi,

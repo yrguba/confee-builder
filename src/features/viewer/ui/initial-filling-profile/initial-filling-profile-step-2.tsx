@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { viewerApi, InitialFillingProfileStep2View, yup } from 'entities/viewer';
+import { viewerApi, InitialFillingProfileStep2View } from 'entities/viewer';
+import { useYup } from 'shared/hooks';
 import { Input } from 'shared/ui';
 
 function InitialFillingProfileStep2() {
     const navigate = useNavigate();
-
+    const yup = useYup();
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 

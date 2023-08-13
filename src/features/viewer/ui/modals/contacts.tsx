@@ -4,13 +4,14 @@ import { ContactsModalView, viewerTypes } from 'entities/viewer';
 import { Input, Modal } from 'shared/ui';
 
 function ContactsModal() {
-    const contactsModal = Modal.use<viewerTypes.ModalName>('contacts', { showPrevModalAfterClose: true });
+    const contactsModal = Modal.use<viewerTypes.ModalName>('contacts');
+    const addContactsModal = Modal.use<viewerTypes.ModalName>('add-contact', { showPrevModalAfterClose: true });
     const searchContactsInput = Input.use({});
 
     return (
         <>
             <Modal {...contactsModal}>
-                <ContactsModalView openAddContactsModal={() => console.log('add-contact')} searchContactsInput={searchContactsInput} />
+                <ContactsModalView openAddContactsModal={addContactsModal.open} searchContactsInput={searchContactsInput} />
             </Modal>
         </>
     );
