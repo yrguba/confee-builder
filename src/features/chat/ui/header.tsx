@@ -14,11 +14,10 @@ function ChatHeader() {
     const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
 
     const notification = Notification.use();
-    const callUrl: string = chatData?.is_group
-        ? `${callsTypes.Paths.AUDIO_GROUP}/${getRandomString(20)}`
-        : `${callsTypes.Paths.AUDIO_PRIVATE}/${getRandomString(20)}`;
 
-    const webView = useWebView(callUrl, 'аудио звонок');
+    const callPath = `${chatData?.is_group ? callsTypes.Paths.GROUP : callsTypes.Paths.PRIVATE}/${getRandomString(20)}`;
+
+    const webView = useWebView(callPath, 'аудио звонок');
 
     const chatSettingsModal = Modal.use<chatTypes.ModalName>('chat-settings');
 
@@ -26,7 +25,7 @@ function ChatHeader() {
         if (appService.tauriIsRunning) {
             webView?.open();
         } else {
-            navigate(`/calls/${chatData?.is_group ? 'group' : 'private'}/${getRandomString(20)}`);
+            navigate(callPath);
         }
     };
 

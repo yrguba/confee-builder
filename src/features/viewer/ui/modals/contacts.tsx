@@ -11,18 +11,10 @@ function ContactsModal() {
 
     const searchContactsInput = Input.use({});
 
-    const [a, set] = useState<any>([]);
-    useEffect(() => {
-        if (contactsData?.length) {
-            for (let i = 0; i < 100; i++) {
-                set((prev: any) => [...prev, contactsData[0]]);
-            }
-        }
-    }, [contactsData]);
     return (
         <>
             <Modal {...contactsModal}>
-                <ContactsModalView contacts={a} openAddContactsModal={addContactsModal.open} searchContactsInput={searchContactsInput} />
+                <ContactsModalView contacts={contactsData} openAddContactsModal={addContactsModal.open} searchContactsInput={searchContactsInput} />
             </Modal>
         </>
     );

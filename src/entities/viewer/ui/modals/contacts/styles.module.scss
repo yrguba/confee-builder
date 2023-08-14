@@ -3,7 +3,7 @@
 .wrapper {
   @include box-size(416px, 100%);
   @include flex-column(flex-start, center);
-  max-height: 600px;
+  max-height: 450px;
 
   .header {
     width: 90%;

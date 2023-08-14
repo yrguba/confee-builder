@@ -1,23 +1,35 @@
 import React from 'react';
 
-import { UseEasyStateReturnedType } from 'shared/hooks';
+import { viewerTypes } from 'entities/viewer';
+import { UseEasyStateReturnedType, UseArrayReturnedType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Input } from 'shared/ui';
+import { Button, Card, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { ChatProxy } from '../../../model/types';
 
 type Props = {
-    chatState: UseEasyStateReturnedType<{ user_ids: number[] | null; is_group: boolean }>;
+    selectedUsers: UseArrayReturnedType<viewerTypes.Contact>;
+    isGroup: UseEasyStateReturnedType<boolean>;
     createChat: () => void;
+    contacts: viewerTypes.Contact[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function CreateChatModalView(props: Props) {
-    const { chatState, createChat, loading } = props;
+    const { selectedUsers, isGroup, createChat, contacts, loading } = props;
 
     return (
         <div className={styles.wrapper}>
-            <Input onChange={(e) => chatState.set({ user_ids: [Number(e.target.value)], is_group: false })} />
+            <div className={styles.select}>
+                <Button onClick={isGroup.toggle}>{isGroup.value ? 'group' : 'private'}</Button>
+            </div>
+            <div className={styles.list}>
+                {contacts?.map((contact) => (
+                    <div key={contact.id} className={`${styles.item} ${selectedUsers.findById(contact.id) ? styles.item_active : ''}`}>
+                        <Card onClick={() => selectedUsers.pushOrDelete(contact)} title={contact.first_name || ''} subtitle={contact.phone || ''} />
+                    </div>
+                ))}
+            </div>
             <Button loading={loading} disabled={loading} onClick={createChat}>
                 create
             </Button>

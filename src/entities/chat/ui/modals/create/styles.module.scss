@@ -11,40 +11,23 @@
     height: 80vh;
   }
 
-  .body {
-    @include flex-column(flex-start, flex-start);
-    gap: 16px;
+  .select{
     width: 100%;
-    flex: 1;
+    @include flex;
+  }
+
+  .list{
+    max-height: 70%;
+    width: 100%;
     overflow-y: auto;
 
-    .item {
-      @include flex(space-between);
-      width: 100%;
-      gap: 20px;
-      cursor: pointer;
-      min-height: 60px;
+    .item{
+      transition: background-color .5s;
+      border-radius: 12px;
 
-      &:first-child{
-        min-height: 80px;
-        align-items: center;
-      }
-
-      .left {
-        width: 84%;
-        @include flex-column(center, flex-start);
-        gap: 2px;
-        height: 100%;
-        overflow-y: auto;
-        .aboutMe {
-          width: 100%;
-          @include flex(flex-start, flex-start);
-          max-height: 140px;
-
-        }
+      &_active{
+        background-color: var(--bg-primary);
       }
     }
   }
-
-
 }

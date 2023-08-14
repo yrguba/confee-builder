@@ -38,7 +38,7 @@ class ChatApi {
 
     handleCreateChat() {
         const queryClient = useQueryClient();
-        return useMutation((data: { user_ids: number[] | null; is_group: boolean }) => axiosClient.post(`${this.pathPrefix}`, data), {
+        return useMutation((data: { user_ids: number[] | string[] | null; is_group: boolean }) => axiosClient.post(`${this.pathPrefix}`, data), {
             onSuccess: async (res, data) => {
                 const updRes = httpHandlers.response<{ data: Chat }>(res);
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {

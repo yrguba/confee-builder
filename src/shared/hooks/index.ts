@@ -19,7 +19,7 @@ import {
 import useDownloader from 'react-use-downloader';
 import useFileUploader, { Types as UseFileUploaderTypes } from 'react-use-file-uploader';
 
-import useArray from './useArray';
+import useArray, { UseArrayReturnedType } from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
@@ -87,4 +87,4 @@ export {
     useWebSocket,
 };
 
-export type { UseEasyStateReturnedType, UseFileUploaderTypes };
+export type { UseEasyStateReturnedType, UseFileUploaderTypes, UseArrayReturnedType };

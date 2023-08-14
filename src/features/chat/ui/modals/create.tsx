@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { chatApi, chatProxy, CreateChatModalView, chatTypes } from 'entities/chat';
-import { useEasyState, useRouter } from 'shared/hooks';
+import { viewerApi, viewerTypes } from 'entities/viewer';
+import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
 function CreteChatModal() {
@@ -9,22 +10,26 @@ function CreteChatModal() {
 
     const createChatModal = Modal.use<chatTypes.ModalName>('create-chat');
 
-    const chatState = useEasyState<{ user_ids: number[] | null; is_group: boolean }>({ user_ids: [], is_group: false });
-
+    const isGroup = useEasyState(false);
+    const selectedUsers = useArray<viewerTypes.Contact>({});
     const { mutate: handleCreateChat, isLoading } = chatApi.handleCreateChat();
-
+    const { data: contactsData } = viewerApi.handleGetContacts();
+    console.log(selectedUsers);
     const createChat = () => {
-        handleCreateChat(chatState.value, {
-            onSuccess: (data) => {
-                createChatModal.close();
-                navigate(`/chats/chat/${data.data.data.id}`);
-            },
-        });
+        handleCreateChat(
+            { user_ids: selectedUsers.getIds(), is_group: isGroup.value },
+            {
+                onSuccess: (data) => {
+                    createChatModal.close();
+                    navigate(`/chats/chat/${data.data.data.id}`);
+                },
+            }
+        );
     };
 
     return (
         <Modal {...createChatModal}>
-            <CreateChatModalView chatState={chatState} createChat={createChat} loading={isLoading} />
+            <CreateChatModalView isGroup={isGroup} contacts={contactsData} selectedUsers={selectedUsers} createChat={createChat} loading={isLoading} />
         </Modal>
     );
 }

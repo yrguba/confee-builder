@@ -10,7 +10,6 @@ type Paths = callsTypes.Paths;
 function useWebView(path: string, title?: string): { open: () => void; close: () => void } | null {
     if (!window.__TAURI__) return null;
     const [id, setId] = useState('wda');
-
     const webview: any = new WebviewWindow(id, {
         url: `${window.location.origin}${path}`,
         title: title || '',
