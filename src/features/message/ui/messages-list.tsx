@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { ImagesSwiperModalView, appTypes } from 'entities/app';
 import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { MessageProxy } from 'entities/message/model/types';
-import { useRouter, useCopyToClipboard } from 'shared/hooks';
+import { useRouter, useCopyToClipboard, useEasyState } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
 import { reactionConverter } from '../../../shared/lib';
@@ -11,8 +12,9 @@ import { reactionConverter } from '../../../shared/lib';
 function MessageList() {
     const { params } = useRouter();
     const [state, copyToClipboard] = useCopyToClipboard();
-
     const chatId = Number(params.chat_id);
+
+    const imagesState = useEasyState<appTypes.ImagesSwiperProps>({ images: [], startIndex: 1 });
 
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
@@ -40,6 +42,8 @@ function MessageList() {
     const messages: MessageProxy[] = messageService.getUpdatedList(messageData);
 
     const notification = Notification.use();
+
+    const imagesSwiperModal = Modal.use<appTypes.ModalName>('images-swiper');
 
     const confirmModal = Modal.useConfirm<{ messageId: number }>({
         title: 'Удалить сообщение',
@@ -99,6 +103,12 @@ function MessageList() {
         });
     };
 
+    const clickImage = (data: appTypes.ImagesSwiperProps) => {
+        console.log(data);
+        imagesState.set(data);
+        imagesSwiperModal.open();
+    };
+
     return (
         <>
             <MessagesListView
@@ -111,7 +121,11 @@ function MessageList() {
                 chatSubscription={chatSubscription}
                 messageMenuAction={messageMenuAction}
                 sendReaction={clickReaction}
+                clickImage={clickImage}
             />
+            <Modal {...imagesSwiperModal}>
+                <ImagesSwiperModalView {...imagesState.value} />
+            </Modal>
         </>
     );
 }

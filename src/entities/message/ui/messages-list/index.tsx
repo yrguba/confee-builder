@@ -5,6 +5,7 @@ import { useInView, usePrevious, useScroll } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
+import { appTypes } from '../../../app';
 import { chatTypes } from '../../../chat';
 import { MessageMenuActions, MessageProxy } from '../../model/types';
 import Message from '../message';
@@ -20,10 +21,11 @@ type Props = {
     chatSubscription: number | null;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
+    clickImage: (data: appTypes.ImagesSwiperProps) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, chatSubscription, messageMenuAction, sendReaction } = props;
+    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, chatSubscription, messageMenuAction, sendReaction, clickImage } = props;
 
     const [initOnce, setInitOnce] = useState(true);
 
@@ -79,7 +81,14 @@ function MessagesListView(props: Props) {
                             ref={getMessageRefs(message, index)}
                         >
                             {index === 5 && <div ref={nextPageRef} />}
-                            <Message sendReaction={sendReaction} chat={chat} ref={wrapperRef} message={message} messageMenuAction={messageMenuAction} />
+                            <Message
+                                clickImage={clickImage}
+                                sendReaction={sendReaction}
+                                chat={chat}
+                                ref={wrapperRef}
+                                message={message}
+                                messageMenuAction={messageMenuAction}
+                            />
                             {messages?.length - 5 === index && <div ref={prevPageRef} />}
                         </div>
                     )}

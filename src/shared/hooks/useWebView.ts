@@ -23,7 +23,7 @@ function useWebView(path: string, title?: string): { open: () => void; close: ()
     };
     useEffect(() => {
         webview.onCloseRequested(() => {
-            close();
+            setId(getRandomString(20));
         });
         // webview.once('tauri://created', async function () {});
         // webview.once('tauri://error', function (e: any) {});

@@ -10,6 +10,7 @@ import ImagesMessage from './variants/images';
 import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
 import { useStyles } from '../../../../shared/hooks';
+import { appTypes } from '../../../app';
 import { MessageProxy, MessageMenuActions } from '../../model/types';
 
 type Props = {
@@ -17,10 +18,11 @@ type Props = {
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
+    clickImage: (data: appTypes.ImagesSwiperProps) => void;
 } & BaseTypes.Statuses;
 
 const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
-    const { message, messageMenuAction, chat, sendReaction } = props;
+    const { message, messageMenuAction, chat, sendReaction, clickImage } = props;
 
     const { text, files, type, reply_to_message, lastMessageInBlock, isMy, isMock, author } = message;
 
@@ -32,7 +34,6 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
     return (
         <Box className={styles.wrapper}>
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={author?.avatar?.path} />}
-
             <Dropdown.Dynamic
                 reverseX={message.isMy}
                 ref={ref}
@@ -45,7 +46,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                         <div className={styles.body}>
                             {reply_to_message && <ReplyMessage message={reply_to_message} />}
                             {type === 'text' && <TextMessage text={text} />}
-                            {type === 'images' && <ImagesMessage images={files} />}
+                            {type === 'images' && <ImagesMessage clickImage={clickImage} images={files} />}
                         </div>
                         <div className={styles.info}>
                             <Title primary={false} variant="H4M">

@@ -8,7 +8,7 @@ import LoadingIndicator from '../../../loading-indicator';
 import { ImageProps } from '../types';
 
 function Image(props: ImageProps) {
-    const { img, width, height, horizontalImgWidth, ...other } = props;
+    const { img, width, height, horizontalImgWidth, onClick, ...other } = props;
 
     const { src, error, isLoading, orientation } = useFetchMediaContent(img || '');
 
@@ -22,7 +22,7 @@ function Image(props: ImageProps) {
     };
 
     return (
-        <div className={styles.wrapper} style={{ width: getWidth(), height }}>
+        <div onClick={onClick} className={styles.wrapper} style={{ width: getWidth(), height }}>
             {!isLoading && !error && <img className={classes} src={src} alt="" />}
             <Box.Animated className={styles.loading} visible={isLoading}>
                 <LoadingIndicator visible />

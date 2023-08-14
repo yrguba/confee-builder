@@ -4,5 +4,6 @@ import * as appTypes from './model/types';
 import AppSettingsView from './ui/app-settings';
 import CheckUpdateView from './ui/check-update';
 import ConfirmModalView from './ui/modals/confirm';
+import ImagesSwiperModalView from './ui/modals/images-swiper';
 
-export { appService, appTypes, useAppStore, AppSettingsView, CheckUpdateView, ConfirmModalView };
+export { appService, appTypes, useAppStore, AppSettingsView, CheckUpdateView, ConfirmModalView, ImagesSwiperModalView };
