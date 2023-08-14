@@ -6,18 +6,19 @@ import { Message, MessageProxy, MessageType } from '../model/types';
 
 type Props = {
     text?: string;
-    content?: any;
+    files?: any;
     type?: MessageType;
     viewer: viewerTypes.Viewer | undefined;
     reply?: Message | null;
 };
 
 function mockMessage(data: Props): Message {
+    console.log(data);
     return {
         author: data.viewer || {},
         id: new Date().valueOf(),
         text: data.text || '',
-        files: data.content || null,
+        files: data.files || null,
         is_read: true,
         created_at: new Date(),
         type: data.type || 'text',

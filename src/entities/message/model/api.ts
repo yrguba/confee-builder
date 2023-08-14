@@ -4,7 +4,7 @@ import produce from 'immer';
 import { axiosClient } from 'shared/configs';
 import { useArray, useWebSocket } from 'shared/hooks';
 
-import { MessageProxy } from './types';
+import { MessageProxy, MessageType } from './types';
 import { messages_limit } from '../lib/constants';
 import mockMessage from '../lib/mock';
 
@@ -65,8 +65,21 @@ class MessageApi {
     }
 
     handleSendFileMessage() {
-        return useMutation((data: { files: FormData | undefined | null; chatId: number }) =>
-            axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files)
+        const queryClient = useQueryClient();
+        const viewerData: any = queryClient.getQueryData(['get-viewer']);
+        return useMutation(
+            (data: { files: FormData | undefined | null; chatId: number; filesForMock: string[]; filesType: MessageType }) =>
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files),
+            {
+                onMutate: async (data) => {
+                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                        const message = mockMessage({ text: '', viewer: viewerData?.data.data, files: data.filesForMock, type: data.filesType });
+                        return produce(cacheData, (draft: any) => {
+                            draft.pages[0].data.data.unshift(message);
+                        });
+                    });
+                },
+            }
         );
     }
 

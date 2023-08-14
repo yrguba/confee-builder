@@ -5,6 +5,8 @@ import { chatApi, chatProxy } from 'entities/chat';
 import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
 import { useEasyState, useFileUploader } from 'shared/hooks';
 
+import { MessageType } from '../../../entities/message/model/types';
+
 function MessageInput() {
     const params = useParams();
     const chatId = Number(params.chat_id);
@@ -25,13 +27,20 @@ function MessageInput() {
         multiple: true,
         onAfterUploading: (data) => {
             if (data.sortByAccept) {
-                const formData = new FormData();
                 Object.entries(data.sortByAccept).forEach(([key, value]) => {
-                    value.forEach((i) => {
-                        formData.append(`files[${key}s][]`, i.file);
-                    });
+                    if (value.length) {
+                        const formData = new FormData();
+                        value.forEach((i) => {
+                            formData.append(`files[${key}s][]`, i.file);
+                        });
+                        handleSendFileMessage({
+                            chatId,
+                            files: formData,
+                            filesForMock: value.map((i) => i.fileUrl),
+                            filesType: `${key}s` as MessageType,
+                        });
+                    }
                 });
-                handleSendFileMessage({ chatId, files: formData });
             }
         },
     });

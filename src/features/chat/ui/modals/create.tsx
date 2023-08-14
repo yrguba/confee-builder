@@ -14,7 +14,7 @@ function CreteChatModal() {
     const selectedUsers = useArray<viewerTypes.Contact>({});
     const { mutate: handleCreateChat, isLoading } = chatApi.handleCreateChat();
     const { data: contactsData } = viewerApi.handleGetContacts();
-    console.log(selectedUsers);
+
     const createChat = () => {
         handleCreateChat(
             { user_ids: selectedUsers.getIds(), is_group: isGroup.value },
