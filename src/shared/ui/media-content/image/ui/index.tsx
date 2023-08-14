@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 
-import { useFetchMediaContent, useStyles } from 'shared/hooks';
+import { useFetchMediaContent, useStorage, useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import { appTypes } from '../../../../../entities/app';
 import Box from '../../../box';
 import LoadingIndicator from '../../../loading-indicator';
 import { ImageProps } from '../types';
 
 function Image(props: ImageProps) {
     const { img, width, height, horizontalImgWidth, onClick, ...other } = props;
+    const storage = useStorage<appTypes.ValuesInStorage>();
 
-    const { src, error, isLoading, orientation } = useFetchMediaContent(img || '');
+    const { src, error, isLoading, orientation } = useFetchMediaContent(img || '', storage.get('cache_size'));
 
     const classes = useStyles(styles, 'img', {
         error: error || !img,
