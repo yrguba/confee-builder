@@ -3,19 +3,30 @@ import React, { useState } from 'react';
 import { useFetchMediaContent, useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import Box from '../../../box';
+import LoadingIndicator from '../../../loading-indicator';
 import { ImageProps } from '../types';
 
 function Image(props: ImageProps) {
-    const { img, width, height, ...other } = props;
+    const { img, width, height, horizontalImgWidth, ...other } = props;
 
     const { src, error, isLoading, orientation } = useFetchMediaContent(img || '');
+
     const classes = useStyles(styles, 'img', {
         error: error || !img,
     });
-    console.log(orientation);
+
+    const getWidth = () => {
+        if (orientation === 'horizontal' && horizontalImgWidth) return horizontalImgWidth;
+        return width;
+    };
+
     return (
-        <div className={styles.wrapper} style={{ width, height }}>
+        <div className={styles.wrapper} style={{ width: getWidth(), height }}>
             <img className={classes} src={src} alt="" />
+            <Box.Animated className={styles.loading} visible={isLoading}>
+                <LoadingIndicator visible />
+            </Box.Animated>
             {(error || !img) && icon}
         </div>
     );

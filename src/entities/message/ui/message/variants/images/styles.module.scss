@@ -1,13 +1,12 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(400px 500px);
-  color: var(--text-primary);
-  background-color: #7B57C8;
-  max-width: 400px;
-  max-height: 600px;
+  @include box-size(100%, auto);
   @include flex;
+  gap: 2px;
   flex-wrap: wrap;
+  color: var(--text-primary);
+  max-width: 600px;
 }
 
 

@@ -1,10 +1,9 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Box, Image } from 'shared/ui';
+import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { MessageProxy } from '../../../../model/types';
 
 type Props = {
     images: string[];
@@ -16,7 +15,7 @@ function ImagesMessage(props: Props) {
     return (
         <div className={styles.wrapper}>
             {images.map((i, index) => (
-                <Image img={i} width={index % 3 === 0 ? '100%' : '50%'} height="200px" />
+                <Image key={index} img={i} width="49%" horizontalImgWidth="100%" height="200px" />
             ))}
         </div>
     );
