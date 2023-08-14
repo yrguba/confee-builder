@@ -29,14 +29,16 @@ function chatGateway() {
         });
         onMessage('ChatCreated', (socketData) => {
             queryClient.setQueryData(['get-chats'], (cacheData: any) => {
-                if (!cacheData?.data?.data.length) return cacheData;
+                if (!cacheData?.data?.data) return cacheData;
                 return produce(cacheData, (draft: any) => {
-                    draft.data.data.unshift(socketData.data.chat);
+                    const foundChat = draft.data.data.find((i: ChatProxy) => i.id === socketData.data.chat.id);
+                    !foundChat && draft.data.data.unshift(socketData.data.chat);
                 });
             });
         });
         onMessage('ChatDeleted', (socketData) => {
             queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                console.log(socketData);
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data.filter((chat: ChatProxy) => chat.id !== socketData.data.chat_id);

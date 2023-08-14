@@ -51,7 +51,7 @@ export type MessageProxy = {
     firstOfDay: string;
     date: string;
     authorName: string;
-    systemMessageText: string;
+    systemMessages: string[];
     lastMessageInBlock: boolean;
 } & Message;
 

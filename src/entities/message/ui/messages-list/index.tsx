@@ -70,7 +70,7 @@ function MessagesListView(props: Props) {
         <div className={styles.wrapper} ref={wrapperRef}>
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
-                    <SystemMessage text={message.systemMessageText} />
+                    {message.systemMessages.length ? message.systemMessages.map((text, index) => <SystemMessage key={index} text={text} />) : null}
                     {message.type !== 'system' && (
                         <div
                             onMouseEnter={() => hoverMessage(message)}

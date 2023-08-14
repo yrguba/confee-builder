@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { usePrevious } from 'react-use';
 
 import useModalStore from './store';
 import { UseConfirmProps } from './types';
 
-function use<MN>(modalNames: MN, options?: { showPrevModalAfterClose: boolean }) {
+function use<MN>(modalNames: MN) {
     const openModal: any = useModalStore.use.openModal();
-
-    const prevValue = usePrevious(openModal);
+    const prevValue = usePrevious(modalNames);
     const setOpenModal: any = useModalStore.use.setOpenModal();
 
     const open = () => {
@@ -15,11 +14,7 @@ function use<MN>(modalNames: MN, options?: { showPrevModalAfterClose: boolean })
     };
 
     const close = () => {
-        if (options?.showPrevModalAfterClose && prevValue) {
-            setOpenModal(prevValue || null);
-        } else {
-            setOpenModal(null);
-        }
+        setOpenModal(null);
     };
 
     const isOpen = !!openModal && openModal === modalNames;

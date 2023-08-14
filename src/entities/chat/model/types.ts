@@ -25,6 +25,6 @@ export type ChatProxy = {
     secondMemberStatus: keyof typeof Statuses | null;
 } & Chat;
 
-export type ModalName = 'chat-settings';
+export type ModalName = 'chat-settings' | 'create-chat';
 export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated' | 'ChatPendingMessagesCountUpdated';
 export type SocketOut = 'ChatListenersUpdated';

@@ -8,7 +8,7 @@ function ChangeNameModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const changeNameModal = Modal.use<viewerTypes.ModalName>('change-name', { showPrevModalAfterClose: true });
+    const changeNameModal = Modal.use<viewerTypes.ModalName>('change-name');
     const yup = useYup();
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,

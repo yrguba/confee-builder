@@ -36,6 +36,20 @@ class ChatApi {
         });
     };
 
+    handleCreateChat() {
+        const queryClient = useQueryClient();
+        return useMutation((data: { user_ids: number[] | null; is_group: boolean }) => axiosClient.post(`${this.pathPrefix}`, data), {
+            onSuccess: async (res, data) => {
+                const updRes = httpHandlers.response<{ data: Chat }>(res);
+                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data.unshift(updRes.data?.data);
+                    });
+                });
+            },
+        });
+    }
+
     handleDeleteChat() {
         const queryClient = useQueryClient();
         const { navigate } = useRouter();

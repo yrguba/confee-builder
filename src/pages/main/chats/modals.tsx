@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ChatSettingsModal } from 'features/chat';
+import { ChatSettingsModal, CreteChatModal } from 'features/chat';
 import { UserPersonalInfoModal } from 'features/user';
 import { AddContactModal, ContactsModal, ChangeBirthModal, ChangeNameModal, ChangeNicknameModal, ViewerPersonalInfoModal } from 'features/viewer';
 
@@ -15,6 +15,7 @@ function Modals() {
             <ContactsModal />
             <AddContactModal />
             <ChatSettingsModal />
+            <CreteChatModal />
         </>
     );
 }

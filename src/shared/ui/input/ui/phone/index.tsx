@@ -78,12 +78,15 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
                 </div>
                 <div className={`${styles.input} ${focused ? styles.input_focused : ''}`}>
                     <input
+                        type="number"
                         onFocus={inputFocus}
                         ref={mergeRefs([inputRef, ref])}
                         maxLength={10}
                         placeholder="(999) 000-00-00"
                         value={value}
-                        onChange={(e) => (onChange ? onChange(e) : '')}
+                        onChange={(e) => {
+                            onChange && String(e.target.value).length < 11 ? onChange(e) : '';
+                        }}
                     />
                 </div>
             </div>

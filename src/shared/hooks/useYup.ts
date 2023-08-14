@@ -12,7 +12,11 @@ function useYup(errorText?: string) {
     const checkName = yup.string().matches(/^[a-zA-Zа-яА-Я]*$/, 'В этом поле не может быть цифр');
     const checkEmail = yup.string().email('неверный формат');
     const checkBirthDate = yup.string().matches(/^[0-9]{2}.[0-9]{2}.[0-9]{4}$/, 'неверный формат');
-    const checkPhone = yup.string().matches(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/, 'Неверный формат номера');
+
+    const checkPhone = yup
+        .string()
+        .min(1, 'Поле обязательно для заполнения')
+        .matches(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/, 'Неверный формат номера');
 
     return {
         checkNickname,

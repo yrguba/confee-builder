@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { usePrevious } from 'react-use';
 
 import { useStyles } from 'shared/hooks';
 import { Box, Icons } from 'shared/ui/index';
@@ -14,12 +15,19 @@ function Modal(props: BaseModalProps) {
     const openModal: any = useModalStore.use.openModal();
     const modal_root = document.querySelector('#modal-root');
     const useModal = use(openModal);
+    const prevValue = usePrevious(isOpen);
 
     const closeClick = () => {
         onClose && onClose();
         useModal.close();
         close();
     };
+
+    useEffect(() => {
+        if (!isOpen && onClose && !!prevValue) {
+            onClose();
+        }
+    }, [isOpen]);
 
     const classes = useStyles(styles, 'modal');
 

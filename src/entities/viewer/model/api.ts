@@ -5,7 +5,7 @@ import { axiosClient } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
-import { Viewer } from './types';
+import { Viewer, Contact } from './types';
 
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
@@ -20,6 +20,16 @@ class ViewerApi {
                 const res = httpHandlers.response<{ data: Viewer }>(updRes);
                 this.storage.set('viewer_id', res.data?.data.id);
                 return res.data?.data;
+            },
+        });
+    }
+
+    handleGetContacts() {
+        return useQuery(['get-contacts'], () => axiosClient.get('api/v2/contacts'), {
+            staleTime: Infinity,
+            select: (res) => {
+                const updRes = httpHandlers.response<{ data: Contact[] }>(res);
+                return updRes.data?.data;
             },
         });
     }
@@ -39,11 +49,17 @@ class ViewerApi {
 
     handleAddAvatar() {
         const queryClient = useQueryClient();
-
         return useMutation((data: { file: FormData | null }) => axiosClient.post(`/api/v2/profile`, { images: data.file }), {
-            onSuccess: async (data) => {
+            onSuccess: async (res) => {
                 queryClient.invalidateQueries(['get-viewer']);
             },
+        });
+    }
+
+    handleCreateContact() {
+        const queryClient = useQueryClient();
+        return useMutation((data: { first_name: string; phone: string }) => axiosClient.post(`/api/v2/contacts`, { contacts: [data] }), {
+            onSuccess: async (res) => {},
         });
     }
 

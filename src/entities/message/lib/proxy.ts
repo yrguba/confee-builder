@@ -26,11 +26,12 @@ function messageProxy(prevMessage: Message | null, message: Message, nextMessage
                 case 'isFirstUnread':
                     return prevMessage?.is_read && !message.is_read;
 
-                case 'systemMessageText':
-                    if (receiver.firstOfDay) return receiver.firstOfDay;
-                    if (receiver.type === 'system') return receiver.text;
-                    if (receiver.isFirstUnread) return 'Непрочитанные';
-                    return '';
+                case 'systemMessages':
+                    const arr = [];
+                    if (receiver.firstOfDay) arr.push(receiver.firstOfDay);
+                    if (receiver.type === 'system') arr.push(receiver.text);
+                    if (receiver.isFirstUnread) arr.push('Непрочитанные');
+                    return arr;
 
                 case 'firstOfDay':
                     if (!prevMessage || moment(prevMessage?.created_at).startOf('day').unix() < moment(message?.created_at).startOf('day').unix()) {
