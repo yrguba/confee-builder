@@ -1,4 +1,4 @@
-@import "../../../../../app/styles/index";
+@import "src/app/styles/index";
 
 .wrapper {
   @include box-size(416px, 100%);
@@ -20,7 +20,7 @@
   }
 
   .body {
-    @include flex-column(flex-start, flex-start);
+    @include flex-column;
     gap: 16px;
     width: 90%;
     flex: 1;
@@ -29,7 +29,7 @@
     .inputsName{
       @include flex-column;
       gap: 16px;
-      width: 93%;
+      width: 100%;
     }
 
     .inputPhone{

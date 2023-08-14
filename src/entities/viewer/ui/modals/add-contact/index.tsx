@@ -12,19 +12,12 @@ type Props = {
     inputs: {
         firstName: InputTypes.UseReturnedType;
         lastName: InputTypes.UseReturnedType;
-        codeCountry: InputTypes.UseReturnedType;
         phone: InputTypes.UseReturnedType;
     };
 } & BaseTypes.Statuses;
 
 function AddContactModalView(props: Props) {
     const { back, addContact, inputs } = props;
-
-    const [codeCountry, setCodeCountry] = useState('+7');
-
-    const [activeTab, setActiveTab] = useState(0);
-
-    useEffect(() => {}, []);
 
     return (
         <div className={styles.wrapper}>
@@ -37,8 +30,7 @@ function AddContactModalView(props: Props) {
                     <Input size="m" {...inputs.lastName} placeholder="Фамилия (необязательно)" />
                 </div>
                 <div className={styles.inputPhone}>
-                    <Input.Countries {...inputs.codeCountry} getCode={setCodeCountry} />
-                    <Input type="number" maxLength={10} size="m" {...inputs.phone} placeholder="(999) 000-00-00" />
+                    <Input.Phone {...inputs.phone} />
                 </div>
             </div>
             <div className={styles.footer}>

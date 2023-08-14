@@ -27,6 +27,7 @@ export type UseProps = {
     realtimeValidate?: boolean;
     debounceDelay?: number;
     callback?: (arg: InputValue) => void;
+    callbackPhone?: (phone: string | number) => void;
 };
 
 export type BaseInputProps = {
@@ -37,10 +38,11 @@ export type BaseInputProps = {
     debounceCallback?: (arg: InputValue) => void;
     clear?: () => void;
     reload?: any;
+    callbackPhone?: (phone: string | number) => void;
 } & Shared;
 
-export type CountriesInputProps = {
-    getCode: (code: string) => void;
+export type PhoneInputProps = {
+    callbackPhone?: (phone: string | number) => void;
 } & Shared;
 
 export type TextareaInputProps = {
@@ -48,4 +50,5 @@ export type TextareaInputProps = {
     focusTrigger?: any;
 } & TextareaHTMLAttributes<HTMLTextAreaElement> &
     Shared;
+
 export type UseReturnedType = ReturnType<typeof use>;

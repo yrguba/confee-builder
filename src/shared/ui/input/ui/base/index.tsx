@@ -29,7 +29,7 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         reload,
         asyncValidate,
         setError,
-
+        callbackPhone,
         ...other
     } = props;
 

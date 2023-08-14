@@ -6,34 +6,31 @@ import { Modal, Input } from 'shared/ui';
 
 function AddContactModal() {
     const yup = useYup();
+
     const firstName = Input.use({
         yupSchema: yup.required,
     });
+
     const lastName = Input.use({});
-    const codeCountry = Input.use({
-        yupSchema: yup.required,
-    });
+
     const phone = Input.use({
         yupSchema: yup.checkPhone,
-        callback: (value) => {
+        callbackPhone: (value) => {
             console.log(value);
         },
     });
 
     const addContactModal = Modal.use<viewerTypes.ModalName>('add-contact', { showPrevModalAfterClose: true });
 
-    const close = () => {
-        addContactModal.close();
-    };
-
     const addContact = async () => {
         const phoneRes = await phone.asyncValidate();
         console.log(phoneRes);
     };
+
     return (
         <>
-            <Modal {...addContactModal} onClose={close}>
-                <AddContactModalView back={close} addContact={addContact} inputs={{ firstName, lastName, codeCountry, phone }} />
+            <Modal {...addContactModal} onClose={addContactModal.close}>
+                <AddContactModalView back={addContactModal.close} addContact={addContact} inputs={{ firstName, lastName, phone }} />
             </Modal>
         </>
     );
