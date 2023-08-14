@@ -4,8 +4,9 @@ import useFS from './useFS';
 import { axiosClient } from '../configs';
 import { fileConverter } from '../lib';
 
-function useFetchMediaContent(url = '') {
+function useFetchMediaContent(url = '', saveInCache = false) {
     const [src, setSrc] = useState<any>('');
+    const [fileBlob, setFileBlob] = useState<Blob | null>(null);
     const [orientation, setOrientation] = useState<'vertical' | 'horizontal'>('vertical');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -30,6 +31,7 @@ function useFetchMediaContent(url = '') {
                     setOrientation(img.width > img.height ? 'horizontal' : 'vertical');
                 };
                 if (typeof fileInCache === 'string') img.src = fileInCache;
+                setFileBlob(fileConverter.fromBase64ToBlob(fileInCache));
                 error && setError(false);
             } else if (checkFetch()) {
                 axiosClient
@@ -37,7 +39,8 @@ function useFetchMediaContent(url = '') {
                     // .then(getBase64)
                     .then(async (res: any) => {
                         setIsLoading(true);
-                        await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop(), fileBlob: res.data });
+                        setFileBlob(res.data);
+                        saveInCache && (await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop(), fileBlob: res.data }));
                         const base64 = await fileConverter.fromBlobToBase64(res.data);
                         const img = new Image();
                         img.onload = function () {
@@ -60,6 +63,7 @@ function useFetchMediaContent(url = '') {
 
     return {
         src,
+        fileBlob,
         orientation,
         error,
         isLoading,

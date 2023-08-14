@@ -84,8 +84,11 @@ class MessageApi {
     }
 
     handleEditTextMessage() {
-        return useMutation((data: { chatId: number; messageId: number; text: string }) =>
-            axiosClient.patch(`${this.pathPrefix}/message/${data.chatId}/${data.messageId}`, { text: data.text })
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { chatId: number; messageId: number; text: string }) =>
+                axiosClient.post(`${this.pathPrefix}/message/${data.chatId}/${data.messageId}`, { text: data.text }),
+            {}
         );
     }
 

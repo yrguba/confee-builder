@@ -1,0 +1,12 @@
+@import "src/app/styles";
+
+.wrapper {
+  @include box-size(100%, auto);
+  @include flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  color: var(--text-primary);
+  max-width: 600px;
+}
+
+

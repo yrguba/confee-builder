@@ -6,6 +6,7 @@ import { Avatar, Box, Dropdown, Icons, Title } from 'shared/ui';
 
 import MessageMenu from './menu';
 import styles from './styles.module.scss';
+import DocumentsMessage from './variants/documents';
 import ImagesMessage from './variants/images';
 import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
@@ -47,6 +48,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                             {reply_to_message && <ReplyMessage message={reply_to_message} />}
                             {type === 'text' && <TextMessage text={text} />}
                             {type === 'images' && <ImagesMessage clickImage={clickImage} images={files} />}
+                            {type === 'documents' && <DocumentsMessage documents={files} />}
                         </div>
                         <div className={styles.info}>
                             <Title primary={false} variant="H4M">

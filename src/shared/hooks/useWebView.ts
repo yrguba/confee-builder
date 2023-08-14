@@ -25,8 +25,6 @@ function useWebView(path: string, title?: string): { open: () => void; close: ()
         webview.onCloseRequested(() => {
             setId(getRandomString(20));
         });
-        // webview.once('tauri://created', async function () {});
-        // webview.once('tauri://error', function (e: any) {});
     }, []);
 
     const open = () => {

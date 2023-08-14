@@ -4,7 +4,7 @@ import { fileConverter, sizeConverter } from '../lib';
 
 type SaveFileProps = {
     baseDir: 'Download' | 'Document';
-    folderDir: 'cache' | 'downloads';
+    folderDir: 'cache' | '';
     fileName: string | undefined;
     fileBlob: Blob;
 };
@@ -24,7 +24,7 @@ const useFS = () => {
         if (!checkPath) await createDir(folderDir, { dir: baseDir, recursive: true });
         const arrayBuffer = await props.fileBlob.arrayBuffer();
         try {
-            await writeBinaryFile(`${folderDir}/${props.fileName}`, arrayBuffer, {
+            await writeBinaryFile(`${folderDir}/${props.fileName.split('/').join('')}`, arrayBuffer, {
                 dir: baseDir,
             });
         } catch (e) {
