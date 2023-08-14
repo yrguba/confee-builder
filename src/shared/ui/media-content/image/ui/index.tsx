@@ -23,7 +23,7 @@ function Image(props: ImageProps) {
 
     return (
         <div className={styles.wrapper} style={{ width: getWidth(), height }}>
-            <img className={classes} src={src} alt="" />
+            {!isLoading && !error && <img className={classes} src={src} alt="" />}
             <Box.Animated className={styles.loading} visible={isLoading}>
                 <LoadingIndicator visible />
             </Box.Animated>

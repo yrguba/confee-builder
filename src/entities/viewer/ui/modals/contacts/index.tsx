@@ -1,38 +1,27 @@
 import React, { useEffect, useState } from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, Input, Collapse, InputTypes } from 'shared/ui';
+import { Button, Icons, Input, Collapse, InputTypes, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { Contact } from '../../../model/types';
 
 type Props = {
     openAddContactsModal: () => void;
     searchContactsInput: InputTypes.UseReturnedType;
+    contacts: Contact[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function ContactsModalView(props: Props) {
-    const { openAddContactsModal, searchContactsInput } = props;
+    const { openAddContactsModal, searchContactsInput, contacts } = props;
 
     const [activeTab, setActiveTab] = useState(0);
-    const [ac, setAc] = useState<any>([]);
+
     const btns = [
         { id: 0, title: 'Все', onClick: () => setActiveTab(0) },
-        { id: 1, title: 'Softworks', onClick: () => setActiveTab(1) },
-        { id: 2, title: 'Личные', onClick: () => setActiveTab(2) },
+        // { id: 1, title: 'Softworks', onClick: () => setActiveTab(1) },
+        // { id: 2, title: 'Личные', onClick: () => setActiveTab(2) },
     ];
-
-    useEffect(() => {
-        const arr = [];
-        for (let i = 0; i < 10; i++) {
-            const obj = {
-                id: i,
-                title: `item${i}`,
-                subtitle: `sub${i}`,
-            };
-            arr.push(obj);
-        }
-        setAc(arr);
-    }, []);
 
     return (
         <div className={styles.wrapper}>
@@ -51,9 +40,9 @@ function ContactsModalView(props: Props) {
                     ))}
                 </div>
                 <div className={styles.list}>
-                    <Collapse subtitle="wdwd" title="wdad">
-                        eff
-                    </Collapse>
+                    {contacts?.map((contact) => (
+                        <Card title={contact.first_name || ''} subtitle={contact.phone || ''} />
+                    ))}
                 </div>
             </div>
             <div className={styles.footer}>

@@ -21,21 +21,23 @@ function useFetchMediaContent(url = '') {
 
     useEffect(() => {
         const fn = async () => {
+            setIsLoading(true);
             const fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop() });
             if (fileInCache && typeof fileInCache === 'string') {
-                const file = document.createElement('img');
-                file.src = fileInCache;
-                setOrientation(file.width > file.height ? 'horizontal' : 'vertical');
                 setSrc(fileInCache);
+                const img = new Image();
+                img.onload = function () {
+                    setOrientation(img.width > img.height ? 'horizontal' : 'vertical');
+                };
+                if (typeof fileInCache === 'string') img.src = fileInCache;
                 error && setError(false);
             } else if (checkFetch()) {
-                setIsLoading(true);
                 axiosClient
                     .get(url, { responseType: 'blob' })
                     // .then(getBase64)
                     .then(async (res: any) => {
+                        setIsLoading(true);
                         await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop(), fileBlob: res.data });
-
                         const base64 = await fileConverter.fromBlobToBase64(res.data);
                         const img = new Image();
                         img.onload = function () {
@@ -51,7 +53,9 @@ function useFetchMediaContent(url = '') {
                 setSrc(url);
             }
         };
-        fn().then();
+        fn()
+            .then()
+            .finally(() => setIsLoading(false));
     }, [url]);
 
     return {
