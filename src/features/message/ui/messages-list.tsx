@@ -36,7 +36,7 @@ function MessageList() {
         fetchNextPage,
         isFetching,
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
-    console.log(messageData);
+
     const messages: MessageProxy[] = messageService.getUpdatedList(messageData);
 
     const notification = Notification.use();

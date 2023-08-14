@@ -8,11 +8,11 @@ import { ImageProps } from '../types';
 function Image(props: ImageProps) {
     const { img, width, height, ...other } = props;
 
-    const { src, error, isLoading } = useFetchMediaContent(img || '');
+    const { src, error, isLoading, orientation } = useFetchMediaContent(img || '');
     const classes = useStyles(styles, 'img', {
         error: error || !img,
     });
-
+    console.log(orientation);
     return (
         <div className={styles.wrapper} style={{ width, height }}>
             <img className={classes} src={src} alt="" />

@@ -35,10 +35,13 @@ function useFetchMediaContent(url = '') {
                     // .then(getBase64)
                     .then(async (res: any) => {
                         await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop(), fileBlob: res.data });
-                        const file = document.createElement('img');
-                        file.src = res.data;
-                        setOrientation(file.width > file.height ? 'horizontal' : 'vertical');
+
                         const base64 = await fileConverter.fromBlobToBase64(res.data);
+                        const img = new Image();
+                        img.onload = function () {
+                            setOrientation(img.width > img.height ? 'horizontal' : 'vertical');
+                        };
+                        if (typeof base64 === 'string') img.src = base64;
                         setSrc(base64);
                         error && setError(false);
                     })

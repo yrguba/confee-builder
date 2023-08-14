@@ -64,15 +64,15 @@ class MessageApi {
         );
     }
 
-    handleEditTextMessage() {
-        return useMutation((data: { chatId: number; messageId: number; text: string }) =>
-            axiosClient.patch(`${this.pathPrefix}/message/${data.chatId}/${data.messageId}`, { text: data.text })
-        );
-    }
-
     handleSendFileMessage() {
         return useMutation((data: { files: FormData | undefined | null; chatId: number }) =>
             axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files)
+        );
+    }
+
+    handleEditTextMessage() {
+        return useMutation((data: { chatId: number; messageId: number; text: string }) =>
+            axiosClient.patch(`${this.pathPrefix}/message/${data.chatId}/${data.messageId}`, { text: data.text })
         );
     }
 

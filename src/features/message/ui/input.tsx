@@ -10,6 +10,7 @@ function MessageInput() {
     const chatId = Number(params.chat_id);
 
     const { mutate: handleSendTextMessage, isLoading } = messageApi.handleSendTextMessage();
+    const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
     const { mutate: handleEditTextMessage } = messageApi.handleEditTextMessage();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
@@ -23,7 +24,15 @@ function MessageInput() {
         accept: 'all',
         multiple: true,
         onAfterUploading: (data) => {
-            console.log('wdad');
+            if (data.sortByAccept) {
+                const formData = new FormData();
+                Object.entries(data.sortByAccept).forEach(([key, value]) => {
+                    value.forEach((i) => {
+                        formData.append(`files[${key}s][]`, i.file);
+                    });
+                });
+                handleSendFileMessage({ chatId, files: formData });
+            }
         },
     });
 
