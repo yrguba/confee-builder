@@ -23,8 +23,11 @@ function messageGateway() {
                 }
                 return produce(cacheData, (draft: any) => {
                     draft.pages[0].data.data.map((i: MessageProxy, index: number) => {
-                        if (i.isMock) {
-                            draft.pages[0].data.data.splice(index, 1, socketData.data.message);
+                        if (socketData.data.message.author.id === viewerId) {
+                            if (i.isMock) {
+                                const { files } = draft.pages[0].data.data[index];
+                                draft.pages[0].data.data.splice(index, 1, { ...socketData.data.message, files });
+                            }
                         } else {
                             draft.pages[0].data.data.unshift({ ...socketData.data.message, is_read: socketData.data.extra_info.is_read });
                         }
