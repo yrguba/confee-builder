@@ -33,7 +33,7 @@ function TextMessage(props: Props) {
                                 </div>
                             );
                         }
-                        if (word.length > 5) {
+                        if (word.length > 7) {
                             return (
                                 <span key={index} className={styles.longWord}>
                                     {`${word}\xa0`}
@@ -83,9 +83,9 @@ function TextMessage(props: Props) {
             mention: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
                 return (
-                    <div onClick={() => console.log('click tag', content)} className={styles.tag} {...props}>
-                        {content}
-                    </div>
+                    <span onClick={() => console.log('click tag', content)} className={styles.tag} {...props}>
+                        {`${content}\xa0`}
+                    </span>
                 );
             },
         },
