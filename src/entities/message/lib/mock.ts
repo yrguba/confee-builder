@@ -13,7 +13,6 @@ type Props = {
 };
 
 function mockMessage(data: Props): Message {
-    console.log(data);
     return {
         author: data.viewer || {},
         id: new Date().valueOf(),

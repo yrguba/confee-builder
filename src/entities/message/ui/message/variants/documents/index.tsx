@@ -13,7 +13,7 @@ type Props = {
 
 function DocumentsMessage(props: Props) {
     const { documents } = props;
-    console.log(documents);
+
     return (
         <div className={styles.wrapper}>
             {documents.map((i, index) => (

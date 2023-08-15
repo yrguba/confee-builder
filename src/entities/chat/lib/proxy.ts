@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 import { viewerService } from 'entities/viewer';
+import { dateConverter, debounce, getEnding } from 'shared/lib';
 
-import { dateConverter, getEnding } from '../../../shared/lib';
 import { userService } from '../../user';
 import { ChatProxy, Chat } from '../model/types';
 
@@ -12,7 +12,7 @@ function chatProxy(chat: Chat | undefined): any {
     return new Proxy(chat, {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver): ChatProxy[keyof ChatProxy] {
             switch (prop) {
-                case 'messageAction':
+                case 'typing':
                     return target[prop];
 
                 case 'secondMember':
@@ -40,7 +40,7 @@ function chatProxy(chat: Chat | undefined): any {
                     return dateConverter(target.last_message.created_at);
 
                 case 'subtitle':
-                    if (target.messageAction) return target.messageAction;
+                    if (target.typing) return target.typing;
                     if (target.is_group) {
                         const word = getEnding(target.members.length, ['участник', 'участника', 'участников']);
                         return `${target.members.length} ${word}`;
@@ -53,7 +53,7 @@ function chatProxy(chat: Chat | undefined): any {
         },
         set(target: ChatProxy, prop: keyof ChatProxy, value, receiver) {
             switch (prop) {
-                case 'messageAction':
+                case 'typing':
                     return Reflect.set(target, prop, value, receiver);
                 default:
                     return Reflect.set(target, prop, value, receiver);

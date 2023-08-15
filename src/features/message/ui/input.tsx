@@ -14,6 +14,7 @@ function MessageInput() {
     const { mutate: handleSendTextMessage, isLoading } = messageApi.handleSendTextMessage();
     const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
     const { mutate: handleEditTextMessage } = messageApi.handleEditTextMessage();
+    const { mutate: handleMessageTyping } = messageApi.handleMessageTyping();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
@@ -81,6 +82,10 @@ function MessageInput() {
             }
         }
     };
+
+    useEffect(() => {
+        messageTextState.value && handleMessageTyping({ chatId });
+    }, [messageTextState.value]);
 
     useEffect(() => {
         messageTextState.set('');

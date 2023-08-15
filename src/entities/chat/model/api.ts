@@ -70,7 +70,6 @@ class ChatApi {
         return useQuery(['get-total-pending-messages'], () => axiosClient.get(`${this.pathPrefix}/total-pending-messages`), {
             staleTime: Infinity,
             select: (data) => {
-                console.log(data);
                 const res = httpHandlers.response<{ data: { total_pending_messages_count: number } }>(data);
                 return res.data?.data?.total_pending_messages_count;
             },

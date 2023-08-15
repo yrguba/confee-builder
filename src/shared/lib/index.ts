@@ -1,5 +1,6 @@
 import crypto from './crypto';
 import dateConverter from './date-converter';
+import debounce from './debounce';
 import * as fileConverter from './file-converter';
 import findLastIndex from './find-last-index';
 import getEnding from './get-ending';
@@ -10,4 +11,17 @@ import reactionConverter from './reaction-converter';
 import * as regex from './regex';
 import sizeConverter from './size-converter';
 
-export { fileConverter, regex, sizeConverter, httpHandlers, getRandomString, reactionConverter, getFormData, getEnding, crypto, dateConverter, findLastIndex };
+export {
+    fileConverter,
+    regex,
+    sizeConverter,
+    httpHandlers,
+    getRandomString,
+    reactionConverter,
+    getFormData,
+    getEnding,
+    crypto,
+    dateConverter,
+    findLastIndex,
+    debounce,
+};

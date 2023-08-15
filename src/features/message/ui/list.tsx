@@ -103,7 +103,6 @@ function MessageList() {
     };
 
     const clickImage = (data: appTypes.ImagesSwiperProps) => {
-        console.log(data);
         imagesState.set(data);
         imagesSwiperModal.open();
     };

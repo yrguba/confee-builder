@@ -3,11 +3,11 @@ import produce from 'immer';
 import { useEffect } from 'react';
 
 import { useWebSocket } from 'shared/hooks';
-import { findLastIndex } from 'shared/lib';
+import { findLastIndex, debounce } from 'shared/lib';
 
 import { MessageProxy, SocketIn, SocketOut } from './types';
-import { useChatStore } from '../../chat';
-import { Chat } from '../../chat/model/types';
+import { chatProxy, useChatStore } from '../../chat';
+import { Chat, ChatProxy } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
 
 function messageGateway() {
@@ -112,6 +112,15 @@ function messageGateway() {
                     });
                 });
             });
+        });
+        onMessage('Typing', (socketData) => {
+            // queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
+            //     return produce(cacheData, (draft: any) => {
+            //         const proxy: ChatProxy = chatProxy(draft.data.data);
+            //         proxy.typing = 'Печатает';
+            //         draft.data.data = proxy;
+            //     });
+            // });
         });
     }, []);
 }

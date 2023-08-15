@@ -17,7 +17,7 @@ export type Chat = {
 };
 
 export type ChatProxy = {
-    messageAction: string;
+    typing: string;
     secondMember: User | null;
     lastMessageTitle: string;
     date: string;

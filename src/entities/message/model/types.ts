@@ -57,5 +57,5 @@ export type MessageProxy = {
 
 export type MessageMenuActions = 'reply' | 'edit' | 'fixed' | 'copy' | 'forward' | 'delete' | 'highlight';
 
-export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated' | 'MessageRead';
-export type SocketOut = 'ChatListenersUpdated';
+export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated' | 'MessageRead' | 'Typing';
+export type SocketOut = 'ChatListenersUpdated' | 'Typing' | 'MessageRead';

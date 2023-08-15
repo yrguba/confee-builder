@@ -4,14 +4,14 @@ import produce from 'immer';
 import { axiosClient } from 'shared/configs';
 import { useArray, useWebSocket } from 'shared/hooks';
 
-import { MessageProxy, MessageType } from './types';
+import { MessageProxy, MessageType, SocketOut } from './types';
 import { messages_limit } from '../lib/constants';
 import mockMessage from '../lib/mock';
 
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
 
-    socket = useWebSocket<any, 'MessageRead'>();
+    socket = useWebSocket<any, SocketOut>();
 
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined; chatId: number }) {
         return useInfiniteQuery(
@@ -142,11 +142,11 @@ class MessageApi {
         };
     }
 
-    handleMessageAction = () => {
+    handleMessageTyping = () => {
         return {
-            // mutate: (data: { chatId: number; action: string }) => ({
-            //     mutate: socketIo.emit('messageAction', { chat_id: data.chatId, action: data.action }),
-            // }),
+            mutate: (data: { chatId: number }) => ({
+                mutate: this.socket.sendMessage('Typing', { chat_id: data.chatId }),
+            }),
         };
     };
 
