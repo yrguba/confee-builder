@@ -13,6 +13,7 @@ import { viewerService } from '../../viewer';
 function messageGateway() {
     const viewerId = viewerService.getId();
     const chatSubscription = useChatStore.use.chatSubscription();
+    const usersTyping = useChatStore.use.usersTyping();
     const queryClient = useQueryClient();
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
@@ -114,13 +115,8 @@ function messageGateway() {
             });
         });
         onMessage('Typing', (socketData) => {
-            // queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
-            //     return produce(cacheData, (draft: any) => {
-            //         const proxy: ChatProxy = chatProxy(draft.data.data);
-            //         proxy.typing = 'Печатает';
-            //         draft.data.data = proxy;
-            //     });
-            // });
+            const users = Object.values(socketData.data.extra_info).map((i: any) => i.contact_name);
+            usersTyping.set({ chatId: socketData.data.chat_id, users });
         });
     }, []);
 }

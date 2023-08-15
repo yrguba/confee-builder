@@ -12,9 +12,6 @@ function chatProxy(chat: Chat | undefined): any {
     return new Proxy(chat, {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver): ChatProxy[keyof ChatProxy] {
             switch (prop) {
-                case 'typing':
-                    return target[prop];
-
                 case 'secondMember':
                     if (target.is_group) return null;
                     return target?.members?.find((i) => i.id !== viewerId) || null;
@@ -49,14 +46,6 @@ function chatProxy(chat: Chat | undefined): any {
 
                 default:
                     return target[prop];
-            }
-        },
-        set(target: ChatProxy, prop: keyof ChatProxy, value, receiver) {
-            switch (prop) {
-                case 'typing':
-                    return Reflect.set(target, prop, value, receiver);
-                default:
-                    return Reflect.set(target, prop, value, receiver);
             }
         },
     });
