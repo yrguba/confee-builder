@@ -8,10 +8,11 @@ import styles from './styles.module.scss';
 
 type Props = {
     items: { id: number; title: string; value: string; onClick?: () => void }[];
+    logout: () => void;
 };
 
 function AppSettingsView(props: Props) {
-    const { items } = props;
+    const { items, logout } = props;
     const [theme, setTheme] = useTheme();
 
     const themes = [
@@ -38,6 +39,9 @@ function AppSettingsView(props: Props) {
                     </div>
                 ))}
             </div>
+            <Button onClick={logout} width="100px">
+                logout
+            </Button>
         </div>
     );
 }

@@ -41,7 +41,7 @@ function ContactsModalView(props: Props) {
                 </div>
                 <div className={styles.list}>
                     {contacts?.map((contact) => (
-                        <Card title={contact.first_name || ''} subtitle={contact.phone || ''} />
+                        <Card key={contact.id} title={contact.first_name || ''} subtitle={contact.phone || ''} />
                     ))}
                 </div>
             </div>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { userApi } from 'entities/user';
 import { AddContactModalView, viewerTypes, viewerApi } from 'entities/viewer';
-import { useYup } from 'shared/hooks';
+import { useEasyState, useYup } from 'shared/hooks';
 import { Modal, Input, Notification } from 'shared/ui';
 
 function AddContactModal() {
@@ -13,6 +13,7 @@ function AddContactModal() {
 
     const handleCheckPhone = userApi.handleCheckPhone();
     const { mutate: handleCreateContact } = viewerApi.handleCreateContact();
+    const phoneState = useEasyState('');
 
     const yup = useYup();
 
@@ -33,6 +34,7 @@ function AddContactModal() {
                     if (!res.exists) {
                         phone.setError('Номер не найден в Confee');
                     } else {
+                        phoneState.set(String(value));
                         phone.setError('');
                     }
                 });
@@ -47,7 +49,7 @@ function AddContactModal() {
             handleCreateContact(
                 {
                     first_name: firstNameInput.value,
-                    phone: phoneInput.value,
+                    phone: phoneState.value,
                 },
                 {
                     onSuccess: () => {

@@ -17,7 +17,7 @@ function CreteChatModal() {
 
     const createChat = () => {
         handleCreateChat(
-            { user_ids: selectedUsers.getIds(), is_group: isGroup.value },
+            { user_ids: selectedUsers.array.map((i) => i.user_id), is_group: isGroup.value },
             {
                 onSuccess: (data) => {
                     createChatModal.close();
