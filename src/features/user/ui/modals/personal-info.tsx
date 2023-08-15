@@ -4,8 +4,8 @@ import { PersonalInfoModalView, userTypes } from 'entities/user';
 import { Modal } from 'shared/ui';
 
 function UserPersonalInfoModal() {
-    const personalInfoModal = Modal.use<userTypes.ModalName>('personal-info');
-
+    const personalInfoModal = Modal.use<userTypes.ModalName, { id: number }>('personal-info');
+    console.log(personalInfoModal.payload);
     return (
         <Modal {...personalInfoModal}>
             <PersonalInfoModalView getChangeModals={() => ''} getScreenshot={() => ''} deleteFile={() => () => ''} selectFile={() => ''} user={null} />

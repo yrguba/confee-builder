@@ -22,10 +22,12 @@ type Props = {
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
     clickImage: (data: appTypes.ImagesSwiperProps) => void;
+    clickTag: (tag: string) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, chatSubscription, messageMenuAction, sendReaction, clickImage } = props;
+    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, chatSubscription, messageMenuAction, sendReaction, clickImage, clickTag } =
+        props;
 
     const [initOnce, setInitOnce] = useState(true);
 
@@ -82,6 +84,7 @@ function MessagesListView(props: Props) {
                         >
                             {index === 5 && <div ref={nextPageRef} />}
                             <Message
+                                clickTag={clickTag}
                                 clickImage={clickImage}
                                 sendReaction={sendReaction}
                                 chat={chat}

@@ -11,7 +11,7 @@ import './index.scss';
 import { useWebSocket, useTheme } from 'shared/hooks';
 import { Notification, Modal } from 'shared/ui';
 
-import { appService } from '../entities/app';
+import { appService, ImagesSwiperModal } from '../entities/app';
 
 const queryClient = new QueryClient();
 moment.locale('ru');

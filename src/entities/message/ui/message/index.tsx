@@ -20,10 +20,11 @@ type Props = {
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
     clickImage: (data: appTypes.ImagesSwiperProps) => void;
+    clickTag: (tag: string) => void;
 } & BaseTypes.Statuses;
 
 const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
-    const { message, messageMenuAction, chat, sendReaction, clickImage } = props;
+    const { message, messageMenuAction, chat, sendReaction, clickImage, clickTag } = props;
 
     const { text, files, type, reply_to_message, lastMessageInBlock, isMy, isMock, author } = message;
 
@@ -46,7 +47,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                     <div className={classes}>
                         <div className={styles.body}>
                             {reply_to_message && <ReplyMessage message={reply_to_message} />}
-                            {type === 'text' && <TextMessage text={text} />}
+                            {type === 'text' && <TextMessage text={text} clickTag={clickTag} />}
                             {type === 'images' && <ImagesMessage clickImage={clickImage} images={files} />}
                             {type === 'documents' && <DocumentsMessage documents={files} />}
                         </div>

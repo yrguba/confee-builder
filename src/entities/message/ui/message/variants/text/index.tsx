@@ -14,10 +14,11 @@ import 'linkify-plugin-mention';
 
 type Props = {
     text: string;
+    clickTag: (tag: string) => void;
 } & BaseTypes.Statuses;
 
 function TextMessage(props: Props) {
-    const { text } = props;
+    const { text, clickTag } = props;
     const once = useRef(true);
     const linksInfo = useArray({});
 
@@ -83,7 +84,7 @@ function TextMessage(props: Props) {
             mention: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
                 return (
-                    <span onClick={() => console.log('click tag', content)} className={styles.tag} {...props}>
+                    <span onClick={() => clickTag(content)} className={styles.tag} {...props}>
                         {`${content}\xa0`}
                     </span>
                 );

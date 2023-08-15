@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { ImagesSwiperModalView, appTypes } from 'entities/app';
+import { appTypes } from 'entities/app';
 import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { MessageProxy } from 'entities/message/model/types';
 import { useRouter, useCopyToClipboard, useEasyState } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
+import { userTypes } from '../../../entities/user';
 import { reactionConverter } from '../../../shared/lib';
 
 function MessageList() {
@@ -43,6 +44,7 @@ function MessageList() {
     const notification = Notification.use();
 
     const imagesSwiperModal = Modal.use<appTypes.ModalName>('images-swiper');
+    const personalInfoModal = Modal.use<userTypes.ModalName>('personal-info');
 
     const confirmModal = Modal.useConfirm<{ messageId: number }>({
         title: 'Удалить сообщение',
@@ -107,6 +109,11 @@ function MessageList() {
         imagesSwiperModal.open();
     };
 
+    const clickTag = (tag: string) => {
+        const user = chatData?.members.find((i) => `@${i.nickname}` === tag);
+        user ? personalInfoModal.open(user) : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
+    };
+
     return (
         <>
             <MessagesListView
@@ -120,10 +127,8 @@ function MessageList() {
                 messageMenuAction={messageMenuAction}
                 sendReaction={clickReaction}
                 clickImage={clickImage}
+                clickTag={clickTag}
             />
-            <Modal {...imagesSwiperModal}>
-                <ImagesSwiperModalView {...imagesState.value} />
-            </Modal>
         </>
     );
 }

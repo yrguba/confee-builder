@@ -57,7 +57,7 @@ function Notification(props: NotificationsTypes.NotificationProps) {
                       {notifications?.map(
                           (i) =>
                               isVisible(i) && (
-                                  <motion.div onClick={i.callback} key={i.id} initial={{ x: 100 }} animate={{ x: 0 }} exit={{ x: 200 }} className={styles.item}>
+                                  <motion.div onClick={i.callback} key={i.id} initial={{ x: 100 }} animate={{ x: 0 }} exit={{ x: 700 }} className={styles.item}>
                                       {i.body && <Title variant="H2">{i.body}</Title>}
                                       <Title variant="H4M">{i.title}</Title>
                                       <div

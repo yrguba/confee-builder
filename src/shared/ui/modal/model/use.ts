@@ -4,10 +4,10 @@ import { usePrevious } from 'react-use';
 import useModalStore from './store';
 import { UseConfirmProps } from './types';
 
-function use<T>(modalName: T) {
+function use<T, P = any>(modalName: T): { isOpen: boolean; payload: P; open: (payload?: P | any) => void; close: () => void } {
     const openModal = useModalStore.use.modal();
 
-    const open = <K extends object>(payload?: K) => {
+    const open = (payload?: P) => {
         openModal.set(modalName as string, payload);
     };
 
