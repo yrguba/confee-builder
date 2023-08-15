@@ -6,43 +6,44 @@ import { useCreateSelectors } from 'shared/hooks';
 
 import { UseConfirmProps } from './types';
 
+type OpenConfirmModalProps = Omit<UseConfirmProps, 'callback'> | null;
 type Store = {
-    openModal: string | null;
-    openConfirmModal: boolean;
-    confirm: UseConfirmProps | null;
-    confirmModalPayload: {
-        value?: boolean;
-        date?: number;
+    modal: {
+        value: string | null;
+        payload: any;
+        set: (modalName: string | null, payload?: any) => void;
     };
-    setOpenModal: (modalName: string | null) => void;
-    setOpenConfirmModal: (value: boolean) => void;
-    setConfirm: (props: UseConfirmProps | null) => void;
-    setConfirmModalPayload: (data: { value: boolean; date?: number }) => void;
+    confirmModal: {
+        value: boolean;
+        confirm: boolean;
+        props: OpenConfirmModalProps;
+        payload: any;
+        set: (data: { value?: boolean; confirm?: boolean; props?: OpenConfirmModalProps; payload?: any }) => void;
+    };
 };
-// const { createSelectors, createObject } = useStore();
+
 const modalStore = create<Store>()(
     devtools(
         immer((set) => ({
-            openModal: null,
-            openConfirmModal: false,
-            confirm: null,
-            confirmModalPayload: {},
-            setOpenModal: (ModalName) =>
-                set((state) => {
-                    state.openModal = ModalName;
-                }),
-            setOpenConfirmModal: (value) =>
-                set((state) => {
-                    state.openConfirmModal = value;
-                }),
-            setConfirmModalPayload: (value) =>
-                set((state) => {
-                    state.confirmModalPayload = value;
-                }),
-            setConfirm: (props) =>
-                set((state) => {
-                    state.confirm = props;
-                }),
+            modal: {
+                value: null,
+                payload: null,
+                set: (ModalName, payload) =>
+                    set((state) => {
+                        state.modal.value = ModalName;
+                        state.modal.payload = payload;
+                    }),
+            },
+            confirmModal: {
+                value: false,
+                confirm: false,
+                props: null,
+                payload: null,
+                set: (data) =>
+                    set((state) => {
+                        state.confirmModal = { ...state.confirmModal, ...data };
+                    }),
+            },
         }))
     )
 );

@@ -11,10 +11,10 @@ import { BaseModalProps } from '../../model/types';
 import { use } from '../../model/use';
 
 function Modal(props: BaseModalProps) {
-    const { isOpen, close, children, onClose, closeIcon = true } = props;
-    const openModal: any = useModalStore.use.openModal();
+    const { isOpen, close, children, onClose, closeIcon = true, payload } = props;
+    const openModal = useModalStore.use.modal();
     const modal_root = document.querySelector('#modal-root');
-    const useModal = use(openModal);
+    const useModal = use(openModal.value);
     const prevValue = usePrevious(isOpen);
 
     const closeClick = () => {

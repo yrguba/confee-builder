@@ -20,7 +20,7 @@ function Sidebar() {
             <div className={styles.header}>
                 <Title variant="H2">Сообщения</Title>
                 <div className={styles.icons}>
-                    <Button.Circle variant="secondary" onClick={createChatModal.open}>
+                    <Button.Circle variant="secondary" onClick={() => createChatModal.open({ chatId: 42 })}>
                         <Icons variant="new-message" />
                     </Button.Circle>
                     {miniSearch && <Icons variant="search" />}

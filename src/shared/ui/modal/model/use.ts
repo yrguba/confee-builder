@@ -1,51 +1,41 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePrevious } from 'react-use';
 
 import useModalStore from './store';
 import { UseConfirmProps } from './types';
 
-function use<MN>(modalNames: MN) {
-    const openModal: any = useModalStore.use.openModal();
-    const prevValue = usePrevious(modalNames);
-    const setOpenModal: any = useModalStore.use.setOpenModal();
+function use<T>(modalName: T) {
+    const openModal = useModalStore.use.modal();
 
-    const open = () => {
-        setOpenModal(modalNames as string);
+    const open = <K extends object>(payload?: K) => {
+        openModal.set(modalName as string, payload);
     };
 
     const close = () => {
-        setOpenModal(null);
+        openModal.set(null);
     };
 
-    const isOpen = !!openModal && openModal === modalNames;
+    const isOpen = !!openModal && openModal.value === modalName;
 
-    return { isOpen, open, close };
+    return { isOpen, payload: openModal.payload, open, close };
 }
 
 function useConfirm<T = null>(props: UseConfirmProps<T>) {
-    const openConfirmModal = useModalStore.use.openConfirmModal();
-    const confirmModalPayload = useModalStore.use.confirmModalPayload();
-    const setOpenConfirmModal = useModalStore.use.setOpenConfirmModal();
-    const setConfirm = useModalStore.use.setConfirm();
-    const [callbackData, setCallbackData] = useState<T | null>(null);
-
-    const open = (callbackData?: T) => {
-        callbackData && setCallbackData(callbackData);
-        setOpenConfirmModal(true);
-        setConfirm(props);
+    const openConfirmModal = useModalStore.use.confirmModal();
+    const prev = usePrevious(openConfirmModal.value);
+    const open = (payload?: T) => {
+        openConfirmModal.set({ value: true, payload, props });
     };
 
     const close = () => {
-        setCallbackData(null);
-        setOpenConfirmModal(false);
-        setConfirm(null);
+        openConfirmModal.set({ value: false });
     };
 
     useEffect(() => {
-        confirmModalPayload.date && props.callback(!!confirmModalPayload.value, callbackData as T);
-    }, [confirmModalPayload.date]);
+        prev && props.callback(openConfirmModal.confirm, openConfirmModal.payload as T);
+    }, [openConfirmModal.value]);
 
-    return { isOpen: openConfirmModal, open, close };
+    return { isOpen: openConfirmModal.value, open, close };
 }
 
 export { use, useConfirm };
