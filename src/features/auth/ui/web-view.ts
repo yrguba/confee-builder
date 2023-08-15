@@ -8,15 +8,25 @@ import { tokensService } from 'entities/viewer';
 
 const authorizeEndpoint = 'oauth/authorize';
 const tokenEndpoint = 'oauth/token';
-const clientId = '7';
-const redirectUri = `http://localhost:3000/callback`;
+
 const codeVerifier = 'mYCO3rcUzhc6RkTKbwurKhDHIIHuc0ojKj2bH9xnOK0fUeSRwki8fSmLDj9goRtRytKrP4W0UD7j4wIeYHHizRrGuEWvkHwHdSR35eTNCATg4EkC42U93cDO7j6NFTz6';
 
 const webView = () => {
     const { pathname } = useLocation();
 
-    const { backBaseURL } = appService.getUrls();
+    const { clientBaseURL, backBaseURL } = appService.getUrls();
+    const getClientId = () => {
+        if (clientBaseURL.includes('localhost')) {
+            if (clientBaseURL.includes('tauri')) {
+                return '9';
+            }
+            return '7';
+        }
 
+        if (clientBaseURL.includes('api.dev')) return '6';
+    };
+    const redirectUri = `${clientBaseURL}/callback`;
+    const clientId = getClientId();
     const hashed = SHA256(codeVerifier);
     const params = {
         client_id: clientId,
