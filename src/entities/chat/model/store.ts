@@ -2,22 +2,21 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useCreateSelectors } from 'shared/hooks';
+import { useCreateSelectors, useStore } from 'shared/hooks';
 
-// const { createSelectors, createObject } = useStore();
+import { BaseTypes } from '../../../shared/types';
+import { MessageProxy } from '../../message/model/types';
+
 type Store = {
-    chatSubscription: number | null;
-    setChatSubscription: (id: number | null) => void;
+    chatSubscription: BaseTypes.StoreSelectorType<number | null>;
 };
+
+const { createSelectors, generateState } = useStore<Store>();
 
 const chatStore = create<Store>()(
     devtools(
         immer((set) => ({
-            chatSubscription: null,
-            setChatSubscription: (id) =>
-                set((state) => {
-                    state.chatSubscription = id;
-                }),
+            ...generateState(['chatSubscription'], set),
         }))
     )
 );

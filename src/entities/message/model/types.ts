@@ -56,7 +56,6 @@ export type MessageProxy = {
 } & Message;
 
 export type MessageMenuActions = 'reply' | 'edit' | 'fixed' | 'copy' | 'forward' | 'delete' | 'highlight';
-export type InputMenuActions = UseFileUploaderTypes.Accept;
 
-export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated';
+export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated' | 'MessageRead';
 export type SocketOut = 'ChatListenersUpdated';

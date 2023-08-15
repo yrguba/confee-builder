@@ -24,7 +24,6 @@ function MessageList() {
     const { mutate: handleSubscribeToChat } = chatApi.handleSubscribeToChat();
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
 
-    const setChatSubscription = useChatStore.use.setChatSubscription();
     const chatSubscription = useChatStore.use.chatSubscription();
 
     const replyMessage = useMessageStore.use.replyMessage();
@@ -56,15 +55,15 @@ function MessageList() {
 
     const subscribeToChat = (action: 'sub' | 'unsub') => {
         if (action === 'sub') {
+            chatSubscription.set(chatId);
             handleSubscribeToChat(chatId);
-            setChatSubscription(chatId);
             const lastMessage = messages[messages?.length - 1];
             if (lastMessage && !lastMessage?.is_read) {
                 handleReadMessage({ chat_id: chatId, message_id: messages[messages?.length - 1]?.id });
             }
         } else {
-            if (chatSubscription) handleUnsubscribeFromChat(chatSubscription);
-            setChatSubscription(null);
+            if (chatSubscription.value) handleUnsubscribeFromChat(chatSubscription.value);
+            chatSubscription.set(null);
         }
     };
 
@@ -118,7 +117,7 @@ function MessageList() {
                 getPrevPage={() => hasPreviousPage && !isFetching && fetchPreviousPage().then()}
                 hoverMessage={(message: messageTypes.MessageProxy) => !message.is_read && handleReadMessage({ chat_id: chatId, message_id: message.id })}
                 subscribeToChat={subscribeToChat}
-                chatSubscription={chatSubscription}
+                chatSubscription={chatSubscription.value}
                 messageMenuAction={messageMenuAction}
                 sendReaction={clickReaction}
                 clickImage={clickImage}
