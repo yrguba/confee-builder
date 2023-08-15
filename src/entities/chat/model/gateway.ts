@@ -2,11 +2,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import produce from 'immer';
 import { useEffect } from 'react';
 
-import { useWebSocket } from 'shared/hooks';
+import { useRouter, useWebSocket } from 'shared/hooks';
 
 import { Chat, SocketOut, SocketIn, ChatProxy } from './types';
+import ChatService from '../lib/service';
 
 function chatGateway() {
+    const { navigate } = useRouter();
     const queryClient = useQueryClient();
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
@@ -37,10 +39,14 @@ function chatGateway() {
             });
         });
         onMessage('ChatDeleted', (socketData) => {
+            const openChatId = ChatService.getOpenChatId();
             queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
+                if (Number(openChatId) === socketData.data.chat_id) {
+                    navigate('/chats');
+                }
                 return produce(cacheData, (draft: any) => {
-                    draft.data.data.filter((chat: ChatProxy) => chat.id !== socketData.data.chat_id);
+                    draft.data.data = draft.data.data.filter((chat: ChatProxy) => chat.id !== socketData.data.chat_id);
                 });
             });
         });

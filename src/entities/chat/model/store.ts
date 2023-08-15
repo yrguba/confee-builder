@@ -24,7 +24,6 @@ const chatStore = create<Store>()(
                 value: {},
                 set: async (data) =>
                     set((state) => {
-                        console.log('actions');
                         state.usersTyping.value[data.chatId] = data.users;
                     }),
             },

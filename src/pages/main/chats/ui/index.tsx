@@ -6,6 +6,7 @@ import { useWidthMediaQuery, useRouter } from 'shared/hooks';
 import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import ChatService from '../../../../entities/chat/lib/service';
 import { messageGateway } from '../../../../entities/message';
 import { userGateway } from '../../../../entities/user';
 import Modals from '../modals';
@@ -15,7 +16,6 @@ function ChatsPage() {
     chatGateway();
     userGateway();
     messageGateway();
-
     const { params } = useRouter();
 
     const { to } = useWidthMediaQuery();

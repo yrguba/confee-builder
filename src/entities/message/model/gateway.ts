@@ -116,7 +116,7 @@ function messageGateway() {
         });
         onMessage('Typing', (socketData) => {
             const users = Object.values(socketData.data.extra_info).map((i: any) => i.contact_name);
-            usersTyping.set({ chatId: socketData.data.chat_id, users });
+            // usersTyping.set({ chatId: socketData.data.chat_id, users });
         });
     }, []);
 }
