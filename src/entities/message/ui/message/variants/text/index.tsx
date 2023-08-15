@@ -36,11 +36,11 @@ function TextMessage(props: Props) {
                         if (word.length > 5) {
                             return (
                                 <span key={index} className={styles.longWord}>
-                                    {word}
+                                    {`${word}\xa0`}
                                 </span>
                             );
                         }
-                        return <span key={index}>{word}</span>;
+                        return <span key={index}>{`${word}\xa0`}</span>;
                     })}
                 </div>
             );

@@ -38,6 +38,7 @@ function userGateway() {
                 queryClient.setQueryData(['get-chat', Number(params.chat_id)], (cacheData: any) => {
                     if (cacheData?.data?.data.is_group) return cacheData;
                     return produce(cacheData, (draft: any) => {
+                        if (!draft?.data?.data) return draft;
                         const chat: Chat = cacheData?.data?.data;
                         draft.data.data.members = chat.members?.map((user) => {
                             if (user.id === socketData.data.user_id) return { ...user, ...socketData.data.updated_values };
