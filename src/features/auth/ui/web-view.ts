@@ -18,7 +18,10 @@ const webView = () => {
     const getClientId = () => {
         if (clientBaseURL.includes('localhost')) {
             if (clientBaseURL.includes('tauri')) {
-                return '9';
+                if (clientBaseURL.includes('https')) {
+                    return '9';
+                }
+                return '10';
             }
             return '7';
         }
