@@ -17,7 +17,7 @@ function chatProxy(chat: Chat | undefined): any {
 
                 case 'secondMember':
                     if (target.is_group) return null;
-                    return chat?.members?.find((i) => i.id !== viewerId);
+                    return target?.members?.find((i) => i.id !== viewerId) || null;
 
                 case 'secondMemberStatus':
                     if (chat?.is_group) return null;
@@ -37,7 +37,7 @@ function chatProxy(chat: Chat | undefined): any {
                     return text;
 
                 case 'date':
-                    return dateConverter(target.updated_at);
+                    return dateConverter(target.last_message.created_at);
 
                 case 'subtitle':
                     if (target.messageAction) return target.messageAction;

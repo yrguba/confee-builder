@@ -1,3 +1,4 @@
+import { Message } from '../../message/model/types';
 import { User, Statuses } from '../../user/model/types';
 
 export type Chat = {
@@ -5,7 +6,7 @@ export type Chat = {
     created_at: Date;
     id: number;
     is_group: boolean;
-    last_message: any;
+    last_message: Message;
     members: User[];
     members_count: number;
     messages_count: number;
@@ -26,5 +27,5 @@ export type ChatProxy = {
 } & Chat;
 
 export type ModalName = 'chat-settings' | 'create-chat';
-export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated' | 'ChatPendingMessagesCountUpdated';
+export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated';
 export type SocketOut = 'ChatListenersUpdated';
