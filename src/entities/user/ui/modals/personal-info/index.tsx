@@ -13,24 +13,24 @@ type Props = {
     selectFile: () => void;
     deleteFile: () => void;
     getScreenshot: (img: string) => void;
-    getChangeModals: (modalName: viewerTypes.ModalName, disabled?: boolean) => void;
+    getChangeModals: (modalName: keyof viewerTypes.Modals, disabled?: boolean) => void;
 } & BaseTypes.Statuses;
 
 function PersonalInfoModalView(props: Props) {
     const { user, isViewer, deleteFile, selectFile, getScreenshot, getChangeModals } = props;
 
     const items = [
-        { id: 0, title: `${user?.first_name} ${user?.last_name}`, subtitle: 'Имя и фамилия', onClick: () => getChangeModals('change-name') },
+        { id: 0, title: `${user?.first_name} ${user?.last_name}`, subtitle: 'Имя и фамилия', onClick: () => getChangeModals('changeName') },
         {
             id: 1,
             title: '1dwdwd',
             subtitle: 'О себе',
-            onClick: () => getChangeModals('change-name', true),
+            onClick: () => getChangeModals('changeName', true),
         },
-        { id: 2, title: user?.nickname, subtitle: 'Никнейм', onClick: () => getChangeModals('change-nickname') },
-        { id: 3, title: user?.phone, subtitle: 'Номер телефона', onClick: () => getChangeModals('change-name', true) },
-        { id: 4, title: user?.email, subtitle: 'Почта', onClick: () => getChangeModals('change-name', true) },
-        { id: 5, title: user?.birth?.split(' ')[0] || '', subtitle: 'Дата рождения', onClick: () => getChangeModals('change-birth') },
+        { id: 2, title: user?.nickname, subtitle: 'Никнейм', onClick: () => getChangeModals('changeNickname') },
+        { id: 3, title: user?.phone, subtitle: 'Номер телефона', onClick: () => getChangeModals('changeName', true) },
+        { id: 4, title: user?.email, subtitle: 'Почта', onClick: () => getChangeModals('changeName', true) },
+        { id: 5, title: user?.birth?.split(' ')[0] || '', subtitle: 'Дата рождения', onClick: () => getChangeModals('changeBirth') },
     ];
 
     return (

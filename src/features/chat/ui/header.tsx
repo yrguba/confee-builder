@@ -19,7 +19,7 @@ function ChatHeader() {
 
     const webView = useWebView(callPath, 'аудио звонок');
 
-    const chatSettingsModal = Modal.use<chatTypes.ModalName>('chat-settings');
+    const chatSettingsModal = Modal.use<chatTypes.Modals>('chatSettings');
 
     const clickChatAudioCall = async () => {
         if (appService.tauriIsRunning) {

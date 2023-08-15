@@ -32,6 +32,9 @@ export type User = {
     updated_at: Date;
 };
 
-export type ModalName = 'personal-info';
+export type Modals = {
+    personalInfo: User;
+};
+
 export type SocketIn = 'UserUpdated';
 export type SocketOut = '';

@@ -1,16 +1,5 @@
 import { userTypes } from 'entities/user';
 
-export type ModalName =
-    | 'viewer-personal-info'
-    | 'change-name'
-    | 'change-nickname'
-    | 'change-birth'
-    | 'change-email'
-    | 'contacts'
-    | 'add-contact'
-    | 'change-about-me'
-    | 'change-phone';
-
 export type Viewer = {} & userTypes.User;
 
 export type Contact = {
@@ -23,4 +12,15 @@ export type Contact = {
     contact_name: string | null;
     created_at: Date;
     updated_at: Date;
+};
+export type Modals = {
+    viewerPersonalInfo: null;
+    changeName: null;
+    changeNickname: null;
+    changeBirth: null;
+    changeEmail: null;
+    contacts: null;
+    addContact: null;
+    changeAboutMe: null;
+    changePhone: null;
 };

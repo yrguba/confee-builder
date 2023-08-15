@@ -14,7 +14,7 @@ function Modal(props: BaseModalProps) {
     const { isOpen, close, children, onClose, closeIcon = true, payload, open } = props;
     const openModal = useModalStore.use.modal();
     const modal_root = document.querySelector('#modal-root');
-    const useModal = use(openModal.value);
+    const useModal = use(openModal.value || '');
     const prevValue = usePrevious(isOpen);
 
     const closeClick = () => {

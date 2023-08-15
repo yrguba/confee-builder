@@ -8,7 +8,7 @@ import { Modal } from 'shared/ui';
 function CreteChatModal() {
     const { navigate } = useRouter();
 
-    const createChatModal = Modal.use<chatTypes.ModalName>('create-chat');
+    const createChatModal = Modal.use<chatTypes.Modals>('createChat');
 
     const isGroup = useEasyState(false);
     const selectedUsers = useArray<viewerTypes.Contact>({});

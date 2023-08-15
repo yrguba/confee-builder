@@ -6,8 +6,8 @@ import { useEasyState, useYup } from 'shared/hooks';
 import { Modal, Input, Notification } from 'shared/ui';
 
 function AddContactModal() {
-    const addContactModal = Modal.use<viewerTypes.ModalName>('add-contact');
-    const contacts = Modal.use<viewerTypes.ModalName>('contacts');
+    const addContactModal = Modal.use<viewerTypes.Modals>('addContact');
+    const contacts = Modal.use<viewerTypes.Modals>('contacts');
 
     const notification = Notification.use();
 

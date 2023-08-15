@@ -10,13 +10,13 @@ function ViewerPersonalInfoModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
-    const personalInfoModal = Modal.use<viewerTypes.ModalName>('viewer-personal-info');
-    const changeNameModal = Modal.use<viewerTypes.ModalName>('change-name');
-    const changeAboutMeModal = Modal.use<viewerTypes.ModalName>('change-about-me');
-    const changeNicknameModal = Modal.use<viewerTypes.ModalName>('change-nickname');
-    const changePhoneModal = Modal.use<viewerTypes.ModalName>('change-phone');
-    const changeEmailModal = Modal.use<viewerTypes.ModalName>('change-email');
-    const changeBirthModal = Modal.use<viewerTypes.ModalName>('change-birth');
+    const personalInfoModal = Modal.use<viewerTypes.Modals>('viewerPersonalInfo');
+    const changeNameModal = Modal.use<viewerTypes.Modals>('changeName');
+    const changeAboutMeModal = Modal.use<viewerTypes.Modals>('changeAboutMe');
+    const changeNicknameModal = Modal.use<viewerTypes.Modals>('changeNickname');
+    const changePhoneModal = Modal.use<viewerTypes.Modals>('changePhone');
+    const changeEmailModal = Modal.use<viewerTypes.Modals>('changeEmail');
+    const changeBirthModal = Modal.use<viewerTypes.Modals>('changeBirth');
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',
@@ -30,24 +30,24 @@ function ViewerPersonalInfoModal() {
         handleAddAvatar({ file: getFormData('images', data) });
     };
 
-    const getChangeModals = (modalName: viewerTypes.ModalName, disabled?: boolean) => {
+    const getChangeModals = (modalName: keyof viewerTypes.Modals, disabled?: boolean) => {
         switch (modalName) {
-            case 'change-name':
+            case 'changeName':
                 changeNameModal.open();
                 break;
-            case 'change-about-me':
+            case 'changeAboutMe':
                 changeAboutMeModal.open();
                 break;
-            case 'change-nickname':
+            case 'changeNickname':
                 changeNicknameModal.open();
                 break;
-            case 'change-phone':
+            case 'changePhone':
                 changePhoneModal.open();
                 break;
-            case 'change-email':
+            case 'changeEmail':
                 changeEmailModal.open();
                 break;
-            case 'change-birth':
+            case 'changeBirth':
                 changeBirthModal.open();
         }
     };

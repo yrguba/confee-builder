@@ -4,5 +4,7 @@ export type ImagesSwiperProps = {
     images: string[];
     startIndex: number;
 };
-export type ModalName = 'images-swiper';
+export type Modals = {
+    imagesSwiper: string[];
+};
 export type SocketIn = 'UWS_CLIENT_IDENTIFICATION';

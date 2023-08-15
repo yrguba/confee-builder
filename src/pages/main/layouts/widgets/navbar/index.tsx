@@ -21,7 +21,7 @@ function Navbar() {
         { id: 3, title: 'Профиль', icon: 'profile', payload: { path: '/settings', counter: 0 } },
     ];
 
-    const contactsModal = Modal.use<viewerTypes.ModalName>('contacts');
+    const contactsModal = Modal.use<viewerTypes.Modals>('contacts');
 
     const itemClick = (path: string) => {
         if (path === '/contacts') contactsModal.open();

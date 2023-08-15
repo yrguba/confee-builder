@@ -20,7 +20,7 @@ function ImagesSwiperModal(props: Props) {
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
     const [currentSlide, setCurrentSlide] = useState<number>(startIndex);
 
-    const modal = Modal.use<appTypes.ModalName>('images-swiper');
+    const modal = Modal.use<any>('');
     const onSwiper = (swiper: any) => {
         setCurrentSlide(swiper.activeIndex + 1);
     };

@@ -5,7 +5,7 @@ import { useRouter } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
 function ChatSettingsModal() {
-    const chatSettingsModal = Modal.use<chatTypes.ModalName>('chat-settings');
+    const chatSettingsModal = Modal.use<chatTypes.Modals>('chatSettings');
 
     const { params, navigate } = useRouter();
     const chatId = Number(params.chat_id);

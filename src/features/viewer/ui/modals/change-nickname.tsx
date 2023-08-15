@@ -10,7 +10,7 @@ function ChangeNicknameModal() {
     const handleCheckNickname = userApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
     const yup = useYup();
-    const changeNicknameModal = Modal.use<viewerTypes.ModalName>('change-nickname');
+    const changeNicknameModal = Modal.use<viewerTypes.Modals>('changeNickname');
 
     const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,

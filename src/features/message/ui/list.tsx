@@ -43,8 +43,8 @@ function MessageList() {
 
     const notification = Notification.use();
 
-    const imagesSwiperModal = Modal.use<appTypes.ModalName>('images-swiper');
-    const personalInfoModal = Modal.use<userTypes.ModalName>('personal-info');
+    const imagesSwiperModal = Modal.use<appTypes.Modals>('imagesSwiper');
+    const personalInfoModal = Modal.use<userTypes.Modals>('personalInfo');
 
     const confirmModal = Modal.useConfirm<{ messageId: number }>({
         title: 'Удалить сообщение',
