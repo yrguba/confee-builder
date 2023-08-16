@@ -55,6 +55,10 @@ export type BaseIconsProps = {
     size?: 24 | 48 | number;
 };
 
+export type PlayerIconsProps = {
+    variant: 'stop';
+};
+
 export type LogoIconsProps = {
     variant: 'confee' | 'softworks' | 'tfn' | 'premium';
 };

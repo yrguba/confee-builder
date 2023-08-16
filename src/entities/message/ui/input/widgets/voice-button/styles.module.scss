@@ -6,23 +6,26 @@
 
   .menu {
     @include flex;
-    @include box-size(auto, 200px);
+    @include box-size(auto, 160px);
     z-index: 100;
     position: absolute;
-    top: -160px;
-    right: 0;
+    bottom: 40px;
+    right: -4px;
 
     .lock {
-      @include flex-column(flex-start, flex-end);
-      @include box-size(100vw, 100%);
-
+      @include flex;
+      @include box-size(100vw, 100vh);
+      position: fixed;
+      bottom: 50px;
+      left: 0;
 
       .icon {
+        pointer-events: none;
         @include flex;
+        position: absolute;
+        bottom: 80px;
+        right: 12px;
         transition: all 0.5s;
-        &:hover {
-          transform: scale(2);
-        }
       }
     }
   }
