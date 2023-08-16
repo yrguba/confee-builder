@@ -86,7 +86,7 @@ function MessageInputView(props: Props) {
                             <Icons variant="send" />
                         </Button.Circle>
                     ) : (
-                        <VoiceButton event={(e) => console.log(e)} />
+                        <VoiceButton getEvents={(e) => console.log(e)} />
                     )}
                 </Box.Animated>
             </div>

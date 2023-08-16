@@ -56,7 +56,7 @@ export type BaseIconsProps = {
 };
 
 export type PlayerIconsProps = {
-    variant: 'stop';
+    variant: 'stop' | 'pause' | 'play';
 };
 
 export type LogoIconsProps = {

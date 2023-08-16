@@ -5,12 +5,13 @@
   position: relative;
 
   .menu {
-    @include flex;
-    @include box-size(auto, 160px);
+    @include flex();
+    @include box-size(auto, auto);
     z-index: 100;
     position: absolute;
-    bottom: 40px;
-    right: -4px;
+    bottom: 45px;
+    right: -6px;
+    cursor: default;
 
     .lock {
       @include flex;
@@ -28,8 +29,31 @@
         transition: all 0.5s;
       }
     }
-  }
 
+    .audioControl {
+      @include flex-column;
+      @include box-size(40px, auto);
+      padding: 4px 0;
+      gap: 8px;
+      background-color: var(--bg-quaternary);
+      border-radius: 12px;
+      box-shadow: var(--box-shadow);
+
+      .delete {
+        svg {
+          fill: var(--text-negative-pressed);
+        }
+      }
+
+      div {
+        cursor: pointer;
+
+        svg {
+          fill: var(--text-primary);
+        }
+      }
+    }
+  }
 }
 
 
