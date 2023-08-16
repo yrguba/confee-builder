@@ -2,25 +2,21 @@ import React, { useState } from 'react';
 import { FreeMode, Navigation, Thumbs } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { BaseTypes } from 'shared/types';
 import { Image, Modal } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { appTypes } from '../../../index';
-import { ImagesSwiperProps } from '../../../model/types';
+import { Modals } from '../../../model/types';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 
-type Props = ImagesSwiperProps & BaseTypes.Statuses;
-
-function ImagesSwiperModal(props: Props) {
-    const { images, startIndex = 1 } = props;
+function ImagesSwiperModal() {
+    const modal = Modal.use<Modals>('imagesSwiper');
+    const { images, startIndex } = modal.payload;
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
     const [currentSlide, setCurrentSlide] = useState<number>(startIndex);
-
-    const modal = Modal.use<any>('');
+    console.log(images);
     const onSwiper = (swiper: any) => {
         setCurrentSlide(swiper.activeIndex + 1);
     };

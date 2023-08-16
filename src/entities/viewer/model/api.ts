@@ -10,15 +10,14 @@ import { Viewer, Contact } from './types';
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
 
-    private storage = useStorage<appTypes.ValuesInStorage>();
-
     handleGetViewer() {
+        const storage = useStorage<appTypes.ValuesInStorage>();
         return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (data) => {
                 const updRes = { ...data, data: { data: data.data.data.user } };
                 const res = httpHandlers.response<{ data: Viewer }>(updRes);
-                this.storage.set('viewer_id', res.data?.data.id);
+                storage.set('viewer_id', res.data?.data.id);
                 return res.data?.data;
             },
         });

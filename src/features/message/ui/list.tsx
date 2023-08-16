@@ -4,18 +4,15 @@ import { appTypes } from 'entities/app';
 import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { MessageProxy } from 'entities/message/model/types';
-import { useRouter, useCopyToClipboard, useEasyState } from 'shared/hooks';
+import { userTypes } from 'entities/user';
+import { useRouter, useCopyToClipboard } from 'shared/hooks';
+import { reactionConverter } from 'shared/lib';
 import { Modal, Notification } from 'shared/ui';
-
-import { userTypes } from '../../../entities/user';
-import { reactionConverter } from '../../../shared/lib';
 
 function MessageList() {
     const { params } = useRouter();
     const [state, copyToClipboard] = useCopyToClipboard();
     const chatId = Number(params.chat_id);
-
-    const imagesState = useEasyState<appTypes.ImagesSwiperProps>({ images: [], startIndex: 1 });
 
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
@@ -105,7 +102,6 @@ function MessageList() {
     };
 
     const clickImage = (data: appTypes.ImagesSwiperProps) => {
-        imagesState.set(data);
         imagesSwiperModal.open();
     };
 

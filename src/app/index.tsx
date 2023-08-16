@@ -6,12 +6,11 @@ import OneSignal from 'react-onesignal';
 import { BrowserRouter } from 'react-router-dom';
 import 'moment/locale/ru';
 
+import { appService, ImagesSwiperModal } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useWebSocket, useTheme } from 'shared/hooks';
+import { useWebSocket, useTheme, useStorage } from 'shared/hooks';
 import { Notification, Modal } from 'shared/ui';
-
-import { appService, ImagesSwiperModal } from '../entities/app';
 
 const queryClient = new QueryClient();
 moment.locale('ru');
@@ -19,6 +18,7 @@ moment.locale('ru');
 function App() {
     const { clientBaseURL } = appService.getUrls();
     useTheme();
+
     useEffect(() => {
         const { onMessage } = useWebSocket();
         onMessage('all', (socketData) => {
@@ -30,6 +30,7 @@ function App() {
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
+                {/* <ImagesSwiperModal /> */}
                 <Modal.Confirm />
                 <Notification />
                 <Routing />
