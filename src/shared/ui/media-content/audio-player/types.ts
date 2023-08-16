@@ -8,5 +8,6 @@ export type BaseAudioPlayerProps = {
 
 export type VoiceAudioPlayerProps = {
     url: string;
-    size: number;
+    size?: number;
+    isVisibleMeta?: boolean;
 } & BaseTypes.Statuses;

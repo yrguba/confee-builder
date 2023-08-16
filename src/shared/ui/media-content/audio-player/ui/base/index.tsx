@@ -3,8 +3,8 @@ import { useAudio } from 'react-use';
 
 import styles from './styles.module.scss';
 import Button from '../../../../button';
+import Icons from '../../../../icons';
 import { BaseAudioPlayerProps } from '../../types';
-import Icons from '../icons';
 import waveformStatic from '../wave-form/static';
 
 function BaseAudioPlayer(props: BaseAudioPlayerProps) {
@@ -55,7 +55,7 @@ function BaseAudioPlayer(props: BaseAudioPlayerProps) {
             {audio}
             <div className={styles.controls}>
                 <Button.Circle onClick={playPauseClick}>
-                    <Icons variant={isPlaying ? 'pause' : 'play'} />
+                    <Icons.Player variant={isPlaying ? 'pause' : 'play'} />
                 </Button.Circle>
             </div>
             <div className={styles.waveform}>{waveform}</div>

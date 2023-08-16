@@ -23,11 +23,7 @@ function MessageInput() {
     const messageTextState = useEasyState('');
     const voicePreview = useEasyState<{ url: ''; formData: FormData | null }>({ url: '', formData: null });
 
-    const voiceRecord = useAudioRecorder({
-        onAfterSaving: (data) => {
-            console.log(data);
-        },
-    });
+    const voiceRecord = useAudioRecorder({});
 
     const { open: openFilesDownloader } = useFileUploader({
         accept: 'all',
@@ -52,7 +48,21 @@ function MessageInput() {
         },
     });
 
-    const sendTextMessage = () => {
+    const sendVoice = (formData: FormData | null, url: string) => {
+        formData &&
+            handleSendFileMessage({
+                chatId,
+                filesType: 'voices',
+                files: formData,
+                filesForMock: [url],
+            });
+    };
+
+    const sendMessage = () => {
+        if (voicePreview.value.formData) {
+            voicePreview.set({ url: '', formData: null });
+            return sendVoice(voicePreview.value.formData, voicePreview.value.url);
+        }
         if (messageTextState.value) {
             if (replyMessage.value) {
                 replyMessage.set(null);
@@ -79,19 +89,15 @@ function MessageInput() {
     };
 
     const getVoiceEvents = (e: 'start' | 'send' | 'stop' | 'cancel') => {
-        console.log(e);
         switch (e) {
             case 'start':
-                voiceRecord.startRecording().then();
-                break;
+                return voiceRecord.startRecording().then();
             case 'send':
-                voiceRecord.saveRecording();
-                break;
+                const sendRecord = voiceRecord.saveRecording();
+                return sendVoice(sendRecord.formData, sendRecord.recorderState.audio || '');
             case 'stop':
-                const record = voiceRecord.saveRecording();
-                console.log(record);
-                voicePreview.set({ url: record.recorderState.audio || '', formData: record.formData });
-                break;
+                const stopRecord = voiceRecord.saveRecording();
+                return voicePreview.set({ url: stopRecord.recorderState.audio || '', formData: stopRecord.formData });
             case 'cancel':
                 voiceRecord.cancelRecording();
         }
@@ -114,7 +120,7 @@ function MessageInput() {
             <MessageInputView
                 chat={chatProxy(chatData)}
                 messageTextState={messageTextState}
-                sendTextMessage={sendTextMessage}
+                sendMessage={sendMessage}
                 loading={isLoading}
                 clickUploadFiles={openFilesDownloader}
                 replyMessage={replyMessage}

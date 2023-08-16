@@ -12,7 +12,7 @@ import { MessageProxy } from '../../model/types';
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
     messageTextState: UseEasyStateReturnedType<string>;
-    sendTextMessage: () => void;
+    sendMessage: () => void;
     clickUploadFiles: () => void;
     replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
     editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
@@ -29,7 +29,7 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
-    const { chat, messageTextState, sendTextMessage, clickUploadFiles, replyMessage, editMessage, getVoiceEvents, voiceRecord, voicePreview } = props;
+    const { chat, messageTextState, sendMessage, clickUploadFiles, replyMessage, editMessage, getVoiceEvents, voiceRecord, voicePreview } = props;
 
     const getHeaderTitle = () => {
         if (replyMessage.value) return replyMessage.value?.authorName;
@@ -53,7 +53,7 @@ function MessageInputView(props: Props) {
             if (event.shiftKey || event.ctrlKey) {
                 messageTextState.set((prev) => `${prev}\n`);
             } else {
-                sendTextMessage();
+                sendMessage();
             }
         }
     };
@@ -92,7 +92,9 @@ function MessageInputView(props: Props) {
                             </div>
                         </div>
                     ) : voicePreview.value.url ? (
-                        <AudioPlayer.Voice size={400} url={voicePreview.value.url} />
+                        <div className={styles.voicePreview}>
+                            <AudioPlayer.Voice size={400} url={voicePreview.value.url} />
+                        </div>
                     ) : (
                         <Input.Textarea
                             focusTrigger={replyMessage.value || editMessage.value || chat?.id}
@@ -108,11 +110,11 @@ function MessageInputView(props: Props) {
                 </div>
                 <Box.Animated visible key={messageTextState.value} className={styles.sendBtn}>
                     {messageTextState.value || voicePreview.value.url ? (
-                        <Button.Circle radius={30} variant="secondary" onClick={sendTextMessage}>
+                        <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
                             <Icons variant="send" />
                         </Button.Circle>
                     ) : (
-                        <VoiceButton getEvents={getVoiceEvents} />
+                        <VoiceButton initRecord={initRecord} getEvents={getVoiceEvents} />
                     )}
                 </Box.Animated>
             </div>

@@ -10,10 +10,11 @@ type Recording = 'start' | 'send' | 'stop' | 'cancel';
 
 type Props = {
     getEvents: (value: Recording) => void;
+    initRecord: boolean;
 } & BaseTypes.Statuses;
 
 function VoiceButton(props: Props) {
-    const { getEvents } = props;
+    const { getEvents, initRecord } = props;
 
     const once = useRef(true);
     const lock = useEasyState(false);
@@ -100,7 +101,7 @@ function VoiceButton(props: Props) {
                 )}
             </Box.Animated>
             <div className={styles.microIcon} onClick={onClick} onMouseDown={onMouseDown} onMouseUp={onMouseUpMicrophone}>
-                <Icons variant="microphone" />
+                <Icons variant={initRecord ? 'send' : 'microphone'} />
             </div>
         </div>
     );

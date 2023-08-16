@@ -35,7 +35,7 @@ function waveformStatic({ url }: { url: string }) {
             normalize: true,
             waveColor: '#7B57C8',
             progressColor: 'purple',
-            height: 50,
+            height: 26,
         });
         waveSurfer.load(url);
 
