@@ -21,6 +21,7 @@ function MessageInput() {
     const editMessage = useMessageStore.use.editMessage();
 
     const messageTextState = useEasyState('');
+    const voicePreview = useEasyState<{ url: ''; formData: FormData | null }>({ url: '', formData: null });
 
     const voiceRecord = useAudioRecorder({
         onAfterSaving: (data) => {
@@ -87,8 +88,9 @@ function MessageInput() {
                 voiceRecord.saveRecording();
                 break;
             case 'stop':
-                const a = voiceRecord.saveRecording();
-                console.log(a);
+                const record = voiceRecord.saveRecording();
+                console.log(record);
+                voicePreview.set({ url: record.recorderState.audio || '', formData: record.formData });
                 break;
             case 'cancel':
                 voiceRecord.cancelRecording();
@@ -119,6 +121,7 @@ function MessageInput() {
                 editMessage={editMessage}
                 getVoiceEvents={getVoiceEvents}
                 voiceRecord={voiceRecord as any}
+                voicePreview={voicePreview}
             />
         </>
     );

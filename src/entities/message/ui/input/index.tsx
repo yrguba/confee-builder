@@ -2,7 +2,7 @@ import React from 'react';
 
 import { UseEasyStateReturnedType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Input, Emoji, Box, Icons, Title, Button } from 'shared/ui';
+import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import VoiceButton from './widgets/voice-button';
@@ -17,6 +17,7 @@ type Props = {
     replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
     editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
     getVoiceEvents: (e: 'start' | 'send' | 'stop' | 'cancel') => void;
+    voicePreview: UseEasyStateReturnedType<{ url: ''; formData: FormData | null }>;
     voiceRecord: {
         recorderState: {
             audio: string;
@@ -28,7 +29,7 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
-    const { chat, messageTextState, sendTextMessage, clickUploadFiles, replyMessage, editMessage, getVoiceEvents, voiceRecord } = props;
+    const { chat, messageTextState, sendTextMessage, clickUploadFiles, replyMessage, editMessage, getVoiceEvents, voiceRecord, voicePreview } = props;
 
     const getHeaderTitle = () => {
         if (replyMessage.value) return replyMessage.value?.authorName;
@@ -59,6 +60,8 @@ function MessageInputView(props: Props) {
 
     const recordMin = voiceRecord.recorderState.recordingMinutes;
     const recordSec = voiceRecord.recorderState.recordingSeconds;
+    const initRecord = voiceRecord.recorderState.initRecording;
+    console.log(voicePreview.value);
     return (
         <div className={styles.wrapper}>
             <Box.Animated visible={!!replyMessage.value || !!editMessage.value} className={styles.header} animationVariant="autoHeight">
@@ -80,7 +83,7 @@ function MessageInputView(props: Props) {
                     <Icons variant="attach-file" />
                 </div>
                 <div className={styles.input}>
-                    {voiceRecord.recorderState.initRecording ? (
+                    {initRecord ? (
                         <div className={styles.timerRecording}>
                             <div className={styles.indicator} />
                             <div className={styles.timer}>
@@ -88,6 +91,8 @@ function MessageInputView(props: Props) {
                                 <span>{recordSec < 10 ? `0${recordSec}` : recordSec}</span>
                             </div>
                         </div>
+                    ) : voicePreview.value.url ? (
+                        <AudioPlayer.Voice size={400} url={voicePreview.value.url} />
                     ) : (
                         <Input.Textarea
                             focusTrigger={replyMessage.value || editMessage.value || chat?.id}
@@ -102,7 +107,7 @@ function MessageInputView(props: Props) {
                     <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} />
                 </div>
                 <Box.Animated visible key={messageTextState.value} className={styles.sendBtn}>
-                    {messageTextState.value ? (
+                    {messageTextState.value || voicePreview.value.url ? (
                         <Button.Circle radius={30} variant="secondary" onClick={sendTextMessage}>
                             <Icons variant="send" />
                         </Button.Circle>
