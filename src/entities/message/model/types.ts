@@ -55,6 +55,8 @@ export type MessageProxy = {
     lastMessageInBlock: boolean;
 } & Message;
 
+export type VoiceEvents = 'start' | 'send' | 'stop' | 'cancel';
+export type VoiceState = { event: VoiceEvents | null; url: ''; formData: FormData | null };
 export type MessageMenuActions = 'reply' | 'edit' | 'fixed' | 'copy' | 'forward' | 'delete' | 'highlight';
 
 export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated' | 'MessageRead' | 'Typing';

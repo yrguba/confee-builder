@@ -7,7 +7,7 @@ import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer } from 'shared/ui'
 import styles from './styles.module.scss';
 import VoiceButton from './widgets/voice-button';
 import { ChatProxy } from '../../../chat/model/types';
-import { MessageProxy } from '../../model/types';
+import { MessageProxy, VoiceEvents, VoiceState } from '../../model/types';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
@@ -16,8 +16,8 @@ type Props = {
     clickUploadFiles: () => void;
     replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
     editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
-    getVoiceEvents: (e: 'start' | 'send' | 'stop' | 'cancel') => void;
-    voicePreview: UseEasyStateReturnedType<{ url: ''; formData: FormData | null }>;
+    getVoiceEvents: (e: VoiceEvents) => void;
+    voiceState: UseEasyStateReturnedType<VoiceState>;
     voiceRecord: {
         recorderState: {
             audio: string;
@@ -29,7 +29,7 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
-    const { chat, messageTextState, sendMessage, clickUploadFiles, replyMessage, editMessage, getVoiceEvents, voiceRecord, voicePreview } = props;
+    const { chat, messageTextState, sendMessage, clickUploadFiles, replyMessage, editMessage, getVoiceEvents, voiceRecord, voiceState } = props;
 
     const getHeaderTitle = () => {
         if (replyMessage.value) return replyMessage.value?.authorName;
@@ -61,7 +61,7 @@ function MessageInputView(props: Props) {
     const recordMin = voiceRecord.recorderState.recordingMinutes;
     const recordSec = voiceRecord.recorderState.recordingSeconds;
     const initRecord = voiceRecord.recorderState.initRecording;
-    console.log(voicePreview.value);
+
     return (
         <div className={styles.wrapper}>
             <Box.Animated visible={!!replyMessage.value || !!editMessage.value} className={styles.header} animationVariant="autoHeight">
@@ -91,9 +91,9 @@ function MessageInputView(props: Props) {
                                 <span>{recordSec < 10 ? `0${recordSec}` : recordSec}</span>
                             </div>
                         </div>
-                    ) : voicePreview.value.url ? (
+                    ) : voiceState.value.url ? (
                         <div className={styles.voicePreview}>
-                            <AudioPlayer.Voice size={400} url={voicePreview.value.url} />
+                            <AudioPlayer.Voice size={400} url={voiceState.value.url} />
                         </div>
                     ) : (
                         <Input.Textarea
@@ -109,7 +109,7 @@ function MessageInputView(props: Props) {
                     <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} />
                 </div>
                 <Box.Animated visible key={messageTextState.value} className={styles.sendBtn}>
-                    {messageTextState.value || voicePreview.value.url ? (
+                    {messageTextState.value || voiceState.value.url ? (
                         <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
                             <Icons variant="send" />
                         </Button.Circle>

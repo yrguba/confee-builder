@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 type Props = {
-    onAfterSaving?: (file: FormData) => void;
+    onAfterSaving?: (file: FormData, url: string) => void;
 };
 
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
 
 export default function useAudioRecorder({ onAfterSaving }: Props) {
     const [recorderState, setRecorderState] = useState(initialState);
-    const [formData, setFormData] = useState<FormData | null>(null);
+
     useEffect(() => {
         const MAX_RECORDER_TIME = 5;
         let recordingInterval: any = null;
@@ -73,17 +73,19 @@ export default function useAudioRecorder({ onAfterSaving }: Props) {
                 const file = new File(chunks, `${new Date().valueOf()}.wav`);
                 const formData = new FormData();
                 formData.append('files[audios][]', file);
-                setFormData(formData);
                 chunks = [];
 
                 // @ts-ignore
                 setRecorderState((prevState: any) => {
                     if (prevState.mediaRecorder) {
-                        onAfterSaving && onAfterSaving(formData);
+                        const url = window.URL.createObjectURL(blob);
+                        console.log(url);
+                        onAfterSaving && onAfterSaving(formData, url);
                         return {
                             ...initialState,
                             // file,
-                            audio: window.URL.createObjectURL(blob),
+                            formData,
+                            audio: url,
                         };
                     }
                     return initialState;
@@ -102,7 +104,6 @@ export default function useAudioRecorder({ onAfterSaving }: Props) {
         cancelRecording: () => setRecorderState(initialState),
         saveRecording: () => {
             saveRecording(recorderState.mediaRecorder);
-            return { recorderState, formData };
         },
     };
 }

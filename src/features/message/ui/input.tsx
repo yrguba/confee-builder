@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import { chatApi, chatProxy } from 'entities/chat';
 import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
-import { MessageType } from 'entities/message/model/types';
+import { MessageType, VoiceEvents, VoiceState } from 'entities/message/model/types';
 import { useEasyState, useFileUploader, useAudioRecorder } from 'shared/hooks';
 
 function MessageInput() {
@@ -21,9 +21,13 @@ function MessageInput() {
     const editMessage = useMessageStore.use.editMessage();
 
     const messageTextState = useEasyState('');
-    const voicePreview = useEasyState<{ url: ''; formData: FormData | null }>({ url: '', formData: null });
+    const voiceState = useEasyState<VoiceState>({ event: null, url: '', formData: null });
 
-    const voiceRecord = useAudioRecorder({});
+    const voiceRecord = useAudioRecorder({
+        onAfterSaving: (formData, url) => {
+            console.log(voiceState.value.event);
+        },
+    });
 
     const { open: openFilesDownloader } = useFileUploader({
         accept: 'all',
@@ -59,9 +63,9 @@ function MessageInput() {
     };
 
     const sendMessage = () => {
-        if (voicePreview.value.formData) {
-            voicePreview.set({ url: '', formData: null });
-            return sendVoice(voicePreview.value.formData, voicePreview.value.url);
+        if (voiceState.value.formData) {
+            voiceState.set({ event: null, url: '', formData: null });
+            return sendVoice(voiceState.value.formData, voiceState.value.url);
         }
         if (messageTextState.value) {
             if (replyMessage.value) {
@@ -88,16 +92,21 @@ function MessageInput() {
         }
     };
 
-    const getVoiceEvents = (e: 'start' | 'send' | 'stop' | 'cancel') => {
-        switch (e) {
+    const getVoiceEvents = (event: VoiceEvents) => {
+        switch (event) {
             case 'start':
                 return voiceRecord.startRecording().then();
             case 'send':
-                const sendRecord = voiceRecord.saveRecording();
-                return sendVoice(sendRecord.formData, sendRecord.recorderState.audio || '');
+                voiceRecord.saveRecording();
+                voiceState.set((prev) => {
+                    prev.event = event;
+                });
+                break;
+            // return sendVoice(sendRecord.formData, sendRecord.recorderState.audio || '');
             case 'stop':
-                const stopRecord = voiceRecord.saveRecording();
-                return voicePreview.set({ url: stopRecord.recorderState.audio || '', formData: stopRecord.formData });
+                voiceRecord.saveRecording();
+                break;
+            // return voicePreview.set({ url: stopRecord.recorderState.audio || '', formData: stopRecord.formData });
             case 'cancel':
                 voiceRecord.cancelRecording();
         }
@@ -127,7 +136,7 @@ function MessageInput() {
                 editMessage={editMessage}
                 getVoiceEvents={getVoiceEvents}
                 voiceRecord={voiceRecord as any}
-                voicePreview={voicePreview}
+                voiceState={voiceState}
             />
         </>
     );
