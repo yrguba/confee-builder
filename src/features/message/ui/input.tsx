@@ -46,7 +46,7 @@ function MessageInput() {
         },
     });
 
-    const sendMessage = () => {
+    const sendTextMessage = () => {
         if (messageTextState.value) {
             if (replyMessage.value) {
                 replyMessage.set(null);
@@ -72,17 +72,6 @@ function MessageInput() {
         }
     };
 
-    const onKeyDown = (event: any) => {
-        if (event.keyCode === 13) {
-            event.preventDefault();
-            if (event.shiftKey || event.ctrlKey) {
-                messageTextState.set((prev) => `${prev}\n`);
-            } else {
-                sendMessage();
-            }
-        }
-    };
-
     useEffect(() => {
         messageTextState.value && handleMessageTyping({ chatId });
     }, [messageTextState.value]);
@@ -99,9 +88,8 @@ function MessageInput() {
         <>
             <MessageInputView
                 chat={chatProxy(chatData)}
-                onKeyDown={onKeyDown}
                 messageTextState={messageTextState}
-                btnClick={sendMessage}
+                sendTextMessage={sendTextMessage}
                 loading={isLoading}
                 clickUploadFiles={openFilesDownloader}
                 replyMessage={replyMessage}

@@ -15,6 +15,7 @@ import {
     useTimeout,
     useRendersCount,
     useVideo,
+    useTimeoutFn,
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
 import useFileUploader, { Types as UseFileUploaderTypes } from 'react-use-file-uploader';
@@ -43,6 +44,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useTimeoutFn,
     useYup,
     useVideo,
     useCallbackRef,

@@ -47,7 +47,8 @@ export type BaseIconsVariants =
     | 'redirect'
     | 'check-circle'
     | 'clock'
-    | 'reply-black';
+    | 'reply-black'
+    | 'lock';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

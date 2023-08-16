@@ -21,3 +21,5 @@ export type AnimatedBoxProps = {
 } & Shared &
     AnimationProps &
     MotionProps;
+
+export type ReplaceBoxProps = {} & Shared & AnimationProps & MotionProps;

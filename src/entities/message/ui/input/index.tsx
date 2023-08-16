@@ -2,24 +2,24 @@ import React from 'react';
 
 import { UseEasyStateReturnedType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Input, Emoji, Box, Icons, Title } from 'shared/ui';
+import { Input, Emoji, Box, Icons, Title, Button } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import VoiceButton from './widgets/voice-button';
 import { ChatProxy } from '../../../chat/model/types';
 import { MessageProxy } from '../../model/types';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
-    onKeyDown: (arg: any) => void;
     messageTextState: UseEasyStateReturnedType<string>;
-    btnClick: (arg?: any) => void;
+    sendTextMessage: () => void;
     clickUploadFiles: () => void;
     replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
     editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
-    const { chat, messageTextState, onKeyDown, btnClick, clickUploadFiles, replyMessage, editMessage } = props;
+    const { chat, messageTextState, sendTextMessage, clickUploadFiles, replyMessage, editMessage } = props;
 
     const getHeaderTitle = () => {
         if (replyMessage.value) return replyMessage.value?.authorName;
@@ -35,6 +35,17 @@ function MessageInputView(props: Props) {
         if (replyMessage.value) replyMessage.set(null);
         if (editMessage.value) editMessage.set(null);
         messageTextState.set('');
+    };
+
+    const onKeyDown = (event: any) => {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            if (event.shiftKey || event.ctrlKey) {
+                messageTextState.set((prev) => `${prev}\n`);
+            } else {
+                sendTextMessage();
+            }
+        }
     };
 
     return (
@@ -69,8 +80,14 @@ function MessageInputView(props: Props) {
                 <div className={styles.openEmoji}>
                     <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} />
                 </div>
-                <Box.Animated animationVariant="autoWidth" visible={!!messageTextState.value} className={styles.sendBtn} onClick={btnClick}>
-                    <Icons variant="send" />
+                <Box.Animated visible key={messageTextState.value} className={styles.sendBtn}>
+                    {messageTextState.value ? (
+                        <Button.Circle radius={30} variant="secondary" onClick={sendTextMessage}>
+                            <Icons variant="send" />
+                        </Button.Circle>
+                    ) : (
+                        <VoiceButton event={(e) => console.log(e)} />
+                    )}
                 </Box.Animated>
             </div>
         </div>

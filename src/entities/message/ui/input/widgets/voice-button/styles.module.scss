@@ -1,0 +1,59 @@
+@import "src/app/styles";
+
+.wrapper {
+  @include flex;
+  position: relative;
+
+  .menu {
+    @include flex;
+    @include box-size(auto, 200px);
+    z-index: 100;
+    position: absolute;
+    top: -160px;
+    right: 0;
+
+    .lock {
+      @include flex-column(flex-start, flex-end);
+      @include box-size(100vw, 100%);
+
+
+      .icon {
+        @include flex;
+        transition: all 0.5s;
+        &:hover {
+          transform: scale(2);
+        }
+      }
+    }
+  }
+
+}
+
+
+.startRecording:before {
+  pointer-events: none;
+  content: "";
+  border: 2px solid var(--text-negative-pressed);
+  border-radius: 50%;
+  position: absolute;
+  animation: pulsateMicrophone 1.6s ease-out;
+  animation-iteration-count: infinite;
+  opacity: 0.0;
+  z-index: 99;
+  height: 40px;
+  width: 40px;
+}
+
+@keyframes pulsateMicrophone {
+  0% {
+    transform: scale(0.6, 0.6);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1.0;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0.0;
+  }
+}

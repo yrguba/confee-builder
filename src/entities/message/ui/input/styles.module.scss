@@ -41,6 +41,9 @@
       height: 56px;
       @include flex;
       cursor: pointer;
+      svg{
+        fill: var(--text-action);
+      }
     }
 
     .input {
