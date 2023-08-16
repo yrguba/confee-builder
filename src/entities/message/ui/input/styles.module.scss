@@ -41,7 +41,8 @@
       height: 56px;
       @include flex;
       cursor: pointer;
-      svg{
+
+      svg {
         fill: var(--text-action);
       }
     }
@@ -52,15 +53,35 @@
       z-index: 100;
       margin: 8px 0;
 
-      .timerRecording{
-        flex: 1;
-        background-color: #2A313C;
+      .timerRecording {
         @include flex(flex-start);
+        gap: 12px;
+        flex: 1;
         margin-bottom: 14px;
+
+        .indicator {
+          @include box-size(12px, 12px);
+          background-color: var(--control-negative);
+          border-radius: 50%;
+          animation: pulsateIndicator 1.6s ease-out;
+          animation-iteration-count: infinite;
+        }
       }
     }
   }
 
 
 }
-
+@keyframes pulsateIndicator {
+  0% {
+    transform: scale(0.6, 0.6);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1.0;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0.0;
+  }
+}

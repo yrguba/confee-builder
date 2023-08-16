@@ -57,6 +57,8 @@ function MessageInputView(props: Props) {
         }
     };
 
+    const recordMin = voiceRecord.recorderState.recordingMinutes;
+    const recordSec = voiceRecord.recorderState.recordingSeconds;
     return (
         <div className={styles.wrapper}>
             <Box.Animated visible={!!replyMessage.value || !!editMessage.value} className={styles.header} animationVariant="autoHeight">
@@ -79,7 +81,13 @@ function MessageInputView(props: Props) {
                 </div>
                 <div className={styles.input}>
                     {voiceRecord.recorderState.initRecording ? (
-                        <div className={styles.timerRecording}>timerRecording</div>
+                        <div className={styles.timerRecording}>
+                            <div className={styles.indicator} />
+                            <div className={styles.timer}>
+                                <span>{recordMin ? (recordMin < 10 ? `0${recordMin}` : recordMin) : '00'}</span>:
+                                <span>{recordSec < 10 ? `0${recordSec}` : recordSec}</span>
+                            </div>
+                        </div>
                     ) : (
                         <Input.Textarea
                             focusTrigger={replyMessage.value || editMessage.value || chat?.id}

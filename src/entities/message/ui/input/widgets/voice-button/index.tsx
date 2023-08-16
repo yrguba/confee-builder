@@ -19,7 +19,6 @@ function VoiceButton(props: Props) {
     const lock = useEasyState(false);
     const event = useEasyState<Recording | null>(null);
     const mouseY = useEasyState<number>(0);
-    const sendIcon = useEasyState<'send' | 'micro'>('micro');
     const breakpoint = 130;
 
     const [isReady, cancel, reset] = useTimeoutFn(() => {
@@ -40,7 +39,7 @@ function VoiceButton(props: Props) {
             event.set('send');
         }
     };
-    console.log(mouseY.value);
+
     const onMouseUpLock = (e: any) => {
         e.stopPropagation();
         if (readyState) {
@@ -71,19 +70,6 @@ function VoiceButton(props: Props) {
         cancel();
     };
 
-    const onMouseUpInputMask = () => {
-        // event.set('send');
-        // lock.set(false);
-    };
-
-    useEffect(() => {
-        if (lock.value || event.value === 'stop') {
-            sendIcon.set('send');
-        } else {
-            sendIcon.set('micro');
-        }
-    }, [lock.value, event.value]);
-
     useEffect(() => {
         mouseY.set(0);
         event.value ? getEvents(event.value) : getEvents('cancel');
@@ -113,17 +99,9 @@ function VoiceButton(props: Props) {
                     </div>
                 )}
             </Box.Animated>
-            <Box.Animated className={styles.microIcon} visible key={sendIcon.value} onMouseDown={onMouseDown} onMouseUp={onMouseUpMicrophone}>
-                {sendIcon.value === 'send' ? (
-                    <div onClick={() => control('send')}>
-                        <Icons variant="send" />
-                    </div>
-                ) : (
-                    <div onClick={onClick}>
-                        <Icons variant="microphone" />
-                    </div>
-                )}
-            </Box.Animated>
+            <div className={styles.microIcon} onClick={onClick} onMouseDown={onMouseDown} onMouseUp={onMouseUpMicrophone}>
+                <Icons variant="microphone" />
+            </div>
         </div>
     );
 }
