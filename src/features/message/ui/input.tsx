@@ -84,10 +84,11 @@ function MessageInput() {
                 voiceRecord.startRecording().then();
                 break;
             case 'send':
-                voiceRecord.recorderState.initRecording && voiceRecord.saveRecording();
+                voiceRecord.saveRecording();
                 break;
             case 'stop':
-                voiceRecord.saveRecording();
+                const a = voiceRecord.saveRecording();
+                console.log(a);
                 break;
             case 'cancel':
                 voiceRecord.cancelRecording();
