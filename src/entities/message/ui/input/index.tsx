@@ -16,10 +16,19 @@ type Props = {
     clickUploadFiles: () => void;
     replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
     editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
+    getVoiceEvents: (e: 'start' | 'send' | 'stop' | 'cancel') => void;
+    voiceRecord: {
+        recorderState: {
+            audio: string;
+            recordingMinutes: 0;
+            recordingSeconds: 5;
+            initRecording: boolean;
+        };
+    };
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
-    const { chat, messageTextState, sendTextMessage, clickUploadFiles, replyMessage, editMessage } = props;
+    const { chat, messageTextState, sendTextMessage, clickUploadFiles, replyMessage, editMessage, getVoiceEvents, voiceRecord } = props;
 
     const getHeaderTitle = () => {
         if (replyMessage.value) return replyMessage.value?.authorName;
@@ -69,13 +78,17 @@ function MessageInputView(props: Props) {
                     <Icons variant="attach-file" />
                 </div>
                 <div className={styles.input}>
-                    <Input.Textarea
-                        focusTrigger={replyMessage.value || editMessage.value || chat?.id}
-                        focus
-                        value={messageTextState.value}
-                        onChange={(e) => messageTextState.set(e.target.value)}
-                        onKeyDown={onKeyDown}
-                    />
+                    {voiceRecord.recorderState.initRecording ? (
+                        <div className={styles.timerRecording}>timerRecording</div>
+                    ) : (
+                        <Input.Textarea
+                            focusTrigger={replyMessage.value || editMessage.value || chat?.id}
+                            focus
+                            value={messageTextState.value}
+                            onChange={(e) => messageTextState.set(e.target.value)}
+                            onKeyDown={onKeyDown}
+                        />
+                    )}
                 </div>
                 <div className={styles.openEmoji}>
                     <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} />
@@ -86,7 +99,7 @@ function MessageInputView(props: Props) {
                             <Icons variant="send" />
                         </Button.Circle>
                     ) : (
-                        <VoiceButton getEvents={(e) => console.log(e)} />
+                        <VoiceButton getEvents={getVoiceEvents} />
                     )}
                 </Box.Animated>
             </div>

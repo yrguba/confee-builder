@@ -3,9 +3,8 @@ import { useParams } from 'react-router';
 
 import { chatApi, chatProxy } from 'entities/chat';
 import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
-import { useEasyState, useFileUploader } from 'shared/hooks';
-
-import { MessageType } from '../../../entities/message/model/types';
+import { MessageType } from 'entities/message/model/types';
+import { useEasyState, useFileUploader, useAudioRecorder } from 'shared/hooks';
 
 function MessageInput() {
     const params = useParams();
@@ -22,6 +21,12 @@ function MessageInput() {
     const editMessage = useMessageStore.use.editMessage();
 
     const messageTextState = useEasyState('');
+
+    const voiceRecord = useAudioRecorder({
+        onAfterSaving: (data) => {
+            console.log(data);
+        },
+    });
 
     const { open: openFilesDownloader } = useFileUploader({
         accept: 'all',
@@ -72,6 +77,20 @@ function MessageInput() {
         }
     };
 
+    const getVoiceEvents = (e: 'start' | 'send' | 'stop' | 'cancel') => {
+        console.log(e);
+        switch (e) {
+            case 'start':
+                voiceRecord.startRecording().then();
+                break;
+            case 'send':
+                voiceRecord.saveRecording();
+                break;
+            case 'cancel':
+                voiceRecord.cancelRecording();
+        }
+    };
+
     useEffect(() => {
         messageTextState.value && handleMessageTyping({ chatId });
     }, [messageTextState.value]);
@@ -94,6 +113,8 @@ function MessageInput() {
                 clickUploadFiles={openFilesDownloader}
                 replyMessage={replyMessage}
                 editMessage={editMessage}
+                getVoiceEvents={getVoiceEvents}
+                voiceRecord={voiceRecord as any}
             />
         </>
     );

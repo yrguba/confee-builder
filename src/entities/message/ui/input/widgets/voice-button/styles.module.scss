@@ -4,27 +4,31 @@
   @include flex;
   position: relative;
 
+  .microIcon{
+    z-index: 1000;
+  }
+
   .menu {
     @include flex();
     @include box-size(auto, auto);
     z-index: 100;
     position: absolute;
     bottom: 45px;
-    right: -6px;
+    right: -4px;
     cursor: default;
 
     .lock {
       @include flex;
       @include box-size(100vw, 100vh);
       position: fixed;
-      bottom: 50px;
+      bottom: 0;
       left: 0;
 
       .icon {
         pointer-events: none;
         @include flex;
         position: absolute;
-        bottom: 80px;
+        bottom: 130px;
         right: 12px;
         transition: all 0.5s;
       }

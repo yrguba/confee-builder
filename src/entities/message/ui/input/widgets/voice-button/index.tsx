@@ -6,7 +6,7 @@ import { Box, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-type Recording = 'start' | 'send' | 'stop' | 'pause' | 'continue';
+type Recording = 'start' | 'send' | 'stop' | 'cancel';
 
 type Props = {
     getEvents: (value: Recording) => void;
@@ -20,26 +20,27 @@ function VoiceButton(props: Props) {
     const event = useEasyState<Recording | null>(null);
     const mouseY = useEasyState<number>(0);
     const sendIcon = useEasyState<'send' | 'micro'>('micro');
-    const breakpoint = 80;
+    const breakpoint = 130;
 
     const [isReady, cancel, reset] = useTimeoutFn(() => {
         !once.current && event.set('start');
     }, 400);
 
     const readyState = isReady();
-    const startRecording = event.value === 'start' || event.value === 'continue';
+    const startRecording = event.value === 'start';
 
     const onMouseDown = () => {
         once.current = false;
         reset();
     };
 
-    const onMouseUpMicrophone = () => {
+    const onMouseUpMicrophone = (e: any) => {
+        e.stopPropagation();
         if (readyState) {
             event.set('send');
         }
     };
-
+    console.log(mouseY.value);
     const onMouseUpLock = (e: any) => {
         e.stopPropagation();
         if (readyState) {
@@ -65,13 +66,14 @@ function VoiceButton(props: Props) {
     };
 
     const control = (action: Recording | null) => {
-        if (action === 'pause' || action === 'continue') {
-            event.set(action);
-        } else {
-            event.set(action);
-            lock.set(false);
-            cancel();
-        }
+        event.set(action);
+        lock.set(false);
+        cancel();
+    };
+
+    const onMouseUpInputMask = () => {
+        // event.set('send');
+        // lock.set(false);
     };
 
     useEffect(() => {
@@ -84,7 +86,7 @@ function VoiceButton(props: Props) {
 
     useEffect(() => {
         mouseY.set(0);
-        if (event.value) getEvents(event.value);
+        event.value ? getEvents(event.value) : getEvents('cancel');
     }, [event.value]);
 
     const classes = useStyles(styles, 'wrapper', {
@@ -93,27 +95,12 @@ function VoiceButton(props: Props) {
 
     return (
         <div className={classes}>
-            <Box.Animated
-                key={String(lock.value)}
-                visible={event.value === 'start' || event.value === 'pause' || event.value === 'continue'}
-                className={styles.menu}
-            >
+            <Box.Animated key={String(lock.value)} visible={event.value === 'start'} className={styles.menu}>
                 {lock.value ? (
                     <div className={styles.audioControl} onMouseUp={onMouseUpLock}>
                         <div onClick={() => control('stop')}>
                             <Icons.Player variant="stop" />
                         </div>
-                        <Box.Animated visible key={event.value}>
-                            {event.value === 'pause' ? (
-                                <div onClick={() => control('continue')}>
-                                    <Icons.Player variant="play" />
-                                </div>
-                            ) : (
-                                <div onClick={() => control('pause')}>
-                                    <Icons.Player variant="pause" />
-                                </div>
-                            )}
-                        </Box.Animated>
                         <div className={styles.delete} onClick={() => control(null)}>
                             <Icons variant="delete" />
                         </div>
@@ -126,7 +113,7 @@ function VoiceButton(props: Props) {
                     </div>
                 )}
             </Box.Animated>
-            <Box.Animated visible key={sendIcon.value} onMouseDown={onMouseDown} onMouseUp={onMouseUpMicrophone}>
+            <Box.Animated className={styles.microIcon} visible key={sendIcon.value} onMouseDown={onMouseDown} onMouseUp={onMouseUpMicrophone}>
                 {sendIcon.value === 'send' ? (
                     <div onClick={() => control('send')}>
                         <Icons variant="send" />
@@ -146,7 +133,7 @@ function SvgLock({ mouseY, breakpoint }: { mouseY: number; breakpoint: number })
             <defs>
                 <linearGradient id="lgrad" x1="50%" x2="50%" y1="100%" y2="0%">
                     <stop offset="0%" stopColor="var(--text-action)" />
-                    <stop offset={`${mouseY}%`} stopColor="var(--text-primary)" />
+                    <stop offset={`${mouseY - 50}%`} stopColor="var(--text-primary)" />
                 </linearGradient>
             </defs>
             <path
