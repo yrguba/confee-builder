@@ -1,8 +1,8 @@
-import React, { MouseEvent, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useEasyState, useStyles, useTimeoutFn } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Input, Emoji, Box, Icons, Title, Button } from 'shared/ui';
+import { Box, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -27,7 +27,7 @@ function VoiceButton(props: Props) {
     }, 400);
 
     const readyState = isReady();
-    const isStart = event.value === 'start';
+    const startRecording = event.value === 'start' || event.value === 'continue';
 
     const onMouseDown = () => {
         once.current = false;
@@ -64,12 +64,13 @@ function VoiceButton(props: Props) {
         mouseY.set(mousePositionsYReverse);
     };
 
-    const audioControl = (action: Recording | null) => {
+    const control = (action: Recording | null) => {
         if (action === 'pause' || action === 'continue') {
             event.set(action);
         } else {
             event.set(action);
             lock.set(false);
+            cancel();
         }
     };
 
@@ -79,7 +80,7 @@ function VoiceButton(props: Props) {
     }, [event.value]);
 
     const classes = useStyles(styles, 'wrapper', {
-        startRecording: isStart,
+        startRecording,
     });
 
     return (
@@ -91,21 +92,21 @@ function VoiceButton(props: Props) {
             >
                 {lock.value ? (
                     <div className={styles.audioControl} onMouseUp={onMouseUpLock}>
-                        <div onClick={() => audioControl('stop')}>
+                        <div onClick={() => control('stop')}>
                             <Icons.Player variant="stop" />
                         </div>
                         <Box.Animated visible key={event.value}>
                             {event.value === 'pause' ? (
-                                <div onClick={() => audioControl('continue')}>
+                                <div onClick={() => control('continue')}>
                                     <Icons.Player variant="play" />
                                 </div>
                             ) : (
-                                <div onClick={() => audioControl('pause')}>
+                                <div onClick={() => control('pause')}>
                                     <Icons.Player variant="pause" />
                                 </div>
                             )}
                         </Box.Animated>
-                        <div className={styles.delete} onClick={() => audioControl(null)}>
+                        <div className={styles.delete} onClick={() => control(null)}>
                             <Icons variant="delete" />
                         </div>
                     </div>
@@ -117,9 +118,17 @@ function VoiceButton(props: Props) {
                     </div>
                 )}
             </Box.Animated>
-            <Button.Circle radius={30} variant="secondary" onMouseDown={onMouseDown} onMouseUp={onMouseUpMicrophone} onClick={onClick}>
-                <Icons variant="microphone" />
-            </Button.Circle>
+            <Box.Animated visible key={String(`${lock.value}wdw`)} onMouseDown={onMouseDown} onMouseUp={onMouseUpMicrophone}>
+                {lock.value ? (
+                    <div onClick={() => control('send')}>
+                        <Icons variant="send" />
+                    </div>
+                ) : (
+                    <div onClick={onClick}>
+                        <Icons variant="microphone" />
+                    </div>
+                )}
+            </Box.Animated>
         </div>
     );
 }
