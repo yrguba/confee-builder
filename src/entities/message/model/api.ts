@@ -68,12 +68,24 @@ class MessageApi {
         const queryClient = useQueryClient();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
-            (data: { files: FormData | undefined | null; chatId: number; filesForMock: File[]; filesType: MessageType }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files),
+            (data: {
+                files: FormData | undefined | null;
+                chatId: number;
+                params?: { reply_to_message_id?: number };
+                replyMessage?: MessageProxy | null;
+                filesForMock: File[];
+                filesType: MessageType;
+            }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files, { params: data.params }),
             {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                        const message = mockMessage({ text: '', viewer: viewerData?.data.data, files: data.filesForMock, type: data.filesType });
+                        const message = mockMessage({
+                            text: '',
+                            viewer: viewerData?.data.data,
+                            files: data.filesForMock,
+                            type: data.filesType,
+                            reply: data.replyMessage,
+                        });
                         return produce(cacheData, (draft: any) => {
                             draft.pages[0].data.data.unshift(message);
                         });

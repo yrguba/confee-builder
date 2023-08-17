@@ -56,6 +56,8 @@ function MessageInput() {
                 filesType: 'voices',
                 files: formData,
                 filesForMock: [{ link: url }],
+                params: { reply_to_message_id: replyMessage.value?.id },
+                replyMessage: replyMessage.value,
             });
     };
 
