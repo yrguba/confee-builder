@@ -13,7 +13,7 @@ type Props = {
     back: () => void;
     tabs: TabBarTypes.TabBarItem[];
     clickCard: () => void;
-    highlightedMessages: UseStore.SelectorWithOArr<MessageProxy>;
+    highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
     deleteMessages: () => void;
     forwardMessages: () => void;
 } & BaseTypes.Statuses;

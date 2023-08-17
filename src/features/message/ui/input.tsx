@@ -19,6 +19,8 @@ function MessageInput() {
 
     const replyMessage = useMessageStore.use.replyMessage();
     const editMessage = useMessageStore.use.editMessage();
+    const forwardMessage = useMessageStore.use.forwardMessage();
+    const highlightedMessages = useMessageStore.use.highlightedMessages();
 
     const messageTextState = useEasyState('');
     const voiceEvent = useEasyState<VoiceEvents | null>(null);
@@ -130,6 +132,8 @@ function MessageInput() {
                 clickUploadFiles={openFilesDownloader}
                 replyMessage={replyMessage}
                 editMessage={editMessage}
+                forwardMessage={forwardMessage}
+                highlightedMessages={highlightedMessages}
                 getVoiceEvents={getVoiceEvents}
                 voiceRecord={voiceRecord as any}
                 deleteVoice={deleteVoice}

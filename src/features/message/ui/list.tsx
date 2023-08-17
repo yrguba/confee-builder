@@ -26,6 +26,7 @@ function MessageList() {
 
     const replyMessage = useMessageStore.use.replyMessage();
     const editMessage = useMessageStore.use.editMessage();
+    const forwardMessage = useMessageStore.use.forwardMessage();
     const highlightedMessages = useMessageStore.use.highlightedMessages();
 
     const {
@@ -80,11 +81,12 @@ function MessageList() {
                 copyToClipboard(message.text);
                 return notification.success({ title: 'Текст скопирован в буфер', system: true });
             case 'forward':
+                forwardMessage.set({ fromChatName: chatData?.name || '', message });
                 return forwardMessagesModal.open();
             case 'delete':
                 return confirmModal.open({ messageId: message.id });
             case 'highlight':
-                return highlightedMessages.pushOrDelete(message);
+                return highlightedMessages.push(message);
         }
     };
 

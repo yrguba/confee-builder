@@ -23,7 +23,7 @@ type Props = {
     sendReaction: (emoji: string, messageId: number) => void;
     clickImage: (data: appTypes.ImagesSwiperProps) => void;
     clickTag: (tag: string) => void;
-    highlightedMessages: UseStore.SelectorWithOArr<MessageProxy>;
+    highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { UseEasyStateReturnedType, UseStore } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer } from 'shared/ui';
+import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer, IconsTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import VoiceButton from './widgets/voice-button';
@@ -16,6 +16,8 @@ type Props = {
     clickUploadFiles: () => void;
     replyMessage: UseStore.SelectorWithObj<MessageProxy | null>;
     editMessage: UseStore.SelectorWithObj<MessageProxy | null>;
+    forwardMessage: UseStore.SelectorWithObj<{ fromChatName: string; message: MessageProxy | null } | null>;
+    highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
     getVoiceEvents: (e: VoiceEvents) => void;
     showVoice: boolean;
     deleteVoice: () => void;
@@ -30,21 +32,45 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function MessageInputView(props: Props) {
-    const { chat, messageTextState, sendMessage, clickUploadFiles, replyMessage, editMessage, getVoiceEvents, voiceRecord, showVoice, deleteVoice } = props;
+    const {
+        chat,
+        messageTextState,
+        sendMessage,
+        clickUploadFiles,
+        replyMessage,
+        editMessage,
+        getVoiceEvents,
+        voiceRecord,
+        showVoice,
+        deleteVoice,
+        highlightedMessages,
+        forwardMessage,
+    } = props;
+
+    const { audio, initRecording, recordingSeconds, recordingMinutes } = voiceRecord.recorderState;
 
     const getHeaderTitle = () => {
         if (replyMessage.value) return replyMessage.value?.authorName;
         if (editMessage.value) return 'Редактировать';
+        if (forwardMessage?.value?.fromChatName) return forwardMessage.value.fromChatName;
+    };
+
+    const getHeaderIcon = (): IconsTypes.BaseIconsVariants => {
+        if (replyMessage.value) return 'reply-black';
+        if (editMessage.value) return 'edit';
+        return 'forward-black';
     };
 
     const getHeaderSubtitle = () => {
         if (replyMessage.value) return replyMessage.value?.text;
         if (editMessage.value) return editMessage.value?.text;
+        if (forwardMessage?.value?.message) return forwardMessage?.value?.message.text;
     };
 
     const closeHeader = () => {
         if (replyMessage.value) replyMessage.set(null);
         if (editMessage.value) editMessage.set(null);
+        if (forwardMessage?.value?.fromChatName) forwardMessage.set(null);
         messageTextState.set('');
     };
 
@@ -59,15 +85,15 @@ function MessageInputView(props: Props) {
         }
     };
 
-    const recordMin = voiceRecord.recorderState.recordingMinutes;
-    const recordSec = voiceRecord.recorderState.recordingSeconds;
-    const initRecord = voiceRecord.recorderState.initRecording;
-    const { audio } = voiceRecord.recorderState;
     return (
         <div className={styles.wrapper}>
-            <Box.Animated visible={!!replyMessage.value || !!editMessage.value} className={styles.header} animationVariant="autoHeight">
+            <Box.Animated
+                visible={!!replyMessage.value || !!editMessage.value || !!forwardMessage?.value?.fromChatName}
+                className={styles.header}
+                animationVariant="autoHeight"
+            >
                 <div className={styles.icon}>
-                    <Icons variant={replyMessage.value ? 'reply-black' : 'edit'} />
+                    <Icons variant={getHeaderIcon()} />
                 </div>
                 <div className={styles.description}>
                     <Title active variant="H4S">
@@ -83,13 +109,13 @@ function MessageInputView(props: Props) {
                 <div className={styles.openDownloads} onClick={clickUploadFiles}>
                     <Icons variant="attach-file" />
                 </div>
-                <Box.Animated visible key={`${initRecord}X${showVoice}`} className={styles.input}>
-                    {initRecord ? (
+                <Box.Animated visible key={`${initRecording}X${showVoice}`} className={styles.input}>
+                    {initRecording ? (
                         <div className={styles.timerRecording}>
                             <div className={styles.indicator} />
                             <div className={styles.timer}>
-                                <span>{recordMin ? (recordMin < 10 ? `0${recordMin}` : recordMin) : '00'}</span>:
-                                <span>{recordSec < 10 ? `0${recordSec}` : recordSec}</span>
+                                <span>{recordingMinutes ? (recordingMinutes < 10 ? `0${recordingMinutes}` : recordingMinutes) : '00'}</span>:
+                                <span>{recordingSeconds < 10 ? `0${recordingSeconds}` : recordingSeconds}</span>
                             </div>
                         </div>
                     ) : showVoice ? (
@@ -118,7 +144,7 @@ function MessageInputView(props: Props) {
                             <Icons variant="send" />
                         </Button.Circle>
                     ) : (
-                        <VoiceButton initRecord={initRecord} getEvents={getVoiceEvents} />
+                        <VoiceButton initRecord={initRecording} getEvents={getVoiceEvents} />
                     )}
                 </Box.Animated>
             </div>

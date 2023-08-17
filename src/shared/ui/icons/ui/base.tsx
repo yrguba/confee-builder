@@ -6,6 +6,13 @@ function BaseIcons(props: BaseIconsProps) {
     const { variant, size = 24 } = props;
 
     switch (variant) {
+        case 'forward-black': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.2352 7.14891V5.21879C12.2352 4.1384 13.482 3.59214 14.2092 4.35691L20.6623 11.1427C21.1126 11.6161 21.1126 12.3809 20.6623 12.8543L14.2092 19.6401C13.482 20.4049 12.2352 19.8707 12.2352 18.7904V16.8602H4.1544C3.51948 16.8602 3 16.314 3 15.6463V8.36283C3 7.69517 3.51948 7.14891 4.1544 7.14891H12.2352Z" />
+                </svg>
+            );
+        }
         case 'lock': {
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width={size} height={size}>

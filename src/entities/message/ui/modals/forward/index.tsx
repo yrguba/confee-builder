@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 
 import { ChatProxy } from 'entities/chat/model/types';
 import { BaseTypes } from 'shared/types';
-import { Button, Card, Icons, Input, Title } from 'shared/ui';
+import { Button, Card, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
     chats: ChatProxy[] | BaseTypes.Empty;
-    clickChat: (chat: ChatProxy) => void;
+    clickChat: (chatId: number) => void;
     back: () => void;
 } & BaseTypes.Statuses;
 
@@ -36,7 +36,7 @@ function ForwardMessagesModalView(props: Props) {
                 </div>
                 <div className={styles.list}>
                     {chats?.map((chat) => (
-                        <Card onClick={() => clickChat(chat)} key={chat?.id} title={chat.name || ''} subtitle={chat.subtitle || ''} />
+                        <Card onClick={() => clickChat(chat.id)} key={chat?.id} title={chat.name || ''} subtitle={chat.subtitle || ''} />
                     ))}
                 </div>
             </div>

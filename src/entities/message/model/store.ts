@@ -9,7 +9,8 @@ import { MessageProxy } from './types';
 type Store = {
     replyMessage: UseStore.SelectorWithObj<MessageProxy | null>;
     editMessage: UseStore.SelectorWithObj<MessageProxy | null>;
-    highlightedMessages: UseStore.SelectorWithOArr<MessageProxy>;
+    forwardMessage: UseStore.SelectorWithObj<{ fromChatName: string; message: MessageProxy | null } | null>;
+    highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
 };
 
 const { createSelectors, generateSelectorWithObj, generateSelectorWithArr } = useStore<Store>();
@@ -17,7 +18,7 @@ const { createSelectors, generateSelectorWithObj, generateSelectorWithArr } = us
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
-            ...generateSelectorWithObj(['replyMessage', 'editMessage'], set),
+            ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessage'], set),
             ...generateSelectorWithArr(['highlightedMessages'], set),
         }))
     )

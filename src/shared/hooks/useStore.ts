@@ -8,13 +8,14 @@ type SelectorWithObj<T extends object | number | string | null> = {
     set: (arg: T) => void;
 };
 
-type SelectorWithOArr<T extends { id: number | string; [key: string]: any }> = {
+type SelectorWithArr<T extends { id: number | string; [key: string]: any }> = {
     value: T[];
     pushOrDelete: (arg: T) => void;
+    push: (arg: T) => void;
     clear: () => void;
 };
 
-function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithOArr<any>>>() {
+function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithArr<any>>>() {
     const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(_store: S) => {
         const store = _store as WithSelectors<typeof _store>;
         store.use = {};
@@ -52,6 +53,10 @@ function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithOArr<
                     set((state: any) => {
                         state[key].value = [];
                     }),
+                push: (obj: any) =>
+                    set((state: any) => {
+                        state[key].value.push(obj);
+                    }),
                 pushOrDelete: (obj: any) =>
                     set((state: any) => {
                         const foundIndex = state[key].value.findIndex((i: any) => i.id === obj.id);
@@ -65,6 +70,6 @@ function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithOArr<
     return { createSelectors, generateSelectorWithObj, generateSelectorWithArr };
 }
 
-export type { SelectorWithObj, SelectorWithOArr };
+export type { SelectorWithObj, SelectorWithArr };
 
 export default useStore;
