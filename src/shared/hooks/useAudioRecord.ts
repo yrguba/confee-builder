@@ -126,5 +126,5 @@ async function startRecording(setRecorderState: any) {
 }
 
 function saveRecordingFn(recorder: any) {
-    if (recorder.state !== 'inactive') recorder.stop();
+    if (recorder?.state !== 'inactive') recorder.stop();
 }

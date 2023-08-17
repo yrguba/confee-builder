@@ -20,10 +20,11 @@
     position: absolute;
     bottom: -10px;
     left: 44px;
-    color: var(--text-1);
+    color: var(--text-primary);
     font-size: 12px;
 
     .currentTime{
+
       width: 36px;
       div{
         &:nth-child(1){

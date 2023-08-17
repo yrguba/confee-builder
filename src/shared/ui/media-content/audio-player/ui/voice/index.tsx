@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { sizeConverter } from 'shared/lib';
 
 import styles from './styles.module.scss';
-import { appService, appTypes } from '../../../../../../entities/app';
+import { appTypes } from '../../../../../../entities/app';
 import { useFetchMediaContent, useStorage } from '../../../../../hooks';
 import Box from '../../../../box';
 import Button from '../../../../button';

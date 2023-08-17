@@ -1,14 +1,15 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(300px, auto);
+  @include box-size(250px, auto);
   @include flex;
   gap: 2px;
   flex-wrap: wrap;
-  //color: var(--text-primary);
+  color: var(--text-primary);
   max-width: 600px;
-  svg{
-    fill: #2A313C;
+
+  @media (min-width: 680px) and (max-width: 850px) {
+    width: 150px;
   }
 }
 

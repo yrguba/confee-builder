@@ -66,6 +66,9 @@
           animation: pulsateIndicator 1.6s ease-out;
           animation-iteration-count: infinite;
         }
+        .timer{
+          color: var(--text-primary);
+        }
       }
       .voicePreview{
         @include flex;
