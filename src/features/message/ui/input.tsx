@@ -39,6 +39,8 @@ function MessageInput() {
                         handleSendFileMessage({
                             chatId,
                             files: formData,
+                            params: { reply_to_message_id: replyMessage.value?.id },
+                            replyMessage: replyMessage.value,
                             filesForMock: value.map((i) => ({ link: i.fileUrl })),
                             filesType: `${key}s` as MessageType,
                         });
@@ -48,19 +50,6 @@ function MessageInput() {
         },
     });
 
-    const sendVoice = (formData: FormData | null, url: string) => {
-        voiceEvent.set(null);
-        formData &&
-            handleSendFileMessage({
-                chatId,
-                filesType: 'voices',
-                files: formData,
-                filesForMock: [{ link: url }],
-                params: { reply_to_message_id: replyMessage.value?.id },
-                replyMessage: replyMessage.value,
-            });
-    };
-
     const deleteVoice = () => {
         voiceEvent.set(null);
         voiceRecord.cancelRecording();
@@ -68,19 +57,17 @@ function MessageInput() {
 
     const sendMessage = () => {
         if (voiceRecord.recorderState.formData) {
-            return sendVoice(voiceRecord.recorderState.formData, voiceRecord.recorderState.audio || '');
+            handleSendFileMessage({
+                chatId,
+                filesType: 'voices',
+                files: voiceRecord.recorderState.formData,
+                filesForMock: [{ link: voiceRecord.recorderState.audio || '' }],
+                params: { reply_to_message_id: replyMessage.value?.id },
+                replyMessage: replyMessage.value,
+            });
+            return deleteVoice();
         }
         if (messageTextState.value) {
-            if (replyMessage.value) {
-                replyMessage.set(null);
-                messageTextState.set('');
-                return handleSendTextMessage({
-                    text: messageTextState.value,
-                    chatId,
-                    params: { reply_to_message_id: replyMessage.value?.id },
-                    replyMessage: replyMessage.value,
-                });
-            }
             if (editMessage.value) {
                 editMessage.set(null);
                 messageTextState.set('');
@@ -90,8 +77,14 @@ function MessageInput() {
                     messageId: editMessage.value.id,
                 });
             }
+            handleSendTextMessage({
+                text: messageTextState.value,
+                chatId,
+                params: { reply_to_message_id: replyMessage.value?.id },
+                replyMessage: replyMessage.value,
+            });
+            if (replyMessage.value) replyMessage.set(null);
             messageTextState.set('');
-            return handleSendTextMessage({ text: messageTextState.value, chatId });
         }
     };
 
@@ -111,7 +104,7 @@ function MessageInput() {
 
     useEffect(() => {
         if (voiceEvent.value === 'send') {
-            sendVoice(voiceRecord.recorderState.formData, voiceRecord.recorderState.audio || '');
+            sendMessage();
         }
     }, [voiceRecord.recorderState.initRecording]);
 
