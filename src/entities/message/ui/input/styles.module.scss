@@ -68,8 +68,15 @@
         }
       }
       .voicePreview{
+        @include flex;
         @include box-size(100%, 100%);
-        //background-color: #2A313C;
+        gap: 8px;
+        .deleteIcon{
+          cursor: pointer;
+          svg{
+            fill: var(--text-negative);
+          }
+        }
       }
     }
   }

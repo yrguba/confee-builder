@@ -11,11 +11,12 @@ const initialState = {
     mediaStream: null,
     mediaRecorder: null,
     audio: null,
+    formData: null,
 };
 
 export default function useAudioRecorder({ onAfterSaving }: Props) {
     const [recorderState, setRecorderState] = useState(initialState);
-
+    const [callbackData, setCallbackData] = useState(null);
     useEffect(() => {
         const MAX_RECORDER_TIME = 5;
         let recordingInterval: any = null;
@@ -79,7 +80,6 @@ export default function useAudioRecorder({ onAfterSaving }: Props) {
                 setRecorderState((prevState: any) => {
                     if (prevState.mediaRecorder) {
                         const url = window.URL.createObjectURL(blob);
-                        console.log(url);
                         onAfterSaving && onAfterSaving(formData, url);
                         return {
                             ...initialState,
@@ -102,8 +102,9 @@ export default function useAudioRecorder({ onAfterSaving }: Props) {
         recorderState,
         startRecording: () => startRecording(setRecorderState),
         cancelRecording: () => setRecorderState(initialState),
-        saveRecording: () => {
-            saveRecording(recorderState.mediaRecorder);
+        saveRecording: (data: any) => {
+            setCallbackData(data);
+            saveRecordingFn(recorderState.mediaRecorder);
         },
     };
 }
@@ -124,6 +125,6 @@ async function startRecording(setRecorderState: any) {
     }
 }
 
-function saveRecording(recorder: any) {
+function saveRecordingFn(recorder: any) {
     if (recorder.state !== 'inactive') recorder.stop();
 }

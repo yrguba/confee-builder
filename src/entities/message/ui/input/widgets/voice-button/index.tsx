@@ -100,9 +100,16 @@ function VoiceButton(props: Props) {
                     </div>
                 )}
             </Box.Animated>
-            <div className={styles.microIcon} onClick={onClick} onMouseDown={onMouseDown} onMouseUp={onMouseUpMicrophone}>
-                <Icons variant={initRecord ? 'send' : 'microphone'} />
-            </div>
+            <Box.Animated
+                visible
+                key={String(`${initRecord}twa`)}
+                className={styles.microIcon}
+                onClick={onClick}
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUpMicrophone}
+            >
+                {initRecord ? <Icons variant="send" /> : <Icons variant="microphone" />}
+            </Box.Animated>
         </div>
     );
 }

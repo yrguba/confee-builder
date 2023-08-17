@@ -21,13 +21,9 @@ function MessageInput() {
     const editMessage = useMessageStore.use.editMessage();
 
     const messageTextState = useEasyState('');
-    const voiceState = useEasyState<VoiceState>({ event: null, url: '', formData: null });
+    const voiceEvent = useEasyState<VoiceEvents | null>(null);
 
-    const voiceRecord = useAudioRecorder({
-        onAfterSaving: (formData, url) => {
-            console.log(voiceState.value.event);
-        },
-    });
+    const voiceRecord = useAudioRecorder({});
 
     const { open: openFilesDownloader } = useFileUploader({
         accept: 'all',
@@ -53,6 +49,7 @@ function MessageInput() {
     });
 
     const sendVoice = (formData: FormData | null, url: string) => {
+        voiceEvent.set(null);
         formData &&
             handleSendFileMessage({
                 chatId,
@@ -62,10 +59,14 @@ function MessageInput() {
             });
     };
 
+    const deleteVoice = () => {
+        voiceEvent.set(null);
+        voiceRecord.cancelRecording();
+    };
+
     const sendMessage = () => {
-        if (voiceState.value.formData) {
-            voiceState.set({ event: null, url: '', formData: null });
-            return sendVoice(voiceState.value.formData, voiceState.value.url);
+        if (voiceRecord.recorderState.formData) {
+            return sendVoice(voiceRecord.recorderState.formData, voiceRecord.recorderState.audio || '');
         }
         if (messageTextState.value) {
             if (replyMessage.value) {
@@ -93,24 +94,24 @@ function MessageInput() {
     };
 
     const getVoiceEvents = (event: VoiceEvents) => {
+        voiceEvent.set(event);
         switch (event) {
             case 'start':
                 return voiceRecord.startRecording().then();
             case 'send':
-                voiceRecord.saveRecording();
-                voiceState.set((prev) => {
-                    prev.event = event;
-                });
-                break;
-            // return sendVoice(sendRecord.formData, sendRecord.recorderState.audio || '');
+                return voiceRecord.saveRecording('send');
             case 'stop':
-                voiceRecord.saveRecording();
-                break;
-            // return voicePreview.set({ url: stopRecord.recorderState.audio || '', formData: stopRecord.formData });
+                return voiceRecord.saveRecording('stop');
             case 'cancel':
                 voiceRecord.cancelRecording();
         }
     };
+
+    useEffect(() => {
+        if (voiceEvent.value === 'send') {
+            sendVoice(voiceRecord.recorderState.formData, voiceRecord.recorderState.audio || '');
+        }
+    }, [voiceRecord.recorderState.initRecording]);
 
     useEffect(() => {
         messageTextState.value && handleMessageTyping({ chatId });
@@ -136,7 +137,8 @@ function MessageInput() {
                 editMessage={editMessage}
                 getVoiceEvents={getVoiceEvents}
                 voiceRecord={voiceRecord as any}
-                voiceState={voiceState}
+                deleteVoice={deleteVoice}
+                showVoice={voiceEvent.value === 'stop'}
             />
         </>
     );
