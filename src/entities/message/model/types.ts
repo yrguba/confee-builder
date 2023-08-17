@@ -41,11 +41,11 @@ export type Message = {
     type: MessageType;
     reactions: Record<string, []>;
     users_have_read: number[] | [];
+    isMock: boolean;
 };
 
 export type MessageProxy = {
     onClick: () => void;
-    isMock: boolean;
     isMy: boolean;
     isFirstUnread: boolean;
     firstOfDay: string;

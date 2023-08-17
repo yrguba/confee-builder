@@ -11,13 +11,15 @@ type Store = {
     editMessage: UseStore.SelectorWithObj<MessageProxy>;
     forwardMessages: UseStore.SelectorWithObj<{ fromChatName: string; messages: MessageProxy[]; redirect: boolean }>;
     highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
+    voiceRecordingInProgress: UseStore.SelectorWithPrimitive<boolean>;
 };
 
-const { createSelectors, generateSelectorWithObj, generateSelectorWithArr } = useStore<Store>();
+const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, generateSelectorWithPrimitive } = useStore<Store>();
 
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
+            ...generateSelectorWithPrimitive(['voiceRecordingInProgress'], set),
             ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages'], set),
             ...generateSelectorWithArr(['highlightedMessages'], set),
         }))

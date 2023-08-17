@@ -63,7 +63,6 @@ function ChatHeaderView(props: Props) {
 
     return (
         <Box.Replace
-            animationVariant="hiddenBottom"
             className={styles.wrapper}
             items={[
                 { item: <HighlightedMessages />, visible: !!highlightedMessages.value.length },

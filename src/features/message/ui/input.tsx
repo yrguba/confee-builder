@@ -6,6 +6,8 @@ import { messageApi, MessageInputView, useMessageStore } from 'entities/message'
 import { MessageType, VoiceEvents } from 'entities/message/model/types';
 import { useEasyState, useFileUploader, useAudioRecorder } from 'shared/hooks';
 
+import { useLifecycles } from '../../../shared/hooks';
+
 function MessageInput() {
     const params = useParams();
     const chatId = Number(params.chat_id);
@@ -22,10 +24,12 @@ function MessageInput() {
     const editMessage = useMessageStore.use.editMessage();
     const forwardMessages = useMessageStore.use.forwardMessages();
     const highlightedMessages = useMessageStore.use.highlightedMessages();
+    const voiceRecordingInProgress = useMessageStore.use.voiceRecordingInProgress();
 
     const messageTextState = useEasyState('');
     const voiceEvent = useEasyState<VoiceEvents | null>(null);
 
+    const recordForChatId = useEasyState<number | null>(null);
     const voiceRecord = useAudioRecorder({});
 
     const { open: openFilesDownloader } = useFileUploader({
@@ -56,6 +60,7 @@ function MessageInput() {
     const deleteVoice = () => {
         voiceEvent.set(null);
         voiceRecord.cancelRecording();
+        voiceRecordingInProgress.set(false);
     };
 
     const sendMessage = () => {
@@ -101,6 +106,8 @@ function MessageInput() {
         voiceEvent.set(event);
         switch (event) {
             case 'start':
+                recordForChatId.set(chatId);
+                voiceRecordingInProgress.set(true);
                 return voiceRecord.startRecording().then();
             case 'send':
                 return voiceRecord.saveRecording('send');
@@ -111,9 +118,25 @@ function MessageInput() {
         }
     };
 
+    useLifecycles(
+        () => console.log('on'),
+        () => {
+            console.log('on');
+            replyMessage.clear();
+            editMessage.clear();
+            forwardMessages.clear();
+            highlightedMessages.clear();
+            messageTextState.set('');
+            deleteVoice();
+        }
+    );
+
     useEffect(() => {
         if (voiceEvent.value === 'send') {
             sendMessage();
+        }
+        if (!voiceRecord.recorderState.initRecording) {
+            recordForChatId.set(null);
         }
     }, [voiceRecord.recorderState.initRecording]);
 
@@ -123,6 +146,9 @@ function MessageInput() {
 
     useEffect(() => {
         messageTextState.set('');
+        if (chatId !== recordForChatId.value) {
+            deleteVoice();
+        }
     }, [chatId]);
 
     useEffect(() => {

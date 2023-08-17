@@ -16,7 +16,10 @@ function messageProxy(prevMessage: Message | null, message: Message, nextMessage
                     return target?.author?.id === viewerId && target.type !== 'system';
 
                 case 'lastMessageInBlock':
-                    return message?.author?.id !== nextMessage?.author?.id;
+                    if (nextMessage?.isMock) return false;
+                    if (!nextMessage) return true;
+                    if (target.isMock) return false;
+                    return target?.author?.id !== nextMessage?.author?.id;
 
                 case 'authorName':
                     return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;

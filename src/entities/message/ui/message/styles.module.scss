@@ -38,9 +38,11 @@
         @include flex(flex-end);
         align-self: flex-end;
         gap: 4px;
+
         .icon {
           width: 24px;
-          height: 24px;
+          max-height: 24px;
+
           .checkIcon {
             @include flex;
           }

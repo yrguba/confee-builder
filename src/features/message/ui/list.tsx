@@ -5,7 +5,7 @@ import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { MessageProxy } from 'entities/message/model/types';
 import { userTypes } from 'entities/user';
-import { useRouter, useCopyToClipboard } from 'shared/hooks';
+import { useRouter, useCopyToClipboard, useLifecycles } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 import { Modal, Notification } from 'shared/ui';
 
@@ -28,6 +28,7 @@ function MessageList() {
     const editMessage = useMessageStore.use.editMessage();
     const forwardMessages = useMessageStore.use.forwardMessages();
     const highlightedMessages = useMessageStore.use.highlightedMessages();
+    const voiceRecordingInProgress = useMessageStore.use.voiceRecordingInProgress();
 
     const {
         data: messageData,
@@ -107,6 +108,16 @@ function MessageList() {
         user ? personalInfoModal.open(user) : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
     };
 
+    useLifecycles(
+        () => '',
+        () => {
+            replyMessage.clear();
+            editMessage.clear();
+            forwardMessages.clear();
+            highlightedMessages.clear();
+        }
+    );
+
     return (
         <>
             <MessagesListView
@@ -122,6 +133,7 @@ function MessageList() {
                 clickImage={clickImage}
                 clickTag={clickTag}
                 highlightedMessages={highlightedMessages}
+                voiceRecordingInProgress={voiceRecordingInProgress.value}
             />
         </>
     );

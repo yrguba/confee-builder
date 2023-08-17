@@ -113,9 +113,9 @@ function MessageInputView(props: Props) {
                 </div>
             </Box.Animated>
             <div className={styles.main}>
-                <div className={styles.openDownloads} onClick={clickUploadFiles}>
+                <Box.Animated animationVariant="autoWidth" visible={!initRecording && !audio} className={styles.openDownloads} onClick={clickUploadFiles}>
                     <Icons variant="attach-file" />
-                </div>
+                </Box.Animated>
                 <Box.Animated visible key={`${initRecording}X${showVoice}`} className={styles.input}>
                     {initRecording ? (
                         <div className={styles.timerRecording}>
@@ -142,9 +142,9 @@ function MessageInputView(props: Props) {
                         />
                     )}
                 </Box.Animated>
-                <div className={styles.openEmoji}>
+                <Box.Animated visible={!initRecording && !audio} className={styles.openEmoji}>
                     <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} />
-                </div>
+                </Box.Animated>
                 <Box.Replace
                     className={styles.sendBtn}
                     items={[

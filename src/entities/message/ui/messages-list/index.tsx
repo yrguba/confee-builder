@@ -24,6 +24,7 @@ type Props = {
     clickImage: (data: appTypes.ImagesSwiperProps) => void;
     clickTag: (tag: string) => void;
     highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
+    voiceRecordingInProgress: boolean;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
@@ -40,6 +41,7 @@ function MessagesListView(props: Props) {
         clickImage,
         clickTag,
         highlightedMessages,
+        voiceRecordingInProgress,
     } = props;
 
     const [initOnce, setInitOnce] = useState(true);
@@ -111,6 +113,7 @@ function MessagesListView(props: Props) {
                                 ref={wrapperRef}
                                 message={message}
                                 messageMenuAction={messageMenuAction}
+                                voiceRecordingInProgress={voiceRecordingInProgress}
                             />
                             {messages?.length - 5 === index && <div ref={prevPageRef} />}
                         </div>

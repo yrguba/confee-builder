@@ -11,11 +11,10 @@ type Recording = 'start' | 'send' | 'stop' | 'cancel';
 type Props = {
     getEvents: (value: Recording) => void;
     initRecord: boolean;
-    reload?: any[];
 } & BaseTypes.Statuses;
 
 function VoiceButton(props: Props) {
-    const { getEvents, initRecord, reload } = props;
+    const { getEvents, initRecord } = props;
 
     const once = useRef(true);
     const lock = useEasyState(false);
@@ -72,6 +71,13 @@ function VoiceButton(props: Props) {
         lock.set(false);
         cancel();
     };
+
+    useEffect(() => {
+        if (!initRecord) {
+            lock.set(false);
+            event.set(null);
+        }
+    }, [initRecord]);
 
     useEffect(() => {
         mouseY.set(0);

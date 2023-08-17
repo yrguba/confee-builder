@@ -2,7 +2,7 @@ import { StoreApi, UseBoundStore } from 'zustand';
 
 type WithSelectors<S> = S extends { getState: () => infer T } ? S & { use: { [K in keyof T]: () => T[K] } } : never;
 
-type SelectorWithPrimitive<T extends number | string | null> = {
+type SelectorWithPrimitive<T extends number | string | boolean | null> = {
     value: T;
     set: (arg: T) => void;
 };
