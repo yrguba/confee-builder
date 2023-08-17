@@ -112,7 +112,7 @@ function MessageInputView(props: Props) {
                 <div className={styles.openEmoji}>
                     <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} />
                 </div>
-                <Box.Animated visible key={messageTextState.value} className={styles.sendBtn}>
+                <Box.Animated visible key={`${showVoice}w`} className={styles.sendBtn}>
                     {messageTextState.value || showVoice ? (
                         <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
                             <Icons variant="send" />
