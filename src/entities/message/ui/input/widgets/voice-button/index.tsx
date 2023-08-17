@@ -11,10 +11,11 @@ type Recording = 'start' | 'send' | 'stop' | 'cancel';
 type Props = {
     getEvents: (value: Recording) => void;
     initRecord: boolean;
+    reload?: any[];
 } & BaseTypes.Statuses;
 
 function VoiceButton(props: Props) {
-    const { getEvents, initRecord } = props;
+    const { getEvents, initRecord, reload } = props;
 
     const once = useRef(true);
     const lock = useEasyState(false);
@@ -55,6 +56,7 @@ function VoiceButton(props: Props) {
     const onClick = (e: any) => {
         e.stopPropagation();
         cancel();
+        lock.set(false);
     };
 
     const onMouseMoveLock = (e: any) => {

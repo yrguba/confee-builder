@@ -127,7 +127,7 @@ function MessageInput() {
 
     useEffect(() => {
         editMessage.value && messageTextState.set(editMessage.value.text);
-    }, [editMessage.value]);
+    }, [editMessage.value.id]);
 
     return (
         <>

@@ -7,7 +7,7 @@ import * as animationVariants from '../animation-variants';
 import { ReplaceBoxProps } from '../types';
 
 const ReplaceBox = forwardRef((props: ReplaceBoxProps, ref: any) => {
-    const { items, animationVariant = 'visibleHidden', toggle, loading, ...motionDivAttrs } = props;
+    const { items, animationVariant = 'visibleHidden', loading, ...motionDivAttrs } = props;
 
     const [visibleItemId, setVisibleItemId] = useState<number>(-1);
 
