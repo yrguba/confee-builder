@@ -6,14 +6,14 @@ import { BaseTypes } from '../../types';
 
 export type AnimationVariants = keyof typeof animationVariants;
 
-type Shared = {
-    children?: ReactNode;
-} & HTMLAttributes<HTMLDivElement> &
-    BaseTypes.Statuses;
+type Shared = {} & HTMLAttributes<HTMLDivElement> & BaseTypes.Statuses;
 
-export type BaseBoxProps = {} & Shared;
+export type BaseBoxProps = {
+    children?: ReactNode;
+} & Shared;
 
 export type AnimatedBoxProps = {
+    children?: ReactNode;
     visible: boolean;
     animationVariant?: AnimationVariants;
     presence?: boolean;
@@ -22,4 +22,9 @@ export type AnimatedBoxProps = {
     AnimationProps &
     MotionProps;
 
-export type ReplaceBoxProps = {} & Shared & AnimationProps & MotionProps;
+export type ReplaceBoxProps = {
+    items: { item: ReactNode; visible: boolean }[];
+    animationVariant?: AnimationVariants;
+} & Shared &
+    AnimationProps &
+    MotionProps;

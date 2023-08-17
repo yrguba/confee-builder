@@ -17,3 +17,17 @@ export const autoWidth = {
     exit: { width: 0, opacity: 0, overflowX: 'hidden' },
     transition: { type: 'tween' },
 };
+
+export const hiddenTop = {
+    initial: { y: 200, opacity: 0, overflowY: 'hidden' },
+    animate: { y: 0, opacity: 1, overflowY: 'hidden' },
+    exit: { y: -200, opacity: 0, overflowY: 'hidden' },
+    transition: { type: 'tween' },
+};
+
+export const hiddenBottom: any = {
+    initial: { y: -200, opacity: 0, overflowY: 'hidden' },
+    animate: { y: 0, opacity: 1, overflowY: 'hidden' },
+    exit: { y: 200, opacity: 0, overflowY: 'hidden' },
+    transition: { type: 'tween' },
+};
