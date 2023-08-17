@@ -7,5 +7,17 @@ import useMessageStore from './model/store';
 import * as messageTypes from './model/types';
 import MessageInputView from './ui/input';
 import MessagesListView from './ui/messages-list';
+import ForwardMessagesModalView from './ui/modals/forward';
 
-export { messageApi, useMessageStore, messageTypes, messageService, messageConstants, messageGateway, messageProxy, MessagesListView, MessageInputView };
+export {
+    messageApi,
+    useMessageStore,
+    messageTypes,
+    messageService,
+    messageConstants,
+    messageGateway,
+    messageProxy,
+    MessagesListView,
+    MessageInputView,
+    ForwardMessagesModalView,
+};

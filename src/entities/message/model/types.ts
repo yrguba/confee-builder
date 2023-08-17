@@ -56,8 +56,12 @@ export type MessageProxy = {
 } & Message;
 
 export type VoiceEvents = 'start' | 'send' | 'stop' | 'cancel';
-export type VoiceState = { event: VoiceEvents | null; url: ''; formData: FormData | null };
+
 export type MessageMenuActions = 'reply' | 'edit' | 'fixed' | 'copy' | 'forward' | 'delete' | 'highlight';
+
+export type Modals = {
+    forwardMessages: null;
+};
 
 export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated' | 'MessageRead' | 'Typing';
 export type SocketOut = 'ChatListenersUpdated' | 'Typing' | 'MessageRead';

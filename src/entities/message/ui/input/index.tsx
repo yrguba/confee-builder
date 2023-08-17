@@ -7,7 +7,7 @@ import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer } from 'shared/ui'
 import styles from './styles.module.scss';
 import VoiceButton from './widgets/voice-button';
 import { ChatProxy } from '../../../chat/model/types';
-import { MessageProxy, VoiceEvents, VoiceState } from '../../model/types';
+import { MessageProxy, VoiceEvents } from '../../model/types';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;

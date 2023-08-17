@@ -27,9 +27,9 @@
   }
 
   .search {
-    @include box-size(calc(100% - 8px), 48px);
+    @include box-size(calc(100% - 32px), 48px);
     @include flex(space-between);
-    padding: 0 4px;
+    padding: 0 16px;
   }
 
   .tabs{

@@ -43,6 +43,7 @@ function MessageList() {
 
     const imagesSwiperModal = Modal.use<appTypes.Modals>('imagesSwiper');
     const personalInfoModal = Modal.use<userTypes.Modals>('personalInfo');
+    const forwardMessagesModal = Modal.use<messageTypes.Modals>('forwardMessages');
 
     const confirmModal = Modal.useConfirm<{ messageId: number }>({
         title: 'Удалить сообщение',
@@ -79,7 +80,7 @@ function MessageList() {
                 copyToClipboard(message.text);
                 return notification.success({ title: 'Текст скопирован в буфер', system: true });
             case 'forward':
-                return notification.inDev();
+                return forwardMessagesModal.open();
             case 'delete':
                 return confirmModal.open({ messageId: message.id });
             case 'highlight':

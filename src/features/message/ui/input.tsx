@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import { chatApi, chatProxy } from 'entities/chat';
 import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
-import { MessageType, VoiceEvents, VoiceState } from 'entities/message/model/types';
+import { MessageType, VoiceEvents } from 'entities/message/model/types';
 import { useEasyState, useFileUploader, useAudioRecorder } from 'shared/hooks';
 
 function MessageInput() {

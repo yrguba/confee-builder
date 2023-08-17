@@ -1,0 +1,51 @@
+@import "../../../../../app/styles/index";
+
+.wrapper {
+  @include box-size(416px, auto);
+  @include flex-column(flex-start, flex-start);
+  max-height: 600px;
+  gap: 16px;
+
+  @include height-to('sm') {
+    height: 100vh;
+  }
+
+  .header {
+    width: calc(100% - 48px);
+    @include flex-column();
+    padding: 0 24px;
+    gap: 4px;
+    color: var(--text-primary);
+    margin-top: 24px;
+
+    .search {
+      width: 100%;
+    }
+  }
+
+  .body {
+    @include flex-column(flex-start, flex-start);
+    @include scrollBarVertical;
+    width: calc(100% - 24px);
+    flex: 1;
+    margin-left: 24px;
+    gap: 20px;
+    overflow-y: auto;
+
+    .nav {
+      @include flex;
+      gap: 8px;
+    }
+
+    .list {
+      @include flex-column(flex-start, flex-start, 12);
+      max-height: 300px;
+    }
+  }
+
+  .footer {
+    width: calc(100% - 48px);
+    padding: 0 24px;
+    margin-bottom: 24px;
+  }
+}

@@ -3,6 +3,7 @@ import dateConverter from './date-converter';
 import debounce from './debounce';
 import * as fileConverter from './file-converter';
 import findLastIndex from './find-last-index';
+import generateItems from './generate-items';
 import getEnding from './get-ending';
 import getFormData from './get-form-data';
 import getRandomString from './get-random-string';
@@ -24,4 +25,5 @@ export {
     dateConverter,
     findLastIndex,
     debounce,
+    generateItems,
 };
