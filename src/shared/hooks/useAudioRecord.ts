@@ -73,7 +73,7 @@ export default function useAudioRecorder({ onAfterSaving }: Props) {
                 const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
                 const file = new File(chunks, `${new Date().valueOf()}.wav`);
                 const formData = new FormData();
-                formData.append('files[audios][]', file);
+                formData.append('files[voices][]', file);
                 chunks = [];
 
                 // @ts-ignore

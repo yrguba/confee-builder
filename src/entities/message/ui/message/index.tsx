@@ -10,6 +10,7 @@ import DocumentsMessage from './variants/documents';
 import ImagesMessage from './variants/images';
 import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
+import VoiceMessage from './variants/voice';
 import { useStyles } from '../../../../shared/hooks';
 import { appTypes } from '../../../app';
 import { MessageProxy, MessageMenuActions } from '../../model/types';
@@ -50,6 +51,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                             {type === 'text' && <TextMessage text={text} clickTag={clickTag} />}
                             {type === 'images' && <ImagesMessage clickImage={clickImage} images={files} />}
                             {type === 'documents' && <DocumentsMessage documents={files} />}
+                            {type === 'voices' && <VoiceMessage voices={message.files} />}
                         </div>
                         <div className={styles.info}>
                             <Title primary={false} variant="H4M">

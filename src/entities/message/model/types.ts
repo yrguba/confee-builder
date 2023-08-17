@@ -1,5 +1,3 @@
-import { UseFileUploaderTypes } from 'shared/hooks';
-
 import { userTypes } from '../../user';
 
 export type Content = {
@@ -9,29 +7,31 @@ export type Content = {
     url: string;
 };
 
-export type MessageType = 'text' | 'images' | 'videos' | 'audios' | 'documents' | 'voices' | 'system';
-
-export enum MediaContentType {
-    'image' = 'фото',
-    'audio' = 'аудио',
-    'video' = 'видео',
-    'document' = 'документы',
-}
-
-export type MediaContentTypeKeys = keyof typeof MediaContentType;
+export type MediaContentType = 'images' | 'videos' | 'audios' | 'documents' | 'voices';
+export type MessageType = 'text' | 'system' | MediaContentType;
 
 export type File = {
-    extension: string;
-    name: string;
-    size: number;
-    url: string;
+    chat_id?: number;
+    created_at?: Date;
+    employee_id?: number | null;
+    extension?: string;
+    hash_id?: string;
+    id?: number;
+    link: string;
+    name?: string;
+    path?: string;
+    size?: number;
+    subtype?: number;
+    type?: MediaContentType;
+    updated_at?: Date;
+    user_id?: number;
 };
 
 export type Message = {
     author: userTypes.User;
     chat_id?: number;
     created_at: Date;
-    files: any[];
+    files: File[];
     forwarded_from_messages: Message[] | [];
     id: number;
     is_edited: boolean;

@@ -15,7 +15,7 @@ function useFetchMediaContent(url = '', saveInCache = false) {
 
     const checkFetch = () => {
         if (!url || typeof url !== 'string') return false;
-        if (url?.split('/').length > 2) {
+        if (url?.split('/')?.length > 2) {
             return url?.split('/')[1] === 'api';
         }
     };
@@ -23,7 +23,7 @@ function useFetchMediaContent(url = '', saveInCache = false) {
     useEffect(() => {
         const fn = async () => {
             setIsLoading(true);
-            const fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop() });
+            const fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop() });
             if (fileInCache && typeof fileInCache === 'string') {
                 setSrc(fileInCache);
                 const img = new Image();
@@ -40,7 +40,7 @@ function useFetchMediaContent(url = '', saveInCache = false) {
                     .then(async (res: any) => {
                         setIsLoading(true);
                         setFileBlob(res.data);
-                        saveInCache && (await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/').pop(), fileBlob: res.data }));
+                        saveInCache && (await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop(), fileBlob: res.data }));
                         const base64 = await fileConverter.fromBlobToBase64(res.data);
                         const img = new Image();
                         img.onload = function () {

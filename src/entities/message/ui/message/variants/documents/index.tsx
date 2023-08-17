@@ -4,11 +4,10 @@ import { BaseTypes } from 'shared/types';
 import { Document } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { appTypes } from '../../../../../app';
+import { File } from '../../../../model/types';
 
 type Props = {
-    documents: string[];
-    // clickImage: (data: appTypes.ImagesSwiperProps) => void;
+    documents: File[];
 } & BaseTypes.Statuses;
 
 function DocumentsMessage(props: Props) {
@@ -17,7 +16,7 @@ function DocumentsMessage(props: Props) {
     return (
         <div className={styles.wrapper}>
             {documents.map((i, index) => (
-                <Document key={index} url={i} name="document" />
+                <Document key={index} url={i.link} name="document" />
             ))}
         </div>
     );

@@ -5,9 +5,10 @@ import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appTypes } from '../../../../../app';
+import { File } from '../../../../model/types';
 
 type Props = {
-    images: string[];
+    images: File[];
     clickImage: (data: appTypes.ImagesSwiperProps) => void;
 } & BaseTypes.Statuses;
 
@@ -17,7 +18,14 @@ function ImagesMessage(props: Props) {
     return (
         <div className={styles.wrapper}>
             {images.map((i, index) => (
-                <Image onClick={() => clickImage({ images, startIndex: index })} key={index} img={i} width="49%" horizontalImgWidth="100%" height="200px" />
+                <Image
+                    onClick={() => clickImage({ images: images.map((a) => a.link), startIndex: index })}
+                    key={index}
+                    img={i.link}
+                    width="49%"
+                    horizontalImgWidth="100%"
+                    height="200px"
+                />
             ))}
         </div>
     );

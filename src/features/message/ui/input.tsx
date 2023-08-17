@@ -39,7 +39,7 @@ function MessageInput() {
                         handleSendFileMessage({
                             chatId,
                             files: formData,
-                            filesForMock: value.map((i) => i.fileUrl),
+                            filesForMock: value.map((i) => ({ link: i.fileUrl })),
                             filesType: `${key}s` as MessageType,
                         });
                     }
@@ -55,7 +55,7 @@ function MessageInput() {
                 chatId,
                 filesType: 'voices',
                 files: formData,
-                filesForMock: [url],
+                filesForMock: [{ link: url }],
             });
     };
 

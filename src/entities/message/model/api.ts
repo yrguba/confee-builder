@@ -4,7 +4,7 @@ import produce from 'immer';
 import { axiosClient } from 'shared/configs';
 import { useArray, useWebSocket } from 'shared/hooks';
 
-import { MessageProxy, MessageType, SocketOut } from './types';
+import { File, MessageProxy, MessageType, SocketOut } from './types';
 import { messages_limit } from '../lib/constants';
 import mockMessage from '../lib/mock';
 
@@ -68,7 +68,7 @@ class MessageApi {
         const queryClient = useQueryClient();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
-            (data: { files: FormData | undefined | null; chatId: number; filesForMock: string[]; filesType: MessageType }) =>
+            (data: { files: FormData | undefined | null; chatId: number; filesForMock: File[]; filesType: MessageType }) =>
                 axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files),
             {
                 onMutate: async (data) => {
