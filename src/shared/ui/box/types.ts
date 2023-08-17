@@ -23,7 +23,8 @@ export type AnimatedBoxProps = {
     MotionProps;
 
 export type ReplaceBoxProps = {
-    items: { item: ReactNode; visible: boolean }[];
+    items: { item: ReactNode; visible?: boolean }[];
+    toggle?: boolean;
     animationVariant?: AnimationVariants;
 } & Shared &
     AnimationProps &

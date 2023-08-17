@@ -3,6 +3,7 @@
 .wrapper {
   @include flex;
   position: relative;
+  width: 30px;
 
   .microIcon{
     z-index: 1000;

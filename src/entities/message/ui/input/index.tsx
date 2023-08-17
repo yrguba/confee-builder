@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { UseEasyStateReturnedType, UseStore } from 'shared/hooks';
+import { getEnding } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
 import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer, IconsTypes } from 'shared/ui';
 
@@ -14,9 +15,9 @@ type Props = {
     messageTextState: UseEasyStateReturnedType<string>;
     sendMessage: () => void;
     clickUploadFiles: () => void;
-    replyMessage: UseStore.SelectorWithObj<MessageProxy | null>;
-    editMessage: UseStore.SelectorWithObj<MessageProxy | null>;
-    forwardMessage: UseStore.SelectorWithObj<{ fromChatName: string; message: MessageProxy | null } | null>;
+    replyMessage: UseStore.SelectorWithObj<MessageProxy>;
+    editMessage: UseStore.SelectorWithObj<MessageProxy>;
+    forwardMessages: UseStore.SelectorWithObj<{ fromChatName: string; messages: MessageProxy[]; redirect: boolean }>;
     highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
     getVoiceEvents: (e: VoiceEvents) => void;
     showVoice: boolean;
@@ -44,33 +45,39 @@ function MessageInputView(props: Props) {
         showVoice,
         deleteVoice,
         highlightedMessages,
-        forwardMessage,
+        forwardMessages,
     } = props;
 
     const { audio, initRecording, recordingSeconds, recordingMinutes } = voiceRecord.recorderState;
 
     const getHeaderTitle = () => {
-        if (replyMessage.value) return replyMessage.value?.authorName;
-        if (editMessage.value) return 'Редактировать';
-        if (forwardMessage?.value?.fromChatName) return forwardMessage.value.fromChatName;
+        if (replyMessage.value.id) return replyMessage.value?.authorName;
+        if (editMessage.value.id) return 'Редактировать';
+        if (forwardMessages?.value?.fromChatName) return forwardMessages.value.fromChatName;
     };
 
     const getHeaderIcon = (): IconsTypes.BaseIconsVariants => {
-        if (replyMessage.value) return 'reply-black';
-        if (editMessage.value) return 'edit';
+        if (replyMessage.value.id) return 'reply-black';
+        if (editMessage.value.id) return 'edit';
         return 'forward-black';
     };
 
     const getHeaderSubtitle = () => {
-        if (replyMessage.value) return replyMessage.value?.text;
-        if (editMessage.value) return editMessage.value?.text;
-        if (forwardMessage?.value?.message) return forwardMessage?.value?.message.text;
+        if (replyMessage.value.id) return replyMessage.value?.text;
+        if (editMessage.value.id) return editMessage.value?.text;
+        if (forwardMessages?.value?.messages?.length) {
+            const length = forwardMessages?.value?.messages?.length;
+            if (length > 1) {
+                return `${length} ${getEnding(length, ['e', 'я', 'ий'])}`;
+            }
+            return forwardMessages?.value?.messages[0].text;
+        }
     };
 
     const closeHeader = () => {
-        if (replyMessage.value) replyMessage.set(null);
-        if (editMessage.value) editMessage.set(null);
-        if (forwardMessage?.value?.fromChatName) forwardMessage.set(null);
+        if (replyMessage.value.id) replyMessage.clear();
+        if (editMessage.value.id) editMessage.clear();
+        if (forwardMessages?.value?.fromChatName) forwardMessages.clear();
         messageTextState.set('');
     };
 
@@ -88,7 +95,7 @@ function MessageInputView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <Box.Animated
-                visible={!!replyMessage.value || !!editMessage.value || !!forwardMessage?.value?.fromChatName}
+                visible={!!replyMessage.value.id || !!editMessage.value.id || forwardMessages?.value?.redirect}
                 className={styles.header}
                 animationVariant="autoHeight"
             >
@@ -138,15 +145,23 @@ function MessageInputView(props: Props) {
                 <div className={styles.openEmoji}>
                     <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} />
                 </div>
-                <Box.Animated visible key={`${showVoice}w`} className={styles.sendBtn}>
-                    {messageTextState.value || showVoice ? (
-                        <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
-                            <Icons variant="send" />
-                        </Button.Circle>
-                    ) : (
-                        <VoiceButton initRecord={initRecording} getEvents={getVoiceEvents} />
-                    )}
-                </Box.Animated>
+                <Box.Replace
+                    className={styles.sendBtn}
+                    items={[
+                        {
+                            visible: !!messageTextState.value || showVoice || forwardMessages?.value?.redirect,
+                            item: (
+                                <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
+                                    <Icons variant="send" />
+                                </Button.Circle>
+                            ),
+                        },
+                        {
+                            visible: !messageTextState.value && !showVoice && !forwardMessages?.value?.redirect,
+                            item: <VoiceButton initRecord={initRecording} getEvents={getVoiceEvents} />,
+                        },
+                    ]}
+                />
             </div>
         </div>
     );

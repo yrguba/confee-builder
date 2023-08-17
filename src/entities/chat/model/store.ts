@@ -5,7 +5,7 @@ import { immer } from 'zustand/middleware/immer';
 import { useStore, UseStore } from 'shared/hooks';
 
 type Store = {
-    chatSubscription: UseStore.SelectorWithObj<number | null>;
+    chatSubscription: UseStore.SelectorWithPrimitive<number | null>;
     usersTyping: {
         value: Record<number, string[]>;
         set: (value: { chatId: number; users: string[] }) => void;

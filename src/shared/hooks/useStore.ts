@@ -3,9 +3,15 @@ import { StoreApi, UseBoundStore } from 'zustand';
 
 type WithSelectors<S> = S extends { getState: () => infer T } ? S & { use: { [K in keyof T]: () => T[K] } } : never;
 
-type SelectorWithObj<T extends object | number | string | null> = {
+type SelectorWithPrimitive<T extends number | string | null> = {
     value: T;
     set: (arg: T) => void;
+};
+
+type SelectorWithObj<T extends object> = {
+    value: T;
+    set: (arg: T) => void;
+    clear: () => void;
 };
 
 type SelectorWithArr<T extends { id: number | string; [key: string]: any }> = {
@@ -15,7 +21,7 @@ type SelectorWithArr<T extends { id: number | string; [key: string]: any }> = {
     clear: () => void;
 };
 
-function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithArr<any>>>() {
+function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWithObj<any> | SelectorWithArr<any>>>() {
     const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(_store: S) => {
         const store = _store as WithSelectors<typeof _store>;
         store.use = {};
@@ -26,7 +32,7 @@ function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithArr<a
         return store;
     };
 
-    const generateSelectorWithObj = (keys: Array<keyof T>, set: any): T => {
+    const generateSelectorWithPrimitive = (keys: Array<keyof T>, set: any): T => {
         const obj = {};
 
         keys.forEach((key) => {
@@ -36,6 +42,26 @@ function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithArr<a
                 set: (value: any) =>
                     set((state: any) => {
                         state[key].value = value;
+                    }),
+            };
+        });
+        return obj as T;
+    };
+
+    const generateSelectorWithObj = (keys: Array<keyof T>, set: any): T => {
+        const obj = {};
+
+        keys.forEach((key) => {
+            // @ts-ignore
+            obj[key] = {
+                value: {},
+                set: (value: any) =>
+                    set((state: any) => {
+                        state[key].value = value;
+                    }),
+                clear: () =>
+                    set((state: any) => {
+                        state[key].value = {};
                     }),
             };
         });
@@ -67,9 +93,9 @@ function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithArr<a
         return obj as T;
     };
 
-    return { createSelectors, generateSelectorWithObj, generateSelectorWithArr };
+    return { createSelectors, generateSelectorWithPrimitive, generateSelectorWithObj, generateSelectorWithArr };
 }
 
-export type { SelectorWithObj, SelectorWithArr };
+export type { SelectorWithPrimitive, SelectorWithObj, SelectorWithArr };
 
 export default useStore;

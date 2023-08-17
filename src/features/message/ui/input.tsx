@@ -14,12 +14,13 @@ function MessageInput() {
     const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
     const { mutate: handleEditTextMessage } = messageApi.handleEditTextMessage();
     const { mutate: handleMessageTyping } = messageApi.handleMessageTyping();
+    const { mutate: handleForwardMessages } = messageApi.handleForwardMessages();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
     const replyMessage = useMessageStore.use.replyMessage();
     const editMessage = useMessageStore.use.editMessage();
-    const forwardMessage = useMessageStore.use.forwardMessage();
+    const forwardMessages = useMessageStore.use.forwardMessages();
     const highlightedMessages = useMessageStore.use.highlightedMessages();
 
     const messageTextState = useEasyState('');
@@ -58,6 +59,12 @@ function MessageInput() {
     };
 
     const sendMessage = () => {
+        if (forwardMessages.value.fromChatName) {
+            handleForwardMessages({
+                chatId,
+                forward_from_message_ids: forwardMessages.value.messages.map((i) => i.id),
+            });
+        }
         if (voiceRecord.recorderState.formData) {
             handleSendFileMessage({
                 chatId,
@@ -70,8 +77,8 @@ function MessageInput() {
             return deleteVoice();
         }
         if (messageTextState.value) {
-            if (editMessage.value) {
-                editMessage.set(null);
+            if (editMessage.value.id) {
+                editMessage.clear();
                 messageTextState.set('');
                 return handleEditTextMessage({
                     text: messageTextState.value,
@@ -85,7 +92,7 @@ function MessageInput() {
                 params: { reply_to_message_id: replyMessage.value?.id },
                 replyMessage: replyMessage.value,
             });
-            if (replyMessage.value) replyMessage.set(null);
+            if (replyMessage.value.id) replyMessage.clear();
             messageTextState.set('');
         }
     };
@@ -132,7 +139,7 @@ function MessageInput() {
                 clickUploadFiles={openFilesDownloader}
                 replyMessage={replyMessage}
                 editMessage={editMessage}
-                forwardMessage={forwardMessage}
+                forwardMessages={forwardMessages}
                 highlightedMessages={highlightedMessages}
                 getVoiceEvents={getVoiceEvents}
                 voiceRecord={voiceRecord as any}

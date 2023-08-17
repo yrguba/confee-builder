@@ -105,8 +105,8 @@ class MessageApi {
     }
 
     handleForwardMessages() {
-        return useMutation((data: { messagesIds: number[]; chatId: number }) =>
-            axiosClient.post(`${this.pathPrefix}/forward/message/${data.chatId}`, { messages: data.messagesIds })
+        return useMutation((data: { forward_from_message_ids: number[]; chatId: number }) =>
+            axiosClient.post(`${this.pathPrefix}/${data.chatId}/message/forward`, { messages: data.forward_from_message_ids })
         );
     }
 
