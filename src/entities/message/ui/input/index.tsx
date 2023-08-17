@@ -68,7 +68,7 @@ function MessageInputView(props: Props) {
         if (forwardMessages?.value?.messages?.length) {
             const length = forwardMessages?.value?.messages?.length;
             if (length > 1) {
-                return `${length} ${getEnding(length, ['e', 'я', 'ий'])}`;
+                return `${length} ${getEnding(length, ['сообщение', 'сообщения', 'сообщений'])}`;
             }
             return forwardMessages?.value?.messages[0].text;
         }

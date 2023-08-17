@@ -14,12 +14,12 @@ type Props = {
     tabs: TabBarTypes.TabBarItem[];
     clickCard: () => void;
     highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
-    deleteMessages: () => void;
-    forwardMessages: () => void;
+    clickDeleteMessages: () => void;
+    clickForwardMessages: () => void;
 } & BaseTypes.Statuses;
 
 function ChatHeaderView(props: Props) {
-    const { chat, back, tabs, clickCard, highlightedMessages, deleteMessages, forwardMessages } = props;
+    const { chat, back, tabs, clickCard, highlightedMessages, clickDeleteMessages, clickForwardMessages } = props;
 
     function Main() {
         return (
@@ -49,8 +49,8 @@ function ChatHeaderView(props: Props) {
         return (
             <div className={styles.highlightedMessages}>
                 <div className={styles.btns}>
-                    <Button onClick={forwardMessages}>Переслать {highlightedMessages.value.length}</Button>
-                    <Button onClick={deleteMessages}>Удалить {highlightedMessages.value.length}</Button>
+                    <Button onClick={clickForwardMessages}>Переслать {highlightedMessages.value.length}</Button>
+                    <Button onClick={clickDeleteMessages}>Удалить {highlightedMessages.value.length}</Button>
                 </div>
                 <div className={styles.cancel} onClick={highlightedMessages.clear}>
                     <Title active variant="H2">

@@ -8,6 +8,7 @@ import getEnding from './get-ending';
 import getFormData from './get-form-data';
 import getRandomString from './get-random-string';
 import * as httpHandlers from './http-handlers';
+import momentLocalZone from './moment-local-zone';
 import reactionConverter from './reaction-converter';
 import * as regex from './regex';
 import sizeConverter from './size-converter';
@@ -26,4 +27,5 @@ export {
     findLastIndex,
     debounce,
     generateItems,
+    momentLocalZone,
 };

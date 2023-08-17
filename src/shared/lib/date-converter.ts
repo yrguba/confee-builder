@@ -1,15 +1,15 @@
 import moment from 'moment/moment';
 
-function dateConverter(updated_at: Date, onlyTime = false) {
-    const offset = moment().utcOffset();
+import momentLocalZone from './moment-local-zone';
 
+function dateConverter(updated_at: Date, onlyTime = false) {
     if (onlyTime) {
-        return moment.utc(updated_at).utcOffset(offset).format('LT');
+        return momentLocalZone(updated_at).format('LT');
     }
-    if (moment.utc(updated_at).utcOffset(offset).startOf('day').unix() === moment().startOf('day').unix()) {
-        return moment.utc(updated_at).utcOffset(offset).format('LT');
+    if (momentLocalZone(updated_at).startOf('day').unix() === momentLocalZone().startOf('day').unix()) {
+        return momentLocalZone(updated_at).format('LT');
     }
-    return moment.utc(updated_at).utcOffset(offset).format('llll')?.split(',')[0];
+    return momentLocalZone(updated_at).format('llll')?.split(',')[0];
 }
 
 export default dateConverter;

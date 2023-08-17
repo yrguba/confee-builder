@@ -4,7 +4,7 @@ import { appService } from 'entities/app';
 import { callsTypes } from 'entities/calls';
 import { ChatHeaderView, chatApi, chatTypes } from 'entities/chat';
 import ChatProxy from 'entities/chat/lib/proxy';
-import { useMessageStore, messageApi } from 'entities/message';
+import { useMessageStore, messageApi, messageTypes } from 'entities/message';
 import { useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 import { TabBarTypes, Notification, Modal } from 'shared/ui';
@@ -16,6 +16,7 @@ function ChatHeader() {
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
 
     const highlightedMessages = useMessageStore.use.highlightedMessages();
+    const forwardMessages = useMessageStore.use.forwardMessages();
 
     const notification = Notification.use();
 
@@ -24,6 +25,7 @@ function ChatHeader() {
     const webView = useWebView(callPath, 'аудио звонок');
 
     const chatSettingsModal = Modal.use<chatTypes.Modals>('chatSettings');
+    const forwardMessagesModal = Modal.use<messageTypes.Modals>('forwardMessages');
 
     const clickChatAudioCall = async () => {
         if (appService.tauriIsRunning) {
@@ -33,7 +35,7 @@ function ChatHeader() {
         }
     };
 
-    const deleteMessages = async () => {
+    const clickDeleteMessages = async () => {
         if (chatData) {
             handleDeleteMessage({
                 chatId: chatData?.id,
@@ -43,7 +45,10 @@ function ChatHeader() {
             highlightedMessages.clear();
         }
     };
-    const forwardMessages = async () => {};
+    const clickForwardMessages = async () => {
+        forwardMessages.set({ fromChatName: chatData?.name || '', messages: highlightedMessages.value, redirect: false });
+        forwardMessagesModal.open();
+    };
 
     const tabs: TabBarTypes.TabBarItem[] = [
         { id: 0, icon: 'search', callback: () => notification.inDev() },
@@ -59,8 +64,8 @@ function ChatHeader() {
             tabs={tabs}
             clickCard={chatSettingsModal.open}
             highlightedMessages={highlightedMessages}
-            deleteMessages={deleteMessages}
-            forwardMessages={forwardMessages}
+            clickDeleteMessages={clickDeleteMessages}
+            clickForwardMessages={clickForwardMessages}
         />
     );
 }
