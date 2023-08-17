@@ -118,6 +118,7 @@ function MessageList() {
                 sendReaction={clickReaction}
                 clickImage={clickImage}
                 clickTag={clickTag}
+                highlightedMessages={highlightedMessages}
             />
         </>
     );

@@ -11,9 +11,8 @@ type SelectorWithObj<T extends object | number | string | null> = {
 type SelectorWithOArr<T extends { id: number | string; [key: string]: any }> = {
     value: T[];
     pushOrDelete: (arg: T) => void;
+    clear: () => void;
 };
-
-// type Selectors<T> = T extends Record<any, SelectorWithObj<any> | Record<any, SelectorWithOArr<any>
 
 function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithOArr<any>>>() {
     const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(_store: S) => {
@@ -49,7 +48,7 @@ function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithOArr<
             // @ts-ignore
             obj[key] = {
                 value: [],
-                clear: (obj: any) =>
+                clear: () =>
                     set((state: any) => {
                         state[key].value = [];
                     }),

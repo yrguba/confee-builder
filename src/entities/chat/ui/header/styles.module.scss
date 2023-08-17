@@ -23,4 +23,19 @@
 
   }
 
+  .highlightedMessages {
+    @include box-size(100%, 100%);
+    @include flex(space-between);
+
+    .btns {
+      @include flex;
+      width: 200px;
+      gap: 12px;
+    }
+
+    .cancel {
+      cursor: pointer;
+    }
+  }
+
 }

@@ -1,7 +1,7 @@
 import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 
-import { useInView, usePrevious, useScroll } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseStore } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -23,11 +23,24 @@ type Props = {
     sendReaction: (emoji: string, messageId: number) => void;
     clickImage: (data: appTypes.ImagesSwiperProps) => void;
     clickTag: (tag: string) => void;
+    highlightedMessages: UseStore.SelectorWithOArr<MessageProxy>;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
-    const { chat, messages, getPrevPage, getNextPage, hoverMessage, subscribeToChat, chatSubscription, messageMenuAction, sendReaction, clickImage, clickTag } =
-        props;
+    const {
+        chat,
+        messages,
+        getPrevPage,
+        getNextPage,
+        hoverMessage,
+        subscribeToChat,
+        chatSubscription,
+        messageMenuAction,
+        sendReaction,
+        clickImage,
+        clickTag,
+        highlightedMessages,
+    } = props;
 
     const [initOnce, setInitOnce] = useState(true);
 
@@ -50,6 +63,12 @@ function MessagesListView(props: Props) {
         if (messages.length - 1 === index) refs.push(lastMessageRef);
         if (messages.length - 1 === index) refs.push(lastMessageCheckVisibleRef);
         return mergeRefs(refs);
+    };
+
+    const rowClick = (message: MessageProxy) => {
+        if (highlightedMessages.value.length) {
+            highlightedMessages.pushOrDelete(message);
+        }
     };
 
     useEffect(() => {
@@ -77,8 +96,9 @@ function MessagesListView(props: Props) {
                     {message.systemMessages.length ? message.systemMessages.map((text, index) => <SystemMessage key={index} text={text} />) : null}
                     {message.type !== 'system' && (
                         <div
+                            onClick={() => rowClick(message)}
                             onMouseEnter={() => hoverMessage(message)}
-                            className={styles.row}
+                            className={`${styles.row} ${highlightedMessages.value.find((i) => i.id === message.id) ? styles.row_active : ''}`}
                             style={{ justifyContent: message.isMy ? 'flex-end' : 'flex-start' }}
                             ref={getMessageRefs(message, index)}
                         >

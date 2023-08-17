@@ -26,8 +26,8 @@ export const hiddenTop = {
 };
 
 export const hiddenBottom: any = {
-    initial: { y: -200, opacity: 0, overflowY: 'hidden' },
+    initial: { y: -100, opacity: 0, overflowY: 'hidden' },
     animate: { y: 0, opacity: 1, overflowY: 'hidden' },
-    exit: { y: 200, opacity: 0, overflowY: 'hidden' },
-    transition: { type: 'tween' },
+    exit: { y: 100, opacity: 0, overflowY: 'hidden' },
+    transition: { type: 'tween', duration: 0.1 },
 };

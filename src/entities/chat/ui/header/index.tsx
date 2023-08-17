@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useWidthMediaQuery, UseStore } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Icons, Card, Button, TabBarTypes, TabBar, Box } from 'shared/ui';
+import { Icons, Card, Button, TabBarTypes, TabBar, Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { MessageProxy } from '../../../message/model/types';
@@ -14,10 +14,12 @@ type Props = {
     tabs: TabBarTypes.TabBarItem[];
     clickCard: () => void;
     highlightedMessages: UseStore.SelectorWithOArr<MessageProxy>;
+    deleteMessages: () => void;
+    forwardMessages: () => void;
 } & BaseTypes.Statuses;
 
 function ChatHeaderView(props: Props) {
-    const { chat, back, tabs, clickCard, highlightedMessages } = props;
+    const { chat, back, tabs, clickCard, highlightedMessages, deleteMessages, forwardMessages } = props;
 
     function Main() {
         return (
@@ -44,7 +46,19 @@ function ChatHeaderView(props: Props) {
         );
     }
     function HighlightedMessages() {
-        return <div>highlightedMessages</div>;
+        return (
+            <div className={styles.highlightedMessages}>
+                <div className={styles.btns}>
+                    <Button onClick={forwardMessages}>Переслать {highlightedMessages.value.length}</Button>
+                    <Button onClick={deleteMessages}>Удалить {highlightedMessages.value.length}</Button>
+                </div>
+                <div className={styles.cancel} onClick={highlightedMessages.clear}>
+                    <Title active variant="H2">
+                        Отмена
+                    </Title>
+                </div>
+            </div>
+        );
     }
 
     return (
