@@ -49,9 +49,12 @@ function useStore<T extends Record<any, SelectorWithObj<any> | SelectorWithOArr<
             // @ts-ignore
             obj[key] = {
                 value: [],
+                clear: (obj: any) =>
+                    set((state: any) => {
+                        state[key].value = [];
+                    }),
                 pushOrDelete: (obj: any) =>
                     set((state: any) => {
-                        console.log(obj);
                         const foundIndex = state[key].value.findIndex((i: any) => i.id === obj.id);
                         foundIndex !== -1 ? state[key].value.splice(foundIndex, 1) : state[key].value.push(obj);
                     }),

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useWidthMediaQuery, UseStore } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Icons, Card, Button, TabBarTypes, TabBar } from 'shared/ui';
+import { Icons, Card, Button, TabBarTypes, TabBar, Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { MessageProxy } from '../../../message/model/types';
@@ -20,26 +20,32 @@ function ChatHeaderView(props: Props) {
     const { chat, back, tabs, clickCard, highlightedMessages } = props;
 
     return (
-        <div className={styles.wrapper}>
-            {useWidthMediaQuery().to('sm') && (
-                <Button.Circle onClick={back} variant="secondary">
-                    <Icons variant="arrow-left" />
-                </Button.Circle>
+        <Box.Animated visible key={highlightedMessages.value.length ? '1' : '2'} className={styles.wrapper}>
+            {highlightedMessages.value.length ? (
+                <div>highlightedMessages</div>
+            ) : (
+                <div className={styles.main}>
+                    {useWidthMediaQuery().to('sm') && (
+                        <Button.Circle onClick={back} variant="secondary">
+                            <Icons variant="arrow-left" />
+                        </Button.Circle>
+                    )}
+                    <div className={styles.left}>
+                        <Card
+                            onClick={clickCard}
+                            avatarStatus={chat?.secondMemberStatus || null}
+                            img={chat?.avatar}
+                            name={chat?.name}
+                            title={chat?.name}
+                            subtitle={chat?.subtitle}
+                        />
+                    </div>
+                    <div>
+                        <TabBar variant="icons" items={tabs} activeItemId={0} />
+                    </div>
+                </div>
             )}
-            <div className={styles.left}>
-                <Card
-                    onClick={clickCard}
-                    avatarStatus={chat?.secondMemberStatus || null}
-                    img={chat?.avatar}
-                    name={chat?.name}
-                    title={chat?.name}
-                    subtitle={chat?.subtitle}
-                />
-            </div>
-            <div>
-                <TabBar variant="icons" items={tabs} activeItemId={0} />
-            </div>
-        </div>
+        </Box.Animated>
     );
 }
 
