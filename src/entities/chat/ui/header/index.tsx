@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { useWidthMediaQuery } from 'shared/hooks';
+import { useWidthMediaQuery, UseStore } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Icons, Card, Button, TabBarTypes, TabBar } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { MessageProxy } from '../../../message/model/types';
 import { ChatProxy } from '../../model/types';
 
 type Props = {
@@ -12,10 +13,11 @@ type Props = {
     back: () => void;
     tabs: TabBarTypes.TabBarItem[];
     clickCard: () => void;
+    highlightedMessages: UseStore.SelectorWithOArr<MessageProxy>;
 } & BaseTypes.Statuses;
 
 function ChatHeaderView(props: Props) {
-    const { chat, back, tabs, clickCard } = props;
+    const { chat, back, tabs, clickCard, highlightedMessages } = props;
 
     return (
         <div className={styles.wrapper}>

@@ -26,6 +26,7 @@ function MessageList() {
 
     const replyMessage = useMessageStore.use.replyMessage();
     const editMessage = useMessageStore.use.editMessage();
+    const highlightedMessages = useMessageStore.use.highlightedMessages();
 
     const {
         data: messageData,
@@ -69,27 +70,20 @@ function MessageList() {
     const messageMenuAction = (action: messageTypes.MessageMenuActions, message: messageTypes.MessageProxy) => {
         switch (action) {
             case 'reply':
-                replyMessage.set(message);
-                break;
+                return replyMessage.set(message);
             case 'edit':
-                editMessage.set(message);
-                break;
+                return editMessage.set(message);
             case 'fixed':
-                notification.inDev();
-                break;
+                return notification.inDev();
             case 'copy':
                 copyToClipboard(message.text);
-                notification.success({ title: 'Текст скопирован в буфер', system: true });
-                break;
+                return notification.success({ title: 'Текст скопирован в буфер', system: true });
             case 'forward':
-                notification.inDev();
-                break;
+                return notification.inDev();
             case 'delete':
-                confirmModal.open({ messageId: message.id });
-                break;
+                return confirmModal.open({ messageId: message.id });
             case 'highlight':
-                notification.inDev();
-                break;
+                return highlightedMessages.pushOrDelete(message);
         }
     };
 

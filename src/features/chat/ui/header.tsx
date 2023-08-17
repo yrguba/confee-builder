@@ -4,6 +4,7 @@ import { appService } from 'entities/app';
 import { callsTypes } from 'entities/calls';
 import { ChatHeaderView, chatApi, chatTypes } from 'entities/chat';
 import ChatProxy from 'entities/chat/lib/proxy';
+import { useMessageStore } from 'entities/message';
 import { useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 import { TabBarTypes, Notification, Modal } from 'shared/ui';
@@ -12,6 +13,8 @@ function ChatHeader() {
     const { params, navigate } = useRouter();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
+
+    const highlightedMessages = useMessageStore.use.highlightedMessages();
 
     const notification = Notification.use();
 
@@ -36,7 +39,15 @@ function ChatHeader() {
         // { id: 3, icon: 'more', callback: () => 'more' },
     ];
 
-    return <ChatHeaderView back={() => navigate('/chats')} chat={ChatProxy(chatData)} tabs={tabs} clickCard={chatSettingsModal.open} />;
+    return (
+        <ChatHeaderView
+            back={() => navigate('/chats')}
+            chat={ChatProxy(chatData)}
+            tabs={tabs}
+            clickCard={chatSettingsModal.open}
+            highlightedMessages={highlightedMessages}
+        />
+    );
 }
 
 export default ChatHeader;

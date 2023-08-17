@@ -33,7 +33,7 @@ import useScroll from './useScroll';
 import useSip from './useSip';
 import useSize from './useSize';
 import useStorage from './useStorage';
-import useStore from './useStore';
+import useStore, * as UseStore from './useStore';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
 import useToggle from './useToggle';
@@ -89,4 +89,4 @@ export {
     useWebSocket,
 };
 
-export type { UseEasyStateReturnedType, UseFileUploaderTypes, UseArrayReturnedType };
+export type { UseEasyStateReturnedType, UseFileUploaderTypes, UseArrayReturnedType, UseStore };

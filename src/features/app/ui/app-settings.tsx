@@ -51,7 +51,7 @@ function AppSettings() {
             cacheValue.set('Выключить кэширование');
             return cacheText.set(`Кэш пуст:`);
         }
-        cacheText.set(`Кэшырование отключенно:`);
+        cacheText.set(`Кэширование отключенно:`);
         return cacheValue.set('Включить');
     }, [cacheSize.value, r.value]);
 

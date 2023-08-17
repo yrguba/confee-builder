@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UseEasyStateReturnedType } from 'shared/hooks';
+import { UseEasyStateReturnedType, UseStore } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer } from 'shared/ui';
 
@@ -14,8 +14,8 @@ type Props = {
     messageTextState: UseEasyStateReturnedType<string>;
     sendMessage: () => void;
     clickUploadFiles: () => void;
-    replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
-    editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
+    replyMessage: UseStore.SelectorWithObj<MessageProxy | null>;
+    editMessage: UseStore.SelectorWithObj<MessageProxy | null>;
     getVoiceEvents: (e: VoiceEvents) => void;
     showVoice: boolean;
     deleteVoice: () => void;

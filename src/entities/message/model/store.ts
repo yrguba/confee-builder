@@ -2,26 +2,27 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useStore, useCreateSelectors } from 'shared/hooks';
-import { BaseTypes } from 'shared/types';
+import { useStore, UseStore } from 'shared/hooks';
 
 import { MessageProxy } from './types';
 
 type Store = {
-    replyMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
-    editMessage: BaseTypes.StoreSelectorType<MessageProxy | null>;
+    replyMessage: UseStore.SelectorWithObj<MessageProxy | null>;
+    editMessage: UseStore.SelectorWithObj<MessageProxy | null>;
+    highlightedMessages: UseStore.SelectorWithOArr<MessageProxy>;
 };
 
-const { createSelectors, generateState } = useStore<Store>();
+const { createSelectors, generateSelectorWithObj, generateSelectorWithArr } = useStore<Store>();
 
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
-            ...generateState(['replyMessage', 'editMessage'], set),
+            ...generateSelectorWithObj(['replyMessage', 'editMessage'], set),
+            ...generateSelectorWithArr(['highlightedMessages'], set),
         }))
     )
 );
 
-const useMessageStore = useCreateSelectors(messageStore);
+const useMessageStore = createSelectors(messageStore);
 
 export default useMessageStore;
