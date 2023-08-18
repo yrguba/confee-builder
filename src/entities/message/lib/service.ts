@@ -9,8 +9,13 @@ class MessageService {
     getUpdatedList(messageData: any) {
         const { getUniqueArr } = useArray({});
         const uniq = getUniqueArr(messageData?.pages?.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []) || [], 'id');
-        const firstUnreadMessage = uniq.find((i) => !i.is_read);
-        return uniq.map((message: any, index: number) => messageProxy((uniq[index - 1] as Message) || null, message, uniq[index + 1] as Message) || null) || [];
+        return uniq.map((message: any, index: number) =>
+            messageProxy({
+                prevMessage: (uniq[index - 1] as Message) || null,
+                message,
+                nextMessage: (uniq[index + 1] as Message) || null,
+            })
+        );
     }
 
     getInitialPage(chat: Chat | undefined) {

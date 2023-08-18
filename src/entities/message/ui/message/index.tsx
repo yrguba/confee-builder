@@ -15,6 +15,7 @@ import VoiceMessage from './variants/voice';
 import { useStyles } from '../../../../shared/hooks';
 import item from '../../../../shared/ui/emoji/ui/item';
 import { appTypes } from '../../../app';
+import messageProxy from '../../lib/proxy';
 import { MessageProxy, MessageMenuActions } from '../../model/types';
 
 type Props = {
@@ -53,7 +54,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                     <div className={classes}>
                         <div className={styles.body}>
                             {reply_to_message?.id && <ReplyMessage message={reply_to_message} />}
-                            {forwarded_from_message?.id && <ForwardMessage message={forwarded_from_message} />}
+                            {forwarded_from_message?.id && <ForwardMessage message={messageProxy({ message: forwarded_from_message })} />}
                             {type === 'text' && <TextMessage text={text} clickTag={clickTag} />}
                             {type === 'images' && <ImagesMessage clickImage={clickImage} images={files} />}
                             {type === 'documents' && <DocumentsMessage documents={files} />}

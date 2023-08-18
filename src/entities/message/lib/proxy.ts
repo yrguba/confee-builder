@@ -5,10 +5,10 @@ import momentLocalZone from '../../../shared/lib/moment-local-zone';
 import { viewerService } from '../../viewer';
 import { Message, MessageProxy } from '../model/types';
 
-function messageProxy(prevMessage: Message | null, message: Message, nextMessage: Message): any {
+function messageProxy(data: { prevMessage?: Message | null; message: Message; nextMessage?: Message | null }): any {
     const viewerId = viewerService.getId();
 
-    return new Proxy(message, {
+    return new Proxy(data.message, {
         get(target: MessageProxy, prop: keyof MessageProxy, receiver): MessageProxy[keyof MessageProxy] {
             switch (prop) {
                 case 'isMy':
@@ -16,19 +16,23 @@ function messageProxy(prevMessage: Message | null, message: Message, nextMessage
                     return target?.author?.id === viewerId && target.type !== 'system';
 
                 case 'lastMessageInBlock':
-                    if (nextMessage?.isMock) return false;
-                    if (!nextMessage) return true;
+                    if (data.nextMessage?.isMock) return false;
+                    if (!data.nextMessage) return true;
                     if (target.isMock) return false;
-                    return target?.author?.id !== nextMessage?.author?.id;
+                    return target?.author?.id !== data.nextMessage?.author?.id;
 
                 case 'authorName':
-                    return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;
+                    return target?.author
+                        ? target?.author?.id === viewerId
+                            ? 'Вы'
+                            : target?.author?.first_name || target?.author?.last_name || target?.author?.nickname
+                        : 'Неизвестный';
 
                 case 'date':
                     return dateConverter(target.created_at, true);
 
                 case 'isFirstUnread':
-                    return prevMessage?.is_read && !message.is_read;
+                    return data.prevMessage?.is_read && !target.is_read;
 
                 case 'systemMessages':
                     const arr = [];
@@ -39,19 +43,19 @@ function messageProxy(prevMessage: Message | null, message: Message, nextMessage
 
                 case 'firstOfDay':
                     if (
-                        !prevMessage ||
-                        momentLocalZone(prevMessage?.created_at).startOf('day').unix() < momentLocalZone(message?.created_at).startOf('day').unix()
+                        !data.prevMessage ||
+                        momentLocalZone(data.prevMessage?.created_at).startOf('day').unix() < momentLocalZone(target?.created_at).startOf('day').unix()
                     ) {
                         const dateNow = momentLocalZone().unix();
-                        const dateMessage = momentLocalZone(message?.created_at).unix();
+                        const dateMessage = momentLocalZone(target?.created_at).unix();
                         if (dateNow - dateMessage > 86400) {
-                            return moment(message?.created_at)
+                            return moment(target?.created_at)
                                 .format('LL')
                                 .split(' ')
                                 .splice(0, momentLocalZone().startOf('year').unix() > dateMessage ? 4 : 2)
                                 .join(' ');
                         }
-                        return momentLocalZone(message?.created_at).calendar().split(',')[0];
+                        return momentLocalZone(target?.created_at).calendar().split(',')[0];
                     }
                     return '';
                 default:
