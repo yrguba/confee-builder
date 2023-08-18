@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { MouseEvent, useEffect, useRef } from 'react';
 
 import { useEasyState, useStyles, useTimeoutFn } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -29,9 +29,11 @@ function VoiceButton(props: Props) {
     const readyState = isReady();
     const startRecording = event.value === 'start';
 
-    const onMouseDown = () => {
-        once.current = false;
-        reset();
+    const onMouseDown = (e: MouseEvent) => {
+        if (e.button === 0) {
+            once.current = false;
+            reset();
+        }
     };
 
     const onMouseUpMicrophone = (e: any) => {
