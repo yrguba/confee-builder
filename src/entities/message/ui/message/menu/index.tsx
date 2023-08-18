@@ -38,7 +38,8 @@ function MessageMenu(props: Props) {
 
     useEffect(() => {
         if (!message.isMy) deleteByIds([1, 5]);
-        if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 || message.type !== 'text') deleteById(1);
+        if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400) deleteById(1);
+        if (message.type !== 'text') deleteById(3);
     }, []);
 
     const reactionClick = (emoji: string) => {

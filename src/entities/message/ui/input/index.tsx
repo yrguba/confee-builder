@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { UseEasyStateReturnedType, UseStore } from 'shared/hooks';
 import { getEnding } from 'shared/lib';

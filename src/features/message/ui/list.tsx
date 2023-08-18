@@ -93,11 +93,12 @@ function MessageList() {
     };
 
     const clickReaction = (emoji: string, messageId: number) => {
-        handleSendReaction({
-            chatId,
-            messageId,
-            reaction: reactionConverter(emoji, 'html'),
-        });
+        notification.inDev();
+        // handleSendReaction({
+        //     chatId,
+        //     messageId,
+        //     reaction: reactionConverter(emoji, 'html'),
+        // });
     };
 
     const clickImage = (data: appTypes.ImagesSwiperProps) => {

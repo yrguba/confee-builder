@@ -6,8 +6,6 @@ import { messageApi, MessageInputView, useMessageStore } from 'entities/message'
 import { MessageType, VoiceEvents } from 'entities/message/model/types';
 import { useEasyState, useFileUploader, useAudioRecorder } from 'shared/hooks';
 
-import { useLifecycles } from '../../../shared/hooks';
-
 function MessageInput() {
     const params = useParams();
     const chatId = Number(params.chat_id);
@@ -118,7 +116,7 @@ function MessageInput() {
             case 'stop':
                 return voiceRecord.saveRecording('stop');
             case 'cancel':
-                voiceRecord.cancelRecording();
+                deleteVoice();
         }
     };
 
@@ -143,7 +141,7 @@ function MessageInput() {
     }, [chatId]);
 
     useEffect(() => {
-        editMessage.value && messageTextState.set(editMessage.value.text);
+        messageTextState.set(editMessage.value.text || '');
     }, [editMessage.value.id]);
 
     return (
