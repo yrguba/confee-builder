@@ -7,6 +7,7 @@ import { Avatar, Box, Dropdown, Icons, Title } from 'shared/ui';
 import MessageMenu from './menu';
 import styles from './styles.module.scss';
 import DocumentsMessage from './variants/documents';
+import ForwardMessage from './variants/forward';
 import ImagesMessage from './variants/images';
 import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
@@ -29,7 +30,7 @@ type Props = {
 const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
     const { message, messageMenuAction, chat, sendReaction, clickImage, clickTag, voiceRecordingInProgress } = props;
 
-    const { text, files, type, reply_to_message, lastMessageInBlock, isMy, isMock, author } = message;
+    const { text, files, type, reply_to_message, lastMessageInBlock, isMy, isMock, author, forwarded_from_message } = message;
 
     const classes = useStyles(styles, 'bubble', {
         isMy,
@@ -52,6 +53,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                     <div className={classes}>
                         <div className={styles.body}>
                             {reply_to_message?.id && <ReplyMessage message={reply_to_message} />}
+                            {forwarded_from_message?.id && <ForwardMessage message={forwarded_from_message} />}
                             {type === 'text' && <TextMessage text={text} clickTag={clickTag} />}
                             {type === 'images' && <ImagesMessage clickImage={clickImage} images={files} />}
                             {type === 'documents' && <DocumentsMessage documents={files} />}

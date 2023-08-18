@@ -32,7 +32,7 @@ export type Message = {
     chat_id?: number;
     created_at: Date;
     files: File[];
-    forwarded_from_messages: Message[] | [];
+    forwarded_from_message: Message | null;
     id: number;
     is_edited: boolean;
     is_read: boolean;

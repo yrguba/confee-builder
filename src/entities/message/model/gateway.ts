@@ -24,7 +24,11 @@ function messageGateway() {
                     socketData.data.message.is_read = true;
                 }
                 return produce(cacheData, (draft: any) => {
-                    if (socketData.data.message.author.id === viewerId && socketData.data.message.type !== 'system') {
+                    if (
+                        socketData.data.message.author.id === viewerId &&
+                        socketData.data.message.type !== 'system' &&
+                        !socketData.data.message.forwarded_from_message
+                    ) {
                         const foundMockIndex = findLastIndex(draft.pages[0].data.data, (i: MessageProxy) => i.isMock);
                         if (foundMockIndex === -1) return;
                         const { files } = draft.pages[0].data.data[foundMockIndex];

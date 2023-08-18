@@ -1,10 +1,9 @@
 import React from 'react';
 
+import { chatApi, chatProxy } from 'entities/chat';
 import { ForwardMessagesModalView, messageTypes, useMessageStore } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 import { Modal } from 'shared/ui';
-
-import { chatApi, chatProxy } from '../../../../entities/chat';
 
 function ForwardMessagesModal() {
     const { navigate } = useRouter();
@@ -16,7 +15,7 @@ function ForwardMessagesModal() {
 
     const clickChat = (chatId: number) => {
         forwardMessagesModal.close();
-        forwardMessages.set({ ...forwardMessages.value, redirect: true });
+        forwardMessages.set({ ...forwardMessages.value, toChatId: chatId, redirect: true });
         navigate(`/chats/chat/${chatId}`);
     };
 

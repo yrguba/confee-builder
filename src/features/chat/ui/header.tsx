@@ -45,8 +45,9 @@ function ChatHeader() {
             highlightedMessages.clear();
         }
     };
+
     const clickForwardMessages = async () => {
-        forwardMessages.set({ fromChatName: chatData?.name || '', messages: highlightedMessages.value, redirect: false });
+        forwardMessages.set({ fromChatName: chatData?.name || '', toChatId: null, messages: highlightedMessages.value, redirect: false });
         forwardMessagesModal.open();
     };
 

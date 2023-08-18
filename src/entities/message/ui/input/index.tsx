@@ -17,7 +17,7 @@ type Props = {
     clickUploadFiles: () => void;
     replyMessage: UseStore.SelectorWithObj<MessageProxy>;
     editMessage: UseStore.SelectorWithObj<MessageProxy>;
-    forwardMessages: UseStore.SelectorWithObj<{ fromChatName: string; messages: MessageProxy[]; redirect: boolean }>;
+    forwardMessages: UseStore.SelectorWithObj<{ fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean }>;
     highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
     getVoiceEvents: (e: VoiceEvents) => void;
     showVoice: boolean;

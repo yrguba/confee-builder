@@ -95,18 +95,19 @@ class MessageApi {
         );
     }
 
-    handleEditTextMessage() {
+    handleForwardMessages() {
         const queryClient = useQueryClient();
+        const viewerData: any = queryClient.getQueryData(['get-viewer']);
+        return useMutation((data: { messages: number[]; chatId: number }) =>
+            axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages/forward`, { forward_from_message_ids: data.messages })
+        );
+    }
+
+    handleEditTextMessage() {
         return useMutation(
             (data: { chatId: number; messageId: number; text: string }) =>
                 axiosClient.post(`${this.pathPrefix}/message/${data.chatId}/${data.messageId}`, { text: data.text }),
             {}
-        );
-    }
-
-    handleForwardMessages() {
-        return useMutation((data: { forward_from_message_ids: number[]; chatId: number }) =>
-            axiosClient.post(`${this.pathPrefix}/${data.chatId}/message/forward`, { forward_from_message_ids: data.forward_from_message_ids })
         );
     }
 

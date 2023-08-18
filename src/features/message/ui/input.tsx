@@ -67,8 +67,10 @@ function MessageInput() {
         if (forwardMessages.value.fromChatName) {
             handleForwardMessages({
                 chatId,
-                forward_from_message_ids: forwardMessages.value.messages.map((i) => i.id),
+                messages: forwardMessages.value.messages.map((i) => i.id),
             });
+            forwardMessages.clear();
+            highlightedMessages.clear();
         }
         if (voiceRecord.recorderState.formData) {
             handleSendFileMessage({
@@ -117,19 +119,6 @@ function MessageInput() {
                 voiceRecord.cancelRecording();
         }
     };
-
-    useLifecycles(
-        () => console.log('on'),
-        () => {
-            console.log('on');
-            replyMessage.clear();
-            editMessage.clear();
-            forwardMessages.clear();
-            highlightedMessages.clear();
-            messageTextState.set('');
-            deleteVoice();
-        }
-    );
 
     useEffect(() => {
         if (voiceEvent.value === 'send') {

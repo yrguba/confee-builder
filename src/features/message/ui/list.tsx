@@ -82,7 +82,7 @@ function MessageList() {
                 copyToClipboard(message.text);
                 return notification.success({ title: 'Текст скопирован в буфер', system: true });
             case 'forward':
-                forwardMessages.set({ fromChatName: chatData?.name || '', messages: [message], redirect: false });
+                forwardMessages.set({ fromChatName: chatData?.name || '', toChatId: null, messages: [message], redirect: false });
                 return forwardMessagesModal.open();
             case 'delete':
                 return confirmModal.open({ messageId: message.id });
@@ -109,12 +109,15 @@ function MessageList() {
     };
 
     useLifecycles(
-        () => '',
+        () => {
+            if (forwardMessages.value.toChatId !== chatId) {
+                forwardMessages.clear();
+                highlightedMessages.clear();
+            }
+        },
         () => {
             replyMessage.clear();
             editMessage.clear();
-            forwardMessages.clear();
-            highlightedMessages.clear();
         }
     );
 

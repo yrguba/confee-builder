@@ -22,7 +22,7 @@ function mockMessage(data: Props): Message {
         created_at: new Date(),
         type: data.type || 'text',
         users_have_read: [],
-        forwarded_from_messages: [],
+        forwarded_from_message: null,
         reactions: {},
         reply_to_message: data.reply || null,
         isMock: true,
