@@ -75,8 +75,8 @@ function MessageList() {
             case 'reply':
                 return replyMessage.set(message);
             case 'edit':
-                return notification.inDev();
-            // return editMessage.set(message);
+                if (message.type !== 'text') return notification.info({ title: 'Пока недоступно для изменения', system: true });
+                return editMessage.set(message);
             case 'fixed':
                 return notification.inDev();
             case 'copy':

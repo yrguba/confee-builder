@@ -39,6 +39,9 @@
         align-self: flex-end;
         gap: 4px;
 
+        .edited{
+          width: 70px;
+        }
         .icon {
           width: 24px;
           max-height: 24px;

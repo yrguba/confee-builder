@@ -61,6 +61,11 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                             {type === 'voices' && <VoiceMessage voices={message.files} />}
                         </div>
                         <div className={styles.info}>
+                            {message.is_edited && (
+                                <div className={styles.edited}>
+                                    <Title variant="Body14">Изменено</Title>
+                                </div>
+                            )}
                             <Title primary={false} variant="H4M">
                                 {message.date}
                             </Title>

@@ -104,10 +104,28 @@ class MessageApi {
     }
 
     handleEditTextMessage() {
+        const queryClient = useQueryClient();
         return useMutation(
             (data: { chatId: number; messageId: number; text: string }) =>
-                axiosClient.post(`${this.pathPrefix}/message/${data.chatId}/${data.messageId}`, { text: data.text }),
-            {}
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages/${data.messageId}`, { text: data.text }),
+            {
+                onMutate: async (data) => {
+                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                        return produce(cacheData, (draft: any) => {
+                            if (draft?.pages?.length) {
+                                draft?.pages.forEach((page: any) => {
+                                    if (page?.data?.data.length) {
+                                        page.data.data = page.data?.data.map((msg: MessageProxy) => {
+                                            if (msg.id === data.messageId) return { ...msg, text: data.text, is_edited: true };
+                                            return msg;
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                },
+            }
         );
     }
 
