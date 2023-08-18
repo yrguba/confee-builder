@@ -75,7 +75,8 @@ function MessageList() {
             case 'reply':
                 return replyMessage.set(message);
             case 'edit':
-                return editMessage.set(message);
+                return notification.inDev();
+            // return editMessage.set(message);
             case 'fixed':
                 return notification.inDev();
             case 'copy':
@@ -110,12 +111,12 @@ function MessageList() {
 
     useLifecycles(
         () => {
-            if (forwardMessages.value.toChatId !== chatId) {
+            if (forwardMessages.value.toChatId && forwardMessages.value.toChatId !== chatId) {
                 forwardMessages.clear();
-                highlightedMessages.clear();
             }
         },
         () => {
+            highlightedMessages.clear();
             replyMessage.clear();
             editMessage.clear();
         }

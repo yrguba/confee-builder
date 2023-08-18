@@ -48,6 +48,7 @@ function ChatHeader() {
 
     const clickForwardMessages = async () => {
         forwardMessages.set({ fromChatName: chatData?.name || '', toChatId: null, messages: highlightedMessages.value, redirect: false });
+        highlightedMessages.clear();
         forwardMessagesModal.open();
     };
 

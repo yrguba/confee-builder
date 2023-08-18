@@ -101,7 +101,10 @@ function MessagesListView(props: Props) {
                             onClick={() => rowClick(message)}
                             onMouseEnter={() => hoverMessage(message)}
                             className={`${styles.row} ${highlightedMessages.value.find((i) => i.id === message.id) ? styles.row_active : ''}`}
-                            style={{ justifyContent: message.isMy ? 'flex-end' : 'flex-start' }}
+                            style={{
+                                justifyContent: message.isMy ? 'flex-end' : 'flex-start',
+                                cursor: highlightedMessages.value.length ? 'pointer' : 'default',
+                            }}
                             ref={getMessageRefs(message, index)}
                         >
                             {index === 5 && <div ref={nextPageRef} />}

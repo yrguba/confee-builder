@@ -93,7 +93,7 @@ function MessageInputView(props: Props) {
     };
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} style={{ pointerEvents: highlightedMessages.value.length ? 'none' : 'auto' }}>
             <Box.Animated
                 visible={!!replyMessage.value.id || !!editMessage.value.id || forwardMessages?.value?.redirect}
                 className={styles.header}

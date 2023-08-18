@@ -65,10 +65,12 @@ function MessageInput() {
 
     const sendMessage = () => {
         if (forwardMessages.value.fromChatName) {
-            handleForwardMessages({
-                chatId,
-                messages: forwardMessages.value.messages.map((i) => i.id),
-            });
+            setTimeout(() => {
+                handleForwardMessages({
+                    chatId,
+                    messages: forwardMessages.value.messages.map((i) => i.id),
+                });
+            }, 1000);
             forwardMessages.clear();
             highlightedMessages.clear();
         }
