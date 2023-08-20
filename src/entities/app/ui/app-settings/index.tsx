@@ -9,10 +9,11 @@ import styles from './styles.module.scss';
 type Props = {
     items: { id: number; title: string; value: string; onClick?: () => void }[];
     logout: () => void;
+    deleteAccount: () => void;
 };
 
 function AppSettingsView(props: Props) {
-    const { items, logout } = props;
+    const { items, logout, deleteAccount } = props;
     const [theme, setTheme] = useTheme();
 
     const themes = [
@@ -41,6 +42,9 @@ function AppSettingsView(props: Props) {
             </div>
             <Button onClick={logout} width="100px">
                 logout
+            </Button>
+            <Button onClick={deleteAccount} width="100px">
+                deleteAccount
             </Button>
         </div>
     );

@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 
 import { AppSettingsView, appTypes } from 'entities/app';
+import { tokensService, viewerApi } from 'entities/viewer';
 import { useToggle, useTheme, useStorage, useFs, useEasyState } from 'shared/hooks';
-
-import { tokensService, viewerApi } from '../../../entities/viewer';
 
 function AppSettings() {
     const storage = useStorage<appTypes.ValuesInStorage>();
 
     const fs = useFs();
+
     const { mutate: handleLogout } = viewerApi.handleLogout();
+    const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
+
     const not_scope = storage.get('notification_scope');
     const [appScope, toggleAppScope] = useToggle(!!not_scope?.app);
     const [deskScope, toggleDeskScope] = useToggle(!!not_scope?.desk);
@@ -61,6 +63,15 @@ function AppSettings() {
         window.location.reload();
     };
 
+    const deleteAccount = () => {
+        handleDeleteAccount(null, {
+            onSuccess: () => {
+                tokensService.remove();
+                window.location.reload();
+            },
+        });
+    };
+
     const items = [
         { id: 1, title: 'Уведомления внутри приложения:', value: appScope ? 'Включено' : 'Выключено', onClick: toggleAppScope },
         { id: 2, title: 'Уведомления на рабочем столе:', value: deskScope ? 'Включено' : 'Выключено', onClick: toggleDeskScope },
@@ -68,7 +79,7 @@ function AppSettings() {
         { id: 4, title: 'Тема:', value: theme },
     ];
 
-    return <AppSettingsView items={items} logout={logout} />;
+    return <AppSettingsView items={items} logout={logout} deleteAccount={deleteAccount} />;
 }
 
 export default AppSettings;

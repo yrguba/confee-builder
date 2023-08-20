@@ -9,8 +9,13 @@ function useYup(errorText?: string) {
         .min(5, 'Слишком короткий nickname')
         .max(20, 'Слишком длинный nickname');
 
-    const checkName = yup.string().matches(/^[a-zA-Zа-яА-Я]*$/, 'В этом поле не может быть цифр');
-    const checkEmail = yup.string().email('неверный формат');
+    const checkName = yup.string().matches(/^[a-zA-Zа-яА-Я]*$/, 'Не верный формат');
+    const checkEmail = yup
+        .string()
+        .matches(
+            /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
+            'неверный формат'
+        );
     const checkBirthDate = yup.string().matches(/^[0-9]{2}.[0-9]{2}.[0-9]{4}$/, 'неверный формат');
 
     const checkPhone = yup

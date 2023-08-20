@@ -23,6 +23,7 @@ function InitialFillingProfileStep1() {
 
     const onsubmit = async () => {
         const { error } = await nicknameInput.asyncValidate();
+        if (error) return;
         const { exists } = await handleCheckNickname({ nickname: nicknameInput.value });
         if (exists && viewerData?.nickname !== nicknameInput.value) {
             return nicknameInput.setError('Такой никнейм уже занят');

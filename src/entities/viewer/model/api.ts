@@ -67,6 +67,10 @@ class ViewerApi {
     handleLogout() {
         return useMutation((data?: null) => axiosClient.post('/api/v2/logout'));
     }
+
+    handleDeleteAccount() {
+        return useMutation((data?: null) => axiosClient.delete('/api/v2/user'));
+    }
 }
 
 export default new ViewerApi();
