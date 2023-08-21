@@ -1,23 +1,28 @@
 import React from 'react';
 
-import { chatApi, chatProxy, CreateChatModalView, chatTypes } from 'entities/chat';
-import { viewerApi, viewerTypes } from 'entities/viewer';
+import { chatApi, CreateChatModalView, chatTypes } from 'entities/chat';
+import { viewerApi, contactProxy, viewerTypes } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
-import { Modal } from 'shared/ui';
+import { generateItems } from 'shared/lib';
+import { Modal, Notification } from 'shared/ui';
 
 function CreteChatModal() {
     const { navigate } = useRouter();
 
     const createChatModal = Modal.use<chatTypes.Modals>('createChat');
+    const notifications = Notification.use();
 
     const isGroup = useEasyState(false);
-    const selectedUsers = useArray<viewerTypes.Contact>({});
+    const selectedContacts = useArray<viewerTypes.ContactProxy>({ multiple: isGroup.value });
     const { mutate: handleCreateChat, isLoading } = chatApi.handleCreateChat();
     const { data: contactsData } = viewerApi.handleGetContacts();
 
     const createChat = () => {
+        if (!selectedContacts.array.length) {
+            return notifications.error({ title: isGroup.value ? `Выберите участников` : `Выберите кому хотите написать` });
+        }
         handleCreateChat(
-            { user_ids: selectedUsers.array.map((i) => i.user_id), is_group: isGroup.value },
+            { user_ids: selectedContacts.array.map((i) => i.user_id), is_group: isGroup.value },
             {
                 onSuccess: (data) => {
                     createChatModal.close();
@@ -27,9 +32,19 @@ function CreteChatModal() {
         );
     };
 
+    const onClose = () => {
+        selectedContacts.clear();
+    };
+
     return (
-        <Modal {...createChatModal}>
-            <CreateChatModalView isGroup={isGroup} contacts={contactsData} selectedUsers={selectedUsers} createChat={createChat} loading={isLoading} />
+        <Modal {...createChatModal} onClose={onClose}>
+            <CreateChatModalView
+                isGroup={isGroup}
+                contacts={contactsData?.map((i) => contactProxy(i))}
+                selectedContacts={selectedContacts}
+                createChat={createChat}
+                loading={isLoading}
+            />
         </Modal>
     );
 }

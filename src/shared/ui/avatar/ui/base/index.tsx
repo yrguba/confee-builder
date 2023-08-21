@@ -49,7 +49,7 @@ function Avatar(props: BaseAvatarProps) {
 
     const getPreview = () => {
         if (name) {
-            const splitName = name.split(' ');
+            const splitName = name.split(' ').filter((i) => !!i);
             if (splitName.length > 1) return `${splitName[0][0]}${splitName[1][0]}`;
             return name[0];
         }

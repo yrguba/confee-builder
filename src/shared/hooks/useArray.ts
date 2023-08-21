@@ -4,11 +4,13 @@ import { useEasyState } from './index';
 
 type Options<T> = {
     initialArr?: T[];
+    multiple?: boolean;
 };
 
-function useArray<T extends { id: number | string; [key: string]: any }>(
-    options: Options<T>
-): {
+function useArray<T extends { id: number | string; [key: string]: any }>({
+    initialArr,
+    multiple = true,
+}: Options<T>): {
     array: T[];
     getUniqueArr: (arr: T[], check: keyof T) => T[];
     push: (item: T) => void;
@@ -21,7 +23,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>(
     replace: (arr: T[]) => void;
     getIds: () => number[] | string[];
 } {
-    const array = useEasyState<T[]>(options.initialArr || []);
+    const array = useEasyState<T[]>(initialArr || []);
 
     function getUniqueArr<T>(arr: T[], check: keyof T): T[] {
         const flags = new Set();
@@ -39,6 +41,9 @@ function useArray<T extends { id: number | string; [key: string]: any }>(
     };
 
     const push = (item: T) => {
+        if (!multiple) {
+            array.set([]);
+        }
         array.set((prev) => {
             prev.push(item);
         });
@@ -49,6 +54,9 @@ function useArray<T extends { id: number | string; [key: string]: any }>(
     };
 
     const unshift = (item: T) => {
+        if (!multiple) {
+            array.set([]);
+        }
         array.set((prev) => {
             prev.unshift(item);
         });
@@ -70,9 +78,10 @@ function useArray<T extends { id: number | string; [key: string]: any }>(
         array.set((prev) => prev.filter((i) => !ids.includes(i.id)));
     };
 
-    const pushOrDelete = (obj: T) => {
-        const found = array.value.find((el) => el.id === obj.id);
-        if (!found) array.set((prev) => [...prev, obj]);
+    const pushOrDelete = (item: T) => {
+        const found = array.value.find((el) => el.id === item.id);
+        if (!multiple) array.set([]);
+        if (!found) array.set((prev) => [...prev, item]);
         else array.set((prev) => prev.filter((i) => i.id !== found.id));
     };
 

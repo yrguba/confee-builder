@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
 
-import { viewerTypes } from 'entities/viewer';
+import { ContactsListView, viewerTypes } from 'entities/viewer';
 import { UseEasyStateReturnedType, UseArrayReturnedType } from 'shared/hooks';
-import { generateItems } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Button, Card, Icons, Input, Title, Box, TabBar } from 'shared/ui';
+import { Button, Icons, Input, Title, TabBar } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
-    selectedUsers: UseArrayReturnedType<viewerTypes.Contact>;
+    selectedContacts: UseArrayReturnedType<viewerTypes.ContactProxy>;
     isGroup: UseEasyStateReturnedType<boolean>;
-    createChat: (isGroup: boolean) => void;
-    contacts: viewerTypes.Contact[] | BaseTypes.Empty;
+    createChat: () => void;
+    contacts: viewerTypes.ContactProxy[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function CreateChatModalView(props: Props) {
-    const { selectedUsers, isGroup, createChat, contacts, loading } = props;
+    const { selectedContacts, isGroup, createChat, contacts, loading } = props;
     const [activeTab, setActiveTab] = useState(0);
+    const btns = [{ id: 0, title: 'Все', callback: () => setActiveTab(0) }];
 
-    const b = [{ id: 0, title: 'Все', callback: () => setActiveTab(0) }];
-    const btns: any = generateItems(b, 20);
+    const toggle = () => {
+        isGroup.toggle();
+        selectedContacts.clear();
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -34,33 +36,24 @@ function CreateChatModalView(props: Props) {
                 <div className={styles.border} />
                 <div className={styles.switch}>
                     <Button
-                        onClick={isGroup.toggle}
+                        onClick={toggle}
                         width="auto"
                         variant="inherit"
                         active
                         animateTrigger={`${isGroup.value}`}
                         prefixIcon={<Icons variant={isGroup.value ? 'contacts' : 'group'} />}
                     >
-                        {isGroup.value ? 'Создать группу' : '  Создать личный чат'}
+                        {!isGroup.value ? 'Создать группу' : 'Написать личное сообщение'}
                     </Button>
                 </div>
             </div>
             <TabBar bodyStyle={{ padding: '0 22px' }} items={btns} activeItemId={activeTab} />
-            <div className={styles.body}>
-                <div className={styles.list}>
-                    {contacts?.map((contact) => (
-                        <Card key={contact.id} title={contact.first_name || ''} subtitle={contact.phone || ''} />
-                    ))}
-                </div>
+            <div className={styles.list}>
+                <ContactsListView selectedContacts={selectedContacts} contacts={contacts} />
             </div>
             <div className={styles.footer}>
-                <Button
-                    animateTrigger={`${isGroup.value}`}
-                    prefixIcon={<Icons variant="new-message" />}
-                    variant="secondary"
-                    onClick={() => createChat(isGroup.value)}
-                >
-                    {!isGroup.value ? 'Создать группу' : '  Написать'}
+                <Button animateTrigger={`${isGroup.value}`} prefixIcon={<Icons variant="new-message" />} variant="secondary" onClick={createChat}>
+                    {isGroup.value ? 'Создать группу' : '  Написать'}
                 </Button>
             </div>
         </div>

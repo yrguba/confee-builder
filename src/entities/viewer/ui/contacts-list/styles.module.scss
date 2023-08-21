@@ -1,0 +1,30 @@
+@import "src/app/styles";
+
+.wrapper {
+  @include box-size(100%, 100%);
+  @include flex-column();
+
+  .item {
+    @include box-size(calc(100% - 12px), 60px);
+    @include flex();
+    cursor: pointer;
+    margin-right: 12px;
+
+    .info {
+      @include flex(flex-start);
+      flex: 1;
+    }
+
+    .selectIndicator {
+      @include box-size(24px, 24px);
+      border: 2px solid var(--text-action);
+      border-radius: 50%;
+
+      svg {
+        fill: var(--text-action);
+      }
+    }
+  }
+}
+
+
