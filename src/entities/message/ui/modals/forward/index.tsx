@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { ChatProxy } from 'entities/chat/model/types';
 import { BaseTypes } from 'shared/types';
-import { Button, Card, Input, Title } from 'shared/ui';
+import { Button, Card, Input, TabBar, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -16,7 +16,7 @@ function ForwardMessagesModalView(props: Props) {
     const { back, chats, clickChat } = props;
 
     const [activeTab, setActiveTab] = useState(0);
-    const btns = [{ id: 0, title: 'Все', onClick: () => setActiveTab(0) }];
+    const btns = [{ id: 0, title: 'Все', callback: () => setActiveTab(0) }];
 
     return (
         <div className={styles.wrapper}>
@@ -26,14 +26,8 @@ function ForwardMessagesModalView(props: Props) {
                     <Input width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
             </div>
+            <TabBar bodyStyle={{ padding: '0 22px' }} items={btns} activeItemId={activeTab} />
             <div className={styles.body}>
-                <div className={styles.nav}>
-                    {btns.map((btn) => (
-                        <Button key={btn.id} chips variant={btn.id === activeTab ? 'primary' : 'secondary'} onClick={btn.onClick}>
-                            {btn.title}
-                        </Button>
-                    ))}
-                </div>
                 <div className={styles.list}>
                     {chats?.map((chat) => (
                         <Card onClick={() => clickChat(chat.id)} key={chat?.id} title={chat.name || ''} subtitle={chat.subtitle || ''} />

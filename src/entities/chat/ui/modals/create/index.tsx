@@ -16,6 +16,7 @@ type Props = {
 
 function CreateChatModalView(props: Props) {
     const { selectedContacts, isGroup, createChat, contacts, loading } = props;
+
     const [activeTab, setActiveTab] = useState(0);
     const btns = [{ id: 0, title: 'Все', callback: () => setActiveTab(0) }];
 

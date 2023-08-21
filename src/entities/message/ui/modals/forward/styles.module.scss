@@ -1,22 +1,17 @@
-@import "../../../../../app/styles/index";
+@import "src/app/styles/index";
 
 .wrapper {
   @include box-size(416px, auto);
   @include flex-column(flex-start, flex-start);
-  max-height: 600px;
+  max-height: 90vh;
   gap: 16px;
 
-  @include height-to('sm') {
-    height: 100vh;
-  }
-
   .header {
-    width: calc(100% - 48px);
     @include flex-column();
-    padding: 0 24px;
+    width: calc(100% - 48px);
     gap: 4px;
+    margin: 24px 24px 0 24px;
     color: var(--text-primary);
-    margin-top: 24px;
 
     .search {
       width: 100%;
@@ -31,11 +26,6 @@
     margin-left: 24px;
     gap: 20px;
     overflow-y: auto;
-
-    .nav {
-      @include flex;
-      gap: 8px;
-    }
 
     .list {
       @include flex-column(flex-start, flex-start, 12);

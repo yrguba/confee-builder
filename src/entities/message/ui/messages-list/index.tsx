@@ -75,7 +75,11 @@ function MessagesListView(props: Props) {
 
     useEffect(() => {
         if (wrapperRef?.current && chat) {
-            scrollBottom({ ref: wrapperRef, enable: (initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef });
+            scrollBottom({
+                ref: wrapperRef,
+                enable: (initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef,
+                smooth: inViewLastMessageCheckVisibleRef,
+            });
             executeScrollToElement({ ref: firstUnreadMessageRef, enable: !!chat?.pending_messages_count && initOnce });
             if (prevChat?.id !== chat.id) setInitOnce(true);
             setTimeout(() => setInitOnce(false), 1000);

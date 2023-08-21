@@ -3,7 +3,6 @@ import React from 'react';
 import { appTypes } from 'entities/app';
 import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
-import { MessageProxy, Message } from 'entities/message/model/types';
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
