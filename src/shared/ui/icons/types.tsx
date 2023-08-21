@@ -49,7 +49,8 @@ export type BaseIconsVariants =
     | 'clock'
     | 'reply-black'
     | 'lock'
-    | 'forward-black';
+    | 'forward-black'
+    | 'group';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

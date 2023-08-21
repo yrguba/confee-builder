@@ -19,9 +19,9 @@ function CheckUpdateView(props: Props) {
                     <div key={i.id} className={styles.item}>
                         <div className={styles.item_title}>{i.title}</div>
                         <div className={styles.item_value}>
-                            <Button.Link onClick={i.onClick} active>
+                            <Button height="12px" variant="inherit" onClick={i?.onClick} active>
                                 {i.value}
-                            </Button.Link>
+                            </Button>
                         </div>
                     </div>
                 ))}

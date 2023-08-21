@@ -23,6 +23,7 @@
   }
 }
 
+
 .secondary {
   color: var(--text-action-pressed);
 
@@ -75,6 +76,20 @@
 .error {
   color: var(--red);
   border: 1px solid var(--red);
+}
+
+
+.inherit {
+  border: none;
+  background-color: inherit;
+  color: var(--text-primary);
+
+  &_active{
+    color: var(--text-action);
+  }
+
+  &:hover {
+  }
 }
 
 .size-s {

@@ -6,6 +6,26 @@ function BaseIcons(props: BaseIconsProps) {
     const { variant, size = 24 } = props;
 
     switch (variant) {
+        case 'group': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9" cy="7" r="4" stroke="#7B57C8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path
+                        d="M3 21V19C3 16.7909 4.79086 15 7 15H11C13.2091 15 15 16.7909 15 19V21"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                    <path
+                        d="M16 3.13086C17.7699 3.58403 19.0078 5.17885 19.0078 7.00586C19.0078 8.83287 17.7699 10.4277 16 10.8809"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                    <path d="M21 21.0004V19.0004C20.9896 17.185 19.7578 15.6042 18 15.1504" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            );
+        }
         case 'forward-black': {
             return (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

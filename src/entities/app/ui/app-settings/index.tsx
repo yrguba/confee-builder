@@ -30,9 +30,9 @@ function AppSettingsView(props: Props) {
                         <div className={styles.item_title}>{i.title}</div>
                         <div className={styles.item_value}>
                             {i.onClick ? (
-                                <Button.Link onClick={i?.onClick} active>
+                                <Button height="12px" variant="inherit" onClick={i?.onClick} active>
                                     {i.value}
-                                </Button.Link>
+                                </Button>
                             ) : (
                                 <Select defaultValue={i.value} items={themes} />
                             )}
