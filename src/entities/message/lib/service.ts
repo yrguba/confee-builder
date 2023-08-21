@@ -1,5 +1,6 @@
+import { getUniqueArr } from 'shared/lib';
+
 import { messages_limit } from './constants';
-import { useArray } from '../../../shared/hooks';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
 import { messageProxy } from '../index';
@@ -7,7 +8,7 @@ import { Message } from '../model/types';
 
 class MessageService {
     getUpdatedList(messageData: any) {
-        const { getUniqueArr } = useArray({});
+        console.log('render');
         const uniq = getUniqueArr(messageData?.pages?.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []) || [], 'id');
         return uniq.map((message: any, index: number) =>
             messageProxy({

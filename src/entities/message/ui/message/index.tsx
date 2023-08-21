@@ -13,7 +13,6 @@ import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
 import VoiceMessage from './variants/voice';
 import { useStyles } from '../../../../shared/hooks';
-import item from '../../../../shared/ui/emoji/ui/item';
 import { appTypes } from '../../../app';
 import messageProxy from '../../lib/proxy';
 import { MessageProxy, MessageMenuActions } from '../../model/types';

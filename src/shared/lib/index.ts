@@ -7,6 +7,7 @@ import generateItems from './generate-items';
 import getEnding from './get-ending';
 import getFormData from './get-form-data';
 import getRandomString from './get-random-string';
+import getUniqueArr from './get-unique-array';
 import * as httpHandlers from './http-handlers';
 import momentLocalZone from './moment-local-zone';
 import reactionConverter from './reaction-converter';
@@ -28,4 +29,5 @@ export {
     debounce,
     generateItems,
     momentLocalZone,
+    getUniqueArr,
 };

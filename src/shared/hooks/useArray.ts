@@ -12,7 +12,6 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
     multiple = true,
 }: Options<T>): {
     array: T[];
-    getUniqueArr: (arr: T[], check: keyof T) => T[];
     push: (item: T) => void;
     unshift: (item: T) => void;
     findById: (id: number) => T | null;
@@ -24,17 +23,6 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
     getIds: () => number[] | string[];
 } {
     const array = useEasyState<T[]>(initialArr || []);
-
-    function getUniqueArr<T>(arr: T[], check: keyof T): T[] {
-        const flags = new Set();
-        return arr.filter((entry) => {
-            if (flags.has(entry[check])) {
-                return false;
-            }
-            flags.add(entry[check]);
-            return true;
-        });
-    }
 
     const getIds = () => {
         return array.value.map((i) => i.id) as number[] | string[];
@@ -89,7 +77,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
         array.set([]);
     };
 
-    return { array: array.value, getUniqueArr, push, unshift, findById, replace, deleteById, deleteByIds, pushOrDelete, clear, getIds };
+    return { array: array.value, push, unshift, findById, replace, deleteById, deleteByIds, pushOrDelete, clear, getIds };
 }
 
 export type UseArrayReturnedType<T extends { [key: string]: any; id: string | number }> = ReturnType<typeof useArray<T>>;

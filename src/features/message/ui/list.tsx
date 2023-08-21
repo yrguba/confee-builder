@@ -3,12 +3,14 @@ import React from 'react';
 import { appTypes } from 'entities/app';
 import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
-import { MessageProxy } from 'entities/message/model/types';
-import { useRouter, useCopyToClipboard, useLifecycles } from 'shared/hooks';
+import { MessageProxy, Message } from 'entities/message/model/types';
+import { useRouter, useCopyToClipboard, useLifecycles, createMemo } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
 import { UserProfileModal } from '../../user';
 import { ForwardMessagesModal } from '../index';
+
+const memoUpdateMessages = createMemo((data) => messageService.getUpdatedList(data));
 
 function MessageList() {
     const { params } = useRouter();
@@ -40,7 +42,7 @@ function MessageList() {
         isFetching,
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
 
-    const messages: MessageProxy[] = messageService.getUpdatedList(messageData);
+    const messages = memoUpdateMessages(messageData);
 
     const notification = Notification.use();
 
