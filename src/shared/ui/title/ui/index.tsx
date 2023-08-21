@@ -7,7 +7,7 @@ import Box from '../../box';
 import { TitleProps } from '../types';
 
 function Title(props: TitleProps) {
-    const { children, isError, textWrap, primary = true, variant, textAlign, animate, active = false } = props;
+    const { children, isError, textWrap, primary = true, variant, textAlign, animateTrigger, active = false } = props;
 
     const cx = cnBind.bind(styles);
 
@@ -21,14 +21,14 @@ function Title(props: TitleProps) {
         })
     );
 
-    return animate ? (
-        <Box.Animated style={{ textAlign }} className={classes} visible>
-            {children}
-        </Box.Animated>
-    ) : (
+    return animateTrigger === undefined ? (
         <div style={{ textAlign }} className={classes}>
             {children}
         </div>
+    ) : (
+        <Box.Animated key={animateTrigger} style={{ textAlign }} className={classes} visible>
+            {children}
+        </Box.Animated>
     );
 }
 

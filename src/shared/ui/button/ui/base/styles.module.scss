@@ -12,7 +12,13 @@
   white-space: nowrap;
   transition: all .5s;
   font-weight: 600;
+
+  .animateContent{
+    @include flex;
+    gap: 8px;
+  }
 }
+
 
 .primary {
   background-color: var(--control-primary);

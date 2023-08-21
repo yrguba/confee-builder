@@ -7,6 +7,7 @@ type SharedProps = {
     variant?: 'primary' | 'secondary' | 'tertiary' | 'negative' | 'inherit';
     prefixIcon?: ReactNode;
     suffixIcon?: ReactNode;
+    animateTrigger?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement> &
     BaseTypes.Statuses;
 

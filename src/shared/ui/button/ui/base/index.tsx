@@ -3,11 +3,27 @@ import React from 'react';
 import { useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import Box from '../../../box';
 import Glare from '../../../loading-indicator/ui/glare';
 import { BaseButtonProps } from '../../types';
 
 function BaseButton(props: BaseButtonProps) {
-    const { children, disabled, loading, variant = 'primary', tag, prefixIcon, chips, error, size = 's', width = '100%', height, active, ...other } = props;
+    const {
+        children,
+        disabled,
+        loading,
+        variant = 'primary',
+        tag,
+        prefixIcon,
+        chips,
+        error,
+        size = 's',
+        width = '100%',
+        animateTrigger,
+        height,
+        active,
+        ...other
+    } = props;
 
     const classes = useStyles(styles, 'wrapper', {
         disabled: disabled || loading,
@@ -21,9 +37,19 @@ function BaseButton(props: BaseButtonProps) {
 
     return (
         <button className={classes} {...other} style={{ width, height }}>
-            {prefixIcon}
-            {children}
-            <Glare visible={!!loading} />
+            {animateTrigger === undefined ? (
+                <>
+                    {prefixIcon}
+                    {children}
+                    <Glare visible={!!loading} />
+                </>
+            ) : (
+                <Box.Animated key={animateTrigger} className={styles.animateContent} visible>
+                    {prefixIcon}
+                    {children}
+                    <Glare visible={!!loading} />
+                </Box.Animated>
+            )}
         </button>
     );
 }

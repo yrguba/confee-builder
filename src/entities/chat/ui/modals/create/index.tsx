@@ -24,7 +24,9 @@ function CreateChatModalView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                <Title variant="H2">{isGroup.value ? 'Группа' : 'Написать сообщение'}</Title>
+                <Title animateTrigger={`${isGroup.value}`} variant="H2">
+                    {isGroup.value ? 'Группа' : 'Написать сообщение'}
+                </Title>
                 <div className={styles.search}>
                     <Input width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
@@ -35,6 +37,7 @@ function CreateChatModalView(props: Props) {
                         width="auto"
                         variant="inherit"
                         active
+                        animateTrigger={`${isGroup.value}`}
                         prefixIcon={<Icons variant={isGroup.value ? 'contacts' : 'group'} />}
                     >
                         {isGroup.value ? 'Создать группу' : '  Создать личный чат'}
@@ -57,7 +60,12 @@ function CreateChatModalView(props: Props) {
                 </div>
             </div>
             <div className={styles.footer}>
-                <Button prefixIcon={<Icons variant="new-message" />} variant="secondary" onClick={() => createChat(isGroup.value)}>
+                <Button
+                    animateTrigger={`${isGroup.value}`}
+                    prefixIcon={<Icons variant="new-message" />}
+                    variant="secondary"
+                    onClick={() => createChat(isGroup.value)}
+                >
                     {!isGroup.value ? 'Создать группу' : '  Написать'}
                 </Button>
             </div>
