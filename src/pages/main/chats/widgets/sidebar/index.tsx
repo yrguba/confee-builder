@@ -1,18 +1,14 @@
 import React from 'react';
 
 import { ChatsList, CreteChatModal, SearchChats, TabsChats } from 'features/chat';
-import { useHeightMediaQuery, useSip, useRendersCount } from 'shared/hooks';
+import { useHeightMediaQuery } from 'shared/hooks';
 import { Button, Icons, Modal, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 function Sidebar() {
     const miniSearch = useHeightMediaQuery().to('sm');
-
     const createChatModal = Modal.use();
-
-    const rt = useRendersCount();
-    console.log('ChatsListView', rt);
 
     return (
         <>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { chatGateway } from 'entities/chat';
-import { useWidthMediaQuery, useRouter } from 'shared/hooks';
+import { useWidthMediaQuery, useRouter, useRendersCount } from 'shared/hooks';
 import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';

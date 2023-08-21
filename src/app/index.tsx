@@ -2,14 +2,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import moment from 'moment';
 import React, { useEffect } from 'react';
-import OneSignal from 'react-onesignal';
 import { BrowserRouter } from 'react-router-dom';
 import 'moment/locale/ru';
 
-import { appService, ImagesSwiperModal } from 'entities/app';
+import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useWebSocket, useTheme, useStorage } from 'shared/hooks';
+import { useWebSocket, useTheme } from 'shared/hooks';
 import { Notification, Modal } from 'shared/ui';
 
 const queryClient = new QueryClient();
