@@ -1,16 +1,19 @@
 import React from 'react';
 
 import { chatApi, chatProxy } from 'entities/chat';
-import { ForwardMessagesModalView, messageTypes, useMessageStore } from 'entities/message';
+import { ForwardMessagesModalView, useMessageStore } from 'entities/message';
 import { useRouter } from 'shared/hooks';
-import { Modal } from 'shared/ui';
+import { Modal, ModalTypes } from 'shared/ui';
 
-function ForwardMessagesModal() {
+type Props = {
+    forwardMessagesModal: ModalTypes.UseReturnedType;
+};
+
+function ForwardMessagesModal({ forwardMessagesModal }: Props) {
     const { navigate } = useRouter();
 
     const { data: chatsData } = chatApi.handleGetChats();
 
-    const forwardMessagesModal = Modal.use();
     const forwardMessages = useMessageStore.use.forwardMessages();
 
     const clickChat = (chatId: number) => {

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import useFileUploader from 'react-use-file-uploader';
 
-import { PersonalInfoModalView } from 'entities/user';
+import { UserProfileModalView } from 'entities/user';
 import { viewerApi, useViewerStore, viewerTypes } from 'entities/viewer';
 import { getFormData } from 'shared/lib';
 import { Modal } from 'shared/ui';
 
-function ViewerPersonalInfoModal() {
+function ViewerProfileModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
@@ -54,7 +54,7 @@ function ViewerPersonalInfoModal() {
 
     return (
         <Modal {...personalInfoModal}>
-            <PersonalInfoModalView
+            <UserProfileModalView
                 getChangeModals={getChangeModals}
                 getScreenshot={getScreenshot}
                 deleteFile={() => ''}
@@ -66,4 +66,4 @@ function ViewerPersonalInfoModal() {
     );
 }
 
-export default ViewerPersonalInfoModal;
+export default ViewerProfileModal;

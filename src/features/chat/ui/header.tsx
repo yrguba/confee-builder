@@ -2,12 +2,15 @@ import React from 'react';
 
 import { appService } from 'entities/app';
 import { callsTypes } from 'entities/calls';
-import { ChatHeaderView, chatApi, chatTypes } from 'entities/chat';
+import { ChatHeaderView, chatApi } from 'entities/chat';
 import ChatProxy from 'entities/chat/lib/proxy';
-import { useMessageStore, messageApi, messageTypes } from 'entities/message';
+import { useMessageStore, messageApi } from 'entities/message';
 import { useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 import { TabBarTypes, Notification, Modal } from 'shared/ui';
+
+import ChatProfileModal from './modals/profile';
+import { ForwardMessagesModal } from '../../message';
 
 function ChatHeader() {
     const { params, navigate } = useRouter();
@@ -59,15 +62,19 @@ function ChatHeader() {
     ];
 
     return (
-        <ChatHeaderView
-            back={() => navigate('/chats')}
-            chat={ChatProxy(chatData)}
-            tabs={tabs}
-            clickCard={chatProfileModal.open}
-            highlightedMessages={highlightedMessages}
-            clickDeleteMessages={clickDeleteMessages}
-            clickForwardMessages={clickForwardMessages}
-        />
+        <>
+            <ChatProfileModal chatProfileModal={chatProfileModal} />
+            <ForwardMessagesModal forwardMessagesModal={forwardMessagesModal} />
+            <ChatHeaderView
+                back={() => navigate('/chats')}
+                chat={ChatProxy(chatData)}
+                tabs={tabs}
+                clickCard={chatProfileModal.open}
+                highlightedMessages={highlightedMessages}
+                clickDeleteMessages={clickDeleteMessages}
+                clickForwardMessages={clickForwardMessages}
+            />
+        </>
     );
 }
 

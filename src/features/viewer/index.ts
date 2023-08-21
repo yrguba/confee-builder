@@ -7,7 +7,7 @@ import ChangeBirthModal from './ui/modals/change-birth';
 import ChangeNameModal from './ui/modals/change-name';
 import ChangeNicknameModal from './ui/modals/change-nickname';
 import ContactsModal from './ui/modals/contacts';
-import ViewerPersonalInfoModal from './ui/modals/personal-info';
+import ViewerPersonalInfoModal from './ui/modals/profile';
 
 export {
     ChangeBirthModal,

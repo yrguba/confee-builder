@@ -16,7 +16,7 @@ type Props = {
     getChangeModals: (modalName: keyof viewerTypes.Modals, disabled?: boolean) => void;
 } & BaseTypes.Statuses;
 
-function PersonalInfoModalView(props: Props) {
+function UserProfileModalView(props: Props) {
     const { user, isViewer, deleteFile, selectFile, getScreenshot, getChangeModals } = props;
 
     const items = [
@@ -70,4 +70,4 @@ function PersonalInfoModalView(props: Props) {
     );
 }
 
-export default PersonalInfoModalView;
+export default UserProfileModalView;

@@ -4,10 +4,10 @@ import { appTypes } from 'entities/app';
 import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { MessageProxy } from 'entities/message/model/types';
-import { userTypes } from 'entities/user';
 import { useRouter, useCopyToClipboard, useLifecycles } from 'shared/hooks';
-import { reactionConverter } from 'shared/lib';
 import { Modal, Notification } from 'shared/ui';
+
+import { ForwardMessagesModal } from '../index';
 
 function MessageList() {
     const { params } = useRouter();
@@ -125,6 +125,7 @@ function MessageList() {
 
     return (
         <>
+            <ForwardMessagesModal forwardMessagesModal={forwardMessagesModal} />
             <MessagesListView
                 chat={chatData}
                 messages={messages}

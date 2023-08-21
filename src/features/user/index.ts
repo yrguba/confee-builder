@@ -1,3 +1,3 @@
-import UserPersonalInfoModal from './ui/modals/personal-info';
+import UserProfileModal from './ui/modals/profile';
 
-export { UserPersonalInfoModal };
+export { UserProfileModal };
