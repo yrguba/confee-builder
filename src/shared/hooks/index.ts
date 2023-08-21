@@ -19,13 +19,13 @@ import {
     useLifecycles,
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
+import { useDraggable as useDraggableScroll } from 'react-use-draggable-scroll';
 import useFileUploader, { Types as UseFileUploaderTypes } from 'react-use-file-uploader';
 
 import useArray, { UseArrayReturnedType } from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
-import useDraggableScroll from './useDraggableScroll';
 import useEasyState, { UseEasyStateReturnedType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
