@@ -63,8 +63,8 @@ function ChatHeader() {
 
     return (
         <>
-            <ChatProfileModal chatProfileModal={chatProfileModal} />
-            <ForwardMessagesModal forwardMessagesModal={forwardMessagesModal} />
+            <ChatProfileModal {...chatProfileModal} />
+            <ForwardMessagesModal {...forwardMessagesModal} />
             <ChatHeaderView
                 back={() => navigate('/chats')}
                 chat={ChatProxy(chatData)}

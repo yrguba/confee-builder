@@ -7,6 +7,7 @@ import { MessageProxy } from 'entities/message/model/types';
 import { useRouter, useCopyToClipboard, useLifecycles } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
+import { UserProfileModal } from '../../user';
 import { ForwardMessagesModal } from '../index';
 
 function MessageList() {
@@ -43,8 +44,7 @@ function MessageList() {
 
     const notification = Notification.use();
 
-    const imagesSwiperModal = Modal.use();
-    const personalInfoModal = Modal.use();
+    const userProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
     const confirmDeleteMessage = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
@@ -96,13 +96,11 @@ function MessageList() {
         // });
     };
 
-    const clickImage = (data: appTypes.ImagesSwiperProps) => {
-        imagesSwiperModal.open();
-    };
+    const clickImage = (data: appTypes.ImagesSwiperProps) => {};
 
     const clickTag = (tag: string) => {
         const user = chatData?.members.find((i) => `@${i.nickname}` === tag);
-        user ? personalInfoModal.open() : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
+        user ? userProfileModal.open() : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
     };
 
     useLifecycles(
@@ -120,8 +118,9 @@ function MessageList() {
 
     return (
         <>
+            <UserProfileModal {...userProfileModal} />
             <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
-            <ForwardMessagesModal forwardMessagesModal={forwardMessagesModal} />
+            <ForwardMessagesModal {...forwardMessagesModal} />
             <MessagesListView
                 chat={chatData}
                 messages={messages}

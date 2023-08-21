@@ -5,11 +5,7 @@ import { ForwardMessagesModalView, useMessageStore } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 import { Modal, ModalTypes } from 'shared/ui';
 
-type Props = {
-    forwardMessagesModal: ModalTypes.UseReturnedType;
-};
-
-function ForwardMessagesModal({ forwardMessagesModal }: Props) {
+function ForwardMessagesModal(forwardMessagesModal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
 
     const { data: chatsData } = chatApi.handleGetChats();

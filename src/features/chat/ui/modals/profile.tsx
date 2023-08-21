@@ -4,11 +4,7 @@ import { chatApi, chatProxy, ChatProfileModalView } from 'entities/chat';
 import { useRouter } from 'shared/hooks';
 import { Modal, ModalTypes } from 'shared/ui';
 
-type Props = {
-    chatProfileModal: ModalTypes.UseReturnedType;
-};
-
-function ChatProfileModal({ chatProfileModal }: Props) {
+function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
     const { params, navigate } = useRouter();
     const chatId = Number(params.chat_id);
     const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
