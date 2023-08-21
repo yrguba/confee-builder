@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 import { IconsTypes } from '../index';
 
 export type TabBarItem = {
@@ -11,4 +13,5 @@ export type BaseTabBarProps = {
     items: TabBarItem[];
     activeItemId: number;
     variant?: 'icons';
+    bodyStyle?: CSSProperties;
 };

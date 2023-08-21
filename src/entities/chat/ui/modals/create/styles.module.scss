@@ -14,7 +14,6 @@
     width: calc(100% - 48px);
     gap: 4px;
     margin: 24px 24px 0 24px;
-    padding-bottom: 16px;
     color: var(--text-primary);
 
     .search {
@@ -35,7 +34,6 @@
       }
     }
   }
-
 
   .body {
     @include flex-column(flex-start, flex-start);

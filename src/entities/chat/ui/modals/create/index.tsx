@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 import { viewerTypes } from 'entities/viewer';
 import { UseEasyStateReturnedType, UseArrayReturnedType } from 'shared/hooks';
+import { generateItems } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Button, Card, Icons, Input, Title, Box } from 'shared/ui';
+import { Button, Card, Icons, Input, Title, Box, TabBar } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { ChatProxy } from '../../../model/types';
 
 type Props = {
     selectedUsers: UseArrayReturnedType<viewerTypes.Contact>;
@@ -19,7 +19,8 @@ function CreateChatModalView(props: Props) {
     const { selectedUsers, isGroup, createChat, contacts, loading } = props;
     const [activeTab, setActiveTab] = useState(0);
 
-    const btns = [{ id: 0, title: 'Все', onClick: () => setActiveTab(0) }];
+    const b = [{ id: 0, title: 'Все', callback: () => setActiveTab(0) }];
+    const btns: any = generateItems(b, 20);
 
     return (
         <div className={styles.wrapper}>
@@ -44,15 +45,8 @@ function CreateChatModalView(props: Props) {
                     </Button>
                 </div>
             </div>
-
+            <TabBar bodyStyle={{ padding: '0 22px' }} items={btns} activeItemId={activeTab} />
             <div className={styles.body}>
-                <div className={styles.nav}>
-                    {btns.map((btn) => (
-                        <Button key={btn.id} chips variant={btn.id === activeTab ? 'primary' : 'secondary'} onClick={btn.onClick}>
-                            {btn.title}
-                        </Button>
-                    ))}
-                </div>
                 <div className={styles.list}>
                     {contacts?.map((contact) => (
                         <Card key={contact.id} title={contact.first_name || ''} subtitle={contact.phone || ''} />

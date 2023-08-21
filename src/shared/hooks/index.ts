@@ -25,6 +25,7 @@ import useArray, { UseArrayReturnedType } from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
+import useDraggableScroll from './useDraggableScroll';
 import useEasyState, { UseEasyStateReturnedType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
@@ -45,6 +46,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useDraggableScroll,
     useLifecycles,
     useTimeoutFn,
     useYup,
