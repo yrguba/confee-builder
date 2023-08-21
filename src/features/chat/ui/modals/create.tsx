@@ -5,13 +5,7 @@ import { viewerApi, contactProxy, viewerTypes } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal, Notification, ModalTypes } from 'shared/ui';
 
-type Props = {
-    createChatModal: ModalTypes.UseReturnedType;
-};
-
-function CreteChatModal(props: Props) {
-    const { createChatModal } = props;
-
+function CreateChatModal(createChatModal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
 
     const notifications = Notification.use();
@@ -36,21 +30,21 @@ function CreteChatModal(props: Props) {
         );
     };
 
-    const onClose = () => {
-        selectedContacts.clear();
-    };
-
     return (
-        <Modal {...createChatModal} onClose={onClose}>
-            <CreateChatModalView
-                isGroup={isGroup}
-                contacts={contactsData?.map((i) => contactProxy(i))}
-                selectedContacts={selectedContacts}
-                createChat={createChat}
-                loading={isLoading}
-            />
-        </Modal>
+        <CreateChatModalView
+            isGroup={isGroup}
+            contacts={contactsData?.map((i) => contactProxy(i))}
+            selectedContacts={selectedContacts}
+            createChat={createChat}
+            loading={isLoading}
+        />
     );
 }
 
-export default CreteChatModal;
+export default function (createChatModal: ModalTypes.UseReturnedType) {
+    return (
+        <Modal {...createChatModal}>
+            <CreateChatModal {...createChatModal} />
+        </Modal>
+    );
+}

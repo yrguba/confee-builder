@@ -9,7 +9,6 @@ function Modals() {
             <ChangeNicknameModal />
             <ChangeNameModal />
             <ViewerPersonalInfoModal />
-            <ContactsModal />
             <AddContactModal />
         </>
     );

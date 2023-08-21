@@ -2,6 +2,7 @@ import React, { useTransition } from 'react';
 
 import { chatApi } from 'entities/chat';
 import { viewerTypes } from 'entities/viewer';
+import { ContactsModal } from 'features/viewer';
 import { useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Counter, Icons, IconsTypes, Title, Modal } from 'shared/ui';
@@ -29,28 +30,31 @@ function Navbar() {
     };
 
     return (
-        <div className={styles.wrapper}>
-            <div className={styles.list}>
-                {items.map((i) => (
-                    <div
-                        key={i.id}
-                        className={`${styles.item} ${`/${pathname?.split('/')[1]}` === i.payload.path ? styles.item_active : ''}`}
-                        onClick={() => itemClick(i.payload.path)}
-                    >
-                        <div className={styles.counter}>
-                            <Counter maxVisibleNumber={999} variant="negative">
-                                {i.payload.counter}
-                            </Counter>
+        <>
+            <ContactsModal {...contactsModal} />
+            <div className={styles.wrapper}>
+                <div className={styles.list}>
+                    {items.map((i) => (
+                        <div
+                            key={i.id}
+                            className={`${styles.item} ${`/${pathname?.split('/')[1]}` === i.payload.path ? styles.item_active : ''}`}
+                            onClick={() => itemClick(i.payload.path)}
+                        >
+                            <div className={styles.counter}>
+                                <Counter maxVisibleNumber={999} variant="negative">
+                                    {i.payload.counter}
+                                </Counter>
+                            </div>
+                            <Icons variant={i.icon} />
+                            <Title textAlign="center" primary={false} variant="caption1M">
+                                {i.title}
+                            </Title>
                         </div>
-                        <Icons variant={i.icon} />
-                        <Title textAlign="center" primary={false} variant="caption1M">
-                            {i.title}
-                        </Title>
-                    </div>
-                ))}
+                    ))}
+                </div>
+                <div className={styles.viewer} />
             </div>
-            <div className={styles.viewer} />
-        </div>
+        </>
     );
 }
 

@@ -12,7 +12,7 @@ function Sidebar() {
 
     return (
         <>
-            <CreteChatModal createChatModal={createChatModal} />
+            <CreteChatModal {...createChatModal} />
             <div className={styles.wrapper}>
                 <div className={styles.header}>
                     <Title variant="H2">Сообщения</Title>
