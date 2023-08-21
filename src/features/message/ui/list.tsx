@@ -47,13 +47,8 @@ function MessageList() {
     const personalInfoModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
-    const confirmModal = Modal.useConfirm<{ messageId: number }>({
-        title: 'Удалить сообщение',
-        closeText: 'Отмена',
-        okText: 'Удалить',
-        callback: (value, callbackData) => {
-            value && handleDeleteMessage({ chatId, messageIds: [callbackData.messageId], fromAll: true });
-        },
+    const confirmDeleteMessage = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
+        value && callbackData && handleDeleteMessage({ chatId, messageIds: [callbackData.messageId], fromAll: true });
     });
 
     const subscribeToChat = (action: 'sub' | 'unsub') => {
@@ -86,7 +81,7 @@ function MessageList() {
                 forwardMessages.set({ fromChatName: chatData?.name || '', toChatId: null, messages: [message], redirect: false });
                 return forwardMessagesModal.open();
             case 'delete':
-                return confirmModal.open({ messageId: message.id });
+                return confirmDeleteMessage.open({ messageId: message.id });
             case 'highlight':
                 return highlightedMessages.push(message);
         }
@@ -125,6 +120,7 @@ function MessageList() {
 
     return (
         <>
+            <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
             <ForwardMessagesModal forwardMessagesModal={forwardMessagesModal} />
             <MessagesListView
                 chat={chatData}

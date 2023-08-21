@@ -9,7 +9,7 @@ import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
 import { useWebSocket, useTheme } from 'shared/hooks';
-import { Notification, Modal } from 'shared/ui';
+import { Notification } from 'shared/ui';
 
 const queryClient = new QueryClient();
 moment.locale('ru');
@@ -29,8 +29,6 @@ function App() {
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
-                {/* <ImagesSwiperModal /> */}
-                <Modal.Confirm />
                 <Notification />
                 <Routing />
                 <ReactQueryDevtools position="bottom-left" />

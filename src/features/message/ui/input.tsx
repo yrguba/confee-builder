@@ -4,7 +4,9 @@ import { useParams } from 'react-router';
 import { chatApi, chatProxy } from 'entities/chat';
 import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
 import { MessageType, VoiceEvents } from 'entities/message/model/types';
-import { useEasyState, useFileUploader, useAudioRecorder } from 'shared/hooks';
+import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
+
+const [throttleMessageTyping] = useThrottle((cl) => cl(), 2000);
 
 function MessageInput() {
     const params = useParams();
@@ -130,7 +132,9 @@ function MessageInput() {
     }, [voiceRecord.recorderState.initRecording]);
 
     useEffect(() => {
-        messageTextState.value && handleMessageTyping({ chatId });
+        throttleMessageTyping(() => {
+            messageTextState.value && handleMessageTyping({ chatId });
+        });
     }, [messageTextState.value]);
 
     useEffect(() => {

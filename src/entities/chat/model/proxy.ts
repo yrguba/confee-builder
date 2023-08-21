@@ -3,8 +3,8 @@ import moment from 'moment';
 import { viewerService } from 'entities/viewer';
 import { dateConverter, debounce, getEnding } from 'shared/lib';
 
+import { ChatProxy, Chat } from './types';
 import { userService } from '../../user';
-import { ChatProxy, Chat } from '../model/types';
 
 function chatProxy(chat: Chat | undefined): any {
     const viewerId = viewerService.getId();
@@ -24,6 +24,7 @@ function chatProxy(chat: Chat | undefined): any {
                     return target.last_message.author.id === viewerId;
 
                 case 'lastMessageTitle':
+                    if (target.typing) return target.typing;
                     if (!target.last_message) return '';
                     const { type, text } = target.last_message;
                     if (type === 'images') return 'Отправил фото';

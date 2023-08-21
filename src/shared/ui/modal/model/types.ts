@@ -13,10 +13,12 @@ export type BaseModalProps = {
 } & UseReturnedType &
     BaseTypes.Statuses;
 
-export type UseConfirmProps<T = any> = {
+export type ConfirmModalProps = {
     title: string;
     subtitle?: string;
     okText?: string;
     closeText?: string;
-    callback: (value: boolean, callbackData: T) => void;
-};
+    onClose?: () => void;
+    callback: (value: boolean) => void;
+} & UseReturnedType &
+    BaseTypes.Statuses;

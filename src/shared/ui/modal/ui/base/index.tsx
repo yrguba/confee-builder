@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { usePrevious } from 'react-use';
 
-import { useStyles } from 'shared/hooks';
+import { useStyles, useUpdateEffect } from 'shared/hooks';
 import { Box, Icons } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
@@ -11,15 +11,14 @@ import { BaseModalProps } from '../../model/types';
 function Modal(props: BaseModalProps) {
     const { isOpen, close, children, onClose, closeIcon = true, open } = props;
     const modal_root = document.querySelector('#modal-root');
-    const prevValue = usePrevious(isOpen);
 
     const closeClick = () => {
         onClose && onClose();
         close();
     };
 
-    useEffect(() => {
-        if (!isOpen && onClose && !!prevValue) {
+    useUpdateEffect(() => {
+        if (!isOpen && onClose) {
             onClose();
         }
     }, [isOpen]);

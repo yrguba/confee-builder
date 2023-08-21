@@ -17,6 +17,7 @@ import {
     useVideo,
     useTimeoutFn,
     useLifecycles,
+    useUpdateEffect,
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
 import { useDraggable as useDraggableScroll } from 'react-use-draggable-scroll';
@@ -38,6 +39,7 @@ import useStorage from './useStorage';
 import useStore, * as UseStore from './useStore';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
+import useThrottle from './useThrottle';
 import useToggle from './useToggle';
 import useWebSocket from './useWebSocket';
 import useWebView from './useWebView';
@@ -46,6 +48,8 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useThrottle,
+    useUpdateEffect,
     useDraggableScroll,
     useLifecycles,
     useTimeoutFn,

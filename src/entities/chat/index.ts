@@ -1,7 +1,7 @@
-import chatProxy from './lib/proxy';
 import chatService from './lib/service';
 import chatApi from './model/api';
 import chatGateway from './model/gateway';
+import chatProxy from './model/proxy';
 import useChatStore from './model/store';
 import * as chatTypes from './model/types';
 import ChatHeaderView from './ui/header';

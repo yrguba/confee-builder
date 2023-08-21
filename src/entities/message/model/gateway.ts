@@ -2,13 +2,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import produce from 'immer';
 import { useEffect } from 'react';
 
-import { useWebSocket } from 'shared/hooks';
-import { findLastIndex, debounce } from 'shared/lib';
+import { useWebSocket, useThrottle } from 'shared/hooks';
+import { findLastIndex } from 'shared/lib';
 
 import { MessageProxy, SocketIn, SocketOut } from './types';
-import { chatProxy, useChatStore } from '../../chat';
-import { Chat, ChatProxy } from '../../chat/model/types';
+import { useChatStore } from '../../chat';
+import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
+
+const [throttleMessageTyping] = useThrottle((cl) => cl(), 5000);
 
 function messageGateway() {
     const viewerId = viewerService.getId();
@@ -18,7 +20,6 @@ function messageGateway() {
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
-            console.log('MessageCreated', socketData);
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.pages.length) return cacheData;
                 if (socketData.data.message.author.id === viewerId || chatSubscription === socketData.data.message.chat_id) {
@@ -123,8 +124,29 @@ function messageGateway() {
             });
         });
         onMessage('Typing', (socketData) => {
-            const users = Object.values(socketData.data.extra_info).map((i: any) => i.contact_name);
-            // usersTyping.set({ chatId: socketData.data.chat_id, users });
+            const fn = (text: string) => {
+                queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
+                    if (!cacheData?.data?.data) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data = { ...draft.data.data, typing: text };
+                    });
+                });
+                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                    if (!cacheData?.data?.data.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data = draft?.data?.data.map((chat: Chat) => {
+                            if (socketData.data.chat_id === chat.id) {
+                                return { ...chat, typing: text };
+                            }
+                            return chat;
+                        });
+                    });
+                });
+            };
+            throttleMessageTyping(() => {
+                fn('пользователь печатает...');
+                setTimeout(() => fn(''), 5000);
+            });
         });
     }, []);
 }

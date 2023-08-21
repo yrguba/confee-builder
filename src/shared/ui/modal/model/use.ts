@@ -1,8 +1,3 @@
-import { useEffect } from 'react';
-import { usePrevious } from 'react-use';
-
-import useModalStore from './store';
-import { UseConfirmProps } from './types';
 import { useEasyState } from '../../../hooks';
 
 function use() {
@@ -21,22 +16,24 @@ function use() {
     return { isOpen, open, close };
 }
 
-function useConfirm<T = null>(props: UseConfirmProps<T>) {
-    const openConfirmModal = useModalStore.use.confirmModal();
-    const prev = usePrevious(openConfirmModal.value);
+function useConfirm<T = null | undefined>(cl: (value: boolean, callbackData: T | null | undefined) => void) {
+    const openModal = useEasyState(false);
+    const callbackData = useEasyState<T | null | undefined>(null);
+
     const open = (payload?: T) => {
-        openConfirmModal.set({ value: true, payload, props });
+        callbackData.set(payload);
+        openModal.set(true);
     };
 
     const close = () => {
-        openConfirmModal.set({ value: false });
+        openModal.set(false);
     };
 
-    useEffect(() => {
-        prev && props.callback(openConfirmModal.confirm, openConfirmModal.payload as T);
-    }, [openConfirmModal.value]);
+    const callback = (value: boolean) => {
+        cl(value, callbackData.value);
+    };
 
-    return { isOpen: openConfirmModal.value, open, close };
+    return { isOpen: openModal.value, open, close, callback };
 }
 
 export { use, useConfirm };
