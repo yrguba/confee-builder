@@ -134,7 +134,7 @@ function MessageInputView(props: Props) {
                         </div>
                     ) : (
                         <Input.Textarea
-                            focusTrigger={replyMessage.value || editMessage.value || chat?.id}
+                            focusTrigger={replyMessage.value.id || editMessage.value.id || chat?.id}
                             focus
                             value={messageTextState.value}
                             onChange={(e) => messageTextState.set(e.target.value)}

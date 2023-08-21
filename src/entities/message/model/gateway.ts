@@ -18,6 +18,7 @@ function messageGateway() {
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
+            console.log('MessageCreated', socketData);
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.pages.length) return cacheData;
                 if (socketData.data.message.author.id === viewerId || chatSubscription === socketData.data.message.chat_id) {
@@ -78,6 +79,9 @@ function messageGateway() {
                         page.data.data.forEach((msg: MessageProxy, index: number) => {
                             if (msg.id === socketData.data.message_id) {
                                 page.data.data[index] = { ...msg, ...socketData.data.updated_values };
+                            }
+                            if (msg.reply_to_message?.id === socketData.data.message_id) {
+                                page.data.data[index] = { ...msg, reply_to_message: { ...msg.reply_to_message, ...socketData.data.updated_values } };
                             }
                         });
                     });
