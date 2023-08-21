@@ -49,10 +49,17 @@ function messageGateway() {
                                 ...chat,
                                 pending_messages_count: socketData.data.extra_info.chat_pending_messages_count,
                                 last_message: socketData.data.message,
+                                typing: '',
                             };
                         }
                         return chat;
                     });
+                });
+            });
+            queryClient.setQueryData(['get-chat', socketData.data.message.chat_id], (cacheData: any) => {
+                if (!cacheData?.data?.data) return cacheData;
+                return produce(cacheData, (draft: any) => {
+                    draft.data.data = { ...draft.data.data, typing: '' };
                 });
             });
             queryClient.setQueryData(['get-total-pending-messages'], (cacheData: any) => {
