@@ -4,12 +4,17 @@ import { chatApi, CreateChatModalView, chatTypes } from 'entities/chat';
 import { viewerApi, contactProxy, viewerTypes } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { generateItems } from 'shared/lib';
-import { Modal, Notification } from 'shared/ui';
+import { Modal, Notification, ModalTypes } from 'shared/ui';
 
-function CreteChatModal() {
+type Props = {
+    createChatModal: ModalTypes.UseReturnedType;
+};
+
+function CreteChatModal(props: Props) {
+    const { createChatModal } = props;
+
     const { navigate } = useRouter();
 
-    const createChatModal = Modal.use<chatTypes.Modals>('createChat');
     const notifications = Notification.use();
 
     const isGroup = useEasyState(false);

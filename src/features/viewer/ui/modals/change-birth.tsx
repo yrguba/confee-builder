@@ -7,7 +7,7 @@ function ChangeBirthModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const changeBirthModal = Modal.use<viewerTypes.Modals>('changeBirth');
+    const changeBirthModal = Modal.use();
 
     const birthInput = Input.use({
         initialValue: viewerData?.birth?.split(' ')[0] || '',

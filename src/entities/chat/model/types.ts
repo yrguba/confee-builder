@@ -27,7 +27,7 @@ export type ChatProxy = {
 } & Chat;
 
 export type Modals = {
-    chatSettings: null;
+    chatProfile: null;
     createChat: null;
 };
 export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated';

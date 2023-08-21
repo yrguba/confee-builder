@@ -1,23 +1,23 @@
 import React from 'react';
 
-import { chatApi, chatProxy, ChatSettingsModalView, chatTypes } from 'entities/chat';
+import { chatApi, chatProxy, ChatProfileModalView, chatTypes } from 'entities/chat';
 import { useRouter } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
-function ChatInfoModal() {
-    const chatSettingsModal = Modal.use<chatTypes.Modals>('chatSettings');
-
+function ChatProfileModal() {
     const { params, navigate } = useRouter();
     const chatId = Number(params.chat_id);
     const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
+
+    const chatProfileModal = Modal.use();
 
     const deleteChat = () => {
         handleDeleteChat(
             { chatId },
             {
                 onSuccess: () => {
-                    chatSettingsModal.close();
+                    chatProfileModal.close();
                     navigate('/chats');
                 },
             }
@@ -25,10 +25,10 @@ function ChatInfoModal() {
     };
 
     return (
-        <Modal {...chatSettingsModal}>
-            <ChatSettingsModalView chat={chatProxy(chatData)} deleteChat={deleteChat} />
+        <Modal {...chatProfileModal}>
+            <ChatProfileModalView chat={chatProxy(chatData)} deleteChat={deleteChat} />
         </Modal>
     );
 }
 
-export default ChatInfoModal;
+export default ChatProfileModal;

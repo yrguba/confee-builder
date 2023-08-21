@@ -24,8 +24,8 @@ function ChatHeader() {
 
     const webView = useWebView(callPath, 'аудио звонок');
 
-    const chatSettingsModal = Modal.use<chatTypes.Modals>('chatSettings');
-    const forwardMessagesModal = Modal.use<messageTypes.Modals>('forwardMessages');
+    const chatProfileModal = Modal.use();
+    const forwardMessagesModal = Modal.use();
 
     const clickChatAudioCall = async () => {
         if (appService.tauriIsRunning) {
@@ -56,7 +56,6 @@ function ChatHeader() {
         { id: 0, icon: 'search', callback: () => notification.inDev() },
         { id: 1, icon: 'phone', callback: clickChatAudioCall },
         { id: 2, icon: 'videocam-outlined', callback: () => notification.inDev() },
-        // { id: 3, icon: 'more', callback: () => 'more' },
     ];
 
     return (
@@ -64,7 +63,7 @@ function ChatHeader() {
             back={() => navigate('/chats')}
             chat={ChatProxy(chatData)}
             tabs={tabs}
-            clickCard={chatSettingsModal.open}
+            clickCard={chatProfileModal.open}
             highlightedMessages={highlightedMessages}
             clickDeleteMessages={clickDeleteMessages}
             clickForwardMessages={clickForwardMessages}

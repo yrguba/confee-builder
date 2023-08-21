@@ -1,23 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePrevious } from 'react-use';
 
 import useModalStore from './store';
 import { UseConfirmProps } from './types';
+import { useEasyState } from '../../../hooks';
 
-function use<T>(modalName: keyof T) {
-    const openModal = useModalStore.use.modal();
+function use() {
+    const openModal = useEasyState(false);
 
-    const open = (payload?: T[keyof T]) => {
-        openModal.set(modalName as string, payload);
+    const open = () => {
+        openModal.set(true);
     };
 
     const close = () => {
-        openModal.set(null);
+        openModal.set(false);
     };
 
-    const isOpen = !!openModal && openModal.value === modalName;
-    const p: T[keyof T] = openModal.payload;
-    return { isOpen, payload: p, open, close };
+    const isOpen = openModal.value;
+
+    return { isOpen, open, close };
 }
 
 function useConfirm<T = null>(props: UseConfirmProps<T>) {

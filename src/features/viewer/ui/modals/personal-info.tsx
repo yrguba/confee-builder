@@ -10,13 +10,13 @@ function ViewerPersonalInfoModal() {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
-    const personalInfoModal = Modal.use<viewerTypes.Modals>('viewerPersonalInfo');
-    const changeNameModal = Modal.use<viewerTypes.Modals>('changeName');
-    const changeAboutMeModal = Modal.use<viewerTypes.Modals>('changeAboutMe');
-    const changeNicknameModal = Modal.use<viewerTypes.Modals>('changeNickname');
-    const changePhoneModal = Modal.use<viewerTypes.Modals>('changePhone');
-    const changeEmailModal = Modal.use<viewerTypes.Modals>('changeEmail');
-    const changeBirthModal = Modal.use<viewerTypes.Modals>('changeBirth');
+    const personalInfoModal = Modal.use();
+    const changeNameModal = Modal.use();
+    const changeAboutMeModal = Modal.use();
+    const changeNicknameModal = Modal.use();
+    const changePhoneModal = Modal.use();
+    const changeEmailModal = Modal.use();
+    const changeBirthModal = Modal.use();
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',

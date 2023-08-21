@@ -43,9 +43,9 @@ function MessageList() {
 
     const notification = Notification.use();
 
-    const imagesSwiperModal = Modal.use<appTypes.Modals>('imagesSwiper');
-    const personalInfoModal = Modal.use<userTypes.Modals>('personalInfo');
-    const forwardMessagesModal = Modal.use<messageTypes.Modals>('forwardMessages');
+    const imagesSwiperModal = Modal.use();
+    const personalInfoModal = Modal.use();
+    const forwardMessagesModal = Modal.use();
 
     const confirmModal = Modal.useConfirm<{ messageId: number }>({
         title: 'Удалить сообщение',
@@ -107,7 +107,7 @@ function MessageList() {
 
     const clickTag = (tag: string) => {
         const user = chatData?.members.find((i) => `@${i.nickname}` === tag);
-        user ? personalInfoModal.open(user) : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
+        user ? personalInfoModal.open() : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
     };
 
     useLifecycles(

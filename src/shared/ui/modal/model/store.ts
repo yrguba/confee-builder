@@ -8,11 +8,6 @@ import { UseConfirmProps } from './types';
 
 type OpenConfirmModalProps = Omit<UseConfirmProps, 'callback'> | null;
 type Store = {
-    modal: {
-        value: string | null;
-        payload: any;
-        set: (modalName: string | null, payload?: any) => void;
-    };
     confirmModal: {
         value: boolean;
         confirm: boolean;
@@ -25,15 +20,6 @@ type Store = {
 const modalStore = create<Store>()(
     devtools(
         immer((set) => ({
-            modal: {
-                value: null,
-                payload: null,
-                set: (ModalName, payload) =>
-                    set((state) => {
-                        state.modal.value = ModalName;
-                        state.modal.payload = payload;
-                    }),
-            },
             confirmModal: {
                 value: false,
                 confirm: false,

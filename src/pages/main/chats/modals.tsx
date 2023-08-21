@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ChatSettingsModal, CreteChatModal, ChatInfoModal } from 'features/chat';
+import { ChatProfileModal, CreteChatModal } from 'features/chat';
 import { ForwardMessagesModal } from 'features/message';
 import { UserPersonalInfoModal } from 'features/user';
 import { AddContactModal, ContactsModal, ChangeBirthModal, ChangeNameModal, ChangeNicknameModal, ViewerPersonalInfoModal } from 'features/viewer';
@@ -8,7 +8,6 @@ import { AddContactModal, ContactsModal, ChangeBirthModal, ChangeNameModal, Chan
 function Modals() {
     return (
         <>
-            <ChatInfoModal />
             <ForwardMessagesModal />
             <ChangeBirthModal />
             <ChangeNicknameModal />
@@ -17,8 +16,7 @@ function Modals() {
             <UserPersonalInfoModal />
             <ContactsModal />
             <AddContactModal />
-            <ChatSettingsModal />
-            <CreteChatModal />
+            <ChatProfileModal />
         </>
     );
 }

@@ -6,20 +6,15 @@ import { useStyles } from 'shared/hooks';
 import { Box, Icons } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
-import useModalStore from '../../model/store';
 import { BaseModalProps } from '../../model/types';
-import { use } from '../../model/use';
 
 function Modal(props: BaseModalProps) {
-    const { isOpen, close, children, onClose, closeIcon = true, payload, open } = props;
-    const openModal = useModalStore.use.modal();
+    const { isOpen, close, children, onClose, closeIcon = true, open } = props;
     const modal_root = document.querySelector('#modal-root');
-    const useModal = use(openModal.value || '');
     const prevValue = usePrevious(isOpen);
 
     const closeClick = () => {
         onClose && onClose();
-        useModal.close();
         close();
     };
 

@@ -4,8 +4,8 @@ import { ContactsModalView, viewerApi, viewerTypes } from 'entities/viewer';
 import { Input, Modal } from 'shared/ui';
 
 function ContactsModal() {
-    const contactsModal = Modal.use<viewerTypes.Modals>('contacts');
-    const addContactsModal = Modal.use<viewerTypes.Modals>('addContact');
+    const contactsModal = Modal.use();
+    const addContactsModal = Modal.use();
 
     const { data: contactsData } = viewerApi.handleGetContacts();
 

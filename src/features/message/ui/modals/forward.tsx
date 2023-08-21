@@ -10,7 +10,7 @@ function ForwardMessagesModal() {
 
     const { data: chatsData } = chatApi.handleGetChats();
 
-    const forwardMessagesModal = Modal.use<messageTypes.Modals>('forwardMessages');
+    const forwardMessagesModal = Modal.use();
     const forwardMessages = useMessageStore.use.forwardMessages();
 
     const clickChat = (chatId: number) => {
