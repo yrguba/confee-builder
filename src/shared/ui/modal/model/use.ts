@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { usePrevious } from 'react-use';
 
 import useModalStore from './store';

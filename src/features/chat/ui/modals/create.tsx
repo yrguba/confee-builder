@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { chatApi, CreateChatModalView, chatTypes } from 'entities/chat';
+import { chatApi, CreateChatModalView } from 'entities/chat';
 import { viewerApi, contactProxy, viewerTypes } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
-import { generateItems } from 'shared/lib';
 import { Modal, Notification, ModalTypes } from 'shared/ui';
 
 type Props = {
