@@ -18,9 +18,14 @@ function ForwardMessagesModal(forwardMessagesModal: ModalTypes.UseReturnedType) 
         navigate(`/chats/chat/${chatId}`);
     };
 
+    const back = () => {
+        forwardMessagesModal.close();
+        forwardMessages.clear();
+    };
+
     return (
         <Modal {...forwardMessagesModal} closeIcon={false}>
-            <ForwardMessagesModalView clickChat={clickChat} chats={chatsData?.map((chat) => chatProxy(chat))} back={forwardMessagesModal.close} />
+            <ForwardMessagesModalView clickChat={clickChat} chats={chatsData?.map((chat) => chatProxy(chat))} back={back} />
         </Modal>
     );
 }
