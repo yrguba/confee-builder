@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { messageTypes } from 'entities/message';
-import { userService } from 'entities/user';
-import { UseEasyStateReturnType, useList } from 'shared/hooks';
+import { UseEasyStateReturnType, useUpdateEffect } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { userService } from '../../../../user';
 import { ChatProxy, Actions } from '../../../model/types';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
     actions: (actions: Actions) => void;
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
-    filesData: messageTypes.File[] | BaseTypes.Empty;
+    files: messageTypes.File[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function ChatProfileModalView(props: Props) {
-    const { chat, actions, mediaTypes, filesData } = props;
+    const { chat, actions, mediaTypes, files } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -30,35 +30,13 @@ function ChatProfileModalView(props: Props) {
         { id: 1, title: 'Номер телефона', subtitle: chat?.secondMember?.phone || '' },
     ];
 
-    function Members() {
-        return (
-            <Card.List
-                items={chat?.members.map((i) => ({
-                    id: i.id,
-                    img: i.avatar?.path || '',
-                    name: userService.getFullName(i),
-                    title: userService.getFullName(i),
-                    subtitle: userService.getUserNetworkStatus(i),
-                }))}
-            />
-        );
-    }
-
-    function Images() {
-        return <Image.List items={filesData?.map((i, index) => ({ img: i.link, id: index, width: '25%', height: '122px' }))} />;
-    }
-
-    const mediaList = useList<messageTypes.MediaContentType | null>(
-        [
-            { id: 'Участники', hidden: chat?.is_group, payload: null, element: <Members /> },
-            { id: 'Фото', payload: 'images', element: <Images /> },
-            { id: 'Видео', payload: 'videos', element: <div>Медиа</div> },
-            { id: 'Аудио', payload: 'audios', element: <div>Аудио</div> },
-            { id: 'Файлы', payload: 'documents', element: <div>Файлы</div> },
-        ],
-        (data) => mediaTypes.set(data.payload),
-        [filesData]
-    );
+    const tabs: { id: number; type: messageTypes.MediaContentType | null; title: string; hidden?: boolean }[] = [
+        { id: 0, type: null, title: 'Участники', hidden: !chat?.is_group },
+        { id: 1, type: 'images', title: 'Фото' },
+        { id: 2, type: 'videos', title: 'Видео' },
+        { id: 3, type: 'audios', title: 'Аудио' },
+        { id: 4, type: 'documents', title: 'Файлы' },
+    ];
 
     return (
         <div className={styles.wrapper}>
@@ -97,18 +75,49 @@ function ChatProfileModalView(props: Props) {
                 <div className={styles.tabBar}>
                     <TabBar.WithLine
                         wrapperStyle={{ justifyContent: 'space-around' }}
-                        activeItemId={mediaList.activeItem.id}
-                        items={mediaList.variants.map((i) => ({
-                            id: i,
-                            title: i,
-                            callback: () => mediaList.setActiveItem(i),
-                        }))}
+                        items={tabs
+                            .filter((i) => !i.hidden)
+                            .map((i) => ({
+                                id: i.id,
+                                title: i.title,
+                                callback: () => mediaTypes.set(i.type),
+                            }))}
                     />
                 </div>
                 <div className={styles.mediaList}>
-                    <Box.Animated visible animationVariant="autoHeight" key={mediaList.activeItem.id}>
-                        {mediaList.activeItem.element}
-                    </Box.Animated>
+                    <Box.Replace
+                        items={[
+                            {
+                                visible: !mediaTypes.value,
+                                item: (
+                                    <div className={styles.members}>
+                                        <Card.List
+                                            items={chat?.members.map((i) => ({
+                                                id: i.id,
+                                                img: i.avatar?.path || '',
+                                                name: userService.getFullName(i),
+                                                title: userService.getFullName(i),
+                                                subtitle: userService.getUserNetworkStatus(i),
+                                            }))}
+                                        />
+                                    </div>
+                                ),
+                            },
+                            {
+                                visible: mediaTypes.value === 'images',
+                                item: (
+                                    <Image.List
+                                        items={files?.map((i, index) => ({
+                                            id: index,
+                                            img: i.link || '',
+                                            width: 'auto',
+                                            height: '122px',
+                                        }))}
+                                    />
+                                ),
+                            },
+                        ]}
+                    />
                 </div>
             </div>
         </div>

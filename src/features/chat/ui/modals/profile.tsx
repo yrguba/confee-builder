@@ -12,10 +12,10 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
 
-    const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(chatData?.is_group ? 'images' : null);
+    const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(!chatData?.is_group ? 'images' : null);
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
-    console.log(filesData);
+
     const notification = Notification.use();
 
     const actions = (action: chatTypes.Actions) => {
@@ -37,7 +37,7 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
         }
     };
 
-    return <ChatProfileModalView chat={chatProxy(chatData)} actions={actions} mediaTypes={mediaTypes} filesData={filesData} />;
+    return <ChatProfileModalView chat={chatProxy(chatData)} actions={actions} mediaTypes={mediaTypes} files={filesData} />;
 }
 
 export default function (chatProfileModal: ModalTypes.UseReturnedType) {

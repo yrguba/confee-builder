@@ -1,11 +1,11 @@
 import { motion, AnimateSharedLayout } from 'framer-motion';
 import React from 'react';
 
-import { useStyles } from 'shared/hooks';
+import { useEasyState, useStyles } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 
 import styles from './styles.module.scss';
-import { TabBarWithLineProps } from '../../types';
+import { TabBarWithLineProps, TabBarItem } from '../../types';
 
 const layoutId = getRandomString(5);
 function TabBarWithLine(props: TabBarWithLineProps) {
@@ -13,18 +13,20 @@ function TabBarWithLine(props: TabBarWithLineProps) {
 
     // const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
     // const { events } = useDraggableScroll(ref);
+    const active = useEasyState<TabBarItem>(items.find((i) => i.id === activeItemId) || items[0]);
 
-    const classes = useStyles(styles, 'body', {
-        [variant]: variant,
-    });
+    const click = (item: TabBarItem) => {
+        active.set(item);
+        item.callback();
+    };
 
     return (
         <div className={styles.wrapper} style={wrapperStyle}>
             <AnimateSharedLayout>
                 {items.map((i) => (
-                    <div key={i.id} onClick={i.callback} className={`${styles.item} ${activeItemId === i.id ? styles.item_active : ''}`}>
+                    <div key={i.id} onClick={() => click(i)} className={`${styles.item} ${active.value.id === i.id ? styles.item_active : ''}`}>
                         {i.title}
-                        {activeItemId === i.id && <motion.div layoutId={layoutId} className={styles.line} />}
+                        {active.value.id === i.id && <motion.div layoutId={layoutId} className={styles.line} />}
                     </div>
                 ))}
             </AnimateSharedLayout>

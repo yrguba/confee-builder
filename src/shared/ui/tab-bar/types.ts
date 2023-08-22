@@ -11,7 +11,7 @@ export type TabBarItem = {
 
 export type BaseTabBarProps = {
     items: TabBarItem[];
-    activeItemId: number | string;
+    activeItemId?: number | string;
     variant?: 'icons';
     bodyStyle?: CSSProperties;
 };

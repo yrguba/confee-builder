@@ -31,7 +31,6 @@ import useCreateSelectors from './useCreateSelectors';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
-import useList, { UseListReturnType } from './useList';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useScroll from './useScroll';
@@ -50,7 +49,6 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
-    useList,
     createMemo,
     useThrottle,
     useUpdateEffect,
@@ -101,4 +99,4 @@ export {
     useWebSocket,
 };
 
-export type { UseArrayReturnType, UseListReturnType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes };
+export type { UseArrayReturnType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes };
