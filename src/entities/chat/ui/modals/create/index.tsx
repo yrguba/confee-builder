@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import { ContactsListView, viewerTypes } from 'entities/viewer';
+import { viewerTypes } from 'entities/viewer';
 import { UseEasyStateReturnedType, UseArrayReturnedType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, Input, Title, TabBar } from 'shared/ui';
+import { Button, Icons, Input, Title, TabBar, Card, CardTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
-    selectedContacts: UseArrayReturnedType<viewerTypes.ContactProxy>;
+    selectedContacts: UseArrayReturnedType<CardTypes.CardListItem>;
     isGroup: UseEasyStateReturnedType<boolean>;
     createChat: () => void;
     contacts: viewerTypes.ContactProxy[] | BaseTypes.Empty;
@@ -50,7 +50,14 @@ function CreateChatModalView(props: Props) {
             </div>
             <TabBar bodyStyle={{ padding: '0 22px' }} items={btns} activeItemId={activeTab} />
             <div className={styles.list}>
-                <ContactsListView selectedContacts={selectedContacts} contacts={contacts} />
+                <Card.List
+                    selected={selectedContacts}
+                    items={contacts?.map((i) => ({
+                        id: i.user_id,
+                        img: '',
+                        name: i.contact_name || '',
+                    }))}
+                />
             </div>
             <div className={styles.footer}>
                 <Button animateTrigger={`${isGroup.value}`} prefixIcon={<Icons variant="new-message" />} variant="secondary" onClick={createChat}>

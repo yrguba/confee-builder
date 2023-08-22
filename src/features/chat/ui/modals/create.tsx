@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { chatApi, CreateChatModalView } from 'entities/chat';
-import { viewerApi, contactProxy, viewerTypes } from 'entities/viewer';
+import { viewerApi, contactProxy } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
-import { Modal, Notification, ModalTypes } from 'shared/ui';
+import { generateItems } from 'shared/lib';
+import { Modal, Notification, ModalTypes, CardTypes } from 'shared/ui';
 
 function CreateChatModal(createChatModal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
@@ -11,7 +12,7 @@ function CreateChatModal(createChatModal: ModalTypes.UseReturnedType) {
     const notifications = Notification.use();
 
     const isGroup = useEasyState(false);
-    const selectedContacts = useArray<viewerTypes.ContactProxy>({ multiple: isGroup.value });
+    const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
     const { mutate: handleCreateChat, isLoading } = chatApi.handleCreateChat();
     const { data: contactsData } = viewerApi.handleGetContacts();
 
@@ -20,7 +21,7 @@ function CreateChatModal(createChatModal: ModalTypes.UseReturnedType) {
             return notifications.error({ title: isGroup.value ? `Выберите участников` : `Выберите кому хотите написать` });
         }
         handleCreateChat(
-            { user_ids: selectedContacts.array.map((i) => i.user_id), is_group: isGroup.value },
+            { user_ids: selectedContacts.array.map((i) => i.id), is_group: isGroup.value },
             {
                 onSuccess: (data) => {
                     createChatModal.close();
