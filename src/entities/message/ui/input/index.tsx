@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UseEasyStateReturnedType, UseStore } from 'shared/hooks';
+import { UseEasyStateReturnType, UseStoreTypes } from 'shared/hooks';
 import { getEnding } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
 import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer, IconsTypes } from 'shared/ui';
@@ -12,13 +12,13 @@ import { MessageProxy, VoiceEvents } from '../../model/types';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
-    messageTextState: UseEasyStateReturnedType<string>;
+    messageTextState: UseEasyStateReturnType<string>;
     sendMessage: () => void;
     clickUploadFiles: () => void;
-    replyMessage: UseStore.SelectorWithObj<MessageProxy>;
-    editMessage: UseStore.SelectorWithObj<MessageProxy>;
-    forwardMessages: UseStore.SelectorWithObj<{ fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean }>;
-    highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
+    replyMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
+    editMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
+    forwardMessages: UseStoreTypes.SelectorWithObj<{ fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean }>;
+    highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     getVoiceEvents: (e: VoiceEvents) => void;
     showVoice: boolean;
     deleteVoice: () => void;

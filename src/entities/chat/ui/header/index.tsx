@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useWidthMediaQuery, UseStore } from 'shared/hooks';
+import { useWidthMediaQuery, UseStoreTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Icons, Card, Button, TabBarTypes, TabBar, Box, Title } from 'shared/ui';
 
@@ -13,7 +13,7 @@ type Props = {
     back: () => void;
     tabs: TabBarTypes.TabBarItem[];
     clickCard: () => void;
-    highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
+    highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     clickDeleteMessages: () => void;
     clickForwardMessages: () => void;
 } & BaseTypes.Statuses;

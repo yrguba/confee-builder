@@ -2,10 +2,10 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useStore, UseStore } from 'shared/hooks';
+import { useStore, UseStoreTypes } from 'shared/hooks';
 
 type Store = {
-    chatSubscription: UseStore.SelectorWithPrimitive<number | null>;
+    chatSubscription: UseStoreTypes.SelectorWithPrimitive<number | null>;
     usersTyping: {
         value: Record<number, string[]>;
         set: (value: { chatId: number; users: string[] }) => void;

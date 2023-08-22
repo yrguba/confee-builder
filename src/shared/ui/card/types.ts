@@ -1,6 +1,6 @@
 import { userTypes } from 'entities/user';
 
-import { UseArrayReturnedType } from '../../hooks';
+import { UseArrayReturnType } from '../../hooks';
 import { BaseTypes } from '../../types';
 
 export type BaseCardProps = {
@@ -20,5 +20,5 @@ export type CardListItem = {
 
 export type CardListProps = {
     items: CardListItem[] | BaseTypes.Empty;
-    selected: UseArrayReturnedType<CardListItem>;
+    selected: UseArrayReturnType<CardListItem>;
 };

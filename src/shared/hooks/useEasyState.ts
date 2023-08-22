@@ -2,14 +2,14 @@ import { produce, freeze } from 'immer';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePrevious } from 'react-use';
 
-type Returned<T> = {
+type UseEasyStateReturnType<T> = {
     value: T;
     set: (newState: T | ((state: T) => void), callback?: ((state: T) => void) | undefined) => void;
     prevValue: T | undefined;
     toggle: T extends boolean ? () => void : undefined;
 };
 
-const useEasyState = <T>(initial: T): Returned<T> => {
+const useEasyState = <T>(initial: T): UseEasyStateReturnType<T> => {
     const [state, setState] = useState<T>(() => freeze(typeof initial === 'function' ? initial() : initial, true));
 
     const prevValue = usePrevious<T>(state);
@@ -48,6 +48,6 @@ const useEasyState = <T>(initial: T): Returned<T> => {
     };
 };
 
-export type UseEasyStateReturnedType<T> = ReturnType<typeof useEasyState<T>>;
+export type { UseEasyStateReturnType };
 
 export default useEasyState;

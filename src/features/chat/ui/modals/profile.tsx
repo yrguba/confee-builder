@@ -1,28 +1,39 @@
 import React from 'react';
 
-import { chatApi, chatProxy, ChatProfileModalView } from 'entities/chat';
-import { useRouter } from 'shared/hooks';
-import { Modal, ModalTypes } from 'shared/ui';
+import { chatApi, chatProxy, ChatProfileModalView, chatTypes } from 'entities/chat';
+import { useRouter, useList } from 'shared/hooks';
+import { Modal, ModalTypes, Notification } from 'shared/ui';
 
 function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
     const { params, navigate } = useRouter();
     const chatId = Number(params.chat_id);
-    const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
+    const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
 
-    const deleteChat = () => {
-        handleDeleteChat(
-            { chatId },
-            {
-                onSuccess: () => {
-                    chatProfileModal.close();
-                    navigate('/chats');
-                },
-            }
-        );
+    const notification = Notification.use();
+
+    // const mediaList = useList();
+
+    const actions = (action: chatTypes.Actions) => {
+        switch (action) {
+            case 'audioCall':
+                return notification.inDev();
+            case ' videoCall':
+                return notification.inDev();
+            case 'delete':
+                return handleDeleteChat(
+                    { chatId },
+                    {
+                        onSuccess: () => {
+                            chatProfileModal.close();
+                            navigate('/chats');
+                        },
+                    }
+                );
+        }
     };
 
-    return <ChatProfileModalView chat={chatProxy(chatData)} deleteChat={deleteChat} />;
+    return <ChatProfileModalView chat={chatProxy(chatData)} actions={actions} />;
 }
 
 export default function (chatProfileModal: ModalTypes.UseReturnedType) {

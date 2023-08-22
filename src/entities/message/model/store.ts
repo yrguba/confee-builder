@@ -2,16 +2,16 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useStore, UseStore } from 'shared/hooks';
+import { useStore, UseStoreTypes } from 'shared/hooks';
 
 import { MessageProxy } from './types';
 
 type Store = {
-    replyMessage: UseStore.SelectorWithObj<MessageProxy>;
-    editMessage: UseStore.SelectorWithObj<MessageProxy>;
-    forwardMessages: UseStore.SelectorWithObj<{ fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean }>;
-    highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
-    voiceRecordingInProgress: UseStore.SelectorWithPrimitive<boolean>;
+    replyMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
+    editMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
+    forwardMessages: UseStoreTypes.SelectorWithObj<{ fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean }>;
+    highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
+    voiceRecordingInProgress: UseStoreTypes.SelectorWithPrimitive<boolean>;
 };
 
 const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, generateSelectorWithPrimitive } = useStore<Store>();

@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { UseEasyStateReturnedType } from 'shared/hooks';
+import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Button, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
-    callStartedState: UseEasyStateReturnedType<boolean>;
-    microphoneState: UseEasyStateReturnedType<boolean>;
+    callStartedState: UseEasyStateReturnType<boolean>;
+    microphoneState: UseEasyStateReturnType<boolean>;
 } & BaseTypes.Statuses;
 
 function GroupCallView(props: Props) {

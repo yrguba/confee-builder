@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
+import { appTypes } from 'entities/app';
 import { useFetchMediaContent, useStorage, useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { appTypes } from '../../../../../entities/app';
-import Box from '../../../box';
-import LoadingIndicator from '../../../loading-indicator';
-import { ImageProps } from '../types';
+import Box from '../../../../box';
+import LoadingIndicator from '../../../../loading-indicator';
+import { BaseImageProps } from '../../types';
 
-function Image(props: ImageProps) {
+function Image(props: BaseImageProps) {
     const { img, width, height, horizontalImgWidth, onClick, ...other } = props;
     const storage = useStorage<appTypes.ValuesInStorage>();
 

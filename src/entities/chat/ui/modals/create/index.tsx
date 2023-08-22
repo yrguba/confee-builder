@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
 import { viewerTypes } from 'entities/viewer';
-import { UseEasyStateReturnedType, UseArrayReturnedType } from 'shared/hooks';
+import { UseEasyStateReturnType, UseArrayReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Icons, Input, Title, TabBar, Card, CardTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
 type Props = {
-    selectedContacts: UseArrayReturnedType<CardTypes.CardListItem>;
-    isGroup: UseEasyStateReturnedType<boolean>;
+    selectedContacts: UseArrayReturnType<CardTypes.CardListItem>;
+    isGroup: UseEasyStateReturnType<boolean>;
     createChat: () => void;
     contacts: viewerTypes.ContactProxy[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;

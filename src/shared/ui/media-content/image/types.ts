@@ -2,10 +2,16 @@ import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
-export type ImageProps = {
+export type BaseImageProps = {
     img: string;
     width?: string;
     horizontalImgWidth?: string;
     height?: string;
-} & ButtonHTMLAttributes<HTMLImageElement> &
-    BaseTypes.Statuses;
+    onClick?: () => void;
+} & BaseTypes.Statuses;
+
+export type ImagesListItem = {} & BaseImageProps;
+
+export type ImagesListProps = {
+    items: ImagesListItem[] | BaseTypes.Empty;
+} & BaseTypes.Statuses;

@@ -1,7 +1,7 @@
 import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 
-import { useInView, usePrevious, useScroll, UseStore } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseStoreTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -23,7 +23,7 @@ type Props = {
     sendReaction: (emoji: string, messageId: number) => void;
     clickImage: (data: appTypes.ImagesSwiperProps) => void;
     clickTag: (tag: string) => void;
-    highlightedMessages: UseStore.SelectorWithArr<MessageProxy>;
+    highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     voiceRecordingInProgress: boolean;
 } & BaseTypes.Statuses;
 

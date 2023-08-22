@@ -15,3 +15,5 @@ export type BaseTabBarProps = {
     variant?: 'icons';
     bodyStyle?: CSSProperties;
 };
+
+export type TabBarWithLineProps = {} & BaseTabBarProps;

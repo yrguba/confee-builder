@@ -1,7 +1,5 @@
-import moment from 'moment';
-
 import { viewerService } from 'entities/viewer';
-import { dateConverter, debounce, getEnding } from 'shared/lib';
+import { dateConverter, getEnding } from 'shared/lib';
 
 import { ChatProxy, Chat } from './types';
 import { userService } from '../../user';

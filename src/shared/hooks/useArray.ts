@@ -80,5 +80,5 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
     return { array: array.value, push, unshift, findById, replace, deleteById, deleteByIds, pushOrDelete, clear, getIds };
 }
 
-export type UseArrayReturnedType<T extends { [key: string]: any; id: string | number }> = ReturnType<typeof useArray<T>>;
+export type UseArrayReturnType<T extends { [key: string]: any; id: string | number }> = ReturnType<typeof useArray<T>>;
 export default useArray;
