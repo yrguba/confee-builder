@@ -1,3 +1,7 @@
+import { messageTypes } from 'entities/message';
+
+import { File } from '../../message/model/types';
+
 export enum Statuses {
     'IN_OFFICE' = '#29CC39',
     'HOME_WORK' = '#8833FF',
@@ -10,14 +14,7 @@ export enum Statuses {
 }
 
 export type User = {
-    avatar: {
-        chat_id: number | null;
-        user_id: number | null;
-        created_at: Date;
-        update_at: Date;
-        id: number;
-        path?: string;
-    };
+    avatar: File;
     birth: string;
     contact_name: string;
     created_at: Date;

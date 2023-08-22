@@ -10,7 +10,7 @@ function ImageList(props: ImagesListProps) {
     return (
         <div className={styles.wrapper}>
             {items?.map((i) => (
-                <Image {...i} />
+                <Image key={i.id} {...i} borderRadius={false} />
             ))}
         </div>
     );

@@ -20,5 +20,5 @@ export type CardListItem = {
 
 export type CardListProps = {
     items: CardListItem[] | BaseTypes.Empty;
-    selected: UseArrayReturnType<CardListItem>;
+    selected?: UseArrayReturnType<CardListItem>;
 };

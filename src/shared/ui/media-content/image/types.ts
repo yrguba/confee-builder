@@ -8,9 +8,12 @@ export type BaseImageProps = {
     horizontalImgWidth?: string;
     height?: string;
     onClick?: () => void;
+    borderRadius?: boolean;
 } & BaseTypes.Statuses;
 
-export type ImagesListItem = {} & BaseImageProps;
+export type ImagesListItem = {
+    id: number | string;
+} & BaseImageProps;
 
 export type ImagesListProps = {
     items: ImagesListItem[] | BaseTypes.Empty;

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { chatApi, chatProxy, ChatProfileModalView, chatTypes } from 'entities/chat';
 import { messageTypes } from 'entities/message';
-import { useRouter, useList, useUpdateEffect, useEasyState } from 'shared/hooks';
-import { Modal, ModalTypes, Notification, Card } from 'shared/ui';
+import { useRouter, useEasyState } from 'shared/hooks';
+import { Modal, ModalTypes, Notification } from 'shared/ui';
 
 function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
     const { params, navigate } = useRouter();
@@ -14,8 +14,8 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(chatData?.is_group ? 'images' : null);
 
-    const { data: handleGetChatFiles } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
-
+    const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
+    console.log(filesData);
     const notification = Notification.use();
 
     const actions = (action: chatTypes.Actions) => {
@@ -37,7 +37,7 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
         }
     };
 
-    return <ChatProfileModalView chat={chatProxy(chatData)} actions={actions} mediaTypes={mediaTypes} />;
+    return <ChatProfileModalView chat={chatProxy(chatData)} actions={actions} mediaTypes={mediaTypes} filesData={filesData} />;
 }
 
 export default function (chatProfileModal: ModalTypes.UseReturnedType) {

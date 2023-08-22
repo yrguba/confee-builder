@@ -9,7 +9,7 @@ type Item<T> = {
     hidden?: boolean;
 };
 
-function useList<T>(initial: Item<T>[], callback?: (data: Item<T>) => void) {
+function useList<T>(initial: Item<T>[], callback?: (data: Item<T>) => void, deps?: any[]) {
     const items = useEasyState<Item<T>[]>(initial);
     const activeItem = useEasyState<Item<T>>(items.value[0]);
 
@@ -17,7 +17,7 @@ function useList<T>(initial: Item<T>[], callback?: (data: Item<T>) => void) {
         const filtered = initial.filter((i) => !i.hidden);
         items.set(filtered);
         activeItem.set(filtered[0]);
-    }, []);
+    }, [deps]);
 
     const variants = items.value.filter((i) => !i.hidden).map((i) => String(i.id));
 

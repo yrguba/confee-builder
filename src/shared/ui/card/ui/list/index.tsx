@@ -10,16 +10,18 @@ function CardList(props: CardListProps) {
     return (
         <div className={styles.wrapper}>
             {items?.map((i) => (
-                <div key={i.id} className={styles.item} onClick={() => selected.pushOrDelete(i)}>
+                <div key={i.id} className={styles.item} onClick={() => selected && selected.pushOrDelete(i)}>
                     <div className={styles.info}>
                         <Card onClick={() => ''} key={i.id} name={i?.name || ''} title={i?.title || ''} img={i?.img || ''} subtitle={i?.subtitle || ' '} />
                     </div>
 
-                    <div className={styles.selectIndicator}>
-                        <Box.Animated visible={!!selected.findById(i.id)}>
-                            <Icons variant="check" />
-                        </Box.Animated>
-                    </div>
+                    {selected && (
+                        <div className={styles.selectIndicator}>
+                            <Box.Animated visible={!!selected && !!selected.findById(i.id)}>
+                                <Icons variant="check" />
+                            </Box.Animated>
+                        </div>
+                    )}
                 </div>
             ))}
         </div>

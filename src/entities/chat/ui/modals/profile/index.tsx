@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { messageTypes } from 'entities/message';
-import { UseEasyStateReturnType, useList, UseListReturnType } from 'shared/hooks';
+import { userService } from 'entities/user';
+import { UseEasyStateReturnType, useList } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar } from 'shared/ui';
+import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { ChatProxy, Actions } from '../../../model/types';
@@ -12,10 +13,11 @@ type Props = {
     chat: ChatProxy | BaseTypes.Empty;
     actions: (actions: Actions) => void;
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
+    filesData: messageTypes.File[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function ChatProfileModalView(props: Props) {
-    const { chat, actions, mediaTypes } = props;
+    const { chat, actions, mediaTypes, filesData } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -28,15 +30,34 @@ function ChatProfileModalView(props: Props) {
         { id: 1, title: 'Номер телефона', subtitle: chat?.secondMember?.phone || '' },
     ];
 
+    function Members() {
+        return (
+            <Card.List
+                items={chat?.members.map((i) => ({
+                    id: i.id,
+                    img: i.avatar?.path || '',
+                    name: userService.getFullName(i),
+                    title: userService.getFullName(i),
+                    subtitle: userService.getUserNetworkStatus(i),
+                }))}
+            />
+        );
+    }
+
+    function Images() {
+        return <Image.List items={filesData?.map((i, index) => ({ img: i.link, id: index, width: '25%', height: '122px' }))} />;
+    }
+
     const mediaList = useList<messageTypes.MediaContentType | null>(
         [
-            { id: 'Участники', hidden: chat?.is_group, payload: null, element: <div>members</div> },
-            { id: 'Фото', payload: 'images', element: <div>Медиа</div> },
+            { id: 'Участники', hidden: chat?.is_group, payload: null, element: <Members /> },
+            { id: 'Фото', payload: 'images', element: <Images /> },
             { id: 'Видео', payload: 'videos', element: <div>Медиа</div> },
             { id: 'Аудио', payload: 'audios', element: <div>Аудио</div> },
             { id: 'Файлы', payload: 'documents', element: <div>Файлы</div> },
         ],
-        (data) => mediaTypes.set(data.payload)
+        (data) => mediaTypes.set(data.payload),
+        [filesData]
     );
 
     return (
@@ -85,7 +106,7 @@ function ChatProfileModalView(props: Props) {
                     />
                 </div>
                 <div className={styles.mediaList}>
-                    <Box.Animated visible key={mediaList.activeItem.id}>
+                    <Box.Animated visible animationVariant="autoHeight" key={mediaList.activeItem.id}>
                         {mediaList.activeItem.element}
                     </Box.Animated>
                 </div>

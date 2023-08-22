@@ -7,13 +7,12 @@
   max-width: 549px;
   gap: 20px;
   overflow-y: auto;
-  margin-top: 24px;
 
   .mainInfo {
     @include flex-column();
     width: calc(100% - 48px);
     gap: 4px;
-    margin: 0 24px;
+    margin: 24px 24px 0 24px;
 
     .name {
       @include flex;
@@ -65,6 +64,10 @@
     }
 
     .mediaList {
+      @include box-size(100%, auto);
+      min-height: 100px;
+      max-height: 300px;
+      overflow-y: auto;
       color: var(--text-action);
     }
   }

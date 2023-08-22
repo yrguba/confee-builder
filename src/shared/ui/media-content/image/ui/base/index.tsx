@@ -9,7 +9,7 @@ import LoadingIndicator from '../../../../loading-indicator';
 import { BaseImageProps } from '../../types';
 
 function Image(props: BaseImageProps) {
-    const { img, width, height, horizontalImgWidth, onClick, ...other } = props;
+    const { img, width, height, horizontalImgWidth, onClick, borderRadius = true, ...other } = props;
     const storage = useStorage<appTypes.ValuesInStorage>();
 
     const { src, error, isLoading, orientation } = useFetchMediaContent(img || '', storage.get('cache_size'));
@@ -24,9 +24,9 @@ function Image(props: BaseImageProps) {
     };
 
     return (
-        <div onClick={onClick} className={styles.wrapper} style={{ width: getWidth(), height }}>
+        <div onClick={onClick} className={styles.wrapper} style={{ width: getWidth(), height, borderRadius: borderRadius ? 12 : 0 }}>
             {!isLoading && !error && <img className={classes} src={src} alt="" />}
-            <Box.Animated className={styles.loading} visible={isLoading}>
+            <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>
             {(error || !img) && icon}
