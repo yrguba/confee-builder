@@ -18,4 +18,5 @@ export type BaseTabBarProps = {
 
 export type TabBarWithLineProps = {
     wrapperStyle?: CSSProperties;
+    visibleBorder?: boolean;
 } & BaseTabBarProps;

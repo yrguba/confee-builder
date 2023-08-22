@@ -6,6 +6,7 @@ import { useWebSocket, useStorage, useRouter } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
+import { MessageType, MediaContentType, File } from '../../message/model/types';
 import { chatTypes } from '../index';
 
 class ChatApi {
@@ -72,6 +73,17 @@ class ChatApi {
             select: (data) => {
                 const res = httpHandlers.response<{ data: { total_pending_messages_count: number } }>(data);
                 return res.data?.data?.total_pending_messages_count;
+            },
+        });
+    };
+
+    handleGetChatFiles = (data: { chatId: number; filesType: MediaContentType | null }) => {
+        return useQuery(['get-chat-files', data.chatId, data.filesType], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/files/${data.filesType}`), {
+            staleTime: Infinity,
+            enabled: !!data.filesType,
+            select: (data) => {
+                const res = httpHandlers.response<{ data: File[] }>(data);
+                return res.data?.data;
             },
         });
     };

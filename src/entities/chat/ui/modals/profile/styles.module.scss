@@ -13,7 +13,7 @@
     @include flex-column();
     width: calc(100% - 48px);
     gap: 4px;
-    margin:  0 24px;
+    margin: 0 24px;
 
     .name {
       @include flex;
@@ -59,9 +59,13 @@
     padding: 20px;
     margin-bottom: 24px;
 
-    .tabBar{
-      @include box-size(100%, 32px);
-      border-bottom: 1px solid var(--border-secondary);
+    .tabBar {
+      position: relative;
+      @include box-size(100%, auto);
+    }
+
+    .mediaList {
+      color: var(--text-action);
     }
   }
 }

@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { messageTypes } from 'entities/message';
-import { useEasyState, UseListReturnType } from 'shared/hooks';
+import { UseListReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Image, Icons, Avatar, Button, IconsTypes, TabBar } from 'shared/ui';
+import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { ChatProxy, Actions } from '../../../model/types';
@@ -73,8 +72,10 @@ function ChatProfileModalView(props: Props) {
                         }))}
                     />
                 </div>
-                <div>
-                    <Image.List items={[]} />
+                <div className={styles.mediaList}>
+                    <Box.Animated visible key={mediaList.activeItem.id}>
+                        {mediaList.activeItem.element}
+                    </Box.Animated>
                 </div>
             </div>
         </div>

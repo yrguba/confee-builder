@@ -9,7 +9,7 @@ import { TabBarWithLineProps } from '../../types';
 
 const layoutId = getRandomString(5);
 function TabBarWithLine(props: TabBarWithLineProps) {
-    const { items, activeItemId, variant = '', wrapperStyle } = props;
+    const { items, activeItemId, variant = '', wrapperStyle, visibleBorder = true } = props;
 
     // const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
     // const { events } = useDraggableScroll(ref);
@@ -28,6 +28,7 @@ function TabBarWithLine(props: TabBarWithLineProps) {
                     </div>
                 ))}
             </AnimateSharedLayout>
+            {visibleBorder && <div className={styles.border} />}
         </div>
     );
 }

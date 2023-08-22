@@ -14,7 +14,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
     array: T[];
     push: (item: T) => void;
     unshift: (item: T) => void;
-    findById: (id: number) => T | null;
+    findById: (id: number | string) => T | null;
     deleteById: (id: number | string) => void;
     deleteByIds: (id: number[] | string[]) => void;
     clear: () => void;
@@ -50,7 +50,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
         });
     };
 
-    const findById = (id: number) => {
+    const findById = (id: number | string) => {
         if (array.value.length) {
             return array.value.find((i) => i.id === id) || null;
         }
