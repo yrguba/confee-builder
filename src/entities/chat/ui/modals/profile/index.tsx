@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { UseListReturnType } from 'shared/hooks';
+import { messageTypes } from 'entities/message';
+import { UseEasyStateReturnType, useList, UseListReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar } from 'shared/ui';
 
@@ -8,13 +9,13 @@ import styles from './styles.module.scss';
 import { ChatProxy, Actions } from '../../../model/types';
 
 type Props = {
-    chat: ChatProxy;
+    chat: ChatProxy | BaseTypes.Empty;
     actions: (actions: Actions) => void;
-    mediaList: UseListReturnType;
+    mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
 } & BaseTypes.Statuses;
 
 function ChatProfileModalView(props: Props) {
-    const { chat, actions, mediaList } = props;
+    const { chat, actions, mediaTypes } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -27,18 +28,29 @@ function ChatProfileModalView(props: Props) {
         { id: 1, title: 'Номер телефона', subtitle: chat?.secondMember?.phone || '' },
     ];
 
+    const mediaList = useList<messageTypes.MediaContentType | null>(
+        [
+            { id: 'Участники', hidden: chat?.is_group, payload: null, element: <div>members</div> },
+            { id: 'Фото', payload: 'images', element: <div>Медиа</div> },
+            { id: 'Видео', payload: 'videos', element: <div>Медиа</div> },
+            { id: 'Аудио', payload: 'audios', element: <div>Аудио</div> },
+            { id: 'Файлы', payload: 'documents', element: <div>Файлы</div> },
+        ],
+        (data) => mediaTypes.set(data.payload)
+    );
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
-                <Avatar size={200} img={chat.avatar} />
+                <Avatar size={200} img={chat?.avatar} />
                 <div className={styles.name}>
                     <Title textAlign="center" variant="H3B">
-                        {chat.name}
+                        {chat?.name}
                     </Title>
                     <Button tag>tfn</Button>
                 </div>
                 <Title textAlign="center" variant="caption1M">
-                    {chat.subtitle}
+                    {chat?.subtitle}
                 </Title>
             </div>
             <div className={styles.btns}>
@@ -48,7 +60,7 @@ function ChatProfileModalView(props: Props) {
                     </Button>
                 ))}
             </div>
-            {!chat.is_group && (
+            {!chat?.is_group && (
                 <div className={styles.secondaryInfo}>
                     {secondaryInfo.map((i) => (
                         <div key={i.id} className={styles.item}>

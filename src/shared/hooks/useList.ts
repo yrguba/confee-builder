@@ -1,22 +1,32 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
-import { useArray, useEasyState } from './index';
+import { useEasyState } from './index';
 
 type Item<T> = {
     id: string;
     payload: T;
     element: ReactNode;
+    hidden?: boolean;
 };
 
-function useList<T>(initial: Item<T>[]) {
+function useList<T>(initial: Item<T>[], callback?: (data: Item<T>) => void) {
     const items = useEasyState<Item<T>[]>(initial);
     const activeItem = useEasyState<Item<T>>(items.value[0]);
 
-    const variants = items.value.map((i) => String(i.id));
+    useEffect(() => {
+        const filtered = initial.filter((i) => !i.hidden);
+        items.set(filtered);
+        activeItem.set(filtered[0]);
+    }, []);
+
+    const variants = items.value.filter((i) => !i.hidden).map((i) => String(i.id));
 
     const setActiveItem = (id: string) => {
         const item = items.value.find((i) => i.id === id);
-        item && activeItem.set(item);
+        if (item) {
+            activeItem.set(item);
+            callback && callback(item);
+        }
     };
 
     const push = (item: Item<any>, setActive = true) => {
