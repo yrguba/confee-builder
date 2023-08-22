@@ -23,8 +23,8 @@ function ChatProfileModalView(props: Props) {
     ];
 
     const secondaryInfo: { id: number; title: string; subtitle: string }[] = [
-        { id: 0, title: 'Никнейм', subtitle: chat.secondMember?.nickname || '' },
-        { id: 1, title: 'Номер телефона', subtitle: chat.secondMember?.phone || '' },
+        { id: 0, title: 'Никнейм', subtitle: chat?.secondMember?.nickname || '' },
+        { id: 1, title: 'Номер телефона', subtitle: chat?.secondMember?.phone || '' },
     ];
 
     return (

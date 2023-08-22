@@ -78,7 +78,7 @@ class ChatApi {
     };
 
     handleGetChatFiles = (data: { chatId: number; filesType: MediaContentType | null }) => {
-        return useQuery(['get-chat-files', data.chatId, data.filesType], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/files/${data.filesType}`), {
+        return useQuery(['get-chat-files', data.chatId, data?.filesType], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/files/${data.filesType}`), {
             staleTime: Infinity,
             enabled: !!data.filesType,
             select: (data) => {

@@ -10,7 +10,7 @@ type Item<T> = {
 
 function useList<T>(initial: Item<T>[]) {
     const items = useEasyState<Item<T>[]>(initial);
-    const activeItem = useEasyState<Item<T>>(initial[0]);
+    const activeItem = useEasyState<Item<T>>(items.value[0]);
 
     const variants = items.value.map((i) => String(i.id));
 
@@ -20,10 +20,12 @@ function useList<T>(initial: Item<T>[]) {
     };
 
     const push = (item: Item<any>, setActive = true) => {
-        items.set((prev) => [item, ...prev]);
-        if (setActive) {
-            setActiveItem(item.id);
-        }
+        items.set(
+            (prev) => [item, ...prev],
+            () => {
+                setActive && activeItem.set(item);
+            }
+        );
     };
 
     const updateElement = (id: string, element: ReactNode) => {
