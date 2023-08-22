@@ -31,7 +31,7 @@ import useCreateSelectors from './useCreateSelectors';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
-import useList from './useList';
+import useList, { UseListReturnType } from './useList';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useScroll from './useScroll';
@@ -101,4 +101,4 @@ export {
     useWebSocket,
 };
 
-export type { UseArrayReturnType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes };
+export type { UseArrayReturnType, UseListReturnType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes };

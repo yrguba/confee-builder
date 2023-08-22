@@ -3,19 +3,24 @@
 .wrapper {
   @include flex;
   @include box-size(100%, 100%);
+  gap: 12px;
 
-  .body {
-    @include flex(flex-start);
-    @include box-size(100%, 100%);
-    overflow-x: auto;
-    gap: 8px;
+  .item {
+    color: var(--text-secondary);
+    position: relative;
+    cursor: pointer;
 
-    svg {
-      fill: var(--text-secondary);
+    &_active {
+      color: var(--text-action);
     }
   }
 
-  .icons{
-    gap: 4px!important;
+  .line {
+    width: 100%;
+    height: 4px;
+    position: absolute;
+    bottom: -6px;
+    background-color: var(--text-action);
+    border-radius: 12px;
   }
 }

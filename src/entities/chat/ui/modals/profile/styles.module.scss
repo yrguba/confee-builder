@@ -2,15 +2,18 @@
 
 .wrapper {
   @include box-size(auto, 100%);
-  @include flex-column;
+  @include flex-column(flex-start);
   max-height: 90vh;
   max-width: 549px;
+  gap: 20px;
+  overflow-y: auto;
+  margin-top: 24px;
 
   .mainInfo {
     @include flex-column();
     width: calc(100% - 48px);
     gap: 4px;
-    margin: 24px 24px 0 24px;
+    margin:  0 24px;
 
     .name {
       @include flex;
@@ -23,7 +26,7 @@
     @include box-size(370px, 61px);
     @include flex;
     gap: 16px;
-    margin: 24px 90px;
+    margin: 0 90px;
 
     svg {
       fill: var(--text-primary);
@@ -42,6 +45,22 @@
     .item {
       @include box-size(100%, 50px);
       @include flex-column(center, flex-start);
+      border-bottom: 1px solid var(--border-secondary);
+    }
+  }
+
+  .media {
+    @include flex-column();
+    @include box-size(calc(84% - 40px), auto);
+    gap: 4px;
+    flex: 1;
+    background-color: var(--bg-primary);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+
+    .tabBar{
+      @include box-size(100%, 32px);
       border-bottom: 1px solid var(--border-secondary);
     }
   }

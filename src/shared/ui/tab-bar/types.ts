@@ -11,9 +11,11 @@ export type TabBarItem = {
 
 export type BaseTabBarProps = {
     items: TabBarItem[];
-    activeItemId: number;
+    activeItemId: number | string;
     variant?: 'icons';
     bodyStyle?: CSSProperties;
 };
 
-export type TabBarWithLineProps = {} & BaseTabBarProps;
+export type TabBarWithLineProps = {
+    wrapperStyle?: CSSProperties;
+} & BaseTabBarProps;

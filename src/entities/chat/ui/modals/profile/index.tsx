@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { messageTypes } from 'entities/message';
-import { useEasyState } from 'shared/hooks';
+import { useEasyState, UseListReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Title, Image, Icons, Avatar, Button, IconsTypes, TabBar } from 'shared/ui';
 
@@ -11,12 +11,11 @@ import { ChatProxy, Actions } from '../../../model/types';
 type Props = {
     chat: ChatProxy;
     actions: (actions: Actions) => void;
+    mediaList: UseListReturnType;
 } & BaseTypes.Statuses;
 
 function ChatProfileModalView(props: Props) {
-    const { chat, actions } = props;
-
-    const activeMedia = useEasyState<messageTypes.MediaContentType>('images');
+    const { chat, actions, mediaList } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -62,8 +61,18 @@ function ChatProfileModalView(props: Props) {
                     ))}
                 </div>
             )}
-            <div>
-                <div>{/* <TabBar.WithLine /> */}</div>
+            <div className={styles.media}>
+                <div className={styles.tabBar}>
+                    <TabBar.WithLine
+                        wrapperStyle={{ justifyContent: 'space-around' }}
+                        activeItemId={mediaList.activeItem.id}
+                        items={mediaList.variants.map((i) => ({
+                            id: i,
+                            title: i,
+                            callback: () => mediaList.setActiveItem(i),
+                        }))}
+                    />
+                </div>
                 <div>
                     <Image.List items={[]} />
                 </div>

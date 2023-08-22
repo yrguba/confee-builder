@@ -12,7 +12,11 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
 
     const notification = Notification.use();
 
-    // const mediaList = useList();
+    const mediaList = useList([
+        { id: 'Медиа', element: <div>Медиа</div> },
+        { id: 'Аудио', element: <div>Аудио</div> },
+        { id: 'Файлы', element: <div>Файлы</div> },
+    ]);
 
     const actions = (action: chatTypes.Actions) => {
         switch (action) {
@@ -33,7 +37,7 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
         }
     };
 
-    return <ChatProfileModalView chat={chatProxy(chatData)} actions={actions} />;
+    return <ChatProfileModalView chat={chatProxy(chatData)} actions={actions} mediaList={mediaList} />;
 }
 
 export default function (chatProfileModal: ModalTypes.UseReturnedType) {
