@@ -19,6 +19,9 @@
   }
 }
 
+.vertical{
+  @include flex-column;
+}
 
 .primary {
   background-color: var(--control-primary);

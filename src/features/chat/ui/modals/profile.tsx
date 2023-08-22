@@ -22,11 +22,13 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
         );
     };
 
+    return <ChatProfileModalView chat={chatProxy(chatData)} deleteChat={deleteChat} />;
+}
+
+export default function (chatProfileModal: ModalTypes.UseReturnedType) {
     return (
         <Modal {...chatProfileModal}>
-            <ChatProfileModalView chat={chatProxy(chatData)} deleteChat={deleteChat} />
+            <ChatProfileModal {...chatProfileModal} />
         </Modal>
     );
 }
-
-export default ChatProfileModal;

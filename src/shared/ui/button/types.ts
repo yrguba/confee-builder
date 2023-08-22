@@ -13,6 +13,7 @@ type SharedProps = {
 
 export type BaseButtonProps = {
     size?: number | 's' | 'm';
+    direction?: 'vertical' | 'horizontal';
     width?: string;
     height?: string;
     chips?: boolean;

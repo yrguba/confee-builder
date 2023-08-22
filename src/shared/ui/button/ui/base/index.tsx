@@ -22,6 +22,7 @@ function BaseButton(props: BaseButtonProps) {
         animateTrigger,
         height,
         active,
+        direction = 'horizontal',
         ...other
     } = props;
 
@@ -32,6 +33,7 @@ function BaseButton(props: BaseButtonProps) {
         [`${variant}_active`]: variant && active,
         chips,
         tag,
+        [direction]: direction,
         [`size-${size}`]: size,
     });
 
