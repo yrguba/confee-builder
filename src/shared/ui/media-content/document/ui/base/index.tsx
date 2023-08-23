@@ -3,13 +3,14 @@ import React from 'react';
 import { appService } from 'entities/app';
 import { useFetchMediaContent, useFs } from 'shared/hooks';
 
-import Icons from './icons';
 import styles from './styles.module.scss';
-import Notification from '../../../notification';
-import { DocumentProps } from '../types';
+import Icons from '../../../../icons';
+import Notification from '../../../../notification';
+import Title from '../../../../title';
+import { BaseDocumentProps } from '../../types';
 
-function Document(props: DocumentProps) {
-    const { url, size, name } = props;
+function Document(props: BaseDocumentProps) {
+    const { url, size, name, extension } = props;
     const notification = Notification.use();
     const { src, fileBlob } = useFetchMediaContent(url);
     const { saveFile } = useFs();
@@ -31,11 +32,12 @@ function Document(props: DocumentProps) {
             rel="noreferrer"
         >
             <div className={styles.icon}>
-                <Icons variant="doc" />
+                <Icons.Document variant={extension as any} />
             </div>
-            <div className={styles.info}>
-                <div className={styles.name}>{name}</div>
-            </div>
+
+            <Title textAlign="left" variant="H3R">
+                {name}
+            </Title>
         </a>
     );
 }

@@ -61,6 +61,10 @@ export type PlayerIconsProps = {
     variant: 'stop' | 'pause' | 'play';
 };
 
+export type DocumentIconsProps = {
+    variant: 'pptx' | 'doc' | 'xls';
+};
+
 export type LogoIconsProps = {
     variant: 'confee' | 'softworks' | 'tfn' | 'premium';
 };

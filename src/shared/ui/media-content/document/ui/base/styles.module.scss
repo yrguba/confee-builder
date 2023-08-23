@@ -1,0 +1,14 @@
+@import "src/app/styles/index";
+
+.wrapper {
+  @include flex;
+  gap: 8px;
+  cursor: pointer;
+
+
+  svg {
+    fill: var(--text-primary);
+  }
+
+}
+

@@ -3,7 +3,7 @@ import React from 'react';
 import { messageTypes } from 'entities/message';
 import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image } from 'shared/ui';
+import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { userService } from '../../../../user';
@@ -40,7 +40,7 @@ function ChatProfileModalView(props: Props) {
         { id: 3, type: 'audios', title: 'Аудио' },
         { id: 4, type: 'documents', title: 'Файлы' },
     ];
-
+    console.log(files);
     return (
         <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
@@ -121,6 +121,21 @@ function ChatProfileModalView(props: Props) {
                                             height: '122px',
                                         }))}
                                     />
+                                ),
+                            },
+                            {
+                                visible: mediaTypes.value === 'documents',
+                                item: (
+                                    <div className={styles.documents}>
+                                        <Document.List
+                                            items={files?.map((i, index) => ({
+                                                id: index,
+                                                url: i.link || '',
+                                                name: i.name,
+                                                extension: i.extension,
+                                            }))}
+                                        />
+                                    </div>
                                 ),
                             },
                         ]}

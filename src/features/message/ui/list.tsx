@@ -16,10 +16,6 @@ function MessageList() {
     const [state, copyToClipboard] = useCopyToClipboard();
     const chatId = Number(params.chat_id);
 
-    const { mutate: handleReadMessage } = messageApi.handleReadMessage();
-    const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
-    const { mutate: handleSendReaction } = messageApi.handleSendReaction();
-
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleSubscribeToChat } = chatApi.handleSubscribeToChat();
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
@@ -40,6 +36,9 @@ function MessageList() {
         fetchNextPage,
         isFetching,
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
+    const { mutate: handleReadMessage } = messageApi.handleReadMessage();
+    const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
+    const { mutate: handleSendReaction } = messageApi.handleSendReaction();
 
     const messages = memoUpdateMessages(messageData);
 

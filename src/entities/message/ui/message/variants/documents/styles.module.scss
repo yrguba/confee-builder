@@ -7,6 +7,14 @@
   flex-wrap: wrap;
   color: var(--text-primary);
   max-width: 600px;
+
+.item{
+  max-width: 200px;
+  @media  (max-width: 740px) and (min-width: 680px) {
+    max-width: 150px;
+  }
+}
+
 }
 
 
