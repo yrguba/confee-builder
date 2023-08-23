@@ -1,5 +1,3 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
-
 import { BaseTypes } from 'shared/types';
 
 export type BaseImageProps = {
@@ -16,5 +14,12 @@ export type ImagesListItem = {
 } & BaseImageProps;
 
 export type ImagesListProps = {
+    items: ImagesListItem[] | BaseTypes.Empty;
+} & BaseTypes.Statuses;
+
+export type ImagesSwiperProps = {
+    visible: boolean;
+    closeClick: () => void;
+    initialSlide?: number;
     items: ImagesListItem[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
