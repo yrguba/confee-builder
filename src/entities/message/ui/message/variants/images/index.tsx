@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import { BaseTypes } from 'shared/types';
 import { Image } from 'shared/ui';
@@ -20,7 +20,7 @@ function ImagesMessage(props: Props) {
             <Image.List
                 items={images?.map((i, index) => ({
                     id: index,
-                    img: i.link || '',
+                    url: i.link || '',
                     width: '49%',
                     horizontalImgWidth: '99%',
                     height: '200px',
@@ -30,4 +30,6 @@ function ImagesMessage(props: Props) {
     );
 }
 
-export default ImagesMessage;
+export default memo(ImagesMessage, (prevProps, nextProps): any => {
+    if (prevProps.images[0].id === nextProps.images[0].id) return true;
+});

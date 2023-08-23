@@ -117,7 +117,7 @@ function ChatProfileModalView(props: Props) {
                                     <Image.List
                                         items={files?.map((i, index) => ({
                                             id: index,
-                                            img: i.link || '',
+                                            url: i.link || '',
                                             width: 'auto',
                                             height: '122px',
                                         }))}

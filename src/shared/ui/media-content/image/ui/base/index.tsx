@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { appTypes } from 'entities/app';
 import { useFetchMediaContent, useStorage, useStyles } from 'shared/hooks';
@@ -9,13 +9,13 @@ import LoadingIndicator from '../../../../loading-indicator';
 import { BaseImageProps } from '../../types';
 
 function Image(props: BaseImageProps) {
-    const { img, width, height, horizontalImgWidth, onClick, borderRadius = true, ...other } = props;
+    const { url, width, height, horizontalImgWidth, onClick, borderRadius = true, ...other } = props;
     const storage = useStorage<appTypes.ValuesInStorage>();
 
-    const { src, error, isLoading, orientation } = useFetchMediaContent(img || '', storage.get('cache_size'));
+    const { src, error, isLoading, orientation } = useFetchMediaContent(url || '', storage.get('cache_size'));
 
     const classes = useStyles(styles, 'img', {
-        error: error || !img,
+        error: error || !url,
     });
 
     const getWidth = () => {
@@ -29,13 +29,12 @@ function Image(props: BaseImageProps) {
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>
-            {(error || !img) && icon}
+            {(error || !url) && icon}
         </div>
     );
 }
 
 export default Image;
-
 const icon = (
     <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path

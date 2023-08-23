@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { BaseTypes } from 'shared/types';
 
 export type BaseImageProps = {
-    img: string;
+    url: string;
     width?: string;
     horizontalImgWidth?: string;
     height?: string;

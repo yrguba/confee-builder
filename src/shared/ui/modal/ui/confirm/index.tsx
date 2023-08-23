@@ -27,7 +27,7 @@ function ConfirmModal(props: ConfirmModalProps) {
             <div className={styles.wrapper}>
                 <div className={styles.body}>
                     <Title variant="H2">{title}</Title>
-                    {callbackData?.value?.img && <Image img={callbackData?.value?.img} />}
+                    {callbackData?.value?.img && <Image url={callbackData?.value?.img} />}
                     {subtitle && <Title variant="H2">{subtitle}</Title>}
                 </div>
                 <div className={styles.footer}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 
 import styles from './styles.module.scss';
 import { ImagesListProps } from '../../types';
@@ -15,5 +15,4 @@ function ImageList(props: ImagesListProps) {
         </div>
     );
 }
-
 export default ImageList;

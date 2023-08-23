@@ -40,7 +40,7 @@ function WebCameraPhoto(props: WebCameraProps) {
                     <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" videoConstraints={videoConstraints} />
                     {photoPreview && (
                         <div className={styles.cover}>
-                            <Image img={photoPreview} />
+                            <Image url={photoPreview} />
                         </div>
                     )}
                 </div>
