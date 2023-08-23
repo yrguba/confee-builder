@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, memo } from 'react';
 
 import { chatTypes } from 'entities/chat';
 import { BaseTypes } from 'shared/types';
@@ -96,5 +96,6 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
         </Box>
     );
 });
-
-export default Message;
+export default memo(Message, (prevProps, nextProps): any => {
+    return true;
+});

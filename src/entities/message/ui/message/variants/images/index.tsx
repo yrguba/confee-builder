@@ -4,6 +4,7 @@ import { BaseTypes } from 'shared/types';
 import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { useRendersCount } from '../../../../../../shared/hooks';
 import { appTypes } from '../../../../../app';
 import { File } from '../../../../model/types';
 
@@ -14,7 +15,7 @@ type Props = {
 
 function ImagesMessage(props: Props) {
     const { images, clickImage } = props;
-
+    console.log('ImagesMessage', useRendersCount());
     return (
         <div className={styles.wrapper}>
             <Image.List
@@ -30,6 +31,7 @@ function ImagesMessage(props: Props) {
     );
 }
 
-export default memo(ImagesMessage, (prevProps, nextProps): any => {
-    if (prevProps.images[0].id === nextProps.images[0].id) return true;
-});
+// export default memo(ImagesMessage, (prevProps, nextProps): any => {
+//     if (prevProps.images[0].id === nextProps.images[0].id) return true;
+// });
+export default ImagesMessage;
