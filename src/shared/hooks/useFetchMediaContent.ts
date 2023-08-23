@@ -1,15 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import useFS from './useFS';
 import { axiosClient } from '../configs';
-import { fileConverter } from '../lib';
+import { fileConverter, httpHandlers } from '../lib';
 
 function useFetchMediaContent(url = '', saveInCache = false) {
     const [src, setSrc] = useState<any>('');
     const [fileBlob, setFileBlob] = useState<Blob | null>(null);
     const [orientation, setOrientation] = useState<'vertical' | 'horizontal'>('vertical');
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(false);
 
     const { saveFile, getFile } = useFS();
 
@@ -20,11 +20,12 @@ function useFetchMediaContent(url = '', saveInCache = false) {
         }
     };
 
+    const { data: imgData, isLoading, error } = handleGetFile(url, !!checkFetch());
+
     useEffect(() => {
         const fn = async () => {
-            setIsLoading(true);
             const fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop() });
-            if (fileInCache && typeof fileInCache === 'string') {
+            if (fileInCache && typeof fileInCache === 'string' && !!window.__TAURI__) {
                 setSrc(fileInCache);
                 const img = new Image();
                 img.onload = function () {
@@ -32,42 +33,40 @@ function useFetchMediaContent(url = '', saveInCache = false) {
                 };
                 if (typeof fileInCache === 'string') img.src = fileInCache;
                 setFileBlob(fileConverter.fromBase64ToBlob(fileInCache));
-                error && setError(false);
-            } else if (checkFetch()) {
-                axiosClient
-                    .get(url, { responseType: 'blob' })
-                    // .then(getBase64)
-                    .then(async (res: any) => {
-                        setIsLoading(true);
-                        setFileBlob(res.data);
-                        saveInCache && (await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop(), fileBlob: res.data }));
-                        const base64 = await fileConverter.fromBlobToBase64(res.data);
-                        const img = new Image();
-                        img.onload = function () {
-                            setOrientation(img.width > img.height ? 'horizontal' : 'vertical');
-                        };
-                        if (typeof base64 === 'string') img.src = base64;
-                        setSrc(base64);
-                        error && setError(false);
-                    })
-                    .catch(() => setError(true))
-                    .finally(() => setIsLoading(false));
+            } else if (imgData) {
+                setFileBlob(imgData);
+                saveInCache && (await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop(), fileBlob: imgData }));
+                const base64 = await fileConverter.fromBlobToBase64(imgData);
+                const img = new Image();
+                img.onload = function () {
+                    setOrientation(img.width > img.height ? 'horizontal' : 'vertical');
+                };
+                if (typeof base64 === 'string') img.src = base64;
+                setSrc(base64);
             } else {
                 setSrc(url);
             }
         };
-        fn()
-            .then()
-            .finally(() => setIsLoading(false));
-    }, [url]);
+        fn().then();
+    }, [url, imgData]);
 
     return {
         src,
         fileBlob,
         orientation,
         error,
-        isLoading,
+        isLoading: !url ? false : isLoading,
     };
+}
+
+function handleGetFile(url: string, checkFetch: boolean) {
+    return useQuery(['get-chat', url], () => axiosClient.get(url, { responseType: 'blob' }), {
+        staleTime: Infinity,
+        enabled: !!url && checkFetch,
+        select: (data) => {
+            return data.data;
+        },
+    });
 }
 
 export default useFetchMediaContent;

@@ -10,7 +10,7 @@ import { BaseAvatarProps } from '../../types';
 
 function Avatar(props: BaseAvatarProps) {
     const { size = 80, name, img, circle = true, status, opacity = 1 } = props;
-
+    console.log('img', img);
     const { src, error, isLoading } = useFetchMediaContent(img || '');
 
     const colors = [
