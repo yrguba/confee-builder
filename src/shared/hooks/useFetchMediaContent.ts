@@ -20,7 +20,9 @@ function useFetchMediaContent(url = '', saveInCache = false) {
         }
     };
 
-    const { data: imgData, isLoading, error } = handleGetFile(url, !!checkFetch());
+    const isFetch = !!checkFetch();
+
+    const { data: imgData, isLoading, error } = handleGetFile(url, isFetch);
 
     useEffect(() => {
         const fn = async () => {
@@ -55,7 +57,7 @@ function useFetchMediaContent(url = '', saveInCache = false) {
         fileBlob,
         orientation,
         error,
-        isLoading: !url ? false : isLoading,
+        isLoading: !url || !isFetch ? false : isLoading,
     };
 }
 

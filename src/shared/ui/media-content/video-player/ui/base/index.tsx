@@ -5,8 +5,6 @@ import { appTypes } from 'entities/app';
 import styles from './styles.module.scss';
 import { useEasyState, useFetchMediaContent, useStorage, useVideo } from '../../../../../hooks';
 import Box from '../../../../box';
-import Button from '../../../../button';
-import Icons from '../../../../icons';
 import LoadingIndicator from '../../../../loading-indicator';
 import { BaseVideoPlayerProps } from '../../types';
 
@@ -14,28 +12,23 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
     const { url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
     const storage = useStorage<appTypes.ValuesInStorage>();
     const { src, isLoading, orientation, error } = useFetchMediaContent(url || '', storage.get('cache_size'));
-    const [video, state, controls, ref] = useVideo(<video style={{ width, height, borderRadius: borderRadius ? 12 : 0 }} src={src} />);
+    const [video, state, controls, ref] = useVideo(<video style={{ width, height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />);
 
     const visibleBtn = useEasyState(false);
-
-    const getWidth = () => {
-        if (orientation === 'horizontal' && horizontalImgWidth) return horizontalImgWidth;
-        return width;
-    };
 
     return (
         <div
             className={styles.wrapper}
-            style={{ width: getWidth(), height }}
-            onMouseLeave={() => visibleBtn.set(false)}
-            onMouseEnter={() => visibleBtn.set(true)}
+            style={{ width: isLoading ? 200 : width, height: isLoading ? 200 : height }}
+            // onMouseLeave={() => visibleBtn.set(false)}
+            // onMouseEnter={() => visibleBtn.set(true)}
         >
             {video}
-            <Box.Animated key={`${visibleBtn.value} ${state.playing}`} visible={visibleBtn.value}>
-                <Button.Circle className={styles.btn} onClick={!state.playing ? controls.play : controls.pause}>
-                    <Icons.Player variant={state.playing ? 'pause' : 'play'} />
-                </Button.Circle>
-            </Box.Animated>
+            {/* <Box.Animated key={`${visibleBtn.value} ${state.playing}`} visible={visibleBtn.value}> */}
+            {/*    <Button.Circle className={styles.btn} onClick={!state.playing ? controls.play : controls.pause}> */}
+            {/*        <Icons.Player variant={state.playing ? 'pause' : 'play'} /> */}
+            {/*    </Button.Circle> */}
+            {/* </Box.Animated> */}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>
