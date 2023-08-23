@@ -11,13 +11,13 @@
 
 .edited {
   min-height: 32px;
+  line-height: 32px!important;
 }
 
 .wrapper {
-  //@include flex;
-  gap: 2px;
   color: var(--text-secondary);
   width: 100%;
+  align-items: center;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -32,7 +32,7 @@
     background-color: var(--bg-primary);
     cursor: pointer;
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 0;
 
     svg {
@@ -45,7 +45,7 @@
 }
 
 .showInput {
-
+  padding-right: 24px!important;
   input {
     text-align: left;
     border-bottom: 1px solid var(--text-action);
