@@ -6,6 +6,7 @@ import { Avatar, Box, Dropdown, Icons, Title } from 'shared/ui';
 
 import MessageMenu from './menu';
 import styles from './styles.module.scss';
+import AudioMessage from './variants/audio';
 import DocumentsMessage from './variants/documents';
 import ForwardMessage from './variants/forward';
 import ImagesMessage from './variants/images';
@@ -58,6 +59,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                             {type === 'images' && <ImagesMessage clickImage={clickImage} images={files} />}
                             {type === 'documents' && <DocumentsMessage documents={files} />}
                             {type === 'voices' && <VoiceMessage voices={message.files} />}
+                            {type === 'audios' && <AudioMessage audios={message.files} />}
                         </div>
                         <div className={styles.info}>
                             {message.is_edited && (

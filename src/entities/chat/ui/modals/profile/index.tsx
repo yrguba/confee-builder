@@ -3,7 +3,7 @@ import React from 'react';
 import { messageTypes } from 'entities/message';
 import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document } from 'shared/ui';
+import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { userService } from '../../../../user';
@@ -38,7 +38,8 @@ function ChatProfileModalView(props: Props) {
         { id: 1, type: 'images', title: 'Фото' },
         { id: 2, type: 'videos', title: 'Видео' },
         { id: 3, type: 'audios', title: 'Аудио' },
-        { id: 4, type: 'documents', title: 'Файлы' },
+        { id: 4, type: 'voices', title: 'Голосовые' },
+        { id: 5, type: 'documents', title: 'Файлы' },
     ];
     console.log(files);
     return (
@@ -133,6 +134,19 @@ function ChatProfileModalView(props: Props) {
                                                 url: i.link || '',
                                                 name: i.name,
                                                 extension: i.extension,
+                                            }))}
+                                        />
+                                    </div>
+                                ),
+                            },
+                            {
+                                visible: mediaTypes.value === 'voices' || mediaTypes.value === 'audios',
+                                item: (
+                                    <div className={styles.audios}>
+                                        <AudioPlayer.List
+                                            items={files?.map((i, index) => ({
+                                                id: index,
+                                                url: i.link || '',
                                             }))}
                                         />
                                     </div>

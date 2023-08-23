@@ -7,6 +7,7 @@ function waveformStatic({ url }: { url: string }) {
         isPlaying: () => false,
     });
 
+    const [isLoading, toggleIsLoading] = useState(false);
     const [isPlaying, toggleIsPlaying] = useState(false);
     type InitialTime = { currentSec?: string; h: string; m: string; s: string };
     const initTime = { currentSec: '0', h: '0', m: '0', s: '0' };
@@ -24,6 +25,7 @@ function waveformStatic({ url }: { url: string }) {
     };
 
     useEffect(() => {
+        toggleIsLoading(true);
         const waveSurfer = WaveSurfer.create({
             container: containerRef.current,
             // responsive: true,
@@ -42,6 +44,7 @@ function waveformStatic({ url }: { url: string }) {
         waveSurfer.load(url);
 
         waveSurfer.on('ready', () => {
+            toggleIsLoading(false);
             waveSurferRef.current = waveSurfer;
             setTime(timeConvert(Math.ceil(waveSurfer.getDuration())));
             waveSurfer.on('play', () => {
@@ -77,7 +80,7 @@ function waveformStatic({ url }: { url: string }) {
 
     const waveform = <div ref={containerRef} style={{ width: '100%', height: '100%', overflow: 'hidden' }} />;
 
-    return [waveform, waveSurferRef, isPlaying, time, currentTime];
+    return [waveform, waveSurferRef, isPlaying, time, currentTime, isLoading];
 }
 
 export default waveformStatic;

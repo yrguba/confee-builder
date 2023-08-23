@@ -2,15 +2,15 @@ import React, { ForwardRefExoticComponent } from 'react';
 
 import * as Types from './types';
 import Base from './ui/base';
-import VoiceAudioPlayer from './ui/voice';
+import List from './ui/list';
 
 type CompoundedComponent = ForwardRefExoticComponent<Types.BaseAudioPlayerProps> & {
-    Voice: typeof VoiceAudioPlayer;
+    List: typeof List;
 };
 
 const AudioPlayer = Base as CompoundedComponent;
 
-AudioPlayer.Voice = VoiceAudioPlayer;
+AudioPlayer.List = List;
 
 export { Types };
 export default AudioPlayer;

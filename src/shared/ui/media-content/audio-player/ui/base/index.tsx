@@ -1,66 +1,53 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { useAudio } from 'react-use';
+import React, { useEffect } from 'react';
+
+import { sizeConverter } from 'shared/lib';
 
 import styles from './styles.module.scss';
+import { appTypes } from '../../../../../../entities/app';
+import { useFetchMediaContent, useStorage } from '../../../../../hooks';
+import Box from '../../../../box';
 import Button from '../../../../button';
 import Icons from '../../../../icons';
+import LoadingIndicator from '../../../../loading-indicator';
 import { BaseAudioPlayerProps } from '../../types';
 import waveformStatic from '../wave-form/static';
 
-function BaseAudioPlayer(props: BaseAudioPlayerProps) {
-    const { url } = props;
+function AudioPlayer(props: BaseAudioPlayerProps) {
+    const { url, size, isVisibleMeta } = props;
+    const storage = useStorage<appTypes.ValuesInStorage>();
+    const { src } = useFetchMediaContent(url || '', storage.get('cache_size'));
 
-    const [waveform, waveSurferControl, isPlaying] = waveformStatic({ url });
-
-    const [audio, state, controls, audioRef]: any = useAudio({
-        src: url,
-        autoPlay: false,
-        onPlay: () => {},
-    });
-    if (audioRef?.current) {
-        audioRef.current.crossOrigin = 'anonymous';
-    }
+    const [waveform, waveSurferRef, isPlaying, time, currentTime, isLoading] = waveformStatic({ url: src || ' ' });
 
     const playPauseClick = () => {
-        if (isPlaying) {
-            // controls.pause();
-            waveSurferControl?.pause();
-        } else {
-            // controls.play();
-            waveSurferControl?.play();
+        if (typeof waveSurferRef.current.playPause === 'function') {
+            waveSurferRef.current.playPause();
         }
     };
-    // const [analyzerData, setAnalyzerData] = useState<any>(null);
-    //
-    // const audioAnalyzer = () => {
-    //     const audioCtx = new window.AudioContext();
-    //     const analyzer = audioCtx.createAnalyser();
-    //     analyzer.fftSize = 2048;
-    //
-    //     const bufferLength = analyzer.frequencyBinCount;
-    //     const dataArray = new Uint8Array(bufferLength);
-    //     const source = audioCtx.createMediaElementSource(audioRef.current);
-    //     source.connect(analyzer);
-    //     source.connect(audioCtx.destination);
-    //     // @ts-ignore
-    //     source.onended = () => {
-    //         source.disconnect();
-    //     };
-    //
-    //     setAnalyzerData({ analyzer, bufferLength, dataArray });
-    // };
 
     return (
-        <div className={styles.wrapper}>
-            {audio}
+        <div className={styles.wrapper} style={{ overflow: isLoading ? 'hidden' : 'visible' }}>
+            <LoadingIndicator.Glare visible={isLoading} />
             <div className={styles.controls}>
-                <Button.Circle onClick={playPauseClick}>
+                <Button.Circle radius={40} onClick={playPauseClick}>
                     <Icons.Player variant={isPlaying ? 'pause' : 'play'} />
                 </Button.Circle>
             </div>
+            {isVisibleMeta && !isLoading && (
+                <>
+                    <div className={styles.time}>
+                        <Box.Animated visible={!!time.currentSec} animationVariant="autoWidth">
+                            <div className={styles.currentTime}>{`${currentTime.h ? `${currentTime.h}:` : ''}${currentTime.m}:${currentTime.s}`}</div>
+                        </Box.Animated>
+                        {time.currentSec && <div>/</div>}
+                        <div className={styles.totalTime}>{`${time.h ? `${time.h}:` : ''}${time.m}:${time.s}`}</div>
+                    </div>
+                    {size && <div className={styles.size}>{size && sizeConverter(size)}</div>}
+                </>
+            )}
             <div className={styles.waveform}>{waveform}</div>
         </div>
     );
 }
 
-export default BaseAudioPlayer;
+export default AudioPlayer;

@@ -7,12 +7,12 @@ import styles from './styles.module.scss';
 import { File } from '../../../../model/types';
 
 type Props = {
-    voices: File[];
+    audios: File[];
 } & BaseTypes.Statuses;
 
-function VoiceMessage(props: Props) {
-    const { voices } = props;
-    const voice = voices[0];
+function AudioMessage(props: Props) {
+    const { audios } = props;
+    const voice = audios[0];
     return (
         <div className={styles.wrapper}>
             <AudioPlayer url={voice.link} isVisibleMeta />
@@ -20,4 +20,4 @@ function VoiceMessage(props: Props) {
     );
 }
 
-export default VoiceMessage;
+export default AudioMessage;

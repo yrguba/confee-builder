@@ -10,8 +10,8 @@ function DocumentList(props: DocumentsListProps) {
     return (
         <div className={styles.wrapper}>
             {items?.map((i) => (
-                <div className={styles.item}>
-                    <Document key={i.id} {...i} />
+                <div key={i.id} className={styles.item}>
+                    <Document {...i} />
                 </div>
             ))}
         </div>

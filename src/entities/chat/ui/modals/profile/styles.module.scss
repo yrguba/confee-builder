@@ -72,14 +72,7 @@
       overflow-y: auto;
       color: var(--text-action);
 
-      .members{
-        padding: 10px 20px;
-      }
-
-      .documents{
-
-        @include flex(flex-start);
-        width: 90%;
+      .members, .documents,.audios {
         padding: 10px 20px;
       }
     }
