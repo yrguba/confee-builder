@@ -48,7 +48,7 @@ function MessageInput() {
                             files: formData,
                             params: { reply_to_message_id: replyMessage.value?.id },
                             replyMessage: replyMessage.value,
-                            filesForMock: value.map((i) => ({ link: i.fileUrl, name: i.name })),
+                            filesForMock: value.map((i) => ({ id: i.id, link: i.fileUrl, name: i.name })),
                             filesType: `${key}s` as MessageType,
                         });
                     }
@@ -79,7 +79,7 @@ function MessageInput() {
                 chatId,
                 filesType: 'voices',
                 files: voiceRecord.recorderState.formData,
-                filesForMock: [{ link: voiceRecord.recorderState.audio || '' }],
+                filesForMock: [{ id: 0, link: voiceRecord.recorderState.audio || '' }],
                 params: { reply_to_message_id: replyMessage.value?.id },
                 replyMessage: replyMessage.value,
             });

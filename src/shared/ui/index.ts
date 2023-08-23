@@ -13,6 +13,7 @@ import LoadingIndicator, { Types as LoadingIndicatorTypes } from './loading-indi
 import AudioPlayer from './media-content/audio-player';
 import Document, { Types as DocumentTypes } from './media-content/document';
 import Image, { Types as ImageTypes } from './media-content/image';
+import VideoPlayer, { Types as VideoPlayerTypes } from './media-content/video-player';
 import WebCameraPhoto, { Types as WebCamaraPhotoTypes } from './media-content/web-camera-photo';
 import Modal, { Types as ModalTypes } from './modal';
 import Notification, { Types as NotificationTypes } from './notification';
@@ -24,6 +25,7 @@ import TabBar, { Types as TabBarTypes } from './tab-bar';
 import Title, { Types as TitleTypes } from './title';
 
 export {
+    VideoPlayer,
     TabBar,
     Card,
     WebCameraPhoto,
@@ -50,6 +52,7 @@ export {
     Notification,
 };
 export type {
+    VideoPlayerTypes,
     TabBarTypes,
     CardTypes,
     WebCamaraPhotoTypes,

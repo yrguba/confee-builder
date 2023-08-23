@@ -12,6 +12,7 @@ import ForwardMessage from './variants/forward';
 import ImagesMessage from './variants/images';
 import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
+import VideoMessage from './variants/video';
 import VoiceMessage from './variants/voice';
 import { useStyles } from '../../../../shared/hooks';
 import { appTypes } from '../../../app';
@@ -60,6 +61,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                             {type === 'documents' && <DocumentsMessage documents={files} />}
                             {type === 'voices' && <VoiceMessage voices={message.files} />}
                             {type === 'audios' && <AudioMessage audios={message.files} />}
+                            {type === 'videos' && <VideoMessage videos={message.files} />}
                         </div>
                         <div className={styles.info}>
                             {message.is_edited && (

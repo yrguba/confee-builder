@@ -16,7 +16,7 @@ export type File = {
     employee_id?: number | null;
     extension?: string;
     hash_id?: string;
-    id?: number;
+    id: number;
     link: string;
     name?: string;
     path?: string;

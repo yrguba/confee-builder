@@ -26,16 +26,6 @@ function ImagesMessage(props: Props) {
                     height: '200px',
                 }))}
             />
-            {/* {images.map((i, index) => ( */}
-            {/*    <Image */}
-            {/*        onClick={() => clickImage({ images: images.map((a) => a.link), startIndex: index })} */}
-            {/*        key={index} */}
-            {/*        img={i.link} */}
-            {/*        width="49%" */}
-            {/*        horizontalImgWidth="100%" */}
-            {/*        height="200px" */}
-            {/*    /> */}
-            {/* ))} */}
         </div>
     );
 }

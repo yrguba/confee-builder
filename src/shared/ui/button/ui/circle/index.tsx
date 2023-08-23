@@ -7,13 +7,14 @@ import Glare from '../../../loading-indicator/ui/glare';
 import { CircleButtonProps } from '../../types';
 
 function CircleButton(props: CircleButtonProps) {
-    const { children, disabled, loading, error, radius = 44, variant = 'primary', active, className, ...other } = props;
+    const { children, disabled, loading, error, radius = 44, variant = 'primary', className, active, ...other } = props;
 
     const classes = useStyles(styles, 'wrapper', {
         active,
         [variant]: variant,
         disabled: disabled || loading,
         error,
+        [String(className)]: className,
     });
 
     return (
