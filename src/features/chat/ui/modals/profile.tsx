@@ -6,8 +6,6 @@ import { messageTypes } from 'entities/message';
 import { useRouter, useEasyState, UseFileUploaderTypes } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
-import { getFormData } from '../../../../shared/lib';
-
 function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
     const { params, navigate } = useRouter();
     const chatId = Number(params.chat_id);
@@ -15,6 +13,7 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
+    const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(!chatData?.is_group ? 'images' : null);
 
@@ -38,12 +37,8 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
         },
     });
 
-    const getScreenshot = (data: string) => {
-        handleAddAvatar({
-            chatId,
-            img: data,
-        });
-    };
+    const getScreenshot = (data: string) => handleAddAvatar({ chatId, img: data });
+    const updateChatName = (name: string) => handleUpdateChatName({ chatId, name });
 
     const actions = (action: chatTypes.Actions) => {
         switch (action) {
@@ -74,6 +69,7 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
                 actions={actions}
                 mediaTypes={mediaTypes}
                 files={filesData}
+                updateChatName={updateChatName}
             />
         </>
     );

@@ -24,4 +24,5 @@ export type TitleProps = {
     textWrap?: boolean;
     textAlign?: 'center' | 'left' | 'right';
     animateTrigger?: string;
+    updCallback?: (value: string | number | undefined) => void;
 } & BaseTypes.Statuses;

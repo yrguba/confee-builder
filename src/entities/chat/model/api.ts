@@ -91,15 +91,18 @@ class ChatApi {
     handleAddAvatar() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { chatId: number; img: string }) => {
-                return axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar'`, getFormData('images', data.img));
-            },
+            (data: { chatId: number; img: string }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img)),
             {
-                onSuccess: async (data) => {
-                    console.log(data);
-                },
+                onSuccess: async (data) => {},
             }
         );
+    }
+
+    handleUpdateChatName() {
+        const queryClient = useQueryClient();
+        return useMutation((data: { chatId: number; name: string }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/name`, { name: data.name }), {
+            onSuccess: async (data) => {},
+        });
     }
 
     handleSubscribeToChat() {

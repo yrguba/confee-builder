@@ -1,21 +1,59 @@
+@import "src/app/styles";
+
 .primary {
   color: var(--text-primary) !important;
 }
 
-.textWrap{
-  white-space: normal!important;
+.textWrap {
+  white-space: normal !important;
   overflow-wrap: break-word;
 }
 
+.edited {
+  min-height: 32px;
+}
+
 .wrapper {
+  //@include flex;
+  gap: 2px;
   color: var(--text-secondary);
   width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  position: relative;
+  text-align: left;
+
+  .icon {
+    @include flex;
+    @include box-size(32px, 32px);
+    min-width: 32px;
+    border-radius: 50%;
+    background-color: var(--bg-primary);
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    svg {
+
+      fill: var(--text-action);
+
+    }
+  }
+
 }
 
-.active{
+.showInput {
+
+  input {
+    text-align: left;
+    border-bottom: 1px solid var(--text-action);
+  }
+}
+
+
+.active {
   color: var(--text-action) !important;
 }
 

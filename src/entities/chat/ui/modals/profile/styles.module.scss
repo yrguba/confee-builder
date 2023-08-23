@@ -17,6 +17,7 @@
     .name {
       @include flex;
       margin-top: 16px;
+      max-width: 90%;
       gap: 8px;
     }
   }

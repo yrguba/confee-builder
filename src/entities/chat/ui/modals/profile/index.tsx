@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { messageTypes } from 'entities/message';
-import { UseEasyStateReturnType, useUpdateEffect } from 'shared/hooks';
+import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image } from 'shared/ui';
 
@@ -16,10 +16,11 @@ type Props = {
     files: messageTypes.File[] | BaseTypes.Empty;
     selectFile: () => void;
     getScreenshot: (data: string) => void;
+    updateChatName: (name: string) => void;
 } & BaseTypes.Statuses;
 
 function ChatProfileModalView(props: Props) {
-    const { chat, actions, mediaTypes, files, getScreenshot, selectFile } = props;
+    const { chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -49,7 +50,7 @@ function ChatProfileModalView(props: Props) {
                     <Avatar size={200} img={chat?.avatar} />
                 )}
                 <div className={styles.name}>
-                    <Title textAlign="center" variant="H3B">
+                    <Title animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H3B">
                         {chat?.name}
                     </Title>
                     <Button tag>tfn</Button>
