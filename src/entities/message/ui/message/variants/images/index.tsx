@@ -21,8 +21,9 @@ function ImagesMessage(props: Props) {
                 items={images?.map((i, index) => ({
                     id: index,
                     img: i.link || '',
-                    width: 'auto',
-                    height: '122px',
+                    width: '49%',
+                    horizontalImgWidth: '99%',
+                    height: '200px',
                 }))}
             />
             {/* {images.map((i, index) => ( */}
