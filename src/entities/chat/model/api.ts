@@ -91,9 +91,9 @@ class ChatApi {
     handleAddAvatar() {
         const queryClient = useQueryClient();
         return useMutation((data: { chatId: number; file: FormData | null }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar'`, data.file), {
-            // onSuccess: async (data) => {
-            //     queryClient.invalidateQueries(['get-viewer']);
-            // },
+            onSuccess: async (data) => {
+                console.log(data);
+            },
         });
     }
 

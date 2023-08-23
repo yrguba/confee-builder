@@ -14,10 +14,12 @@ type Props = {
     actions: (actions: Actions) => void;
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
     files: messageTypes.File[] | BaseTypes.Empty;
+    selectFile: () => void;
+    getScreenshot: (data: string) => void;
 } & BaseTypes.Statuses;
 
 function ChatProfileModalView(props: Props) {
-    const { chat, actions, mediaTypes, files } = props;
+    const { chat, actions, mediaTypes, files, getScreenshot, selectFile } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -41,7 +43,11 @@ function ChatProfileModalView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
-                <Avatar size={200} img={chat?.avatar} />
+                {chat?.is_group ? (
+                    <Avatar.Change size={200} img={chat?.avatar || ''} deleteFile={() => ''} selectFile={selectFile} getScreenshot={getScreenshot} />
+                ) : (
+                    <Avatar size={200} img={chat?.avatar} />
+                )}
                 <div className={styles.name}>
                     <Title textAlign="center" variant="H3B">
                         {chat?.name}

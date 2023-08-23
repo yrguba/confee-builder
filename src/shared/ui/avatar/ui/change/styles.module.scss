@@ -17,10 +17,11 @@
     }
 
     .cover {
-      @include box-size(100px, 30px);
+      @include box-size(100%, 30px);
       position: absolute;
       bottom: 0;
-      left: -10px;
+      left: 50%;
+      transform: translateX(-50%);
       font-style: normal;
       font-weight: 600;
       line-height: 18px;

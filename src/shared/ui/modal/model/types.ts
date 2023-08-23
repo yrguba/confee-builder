@@ -20,5 +20,6 @@ export type ConfirmModalProps = {
     closeText?: string;
     onClose?: () => void;
     callback: (value: boolean) => void;
+    callbackData: any;
 } & UseReturnedType &
     BaseTypes.Statuses;

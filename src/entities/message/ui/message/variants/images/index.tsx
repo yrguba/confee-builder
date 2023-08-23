@@ -17,16 +17,24 @@ function ImagesMessage(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            {images.map((i, index) => (
-                <Image
-                    onClick={() => clickImage({ images: images.map((a) => a.link), startIndex: index })}
-                    key={index}
-                    img={i.link}
-                    width="49%"
-                    horizontalImgWidth="100%"
-                    height="200px"
-                />
-            ))}
+            <Image.List
+                items={images?.map((i, index) => ({
+                    id: index,
+                    img: i.link || '',
+                    width: 'auto',
+                    height: '122px',
+                }))}
+            />
+            {/* {images.map((i, index) => ( */}
+            {/*    <Image */}
+            {/*        onClick={() => clickImage({ images: images.map((a) => a.link), startIndex: index })} */}
+            {/*        key={index} */}
+            {/*        img={i.link} */}
+            {/*        width="49%" */}
+            {/*        horizontalImgWidth="100%" */}
+            {/*        height="200px" */}
+            {/*    /> */}
+            {/* ))} */}
         </div>
     );
 }

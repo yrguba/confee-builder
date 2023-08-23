@@ -33,6 +33,7 @@ export type DropdownMenuItem = {
     title: string;
     action: (arg?: any) => void;
     isRed?: boolean;
+    hidden?: boolean;
 };
 
 export type DropdownMenuProps = {

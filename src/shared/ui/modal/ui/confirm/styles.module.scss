@@ -2,12 +2,14 @@
 
 
 .wrapper {
-  @include box-size(300px, 180px);
+  @include box-size(300px, auto);
   @include flex-column();
   padding: 12px;
+  gap: 12px;
 
   .body {
-    @include flex;
+    @include flex-column;
+    gap: 8px;
     flex: 1;
   }
 

@@ -5,5 +5,7 @@
   @include flex;
   gap: 1px;
   flex-wrap: wrap;
+  border-radius: 12px;
+  overflow: hidden;
 }
 

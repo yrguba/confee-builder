@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { useEasyState } from '../../../hooks';
 
 function use() {
@@ -27,13 +29,17 @@ function useConfirm<T = null | undefined>(cl: (value: boolean, callbackData: T |
 
     const close = () => {
         openModal.set(false);
+        callbackData.set(null);
     };
 
-    const callback = (value: boolean) => {
-        cl(value, callbackData.value);
-    };
+    const callback = useCallback(
+        (value: boolean) => {
+            callbackData.value && cl(value, callbackData.value);
+        },
+        [callbackData]
+    );
 
-    return { isOpen: openModal.value, open, close, callback };
+    return { isOpen: openModal.value, open, close, callback, callbackData };
 }
 
 export { use, useConfirm };

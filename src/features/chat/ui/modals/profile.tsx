@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import useFileUploader from 'react-use-file-uploader';
 
 import { chatApi, chatProxy, ChatProfileModalView, chatTypes } from 'entities/chat';
 import { messageTypes } from 'entities/message';
-import { useRouter, useEasyState } from 'shared/hooks';
+import { useRouter, useEasyState, UseFileUploaderTypes } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
+
+import { getFormData } from '../../../../shared/lib';
 
 function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
     const { params, navigate } = useRouter();
@@ -11,12 +14,31 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
+    const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(!chatData?.is_group ? 'images' : null);
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
 
     const notification = Notification.use();
+
+    const confirmAddAvatar = Modal.useConfirm<{ formData: FormData; img: string }>((value, callbackData) => {
+        console.log(value, callbackData);
+    });
+
+    const { open: selectFile } = useFileUploader({
+        accept: 'image',
+        onAfterUploading: (data) => {
+            confirmAddAvatar.open({ formData: getFormData('images', data.files[0].file), img: data.files[0].fileUrl });
+        },
+    });
+
+    const getScreenshot = (data: string) => {
+        handleAddAvatar({
+            chatId,
+            file: getFormData('images', data),
+        });
+    };
 
     const actions = (action: chatTypes.Actions) => {
         switch (action) {
@@ -37,7 +59,19 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
         }
     };
 
-    return <ChatProfileModalView chat={chatProxy(chatData)} actions={actions} mediaTypes={mediaTypes} files={filesData} />;
+    return (
+        <>
+            <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
+            <ChatProfileModalView
+                getScreenshot={getScreenshot}
+                selectFile={selectFile}
+                chat={chatProxy(chatData)}
+                actions={actions}
+                mediaTypes={mediaTypes}
+                files={filesData}
+            />
+        </>
+    );
 }
 
 export default function (chatProfileModal: ModalTypes.UseReturnedType) {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Title } from 'shared/ui/index';
+import { Button, Image, Title } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
 import { useUpdateEffect } from '../../../../hooks';
@@ -8,7 +8,7 @@ import { ConfirmModalProps } from '../../model/types';
 import Modal from '../base';
 
 function ConfirmModal(props: ConfirmModalProps) {
-    const { isOpen, close, title, onClose, closeText, okText, subtitle, callback, open } = props;
+    const { isOpen, close, title, onClose, closeText, okText, subtitle, callbackData, callback, open } = props;
 
     const click = (value: boolean) => {
         callback(value);
@@ -27,11 +27,12 @@ function ConfirmModal(props: ConfirmModalProps) {
             <div className={styles.wrapper}>
                 <div className={styles.body}>
                     <Title variant="H2">{title}</Title>
+                    {callbackData?.value?.img && <Image img={callbackData?.value?.img} />}
                     {subtitle && <Title variant="H2">{subtitle}</Title>}
                 </div>
                 <div className={styles.footer}>
-                    <Button onClick={() => click(false)}>{closeText}</Button>
-                    <Button onClick={() => click(true)}>{okText}</Button>
+                    <Button onClick={() => click(false)}>{closeText || 'Отмена'}</Button>
+                    <Button onClick={() => click(true)}>{okText || 'Готово'}</Button>
                 </div>
             </div>
         </Modal>
