@@ -22,14 +22,19 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
 
     const notification = Notification.use();
 
-    const confirmAddAvatar = Modal.useConfirm<{ formData: FormData; img: string }>((value, callbackData) => {
-        console.log(value, callbackData);
+    const confirmAddAvatar = Modal.useConfirm<{ img: string }>((value, callbackData) => {
+        value &&
+            callbackData?.img &&
+            handleAddAvatar({
+                chatId,
+                file: getFormData('images', callbackData.img),
+            });
     });
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',
         onAfterUploading: (data) => {
-            confirmAddAvatar.open({ formData: getFormData('images', data.files[0].file), img: data.files[0].fileUrl });
+            confirmAddAvatar.open({ img: data.files[0].fileUrl });
         },
     });
 
