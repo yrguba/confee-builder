@@ -3,7 +3,7 @@ import produce from 'immer';
 
 import { axiosClient } from 'shared/configs';
 import { useWebSocket, useStorage, useRouter } from 'shared/hooks';
-import { httpHandlers } from 'shared/lib';
+import { getFormData, httpHandlers } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
 import { MessageType, MediaContentType, File } from '../../message/model/types';
@@ -90,11 +90,16 @@ class ChatApi {
 
     handleAddAvatar() {
         const queryClient = useQueryClient();
-        return useMutation((data: { chatId: number; file: FormData | null }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar'`, data.file), {
-            onSuccess: async (data) => {
-                console.log(data);
+        return useMutation(
+            (data: { chatId: number; img: string }) => {
+                return axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar'`, getFormData('images', data.img));
             },
-        });
+            {
+                onSuccess: async (data) => {
+                    console.log(data);
+                },
+            }
+        );
     }
 
     handleSubscribeToChat() {

@@ -27,7 +27,7 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
             callbackData?.img &&
             handleAddAvatar({
                 chatId,
-                file: getFormData('images', callbackData.img),
+                img: callbackData.img,
             });
     });
 
@@ -41,7 +41,7 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
     const getScreenshot = (data: string) => {
         handleAddAvatar({
             chatId,
-            file: getFormData('images', data),
+            img: data,
         });
     };
 
