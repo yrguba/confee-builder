@@ -25,7 +25,7 @@ function Image(props: BaseImageProps) {
 
     return (
         <div onClick={onClick} className={styles.wrapper} style={{ width: getWidth(), height, borderRadius: borderRadius ? 12 : 0 }}>
-            {!error && <img className={classes} src={src} alt="" />}
+            {!error && !isLoading && <img className={classes} src={src} alt="" />}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>

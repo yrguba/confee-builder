@@ -6,7 +6,7 @@
   top: 0;
   left: 0;
   z-index: 10000;
-
+  background-color: var(--bg-dimming);
   .closeBtn{
     position: absolute;
     top: 12px;
@@ -18,67 +18,20 @@
     }
   }
 
-  .swiper {
-    width: 100%;
-    height: 100%;
-  }
-
-  .swiper-slide {
-    //text-align: center;
-    //font-size: 18px;
-    //background: #fff;
-    //
-    ///* Center slide text vertically */
-    //display: flex;
-    //justify-content: center;
-    //align-items: center;
-  }
-
-  //.swiper-slide img {
-  //  display: block;
-  //  width: 100%;
-  //  height: 100%;
-  //  object-fit: cover;
-  //}
-
-  //body {
-  //  background: #000;
-  //  color: #000;
-  //}
-
-  //.swiper {
-  //  width: 100%;
-  //  //height: 300px;
-  //  margin-left: auto;
-  //  margin-right: auto;
-  //
-  //}
-
-  //.swiper-slide {
-  //  background-size: cover;
-  //  background-position: center;
-  //
-  //}
-
   .mySwiper {
-    display: flex;
-    max-height: 100vh;
+    @include flex;
+    width: 100%;
+    height: 100vh;
+
+    .swiper-wrapper{
+      .swiper-slide {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
     cursor: pointer;
   }
-
-  //.mySwiper .swiper-slide {
-  //  width: 25%;
-  //  height: 100%;
-  //  opacity: 0.4;
-  //}
-
-
-  //
-  //.swiper-slide img {
-  //  display: block;
-  //  width: 100%;
-  //  height: 100%;
-  //  object-fit: cover;
-  //}
 
 }

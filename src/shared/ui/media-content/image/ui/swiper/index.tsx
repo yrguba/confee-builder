@@ -11,8 +11,8 @@ function ImagesSwiper(props: ImagesSwiperProps) {
     return (
         <Swiper visible={visible} initialSlide={initialSlide} closeClick={closeClick}>
             {items.map((i) => (
-                <Swiper.Slide key={i.id} className={styles.swiperSlide}>
-                    <Image url={i.url} borderRadius={false} height="20%" width="auto" />
+                <Swiper.Slide key={i.id}>
+                    <Image url={i.url} borderRadius={false} />
                 </Swiper.Slide>
             ))}
         </Swiper>

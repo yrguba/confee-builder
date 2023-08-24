@@ -11,8 +11,8 @@ function VideoSwiper(props: VideoSwiperProps) {
     return (
         <Swiper visible={visible} initialSlide={initialSlide} closeClick={closeClick}>
             {items.map((i) => (
-                <Swiper.Slide key={i.id} className={styles.swiperSlide}>
-                    <VideoPlayerWithControls url={i.url} />
+                <Swiper.Slide key={i.id}>
+                    <VideoPlayerWithControls {...i} />
                 </Swiper.Slide>
             ))}
         </Swiper>

@@ -26,7 +26,7 @@ function VideoMessage(props: Props) {
 
     return (
         <>
-            <Image.Swiper
+            <VideoPlayer.Swiper
                 initialSlide={swiperState.value.initial}
                 closeClick={() => swiperState.set({ visible: false, initial: 1 })}
                 visible={swiperState.value.visible}
