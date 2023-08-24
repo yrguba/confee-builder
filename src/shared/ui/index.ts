@@ -20,11 +20,13 @@ import Notification, { Types as NotificationTypes } from './notification';
 import Pagination, { Types as PaginationTypes } from './pagination';
 import Select, { Types as SelectTypes } from './select';
 import Steps, { Types as StepsTypes } from './steps';
+import Swiper, { Types as SwiperTypes } from './swiper';
 import Switch, { Types as SwitchTypes } from './switch';
 import TabBar, { Types as TabBarTypes } from './tab-bar';
 import Title, { Types as TitleTypes } from './title';
 
 export {
+    Swiper,
     VideoPlayer,
     TabBar,
     Card,
@@ -52,6 +54,7 @@ export {
     Notification,
 };
 export type {
+    SwiperTypes,
     VideoPlayerTypes,
     TabBarTypes,
     CardTypes,
