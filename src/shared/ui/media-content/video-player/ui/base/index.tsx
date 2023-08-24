@@ -14,21 +14,9 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
     const { src, isLoading, orientation, error } = useFetchMediaContent(url || '', storage.get('cache_size'));
     const [video, state, controls, ref] = useVideo(<video style={{ width, height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />);
 
-    const visibleBtn = useEasyState(false);
-
     return (
-        <div
-            className={styles.wrapper}
-            style={{ width: isLoading ? 200 : width, height: isLoading ? 200 : height }}
-            // onMouseLeave={() => visibleBtn.set(false)}
-            // onMouseEnter={() => visibleBtn.set(true)}
-        >
+        <div className={styles.wrapper} onClick={onClick} style={{ width: isLoading ? 200 : width, height: isLoading ? 200 : height }}>
             {video}
-            {/* <Box.Animated key={`${visibleBtn.value} ${state.playing}`} visible={visibleBtn.value}> */}
-            {/*    <Button.Circle className={styles.btn} onClick={!state.playing ? controls.play : controls.pause}> */}
-            {/*        <Icons.Player variant={state.playing ? 'pause' : 'play'} /> */}
-            {/*    </Button.Circle> */}
-            {/* </Box.Animated> */}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>

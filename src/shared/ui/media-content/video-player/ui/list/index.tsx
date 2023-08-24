@@ -1,10 +1,10 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import { AudioListProps } from '../../types';
+import { VideoListProps } from '../../types';
 import VideoPlayer from '../base';
 
-function VideoList(props: AudioListProps) {
+function VideoList(props: VideoListProps) {
     const { items } = props;
 
     return (

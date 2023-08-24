@@ -90,8 +90,14 @@ class ChatApi {
 
     handleAddAvatar() {
         const queryClient = useQueryClient();
+
         return useMutation(
-            (data: { chatId: number; img: string }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img)),
+            (data: { chatId: number; img: string }) => {
+                for (const pair of getFormData('images', data.img)) {
+                    console.log(`${pair[0]}, ${pair[1]}`);
+                }
+                return axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img));
+            },
             {
                 onSuccess: async (data) => {},
             }
