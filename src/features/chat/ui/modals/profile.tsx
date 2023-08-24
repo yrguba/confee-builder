@@ -6,7 +6,7 @@ import { messageTypes } from 'entities/message';
 import { useRouter, useEasyState, UseFileUploaderTypes } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
-function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
+function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const { params, navigate } = useRouter();
     const chatId = Number(params.chat_id);
 
@@ -51,7 +51,7 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
                     { chatId },
                     {
                         onSuccess: () => {
-                            chatProfileModal.close();
+                            modal.close();
                             navigate('/chats');
                         },
                     }
@@ -75,10 +75,10 @@ function ChatProfileModal(chatProfileModal: ModalTypes.UseReturnedType) {
     );
 }
 
-export default function (chatProfileModal: ModalTypes.UseReturnedType) {
+export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal {...chatProfileModal}>
-            <ChatProfileModal {...chatProfileModal} />
+        <Modal {...modal}>
+            <ChatProfileModal {...modal} />
         </Modal>
     );
 }

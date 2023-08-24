@@ -4,6 +4,7 @@ import { appService } from 'entities/app';
 import { useFetchMediaContent, useFs } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
 import Notification from '../../../../notification';
 import Title from '../../../../title';
@@ -35,9 +36,12 @@ function Document(props: BaseDocumentProps) {
                 <Icons.Document variant={extension as any} />
             </div>
 
-            <Title textAlign="left" variant="H3R">
-                {name}
-            </Title>
+            <div className={styles.caption}>
+                <Title textAlign="left" variant="H3R">
+                    {name}
+                </Title>
+                {size && <Title variant="H3R">{sizeConverter(+size)}</Title>}
+            </div>
         </a>
     );
 }

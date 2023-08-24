@@ -9,7 +9,7 @@ import { Modal, Notification } from 'shared/ui';
 import { UserProfileModal } from '../../user';
 import { ForwardMessagesModal } from '../index';
 
-const memoUpdateMessages = createMemo((data) => messageService.getUpdatedList(data));
+const memoUpdateMessages = createMemo(messageService.getUpdatedList);
 
 function MessageList() {
     const { params } = useRouter();

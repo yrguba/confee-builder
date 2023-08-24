@@ -7,6 +7,8 @@ import { MessageType, VoiceEvents } from 'entities/message/model/types';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
 
 import { getRandomInt } from '../../../shared/lib';
+import { Modal } from '../../../shared/ui';
+import { FilesToSendModal } from '../index';
 
 const [throttleMessageTyping] = useThrottle((cl) => cl(), 2000);
 
@@ -34,27 +36,14 @@ function MessageInput() {
     const recordForChatId = useEasyState<number | null>(null);
     const voiceRecord = useAudioRecorder({});
 
-    const { open: openFilesDownloader } = useFileUploader({
+    const filesToSendModal = Modal.use();
+
+    const { open: openFilesDownloader, sortByAccept } = useFileUploader({
         accept: 'all',
         multiple: true,
         onAfterUploading: (data) => {
             if (data.sortByAccept) {
-                Object.entries(data.sortByAccept).forEach(([key, value]) => {
-                    if (value.length) {
-                        const formData = new FormData();
-                        value.forEach((i) => {
-                            formData.append(`files[${key}s][]`, i.file);
-                        });
-                        handleSendFileMessage({
-                            chatId,
-                            files: formData,
-                            params: { reply_to_message_id: replyMessage.value?.id },
-                            replyMessage: replyMessage.value,
-                            filesForMock: value.map((i) => ({ id: getRandomInt(100), link: i.fileUrl, name: i.name })),
-                            filesType: `${key}s` as MessageType,
-                        });
-                    }
-                });
+                filesToSendModal.open();
             }
         },
     });
@@ -152,6 +141,7 @@ function MessageInput() {
 
     return (
         <>
+            <FilesToSendModal modal={filesToSendModal} files={sortByAccept as any} />
             <MessageInputView
                 chat={chatProxy(chatData)}
                 messageTextState={messageTextState}

@@ -1,0 +1,43 @@
+@import "src/app/styles/index";
+
+.wrapper {
+  @include box-size(calc(416px - 48px), auto);
+  @include flex-column(flex-start, flex-start);
+  max-height: 90vh;
+  gap: 16px;
+  margin: 24px;
+
+  .header {
+    @include flex-column();
+    width: 100%;
+    gap: 4px;
+
+    color: var(--text-primary);
+  }
+
+  .list {
+    @include flex-column(flex-start, flex-start);
+    width: 100%;
+    gap: 12px;
+
+    .item {
+      width: 100%;
+      @include flex(space-between);
+
+      .children {
+        width: 80%;
+        @include flex;
+      }
+
+      .deleteIcon {
+        width: 20%;
+
+        svg {
+          fill: var(--text-primary);
+        }
+      }
+    }
+
+
+  }
+}

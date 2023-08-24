@@ -5,7 +5,7 @@ import { ForwardMessagesModalView, useMessageStore } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 import { Modal, ModalTypes } from 'shared/ui';
 
-function ForwardMessagesModal(forwardMessagesModal: ModalTypes.UseReturnedType) {
+function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
 
     const { data: chatsData } = chatApi.handleGetChats();
@@ -13,21 +13,23 @@ function ForwardMessagesModal(forwardMessagesModal: ModalTypes.UseReturnedType) 
     const forwardMessages = useMessageStore.use.forwardMessages();
 
     const clickChat = (chatId: number) => {
-        forwardMessagesModal.close();
+        modal.close();
         forwardMessages.set({ ...forwardMessages.value, toChatId: chatId, redirect: true });
         navigate(`/chats/chat/${chatId}`);
     };
 
     const back = () => {
-        forwardMessagesModal.close();
+        modal.close();
         forwardMessages.clear();
     };
 
+    return <ForwardMessagesModalView clickChat={clickChat} chats={chatsData?.map((chat) => chatProxy(chat))} back={back} />;
+}
+
+export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal {...forwardMessagesModal} closeIcon={false}>
-            <ForwardMessagesModalView clickChat={clickChat} chats={chatsData?.map((chat) => chatProxy(chat))} back={back} />
+        <Modal {...modal}>
+            <ForwardMessagesModal {...modal} />
         </Modal>
     );
 }
-
-export default ForwardMessagesModal;

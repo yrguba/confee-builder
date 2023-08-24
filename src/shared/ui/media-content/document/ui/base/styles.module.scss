@@ -2,9 +2,17 @@
 
 .wrapper {
   @include flex;
+  width: 100%;
   gap: 8px;
   cursor: pointer;
+.icon{
+  width: 30px;
+}
 
+  .caption {
+    width: calc(100% - 30px);
+    @include flex-column;
+  }
 
   svg {
     fill: var(--text-primary);
