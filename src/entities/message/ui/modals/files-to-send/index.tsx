@@ -1,13 +1,10 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 
-import { createMemo, useArray, UseArrayReturnType, UseEasyStateReturnType, UseFileUploaderTypes } from 'shared/hooks';
-import { sizeConverter } from 'shared/lib';
+import { UseArrayReturnType, UseFileUploaderTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Card, Document, Icons, Image, Input, TabBar, Title } from 'shared/ui';
+import { Button, Document, Icons, Image, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import UseArray from '../../../../../shared/hooks/useArray';
-import { MessageType } from '../../../model/types';
 
 type Props = {
     images: UseArrayReturnType<UseFileUploaderTypes.Types.ImageFile>;
@@ -15,11 +12,12 @@ type Props = {
     documents: UseArrayReturnType<UseFileUploaderTypes.Types.DocumentFile>;
     videos: UseArrayReturnType<UseFileUploaderTypes.Types.VideoFile>;
     addFiles: () => void;
+    sendFiles: () => void;
+    close: () => void;
 } & BaseTypes.Statuses;
 
 function FilesToSendModalView(props: Props) {
-    const { images, documents, audios, videos, addFiles } = props;
-    console.log(images);
+    const { images, documents, audios, videos, addFiles, sendFiles, close } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -60,11 +58,11 @@ function FilesToSendModalView(props: Props) {
                 <Button variant="inherit" active width="25%" onClick={addFiles}>
                     Добавить
                 </Button>
-                <div className={styles.confirm}>
+                <div className={styles.confirm} onClick={close}>
                     <Button variant="inherit" active>
                         Отмена
                     </Button>
-                    <Button variant="inherit" active>
+                    <Button variant="inherit" active onClick={sendFiles}>
                         Отправить
                     </Button>
                 </div>

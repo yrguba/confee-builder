@@ -3,10 +3,9 @@ import { useParams } from 'react-router';
 
 import { chatApi, chatProxy } from 'entities/chat';
 import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
-import { MessageType, VoiceEvents } from 'entities/message/model/types';
+import { VoiceEvents } from 'entities/message/model/types';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
 
-import { getRandomInt } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
 import { FilesToSendModal } from '../index';
 
@@ -38,7 +37,11 @@ function MessageInput() {
 
     const filesToSendModal = Modal.use();
 
-    const { open: openFilesDownloader, sortByAccept } = useFileUploader({
+    const {
+        open: openFilesDownloader,
+        sortByAccept,
+        clear,
+    } = useFileUploader({
         accept: 'all',
         multiple: true,
         onAfterUploading: (data) => {
@@ -141,7 +144,7 @@ function MessageInput() {
 
     return (
         <>
-            <FilesToSendModal modal={filesToSendModal} files={sortByAccept as any} />
+            <FilesToSendModal onClose={clear} modal={filesToSendModal} files={sortByAccept as any} />
             <MessageInputView
                 chat={chatProxy(chatData)}
                 messageTextState={messageTextState}
