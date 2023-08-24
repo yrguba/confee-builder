@@ -37,3 +37,14 @@ html {
   }
 
 }
+
+.inner-seek-block, .connect, .buffered {
+  background-color: var(--text-action) !important;
+}
+
+.thumb {
+  .handler {
+    background-color: var(--text-action) !important;
+  }
+
+}

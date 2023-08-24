@@ -41,7 +41,7 @@
         gap: 8px;
       }
 
-      .actions{
+      .actions {
         @include flex(flex-end);
         @include box-size(100px, 50%);
         gap: 8px;
@@ -53,12 +53,19 @@
       @include box-size(100%, 50%);
       gap: 8px;
 
-      .time{
+      .time {
+        width: 44px;
+      }
+
+      .timeReverse {
         width: 50px;
       }
-      .slider{
-        width: 347px;
+
+      .slider {
+        margin-top: 11px;
+        @include box-size(347, 100%);
         flex: 1;
+
       }
     }
 

@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { useUpdateEffect } from 'react-use';
+import { VideoSeekSlider } from 'react-video-seek-slider';
 
+import 'react-video-seek-slider/styles.css';
 import { appTypes } from 'entities/app';
 
 import styles from './styles.module.scss';
@@ -46,7 +48,7 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
         isFull.set(false);
         controls.pause();
     }, [reset]);
-    console.log(state);
+    // console.log(Math.ceil(state.time * 10));
     return (
         <div className={`${styles.wrapper} ${isFull.value ? styles.wrapper_full : ''}`}>
             {video}
@@ -73,15 +75,23 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
                 </div>
                 <div className={styles.bottom}>
                     <div className={styles.time}>
-                        <Title variant="H4M">{secondsToHms(Math.floor(state.time))}</Title>
+                        <Title variant="H4M">{secondsToHms(Math.ceil(state.time))}</Title>
                     </div>
                     <div className={styles.slider}>
-                        <Slider max={100} defaultValue={state.volume} onChange={(value) => typeof value === 'number' && controls.volume(value)} />
+                        <VideoSeekSlider
+                            max={state.duration}
+                            secondsPrefix="00:"
+                            minutesPrefix="0:"
+                            currentTime={state.time}
+                            bufferTime={state.buffered[0]?.time}
+                            limitTimeTooltipBySides
+                            // getPreviewScreenUrl={() => ''}
+                            hideThumbTooltip
+                            onChange={controls.seek}
+                        />
                     </div>
-                    <div className={styles.time}>
-                        <Title variant="H4M">{`-${secondsToHms(
-                            Math.floor(state.time === state.duration ? 0 : state.time === 0 ? state.duration : state.duration - state.time + 1)
-                        )}`}</Title>
+                    <div className={styles.timeReverse}>
+                        <Title textAlign="right" variant="H4M">{`-${secondsToHms(Math.floor(state.duration - state.time))}`}</Title>
                     </div>
                 </div>
             </Box.Animated>
