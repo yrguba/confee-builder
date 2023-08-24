@@ -6,6 +6,7 @@ import findLastIndex from './find-last-index';
 import generateItems from './generate-items';
 import getEnding from './get-ending';
 import getFormData from './get-form-data';
+import getRandomInt from './get-random-int';
 import getRandomString from './get-random-string';
 import getUniqueArr from './get-unique-array';
 import * as httpHandlers from './http-handlers';
@@ -15,6 +16,7 @@ import * as regex from './regex';
 import sizeConverter from './size-converter';
 
 export {
+    getRandomInt,
     fileConverter,
     regex,
     sizeConverter,

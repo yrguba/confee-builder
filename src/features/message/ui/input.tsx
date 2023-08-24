@@ -6,6 +6,8 @@ import { messageApi, MessageInputView, useMessageStore } from 'entities/message'
 import { MessageType, VoiceEvents } from 'entities/message/model/types';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
 
+import { getRandomInt } from '../../../shared/lib';
+
 const [throttleMessageTyping] = useThrottle((cl) => cl(), 2000);
 
 function MessageInput() {
@@ -48,7 +50,7 @@ function MessageInput() {
                             files: formData,
                             params: { reply_to_message_id: replyMessage.value?.id },
                             replyMessage: replyMessage.value,
-                            filesForMock: value.map((i) => ({ id: i.id, link: i.fileUrl, name: i.name })),
+                            filesForMock: value.map((i) => ({ id: getRandomInt(100), link: i.fileUrl, name: i.name })),
                             filesType: `${key}s` as MessageType,
                         });
                     }
