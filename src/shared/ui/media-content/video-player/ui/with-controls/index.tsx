@@ -6,10 +6,12 @@ import { appTypes } from 'entities/app';
 
 import styles from './styles.module.scss';
 import { useEasyState, useFetchMediaContent, useStorage, useVideo, useSize, useIdle } from '../../../../../hooks';
+import { secondsToHms } from '../../../../../lib';
 import Box from '../../../../box';
 import Button from '../../../../button';
 import Icons from '../../../../icons';
 import Slider from '../../../../slider';
+import Title from '../../../../title';
 import { BaseVideoPlayerProps } from '../../types';
 
 function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
@@ -46,11 +48,7 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
     }, [reset]);
     console.log(state);
     return (
-        <div
-            className={`${styles.wrapper} ${isFull.value ? styles.wrapper_full : ''}`}
-            // onMouseLeave={() => visibleBtn.set(false)}
-            // onMouseEnter={() => visibleBtn.set(true)}
-        >
+        <div className={`${styles.wrapper} ${isFull.value ? styles.wrapper_full : ''}`}>
             {video}
             <Box.Animated key={`${isFull.value}`} visible={visibleControl.value} className={styles.controls}>
                 <div className={styles.top}>
@@ -73,7 +71,19 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
                         </Button.Circle>
                     </div>
                 </div>
-                <div className={styles.bottom} />
+                <div className={styles.bottom}>
+                    <div className={styles.time}>
+                        <Title variant="H4M">{secondsToHms(Math.floor(state.time))}</Title>
+                    </div>
+                    <div className={styles.slider}>
+                        <Slider max={100} defaultValue={state.volume} onChange={(value) => typeof value === 'number' && controls.volume(value)} />
+                    </div>
+                    <div className={styles.time}>
+                        <Title variant="H4M">{`-${secondsToHms(
+                            Math.floor(state.time === state.duration ? 0 : state.time === 0 ? state.duration : state.duration - state.time + 1)
+                        )}`}</Title>
+                    </div>
+                </div>
             </Box.Animated>
         </div>
     );
