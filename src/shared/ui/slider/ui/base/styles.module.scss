@@ -1,0 +1,13 @@
+@import "src/app/styles";
+
+.wrapper {
+  @include flex;
+  background-color: #fafafa;
+  .thumb{
+    background-color: #fafafa;
+  }
+
+  .track{
+    background-color: #fafafa;
+  }
+}

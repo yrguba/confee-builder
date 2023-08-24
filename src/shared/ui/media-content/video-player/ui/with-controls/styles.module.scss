@@ -5,6 +5,10 @@
   @include flex-column;
   gap: 12px;
 
+  &_full{
+    background-color: var(--bg-secondary);
+  }
+
   .video{
     @include flex(center, flex-end);
     @include box-size(500px, auto);
@@ -14,6 +18,11 @@
     @include box-size(450px, 92px);
     background-color: var(--bg-primary);
     border-radius: 12px;
+
+    svg{
+      fill: var(--text-primary);
+    }
+
   }
 }
 

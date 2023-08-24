@@ -19,6 +19,7 @@ import Modal, { Types as ModalTypes } from './modal';
 import Notification, { Types as NotificationTypes } from './notification';
 import Pagination, { Types as PaginationTypes } from './pagination';
 import Select, { Types as SelectTypes } from './select';
+import Slider, { Types as SliderTypes } from './slider';
 import Steps, { Types as StepsTypes } from './steps';
 import Swiper, { Types as SwiperTypes } from './swiper';
 import Switch, { Types as SwitchTypes } from './switch';
@@ -26,6 +27,7 @@ import TabBar, { Types as TabBarTypes } from './tab-bar';
 import Title, { Types as TitleTypes } from './title';
 
 export {
+    Slider,
     Swiper,
     VideoPlayer,
     TabBar,
@@ -54,6 +56,7 @@ export {
     Notification,
 };
 export type {
+    SliderTypes,
     SwiperTypes,
     VideoPlayerTypes,
     TabBarTypes,
