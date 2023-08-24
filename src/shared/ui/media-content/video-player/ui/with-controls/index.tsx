@@ -48,7 +48,7 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
         isFull.set(false);
         controls.pause();
     }, [reset]);
-    // console.log(Math.ceil(state.time * 10));
+
     return (
         <div className={`${styles.wrapper} ${isFull.value ? styles.wrapper_full : ''}`}>
             {video}
