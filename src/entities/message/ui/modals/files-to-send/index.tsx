@@ -14,11 +14,12 @@ type Props = {
     audios: UseArrayReturnType<UseFileUploaderTypes.Types.AudioFile>;
     documents: UseArrayReturnType<UseFileUploaderTypes.Types.DocumentFile>;
     videos: UseArrayReturnType<UseFileUploaderTypes.Types.VideoFile>;
+    addFiles: () => void;
 } & BaseTypes.Statuses;
 
 function FilesToSendModalView(props: Props) {
-    const { images, documents, audios, videos } = props;
-
+    const { images, documents, audios, videos, addFiles } = props;
+    console.log(images);
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -32,6 +33,40 @@ function FilesToSendModalView(props: Props) {
                           </Item>
                       ))
                     : null}
+                {images.array.length
+                    ? images.array.map((i) => (
+                          <Item key={i.id} remove={() => images.deleteById(i.id)}>
+                              images
+                          </Item>
+                      ))
+                    : null}
+                {audios.array.length
+                    ? audios.array.map((i) => (
+                          <Item key={i.id} remove={() => audios.deleteById(i.id)}>
+                              audios
+                          </Item>
+                      ))
+                    : null}
+                {videos.array.length
+                    ? videos.array.map((i) => (
+                          <Item key={i.id} remove={() => videos.deleteById(i.id)}>
+                              videos
+                          </Item>
+                      ))
+                    : null}
+            </div>
+            <div className={styles.footer}>
+                <Button variant="inherit" active width="25%" onClick={addFiles}>
+                    Добавить
+                </Button>
+                <div className={styles.confirm}>
+                    <Button variant="inherit" active>
+                        Отмена
+                    </Button>
+                    <Button variant="inherit" active>
+                        Отправить
+                    </Button>
+                </div>
             </div>
         </div>
     );
