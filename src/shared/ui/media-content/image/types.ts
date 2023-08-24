@@ -17,6 +17,12 @@ export type ImagesListProps = {
     items: ImagesListItem[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
+export type ImageCardProps = {
+    url: string;
+    name: string;
+    size: number;
+} & BaseTypes.Statuses;
+
 export type ImagesSwiperProps = {
     visible: boolean;
     closeClick: () => void;

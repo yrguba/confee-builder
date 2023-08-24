@@ -17,7 +17,7 @@ type Props = {
 
 function FilesToSendModal(props: Props) {
     const { modal, files } = props;
-    console.log(files);
+
     const images = UseArray<UseFileUploaderTypes.Types.ImageFile>({ initialArr: files.image });
     const audios = UseArray<UseFileUploaderTypes.Types.AudioFile>({ initialArr: files.audio });
     const videos = UseArray<UseFileUploaderTypes.Types.VideoFile>({ initialArr: files.video });

@@ -7,11 +7,11 @@
   cursor: pointer;
 
   .icon {
-    width: 30px;
+    width: 37px;
   }
 
   .caption {
-    width: calc(100% - 30px);
+    width: calc(100% - 45px);
     @include flex-column;
   }
 

@@ -20,6 +20,7 @@ type Props = {
 function FilesToSendModalView(props: Props) {
     const { images, documents, audios, videos, addFiles } = props;
     console.log(images);
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -36,7 +37,7 @@ function FilesToSendModalView(props: Props) {
                 {images.array.length
                     ? images.array.map((i) => (
                           <Item key={i.id} remove={() => images.deleteById(i.id)}>
-                              images
+                              <Image.Card url={i.fileUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}
