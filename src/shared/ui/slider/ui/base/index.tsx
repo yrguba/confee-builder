@@ -1,27 +1,27 @@
+import Slider from 'rc-slider';
 import React from 'react';
-import ReactSlider from 'react-slider';
 
-import { useStyles } from 'shared/hooks';
+import 'rc-slider/assets/index.css';
 
-import styles from './styles.module.scss';
-import Box from '../../../box';
-import Glare from '../../../loading-indicator/ui/glare';
 import { BaseSliderProps } from '../../types';
 
 function BaseSlider(props: BaseSliderProps) {
-    const { ...other } = props;
-
-    const classes = useStyles(styles, 'wrapper', {});
+    const { visibleDot, ...other } = props;
 
     return (
-        <ReactSlider
-            className={styles.wrapper}
-            thumbClassName={styles.thumb}
-            trackClassName={styles.track}
-            onBeforeChange={(value, index) => console.log(`onBeforeChange: ${JSON.stringify({ value, index })}`)}
-            onChange={(value, index) => console.log(`onChange: ${JSON.stringify({ value, index })}`)}
-            onAfterChange={(value, index) => console.log(`onAfterChange: ${JSON.stringify({ value, index })}`)}
-            renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
+        <Slider
+            railStyle={{
+                backgroundColor: 'var(--text-primary)',
+            }}
+            trackStyle={{
+                backgroundColor: 'var(--text-action)',
+            }}
+            handleStyle={{
+                opacity: visibleDot ? 1 : 0,
+                backgroundColor: 'var(--text-action)',
+                border: 'none',
+            }}
+            {...other}
         />
     );
 }

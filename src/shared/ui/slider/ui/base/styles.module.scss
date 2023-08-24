@@ -1,13 +1,23 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex;
-  background-color: #fafafa;
-  .thumb{
-    background-color: #fafafa;
+  //@include flex;
+
+  .rc-slider-step {
+    background-color: var(--text-action) !important;
+    display: none !important;
   }
 
-  .track{
+  .rc-slider-track {
+    display: none !important;
+  }
+
+  .rc-slider-handle {
+    display: none !important;
+  }
+
+  .track {
     background-color: #fafafa;
+    display: none !important;
   }
 }

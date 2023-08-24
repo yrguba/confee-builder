@@ -14,8 +14,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 
 function BaseSwiper(props: BaseSwiperProps) {
-    const { children, visible, closeClick, initialSlide = 1 } = props;
+    const { children, visible, closeClick, initialSlide = 1, ...swiperDefault } = props;
     const swiper_root = document.querySelector('#swiper-root');
+
     return swiper_root
         ? ReactDOM.createPortal(
               <Box.Animated visible={visible} className={styles.wrapper}>
@@ -24,6 +25,7 @@ function BaseSwiper(props: BaseSwiperProps) {
                   </Button.Circle>
                   <Swiper
                       style={{
+                          cursor: swiperDefault.allowTouchMove ? 'grab' : 'default',
                           // @ts-ignore
                           '--swiper-navigation-color': 'var(--text-action)',
                           '--swiper-pagination-color': 'var(--text-action)',
@@ -33,6 +35,7 @@ function BaseSwiper(props: BaseSwiperProps) {
                       initialSlide={initialSlide}
                       modules={[FreeMode, Navigation]}
                       className={styles.mySwiper}
+                      {...swiperDefault}
                   >
                       {children}
                   </Swiper>

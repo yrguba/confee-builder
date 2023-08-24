@@ -5,22 +5,52 @@
   @include flex-column;
   gap: 12px;
 
-  &_full{
+  &_full {
     background-color: var(--bg-secondary);
+    position: relative;
+
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
-  .video{
+  .video {
     @include flex(center, flex-end);
     @include box-size(500px, auto);
   }
 
-  .controls{
-    @include box-size(450px, 92px);
+  .controls {
+    @include box-size(calc(450px - 32px), calc(92px - 32px));
     background-color: var(--bg-primary);
     border-radius: 12px;
+    padding: 16px;
 
-    svg{
+    svg {
       fill: var(--text-primary);
+    }
+
+    .top {
+      @include flex(space-between);
+      @include box-size(100%, 50%);
+
+      .volume {
+        @include flex;
+        @include box-size(100px, 50%);
+        gap: 8px;
+      }
+
+      .actions{
+        @include flex(flex-end);
+        @include box-size(100px, 50%);
+        gap: 8px;
+      }
+    }
+
+    .bottom {
+
     }
 
   }

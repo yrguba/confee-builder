@@ -9,7 +9,7 @@ function ImagesSwiper(props: ImagesSwiperProps) {
     const { items, visible, closeClick, initialSlide = 1 } = props;
     if (!items?.length) return null;
     return (
-        <Swiper visible={visible} initialSlide={initialSlide} closeClick={closeClick}>
+        <Swiper allowTouchMove visible={visible} initialSlide={initialSlide} closeClick={closeClick}>
             {items.map((i) => (
                 <Swiper.Slide key={i.id}>
                     <Image url={i.url} borderRadius={false} />

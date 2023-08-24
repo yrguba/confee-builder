@@ -1,4 +1,5 @@
 import { BaseTypes } from 'shared/types';
+import { SwiperTypes } from 'shared/ui';
 
 import { ImagesListItem } from '../image/types';
 
@@ -9,6 +10,7 @@ export type BaseVideoPlayerProps = {
     height?: string;
     onClick?: () => void;
     borderRadius?: boolean;
+    reset?: boolean;
 } & BaseTypes.Statuses;
 
 export type VideoListItem = {
@@ -24,4 +26,5 @@ export type VideoSwiperProps = {
     closeClick: () => void;
     initialSlide?: number;
     items: VideoListItem[] | BaseTypes.Empty;
-} & BaseTypes.Statuses;
+} & BaseTypes.Statuses &
+    SwiperTypes.SwiperProps;
