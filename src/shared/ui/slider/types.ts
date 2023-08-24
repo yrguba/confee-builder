@@ -1,5 +1,3 @@
 import { SliderProps } from 'rc-slider';
 
-export type BaseSliderProps = {
-    visibleDot?: boolean;
-} & SliderProps;
+export type BaseSliderProps = {} & SliderProps;

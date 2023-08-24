@@ -19,6 +19,7 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
     const { src, isLoading, orientation, error } = useFetchMediaContent(url || '', storage.get('cache_size'));
     const isFull = useEasyState(false);
     const visibleControl = useEasyState(true);
+
     const [video, state, controls, ref] = useVideo(
         <motion.video
             initial={{ width: isFull.value ? '100%' : '', height: isFull.value ? '100%' : '' }}
@@ -30,16 +31,20 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
     );
 
     const idle = useIdle(2000);
-    console.log(idle);
+
     useUpdateEffect(() => {
-        isFull && visibleControl.set(!idle);
-    }, [idle]);
+        if (isFull.value) {
+            visibleControl.set(!idle);
+        } else {
+            visibleControl.set(true);
+        }
+    }, [idle, isFull]);
 
     useUpdateEffect(() => {
         isFull.set(false);
         controls.pause();
     }, [reset]);
-
+    console.log(state);
     return (
         <div
             className={`${styles.wrapper} ${isFull.value ? styles.wrapper_full : ''}`}
@@ -50,8 +55,11 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
             <Box.Animated key={`${isFull.value}`} visible={visibleControl.value} className={styles.controls}>
                 <div className={styles.top}>
                     <div className={styles.volume}>
-                        <Icons.Player variant={state.muted ? 'unmute' : 'mute'} />
-                        <Slider />
+                        <Button.Circle variant="inherit" radius={30} onClick={state.muted ? controls.unmute : controls.mute}>
+                            <Icons.Player variant={!state.muted ? 'unmute' : 'mute'} />
+                        </Button.Circle>
+
+                        <Slider max={1} step={0.01} defaultValue={state.volume} onChange={(value) => typeof value === 'number' && controls.volume(value)} />
                     </div>
                     <Button.Circle variant="inherit" onClick={!state.playing ? controls.play : controls.pause}>
                         <Icons.Player variant={state.playing ? 'pause' : 'play'} />

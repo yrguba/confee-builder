@@ -2,27 +2,33 @@ import Slider from 'rc-slider';
 import React from 'react';
 
 import 'rc-slider/assets/index.css';
-
+import styles from './styles.module.scss';
+import { useEasyState } from '../../../../hooks';
 import { BaseSliderProps } from '../../types';
 
 function BaseSlider(props: BaseSliderProps) {
-    const { visibleDot, ...other } = props;
+    const { ...other } = props;
+
+    const focus = useEasyState(false);
 
     return (
-        <Slider
-            railStyle={{
-                backgroundColor: 'var(--text-primary)',
-            }}
-            trackStyle={{
-                backgroundColor: 'var(--text-action)',
-            }}
-            handleStyle={{
-                opacity: visibleDot ? 1 : 0,
-                backgroundColor: 'var(--text-action)',
-                border: 'none',
-            }}
-            {...other}
-        />
+        <div className={styles.wrapper} onMouseEnter={() => focus.set(true)} onMouseLeave={() => focus.set(false)}>
+            <Slider
+                railStyle={{
+                    backgroundColor: 'var(--text-primary)',
+                }}
+                trackStyle={{
+                    backgroundColor: 'var(--text-action)',
+                }}
+                handleStyle={{
+                    transition: 'opacity .5s',
+                    opacity: focus.value ? 1 : 0,
+                    backgroundColor: 'var(--text-action)',
+                    border: 'none',
+                }}
+                {...other}
+            />
+        </div>
     );
 }
 
