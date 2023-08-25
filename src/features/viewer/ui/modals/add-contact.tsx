@@ -3,12 +3,9 @@ import React from 'react';
 import { userApi } from 'entities/user';
 import { AddContactModalView, viewerTypes, viewerApi } from 'entities/viewer';
 import { useEasyState, useYup } from 'shared/hooks';
-import { Modal, Input, Notification } from 'shared/ui';
+import { Modal, Input, Notification, ModalTypes } from 'shared/ui';
 
-function AddContactModal() {
-    const addContactModal = Modal.use();
-    const contacts = Modal.use();
-
+function AddContactModal(modal: ModalTypes.UseReturnedType) {
     const notification = Notification.use();
 
     const handleCheckPhone = userApi.handleCheckPhone();
@@ -53,7 +50,7 @@ function AddContactModal() {
                 },
                 {
                     onSuccess: () => {
-                        addContactModal.close();
+                        modal.close();
                         notification.success({ title: `Контакт ${phoneInput.value} добавлен` });
                     },
                 }
@@ -61,20 +58,13 @@ function AddContactModal() {
         }
     };
 
-    const onClose = () => {
-        contacts.open();
-        firstName.reload();
-        lastName.reload();
-        phone.reload();
-    };
-
-    return (
-        <>
-            <Modal {...addContactModal} onClose={onClose}>
-                <AddContactModalView back={addContactModal.close} addContact={addContact} inputs={{ firstName, lastName, phone }} />
-            </Modal>
-        </>
-    );
+    return <AddContactModalView back={modal.close} addContact={addContact} inputs={{ firstName, lastName, phone }} />;
 }
 
-export default AddContactModal;
+export default function (modal: ModalTypes.UseReturnedType) {
+    return (
+        <Modal {...modal}>
+            <AddContactModal {...modal} />
+        </Modal>
+    );
+}

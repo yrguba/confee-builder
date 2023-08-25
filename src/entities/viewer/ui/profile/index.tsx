@@ -4,33 +4,34 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { viewerTypes } from '../../../../viewer';
-import { User } from '../../../model/types';
+import { Viewer } from '../../model/types';
 
 type Props = {
-    user: User | BaseTypes.Empty;
+    user: Viewer | BaseTypes.Empty;
     isViewer?: boolean;
     selectFile: () => void;
     deleteFile: () => void;
     getScreenshot: (img: string) => void;
-    getChangeModals: (modalName: keyof viewerTypes.Modals, disabled?: boolean) => void;
+    modals: {
+        openChangeNameModal: () => void;
+        openChangeAboutMeModal: () => void;
+        openChangeNickname: () => void;
+        openChangePhone: () => void;
+        openChangeEmail: () => void;
+        openChangeBirth: () => void;
+    };
 } & BaseTypes.Statuses;
 
-function UserProfileModalView(props: Props) {
-    const { user, isViewer, deleteFile, selectFile, getScreenshot, getChangeModals } = props;
+function ViewerProfileView(props: Props) {
+    const { user, isViewer, deleteFile, selectFile, getScreenshot, modals } = props;
 
     const items = [
-        { id: 0, title: `${user?.first_name} ${user?.last_name}`, subtitle: 'Имя и фамилия', onClick: () => getChangeModals('changeName') },
-        {
-            id: 1,
-            title: '1dwdwd',
-            subtitle: 'О себе',
-            onClick: () => getChangeModals('changeName', true),
-        },
-        { id: 2, title: user?.nickname, subtitle: 'Никнейм', onClick: () => getChangeModals('changeNickname') },
-        { id: 3, title: user?.phone, subtitle: 'Номер телефона', onClick: () => getChangeModals('changeName', true) },
-        { id: 4, title: user?.email, subtitle: 'Почта', onClick: () => getChangeModals('changeName', true) },
-        { id: 5, title: user?.birth?.split(' ')[0] || '', subtitle: 'Дата рождения', onClick: () => getChangeModals('changeBirth') },
+        { id: 0, title: `${user?.first_name} ${user?.last_name}`, subtitle: 'Имя и фамилия', onClick: modals.openChangeNameModal },
+        // { id: 1, title: '', subtitle: 'О себе', onClick: () => '' },
+        { id: 2, title: user?.nickname, subtitle: 'Никнейм', onClick: modals.openChangeNickname },
+        { id: 3, title: user?.phone, subtitle: 'Номер телефона', onClick: modals.openChangePhone },
+        { id: 4, title: user?.email, subtitle: 'Почта', onClick: modals.openChangeEmail },
+        { id: 5, title: user?.birth?.split(' ')[0] || '', subtitle: 'Дата рождения', onClick: modals.openChangeBirth },
     ];
 
     return (
@@ -44,7 +45,7 @@ function UserProfileModalView(props: Props) {
                                 selectFile={selectFile}
                                 deleteFile={deleteFile}
                                 getScreenshot={getScreenshot}
-                                img={user?.avatar?.path}
+                                img={user?.avatar}
                                 name={user?.first_name}
                             />
                         )}
@@ -70,4 +71,4 @@ function UserProfileModalView(props: Props) {
     );
 }
 
-export default UserProfileModalView;
+export default ViewerProfileView;

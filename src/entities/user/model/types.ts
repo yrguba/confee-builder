@@ -14,7 +14,7 @@ export enum Statuses {
 }
 
 export type User = {
-    avatar: File;
+    avatar: string;
     birth: string;
     contact_name: string;
     created_at: Date;

@@ -8,7 +8,6 @@ import { Box, Title } from 'shared/ui';
 import styles from './styles.module.scss';
 import { messageGateway } from '../../../../entities/message';
 import { userGateway } from '../../../../entities/user';
-import Modals from '../modals';
 import { Sidebar } from '../widgets';
 
 function ChatsPage() {
@@ -34,26 +33,23 @@ function ChatsPage() {
     };
 
     return (
-        <>
-            <Modals />
-            <Box.Animated visible className={styles.wrapper}>
-                {isVisibleSidebar() && (
-                    <div className={styles.sidebar}>
-                        <Sidebar />
-                    </div>
-                )}
-                {isVisibleOutlet() && (
-                    <div className={styles.outlet}>
-                        {!params.chat_id && (
-                            <Title textWrap primary={false} textAlign="center" variant="H2">
-                                Выберите чат, для начала диалога
-                            </Title>
-                        )}
-                        <Outlet />
-                    </div>
-                )}
-            </Box.Animated>
-        </>
+        <Box.Animated visible className={styles.wrapper}>
+            {isVisibleSidebar() && (
+                <div className={styles.sidebar}>
+                    <Sidebar />
+                </div>
+            )}
+            {isVisibleOutlet() && (
+                <div className={styles.outlet}>
+                    {!params.chat_id && (
+                        <Title textWrap primary={false} textAlign="center" variant="H2">
+                            Выберите чат, для начала диалога
+                        </Title>
+                    )}
+                    <Outlet />
+                </div>
+            )}
+        </Box.Animated>
     );
 }
 

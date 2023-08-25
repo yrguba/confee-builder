@@ -1,10 +1,11 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import produce from 'immer';
 
+import { appApi } from 'entities/app';
 import { axiosClient } from 'shared/configs';
-import { useArray, useWebSocket } from 'shared/hooks';
+import { useWebSocket } from 'shared/hooks';
 
-import { File, MessageProxy, MessageType, SocketOut } from './types';
+import { File, Message, MessageProxy, MessageType, SocketOut } from './types';
 import { messages_limit } from '../lib/constants';
 import mockMessage from '../lib/mock';
 
@@ -67,6 +68,7 @@ class MessageApi {
     handleSendFileMessage() {
         const queryClient = useQueryClient();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
+
         return useMutation(
             (data: {
                 files: FormData | undefined | null;

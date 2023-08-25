@@ -1,9 +1,0 @@
-@import "src/app/styles";
-
-.wrapper {
-  @include box-size(100%, auto);
-  @include flex;
-  background-color: var(--bg-secondary);
-  border-radius: 20px;
-  padding: 20px;
-}

@@ -1,17 +1,17 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(416px, 100%);
-  @include flex-column(flex-start, center);
-  max-height: 450px;
+  @include box-size(calc(416px - 48px), auto);
+  @include flex-column(flex-start, flex-start);
+  max-height: 90vh;
+  gap: 16px;
+  margin: 24px;
 
   .header {
-    width: 90%;
     @include flex-column();
+    width: 100%;
     gap: 4px;
-    margin-top: 28px;
     color: var(--text-primary);
-
 
     .search {
       width: 100%;
@@ -20,7 +20,7 @@
 
   .body {
     @include flex-column(flex-start, flex-start);
-    width: 90%;
+    width: 100%;
     flex: 1;
     margin-top: 16px;
     gap: 20px;
@@ -31,18 +31,19 @@
     }
 
     .list {
+      @include flex-column(flex-start, flex-start);
       width: 100%;
-      max-height: 300px;
+      gap: 12px;
+      min-height: 60px;
       overflow-y: auto;
+      max-height: 50vh;
     }
 
   }
 
   .footer {
-    width: 90%;
-    margin-top: 16px;
-    margin-bottom: 28px;
-
+    @include flex;
+    @include box-size(100%, 50px);
 
     svg {
       fill: var(--text-action) !important;

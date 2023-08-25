@@ -21,15 +21,3 @@ export type Contact = {
 export type ContactProxy = {
     full_name: string;
 } & Contact;
-
-export type Modals = {
-    viewerPersonalInfo: null;
-    changeName: null;
-    changeNickname: null;
-    changeBirth: null;
-    changeEmail: null;
-    contacts: null;
-    addContact: null;
-    changeAboutMe: null;
-    changePhone: null;
-};

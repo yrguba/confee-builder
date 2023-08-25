@@ -1,22 +1,22 @@
+import { appApi } from 'entities/app';
 import { getUniqueArr } from 'shared/lib';
 
 import { messages_limit } from './constants';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
 import { messageProxy } from '../index';
-import { Message } from '../model/types';
+import { File, Message } from '../model/types';
 
 class MessageService {
     getUpdatedList(messageData: any) {
-        console.log('render');
         const uniq = getUniqueArr(messageData?.pages?.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []) || [], 'id');
-        return uniq.map((message: any, index: number) =>
-            messageProxy({
+        return uniq.map((message: any, index: number) => {
+            return messageProxy({
                 prevMessage: (uniq[index - 1] as Message) || null,
                 message,
                 nextMessage: (uniq[index + 1] as Message) || null,
-            })
-        );
+            });
+        });
     }
 
     getInitialPage(chat: Chat | undefined) {

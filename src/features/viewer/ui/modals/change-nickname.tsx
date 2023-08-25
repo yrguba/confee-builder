@@ -1,26 +1,20 @@
 import React from 'react';
 
 import { userApi } from 'entities/user';
-import { viewerTypes, viewerApi, ChangeNickNameModalView } from 'entities/viewer';
+import { viewerApi, ChangeNickNameModalView } from 'entities/viewer';
 import { useYup } from 'shared/hooks';
-import { Modal, Input } from 'shared/ui';
+import { Modal, Input, ModalTypes } from 'shared/ui';
 
-function ChangeNicknameModal() {
-    const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
+function ChangeNicknameModal(modal: ModalTypes.UseReturnedType) {
+    const { data: viewerData } = viewerApi.handleGetViewer();
     const handleCheckNickname = userApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
     const yup = useYup();
-    const changeNicknameModal = Modal.use();
 
     const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,
         initialValue: viewerData?.nickname,
     });
-
-    const close = () => {
-        nicknameInput.reload();
-        changeNicknameModal.close();
-    };
 
     const onsubmit = async () => {
         const { error } = await nicknameInput.asyncValidate();
@@ -32,17 +26,19 @@ function ChangeNicknameModal() {
             handleEditProfile(
                 { nickname: nicknameInput.value },
                 {
-                    onSuccess: () => close(),
+                    onSuccess: modal.close,
                 }
             );
         }
     };
 
+    return <ChangeNickNameModalView back={modal.close} nicknameInput={nicknameInput} handleSubmit={onsubmit} />;
+}
+
+export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal {...changeNicknameModal} onClose={close}>
-            <ChangeNickNameModalView back={close} nicknameInput={nicknameInput} handleSubmit={onsubmit} />
+        <Modal {...modal}>
+            <ChangeNicknameModal {...modal} />
         </Modal>
     );
 }
-
-export default ChangeNicknameModal;

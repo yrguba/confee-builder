@@ -7,6 +7,7 @@ import useMessageStore from './model/store';
 import * as messageTypes from './model/types';
 import MessageInputView from './ui/input';
 import MessagesListView from './ui/messages-list';
+import FilesToSendModalView from './ui/modals/files-to-send';
 import ForwardMessagesModalView from './ui/modals/forward';
 
 export {
@@ -20,4 +21,5 @@ export {
     MessagesListView,
     MessageInputView,
     ForwardMessagesModalView,
+    FilesToSendModalView,
 };

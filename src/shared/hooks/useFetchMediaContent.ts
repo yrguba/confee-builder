@@ -1,19 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
-import useFS from './useFS';
-import { axiosClient } from '../configs';
-import { fileConverter } from '../lib';
+import { appApi } from 'entities/app';
 
-function handleGetFile(url: string, isFetch: boolean) {
-    return useQuery(['get-chat', url], () => axiosClient.get(url, { responseType: 'blob' }), {
-        staleTime: Infinity,
-        enabled: isFetch,
-        select: (data) => {
-            return data.data;
-        },
-    });
-}
+import useFS from './useFS';
+import { fileConverter } from '../lib';
 
 function useFetchMediaContent(url = '', saveInCache = false) {
     const [src, setSrc] = useState<any>('');
@@ -31,7 +21,7 @@ function useFetchMediaContent(url = '', saveInCache = false) {
 
     const isFetch = !!checkFetch();
 
-    const { data: imgData, isLoading, error } = handleGetFile(url, isFetch);
+    const { data: imgData, isLoading, error } = appApi.handleGetFile(url, isFetch);
 
     useEffect(() => {
         const fn = async () => {

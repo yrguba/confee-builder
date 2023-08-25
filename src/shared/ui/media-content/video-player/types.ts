@@ -21,6 +21,12 @@ export type VideoListProps = {
     items: VideoListItem[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
+export type VideoCardProps = {
+    url: string;
+    name: string;
+    size: number;
+} & BaseTypes.Statuses;
+
 export type VideoSwiperProps = {
     visible: boolean;
     closeClick: () => void;
