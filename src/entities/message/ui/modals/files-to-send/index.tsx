@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { UseArrayReturnType, UseFileUploaderTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Document, Icons, Image, Title } from 'shared/ui';
+import { AudioPlayer, Button, Document, Icons, Image, Title, VideoPlayer } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -18,6 +18,10 @@ type Props = {
 
 function FilesToSendModalView(props: Props) {
     const { images, documents, audios, videos, addFiles, sendFiles, close } = props;
+
+    const getTitle = () => {
+        // if()
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -35,14 +39,14 @@ function FilesToSendModalView(props: Props) {
                 {audios.array.length
                     ? audios.array.map((i) => (
                           <Item key={i.id} remove={() => audios.deleteById(i.id)}>
-                              audios
+                              <AudioPlayer.Card url={i.fileUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}
                 {videos.array.length
                     ? videos.array.map((i) => (
                           <Item key={i.id} remove={() => videos.deleteById(i.id)}>
-                              videos
+                              <VideoPlayer.Card url={i.fileUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}
