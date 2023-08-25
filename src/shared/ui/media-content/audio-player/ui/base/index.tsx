@@ -13,7 +13,7 @@ import { BaseAudioPlayerProps } from '../../types';
 import waveformStatic from '../wave-form/static';
 
 function AudioPlayer(props: BaseAudioPlayerProps) {
-    const { url, size, isVisibleMeta } = props;
+    const { url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
     const storage = useStorage<appTypes.ValuesInStorage>();
     const { src } = useFetchMediaContent(url || '', storage.get('cache_size'));
 
@@ -29,7 +29,7 @@ function AudioPlayer(props: BaseAudioPlayerProps) {
         <div className={styles.wrapper} style={{ overflow: isLoading ? 'hidden' : 'visible' }}>
             <LoadingIndicator.Glare visible={isLoading} />
             <div className={styles.controls}>
-                <Button.Circle radius={40} onClick={playPauseClick}>
+                <Button.Circle radius={btnRadius} onClick={playPauseClick}>
                     <Icons.Player variant={isPlaying ? 'pause' : 'play'} />
                 </Button.Circle>
             </div>
@@ -45,7 +45,9 @@ function AudioPlayer(props: BaseAudioPlayerProps) {
                     {size && <div className={styles.size}>{size && sizeConverter(size)}</div>}
                 </>
             )}
-            <div className={styles.waveform}>{waveform}</div>
+            <div style={{ display: visibleWave ? '' : 'none' }} className={styles.waveform}>
+                {waveform}
+            </div>
         </div>
     );
 }

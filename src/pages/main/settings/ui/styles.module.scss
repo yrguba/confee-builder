@@ -4,19 +4,23 @@
   @include box-size(100%, 100%);
   @include flex-column;
   background-color: var(--bg-primary);
-  overflow-y: auto;
 
   .body {
     @include flex-column(flex-start, center);
-    @include box-size(96%, 100%);
+    @include box-size(90%, calc(100% - 24px));
+    overflow-y: auto;
+    margin: 24px 0;
     gap: 22px;
 
-    .row{
+    .row {
+      @include box-size(calc(100% - 40px), auto);
+      @include flex;
       flex-shrink: 0;
       min-height: 154px;
       max-width: 940px;
-      @include box-size(100%, auto);
-
+      background-color: var(--bg-secondary);
+      border-radius: 20px;
+      padding: 20px;
     }
   }
 }

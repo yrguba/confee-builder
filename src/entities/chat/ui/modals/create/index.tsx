@@ -55,7 +55,9 @@ function CreateChatModalView(props: Props) {
                     items={contacts?.map((i) => ({
                         id: i.user_id,
                         img: '',
-                        name: i.contact_name || '',
+                        name: i.contact_name || i.first_name || '',
+                        title: i.contact_name || i.first_name || '',
+                        subtitle: i.phone || '',
                     }))}
                 />
             </div>

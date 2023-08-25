@@ -7,9 +7,8 @@
   cursor: pointer;
 
   .icon {
-    @include flex;
+    @include flex(flex-start);
     width: 37px;
-    height: 37px;
     background-color: var(--text-action);
     border-radius: 4px;
   }

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, Input, Collapse, InputTypes, Card } from 'shared/ui';
+import { Button, Icons, Input, InputTypes, Card, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { Contact } from '../../../model/types';
@@ -17,16 +17,12 @@ function ContactsModalView(props: Props) {
 
     const [activeTab, setActiveTab] = useState(0);
 
-    const btns = [
-        { id: 0, title: 'Все', onClick: () => setActiveTab(0) },
-        // { id: 1, title: 'Softworks', onClick: () => setActiveTab(1) },
-        // { id: 2, title: 'Личные', onClick: () => setActiveTab(2) },
-    ];
+    const btns = [{ id: 0, title: 'Все', onClick: () => setActiveTab(0) }];
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                <div className={styles.title}>Контакты</div>
+                <Title variant="H2">Контакты</Title>
                 <div className={styles.search}>
                     <Input width="100%" {...searchContactsInput} placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>

@@ -6,7 +6,7 @@ import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { generateItems } from 'shared/lib';
 import { Modal, Notification, ModalTypes, CardTypes } from 'shared/ui';
 
-function CreateChatModal(createChatModal: ModalTypes.UseReturnedType) {
+function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
 
     const notifications = Notification.use();
@@ -24,7 +24,7 @@ function CreateChatModal(createChatModal: ModalTypes.UseReturnedType) {
             { user_ids: selectedContacts.array.map((i) => i.id), is_group: isGroup.value },
             {
                 onSuccess: (data) => {
-                    createChatModal.close();
+                    modal.close();
                     navigate(`/chats/chat/${data.data.data.id}`);
                 },
             }
@@ -42,10 +42,10 @@ function CreateChatModal(createChatModal: ModalTypes.UseReturnedType) {
     );
 }
 
-export default function (createChatModal: ModalTypes.UseReturnedType) {
+export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal {...createChatModal}>
-            <CreateChatModal {...createChatModal} />
+        <Modal {...modal}>
+            <CreateChatModal {...modal} />
         </Modal>
     );
 }

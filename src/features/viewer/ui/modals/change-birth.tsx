@@ -1,22 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { viewerApi, ChangeBirthModalView, viewerTypes } from 'entities/viewer';
-import { Modal, Input } from 'shared/ui';
+import { viewerApi, ChangeBirthModalView } from 'entities/viewer';
+import { Modal, Input, ModalTypes } from 'shared/ui';
 
-function ChangeBirthModal() {
+function ChangeBirthModal(modal: ModalTypes.UseReturnedType) {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
-
-    const changeBirthModal = Modal.use();
 
     const birthInput = Input.use({
         initialValue: viewerData?.birth?.split(' ')[0] || '',
     });
-
-    const close = () => {
-        changeBirthModal.close();
-        birthInput.reload();
-    };
 
     const onsubmit = async () => {
         const { error: birthError, value: birth } = await birthInput.asyncValidate();
@@ -25,17 +18,19 @@ function ChangeBirthModal() {
             handleEditProfile(
                 { birth: birthDate },
                 {
-                    onSuccess: close,
+                    onSuccess: modal.close,
                 }
             );
         }
     };
 
+    return <ChangeBirthModalView handleSubmit={onsubmit} birthInput={birthInput} back={modal.close} />;
+}
+
+export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal {...changeBirthModal} onClose={close}>
-            <ChangeBirthModalView handleSubmit={onsubmit} birthInput={birthInput} back={close} />;
+        <Modal {...modal}>
+            <ChangeBirthModal {...modal} />
         </Modal>
     );
 }
-
-export default ChangeBirthModal;

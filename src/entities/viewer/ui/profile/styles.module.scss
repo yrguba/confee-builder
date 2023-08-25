@@ -1,11 +1,10 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(416px, auto);
+  @include box-size(100%, auto);
   @include flex-column(flex-start, flex-start);
   max-height: 600px;
   gap: 24px;
-  padding: 32px 24px;
 
   @include height-to('sm'){
     height: 80vh;

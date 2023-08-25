@@ -11,6 +11,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
     initialArr,
     multiple = true,
 }: Options<T>): {
+    length: number;
     array: T[];
     push: (item: T) => void;
     unshift: (item: T) => void;
@@ -21,6 +22,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
     pushOrDelete: (arr: T) => void;
     replace: (arr: T[]) => void;
     getIds: () => number[] | string[];
+    concat: (arr: T[]) => void;
 } {
     const array = useEasyState<T[]>(initialArr || []);
 
@@ -39,6 +41,10 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
 
     const replace = (arr: T[]) => {
         array.set(arr);
+    };
+
+    const concat = (arr: T[]) => {
+        array.set((prev) => prev.concat(arr));
     };
 
     const unshift = (item: T) => {
@@ -77,7 +83,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
         array.set([]);
     };
 
-    return { array: array.value, push, unshift, findById, replace, deleteById, deleteByIds, pushOrDelete, clear, getIds };
+    return { length: array.value.length, array: array.value, push, concat, unshift, findById, replace, deleteById, deleteByIds, pushOrDelete, clear, getIds };
 }
 
 export type UseArrayReturnType<T extends { [key: string]: any; id: string | number }> = ReturnType<typeof useArray<T>>;

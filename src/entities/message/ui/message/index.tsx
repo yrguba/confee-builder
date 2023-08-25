@@ -42,7 +42,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
 
     return (
         <Box className={styles.wrapper}>
-            {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={author?.avatar?.path} />}
+            {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={author?.avatar} />}
             <Dropdown.Dynamic
                 disabled={voiceRecordingInProgress}
                 reverseX={message.isMy}

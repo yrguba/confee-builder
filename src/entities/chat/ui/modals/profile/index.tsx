@@ -41,7 +41,7 @@ function ChatProfileModalView(props: Props) {
         { id: 4, type: 'voices', title: 'Голосовые' },
         { id: 5, type: 'documents', title: 'Файлы' },
     ];
-    console.log(files);
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
@@ -102,7 +102,7 @@ function ChatProfileModalView(props: Props) {
                                         <Card.List
                                             items={chat?.members.map((i) => ({
                                                 id: i.id,
-                                                img: i.avatar?.path || '',
+                                                img: i.avatar || '',
                                                 name: userService.getFullName(i),
                                                 title: userService.getFullName(i),
                                                 subtitle: userService.getUserNetworkStatus(i),

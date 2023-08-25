@@ -11,17 +11,20 @@ import './index.scss';
 import { useWebSocket, useTheme } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
+import { notificationsManager } from '../entities/app';
+
 const queryClient = new QueryClient();
 moment.locale('ru');
 
 function App() {
     const { clientBaseURL } = appService.getUrls();
+    const notification = Notification.use();
     useTheme();
 
     useEffect(() => {
         const { onMessage } = useWebSocket();
         onMessage('all', (socketData) => {
-            // notification.success({ title: 'test', scope: 'all' });
+            notificationsManager(socketData, notification);
         });
         console.log('clientBaseURL: ', clientBaseURL);
     }, []);
