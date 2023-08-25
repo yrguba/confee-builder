@@ -6,7 +6,6 @@ import { messageApi, MessagesListView, messageService, messageTypes, useMessageS
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
-import { UserProfileModal } from '../../user';
 import { ForwardMessagesModal } from '../index';
 
 const memoUpdateMessages = createMemo(messageService.getUpdatedList);
@@ -118,7 +117,6 @@ function MessageList() {
 
     return (
         <>
-            <UserProfileModal {...userProfileModal} />
             <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
             <ForwardMessagesModal {...forwardMessagesModal} />
             <MessagesListView

@@ -11,6 +11,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
     initialArr,
     multiple = true,
 }: Options<T>): {
+    length: number;
     array: T[];
     push: (item: T) => void;
     unshift: (item: T) => void;
@@ -82,7 +83,7 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
         array.set([]);
     };
 
-    return { array: array.value, push, concat, unshift, findById, replace, deleteById, deleteByIds, pushOrDelete, clear, getIds };
+    return { length: array.value.length, array: array.value, push, concat, unshift, findById, replace, deleteById, deleteByIds, pushOrDelete, clear, getIds };
 }
 
 export type UseArrayReturnType<T extends { [key: string]: any; id: string | number }> = ReturnType<typeof useArray<T>>;

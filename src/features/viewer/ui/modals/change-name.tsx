@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { viewerApi, ChangeNameModalView, viewerTypes } from 'entities/viewer';
+import { viewerApi, ChangeNameModalView } from 'entities/viewer';
 import { useYup } from 'shared/hooks';
-import { Modal, Input } from 'shared/ui';
+import { Modal, Input, ModalTypes } from 'shared/ui';
 
-function ChangeNameModal() {
+function ChangeNameModal(modal: ModalTypes.UseReturnedType) {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
-    const changeNameModal = Modal.use();
     const yup = useYup();
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
@@ -19,12 +18,6 @@ function ChangeNameModal() {
         initialValue: viewerData?.last_name,
     });
 
-    const close = () => {
-        firstNameInput.reload();
-        lastNameInput.reload();
-        changeNameModal.close();
-    };
-
     const onsubmit = async () => {
         const fnInput = await firstNameInput.asyncValidate();
         const lnInput = await lastNameInput.asyncValidate();
@@ -32,17 +25,23 @@ function ChangeNameModal() {
             handleEditProfile(
                 { first_name: fnInput.value, last_name: lnInput.value },
                 {
-                    onSuccess: close,
+                    onSuccess: modal.close,
                 }
             );
         }
     };
 
     return (
-        <Modal {...changeNameModal} onClose={close}>
-            <ChangeNameModalView back={close} handleSubmit={onsubmit} inputs={{ lastName: lastNameInput, firstName: firstNameInput }} />;
-        </Modal>
+        <>
+            <ChangeNameModalView back={modal.close} handleSubmit={onsubmit} inputs={{ lastName: lastNameInput, firstName: firstNameInput }} />;
+        </>
     );
 }
 
-export default ChangeNameModal;
+export default function (modal: ModalTypes.UseReturnedType) {
+    return (
+        <Modal {...modal}>
+            <ChangeNameModal {...modal} />
+        </Modal>
+    );
+}

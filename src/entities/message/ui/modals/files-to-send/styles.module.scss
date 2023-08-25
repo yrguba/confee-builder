@@ -11,7 +11,6 @@
     @include flex-column();
     width: 100%;
     gap: 4px;
-
     color: var(--text-primary);
   }
 
@@ -21,6 +20,7 @@
     gap: 12px;
     min-height: 60px;
     overflow-y: auto;
+    max-height: 68vh;
 
     .item {
       width: 100%;
