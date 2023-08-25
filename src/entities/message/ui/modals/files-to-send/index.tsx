@@ -25,13 +25,6 @@ function FilesToSendModalView(props: Props) {
                 <Title variant="H2">Отправить как файл</Title>
             </div>
             <div className={styles.list}>
-                {documents.array.length
-                    ? documents.array.map((i) => (
-                          <Item key={i.id} remove={() => documents.deleteById(i.id)}>
-                              <Document url={i.fileUrl} name={i.name} size={+i.size} />
-                          </Item>
-                      ))
-                    : null}
                 {images.array.length
                     ? images.array.map((i) => (
                           <Item key={i.id} remove={() => images.deleteById(i.id)}>
@@ -50,6 +43,13 @@ function FilesToSendModalView(props: Props) {
                     ? videos.array.map((i) => (
                           <Item key={i.id} remove={() => videos.deleteById(i.id)}>
                               videos
+                          </Item>
+                      ))
+                    : null}
+                {documents.array.length
+                    ? documents.array.map((i) => (
+                          <Item key={i.id} remove={() => documents.deleteById(i.id)}>
+                              <Document url={i.fileUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}

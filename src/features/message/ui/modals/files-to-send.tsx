@@ -31,31 +31,40 @@ function FilesToSendModal(props: Props) {
         onClose();
     };
 
-    const sendFiles = () => {
+    const sendFiles = async () => {
         const send = (arr: any[], type: messageTypes.MediaContentType) => {
+            // return new Promise((resolve, reject) => {
             const formData = new FormData();
             arr.forEach((i) => {
                 formData.append(`files[${type}][]`, i.file);
             });
-
-            return handleSendFileMessage({
-                chatId,
-                files: formData,
-                filesForMock: arr.map((i) => ({ id: getRandomInt(100), link: i.fileUrl, name: i.name })),
-                filesType: type,
-            });
+            handleSendFileMessage(
+                {
+                    chatId,
+                    files: formData,
+                    filesForMock: arr.map((i) => ({ id: getRandomInt(100), link: i.fileUrl, name: i.name })),
+                    filesType: type,
+                },
+                {
+                    onSuccess: (data) => {
+                        console.log('success');
+                        // resolve(data);
+                    },
+                }
+            );
+            // });
         };
         if (images.array.length) {
-            send(images.array, 'images');
+            await send(images.array, 'images');
         }
         if (audios.array.length) {
-            send(audios.array, 'audios');
+            await send(audios.array, 'audios');
         }
         if (videos.array.length) {
-            send(videos.array, 'videos');
+            await send(videos.array, 'videos');
         }
         if (documents.array.length) {
-            send(documents.array, 'documents');
+            await send(documents.array, 'documents');
         }
         close();
     };
