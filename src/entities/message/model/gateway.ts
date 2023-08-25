@@ -31,10 +31,23 @@ function messageGateway() {
                         socketData.data.message.type !== 'system' &&
                         !socketData.data.message.forwarded_from_message
                     ) {
-                        const foundMockIndex = findLastIndex(draft.pages[0].data.data, (i: MessageProxy) => i.isMock);
-                        if (foundMockIndex === -1) return;
-                        const { files } = draft.pages[0].data.data[foundMockIndex];
-                        draft.pages[0].data.data.splice(foundMockIndex, 1, { ...socketData.data.message, is_read: socketData.data.extra_info.is_read, files });
+                        if (socketData.data.message?.files?.length) {
+                            const foundMockIndex = draft.pages[0].data.data.findIndex((i: MessageProxy) => i.isMock && socketData.data.message.type === i.type);
+                            if (foundMockIndex === -1) return;
+                            const { files } = draft.pages[0].data.data[foundMockIndex];
+                            draft.pages[0].data.data.splice(foundMockIndex, 1, {
+                                ...socketData.data.message,
+                                is_read: socketData.data.extra_info.is_read,
+                                files,
+                            });
+                        } else {
+                            const foundMockIndex = findLastIndex(draft.pages[0].data.data, (i: MessageProxy) => i.isMock);
+                            if (foundMockIndex === -1) return;
+                            draft.pages[0].data.data.splice(foundMockIndex, 1, {
+                                ...socketData.data.message,
+                                is_read: socketData.data.extra_info.is_read,
+                            });
+                        }
                     } else {
                         draft.pages[0].data.data.unshift({ ...socketData.data.message, is_read: socketData.data.extra_info.is_read });
                     }
