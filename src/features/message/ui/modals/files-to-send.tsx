@@ -48,7 +48,6 @@ function FilesToSendModal(props: Props) {
                 {
                     onSuccess: (data) => {
                         console.log('success');
-                        // resolve(data);
                     },
                 }
             );
