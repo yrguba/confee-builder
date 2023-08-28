@@ -51,10 +51,11 @@ function CreateChatModalView(props: Props) {
             <TabBar bodyStyle={{ padding: '0 22px' }} items={btns} activeItemId={activeTab} />
             <div className={styles.list}>
                 <Card.List
+                    sortByName
                     selected={selectedContacts}
                     items={contacts?.map((i) => ({
                         id: i.user_id,
-                        img: '',
+                        img: i.avatar,
                         name: i.contact_name || i.first_name || '',
                         title: i.contact_name || i.first_name || '',
                         subtitle: i.phone || '',

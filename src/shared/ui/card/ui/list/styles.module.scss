@@ -1,14 +1,24 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(100%, 100%);
   @include flex-column();
 
+  .delimiter {
+    @include box-size(calc(100% - 40px), 28px);
+    @include flex(flex-start);
+    background-color: var(--bg-primary);
+    padding-left: 16px;
+    border-radius: 12px;
+
+    margin: 8px 24px 8px 0;
+    color: var(--text-primary);
+  }
+
   .item {
-    @include box-size(calc(100% - 12px), 60px);
+    @include box-size(calc(100% - 24px), 60px);
     @include flex();
     cursor: pointer;
-    margin-right: 12px;
+    margin-right: 24px;
 
     .info {
       @include flex(flex-start);
