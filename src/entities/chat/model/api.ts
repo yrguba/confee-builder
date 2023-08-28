@@ -89,18 +89,8 @@ class ChatApi {
     };
 
     handleAddAvatar() {
-        const queryClient = useQueryClient();
-
-        return useMutation(
-            (data: { chatId: number; img: string }) => {
-                for (const pair of getFormData('images', data.img)) {
-                    console.log(`${pair[0]}, ${pair[1]}`);
-                }
-                return axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img));
-            },
-            {
-                onSuccess: async (data) => {},
-            }
+        return useMutation((data: { chatId: number; img: string }) =>
+            axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img))
         );
     }
 
@@ -108,6 +98,20 @@ class ChatApi {
         const queryClient = useQueryClient();
         return useMutation((data: { chatId: number; name: string }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/name`, { name: data.name }), {
             onSuccess: async (data) => {},
+        });
+    }
+
+    handleLeaveChat() {
+        const queryClient = useQueryClient();
+        return useMutation((data: { chatId: number }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`), {
+            onSuccess: async (res, data) => {
+                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                    if (!cacheData?.data?.data.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data = draft?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+                    });
+                });
+            },
         });
     }
 

@@ -26,6 +26,6 @@ export type ChatProxy = {
     secondMemberStatus: keyof typeof Statuses | null;
 } & Chat;
 
-export type Actions = 'delete' | 'audioCall' | ' videoCall';
+export type Actions = 'delete' | 'leave' | 'audioCall' | 'videoCall';
 export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated';
 export type SocketOut = 'ChatListenersUpdated';

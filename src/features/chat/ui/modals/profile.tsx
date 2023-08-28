@@ -12,6 +12,7 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
+    const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
     const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
 
@@ -40,22 +41,21 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const getScreenshot = (data: string) => handleAddAvatar({ chatId, img: data });
     const updateChatName = (name: string) => handleUpdateChatName({ chatId, name });
 
+    const exitChat = () => {
+        modal.close();
+        navigate('/chats');
+    };
+
     const actions = (action: chatTypes.Actions) => {
         switch (action) {
             case 'audioCall':
                 return notification.inDev();
-            case ' videoCall':
+            case 'videoCall':
                 return notification.inDev();
+            case 'leave':
+                return handleLeaveChat({ chatId }, { onSuccess: exitChat });
             case 'delete':
-                return handleDeleteChat(
-                    { chatId },
-                    {
-                        onSuccess: () => {
-                            modal.close();
-                            navigate('/chats');
-                        },
-                    }
-                );
+                return handleDeleteChat({ chatId }, { onSuccess: exitChat });
         }
     };
 

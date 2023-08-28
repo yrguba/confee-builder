@@ -24,8 +24,8 @@ function ChatProfileModalView(props: Props) {
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
-        { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions(' videoCall') },
-        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => console.log('Ещё') },
+        { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
+        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
     ];
 
     const secondaryInfo: { id: number; title: string; subtitle: string }[] = [
@@ -43,7 +43,14 @@ function ChatProfileModalView(props: Props) {
     ];
 
     const menuItems: DropdownTypes.DropdownMenuItem[] = [
-        { id: 0, title: 'Участники', icon: <Icons variant="delete" />, hidden: !chat?.is_group, action: () => actions('delete'), isRed: true },
+        {
+            id: 0,
+            title: chat?.is_group ? 'Покинуть чат' : ' Удалить',
+            icon: <Icons variant="delete" />,
+            hidden: !chat?.is_group,
+            action: () => actions(chat?.is_group ? 'leave' : 'delete'),
+            isRed: true,
+        },
     ];
 
     return (
