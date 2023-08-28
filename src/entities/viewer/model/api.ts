@@ -24,7 +24,7 @@ class ViewerApi {
     }
 
     handleGetContacts() {
-        return useQuery(['get-contacts'], () => axiosClient.get('api/v2/contacts'), {
+        return useQuery(['get-contacts'], () => axiosClient.get('api/v2/contacts/registered'), {
             staleTime: Infinity,
             select: (res) => {
                 const updRes = httpHandlers.response<{ data: Contact[] }>(res);

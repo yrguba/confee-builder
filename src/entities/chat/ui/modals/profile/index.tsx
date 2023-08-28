@@ -3,7 +3,7 @@ import React from 'react';
 import { messageTypes } from 'entities/message';
 import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer } from 'shared/ui';
+import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer, Dropdown, DropdownTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { userService } from '../../../../user';
@@ -42,13 +42,24 @@ function ChatProfileModalView(props: Props) {
         { id: 5, type: 'documents', title: 'Файлы' },
     ];
 
+    const menuItems: DropdownTypes.DropdownMenuItem[] = [
+        { id: 0, title: 'Участники', icon: <Icons variant="delete" />, hidden: !chat?.is_group, action: () => actions('delete'), isRed: true },
+    ];
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
                 {chat?.is_group ? (
-                    <Avatar.Change size={200} img={chat?.avatar || ''} deleteFile={() => ''} selectFile={selectFile} getScreenshot={getScreenshot} />
+                    <Avatar.Change
+                        size={200}
+                        img={chat?.avatar || ''}
+                        name={chat?.name || ''}
+                        deleteFile={() => ''}
+                        selectFile={selectFile}
+                        getScreenshot={getScreenshot}
+                    />
                 ) : (
-                    <Avatar size={200} img={chat?.avatar} />
+                    <Avatar size={200} img={chat?.avatar} name={chat?.name || ''} />
                 )}
                 <div className={styles.name}>
                     <Title animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H3B">
@@ -62,9 +73,11 @@ function ChatProfileModalView(props: Props) {
             </div>
             <div className={styles.btns}>
                 {btns.map((i) => (
-                    <Button key={i.id} direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
-                        {i.title}
-                    </Button>
+                    <Dropdown.Menu position="bottom-center" items={menuItems} key={i.id} disabled={i.id !== 2}>
+                        <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
+                            {i.title}
+                        </Button>
+                    </Dropdown.Menu>
                 ))}
             </div>
             {!chat?.is_group && (

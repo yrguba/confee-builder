@@ -1,9 +1,9 @@
+import contactProxy from './lib/proxy/contact';
 import viewerService from './lib/service';
 import tokensService from './lib/tokens-service';
 import viewerApi from './model/api';
 import useViewerStore from './model/store';
 import * as viewerTypes from './model/types';
-import contactProxy from './proxy/contact';
 import InitialFillingProfileStep1View from './ui/initial-filling-profile/step1';
 import InitialFillingProfileStep2View from './ui/initial-filling-profile/step2';
 import InitialFillingProfileStep3View from './ui/initial-filling-profile/step3';
