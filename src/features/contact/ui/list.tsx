@@ -7,13 +7,17 @@ function ContactsList() {
     const { navigate, params } = useRouter();
 
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
+    const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
 
     const clickOnUser = (contact: contactTypes.ContactProxy) => {
         navigate(`contact/${contact.id}`);
     };
 
-    const actions = (action: contactTypes.Actions) => {
-        console.log(action);
+    const actions = (data?: { action: contactTypes.Actions; contactId: number }) => {
+        switch (data?.action) {
+            case 'delete':
+                handleDeleteContact({ contactId: data.contactId });
+        }
     };
 
     return (

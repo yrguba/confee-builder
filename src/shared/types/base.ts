@@ -7,10 +7,10 @@ export type Statuses = {
     error?: boolean;
 };
 
-export type Item<I, P> = {
+export type Item<I, P, C = any> = {
     id: number;
     title?: string;
     icon?: I;
     payload: P;
-    callback?: () => void;
+    callback?: (data?: C) => void;
 };

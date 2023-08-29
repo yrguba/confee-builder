@@ -12,18 +12,18 @@ type Props = {
     contacts: ContactProxy[] | BaseTypes.Empty;
     clickOnUser: (arg: ContactProxy) => void;
     activeUserId: number | null;
-    actions: (action: Actions) => void;
+    actions: (data?: { action: Actions; contactId: number }) => void;
 } & BaseTypes.Statuses;
 
 function ContactsListView(props: Props) {
     const { contacts, activeUserId, clickOnUser, actions, loading } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
 
-    const items: BaseTypes.Item<IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants, null>[] = [
-        { id: 0, icon: 'phone', callback: () => actions('audioCall'), payload: null },
-        { id: 1, icon: 'messages', callback: () => actions('message'), payload: null },
-        { id: 2, icon: 'mute', callback: () => actions('mute'), payload: null },
-        { id: 3, icon: 'delete', callback: () => actions('delete'), payload: null },
+    const items: BaseTypes.Item<IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants, Actions, { action: Actions; contactId: number }>[] = [
+        { id: 0, icon: 'phone', callback: actions, payload: 'audioCall' },
+        { id: 1, icon: 'messages', callback: actions, payload: 'message' },
+        { id: 2, icon: 'mute', callback: actions, payload: 'mute' },
+        { id: 3, icon: 'delete', callback: actions, payload: 'delete' },
     ];
 
     return (
@@ -52,7 +52,12 @@ function ContactsListView(props: Props) {
                             </div>
                             <div className={styles.icons}>
                                 {items.map((i) => (
-                                    <Button.Circle key={i.id} radius={36} onClick={i.callback} variant="inherit">
+                                    <Button.Circle
+                                        key={i.id}
+                                        radius={36}
+                                        onClick={() => i.callback && i.callback({ action: i.payload, contactId: i.id })}
+                                        variant="inherit"
+                                    >
                                         {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}
                                     </Button.Circle>
                                 ))}

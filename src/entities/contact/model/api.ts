@@ -35,6 +35,16 @@ class ContactApi {
             },
         });
     }
+
+    handleDeleteContact() {
+        const queryClient = useQueryClient();
+        // @ts-ignore
+        return useMutation((data: { contactId: number }) => axiosClient.delete(`/api/v2/contacts`, { contact_ids: [data.contactId] }), {
+            onSuccess: async (res) => {
+                queryClient.invalidateQueries(['get-contacts']);
+            },
+        });
+    }
 }
 
 export default new ContactApi();
