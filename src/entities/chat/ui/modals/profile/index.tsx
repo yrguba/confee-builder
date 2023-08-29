@@ -48,7 +48,7 @@ function ChatProfileModalView(props: Props) {
             title: chat?.is_group ? 'Покинуть чат' : ' Удалить',
             icon: <Icons variant="delete" />,
             hidden: !chat?.is_group,
-            action: () => actions(chat?.is_group ? 'leave' : 'delete'),
+            callback: () => actions(chat?.is_group ? 'leave' : 'delete'),
             isRed: true,
         },
     ];

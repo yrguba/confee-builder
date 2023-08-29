@@ -36,6 +36,15 @@ class ContactApi {
         });
     }
 
+    handleUpdateName() {
+        const queryClient = useQueryClient();
+        return useMutation((data: { phone: string; name: string }) => axiosClient.post(`/api/v2/contacts/change-name`, data), {
+            onSuccess: async (res) => {
+                queryClient.invalidateQueries(['get-contacts']);
+            },
+        });
+    }
+
     handleDeleteContact() {
         const queryClient = useQueryClient();
         // @ts-ignore

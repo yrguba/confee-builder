@@ -1,17 +1,20 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Avatar, Icons, Title } from 'shared/ui';
+import { Avatar, Button, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { useWidthMediaQuery } from '../../../../shared/hooks';
 import { ContactProxy } from '../../model/types';
 
 type Props = {
     contact: ContactProxy | BaseTypes.Empty;
+    back: () => void;
+    updateName: (name: string | number | undefined) => void;
 } & BaseTypes.Statuses;
 
 function ContactProfileView(props: Props) {
-    const { contact } = props;
+    const { contact, back, updateName } = props;
 
     const items = [
         { id: 0, title: contact?.full_name || '', subtitle: 'Имя и фамилия' },
@@ -20,14 +23,21 @@ function ContactProfileView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <Title variant="H2">Личная информация</Title>
+            <div className={styles.header}>
+                {useWidthMediaQuery().to('sm') && (
+                    <Button.Circle onClick={back} variant="secondary">
+                        <Icons variant="arrow-left" />
+                    </Button.Circle>
+                )}
+                <Title variant="H2">Личная информация</Title>
+            </div>
             <div className={styles.body}>
                 {items.map((item) => (
                     <div key={item.id} className={styles.item}>
                         {item.id === 0 && <Avatar img="" name={contact?.full_name} />}
                         <div className={styles.left}>
                             <div className={styles.aboutMe}>
-                                <Title textWrap variant="H3M">
+                                <Title updCallback={item.id === 0 ? updateName : null} textWrap variant="H3M">
                                     {item.title}
                                 </Title>
                             </div>

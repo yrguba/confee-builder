@@ -13,7 +13,7 @@ function DropdownMenu(props: DropdownMenuProps) {
             content={
                 <div className={styles.wrapper}>
                     {items.map((i) => (
-                        <div key={i.id} className={styles.item} onClick={i.action}>
+                        <div key={i.id} className={styles.item} onClick={i.callback}>
                             <div className={`${styles.content} ${i.isRed && styles.content_red}`}>
                                 <div>{i.icon}</div>
                                 <div>{i.title}</div>

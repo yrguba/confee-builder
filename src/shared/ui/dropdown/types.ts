@@ -31,7 +31,7 @@ export type DropdownMenuItem = {
     id: number;
     icon?: ReactNode;
     title: string;
-    action: (arg?: any) => void;
+    callback: (arg?: any) => void;
     isRed?: boolean;
     hidden?: boolean;
 };

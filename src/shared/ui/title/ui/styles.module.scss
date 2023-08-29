@@ -11,7 +11,8 @@
 
 .edited {
   min-height: 32px;
-  line-height: 32px!important;
+  line-height: 32px !important;
+  cursor: pointer;
 }
 
 .wrapper {
@@ -21,34 +22,40 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  position: relative;
   text-align: left;
 
-  .icon {
-    @include flex;
-    @include box-size(32px, 32px);
-    min-width: 32px;
-    border-radius: 50%;
-    background-color: var(--bg-primary);
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    svg {
-
-      fill: var(--text-action);
-
-    }
+  .input {
+    width: 100%;
   }
-
 }
 
 .showInput {
-  padding-right: 24px!important;
+  padding-right: 24px !important;
+
+
+  .input {
+    @include flex(flex-start);
+    @include box-size(100%, 32px);
+
+    .icon {
+      @include flex;
+      @include box-size(32px, 32px);
+      min-width: 32px;
+      border-radius: 50%;
+      background-color: var(--bg-primary);
+      cursor: pointer;
+
+      svg {
+        fill: var(--text-action);
+      }
+    }
+  }
+
   input {
     text-align: left;
     border-bottom: 1px solid var(--text-action);
+
+
   }
 }
 

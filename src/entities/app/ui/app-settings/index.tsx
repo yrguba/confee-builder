@@ -17,8 +17,8 @@ function AppSettingsView(props: Props) {
     const [theme, setTheme] = useTheme();
 
     const themes = [
-        { id: 0, title: 'light', action: () => setTheme('light') },
-        { id: 1, title: 'dark', action: () => setTheme('dark') },
+        { id: 0, title: 'light', callback: () => setTheme('light') },
+        { id: 1, title: 'dark', callback: () => setTheme('dark') },
     ];
 
     return (

@@ -29,6 +29,6 @@ export type ContactProxy = {
     full_name: string;
 } & Contact;
 
-export type Actions = 'delete' | 'mute' | 'audioCall' | 'videoCall' | 'message';
+export type Actions = 'delete' | 'mute' | 'audioCall' | 'videoCall' | 'message' | 'editName';
 export type SocketIn = '';
 export type SocketOut = '';

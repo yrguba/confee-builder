@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { SearchChats, TabsChats } from 'features/chat';
-import { useHeightMediaQuery } from 'shared/hooks';
+import { useWidthMediaQuery, useHeightMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card } from 'shared/ui';
+import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card, Dropdown } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { contactTypes } from '../../index';
@@ -18,22 +18,22 @@ type Props = {
 
 function ContactsListView(props: Props) {
     const { contacts, activeUserId, clickOnUser, actions, loading } = props;
-    const miniSearch = useHeightMediaQuery().to('sm');
-
+    const mdWidthSize = useWidthMediaQuery().to('md');
+    const smHeightSize = useHeightMediaQuery().to('sm');
     const items: BaseTypes.Item<
         IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants,
         Actions,
         { action: Actions; contact: contactTypes.ContactProxy }
     >[] = [
-        { id: 0, icon: 'phone', callback: actions, payload: 'audioCall' },
-        { id: 1, icon: 'messages', callback: actions, payload: 'message' },
-        { id: 2, icon: 'mute', callback: actions, payload: 'mute' },
-        { id: 3, icon: 'delete', callback: actions, payload: 'delete' },
+        { id: 0, icon: 'phone', callback: actions, payload: 'audioCall', title: '' },
+        { id: 1, icon: 'messages', callback: actions, payload: 'message', title: '' },
+        { id: 2, icon: 'mute', callback: actions, payload: 'mute', title: '' },
+        { id: 4, icon: 'delete', callback: actions, payload: 'delete', title: '' },
     ];
 
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
-            {!miniSearch && (
+            {!smHeightSize && (
                 <div className={styles.search}>
                     <SearchChats />
                 </div>
@@ -56,16 +56,22 @@ function ContactsListView(props: Props) {
                                 />
                             </div>
                             <div className={styles.icons}>
-                                {items.map((i) => (
-                                    <Button.Circle
-                                        key={i.id}
-                                        radius={36}
-                                        onClick={() => i.callback && i.callback({ action: i.payload, contact })}
-                                        variant="inherit"
-                                    >
-                                        {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}
-                                    </Button.Circle>
-                                ))}
+                                {!mdWidthSize ? (
+                                    items.map((i) => (
+                                        <Button.Circle
+                                            key={i.id}
+                                            radius={36}
+                                            onClick={() => i.callback && i.callback({ action: i.payload, contact })}
+                                            variant="inherit"
+                                        >
+                                            {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}
+                                        </Button.Circle>
+                                    ))
+                                ) : (
+                                    <Dropdown.Menu items={items as any}>
+                                        <Icons variant="more" />
+                                    </Dropdown.Menu>
+                                )}
                             </div>
                         </div>
                     </div>
