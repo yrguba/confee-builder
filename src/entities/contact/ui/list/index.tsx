@@ -6,20 +6,25 @@ import { BaseTypes } from 'shared/types';
 import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { contactTypes } from '../../index';
 import { ContactProxy, Actions } from '../../model/types';
 
 type Props = {
     contacts: ContactProxy[] | BaseTypes.Empty;
     clickOnUser: (arg: ContactProxy) => void;
     activeUserId: number | null;
-    actions: (data?: { action: Actions; contactId: number }) => void;
+    actions: (data?: { action: Actions; contact: contactTypes.ContactProxy }) => void;
 } & BaseTypes.Statuses;
 
 function ContactsListView(props: Props) {
     const { contacts, activeUserId, clickOnUser, actions, loading } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
 
-    const items: BaseTypes.Item<IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants, Actions, { action: Actions; contactId: number }>[] = [
+    const items: BaseTypes.Item<
+        IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants,
+        Actions,
+        { action: Actions; contact: contactTypes.ContactProxy }
+    >[] = [
         { id: 0, icon: 'phone', callback: actions, payload: 'audioCall' },
         { id: 1, icon: 'messages', callback: actions, payload: 'message' },
         { id: 2, icon: 'mute', callback: actions, payload: 'mute' },
@@ -55,7 +60,7 @@ function ContactsListView(props: Props) {
                                     <Button.Circle
                                         key={i.id}
                                         radius={36}
-                                        onClick={() => i.callback && i.callback({ action: i.payload, contactId: i.id })}
+                                        onClick={() => i.callback && i.callback({ action: i.payload, contact })}
                                         variant="inherit"
                                     >
                                         {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}

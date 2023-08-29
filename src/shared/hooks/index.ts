@@ -20,6 +20,8 @@ import {
     useUpdateEffect,
     createMemo,
     useHoverDirty,
+    useAudio,
+    useMountedState,
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
 import { useDraggable as useDraggableScroll } from 'react-use-draggable-scroll';
@@ -50,6 +52,8 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useMountedState,
+    useAudio,
     useHoverDirty,
     createMemo,
     useThrottle,

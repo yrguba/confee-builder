@@ -7,7 +7,7 @@ const ContactsPage = lazy(() => import('./ui'));
 
 const contactsPageRouters = (
     <Route path="/contacts" element={<ContactsPage />}>
-        <Route path="contact/:contact_id" element={<Profile />} />
+        <Route path="contact/:contact_id/user/:user_id" element={<Profile />} />
     </Route>
 );
 

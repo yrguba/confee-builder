@@ -2,11 +2,12 @@ import { sendNotification } from '@tauri-apps/api/notification';
 import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { useUpdateEffect } from 'react-use';
 
 import { Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { usePrevious } from '../../../hooks';
+import { usePrevious, useAudio, useMountedState } from '../../../hooks';
 import useNotificationStore from '../model/store';
 import * as NotificationsTypes from '../model/types';
 
@@ -20,13 +21,15 @@ function Notification(props: NotificationsTypes.NotificationProps) {
     const deleteNotificationsById = useNotificationStore.use.deleteNotificationsById();
     const prev = usePrevious(notifications.length);
 
+    const isMounted = useMountedState();
+
     const timeout = options?.visionTime || 5000;
 
     const closeClick = (id: number) => {
         deleteNotificationsById(id);
     };
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         if (notifications.length && !prev) {
             setTimeout(() => deleteFirstNotifications(), timeout);
         }

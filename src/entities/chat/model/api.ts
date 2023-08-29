@@ -27,6 +27,17 @@ class ChatApi {
         });
     };
 
+    handleGetPrivateChat = (data: { userId: number | undefined }) => {
+        return useQuery(['get-private-chat', data.userId], () => axiosClient.get(`${this.pathPrefix}/chat/with-user/${data.userId}`), {
+            staleTime: Infinity,
+            enabled: !!data.userId,
+            select: (data) => {
+                const res = httpHandlers.response<{ data: Chat }>(data);
+                return res.data?.data;
+            },
+        });
+    };
+
     handleGetChats = () => {
         return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix, { params: { per_page: 100 } }), {
             staleTime: Infinity,
