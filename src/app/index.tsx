@@ -6,12 +6,14 @@ import { BrowserRouter } from 'react-router-dom';
 import 'moment/locale/ru';
 
 import { appService } from 'entities/app';
+import { chatService } from 'entities/chat';
 import Routing from 'pages';
 import './index.scss';
 import { useWebSocket, useTheme } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
 import { notificationsManager } from '../entities/app';
+import { viewerService } from '../entities/viewer';
 
 const queryClient = new QueryClient();
 moment.locale('ru');
@@ -19,12 +21,15 @@ moment.locale('ru');
 function App() {
     const { clientBaseURL } = appService.getUrls();
     const notification = Notification.use();
+    const viewerId = viewerService?.getId();
+    const getOpenChatId = chatService?.getOpenChatId();
+
     useTheme();
 
     useEffect(() => {
         const { onMessage } = useWebSocket();
         onMessage('all', (socketData) => {
-            notificationsManager(socketData, notification);
+            notificationsManager(socketData, notification, viewerId, getOpenChatId);
         });
         console.log('clientBaseURL: ', clientBaseURL);
     }, []);

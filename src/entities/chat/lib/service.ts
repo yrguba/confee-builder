@@ -6,7 +6,7 @@ class ChatService {
         const { pathname } = window.location;
         const splitPath = pathname.split('/');
         const findIndexChat = splitPath.findIndex((i) => i === 'chat');
-        return splitPath[findIndexChat + 1];
+        return Number(splitPath[findIndexChat + 1]) || null;
     }
 }
 
