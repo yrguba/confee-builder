@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { useUpdateEffect } from 'react-use';
 
 import { viewerApi, tokensService } from 'entities/viewer';
 import { webView } from 'features/auth';
@@ -29,14 +28,14 @@ function Routing() {
 
     useEffect(() => {
         if (width < 450 || height < 470) return navigate('/warning/size');
-        return navigate('/chats');
+        location.pathname === '/warning/size' && navigate('/chats');
     }, [width, height]);
 
     useEffect(() => {
         if (!isLoading) {
             if (viewerError?.response?.status === 404) return navigate('/warning/server');
             if (!viewerData?.nickname) return navigate('/filling_profile');
-            return navigate('/chats');
+            navigate('/chats');
         }
     }, [isLoading]);
 

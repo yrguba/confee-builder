@@ -25,8 +25,8 @@ function Navbar() {
     const contactsModal = Modal.use();
 
     const itemClick = (path: string) => {
-        if (path === '/contacts') contactsModal.open();
-        else startTransition(() => navigate(path));
+        if (path === '/contacts') return contactsModal.open();
+        startTransition(() => navigate(path));
     };
 
     return (
