@@ -17,14 +17,14 @@ function ContactsPage() {
 
     const isVisibleSidebar = () => {
         if (to('sm')) {
-            return !params.chat_id;
+            return !params.contact_id;
         }
         return true;
     };
 
     const isVisibleOutlet = () => {
         if (to('sm')) {
-            return !!params.chat_id;
+            return !!params.contact_id;
         }
         return true;
     };
@@ -38,9 +38,9 @@ function ContactsPage() {
             )}
             {isVisibleOutlet() && (
                 <div className={styles.outlet}>
-                    {!params.chat_id && (
+                    {!params.contact_id && (
                         <Title textWrap primary={false} textAlign="center" variant="H2">
-                            Выберите чат, для начала диалога
+                            Выберите контакт
                         </Title>
                     )}
                     <Outlet />

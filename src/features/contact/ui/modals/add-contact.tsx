@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AddContactModalView, contactTypes, ContactApi } from 'entities/contact';
+import { AddContactModalView, contactTypes, contactApi } from 'entities/contact';
 import { userApi } from 'entities/user';
 import { useEasyState, useYup } from 'shared/hooks';
 import { Modal, Input, Notification, ModalTypes } from 'shared/ui';
@@ -9,7 +9,7 @@ function AddContactModal(modal: ModalTypes.UseReturnedType) {
     const notification = Notification.use();
 
     const handleCheckPhone = userApi.handleCheckPhone();
-    const { mutate: handleCreateContact } = ContactApi.handleCreateContact();
+    const { mutate: handleCreateContact } = contactApi.handleCreateContact();
     const phoneState = useEasyState('');
 
     const yup = useYup();

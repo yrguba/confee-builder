@@ -15,14 +15,12 @@ export enum Statuses {
 
 export type Contact = {
     id: number;
+    phone: string | null;
     first_name: string | null;
     last_name: string | null;
-    avatar: string | null;
-    phone: string | null;
     owner: number;
     user_id: number;
     contact_name: string | null;
-    status: Statuses | null;
     created_at: Date;
     updated_at: Date;
 };
@@ -31,5 +29,6 @@ export type ContactProxy = {
     full_name: string;
 } & Contact;
 
+export type Actions = 'delete' | 'mute' | 'audioCall' | 'videoCall' | 'message';
 export type SocketIn = '';
 export type SocketOut = '';

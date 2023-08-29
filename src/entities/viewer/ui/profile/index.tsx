@@ -8,7 +8,6 @@ import { Viewer } from '../../model/types';
 
 type Props = {
     user: Viewer | BaseTypes.Empty;
-    isViewer?: boolean;
     selectFile: () => void;
     deleteFile: () => void;
     getScreenshot: (img: string) => void;
@@ -23,7 +22,7 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function ViewerProfileView(props: Props) {
-    const { user, isViewer, deleteFile, selectFile, getScreenshot, modals } = props;
+    const { user, deleteFile, selectFile, getScreenshot, modals } = props;
 
     const items = [
         { id: 0, title: `${user?.first_name} ${user?.last_name}`, subtitle: 'Имя и фамилия', onClick: modals.openChangeNameModal },
@@ -39,7 +38,7 @@ function ViewerProfileView(props: Props) {
             <Title variant="H2">Личная информация</Title>
             <div className={styles.body}>
                 {items.map((item) => (
-                    <div key={item.id} className={styles.item} style={{ pointerEvents: isViewer ? 'visible' : 'none' }} onClick={item.onClick}>
+                    <div key={item.id} className={styles.item} onClick={item.onClick}>
                         {item.id === 0 && (
                             <Avatar.Change
                                 selectFile={selectFile}
@@ -59,11 +58,9 @@ function ViewerProfileView(props: Props) {
                                 {item.subtitle}
                             </Title>
                         </div>
-                        {isViewer && (
-                            <div>
-                                <Icons variant="arrow-drop-right" />
-                            </div>
-                        )}
+                        <div>
+                            <Icons variant="arrow-drop-right" />
+                        </div>
                     </div>
                 ))}
             </div>

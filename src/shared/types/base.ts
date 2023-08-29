@@ -9,7 +9,7 @@ export type Statuses = {
 
 export type Item<I, P> = {
     id: number;
-    title: string;
+    title?: string;
     icon?: I;
     payload: P;
     callback?: () => void;

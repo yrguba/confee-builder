@@ -2,7 +2,9 @@
 
 .wrapper {
   @include box-size(auto, 100%);
-  @include flex-column;
+  @include flex-column(flex-start);
+  margin-left: 24px;
   flex: 1;
   background-color: var(--bg-primary);
+  cursor: default;
 }

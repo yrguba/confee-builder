@@ -32,41 +32,20 @@
 
       .body {
         @include box-size(calc(100% - 32px), 100%);
-        @include flex(flex-start);
+        @include flex(space-between);
         padding: 0 16px;
         gap: 16px;
 
-        .avatar {
+        .card {
+
+        }
+
+        .icons {
           @include flex;
-        }
-
-        .content {
-          @include flex-column;
-          width: calc(100% - 68px);
-          gap: 4px;
-
-          .row {
-            @include flex(space-between);
-            width: 100%;
-
-            .left {
-              @include flex(flex-start);
-              max-width: 86%;
-            }
-
-            .right {
-              @include flex(flex-end);
-              min-width: 10%;
-              width: auto;
-            }
-
-            svg {
-              fill: var(--text-action);
-            }
+          svg {
+            fill: var(--text-primary);
           }
-
         }
-
       }
 
       &_active {

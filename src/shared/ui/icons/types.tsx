@@ -57,8 +57,10 @@ export type BaseIconsProps = {
     size?: 24 | 48 | number;
 };
 
+export type PlayerIconsVariants = 'stop' | 'pause' | 'play' | 'mute' | 'unmute' | 'full';
+
 export type PlayerIconsProps = {
-    variant: 'stop' | 'pause' | 'play' | 'mute' | 'unmute' | 'full';
+    variant: PlayerIconsVariants;
 };
 
 export type DocumentIconsProps = {

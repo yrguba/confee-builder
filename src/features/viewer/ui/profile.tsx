@@ -45,7 +45,7 @@ function ViewerProfile() {
             <ChangeBirthModal {...changeBirthModal} />
             <ChangeNameModal {...changeNameModal} />
             <ChangeNicknameModal {...changeNicknameModal} />
-            <ViewerProfileView modals={modals} getScreenshot={getScreenshot} deleteFile={() => ''} selectFile={selectFile} isViewer user={viewerData} />
+            <ViewerProfileView modals={modals} getScreenshot={getScreenshot} deleteFile={() => ''} selectFile={selectFile} user={viewerData} />
         </>
     );
 }

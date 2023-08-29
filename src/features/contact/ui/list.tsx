@@ -1,21 +1,28 @@
 import React from 'react';
 
-import { ContactApi, contactProxy, ContactsListView } from 'entities/contact';
+import { contactApi, contactProxy, ContactsListView, contactTypes } from 'entities/contact';
 import { useRouter } from 'shared/hooks';
 
 function ContactsList() {
     const { navigate, params } = useRouter();
 
-    const { data: contactsData } = ContactApi.handleGetContacts({ type: 'registered' });
+    const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
 
-    const clickOnUser = (user: any) => {
-        console.log(user);
+    const clickOnUser = (contact: contactTypes.ContactProxy) => {
+        navigate(`contact/${contact.id}`);
     };
-    console.log(contactsData);
+
+    const actions = (action: contactTypes.Actions) => {
+        console.log(action);
+    };
+
     return (
-        <>
-            <ContactsListView contacts={contactsData?.map((i) => contactProxy(i))} clickOnUser={clickOnUser} activeUserId={Number(params.chat_id) || null} />
-        </>
+        <ContactsListView
+            actions={actions}
+            contacts={contactsData?.map((i) => contactProxy(i))}
+            clickOnUser={clickOnUser}
+            activeUserId={Number(params.contact_id) || null}
+        />
     );
 }
 
