@@ -1,8 +1,8 @@
 import { viewerService } from 'entities/viewer';
 import { dateConverter, getEnding } from 'shared/lib';
 
-import { ChatProxy, Chat } from './types';
 import { userService } from '../../user';
+import { ChatProxy, Chat } from '../model/types';
 
 function chatProxy(chat: Chat | undefined): any {
     const viewerId = viewerService.getId();

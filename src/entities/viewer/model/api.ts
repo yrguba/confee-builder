@@ -5,7 +5,7 @@ import { axiosClient, AxiosError } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
-import { Viewer, Contact } from './types';
+import { Viewer } from './types';
 
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
@@ -19,16 +19,6 @@ class ViewerApi {
                 const res = httpHandlers.response<{ data: Viewer }>(updRes);
                 storage.set('viewer_id', res.data?.data.id);
                 return res.data?.data;
-            },
-        });
-    }
-
-    handleGetContacts() {
-        return useQuery(['get-contacts'], () => axiosClient.get('api/v2/contacts/registered'), {
-            staleTime: Infinity,
-            select: (res) => {
-                const updRes = httpHandlers.response<{ data: Contact[] }>(res);
-                return updRes.data?.data;
             },
         });
     }

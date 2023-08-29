@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { viewerTypes } from 'entities/viewer';
+import { contactTypes } from 'entities/contact';
 import { UseEasyStateReturnType, UseArrayReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Icons, Input, Title, TabBar, Card, CardTypes } from 'shared/ui';
@@ -11,7 +11,7 @@ type Props = {
     selectedContacts: UseArrayReturnType<CardTypes.CardListItem>;
     isGroup: UseEasyStateReturnType<boolean>;
     createChat: () => void;
-    contacts: viewerTypes.ContactProxy[] | BaseTypes.Empty;
+    contacts: contactTypes.ContactProxy[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function CreateChatModalView(props: Props) {

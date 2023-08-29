@@ -1,11 +1,9 @@
 import React, { useTransition } from 'react';
 
 import { chatApi } from 'entities/chat';
-import { viewerTypes } from 'entities/viewer';
-import { ContactsModal } from 'features/viewer';
 import { useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Counter, Icons, IconsTypes, Title, Modal } from 'shared/ui';
+import { Counter, Icons, IconsTypes, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -22,16 +20,12 @@ function Navbar() {
         { id: 3, title: 'Профиль', icon: 'profile', payload: { path: '/settings', counter: 0 } },
     ];
 
-    const contactsModal = Modal.use();
-
     const itemClick = (path: string) => {
-        if (path === '/contacts') return contactsModal.open();
         startTransition(() => navigate(path));
     };
 
     return (
         <>
-            <ContactsModal {...contactsModal} />
             <div className={styles.wrapper}>
                 <div className={styles.list}>
                     {items.map((i) => (

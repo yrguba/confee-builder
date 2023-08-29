@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { chatApi, CreateChatModalView } from 'entities/chat';
-import { viewerApi, contactProxy } from 'entities/viewer';
+import { contactProxy, ContactApi } from 'entities/contact';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
-import { generateItems } from 'shared/lib';
 import { Modal, Notification, ModalTypes, CardTypes } from 'shared/ui';
 
 function CreateChatModal(modal: ModalTypes.UseReturnedType) {
@@ -14,7 +13,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const isGroup = useEasyState(false);
     const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
     const { mutate: handleCreateChat, isLoading } = chatApi.handleCreateChat();
-    const { data: contactsData } = viewerApi.handleGetContacts();
+    const { data: contactsData } = ContactApi.handleGetContacts({ type: 'registered' });
 
     const createChat = () => {
         if (!selectedContacts.array.length) {

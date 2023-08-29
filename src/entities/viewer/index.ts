@@ -1,4 +1,3 @@
-import contactProxy from './lib/proxy/contact';
 import viewerService from './lib/service';
 import tokensService from './lib/tokens-service';
 import viewerApi from './model/api';
@@ -11,7 +10,6 @@ import AddContactModalView from './ui/modals/add-contact';
 import ChangeBirthModalView from './ui/modals/change-birth';
 import ChangeNameModalView from './ui/modals/change-name';
 import ChangeNickNameModalView from './ui/modals/change-nickname';
-import ContactsModalView from './ui/modals/contacts';
 import ViewerProfileView from './ui/profile';
 
 export {
@@ -20,7 +18,6 @@ export {
     viewerApi,
     viewerService,
     tokensService,
-    contactProxy,
     InitialFillingProfileStep1View,
     InitialFillingProfileStep2View,
     InitialFillingProfileStep3View,
@@ -28,6 +25,5 @@ export {
     ChangeNickNameModalView,
     ChangeBirthModalView,
     AddContactModalView,
-    ContactsModalView,
     ViewerProfileView,
 };

@@ -7,7 +7,7 @@ import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-function SettingsPage() {
+function ProfilePage() {
     const items = [
         { id: 0, element: <ViewerProfile /> },
         { id: 1, element: <AppSettings /> },
@@ -29,4 +29,4 @@ function SettingsPage() {
     );
 }
 
-export default SettingsPage;
+export default ProfilePage;

@@ -4,7 +4,7 @@ import { Navigate, Route } from 'react-router-dom';
 import chatsPageRouters from './chats';
 import contactsPageRouters from './contacts';
 import MainLayout from './layouts/ui';
-import settingsPageRouters from './settings';
+import profilePageRouters from './profile';
 import tasksPageRouters from './tasks';
 
 const mainRoutes = (
@@ -13,7 +13,7 @@ const mainRoutes = (
             {contactsPageRouters}
             {chatsPageRouters}
             {tasksPageRouters}
-            {settingsPageRouters}
+            {profilePageRouters}
         </Route>
         <Route path="*" element={<Navigate to="/chats" replace />} />
     </>

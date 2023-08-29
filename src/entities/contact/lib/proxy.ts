@@ -1,5 +1,5 @@
-import { Message, MessageProxy } from '../../../message/model/types';
-import { Contact, ContactProxy } from '../../model/types';
+import { Message, MessageProxy } from '../../message/model/types';
+import { Contact, ContactProxy } from '../model/types';
 
 function contactProxy(contact: Contact | undefined): any {
     if (!contact) return null;

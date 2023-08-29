@@ -1,6 +1,5 @@
 import { messageTypes } from 'entities/message';
 
-import { Contact } from '../../contact/model/types';
 import { File } from '../../message/model/types';
 
 export enum Statuses {
@@ -14,25 +13,23 @@ export enum Statuses {
     'OFFLINE' = '',
 }
 
-export type User = {
-    avatar: string;
-    birth: string;
-    contact_name: string;
-    created_at: Date;
-    email: string;
-    first_name: string;
+export type Contact = {
     id: number;
-    is_online: boolean;
-    last_active: Date;
-    last_name: string;
-    nickname: string;
-    phone: string;
+    first_name: string | null;
+    last_name: string | null;
+    avatar: string | null;
+    phone: string | null;
+    owner: number;
+    user_id: number;
+    contact_name: string | null;
+    status: Statuses | null;
+    created_at: Date;
     updated_at: Date;
 };
 
-export type UserProxy = {
+export type ContactProxy = {
     full_name: string;
 } & Contact;
 
-export type SocketIn = 'UserUpdated';
+export type SocketIn = '';
 export type SocketOut = '';

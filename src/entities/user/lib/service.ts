@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { User } from '../model/types';
 
-class UserService {
+class ContactService {
     getUserNetworkStatus(user: User | null) {
         if (!user?.last_active) return 'Не в сети';
         if (user.is_online) return 'В сети';
@@ -14,4 +14,4 @@ class UserService {
     }
 }
 
-export default new UserService();
+export default new ContactService();
