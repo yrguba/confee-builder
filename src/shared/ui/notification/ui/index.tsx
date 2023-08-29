@@ -39,7 +39,6 @@ function Notification(props: NotificationsTypes.NotificationProps) {
         if (!options?.disabledDesktop && !!window.__TAURI__) {
             notifications.forEach((i) => {
                 if ((!i.system && i.scope === 'desktop') || i.scope === 'all') {
-                    console.log('wwwwww');
                     sendNotification({ title: i.body || '', body: i.title });
                 }
             });
