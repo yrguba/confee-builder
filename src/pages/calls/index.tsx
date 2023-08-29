@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import { GroupCall, PrivateCall } from 'features/calls';
 
-import CallsPage from './ui';
+const CallsPage = lazy(() => import('./ui'));
 
 const callsPageRouters = (
     <Route path="/calls" element={<CallsPage />}>

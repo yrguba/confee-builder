@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { appTypes } from 'entities/app';
-import { axiosClient } from 'shared/configs';
+import { axiosClient, AxiosError } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
@@ -12,7 +12,7 @@ class ViewerApi {
 
     handleGetViewer() {
         const storage = useStorage<appTypes.ValuesInStorage>();
-        return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
+        return useQuery<any, AxiosError>(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (data) => {
                 const updRes = { ...data, data: { data: data.data.data.user } };

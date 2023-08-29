@@ -1,0 +1,10 @@
+@import "../../../../app/styles/index";
+
+.wrapper {
+  @include box-size(100%, 100%);
+  @include flex-column;
+  p{
+    color: var(--text-primary);
+    text-align: center;
+  }
+}

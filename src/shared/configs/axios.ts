@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
+import axios, { AxiosRequestConfig, AxiosInstance, AxiosError } from 'axios';
 
 import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
@@ -57,5 +57,5 @@ axiosClient.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
+export type { AxiosError };
 export default axiosClient;

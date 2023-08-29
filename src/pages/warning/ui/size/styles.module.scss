@@ -1,9 +1,0 @@
-@import "src/app/styles";
-
-.page {
-  @include box-size(100%, 100vh);
-  @include flex;
-  p{
-    text-align: center;
-  }
-}

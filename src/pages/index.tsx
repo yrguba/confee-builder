@@ -1,41 +1,46 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useUpdateEffect } from 'react-use';
 
 import { viewerApi, tokensService } from 'entities/viewer';
 import { webView } from 'features/auth';
-import { SizeWarningPage } from 'pages/warning';
-import { useWindowSize } from 'shared/hooks';
 
 import callsPageRouters from './calls';
 import initialFillingProfilePageRouters from './initial-filling-profile';
 import mainRoutes from './main';
+import warningPageRouters from './warning';
+import { useWindowSize } from '../shared/hooks';
 
 function Routing() {
-    const { width, height } = useWindowSize();
-
     const location = useLocation();
     const navigate = useNavigate();
-    const { data: viewerData, isLoading, error } = viewerApi.handleGetViewer();
+    const { width, height } = useWindowSize();
+    const { data: viewerData, isLoading, error: viewerError } = viewerApi.handleGetViewer();
 
     const routes = (
         <Routes location={location}>
             {mainRoutes}
             {callsPageRouters}
             {initialFillingProfilePageRouters}
+            {warningPageRouters}
             <Route path="*" element={<Navigate to="/chats" replace />} />
         </Routes>
     );
 
     useEffect(() => {
+        if (width < 450 || height < 470) return navigate('/warning/size');
+        return navigate('/chats');
+    }, [width, height]);
+
+    useEffect(() => {
         if (!isLoading) {
-            // if (error) return navigate('/login');
+            if (viewerError?.response?.status === 404) return navigate('/warning/server');
             if (!viewerData?.nickname) return navigate('/filling_profile');
+            return navigate('/chats');
         }
     }, [isLoading]);
 
     const getRouting = () => {
-        if (width < 450) return <SizeWarningPage size={{ width, height }} error="width" />;
-        if (height < 470) return <SizeWarningPage size={{ width, height }} error="height" />;
         if (tokensService.checkAuth()) {
             return routes;
         }
