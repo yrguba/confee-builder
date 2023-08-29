@@ -35,7 +35,7 @@ function Routing() {
         if (!isLoading) {
             if (viewerError?.response?.status === 404) return navigate('/warning/server');
             if (!viewerData?.nickname) return navigate('/filling_profile');
-            navigate('/chats');
+            ['/warning/server', '/filling_profile'].includes(location.pathname) && navigate('/chats');
         }
     }, [isLoading]);
 

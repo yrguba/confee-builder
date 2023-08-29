@@ -1,8 +1,9 @@
 import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
-import ChatsPage from './ui';
 import Chat from './widgets/chat';
+
+const ChatsPage = lazy(() => import('./ui'));
 
 const chatsPageRouters = (
     <Route path="/chats" element={<ChatsPage />}>
