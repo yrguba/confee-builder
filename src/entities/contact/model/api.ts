@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { axiosClient } from 'shared/configs';
 
@@ -12,6 +12,15 @@ class ContactApi {
             select: (res) => {
                 const updRes = httpHandlers.response<{ data: Contact[] }>(res);
                 return updRes.data?.data;
+            },
+        });
+    }
+
+    handleCreateContact() {
+        const queryClient = useQueryClient();
+        return useMutation((data: { first_name: string; phone: string }) => axiosClient.post(`/api/v2/contacts`, { contacts: [data] }), {
+            onSuccess: async (res) => {
+                queryClient.invalidateQueries(['get-contacts']);
             },
         });
     }

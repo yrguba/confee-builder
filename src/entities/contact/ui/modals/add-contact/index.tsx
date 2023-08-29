@@ -22,7 +22,7 @@ function AddContactModalView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                <Title variant="H2">Личная информация</Title>
+                <Title variant="H2">Новый контакт</Title>
             </div>
             <div className={styles.body}>
                 <div className={styles.inputsName}>

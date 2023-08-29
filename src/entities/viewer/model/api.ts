@@ -45,15 +45,6 @@ class ViewerApi {
         });
     }
 
-    handleCreateContact() {
-        const queryClient = useQueryClient();
-        return useMutation((data: { first_name: string; phone: string }) => axiosClient.post(`/api/v2/contacts`, { contacts: [data] }), {
-            onSuccess: async (res) => {
-                queryClient.invalidateQueries(['get-contacts']);
-            },
-        });
-    }
-
     handleLogout() {
         return useMutation((data?: null) => axiosClient.post('/api/v2/logout'));
     }

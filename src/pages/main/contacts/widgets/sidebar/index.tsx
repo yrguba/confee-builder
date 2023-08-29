@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { CreteChatModal } from 'features/chat';
-import { ContactsList } from 'features/contact';
+import { ContactsList, AddContactModal } from 'features/contact';
 import { useHeightMediaQuery } from 'shared/hooks';
 import { Button, Icons, Modal, Title } from 'shared/ui';
 
@@ -9,17 +8,17 @@ import styles from './styles.module.scss';
 
 function Sidebar() {
     const miniSearch = useHeightMediaQuery().to('sm');
-    const createChatModal = Modal.use();
+    const addContactModal = Modal.use();
 
     return (
         <>
-            <CreteChatModal {...createChatModal} />
+            <AddContactModal {...addContactModal} />
             <div className={styles.wrapper}>
                 <div className={styles.header}>
-                    <Title variant="H2">Сообщения</Title>
+                    <Title variant="H2">Контакты</Title>
                     <div className={styles.icons}>
-                        <Button.Circle variant="secondary" onClick={() => createChatModal.open()}>
-                            <Icons variant="new-message" />
+                        <Button.Circle variant="secondary" onClick={() => addContactModal.open()}>
+                            <Icons variant="add-contact" />
                         </Button.Circle>
                         {miniSearch && <Icons variant="search" />}
                     </div>
