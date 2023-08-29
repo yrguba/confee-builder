@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UseEasyStateReturnType, UseStoreTypes } from 'shared/hooks';
-import { getEnding } from 'shared/lib';
+import { getEnding, getUniqueArr } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
 import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer, IconsTypes } from 'shared/ui';
 
@@ -53,7 +53,13 @@ function MessageInputView(props: Props) {
     const getHeaderTitle = () => {
         if (replyMessage.value.id) return replyMessage.value?.authorName;
         if (editMessage.value.id) return 'Редактировать';
-        if (forwardMessages?.value?.fromChatName) return forwardMessages.value.fromChatName;
+        if (forwardMessages?.value?.messages?.length) {
+            const { messages } = forwardMessages.value;
+            const uniqueUsers = getUniqueArr(messages, 'authorName');
+            if (uniqueUsers.length === 1) return uniqueUsers[0].authorName;
+            if (uniqueUsers.length === 2) return `${uniqueUsers[0].authorName} и ${uniqueUsers[1].authorName}`;
+            if (uniqueUsers.length > 3) return `${uniqueUsers[0].authorName}, ${uniqueUsers[1].authorName} и ${messages.length - 2} других`;
+        }
     };
 
     const getHeaderIcon = (): IconsTypes.BaseIconsVariants => {
