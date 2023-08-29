@@ -23,14 +23,6 @@ function Sidebar() {
                         {miniSearch && <Icons variant="search" />}
                     </div>
                 </div>
-                {!miniSearch && (
-                    <div className={styles.search}>
-                        <SearchChats />
-                    </div>
-                )}
-                <div className={styles.tabs}>
-                    <TabsChats />
-                </div>
                 <div className={styles.list}>
                     <ChatsList />
                 </div>

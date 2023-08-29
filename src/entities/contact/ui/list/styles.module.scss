@@ -5,6 +5,20 @@
   @include flex-column(flex-start);
   border-radius: var(--border-radius);
 
+
+  .search {
+    @include box-size(calc(100% - 32px), 48px);
+    @include flex(space-between);
+    padding: 0 16px;
+  }
+
+  .tabs {
+    @include box-size(calc(100% - 16px), 48px);
+    @include flex(flex-start);
+    padding-left: 16px;
+  }
+
+
   .list {
     @include flex-column;
     width: 100%;

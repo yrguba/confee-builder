@@ -4,6 +4,8 @@ import { BaseTypes } from 'shared/types';
 import { Box, Title, Counter, Icons, Avatar, Button } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { SearchChats, TabsChats } from '../../../../features/chat';
+import { useHeightMediaQuery } from '../../../../shared/hooks';
 import { ChatProxy } from '../../model/types';
 
 type Props = {
@@ -14,9 +16,17 @@ type Props = {
 
 function ChatsListView(props: Props) {
     const { chats, clickOnChat, loading, activeChatId } = props;
-
+    const miniSearch = useHeightMediaQuery().to('sm');
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
+            {!miniSearch && (
+                <div className={styles.search}>
+                    <SearchChats />
+                </div>
+            )}
+            <div className={styles.tabs}>
+                <TabsChats />
+            </div>
             <div className={styles.list}>
                 {chats.map((chat, index: number) => (
                     <div key={chat.id} className={`${styles.item} ${activeChatId === chat.id ? styles.item_active : ''}`} onClick={() => clickOnChat(chat)}>

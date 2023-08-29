@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ContactApi, ContactsListView } from 'entities/contact';
+import { ContactApi, contactProxy, ContactsListView } from 'entities/contact';
 import { useRouter } from 'shared/hooks';
 
 function ContactsList() {
@@ -14,7 +14,7 @@ function ContactsList() {
     console.log(contactsData);
     return (
         <>
-            <ContactsListView contacts={[]} clickOnUser={clickOnUser} activeUserId={Number(params.chat_id) || null} />
+            <ContactsListView contacts={contactsData?.map((i) => contactProxy(i))} clickOnUser={clickOnUser} activeUserId={Number(params.chat_id) || null} />
         </>
     );
 }

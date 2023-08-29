@@ -4,21 +4,31 @@ import { BaseTypes } from 'shared/types';
 import { Box, Title, Counter, Icons, Avatar, Button } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { SearchChats, TabsChats } from '../../../../features/chat';
+import { useHeightMediaQuery } from '../../../../shared/hooks';
 import { ContactProxy } from '../../model/types';
 
 type Props = {
-    contacts: ContactProxy[];
+    contacts: ContactProxy[] | BaseTypes.Empty;
     clickOnUser: (arg: ContactProxy) => void;
     activeUserId: number | null;
 } & BaseTypes.Statuses;
 
 function ContactsListView(props: Props) {
     const { contacts, activeUserId, clickOnUser, loading } = props;
-
+    const miniSearch = useHeightMediaQuery().to('sm');
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
+            {!miniSearch && (
+                <div className={styles.search}>
+                    <SearchChats />
+                </div>
+            )}
+            <div className={styles.tabs}>
+                <TabsChats />
+            </div>
             <div className={styles.list}>
-                {contacts.map((contact, index: number) => (
+                {contacts?.map((contact, index: number) => (
                     <div
                         key={contact.id}
                         className={`${styles.item} ${activeUserId === contact.id ? styles.item_active : ''}`}

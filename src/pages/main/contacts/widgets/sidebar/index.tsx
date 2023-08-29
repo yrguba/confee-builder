@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ChatsList, CreteChatModal, SearchChats, TabsChats } from 'features/chat';
+import { CreteChatModal } from 'features/chat';
 import { ContactsList } from 'features/contact';
 import { useHeightMediaQuery } from 'shared/hooks';
 import { Button, Icons, Modal, Title } from 'shared/ui';
@@ -23,14 +23,6 @@ function Sidebar() {
                         </Button.Circle>
                         {miniSearch && <Icons variant="search" />}
                     </div>
-                </div>
-                {!miniSearch && (
-                    <div className={styles.search}>
-                        <SearchChats />
-                    </div>
-                )}
-                <div className={styles.tabs}>
-                    <TabsChats />
                 </div>
                 <div className={styles.list}>
                     <ContactsList />
