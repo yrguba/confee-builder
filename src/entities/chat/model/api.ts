@@ -8,6 +8,7 @@ import { getFormData, httpHandlers } from 'shared/lib';
 import { Chat, SocketIn, SocketOut } from './types';
 import { MessageType, MediaContentType, File } from '../../message/model/types';
 import { chatTypes } from '../index';
+import { chats_limit } from '../lib/constants';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
@@ -38,14 +39,18 @@ class ChatApi {
         });
     };
 
-    handleGetChats = () => {
-        return useQuery(['get-chats'], () => axiosClient.get(this.pathPrefix, { params: { per_page: 100 } }), {
-            staleTime: Infinity,
-            select: (data) => {
-                const res = httpHandlers.response<{ data: Chat[] }>(data);
-                return res.data?.data;
-            },
-        });
+    handleGetChats = (data?: { type: 'all' }) => {
+        return useQuery(
+            ['get-chats', data?.type || 'all'],
+            () => axiosClient.get(`${this.pathPrefix}/${data?.type || 'all'}`, { params: { per_page: chats_limit } }),
+            {
+                staleTime: Infinity,
+                select: (data) => {
+                    const res = httpHandlers.response<{ data: Chat[] }>(data);
+                    return res.data?.data;
+                },
+            }
+        );
     };
 
     handleCreateChat() {
