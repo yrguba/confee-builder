@@ -8,7 +8,7 @@ import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Notification, TabBarTypes } from 'shared/ui';
 
 function ContactsList() {
-    const { navigate, params } = useRouter();
+    const { navigate, params, pathname } = useRouter();
 
     const [isPending, startTransition] = useTransition();
 
@@ -52,7 +52,7 @@ function ContactsList() {
             });
             tabs.concat(companies);
         }
-    }, [viewerData]);
+    }, [viewerData?.data?.data.companies, pathname]);
 
     useUpdateEffect(() => {
         if (redirect.value) {
