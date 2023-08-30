@@ -40,17 +40,13 @@ class ChatApi {
     };
 
     handleGetChats = (data?: { type: 'all' }) => {
-        return useQuery(
-            ['get-chats', data?.type || 'all'],
-            () => axiosClient.get(`${this.pathPrefix}/${data?.type || 'all'}`, { params: { per_page: chats_limit } }),
-            {
-                staleTime: Infinity,
-                select: (data) => {
-                    const res = httpHandlers.response<{ data: Chat[] }>(data);
-                    return res.data?.data;
-                },
-            }
-        );
+        return useQuery(['get-chats'], () => axiosClient.get(`${this.pathPrefix}/${data?.type || 'all'}`, { params: { per_page: chats_limit } }), {
+            staleTime: Infinity,
+            select: (data) => {
+                const res = httpHandlers.response<{ data: Chat[] }>(data);
+                return res.data?.data;
+            },
+        });
     };
 
     handleCreateChat() {
@@ -60,7 +56,7 @@ class ChatApi {
                 const updRes = httpHandlers.response<{ data: Chat }>(res);
                 queryClient.setQueryData(['get-chats'], (cacheData: any) => {
                     return produce(cacheData, (draft: any) => {
-                        draft.data.data.unshift(updRes.data?.data);
+                        draft?.data?.data.unshift(updRes.data?.data);
                     });
                 });
             },

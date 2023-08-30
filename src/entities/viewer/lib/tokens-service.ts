@@ -18,8 +18,8 @@ class TokenService {
         const storage = useStorage();
         const accessEncoded = crypto(tokens.access_token, 'encode');
         const refreshEncoded = crypto(tokens.refresh_token, 'encode');
-        storage.set('access_token', accessEncoded);
-        storage.set('refresh_token', refreshEncoded);
+        storage.set('access_token', tokens.access_token);
+        storage.set('refresh_token', tokens.refresh_token);
     }
 
     get() {
@@ -30,7 +30,7 @@ class TokenService {
         });
         const access_token = storage.get('access_token');
         const refresh_token = storage.get('refresh_token');
-        if (access_token && refresh_token) return getDecoded(access_token, refresh_token);
+        if (access_token && refresh_token) return { access_token, refresh_token };
     }
 
     remove() {

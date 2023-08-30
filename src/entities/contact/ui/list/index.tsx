@@ -20,6 +20,7 @@ function ContactsListView(props: Props) {
     const { contacts, activeUserId, clickOnUser, actions, loading } = props;
     const mdWidthSize = useWidthMediaQuery().to('md');
     const smHeightSize = useHeightMediaQuery().to('sm');
+
     const items: BaseTypes.Item<
         IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants,
         Actions,
