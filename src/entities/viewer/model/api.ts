@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { appTypes } from 'entities/app';
+import { companyTypes } from 'entities/company';
 import { axiosClient, AxiosError } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
@@ -12,14 +13,12 @@ class ViewerApi {
 
     handleGetViewer() {
         const storage = useStorage<appTypes.ValuesInStorage>();
-        return useQuery<any, AxiosError>(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
+        return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
-            select: (data) => {
-                const updRes = { ...data, data: { data: data.data.data.user } };
-                const res = httpHandlers.response<{ data: Viewer }>(updRes);
-                console.log(data);
-                storage.set('viewer_id', res.data?.data.id);
-                return res.data?.data;
+            select: (res) => {
+                const updRes = httpHandlers.response<{ data: { user: Viewer; session: any; companies: companyTypes.Company[] } }>(res);
+                storage.set('viewer_id', updRes.data?.data.user.id);
+                return updRes;
             },
         });
     }

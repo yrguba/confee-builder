@@ -11,11 +11,11 @@ function ChangeNameModal(modal: ModalTypes.UseReturnedType) {
     const yup = useYup();
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.first_name,
+        initialValue: viewerData?.data?.data.user.first_name,
     });
     const lastNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.last_name,
+        initialValue: viewerData?.data?.data.user.last_name,
     });
 
     const onsubmit = async () => {

@@ -17,8 +17,8 @@ function ContactsList() {
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
 
-    const { data: handleGetDate } = viewerApi.handleGetViewer();
-    console.log(handleGetDate);
+    const { data: viewerData } = viewerApi.handleGetViewer();
+
     const { data: chatData } = chatApi.handleGetPrivateChat({ userId: Number(params.user_id) });
     const { mutate: handleCreateChat } = chatApi.handleCreateChat();
 
@@ -43,6 +43,16 @@ function ContactsList() {
     };
 
     const tabs = useArray<TabBarTypes.TabBarItem>({ initialArr: [{ id: 0, title: 'Личные', callback: () => '' }] });
+
+    useUpdateEffect(() => {
+        if (viewerData?.data?.data.companies.length) {
+            const companies: TabBarTypes.TabBarItem[] = [];
+            viewerData?.data?.data.companies.forEach((i, index) => {
+                companies.push({ id: index + 1, title: i.name || '', callback: () => '' });
+            });
+            tabs.concat(companies);
+        }
+    }, [viewerData]);
 
     useUpdateEffect(() => {
         if (redirect.value) {
