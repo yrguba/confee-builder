@@ -17,6 +17,7 @@ class ViewerApi {
             select: (data) => {
                 const updRes = { ...data, data: { data: data.data.data.user } };
                 const res = httpHandlers.response<{ data: Viewer }>(updRes);
+                console.log(data);
                 storage.set('viewer_id', res.data?.data.id);
                 return res.data?.data;
             },

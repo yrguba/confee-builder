@@ -1,31 +1,31 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button } from 'shared/ui';
+import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, TabBarTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { SearchChats, TabsChats } from '../../../../features/chat';
-import { useHeightMediaQuery } from '../../../../shared/hooks';
+import { UseArrayReturnType, useHeightMediaQuery } from '../../../../shared/hooks';
 import { ChatProxy } from '../../model/types';
 
 type Props = {
     chats: ChatProxy[];
     clickOnChat: (arg: ChatProxy) => void;
     activeChatId: number | null;
+    tabs: UseArrayReturnType<TabBarTypes.TabBarItem>;
 } & BaseTypes.Statuses;
 
 function ChatsListView(props: Props) {
-    const { chats, clickOnChat, loading, activeChatId } = props;
+    const { chats, clickOnChat, loading, activeChatId, tabs } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             {!miniSearch && (
                 <div className={styles.search}>
-                    <SearchChats />
+                    <Input prefixIcon="search" />
                 </div>
             )}
             <div className={styles.tabs}>
-                <TabsChats />
+                <TabBar items={tabs.array} activeItemId={0} />
             </div>
             <div className={styles.list}>
                 {chats.map((chat, index: number) => (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ChatsList, CreteChatModal, SearchChats, TabsChats } from 'features/chat';
+import { ChatsList, CreteChatModal } from 'features/chat';
 import { useHeightMediaQuery } from 'shared/hooks';
 import { Button, Icons, Modal, Title } from 'shared/ui';
 

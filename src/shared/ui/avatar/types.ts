@@ -1,4 +1,4 @@
-import { userTypes } from 'entities/user';
+import { companyTypes } from 'entities/company';
 
 import { BaseTypes } from '../../types';
 
@@ -7,7 +7,7 @@ export type BaseAvatarProps = {
     name?: string;
     img: string | BaseTypes.Empty;
     circle?: boolean;
-    status?: keyof typeof userTypes.Statuses | null;
+    status?: keyof typeof companyTypes.Statuses | null;
     opacity?: 0 | 1;
 };
 

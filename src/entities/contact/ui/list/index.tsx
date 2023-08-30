@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { SearchChats, TabsChats } from 'features/chat';
-import { useWidthMediaQuery, useHeightMediaQuery } from 'shared/hooks';
+import { useWidthMediaQuery, useHeightMediaQuery, UseArrayReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card, Dropdown } from 'shared/ui';
+import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card, Dropdown, TabBarTypes, TabBar, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { contactTypes } from '../../index';
@@ -14,10 +13,11 @@ type Props = {
     clickOnUser: (arg: ContactProxy) => void;
     activeUserId: number | null;
     actions: (data?: { action: Actions; contact: contactTypes.ContactProxy }) => void;
+    tabs: UseArrayReturnType<TabBarTypes.TabBarItem>;
 } & BaseTypes.Statuses;
 
 function ContactsListView(props: Props) {
-    const { contacts, activeUserId, clickOnUser, actions, loading } = props;
+    const { contacts, activeUserId, clickOnUser, actions, tabs, loading } = props;
     const mdWidthSize = useWidthMediaQuery().to('md');
     const smHeightSize = useHeightMediaQuery().to('sm');
 
@@ -36,11 +36,11 @@ function ContactsListView(props: Props) {
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             {!smHeightSize && (
                 <div className={styles.search}>
-                    <SearchChats />
+                    <Input prefixIcon="search" />
                 </div>
             )}
             <div className={styles.tabs}>
-                <TabsChats />
+                <TabBar items={tabs.array} activeItemId={0} />
             </div>
             <div className={styles.list}>
                 {contacts?.map((contact, index: number) => (

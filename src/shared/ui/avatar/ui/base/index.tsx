@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { userTypes } from 'entities/user';
+import { companyTypes } from 'entities/company';
 import { useFetchMediaContent } from 'shared/hooks';
 
 import styles from './styles.module.scss';
@@ -76,7 +76,7 @@ function Avatar(props: BaseAvatarProps) {
             <Box.Animated
                 visible={!!status}
                 className={styles.status}
-                style={{ backgroundColor: status ? userTypes.Statuses[status] : '', width: size / 4, height: size / 4 }}
+                style={{ backgroundColor: status ? companyTypes.Statuses[status] : '', width: size / 4, height: size / 4 }}
             />
 
             {isLoading ? (

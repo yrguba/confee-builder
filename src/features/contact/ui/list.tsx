@@ -3,8 +3,9 @@ import { useUpdateEffect } from 'react-use';
 
 import { chatApi } from 'entities/chat';
 import { contactApi, contactProxy, ContactsListView, contactTypes } from 'entities/contact';
-import { useEasyState, useRouter } from 'shared/hooks';
-import { Notification } from 'shared/ui';
+import { viewerApi } from 'entities/viewer';
+import { useArray, useEasyState, useRouter } from 'shared/hooks';
+import { Notification, TabBarTypes } from 'shared/ui';
 
 function ContactsList() {
     const { navigate, params } = useRouter();
@@ -16,6 +17,8 @@ function ContactsList() {
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
 
+    const { data: handleGetDate } = viewerApi.handleGetViewer();
+    console.log(handleGetDate);
     const { data: chatData } = chatApi.handleGetPrivateChat({ userId: Number(params.user_id) });
     const { mutate: handleCreateChat } = chatApi.handleCreateChat();
 
@@ -38,6 +41,8 @@ function ContactsList() {
                 return notification.inDev();
         }
     };
+
+    const tabs = useArray<TabBarTypes.TabBarItem>({ initialArr: [{ id: 0, title: 'Личные', callback: () => '' }] });
 
     useUpdateEffect(() => {
         if (redirect.value) {
@@ -62,6 +67,7 @@ function ContactsList() {
             contacts={contactsData?.map((i) => contactProxy(i))}
             clickOnUser={clickOnUser}
             activeUserId={Number(params.contact_id) || null}
+            tabs={tabs}
         />
     );
 }
