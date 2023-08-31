@@ -2,6 +2,7 @@ import { Message } from '../../message/model/types';
 import { User, Statuses } from '../../user/model/types';
 
 export type Chat = {
+    name: string;
     avatar: string | null;
     created_at: Date;
     id: number;
@@ -10,7 +11,6 @@ export type Chat = {
     members: User[];
     members_count: number;
     messages_count: number;
-    name: string;
     pending_messages_count: number;
     updated_at: Date;
     permittedReactions: any[];

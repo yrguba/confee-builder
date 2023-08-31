@@ -5,11 +5,13 @@ import { useFetchMediaContent, useStorage, useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import Box from '../../../../box';
+import Button from '../../../../button';
+import Icons from '../../../../icons';
 import LoadingIndicator from '../../../../loading-indicator';
 import { BaseImageProps } from '../../types';
 
 function Image(props: BaseImageProps) {
-    const { url, width, height, horizontalImgWidth, onClick, borderRadius = true, ...other } = props;
+    const { url, width, height, horizontalImgWidth, onClick, borderRadius = true, id, remove, ...other } = props;
     const storage = useStorage<appTypes.ValuesInStorage>();
 
     const { src, error, isLoading, orientation } = useFetchMediaContent(url || '', storage.get('cache_size'));
@@ -26,6 +28,11 @@ function Image(props: BaseImageProps) {
     return (
         <div onClick={onClick} className={styles.wrapper} style={{ width: getWidth(), height, borderRadius: borderRadius ? 12 : 0 }}>
             {!error && !isLoading && <img className={classes} src={src} alt="" />}
+            {remove && (
+                <Button.Circle radius={30} className={styles.remove} onClick={id ? () => remove(id) : () => ''} variant="inherit">
+                    <Icons variant="delete" />
+                </Button.Circle>
+            )}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>

@@ -1,12 +1,14 @@
 import { BaseTypes } from 'shared/types';
 
 export type BaseImageProps = {
+    id?: number | string;
     url: string;
     width?: string;
     horizontalImgWidth?: string;
     height?: string;
     onClick?: () => void;
     borderRadius?: boolean;
+    remove?: (id: number | string) => void;
 } & BaseTypes.Statuses;
 
 export type ImagesListItem = {

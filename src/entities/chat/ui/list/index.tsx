@@ -17,6 +17,7 @@ type Props = {
 function ChatsListView(props: Props) {
     const { chats, clickOnChat, loading, activeChatId, tabs } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
+
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             {!miniSearch && (
