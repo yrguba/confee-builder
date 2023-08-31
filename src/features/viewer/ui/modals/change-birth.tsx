@@ -8,7 +8,7 @@ function ChangeBirthModal(modal: ModalTypes.UseReturnedType) {
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
     const birthInput = Input.use({
-        initialValue: viewerData?.data?.data.user.birth?.split(' ')[0] || '',
+        initialValue: viewerData?.user?.birth?.split(' ')[0] || '',
     });
 
     const onsubmit = async () => {

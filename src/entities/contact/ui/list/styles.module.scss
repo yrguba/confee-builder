@@ -20,9 +20,10 @@
 
 
   .list {
-    @include flex-column;
+    @include flex-column(flex-start, flex-start);
     width: 100%;
-
+    height: calc(100% - 100px);
+    overflow-y: auto;
 
     .item {
       @include flex;
@@ -43,6 +44,7 @@
 
         .icons {
           @include flex;
+
           svg {
             fill: var(--text-primary);
           }

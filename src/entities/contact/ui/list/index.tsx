@@ -41,7 +41,7 @@ function ContactsListView(props: Props) {
                           i?.departments?.map((dep: Department) => (
                               <Collapse key={dep.id} title={dep?.name || ''}>
                                   {dep.employees.map((emp) => (
-                                      <Item key={i.id} employee={employeeProxy(emp)} {...props} />
+                                      <Item key={emp.id} employee={employeeProxy(emp)} {...props} />
                                   ))}
                               </Collapse>
                           ))

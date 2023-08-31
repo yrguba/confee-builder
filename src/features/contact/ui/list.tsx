@@ -51,7 +51,7 @@ function ContactsList() {
         }
     };
 
-    const tabsAndLists = useTabsAndLists({ companies: viewerData?.data?.data.companies, contacts: contactsData });
+    const tabsAndLists = useTabsAndLists({ companies: viewerData?.companies, contacts: contactsData });
 
     useUpdateEffect(() => {
         if (redirect.value) {

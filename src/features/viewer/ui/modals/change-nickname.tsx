@@ -13,13 +13,13 @@ function ChangeNicknameModal(modal: ModalTypes.UseReturnedType) {
 
     const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,
-        initialValue: viewerData?.data?.data.user.nickname,
+        initialValue: viewerData?.user?.nickname,
     });
 
     const onsubmit = async () => {
         const { error } = await nicknameInput.asyncValidate();
         const { exists } = await handleCheckNickname({ nickname: nicknameInput.value });
-        if (exists && viewerData?.data?.data.user.nickname !== nicknameInput.value) {
+        if (exists && viewerData?.user?.nickname !== nicknameInput.value) {
             return nicknameInput.setError('Такой никнейм уже занят');
         }
         if (!error) {

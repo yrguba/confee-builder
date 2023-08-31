@@ -13,11 +13,11 @@ function InitialFillingProfileStep2() {
 
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.data?.data.user.first_name || '',
+        initialValue: viewerData?.user?.first_name || '',
     });
     const lastNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.data?.data.user.last_name || '',
+        initialValue: viewerData?.user?.last_name || '',
     });
 
     const onsubmit = async () => {

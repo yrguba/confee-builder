@@ -41,7 +41,7 @@ function InitialFillingProfileStep3() {
         const { error: birthError, value: birth } = await birthInput.asyncValidate();
         if (emailInput.value) {
             const checkEmail = await handleCheckEmail({ email: emailInput.value });
-            if (checkEmail?.exists && viewerData?.data?.data.user.email !== checkEmail.identifier) {
+            if (checkEmail?.exists && viewerData?.user?.email !== checkEmail.identifier) {
                 return emailInput.setError('Такая почта уже занята');
             }
         }
