@@ -6,6 +6,7 @@ import { messageApi, MessagesListView, messageService, messageTypes, useMessageS
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
+import { reactionConverter } from '../../../shared/lib';
 import { ForwardMessagesModal } from '../index';
 
 const memoUpdateMessages = createMemo(messageService.getUpdatedList);
@@ -87,12 +88,11 @@ function MessageList() {
     };
 
     const clickReaction = (emoji: string, messageId: number) => {
-        notification.inDev();
-        // handleSendReaction({
-        //     chatId,
-        //     messageId,
-        //     reaction: reactionConverter(emoji, 'html'),
-        // });
+        handleSendReaction({
+            chatId,
+            messageId,
+            reaction: reactionConverter(emoji, 'html'),
+        });
     };
 
     const clickImage = (data: appTypes.ImagesSwiperProps) => {};

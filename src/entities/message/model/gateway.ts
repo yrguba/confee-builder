@@ -15,7 +15,6 @@ const [throttleMessageTyping] = useThrottle((cl) => cl(), 5000);
 function messageGateway() {
     const viewerId = viewerService.getId();
     const chatSubscription = useChatStore.use.chatSubscription();
-    const usersTyping = useChatStore.use.usersTyping();
     const queryClient = useQueryClient();
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
@@ -144,6 +143,8 @@ function messageGateway() {
             });
         });
         onMessage('Typing', (socketData) => {
+            // console.log(socketData);
+            // if(viewerId === socketData)
             const fn = (text: string) => {
                 queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
                     if (!cacheData?.data?.data) return cacheData;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,9 +14,9 @@ function ChatsList() {
 
     const { data: chatsData } = chatApi.handleGetChats();
 
-    const clickOnChatCard = (chat: chatTypes.Chat) => {
-        navigate(`/chats/chat/${chat.id}`);
-    };
+    const clickOnChatCard = useCallback((chat: chatTypes.Chat) => {
+        navigate(`/chats/chat/${chat?.id}`);
+    }, []);
 
     const tabs = useArray<TabBarTypes.TabBarItem>({ initialArr: [{ id: 0, title: 'Личные', callback: () => '' }] });
 

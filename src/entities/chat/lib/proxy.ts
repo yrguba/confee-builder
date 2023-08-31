@@ -19,7 +19,7 @@ function chatProxy(chat: Chat | undefined): any {
                     return receiver?.secondMember?.is_online ? 'ONLINE' : null;
 
                 case 'checkIsMyLastMessage':
-                    return target.last_message.author.id === viewerId;
+                    return target.last_message.author?.id === viewerId;
 
                 case 'lastMessageTitle':
                     if (target.typing) return target.typing;

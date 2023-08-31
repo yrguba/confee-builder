@@ -96,6 +96,8 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
         </Box>
     );
 });
+
 export default memo(Message, (prevProps, nextProps): any => {
+    if (prevProps.message?.text !== nextProps.message?.text) return false;
     return true;
 });
