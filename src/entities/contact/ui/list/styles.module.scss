@@ -28,6 +28,7 @@
     .item {
       @include flex;
       @include box-size(100%, 74px);
+      border-radius: 12px;
       gap: 16px;
       cursor: pointer;
       transition: background-color var(--transition);

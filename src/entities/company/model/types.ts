@@ -10,7 +10,7 @@ export type Employee = {
     id: 580;
     last_name: string | null;
     position: string | null;
-    status: userTypes.Statuses;
+    status: keyof typeof userTypes.Statuses;
     updated_at: Date;
 };
 

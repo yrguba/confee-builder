@@ -15,8 +15,15 @@ type Props = {
 function EmployeeProfileView(props: Props) {
     const { employee, back } = props;
 
-    const items = [{ id: 0, title: employee?.full_name || '', subtitle: 'Имя и фамилия' }];
-    console.log(employee);
+    const items = [
+        { id: 0, title: employee?.full_name || '', subtitle: 'Имя и фамилия' },
+        { id: 1, title: employee?.email || '', subtitle: 'Email' },
+        { id: 2, title: employee?.position || '', subtitle: 'Должность' },
+        { id: 3, title: employee?.status || '', subtitle: 'Статус' },
+        { id: 4, title: employee?.companies.map((i) => i.name).join(',') || '', subtitle: 'Компания' },
+        { id: 5, title: employee?.departments.map((i) => i.name).join(',') || '', subtitle: 'Отдел' },
+    ];
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -28,21 +35,25 @@ function EmployeeProfileView(props: Props) {
                 <Title variant="H2">Личная информация</Title>
             </div>
             <div className={styles.body}>
-                {items.map((item) => (
-                    <div key={item.id} className={styles.item}>
-                        {item.id === 0 && <Avatar img={employee?.avatar} name={employee?.full_name} />}
-                        <div className={styles.left}>
-                            <div className={styles.aboutMe}>
-                                <Title textWrap variant="H3M">
-                                    {item.title}
+                {employee ? (
+                    items.map((item) => (
+                        <div key={item.id} className={styles.item}>
+                            {item.id === 0 && <Avatar status={employee?.status} img={employee?.avatar} name={employee?.full_name} />}
+                            <div className={styles.left}>
+                                <div className={styles.aboutMe}>
+                                    <Title textWrap variant="H3M">
+                                        {item.title}
+                                    </Title>
+                                </div>
+                                <Title primary={false} variant="H4M">
+                                    {item.subtitle}
                                 </Title>
                             </div>
-                            <Title primary={false} variant="H4M">
-                                {item.subtitle}
-                            </Title>
                         </div>
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <Title variant="H3B">Нет информации</Title>
+                )}
             </div>
         </div>
     );

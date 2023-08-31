@@ -35,7 +35,7 @@ function ContactsList() {
     };
 
     const clickEmployee = (employee: companyTypes.Employee) => {
-        navigate(`company/employee/${employee.id}`);
+        navigate(`company/${employee.companies[0].id}/department/${employee.departments[0].id}/employee/${employee.id}`);
     };
 
     const actions = (data?: { action: contactTypes.Actions; contact: contactTypes.ContactProxy | null }) => {
@@ -77,7 +77,7 @@ function ContactsList() {
             actions={actions}
             clickContact={clickContact}
             clickEmployee={clickEmployee}
-            activeUserId={Number(params.contact_id) || null}
+            activeUserId={Number(params.contact_id) || Number(params.employee_id) || null}
             tabsAndLists={tabsAndLists}
             searchInput={searchInput}
             foundContacts={searchInput.value ? searchData?.contacts : null}

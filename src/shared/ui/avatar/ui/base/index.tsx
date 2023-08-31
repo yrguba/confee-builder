@@ -77,7 +77,7 @@ function Avatar(props: BaseAvatarProps) {
             <Box.Animated
                 visible={!!status}
                 className={styles.status}
-                style={{ backgroundColor: status ? userTypes.Statuses[status] : '', width: size / 4, height: size / 4 }}
+                style={{ backgroundColor: status ? userTypes.Statuses[status] : '', width: size / 5, height: size / 5 }}
             />
 
             {isLoading ? (
