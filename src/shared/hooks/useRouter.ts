@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 export type UrlParams = {
     chat_id: string | undefined;
-    // room_id: string | undefined;
     contact_id: string | undefined;
     user_id: string | undefined;
     employee_id: string | undefined;

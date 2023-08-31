@@ -1,17 +1,13 @@
-import React, { useCallback, useTransition } from 'react';
+import React, { useTransition } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { chatApi } from 'entities/chat';
-import { companyTypes } from 'entities/company';
-import { contactApi, contactProxy, ContactsListView, contactTypes, useTabsAndLists } from 'entities/contact';
-import { viewerApi, viewerTypes } from 'entities/viewer';
-import { useArray, useEasyState, useRouter } from 'shared/hooks';
-import { Notification, TabBarTypes } from 'shared/ui';
-
-import { Employee, EmployeeProxy } from '../../../entities/company/model/types';
-import { ContactProxy } from '../../../entities/contact/model/types';
-import { messageService } from '../../../entities/message';
-import { createMemo } from '../../../shared/hooks';
+import { companyTypes, companyApi } from 'entities/company';
+import { contactApi, ContactsListView, contactTypes, useTabsAndLists } from 'entities/contact';
+import { ContactProxy } from 'entities/contact/model/types';
+import { viewerApi } from 'entities/viewer';
+import { useEasyState, useRouter } from 'shared/hooks';
+import { Notification, Input } from 'shared/ui';
 
 function ContactsList() {
     const { navigate, params, pathname } = useRouter();
@@ -19,6 +15,10 @@ function ContactsList() {
     const [isPending, startTransition] = useTransition();
 
     const redirect = useEasyState(false);
+
+    const searchInput = Input.use({});
+
+    const { data: searchData } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
 
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
@@ -34,8 +34,8 @@ function ContactsList() {
         navigate(`contact/${contact.id}/user/${contact.user_id}`);
     };
 
-    const clickEmployee = (employee: EmployeeProxy, companyId: number, departmentId: number) => {
-        navigate(`company/${companyId}/department/${departmentId}/employee/${employee.id}`);
+    const clickEmployee = (employee: companyTypes.Employee) => {
+        navigate(`company/employee/${employee.id}`);
     };
 
     const actions = (data?: { action: contactTypes.Actions; contact: contactTypes.ContactProxy | null }) => {
@@ -79,6 +79,9 @@ function ContactsList() {
             clickEmployee={clickEmployee}
             activeUserId={Number(params.contact_id) || null}
             tabsAndLists={tabsAndLists}
+            searchInput={searchInput}
+            foundContacts={searchInput.value ? searchData?.contacts : null}
+            foundEmployees={searchInput.value ? searchData?.employees : null}
         />
     );
 }

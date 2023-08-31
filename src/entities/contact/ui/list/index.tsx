@@ -3,32 +3,37 @@ import React from 'react';
 import { userService } from 'entities/user';
 import { useWidthMediaQuery, useHeightMediaQuery, UseArrayReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input } from 'shared/ui';
+import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input, Notification, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { employeeProxy } from '../../../company';
 import { Employee, EmployeeProxy, Company, Department } from '../../../company/model/types';
 import contactProxy from '../../lib/proxy';
-import { ContactProxy, Actions, UseTabsAndListsReturnType } from '../../model/types';
+import { ContactProxy, Actions, UseTabsAndListsReturnType, Contact } from '../../model/types';
 
 type Props = {
     clickContact: (user: ContactProxy) => void;
-    clickEmployee: (user: EmployeeProxy, companyId: number, departmentId: number) => void;
+    clickEmployee: (user: EmployeeProxy) => void;
     activeUserId: number | null;
     actions: (data?: { action: Actions; contact: ContactProxy | null }) => void;
     tabsAndLists: UseTabsAndListsReturnType;
+    searchInput: InputTypes.UseReturnedType;
+    foundContacts: Contact[] | BaseTypes.Empty;
+    foundEmployees: Employee[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function ContactsListView(props: Props) {
-    const { activeUserId, clickContact, clickEmployee, actions, tabsAndLists, loading } = props;
+    const { activeUserId, clickContact, clickEmployee, actions, tabsAndLists, loading, searchInput, foundContacts, foundEmployees } = props;
 
     const smHeightSize = useHeightMediaQuery().to('sm');
+
+    const contactsArr = foundContacts?.length ? foundContacts : tabsAndLists.activeList;
 
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             {!smHeightSize && (
                 <div className={styles.search}>
-                    <Input prefixIcon="search" />
+                    <Input {...searchInput} prefixIcon="search" />
                 </div>
             )}
             <div className={styles.tabs}>
@@ -36,12 +41,14 @@ function ContactsListView(props: Props) {
             </div>
             <div className={styles.list}>
                 {tabsAndLists.activeTab?.title === 'Личные'
-                    ? tabsAndLists.activeList?.map((i: any) => <Item key={i.id} contact={contactProxy(i)} {...props} />)
+                    ? contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
+                    : foundEmployees?.length
+                    ? foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i)} {...props} />)
                     : tabsAndLists.activeList?.map((i: any) =>
                           i?.departments?.map((dep: Department) => (
                               <Collapse key={dep.id} title={dep?.name || ''}>
                                   {dep.employees.map((emp) => (
-                                      <Item key={emp.id} employee={employeeProxy(emp)} {...props} companyId={i.id} departmentId={dep.id} />
+                                      <Item key={emp.id} employee={employeeProxy(emp)} {...props} />
                                   ))}
                               </Collapse>
                           ))
@@ -51,8 +58,8 @@ function ContactsListView(props: Props) {
     );
 }
 
-function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy; companyId?: number; departmentId?: number } & Props) {
-    const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, contact, employee, companyId, departmentId } = props;
+function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Props) {
+    const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, searchInput, contact, employee, foundEmployees, foundContacts } = props;
 
     const mdWidthSize = useWidthMediaQuery().to('md');
 
@@ -71,7 +78,7 @@ function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy; company
 
     const clickUser = () => {
         if (contact && clickContact) return clickContact(contact);
-        if (employee && companyId && departmentId && clickEmployee) return clickEmployee(employee, companyId, departmentId);
+        if (employee && clickEmployee) return clickEmployee(employee);
     };
 
     return (
