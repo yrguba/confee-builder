@@ -23,6 +23,10 @@ export type Employee = {
     updated_at: Date;
 };
 
+export type EmployeeProxy = {
+    full_name: string;
+} & Employee;
+
 export type Department = {
     id: number;
     employees: Employee[];

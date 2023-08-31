@@ -9,8 +9,8 @@ class ContactService {
         return moment(user.last_active).calendar();
     }
 
-    getFullName(user: User | null) {
-        return user?.contact_name || `${user?.first_name || ''} ${user?.last_name || ''}`;
+    getFullName(data: { contact_name?: string | null; first_name: string | null; last_name: string | null }) {
+        return data?.contact_name || `${data?.first_name || ''} ${data?.last_name || ''}`;
     }
 }
 

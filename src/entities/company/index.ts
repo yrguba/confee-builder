@@ -1,4 +1,4 @@
-import companyProxy from './lib/proxy';
+import employeeProxy from './lib/emloyee-proxy';
 import * as companyTypes from './model/types';
 
-export { companyTypes, companyProxy };
+export { companyTypes, employeeProxy };

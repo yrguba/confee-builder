@@ -1,11 +1,17 @@
-import React, { useTransition } from 'react';
+import React, { useCallback, useTransition } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { chatApi } from 'entities/chat';
-import { contactApi, contactProxy, ContactsListView, contactTypes } from 'entities/contact';
-import { viewerApi } from 'entities/viewer';
+import { companyTypes } from 'entities/company';
+import { contactApi, contactProxy, ContactsListView, contactTypes, useTabsAndLists } from 'entities/contact';
+import { viewerApi, viewerTypes } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Notification, TabBarTypes } from 'shared/ui';
+
+import { Employee, EmployeeProxy } from '../../../entities/company/model/types';
+import { ContactProxy } from '../../../entities/contact/model/types';
+import { messageService } from '../../../entities/message';
+import { createMemo } from '../../../shared/hooks';
 
 function ContactsList() {
     const { navigate, params, pathname } = useRouter();
@@ -24,15 +30,18 @@ function ContactsList() {
 
     const notification = Notification.use();
 
-    const clickOnUser = (contact: contactTypes.ContactProxy) => {
+    const clickContact = (contact: ContactProxy) => {
         navigate(`contact/${contact.id}/user/${contact.user_id}`);
     };
-
-    const actions = (data?: { action: contactTypes.Actions; contact: contactTypes.ContactProxy }) => {
-        navigate(`contact/${data?.contact.id}/user/${data?.contact.user_id}`);
+    const clickEmployee = (employee: EmployeeProxy) => {
+        console.log(employee);
+        // navigate(`contact/${contactId}/user/${userId}`);
+    };
+    const actions = (data?: { action: contactTypes.Actions; contact: contactTypes.ContactProxy | null }) => {
+        // navigate(`contact/${data?.contact.id}/user/${data?.contact.user_id}`);
         switch (data?.action) {
             case 'delete':
-                return handleDeleteContact({ contactId: data.contact.id });
+                return data.contact && handleDeleteContact({ contactId: data.contact.id });
             case 'mute':
                 return notification.inDev();
             case 'message':
@@ -42,17 +51,7 @@ function ContactsList() {
         }
     };
 
-    const tabs = useArray<TabBarTypes.TabBarItem>({ initialArr: [{ id: 0, title: 'Личные', callback: () => '' }] });
-
-    useUpdateEffect(() => {
-        if (viewerData?.data?.data.companies.length) {
-            const companies: TabBarTypes.TabBarItem[] = [];
-            viewerData?.data?.data.companies.forEach((i, index) => {
-                companies.push({ id: index + 1, title: i.name || '', callback: () => '' });
-            });
-            tabs.concat(companies);
-        }
-    }, [viewerData?.data?.data.companies, pathname]);
+    const tabsAndLists = useTabsAndLists({ companies: viewerData?.data?.data.companies, contacts: contactsData });
 
     useUpdateEffect(() => {
         if (redirect.value) {
@@ -74,10 +73,10 @@ function ContactsList() {
     return (
         <ContactsListView
             actions={actions}
-            contacts={contactsData?.map((i) => contactProxy(i))}
-            clickOnUser={clickOnUser}
+            clickContact={clickContact}
+            clickEmployee={clickEmployee}
             activeUserId={Number(params.contact_id) || null}
-            tabs={tabs}
+            tabsAndLists={tabsAndLists}
         />
     );
 }

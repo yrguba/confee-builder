@@ -1,6 +1,10 @@
 import { messageTypes } from 'entities/message';
+import { TabBarTypes } from 'shared/ui';
 
+import { BaseTypes } from '../../../shared/types';
+import { companyTypes } from '../../company';
 import { File } from '../../message/model/types';
+import { contactTypes } from '../index';
 
 export enum Statuses {
     'IN_OFFICE' = '#29CC39',
@@ -28,6 +32,13 @@ export type Contact = {
 export type ContactProxy = {
     full_name: string;
 } & Contact;
+
+export type UseTabsAndListsReturnType = {
+    tabs: TabBarTypes.TabBarItem[];
+    activeTab: TabBarTypes.TabBarItem | null;
+    setActiveTab: (tab: TabBarTypes.TabBarItem) => void;
+    activeList: contactTypes.Contact[] | companyTypes.Company[];
+};
 
 export type Actions = 'delete' | 'mute' | 'audioCall' | 'videoCall' | 'message' | 'editName';
 export type SocketIn = '';

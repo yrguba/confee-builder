@@ -14,6 +14,7 @@ export type BaseTabBarProps = {
     activeItemId?: number | string;
     variant?: 'icons';
     bodyStyle?: CSSProperties;
+    clickTab?: (tab: TabBarItem) => void;
 };
 
 export type TabBarWithLineProps = {

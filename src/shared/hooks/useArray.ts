@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { useEasyState } from './index';
 
@@ -25,6 +26,10 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
     concat: (arr: T[]) => void;
 } {
     const array = useEasyState<T[]>(initialArr || []);
+
+    // useUpdateEffect(() => {
+    //     initialArr && array.set(initialArr);
+    // }, [initialArr?.length]);
 
     const getIds = () => {
         return array.value.map((i) => i.id) as number[] | string[];

@@ -25,7 +25,7 @@ function FilesToSendModalView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                <Title variant="H2">{`Отправить ${fileLength} ${getEnding(fileLength, ['файл', 'файла', 'файлов'])}`}</Title>
+                <Title variant="H2">{!fileLength ? 'Выбирите файлы' : `Отправить ${fileLength} ${getEnding(fileLength, ['файл', 'файла', 'файлов'])}`}</Title>
             </div>
             <div className={styles.list}>
                 {images.array.length ? (
@@ -38,7 +38,7 @@ function FilesToSendModalView(props: Props) {
                     ) : (
                         <Image.List
                             items={images.array.map((i) => ({
-                                remove: (id) => console.log(id),
+                                remove: (id) => images.deleteById(id),
                                 id: i.id,
                                 url: i.fileUrl,
                                 height: images.array.length === 1 ? '100%' : '150px',
@@ -73,11 +73,11 @@ function FilesToSendModalView(props: Props) {
                 <Button variant="inherit" active width="25%" onClick={addFiles}>
                     Добавить
                 </Button>
-                <div className={styles.confirm} onClick={close}>
-                    <Button variant="inherit" active>
+                <div className={styles.confirm}>
+                    <Button variant="inherit" active onClick={close}>
                         Отмена
                     </Button>
-                    <Button variant="inherit" active onClick={sendFiles}>
+                    <Button disabled={!fileLength} variant="inherit" active onClick={sendFiles}>
                         Отправить
                     </Button>
                 </div>
