@@ -45,7 +45,8 @@ function ContactsList() {
             case 'mute':
                 return notification.inDev();
             case 'message':
-                return redirect.set(true);
+                // return redirect.set(true);
+                return;
             case 'audioCall':
                 return notification.inDev();
         }

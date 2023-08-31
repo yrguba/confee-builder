@@ -39,11 +39,13 @@
         gap: 16px;
 
         .card {
-          max-width: 80%;
+          width: 0;
+          flex: 1;
         }
 
         .icons {
-          @include flex;
+          @include flex(flex-end);
+          flex-shrink: 1;
 
           svg {
             fill: var(--text-primary);
