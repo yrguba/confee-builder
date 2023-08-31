@@ -95,8 +95,6 @@ function MessageList() {
         });
     };
 
-    const clickImage = (data: appTypes.ImagesSwiperProps) => {};
-
     const clickTag = (tag: string) => {
         const user = chatData?.members.find((i) => `@${i.nickname}` === tag);
         user ? userProfileModal.open() : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
@@ -129,7 +127,6 @@ function MessageList() {
                 chatSubscription={chatSubscription.value}
                 messageMenuAction={messageMenuAction}
                 sendReaction={clickReaction}
-                clickImage={clickImage}
                 clickTag={clickTag}
                 highlightedMessages={highlightedMessages}
                 voiceRecordingInProgress={voiceRecordingInProgress.value}

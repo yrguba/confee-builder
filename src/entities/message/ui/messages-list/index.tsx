@@ -21,7 +21,6 @@ type Props = {
     chatSubscription: number | null;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
-    clickImage: (data: appTypes.ImagesSwiperProps) => void;
     clickTag: (tag: string) => void;
     highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     voiceRecordingInProgress: boolean;
@@ -38,7 +37,6 @@ function MessagesListView(props: Props) {
         chatSubscription,
         messageMenuAction,
         sendReaction,
-        clickImage,
         clickTag,
         highlightedMessages,
         voiceRecordingInProgress,
@@ -114,7 +112,6 @@ function MessagesListView(props: Props) {
                             {index === 5 && <div ref={nextPageRef} />}
                             <Message
                                 clickTag={clickTag}
-                                clickImage={clickImage}
                                 sendReaction={sendReaction}
                                 chat={chat}
                                 ref={wrapperRef}

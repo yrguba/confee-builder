@@ -8,11 +8,11 @@ function chatProxy(chat: Chat | undefined): any {
     const viewerId = viewerService.getId();
     if (!chat) return null;
     return new Proxy(chat, {
-        get(target: ChatProxy, prop: keyof ChatProxy, receiver): ChatProxy[keyof ChatProxy] {
+        get(target: ChatProxy, prop: keyof ChatProxy, receiver: ChatProxy): ChatProxy[keyof ChatProxy] {
+            const secondMember = target.is_group ? null : target?.members?.find((i) => i.id !== viewerId) || null;
             switch (prop) {
                 case 'secondMember':
-                    if (target.is_group) return null;
-                    return target?.members?.find((i) => i.id !== viewerId) || null;
+                    return secondMember;
 
                 case 'secondMemberStatus':
                     if (chat?.is_group) return null;

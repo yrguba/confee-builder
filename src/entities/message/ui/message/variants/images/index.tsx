@@ -10,11 +10,10 @@ import { File } from '../../../../model/types';
 
 type Props = {
     images: File[];
-    clickImage: (data: appTypes.ImagesSwiperProps) => void;
 } & BaseTypes.Statuses;
 
 function ImagesMessage(props: Props) {
-    const { images, clickImage } = props;
+    const { images } = props;
 
     const swiperState = useEasyState<{ visible: boolean; initial: number }>({ visible: false, initial: 1 });
 

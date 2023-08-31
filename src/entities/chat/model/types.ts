@@ -2,7 +2,7 @@ import { Message } from '../../message/model/types';
 import { User, Statuses } from '../../user/model/types';
 
 export type Chat = {
-    avatar: string;
+    avatar: string | null;
     created_at: Date;
     id: number;
     is_group: boolean;
