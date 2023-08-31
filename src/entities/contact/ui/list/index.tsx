@@ -13,7 +13,7 @@ import { ContactProxy, Actions, UseTabsAndListsReturnType } from '../../model/ty
 
 type Props = {
     clickContact: (user: ContactProxy) => void;
-    clickEmployee: (user: EmployeeProxy) => void;
+    clickEmployee: (user: EmployeeProxy, companyId: number, departmentId: number) => void;
     activeUserId: number | null;
     actions: (data?: { action: Actions; contact: ContactProxy | null }) => void;
     tabsAndLists: UseTabsAndListsReturnType;
@@ -41,7 +41,7 @@ function ContactsListView(props: Props) {
                           i?.departments?.map((dep: Department) => (
                               <Collapse key={dep.id} title={dep?.name || ''}>
                                   {dep.employees.map((emp) => (
-                                      <Item key={emp.id} employee={employeeProxy(emp)} {...props} />
+                                      <Item key={emp.id} employee={employeeProxy(emp)} {...props} companyId={i.id} departmentId={dep.id} />
                                   ))}
                               </Collapse>
                           ))
@@ -51,8 +51,8 @@ function ContactsListView(props: Props) {
     );
 }
 
-function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Props) {
-    const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, contact, employee } = props;
+function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy; companyId?: number; departmentId?: number } & Props) {
+    const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, contact, employee, companyId, departmentId } = props;
 
     const mdWidthSize = useWidthMediaQuery().to('md');
 
@@ -66,17 +66,19 @@ function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Prop
     const id = contact?.id || employee?.id;
     const full_name = contact?.full_name || employee?.full_name;
     const phone = contact?.phone || '';
+    const avatar = employee?.avatar || '';
+    const status: any = employee?.status || null;
 
     const clickUser = () => {
         if (contact && clickContact) return clickContact(contact);
-        if (employee && clickEmployee) return clickEmployee(employee);
+        if (employee && companyId && departmentId && clickEmployee) return clickEmployee(employee, companyId, departmentId);
     };
 
     return (
         <div key={id} className={`${styles.item} ${activeUserId === id ? styles.item_active : ''}`}>
             <div className={styles.body}>
                 <div className={styles.card}>
-                    <Card onClick={clickUser} size="m" name={full_name} img="" title={full_name} subtitle={phone || ''} />
+                    <Card avatarStatus={status} onClick={clickUser} size="m" name={full_name} img={avatar} title={full_name} subtitle={phone || ''} />
                 </div>
                 <div className={styles.icons}>
                     {!mdWidthSize ? (

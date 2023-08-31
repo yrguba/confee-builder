@@ -33,10 +33,11 @@ function ContactsList() {
     const clickContact = (contact: ContactProxy) => {
         navigate(`contact/${contact.id}/user/${contact.user_id}`);
     };
-    const clickEmployee = (employee: EmployeeProxy) => {
-        console.log(employee);
-        // navigate(`contact/${contactId}/user/${userId}`);
+
+    const clickEmployee = (employee: EmployeeProxy, companyId: number, departmentId: number) => {
+        navigate(`company/${companyId}/department/${departmentId}/employee/${employee.id}`);
     };
+
     const actions = (data?: { action: contactTypes.Actions; contact: contactTypes.ContactProxy | null }) => {
         // navigate(`contact/${data?.contact.id}/user/${data?.contact.user_id}`);
         switch (data?.action) {

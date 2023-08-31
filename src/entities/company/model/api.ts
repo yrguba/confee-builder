@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { axiosClient } from 'shared/configs';
 
-import { Company } from './types';
+import { Company, Employee } from './types';
 import { httpHandlers } from '../../../shared/lib';
 
 class CompanyApi {
@@ -14,6 +14,21 @@ class CompanyApi {
                 return updRes.data?.data;
             },
         });
+    }
+
+    handleGetDepartmentEmployees(data: { companyId: string | undefined; departmentId: string | undefined }) {
+        return useQuery(
+            ['get-department-employees', data.companyId, data.departmentId],
+            () => axiosClient.get(`api/v2/companies/${data.companyId}/departments/${data.departmentId}/employees`),
+            {
+                enabled: !!data.departmentId && !!data.companyId,
+                staleTime: Infinity,
+                select: (res) => {
+                    const updRes = httpHandlers.response<{ data: Employee[] }>(res);
+                    return updRes.data?.data;
+                },
+            }
+        );
     }
 }
 

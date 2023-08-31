@@ -4,6 +4,7 @@ import { companyTypes } from 'entities/company';
 import { useFetchMediaContent } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import { userTypes } from '../../../../../entities/user';
 import Box from '../../../box';
 import LoadingIndicator from '../../../loading-indicator';
 import { BaseAvatarProps } from '../../types';
@@ -76,7 +77,7 @@ function Avatar(props: BaseAvatarProps) {
             <Box.Animated
                 visible={!!status}
                 className={styles.status}
-                style={{ backgroundColor: status ? companyTypes.Statuses[status] : '', width: size / 4, height: size / 4 }}
+                style={{ backgroundColor: status ? userTypes.Statuses[status] : '', width: size / 4, height: size / 4 }}
             />
 
             {isLoading ? (

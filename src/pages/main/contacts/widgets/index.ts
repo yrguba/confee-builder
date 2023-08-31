@@ -1,4 +1,5 @@
-import Profile from './profile';
+import ContactProfile from './contact-profile';
+import EmployeeProfile from './employee-profile';
 import Sidebar from './sidebar';
 
-export { Sidebar, Profile };
+export { Sidebar, ContactProfile, EmployeeProfile };

@@ -1,13 +1,4 @@
-export enum Statuses {
-    'IN_OFFICE' = '#29CC39',
-    'HOME_WORK' = '#8833FF',
-    'BUSINESS_TRIP' = '#33BFFF',
-    'VACATION' = '#2EE5C9',
-    'SICK_LEAVE' = '#EFF2F7',
-    'NOT_AVAILABLE' = '#E62E7B',
-    'ONLINE' = '#0000ff',
-    'OFFLINE' = '',
-}
+import { userTypes } from 'entities/user';
 
 export type Employee = {
     avatar: string | null;
@@ -19,7 +10,7 @@ export type Employee = {
     id: 580;
     last_name: string | null;
     position: string | null;
-    status: Statuses | null;
+    status: userTypes.Statuses;
     updated_at: Date;
 };
 

@@ -1,8 +1,14 @@
 import { Contact } from '../../contact/model/types';
 
 export enum Statuses {
-    'ONLINE' = '#0000ff',
-    'OFFLINE' = '',
+    'in office' = '#29CC39',
+    'home work' = '#8833FF',
+    'business_trip' = '#33BFFF',
+    'vacation' = '#2EE5C9',
+    'sick leave' = '#EFF2F7',
+    'not available' = '#E62E7B',
+    'online' = '#0000ff',
+    'offline' = '',
 }
 
 export type User = {

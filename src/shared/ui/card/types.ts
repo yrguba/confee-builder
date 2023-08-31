@@ -1,3 +1,4 @@
+import { companyTypes } from 'entities/company';
 import { userTypes } from 'entities/user';
 
 import { UseArrayReturnType } from '../../hooks';

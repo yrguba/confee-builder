@@ -16,7 +16,7 @@ function EmployeeProfileView(props: Props) {
     const { employee, back } = props;
 
     const items = [{ id: 0, title: employee?.full_name || '', subtitle: 'Имя и фамилия' }];
-
+    console.log(employee);
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -30,7 +30,7 @@ function EmployeeProfileView(props: Props) {
             <div className={styles.body}>
                 {items.map((item) => (
                     <div key={item.id} className={styles.item}>
-                        {item.id === 0 && <Avatar img="" name={employee?.full_name} />}
+                        {item.id === 0 && <Avatar img={employee?.avatar} name={employee?.full_name} />}
                         <div className={styles.left}>
                             <div className={styles.aboutMe}>
                                 <Title textWrap variant="H3M">

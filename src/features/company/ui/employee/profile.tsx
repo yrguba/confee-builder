@@ -6,9 +6,10 @@ import { useRouter } from 'shared/hooks';
 function EmployeeProfile() {
     const { params, navigate } = useRouter();
 
-    const { data: companiesData } = companyApi.handleGetCompanies();
-    console.log(companiesData);
-    return <EmployeeProfileView back={() => navigate('/contacts')} employee={null} />;
+    const { data: employeesData } = companyApi.handleGetDepartmentEmployees({ companyId: params.company_id, departmentId: params.department_id });
+
+    const employee = employeesData?.find((i) => i.id === Number(params.employee_id));
+    return <EmployeeProfileView back={() => navigate('/contacts')} employee={employeeProxy(employee)} />;
 }
 
 export default EmployeeProfile;

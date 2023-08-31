@@ -1,13 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { chatGateway } from 'entities/chat';
-import { useWidthMediaQuery, useRouter, useRendersCount } from 'shared/hooks';
+import { useWidthMediaQuery, useRouter } from 'shared/hooks';
 import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { messageGateway } from '../../../../entities/message';
-import { userGateway } from '../../../../entities/user';
 import { Sidebar } from '../widgets';
 
 function ContactsPage() {
@@ -38,7 +35,7 @@ function ContactsPage() {
             )}
             {isVisibleOutlet() && (
                 <div className={styles.outlet}>
-                    {!params.contact_id && (
+                    {!params.contact_id && !params.employee_id && (
                         <Title textWrap primary={false} textAlign="center" variant="H2">
                             Выберите контакт
                         </Title>
