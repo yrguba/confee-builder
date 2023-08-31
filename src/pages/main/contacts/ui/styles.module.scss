@@ -6,7 +6,8 @@
 
   .sidebar {
     height: 100%;
-    max-width: 609px;
+    max-width: 50%;
+    min-width: 50%;
 
     @include width-to('md') {
       width: 300px;
@@ -14,6 +15,8 @@
 
     @include width-to('sm') {
       width: 100%;
+      max-width: 100%;
+      min-width: 100%;
     }
   }
 

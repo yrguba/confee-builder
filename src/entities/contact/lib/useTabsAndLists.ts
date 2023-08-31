@@ -1,9 +1,9 @@
+import { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { BaseTypes } from 'shared/types';
 
 import { contactTypes } from '..';
-import contacts from '../../../pages/main/contacts';
 import { createMemo, useEasyState } from '../../../shared/hooks';
 import { TabBarTypes } from '../../../shared/ui';
 import { companyTypes } from '../../company';
@@ -31,7 +31,21 @@ function useTabsAndLists(props: Props): UseTabsAndListsReturnType {
 
     const activeTab = useEasyState<TabBarTypes.TabBarItem | null>(null);
     const activeList = useEasyState<contactTypes.Contact[] | companyTypes.Company[]>([]);
+
     useUpdateEffect(() => {
+        if (props.contacts && activeTab.value?.title === 'Личные') {
+            activeList.set(props.contacts);
+        } else {
+            props.companies &&
+                props.companies.forEach((i) => {
+                    if (i.name === activeTab.value?.title) {
+                        activeList.set([i]);
+                    }
+                });
+        }
+    }, [activeTab.value]);
+
+    useEffect(() => {
         tabs.length && activeTab.set(tabs[0]);
         props.contacts?.length && activeList.set(props.contacts);
     }, [props.contacts, props.companies]);

@@ -13,4 +13,5 @@ export type Item<I, P, C = any> = {
     icon?: I;
     payload: P;
     callback?: (data?: C) => void;
+    hidden?: boolean;
 };

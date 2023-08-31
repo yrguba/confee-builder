@@ -23,6 +23,7 @@
     @include flex-column;
     width: 100%;
 
+
     .item {
       @include flex;
       @include box-size(100%, 74px);

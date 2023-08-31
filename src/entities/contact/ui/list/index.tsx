@@ -3,10 +3,11 @@ import React from 'react';
 import { userService } from 'entities/user';
 import { useWidthMediaQuery, useHeightMediaQuery, UseArrayReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card, Dropdown, TabBarTypes, TabBar, Input } from 'shared/ui';
+import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Employee, EmployeeProxy } from '../../../company/model/types';
+import { employeeProxy } from '../../../company';
+import { Employee, EmployeeProxy, Company, Department } from '../../../company/model/types';
 import contactProxy from '../../lib/proxy';
 import { ContactProxy, Actions, UseTabsAndListsReturnType } from '../../model/types';
 
@@ -34,11 +35,17 @@ function ContactsListView(props: Props) {
                 <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
             </div>
             <div className={styles.list}>
-                {tabsAndLists.activeTab?.title === 'Личные' ? (
-                    tabsAndLists.activeList?.map((i: any) => <Item key={i.id} contact={contactProxy(i)} {...props} />)
-                ) : (
-                    <div>dwad</div>
-                )}
+                {tabsAndLists.activeTab?.title === 'Личные'
+                    ? tabsAndLists.activeList?.map((i: any) => <Item key={i.id} contact={contactProxy(i)} {...props} />)
+                    : tabsAndLists.activeList?.map((i: any) =>
+                          i?.departments?.map((dep: Department) => (
+                              <Collapse key={dep.id} title={dep?.name || ''}>
+                                  {dep.employees.map((emp) => (
+                                      <Item key={i.id} employee={employeeProxy(emp)} {...props} />
+                                  ))}
+                              </Collapse>
+                          ))
+                      )}
             </div>
         </Box.Animated>
     );
@@ -53,7 +60,7 @@ function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Prop
         { id: 0, icon: 'phone', callback: actions, payload: 'audioCall', title: '' },
         { id: 1, icon: 'messages', callback: actions, payload: 'message', title: '' },
         { id: 2, icon: 'mute', callback: actions, payload: 'mute', title: '' },
-        { id: 4, icon: 'delete', callback: actions, payload: 'delete', title: '' },
+        { id: 4, icon: 'delete', callback: actions, payload: 'delete', title: '', hidden: !!employee },
     ];
 
     const id = contact?.id || employee?.id;
@@ -73,16 +80,18 @@ function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Prop
                 </div>
                 <div className={styles.icons}>
                     {!mdWidthSize ? (
-                        items.map((i) => (
-                            <Button.Circle
-                                key={i.id}
-                                radius={36}
-                                onClick={() => i.callback && i.callback({ action: i.payload, contact: contact || null })}
-                                variant="inherit"
-                            >
-                                {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}
-                            </Button.Circle>
-                        ))
+                        items
+                            .filter((i) => !i.hidden)
+                            .map((i) => (
+                                <Button.Circle
+                                    key={i.id}
+                                    radius={36}
+                                    onClick={() => i.callback && i.callback({ action: i.payload, contact: contact || null })}
+                                    variant="inherit"
+                                >
+                                    {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}
+                                </Button.Circle>
+                            ))
                     ) : (
                         <Dropdown.Menu items={items as any}>
                             <Icons variant="more" />
