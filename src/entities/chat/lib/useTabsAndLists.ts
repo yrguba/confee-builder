@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
+import { createMemo, useEasyState, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
+import { TabBarTypes } from 'shared/ui';
 
-import { createMemo, useEasyState } from '../../../shared/hooks';
-import { TabBarTypes } from '../../../shared/ui';
 import { companyTypes } from '../../company';
 import { ChatProxy, UseChatsTabsAndListsReturnType } from '../model/types';
 
@@ -23,7 +23,7 @@ const memoTabs = createMemo((props: Props) => {
 
 function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
     const tabs = memoTabs(props);
-
+    const { navigate, pathname } = useRouter();
     const activeTab = useEasyState<TabBarTypes.TabBarItem | null>(null);
     const activeList = useEasyState<ChatProxy[]>([]);
 
@@ -40,15 +40,32 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
         }
     }, [activeTab.value]);
 
+    const clickTab = (tab: TabBarTypes.TabBarItem) => {
+        activeTab.set(tab);
+        if (tab.title === 'все') return navigate('/chats/all');
+        if (tab.title === 'личные') return navigate('/chats/personal');
+        return navigate('/chats/company');
+    };
+
     useEffect(() => {
-        tabs.length && activeTab.set(tabs[0]);
-        props.all?.length && activeList.set(props.all);
-    }, [tabs.length, props.all?.length]);
+        if (pathname.includes('all')) {
+            tabs.length && activeTab.set(tabs[0]);
+            props.all?.length && activeList.set(props.all);
+        }
+        if (pathname.includes('personal') && props.personal) {
+            tabs.length && activeTab.set(tabs[1]);
+            props.all?.length && activeList.set(props.personal);
+        }
+        if (pathname.includes('company') && props.company) {
+            tabs.length && activeTab.set(tabs[2]);
+            props.all?.length && activeList.set(props.company);
+        }
+    }, [tabs.length, props.all?.length, props.company?.length]);
 
     return {
         tabs,
         activeTab: activeTab.value,
-        setActiveTab: activeTab.set,
+        setActiveTab: clickTab,
         activeList: activeList.value,
     };
 }
