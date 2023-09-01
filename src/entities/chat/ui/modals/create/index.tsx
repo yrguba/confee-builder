@@ -82,7 +82,7 @@ function CreateChatModalView(props: Props) {
                                 title={dep?.name || ''}
                             >
                                 <Card.List
-                                    visibleLastItem={(value) => console.log(value)}
+                                    visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
                                     selected={selectedContacts}
                                     items={tabsAndLists.departmentsEmployees[dep.id]?.map((i: any) => {
                                         const employee: EmployeeProxy = employeeProxy(i);

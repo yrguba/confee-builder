@@ -28,6 +28,7 @@ export type UseContactsTabsAndListsReturnType = {
     activeList: contactTypes.Contact[] | companyTypes.Company[];
     getEmployees: (depId: number) => void;
     departmentsEmployees: Record<number, Employee[]>;
+    getNextPageEmployees: () => void;
     loading: boolean;
 };
 

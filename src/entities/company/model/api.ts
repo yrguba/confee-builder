@@ -54,7 +54,7 @@ class CompanyApi {
                 },
                 select: (data: any) => {
                     return {
-                        pages: data?.pages?.reduce((employees: any, page: any) => [...[...page.data.data], ...employees], []),
+                        pages: data.pages,
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },

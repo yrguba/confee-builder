@@ -2,6 +2,7 @@ import { prevCategory } from 'emoji-picker-react/dist/DomUtils/selectors';
 import { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
+import { companyService } from 'entities/company';
 import { BaseTypes } from 'shared/types';
 
 import { contactApi, contactTypes } from '..';
@@ -26,6 +27,7 @@ const memoTabs = createMemo((companies: companyTypes.Company[] | BaseTypes.Empty
     }
     return tabs;
 });
+const memoEmployees = createMemo(companyService.getUpdatedEmployeesList);
 
 function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnType {
     const tabs = memoTabs(props.companies);
@@ -37,11 +39,22 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
 
     const { data: contacts } = contactApi.handleGetContacts({ type: 'registered' });
-    const { data: departmentEmployees, isLoading } = companyApi.handleGetDepartmentEmployees({
+    const {
+        data: departmentEmployees,
+        isLoading,
+        hasNextPage,
+        fetchNextPage,
+    } = companyApi.handleGetDepartmentEmployees({
         companyId: activeTab.value?.payload?.id,
         departmentId: departmentId.value,
         initialPage: 0,
     });
+    console.log(departmentEmployees);
+    const employees = memoEmployees(departmentEmployees);
+    console.log(employees);
+    const getNextPageEmployees = () => {
+        hasNextPage && fetchNextPage();
+    };
 
     const getEmployees = (depId: number) => {
         departmentId.set(depId);
@@ -49,11 +62,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
 
     useUpdateEffect(() => {
         const key = departmentId.value as number;
-        if (departmentsEmployees.value[key]) {
-            console.log('eyyy');
-        } else {
-            departmentsEmployees.set((prev) => ({ ...prev, [key]: departmentEmployees?.pages }));
-        }
+        departmentsEmployees.set((prev) => ({ ...prev, [key]: employees }));
     }, [departmentEmployees?.pages]);
 
     useUpdateEffect(() => {
@@ -81,6 +90,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         activeList: activeList.value,
         departmentsEmployees: departmentsEmployees.value,
         getEmployees,
+        getNextPageEmployees,
         loading: isLoading,
     };
 }
