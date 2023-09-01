@@ -7,7 +7,7 @@ function contactProxy(contact: Contact | undefined): any {
         get(target, prop: keyof ContactProxy, receiver): ContactProxy[keyof ContactProxy] {
             switch (prop) {
                 case 'full_name':
-                    return `${target.first_name || ''} ${target.last_name || ''}`;
+                    return target.contact_name || `${target.first_name || ''} ${target.last_name || ''}`;
 
                 default:
                     return target[prop];

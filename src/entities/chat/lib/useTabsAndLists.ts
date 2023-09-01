@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { createMemo, useEasyState, useRouter } from 'shared/hooks';
@@ -24,8 +24,9 @@ const memoTabs = createMemo((props: Props) => {
 function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
     const tabs = memoTabs(props);
     const { navigate, pathname } = useRouter();
+
     const activeTab = useEasyState<TabBarTypes.TabBarItem | null>(null);
-    const activeList = useEasyState<ChatProxy[]>([]);
+    const activeList = useEasyState<ChatProxy[] | BaseTypes.Empty>(null);
 
     useUpdateEffect(() => {
         if (props.personal?.length && activeTab.value?.title === 'Личные') {
@@ -52,15 +53,21 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
             tabs.length && activeTab.set(tabs[0]);
             props.all?.length && activeList.set(props.all);
         }
+    }, [props.all]);
+
+    useEffect(() => {
         if (pathname.includes('personal') && props.personal) {
             tabs.length && activeTab.set(tabs[1]);
             props.all?.length && activeList.set(props.personal);
         }
+    }, [props.personal]);
+
+    useEffect(() => {
         if (pathname.includes('company') && props.company) {
             tabs.length && activeTab.set(tabs[2]);
             props.all?.length && activeList.set(props.company);
         }
-    }, [tabs.length, props.all?.length, props.company?.length]);
+    }, [props.company]);
 
     return {
         tabs,

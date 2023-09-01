@@ -1,3 +1,4 @@
+import { BaseTypes } from '../../../shared/types';
 import { TabBarTypes } from '../../../shared/ui';
 import { companyTypes } from '../../company';
 import { contactTypes } from '../../contact';
@@ -33,7 +34,7 @@ export type UseChatsTabsAndListsReturnType = {
     tabs: TabBarTypes.TabBarItem[];
     activeTab: TabBarTypes.TabBarItem | null;
     setActiveTab: (tab: TabBarTypes.TabBarItem) => void;
-    activeList: ChatProxy[];
+    activeList: ChatProxy[] | BaseTypes.Empty;
 };
 
 export type Actions = 'delete' | 'leave' | 'audioCall' | 'videoCall';

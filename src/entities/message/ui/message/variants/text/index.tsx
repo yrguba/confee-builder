@@ -91,7 +91,7 @@ function TextMessage(props: Props) {
             },
         },
     };
-    console.log('re');
+
     return (
         <Box className={styles.wrapper}>
             <Linkify options={options}>{checkLongWord(text, false)}</Linkify>
