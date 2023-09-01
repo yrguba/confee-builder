@@ -2,7 +2,7 @@ import { TabBarTypes } from 'shared/ui';
 
 import { BaseTypes } from '../../../shared/types';
 import { companyTypes } from '../../company';
-import { Employee, EmployeeProxy } from '../../company/model/types';
+import { Company, Employee, EmployeeProxy } from '../../company/model/types';
 import { contactTypes } from '../index';
 
 export type Contact = {
@@ -23,7 +23,7 @@ export type ContactProxy = {
 
 export type UseContactsTabsAndListsReturnType = {
     tabs: TabBarTypes.TabBarItem[];
-    activeTab: TabBarTypes.TabBarItem | null;
+    activeTab: TabBarTypes.TabBarItem<Company> | null;
     setActiveTab: (tab: TabBarTypes.TabBarItem) => void;
     activeList: contactTypes.Contact[] | companyTypes.Company[];
     getEmployees: (depId: number) => void;

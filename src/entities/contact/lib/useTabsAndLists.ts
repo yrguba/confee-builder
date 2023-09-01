@@ -49,9 +49,9 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         departmentId: departmentId.value,
         initialPage: 0,
     });
-    console.log(departmentEmployees);
+
     const employees = memoEmployees(departmentEmployees);
-    console.log(employees);
+
     const getNextPageEmployees = () => {
         hasNextPage && fetchNextPage();
     };

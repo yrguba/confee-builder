@@ -69,8 +69,9 @@ class ChatApi {
     handleCreateCompanyChat() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { employee_ids: number[] | string[] | null; companyId: number; is_group: boolean }) =>
-                axiosClient.post(`${this.pathPrefix}/for-company/${data.companyId}`, data),
+            (data: { body: { employee_ids: number[] | string[] | null; is_group: boolean }; companyId: any }) => {
+                return axiosClient.post(`${this.pathPrefix}/for-company/${data.companyId}`, data.body);
+            },
             {
                 onSuccess: async (res, data) => {
                     const updRes = httpHandlers.response<{ data: Chat }>(res);

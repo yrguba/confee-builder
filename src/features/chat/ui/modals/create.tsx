@@ -17,25 +17,39 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
 
     const { mutate: handleCreatePersonalChat, isLoading } = chatApi.handleCreatePersonalChat();
+    const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
+
     const createChat = () => {
-        if (!selectedContacts.array.length) {
+        if (!selectedContacts.array.length && !selectedEmployees.array.length) {
             return notifications.error({ title: isGroup.value ? `Выберите участников` : `Выберите кому хотите написать` });
         }
-        handleCreatePersonalChat(
-            { user_ids: selectedContacts.array.map((i) => i.id), is_group: isGroup.value },
-            {
-                onSuccess: (data) => {
-                    modal.close();
-                    navigate(`/chats/chat/${data.data.data.id}`);
-                },
-            }
-        );
+        if (selectedContacts.array.length) {
+            handleCreatePersonalChat(
+                { user_ids: selectedContacts.array.map((i) => i.id), is_group: isGroup.value },
+                {
+                    onSuccess: (data) => {
+                        modal.close();
+                        navigate(`/chats/chat/${data.data.data.id}`);
+                    },
+                }
+            );
+        }
+        if (selectedEmployees.array.length) {
+            handleCreateCompanyChat(
+                { body: { employee_ids: selectedEmployees.array.map((i) => i.id), is_group: isGroup.value }, companyId: tabsAndLists.activeTab?.payload?.id },
+                {
+                    onSuccess: (data) => {
+                        modal.close();
+                        navigate(`/chats/chat/${data.data.data.id}`);
+                    },
+                }
+            );
+        }
     };
-
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
 
     return (
         <CreateChatModalView

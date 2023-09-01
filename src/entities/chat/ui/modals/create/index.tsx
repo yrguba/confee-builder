@@ -69,6 +69,7 @@ function CreateChatModalView(props: Props) {
                                 name: contact?.full_name || '',
                                 title: contact?.full_name || '',
                                 subtitle: contact?.phone || '',
+                                // onClick:() => selectedContacts.
                             };
                         })}
                     />
@@ -83,7 +84,7 @@ function CreateChatModalView(props: Props) {
                             >
                                 <Card.List
                                     visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
-                                    selected={selectedContacts}
+                                    selected={selectedEmployees}
                                     items={tabsAndLists.departmentsEmployees[dep.id]?.map((i: any) => {
                                         const employee: EmployeeProxy = employeeProxy(i);
                                         return {
