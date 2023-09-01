@@ -19,7 +19,7 @@ export type ContactProxy = {
     full_name: string;
 } & Contact;
 
-export type UseTabsAndListsReturnType = {
+export type UseContactsTabsAndListsReturnType = {
     tabs: TabBarTypes.TabBarItem[];
     activeTab: TabBarTypes.TabBarItem | null;
     setActiveTab: (tab: TabBarTypes.TabBarItem) => void;

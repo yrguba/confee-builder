@@ -8,7 +8,7 @@ import { Modal, ModalTypes } from 'shared/ui';
 function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
 
-    const { data: chatsData } = chatApi.handleGetChats();
+    const { data: chatsData } = chatApi.handleGetChats({ type: 'all' });
 
     const forwardMessages = useMessageStore.use.forwardMessages();
 

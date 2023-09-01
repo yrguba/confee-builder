@@ -3,7 +3,7 @@ import { useUpdateEffect } from 'react-use';
 
 import { chatApi } from 'entities/chat';
 import { companyTypes, companyApi } from 'entities/company';
-import { contactApi, ContactsListView, contactTypes, useTabsAndLists } from 'entities/contact';
+import { contactApi, ContactsListView, contactTypes, useContactsTabsAndLists } from 'entities/contact';
 import { ContactProxy } from 'entities/contact/model/types';
 import { viewerApi } from 'entities/viewer';
 import { useEasyState, useRouter } from 'shared/hooks';
@@ -55,7 +55,7 @@ function ContactsList() {
         }
     };
 
-    const tabsAndLists = useTabsAndLists({ companies: viewerData?.companies, contacts: contactsData });
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, contacts: contactsData });
 
     useUpdateEffect(() => {
         if (redirect.value) {

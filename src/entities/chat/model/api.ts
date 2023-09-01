@@ -6,6 +6,7 @@ import { useWebSocket, useStorage, useRouter } from 'shared/hooks';
 import { getFormData, httpHandlers } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
+import { Company } from '../../company/model/types';
 import { MessageType, MediaContentType, File } from '../../message/model/types';
 import { chatTypes } from '../index';
 import { chats_limit } from '../lib/constants';
@@ -39,9 +40,10 @@ class ChatApi {
         });
     };
 
-    handleGetChats = (data?: { type: 'all' | 'personal' | 'company' }) => {
-        const type = data?.type || 'all';
+    handleGetChats = (data: { type: 'all' | 'personal' | 'company'; companyId?: number }) => {
+        const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type || 'all';
         return useQuery(['get-chats', type], () => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit } }), {
+            enabled: data.type !== 'company' && !data.companyId,
             staleTime: Infinity,
             select: (data) => {
                 const res = httpHandlers.response<{ data: Chat[] }>(data);

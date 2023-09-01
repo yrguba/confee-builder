@@ -5,17 +5,16 @@ import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, TabBarTypes 
 
 import styles from './styles.module.scss';
 import { UseArrayReturnType, useHeightMediaQuery } from '../../../../shared/hooks';
-import { ChatProxy } from '../../model/types';
+import { ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
 
 type Props = {
-    chats: ChatProxy[] | BaseTypes.Empty;
     clickOnChat: (arg: ChatProxy) => void;
     activeChatId: number | null;
-    tabs: UseArrayReturnType<TabBarTypes.TabBarItem>;
+    tabsAndLists: UseChatsTabsAndListsReturnType;
 } & BaseTypes.Statuses;
 
 function ChatsListView(props: Props) {
-    const { chats, clickOnChat, loading, activeChatId, tabs } = props;
+    const { clickOnChat, loading, activeChatId, tabsAndLists } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
 
     return (
@@ -26,11 +25,11 @@ function ChatsListView(props: Props) {
                 </div>
             )}
             <div className={styles.tabs}>
-                <TabBar items={tabs.array} activeItemId={0} />
+                <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
             </div>
             <div className={styles.list}>
-                {chats?.length &&
-                    chats?.map((chat, index: number) => (
+                {tabsAndLists.activeList?.length &&
+                    tabsAndLists.activeList?.map((chat, index: number) => (
                         <div
                             key={chat?.id}
                             className={`${styles.item} ${activeChatId === chat?.id ? styles.item_active : ''}`}

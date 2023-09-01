@@ -2,34 +2,30 @@ import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
-import { ChatsListView, chatApi, chatTypes } from 'entities/chat';
-import ChatProxy from 'entities/chat/lib/proxy';
-
-import { useArray } from '../../../shared/hooks';
-import { TabBarTypes } from '../../../shared/ui';
+import { ChatsListView, chatApi, chatTypes, useChatsTabsAndLists, chatProxy } from 'entities/chat';
 
 function ChatsList() {
     const navigate = useNavigate();
     const params = useParams();
 
-    const { data: chatsData } = chatApi.handleGetChats();
+    const { data: allChatsData } = chatApi.handleGetChats({ type: 'all' });
+    const { data: personalChatsData } = chatApi.handleGetChats({ type: 'personal' });
+    const { data: companyChatsData } = chatApi.handleGetChats({ type: 'company' });
 
     const clickOnChatCard = useCallback((chat: chatTypes.Chat) => {
         navigate(`/chats/chat/${chat?.id}`);
     }, []);
 
-    const tabs = useArray<TabBarTypes.TabBarItem>({ initialArr: [{ id: 0, title: 'Личные', callback: () => '' }] });
+    const proxy = (chats: chatTypes.Chat[] | undefined) => {
+        if (chats?.length) {
+            return chats.map((i) => chatProxy(i));
+        }
+        return [];
+    };
 
-    return (
-        <>
-            <ChatsListView
-                chats={chatsData?.map((chat) => ChatProxy(chat)) || []}
-                clickOnChat={clickOnChatCard}
-                activeChatId={Number(params.chat_id) || null}
-                tabs={tabs}
-            />
-        </>
-    );
+    const tabsAndLists = useChatsTabsAndLists({ all: proxy(allChatsData), personal: proxy(personalChatsData), company: proxy(companyChatsData) });
+
+    return <ChatsListView clickOnChat={clickOnChatCard} activeChatId={Number(params.chat_id) || null} tabsAndLists={tabsAndLists} />;
 }
 
 export default ChatsList;

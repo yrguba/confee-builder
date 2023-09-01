@@ -7,7 +7,7 @@ import { contactTypes } from '..';
 import { createMemo, useEasyState } from '../../../shared/hooks';
 import { TabBarTypes } from '../../../shared/ui';
 import { companyTypes } from '../../company';
-import { UseTabsAndListsReturnType } from '../model/types';
+import { UseContactsTabsAndListsReturnType } from '../model/types';
 
 type Props = {
     contacts: contactTypes.Contact[] | BaseTypes.Empty;
@@ -26,7 +26,7 @@ const memoTabs = createMemo((companies: companyTypes.Company[] | BaseTypes.Empty
     return tabs;
 });
 
-function useTabsAndLists(props: Props): UseTabsAndListsReturnType {
+function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnType {
     const tabs = memoTabs(props.companies);
 
     const activeTab = useEasyState<TabBarTypes.TabBarItem | null>(null);
@@ -58,4 +58,4 @@ function useTabsAndLists(props: Props): UseTabsAndListsReturnType {
     };
 }
 
-export default useTabsAndLists;
+export default useContactsTabsAndLists;

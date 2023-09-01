@@ -15,7 +15,7 @@ const mainRoutes = (
             {tasksPageRouters}
             {profilePageRouters}
         </Route>
-        <Route path="*" element={<Navigate to="/chats" replace />} />
+        <Route path="*" element={<Navigate to="/chats/all" replace />} />
     </>
 );
 

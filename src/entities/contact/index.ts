@@ -1,6 +1,6 @@
 import contactProxy from './lib/proxy';
 import contactService from './lib/service';
-import useTabsAndLists from './lib/useTabsAndLists';
+import useContactsTabsAndLists from './lib/useTabsAndLists';
 import contactApi from './model/api';
 import contactGateway from './model/gateway';
 import useContactStore from './model/store';
@@ -14,7 +14,7 @@ export {
     useContactStore,
     contactTypes,
     contactApi,
-    useTabsAndLists,
+    useContactsTabsAndLists,
     contactProxy,
     ContactsListView,
     contactGateway,

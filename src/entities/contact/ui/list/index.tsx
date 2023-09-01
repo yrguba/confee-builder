@@ -9,14 +9,14 @@ import styles from './styles.module.scss';
 import { employeeProxy } from '../../../company';
 import { Employee, EmployeeProxy, Company, Department } from '../../../company/model/types';
 import contactProxy from '../../lib/proxy';
-import { ContactProxy, Actions, UseTabsAndListsReturnType, Contact } from '../../model/types';
+import { ContactProxy, Actions, UseContactsTabsAndListsReturnType, Contact } from '../../model/types';
 
 type Props = {
     clickContact: (user: ContactProxy) => void;
     clickEmployee: (user: EmployeeProxy) => void;
     activeUserId: number | null;
     actions: (data?: { action: Actions; contact: ContactProxy | null; employee: EmployeeProxy | null }) => void;
-    tabsAndLists: UseTabsAndListsReturnType;
+    tabsAndLists: UseContactsTabsAndListsReturnType;
     searchInput: InputTypes.UseReturnedType;
     foundContacts: Contact[] | BaseTypes.Empty;
     foundEmployees: Employee[] | BaseTypes.Empty;

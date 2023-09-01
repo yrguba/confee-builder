@@ -1,3 +1,6 @@
+import { TabBarTypes } from '../../../shared/ui';
+import { companyTypes } from '../../company';
+import { contactTypes } from '../../contact';
 import { Message } from '../../message/model/types';
 import { User, Statuses } from '../../user/model/types';
 
@@ -25,6 +28,13 @@ export type ChatProxy = {
     subtitle: string;
     secondMemberStatus: keyof typeof Statuses | null;
 } & Chat;
+
+export type UseChatsTabsAndListsReturnType = {
+    tabs: TabBarTypes.TabBarItem[];
+    activeTab: TabBarTypes.TabBarItem | null;
+    setActiveTab: (tab: TabBarTypes.TabBarItem) => void;
+    activeList: ChatProxy[];
+};
 
 export type Actions = 'delete' | 'leave' | 'audioCall' | 'videoCall';
 export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated';
