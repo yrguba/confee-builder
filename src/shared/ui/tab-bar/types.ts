@@ -2,11 +2,12 @@ import { CSSProperties } from 'react';
 
 import { IconsTypes } from '../index';
 
-export type TabBarItem = {
+export type TabBarItem<T = any> = {
     id: number | string;
     title?: string;
     icon?: IconsTypes.BaseIconsVariants;
     callback: () => void;
+    payload?: T;
 };
 
 export type BaseTabBarProps = {

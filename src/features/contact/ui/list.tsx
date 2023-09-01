@@ -22,7 +22,6 @@ function ContactsList() {
 
     const { data: searchData } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
 
-    const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
@@ -55,7 +54,7 @@ function ContactsList() {
         }
     };
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, contacts: contactsData });
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
 
     useUpdateEffect(() => {
         if (redirect.value) {

@@ -75,11 +75,15 @@ function CreateChatModalView(props: Props) {
                 ) : (
                     tabsAndLists.activeList?.map((i: any) =>
                         i?.departments?.map((dep: Department) => (
-                            <Collapse key={dep.id} title={dep?.name || ''}>
+                            <Collapse
+                                loading={tabsAndLists.loading}
+                                onTitleClick={() => tabsAndLists.getEmployees(dep.id)}
+                                key={dep.id}
+                                title={dep?.name || ''}
+                            >
                                 <Card.List
-                                    // sortByName
                                     selected={selectedContacts}
-                                    items={dep.employees?.map((i: any) => {
+                                    items={tabsAndLists.departmentsEmployees[dep.id]?.map((i: any) => {
                                         const employee: EmployeeProxy = employeeProxy(i);
                                         return {
                                             id: employee.id,

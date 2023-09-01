@@ -1,5 +1,7 @@
 import { ReactNode, CSSProperties } from 'react';
 
+import { BaseTypes } from '../../types';
+
 export type CollapseProps = {
     title: string;
     subtitle?: string;
@@ -8,4 +10,4 @@ export type CollapseProps = {
     openByClickingOnArrow?: boolean;
     onTitleClick?: (arg: string) => void;
     activeAnimate?: boolean;
-};
+} & BaseTypes.Statuses;

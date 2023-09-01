@@ -1,25 +1,26 @@
+import { prevCategory } from 'emoji-picker-react/dist/DomUtils/selectors';
 import { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { BaseTypes } from 'shared/types';
 
-import { contactTypes } from '..';
+import { contactApi, contactTypes } from '..';
 import { createMemo, useEasyState } from '../../../shared/hooks';
 import { TabBarTypes } from '../../../shared/ui';
-import { companyTypes } from '../../company';
+import { companyTypes, companyApi, employeeProxy } from '../../company';
+import { Company, Employee } from '../../company/model/types';
 import { UseContactsTabsAndListsReturnType } from '../model/types';
 
 type Props = {
-    contacts: contactTypes.Contact[] | BaseTypes.Empty;
     companies: companyTypes.Company[] | BaseTypes.Empty;
 };
 
 const memoTabs = createMemo((companies: companyTypes.Company[] | BaseTypes.Empty) => {
-    const tabs: TabBarTypes.TabBarItem[] = [{ id: 0, title: 'Личные', callback: () => '' }];
+    const tabs: TabBarTypes.TabBarItem<Company>[] = [{ id: 0, title: 'Личные', callback: () => '' }];
     if (companies?.length) {
         const arr: TabBarTypes.TabBarItem[] = [];
         companies.forEach((i, index) => {
-            arr.push({ id: index + 1, title: i.name || '', callback: () => '' });
+            arr.push({ id: index + 1, title: i.name || '', callback: () => '', payload: i });
         });
         return tabs.concat(arr);
     }
@@ -29,12 +30,35 @@ const memoTabs = createMemo((companies: companyTypes.Company[] | BaseTypes.Empty
 function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnType {
     const tabs = memoTabs(props.companies);
 
-    const activeTab = useEasyState<TabBarTypes.TabBarItem | null>(null);
+    const departmentId = useEasyState<number | null>(null);
+
+    const activeTab = useEasyState<TabBarTypes.TabBarItem<Company> | null>(null);
     const activeList = useEasyState<contactTypes.Contact[] | companyTypes.Company[]>([]);
+    const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
+
+    const { data: contacts } = contactApi.handleGetContacts({ type: 'registered' });
+    const { data: departmentEmployees, isLoading } = companyApi.handleGetDepartmentEmployees({
+        companyId: activeTab.value?.payload?.id,
+        departmentId: departmentId.value,
+    });
+
+    const getEmployees = (depId: number) => {
+        departmentId.set(depId);
+    };
 
     useUpdateEffect(() => {
-        if (props.contacts && activeTab.value?.title === 'Личные') {
-            activeList.set(props.contacts);
+        const key = departmentId.value as number;
+        if (departmentsEmployees.value[key]) {
+            console.log('eyyy');
+        } else {
+            departmentsEmployees.set((prev) => ({ ...prev, [key]: departmentEmployees }));
+        }
+    }, [departmentEmployees]);
+    // @ts-ignore
+
+    useUpdateEffect(() => {
+        if (contacts && activeTab.value?.title === 'Личные') {
+            activeList.set(contacts);
         } else {
             props.companies &&
                 props.companies.forEach((i) => {
@@ -47,14 +71,17 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
 
     useEffect(() => {
         tabs.length && activeTab.set(tabs[0]);
-        props.contacts?.length && activeList.set(props.contacts);
-    }, [props.contacts, props.companies]);
+        contacts?.length && activeList.set(contacts);
+    }, [contacts, props.companies]);
 
     return {
         tabs,
         activeTab: activeTab.value,
         setActiveTab: activeTab.set,
         activeList: activeList.value,
+        departmentsEmployees: departmentsEmployees.value,
+        getEmployees,
+        loading: isLoading,
     };
 }
 

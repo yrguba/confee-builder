@@ -28,7 +28,7 @@ class CompanyApi {
         });
     }
 
-    handleGetDepartmentEmployees(data: { companyId: string | undefined; departmentId: string | undefined }) {
+    handleGetDepartmentEmployees(data: { companyId: number | undefined | null; departmentId: number | undefined | null }) {
         return useQuery(
             ['get-department-employees', data.companyId, data.departmentId],
             () => axiosClient.get(`api/v2/companies/${data.companyId}/departments/${data.departmentId}/employees`),

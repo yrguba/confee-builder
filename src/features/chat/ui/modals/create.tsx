@@ -17,7 +17,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
 
     const { mutate: handleCreatePersonalChat, isLoading } = chatApi.handleCreatePersonalChat();
-    const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
+
     const { data: viewerData } = viewerApi.handleGetViewer();
 
     const createChat = () => {
@@ -35,7 +35,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         );
     };
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, contacts: contactsData });
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
 
     return (
         <CreateChatModalView

@@ -15,7 +15,7 @@ function Navbar() {
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, { path: string; counter: number | undefined }>[] = [
         { id: 0, title: 'Контакты', icon: 'contacts', payload: { path: '/contacts', counter: 0 } },
-        { id: 1, title: 'Сообщения', icon: 'messages', payload: { path: '/chats/all', counter: totalPendingMessages } },
+        { id: 1, title: 'Сообщения', icon: 'messages', payload: { path: '/chats', counter: totalPendingMessages } },
         { id: 2, title: 'Задачи', icon: 'tasks', payload: { path: '/tasks', counter: 0 } },
         { id: 3, title: 'Профиль', icon: 'profile', payload: { path: '/settings', counter: 0 } },
     ];

@@ -1,6 +1,8 @@
 import { TabBarTypes } from 'shared/ui';
 
+import { BaseTypes } from '../../../shared/types';
 import { companyTypes } from '../../company';
+import { Employee, EmployeeProxy } from '../../company/model/types';
 import { contactTypes } from '../index';
 
 export type Contact = {
@@ -24,6 +26,9 @@ export type UseContactsTabsAndListsReturnType = {
     activeTab: TabBarTypes.TabBarItem | null;
     setActiveTab: (tab: TabBarTypes.TabBarItem) => void;
     activeList: contactTypes.Contact[] | companyTypes.Company[];
+    getEmployees: (depId: number) => void;
+    departmentsEmployees: Record<number, Employee[]>;
+    loading: boolean;
 };
 
 export type Actions = 'delete' | 'mute' | 'audioCall' | 'videoCall' | 'message' | 'editName';
