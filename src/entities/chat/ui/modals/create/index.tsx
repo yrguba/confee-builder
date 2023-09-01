@@ -69,7 +69,7 @@ function CreateChatModalView(props: Props) {
                                 name: contact?.full_name || '',
                                 title: contact?.full_name || '',
                                 subtitle: contact?.phone || '',
-                                // onClick:() => selectedContacts.
+                                payload: { id: contact.user_id },
                             };
                         })}
                     />
@@ -93,6 +93,7 @@ function CreateChatModalView(props: Props) {
                                             name: employee?.full_name || '',
                                             title: employee?.full_name || '',
                                             subtitle: employee?.email || '',
+                                            payload: { id: employee.id },
                                         };
                                     })}
                                 />

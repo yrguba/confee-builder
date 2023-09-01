@@ -29,7 +29,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         }
         if (selectedContacts.array.length) {
             handleCreatePersonalChat(
-                { user_ids: selectedContacts.array.map((i) => i.id), is_group: isGroup.value },
+                { user_ids: selectedContacts.array.map((i) => i.payload.id), is_group: isGroup.value },
                 {
                     onSuccess: (data) => {
                         modal.close();
@@ -40,7 +40,10 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         }
         if (selectedEmployees.array.length) {
             handleCreateCompanyChat(
-                { body: { employee_ids: selectedEmployees.array.map((i) => i.id), is_group: isGroup.value }, companyId: tabsAndLists.activeTab?.payload?.id },
+                {
+                    body: { employee_ids: selectedEmployees.array.map((i) => i.payload.id), is_group: isGroup.value },
+                    companyId: tabsAndLists.activeTab?.payload?.id,
+                },
                 {
                     onSuccess: (data) => {
                         modal.close();

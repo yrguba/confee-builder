@@ -15,8 +15,9 @@ export type BaseCardProps = {
     avatarStatus?: keyof typeof userTypes.Statuses | null;
 };
 
-export type CardListItem = {
+export type CardListItem<T = any> = {
     id: number;
+    payload?: T;
 } & BaseCardProps;
 
 export type CardListProps = {
