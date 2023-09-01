@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { chatApi, CreateChatModalView } from 'entities/chat';
-import { contactProxy, contactApi } from 'entities/contact';
+import { chatApi, chatProxy, chatTypes, CreateChatModalView } from 'entities/chat';
+import { contactProxy, contactApi, useContactsTabsAndLists } from 'entities/contact';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal, Notification, ModalTypes, CardTypes } from 'shared/ui';
+
+import { viewerApi } from '../../../../entities/viewer';
 
 function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
@@ -12,8 +14,11 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     const isGroup = useEasyState(false);
     const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
+    const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
+
     const { mutate: handleCreatePersonalChat, isLoading } = chatApi.handleCreatePersonalChat();
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
+    const { data: viewerData } = viewerApi.handleGetViewer();
 
     const createChat = () => {
         if (!selectedContacts.array.length) {
@@ -30,11 +35,14 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         );
     };
 
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, contacts: contactsData });
+
     return (
         <CreateChatModalView
             isGroup={isGroup}
-            contacts={contactsData?.map((i) => contactProxy(i))}
+            tabsAndLists={tabsAndLists}
             selectedContacts={selectedContacts}
+            selectedEmployees={selectedEmployees}
             createChat={createChat}
             loading={isLoading}
         />
