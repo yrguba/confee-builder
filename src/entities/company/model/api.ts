@@ -1,10 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { axiosClient } from 'shared/configs';
 
 import { Company, Employee } from './types';
 import { httpHandlers } from '../../../shared/lib';
 import { Contact } from '../../contact/model/types';
+import { messages_limit } from '../../message/lib/constants';
 
 class CompanyApi {
     handleGetCompanies() {
@@ -28,16 +29,34 @@ class CompanyApi {
         });
     }
 
-    handleGetDepartmentEmployees(data: { companyId: number | undefined | null; departmentId: number | undefined | null }) {
-        return useQuery(
+    handleGetDepartmentEmployees(data: { initialPage?: number | undefined; companyId: number | undefined | null; departmentId: number | undefined | null }) {
+        return useInfiniteQuery(
             ['get-department-employees', data.companyId, data.departmentId],
-            () => axiosClient.get(`api/v2/companies/${data.companyId}/departments/${data.departmentId}/employees`),
+            ({ pageParam }) => {
+                return axiosClient.get(`api/v2/companies/${data.companyId}/departments/${data.departmentId}/employees`, {
+                    params: {
+                        page: pageParam || data.initialPage || 0,
+                        per_page: messages_limit,
+                    },
+                });
+            },
+
             {
                 enabled: !!data.departmentId && !!data.companyId,
                 staleTime: Infinity,
-                select: (res) => {
-                    const updRes = httpHandlers.response<{ data: Employee[] }>(res);
-                    return updRes.data?.data;
+                getPreviousPageParam: (lastPage, pages) => {
+                    const { current_page } = lastPage?.data.meta;
+                    return current_page > 1 ? current_page - 1 : undefined;
+                },
+                getNextPageParam: (lastPage, pages) => {
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
+                },
+                select: (data: any) => {
+                    return {
+                        pages: data?.pages?.reduce((employees: any, page: any) => [...[...page.data.data], ...employees], []),
+                        pageParams: [...data.pageParams].reverse(),
+                    };
                 },
             }
         );

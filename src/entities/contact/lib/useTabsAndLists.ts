@@ -40,6 +40,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     const { data: departmentEmployees, isLoading } = companyApi.handleGetDepartmentEmployees({
         companyId: activeTab.value?.payload?.id,
         departmentId: departmentId.value,
+        initialPage: 0,
     });
 
     const getEmployees = (depId: number) => {
@@ -51,10 +52,9 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         if (departmentsEmployees.value[key]) {
             console.log('eyyy');
         } else {
-            departmentsEmployees.set((prev) => ({ ...prev, [key]: departmentEmployees }));
+            departmentsEmployees.set((prev) => ({ ...prev, [key]: departmentEmployees?.pages }));
         }
-    }, [departmentEmployees]);
-    // @ts-ignore
+    }, [departmentEmployees?.pages]);
 
     useUpdateEffect(() => {
         if (contacts && activeTab.value?.title === 'Личные') {
