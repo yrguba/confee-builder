@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useEffect } from 'react';
 
 import { userService } from 'entities/user';
 import { useWidthMediaQuery, useHeightMediaQuery, UseArrayReturnType } from 'shared/hooks';
@@ -6,6 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input, Notification, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { useInView } from '../../../../shared/hooks';
 import { employeeProxy } from '../../../company';
 import { Employee, EmployeeProxy, Company, Department } from '../../../company/model/types';
 import contactProxy from '../../lib/proxy';
@@ -29,6 +30,12 @@ function ContactsListView(props: Props) {
 
     const contactsArr = foundContacts?.length ? foundContacts : tabsAndLists.activeList;
 
+    const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
+
+    useEffect(() => {
+        inViewLastItem && tabsAndLists.getNextPageEmployees();
+    }, [inViewLastItem]);
+
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             {!smHeightSize && (
@@ -46,9 +53,9 @@ function ContactsListView(props: Props) {
                     ? foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i)} {...props} />)
                     : tabsAndLists.activeList?.map((i: any) =>
                           i?.departments?.map((dep: Department) => (
-                              <Collapse key={dep.id} title={dep?.name || ''}>
-                                  {dep.employees.map((emp) => (
-                                      <Item key={emp.id} employee={employeeProxy(emp)} {...props} />
+                              <Collapse onTitleClick={() => tabsAndLists.getEmployees(dep.id)} key={dep.id} title={dep?.name || ''}>
+                                  {tabsAndLists.departmentsEmployees[dep.id]?.map((emp) => (
+                                      <Item ref={lastItem} key={emp.id} employee={employeeProxy(emp)} {...props} />
                                   ))}
                               </Collapse>
                           ))
@@ -58,7 +65,7 @@ function ContactsListView(props: Props) {
     );
 }
 
-function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Props) {
+const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeeProxy } & Props, ref: any) => {
     const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, searchInput, contact, employee, foundEmployees, foundContacts } = props;
 
     const mdWidthSize = useWidthMediaQuery().to('md');
@@ -86,7 +93,7 @@ function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Prop
     };
 
     return (
-        <div key={id} className={`${styles.item} ${activeUserId === id ? styles.item_active : ''}`}>
+        <div ref={ref} key={id} className={`${styles.item} ${activeUserId === id ? styles.item_active : ''}`}>
             <div className={styles.body}>
                 <div className={styles.card}>
                     <Card avatarStatus={status} onClick={clickUser} size="m" name={full_name} img={avatar} title={full_name} subtitle={phone || ''} />
@@ -114,6 +121,6 @@ function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Prop
             </div>
         </div>
     );
-}
+});
 
 export default ContactsListView;

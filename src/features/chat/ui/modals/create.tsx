@@ -2,10 +2,9 @@ import React from 'react';
 
 import { chatApi, chatProxy, chatTypes, CreateChatModalView } from 'entities/chat';
 import { contactProxy, contactApi, useContactsTabsAndLists } from 'entities/contact';
+import { viewerApi } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal, Notification, ModalTypes, CardTypes } from 'shared/ui';
-
-import { viewerApi } from '../../../../entities/viewer';
 
 function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
