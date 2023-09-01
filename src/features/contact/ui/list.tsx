@@ -9,6 +9,8 @@ import { viewerApi } from 'entities/viewer';
 import { useEasyState, useRouter } from 'shared/hooks';
 import { Notification, Input } from 'shared/ui';
 
+import { EmployeeProxy } from '../../../entities/company/model/types';
+
 function ContactsList() {
     const { navigate, params, pathname } = useRouter();
 
@@ -26,7 +28,7 @@ function ContactsList() {
     const { data: viewerData } = viewerApi.handleGetViewer();
 
     const { data: chatData } = chatApi.handleGetPrivateChat({ userId: Number(params.user_id) });
-    const { mutate: handleCreateChat } = chatApi.handleCreateChat();
+    const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
 
     const notification = Notification.use();
 
@@ -38,16 +40,16 @@ function ContactsList() {
         navigate(`company/${employee.companies[0].id}/department/${employee.departments[0].id}/employee/${employee.id}`);
     };
 
-    const actions = (data?: { action: contactTypes.Actions; contact: contactTypes.ContactProxy | null }) => {
-        // navigate(`contact/${data?.contact.id}/user/${data?.contact.user_id}`);
+    const actions = (data?: { action: contactTypes.Actions; contact: contactTypes.ContactProxy | null; employee: EmployeeProxy | null }) => {
+        if (data?.contact) clickContact(data.contact);
+        if (data?.employee) clickEmployee(data.employee);
         switch (data?.action) {
             case 'delete':
                 return data.contact && handleDeleteContact({ contactId: data.contact.id });
             case 'mute':
                 return notification.inDev();
             case 'message':
-                // return redirect.set(true);
-                return;
+                return redirect.set(true);
             case 'audioCall':
                 return notification.inDev();
         }
@@ -61,7 +63,7 @@ function ContactsList() {
                 return startTransition(() => navigate(`/chats/chat/${chatData?.id}`));
             }
             params.user_id &&
-                handleCreateChat(
+                handleCreatePersonalChat(
                     { user_ids: [params.user_id], is_group: false },
                     {
                         onSuccess: (res) => {

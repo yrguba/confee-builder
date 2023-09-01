@@ -16,7 +16,7 @@ function userGateway() {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         const viewerId = viewerService.getId();
         onMessage('UserUpdated', (socketData) => {
-            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data = draft?.data?.data.map((chat: chatTypes.Chat) => {

@@ -13,7 +13,7 @@ function chatGateway() {
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('ChatUpdated', (socketData) => {
-            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data = draft?.data?.data.map((chat: Chat) => {
@@ -30,7 +30,7 @@ function chatGateway() {
             });
         });
         onMessage('ChatCreated', (socketData) => {
-            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                 if (!cacheData?.data?.data) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     const foundChat = draft.data.data.find((i: ChatProxy) => i.id === socketData.data.chat.id);
@@ -40,7 +40,7 @@ function chatGateway() {
         });
         onMessage('ChatDeleted', (socketData) => {
             const openChatId = ChatService.getOpenChatId();
-            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
                 if (Number(openChatId) === socketData.data.chat_id) {
                     navigate('/chats');

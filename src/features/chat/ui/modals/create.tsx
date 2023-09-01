@@ -12,14 +12,14 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     const isGroup = useEasyState(false);
     const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
-    const { mutate: handleCreateChat, isLoading } = chatApi.handleCreateChat();
+    const { mutate: handleCreatePersonalChat, isLoading } = chatApi.handleCreatePersonalChat();
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
 
     const createChat = () => {
         if (!selectedContacts.array.length) {
             return notifications.error({ title: isGroup.value ? `Выберите участников` : `Выберите кому хотите написать` });
         }
-        handleCreateChat(
+        handleCreatePersonalChat(
             { user_ids: selectedContacts.array.map((i) => i.id), is_group: isGroup.value },
             {
                 onSuccess: (data) => {

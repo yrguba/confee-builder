@@ -15,7 +15,7 @@ type Props = {
     clickContact: (user: ContactProxy) => void;
     clickEmployee: (user: EmployeeProxy) => void;
     activeUserId: number | null;
-    actions: (data?: { action: Actions; contact: ContactProxy | null }) => void;
+    actions: (data?: { action: Actions; contact: ContactProxy | null; employee: EmployeeProxy | null }) => void;
     tabsAndLists: UseTabsAndListsReturnType;
     searchInput: InputTypes.UseReturnedType;
     foundContacts: Contact[] | BaseTypes.Empty;
@@ -63,7 +63,11 @@ function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Prop
 
     const mdWidthSize = useWidthMediaQuery().to('md');
 
-    const items: BaseTypes.Item<IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants, Actions, { action: Actions; contact: ContactProxy | null }>[] = [
+    const items: BaseTypes.Item<
+        IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants,
+        Actions,
+        { action: Actions; contact: ContactProxy | null; employee: EmployeeProxy | null }
+    >[] = [
         { id: 0, icon: 'phone', callback: actions, payload: 'audioCall', title: '' },
         { id: 1, icon: 'messages', callback: actions, payload: 'message', title: '' },
         { id: 2, icon: 'mute', callback: actions, payload: 'mute', title: '' },
@@ -95,7 +99,7 @@ function Item(props: { contact?: ContactProxy; employee?: EmployeeProxy } & Prop
                                 <Button.Circle
                                     key={i.id}
                                     radius={36}
-                                    onClick={() => i.callback && i.callback({ action: i.payload, contact: contact || null })}
+                                    onClick={() => i.callback && i.callback({ action: i.payload, contact: contact || null, employee: employee || null })}
                                     variant="inherit"
                                 >
                                     {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}

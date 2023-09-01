@@ -39,8 +39,9 @@ class ChatApi {
         });
     };
 
-    handleGetChats = (data?: { type: 'all' }) => {
-        return useQuery(['get-chats'], () => axiosClient.get(`${this.pathPrefix}/${data?.type || 'all'}`, { params: { per_page: chats_limit } }), {
+    handleGetChats = (data?: { type: 'all' | 'personal' | 'company' }) => {
+        const type = data?.type || 'all';
+        return useQuery(['get-chats', type], () => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit } }), {
             staleTime: Infinity,
             select: (data) => {
                 const res = httpHandlers.response<{ data: Chat[] }>(data);
@@ -49,12 +50,12 @@ class ChatApi {
         });
     };
 
-    handleCreateChat() {
+    handleCreatePersonalChat() {
         const queryClient = useQueryClient();
         return useMutation((data: { user_ids: number[] | string[] | null; is_group: boolean }) => axiosClient.post(`${this.pathPrefix}`, data), {
             onSuccess: async (res, data) => {
                 const updRes = httpHandlers.response<{ data: Chat }>(res);
-                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                     return produce(cacheData, (draft: any) => {
                         draft?.data?.data.unshift(updRes.data?.data);
                     });
@@ -63,12 +64,30 @@ class ChatApi {
         });
     }
 
+    handleCreateCompanyChat() {
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { employee_ids: number[] | string[] | null; companyId: number; is_group: boolean }) =>
+                axiosClient.post(`${this.pathPrefix}/for-company/${data.companyId}`, data),
+            {
+                onSuccess: async (res, data) => {
+                    const updRes = httpHandlers.response<{ data: Chat }>(res);
+                    queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
+                        return produce(cacheData, (draft: any) => {
+                            draft?.data?.data.unshift(updRes.data?.data);
+                        });
+                    });
+                },
+            }
+        );
+    }
+
     handleDeleteChat() {
         const queryClient = useQueryClient();
         const { navigate } = useRouter();
         return useMutation((data: { chatId: number }) => axiosClient.delete(`${this.pathPrefix}/${data.chatId}`), {
             onSuccess: async (res, data) => {
-                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                     if (!cacheData?.data?.data.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
                         draft.data.data = draft?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
@@ -117,7 +136,7 @@ class ChatApi {
         const queryClient = useQueryClient();
         return useMutation((data: { chatId: number }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`), {
             onSuccess: async (res, data) => {
-                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                     if (!cacheData?.data?.data.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
                         draft.data.data = draft?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);

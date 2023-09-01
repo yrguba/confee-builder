@@ -52,7 +52,7 @@ function messageGateway() {
                     }
                 });
             });
-            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data = draft?.data?.data.map((chat: Chat) => {
@@ -82,7 +82,7 @@ function messageGateway() {
             });
         });
         onMessage('MessageUpdated', (socketData) => {
-            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data = draft?.data?.data.map((chat: Chat) => {
@@ -109,7 +109,7 @@ function messageGateway() {
             });
         });
         onMessage('MessageRead', (socketData) => {
-            queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data = draft?.data?.data.map((chat: Chat) => {
@@ -152,7 +152,7 @@ function messageGateway() {
                         draft.data.data = { ...draft.data.data, typing: text };
                     });
                 });
-                queryClient.setQueryData(['get-chats'], (cacheData: any) => {
+                queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                     if (!cacheData?.data?.data.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
                         draft.data.data = draft?.data?.data.map((chat: Chat) => {
