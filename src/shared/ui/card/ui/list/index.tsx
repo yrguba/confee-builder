@@ -1,11 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import styles from './styles.module.scss';
+import { useInView } from '../../../../hooks';
 import { Box, Card, Icons } from '../../../index';
 import { CardListProps } from '../../types';
 
 function CardList(props: CardListProps) {
-    const { items, selected, sortByName } = props;
+    const { items, selected, sortByName, visibleLastItem } = props;
 
     const getArray = () => {
         if (sortByName && items?.length) {
@@ -27,12 +29,18 @@ function CardList(props: CardListProps) {
         return arr[index - 1].name[0] !== arr[index].name[0] && item;
     };
 
+    const { ref: lastCard, inView: inViewLastCard } = useInView({ delay: 200 });
+
+    useEffect(() => {
+        visibleLastItem && visibleLastItem(inViewLastCard);
+    }, [inViewLastCard]);
+
     return (
         <div className={styles.wrapper}>
             {arr?.map((i, index) => (
                 <Fragment key={i.id}>
                     {getDelimiter(arr, index)}
-                    <div className={styles.item} onClick={() => selected && selected.pushOrDelete(i)}>
+                    <div className={styles.item} onClick={() => selected && selected.pushOrDelete(i)} ref={index + 1 === arr?.length ? lastCard : null}>
                         <div className={styles.info}>
                             <Card onClick={() => ''} key={i.id} name={i?.name || ''} title={i?.title || ''} img={i?.img || ''} subtitle={i?.subtitle || ' '} />
                         </div>

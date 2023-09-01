@@ -23,4 +23,5 @@ export type CardListProps = {
     items: CardListItem[] | BaseTypes.Empty;
     selected?: UseArrayReturnType<CardListItem>;
     sortByName?: boolean;
+    visibleLastItem?: (value: boolean) => void;
 };
