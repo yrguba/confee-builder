@@ -7,10 +7,7 @@ const ChatsPage = lazy(() => import('./ui'));
 
 const chatsPageRouters = ['/chats/all', '/chats/personal', '/chats/company'].map((path) => (
     <Route key={path} path={path} element={<ChatsPage />}>
-        {['chat/:chat_id'].map((path) => (
-            <Route key={path} path={path} element={<Chat />} />
-        ))}
+        <Route path="chat/:chat_id" element={<Chat />} />
     </Route>
 ));
-
 export default chatsPageRouters;
