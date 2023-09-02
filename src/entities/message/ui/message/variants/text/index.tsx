@@ -23,7 +23,7 @@ function TextMessage(props: Props) {
     const linksInfo = useArray({});
 
     const checkLongWord = useCallback((str: string, checkLink = true) => {
-        return str.split('\n')?.map((row, index) => {
+        return str?.split('\n')?.map((row, index) => {
             return (
                 <div key={index} className={styles.row}>
                     {row.split(' ')?.map((word, index) => {

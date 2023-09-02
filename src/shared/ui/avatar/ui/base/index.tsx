@@ -1,16 +1,16 @@
 import React from 'react';
 
 import { companyTypes } from 'entities/company';
+import { userTypes } from 'entities/user';
 import { useFetchMediaContent } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { userTypes } from '../../../../../entities/user';
 import Box from '../../../box';
 import LoadingIndicator from '../../../loading-indicator';
 import { BaseAvatarProps } from '../../types';
 
 function Avatar(props: BaseAvatarProps) {
-    const { size = 80, name, img, circle = true, status, opacity = 1 } = props;
+    const { size = 80, name, img, circle = true, employeeStatuses, networkStatus, opacity = 1 } = props;
 
     const { src, error, isLoading } = useFetchMediaContent(img || '');
 
@@ -75,9 +75,17 @@ function Avatar(props: BaseAvatarProps) {
             }}
         >
             <Box.Animated
-                visible={!!status}
+                visible={!!employeeStatuses || !!networkStatus}
                 className={styles.status}
-                style={{ backgroundColor: status ? userTypes.Statuses[status] : '', width: size / 5, height: size / 5 }}
+                style={{
+                    backgroundColor: employeeStatuses
+                        ? companyTypes.EmployeeStatuses[employeeStatuses]
+                        : networkStatus
+                        ? userTypes.NetworkStatuses[networkStatus]
+                        : '',
+                    width: size / 5,
+                    height: size / 5,
+                }}
             />
 
             {isLoading ? (

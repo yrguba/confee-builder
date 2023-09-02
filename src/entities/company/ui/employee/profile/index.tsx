@@ -6,6 +6,7 @@ import { Avatar, Box, Button, Card, Dropdown, DropdownTypes, Icons, IconsTypes, 
 
 import styles from './styles.module.scss';
 import { EmployeeProxy } from '../../../model/types';
+import Status from '../status';
 
 type Props = {
     employee: EmployeeProxy | BaseTypes.Empty;
@@ -20,7 +21,6 @@ function EmployeeProfileView(props: Props) {
         { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => '' },
         { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
     ];
-    console.log(employee);
 
     const secondaryInfo = [
         { id: 0, title: '', subtitle: 'Никнейм' },
@@ -44,7 +44,7 @@ function EmployeeProfileView(props: Props) {
                 <Avatar size={200} img="" name={employee?.full_name} />
 
                 <div className={styles.name}>
-                    <Title textAlign="center" variant="H3B">
+                    <Title textAlign="center" variant="H3M">
                         {employee?.full_name}
                     </Title>
                     <Button tag>tfn</Button>
@@ -62,11 +62,21 @@ function EmployeeProfileView(props: Props) {
                     </Dropdown.Menu>
                 ))}
             </div>
-            <div className={styles.companyInfo}>
-                {employee?.companies.map((i, index) => (
+            {employee?.companies.map((i, index) => (
+                <div key={i.id} className={styles.companyInfo}>
                     <Card icon={<Icons.Logo variant="softworks" />} title={i.name || ''} subtitle={employee.departments[index].name || ''} />
-                ))}
-            </div>
+                    <div className={styles.position}>
+                        <Title variant="H3M">{employee?.position || ''}</Title>
+                        <Title variant="caption1M" primary={false}>
+                            Должность
+                        </Title>
+                    </div>
+                    <div className={styles.status}>
+                        <Status status={employee?.status} />
+                    </div>
+                </div>
+            ))}
+
             <div className={styles.secondaryInfo}>
                 {secondaryInfo.map((i) => (
                     <div key={i.id} className={styles.item}>

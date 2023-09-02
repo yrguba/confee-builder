@@ -1,4 +1,11 @@
-import { userTypes } from 'entities/user';
+export enum EmployeeStatuses {
+    'in office' = '#29CC39',
+    'home work' = '#8833FF',
+    'business trip' = '#33BFFF',
+    'vacation' = '#2EE5C9',
+    'sick leave' = '#EFF2F7',
+    'not available' = '#E62E7B',
+}
 
 export type Employee = {
     avatar: string | null;
@@ -10,7 +17,7 @@ export type Employee = {
     id: 580;
     last_name: string | null;
     position: string | null;
-    status: keyof typeof userTypes.Statuses;
+    status: keyof typeof EmployeeStatuses;
     updated_at: Date;
 };
 

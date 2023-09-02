@@ -33,7 +33,16 @@
     }
   }
 
-  .secondaryInfo {
+  .companyInfo {
+    gap: 18px !important;
+
+    .position,.status {
+      width: 100%;
+    }
+
+  }
+
+  .secondaryInfo, .companyInfo {
     @include flex-column();
     @include box-size(calc(84% - 40px), auto);
     gap: 4px;

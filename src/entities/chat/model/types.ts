@@ -3,7 +3,7 @@ import { TabBarTypes } from '../../../shared/ui';
 import { companyTypes } from '../../company';
 import { contactTypes } from '../../contact';
 import { Message } from '../../message/model/types';
-import { User, Statuses } from '../../user/model/types';
+import { User, NetworkStatuses } from '../../user/model/types';
 
 export type Chat = {
     name: string;
@@ -27,7 +27,7 @@ export type ChatProxy = {
     date: string;
     checkIsMyLastMessage: boolean;
     subtitle: string;
-    secondMemberStatus: keyof typeof Statuses | null;
+    secondMemberStatus: keyof typeof NetworkStatuses;
 } & Chat;
 
 export type UseChatsTabsAndListsReturnType = {

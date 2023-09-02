@@ -15,7 +15,8 @@ export type BaseCardProps = {
     visibleAvatar?: boolean;
     size?: 's' | 'm';
     onClick?: () => void;
-    avatarStatus?: keyof typeof userTypes.Statuses | null;
+    avatarNetworkStatus?: keyof typeof userTypes.NetworkStatuses;
+    avatarEmployeeStatuses?: keyof typeof companyTypes.EmployeeStatuses;
 };
 
 export type CardListItem<T = any> = {

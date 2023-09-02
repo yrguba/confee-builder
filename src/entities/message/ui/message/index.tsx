@@ -38,7 +38,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
         my_last: lastMessageInBlock && isMy,
         another_last: lastMessageInBlock && !isMy,
     });
-
+    console.log('render');
     return (
         <Box className={styles.wrapper}>
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={author?.avatar} />}
@@ -98,5 +98,13 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
 
 export default memo(Message, (prevProps, nextProps): any => {
     if (prevProps.message?.text !== nextProps.message?.text) return false;
+    if (prevProps.message?.isMock !== nextProps.message?.isMock) return false;
+    if (prevProps.message?.reply_to_message !== nextProps.message?.reply_to_message) return false;
+    if (prevProps.message?.is_edited !== nextProps.message?.is_edited) return false;
+    if (prevProps.message?.reactions !== nextProps.message?.reactions) return false;
+    if (prevProps.message?.lastMessageInBlock !== nextProps.message?.lastMessageInBlock) return false;
+    if (prevProps.message?.users_have_read !== nextProps.message?.users_have_read) return false;
+    if (prevProps.message?.isFirstUnread !== nextProps.message?.isFirstUnread) return false;
+    if (prevProps.message?.forwarded_from_message !== nextProps.message?.forwarded_from_message) return false;
     return true;
 });
