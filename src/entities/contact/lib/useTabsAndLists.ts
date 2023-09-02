@@ -6,7 +6,7 @@ import { companyService } from 'entities/company';
 import { BaseTypes } from 'shared/types';
 
 import { contactApi, contactTypes } from '..';
-import { createMemo, useEasyState } from '../../../shared/hooks';
+import { createMemo, useEasyState, useRouter } from '../../../shared/hooks';
 import { Input, TabBarTypes } from '../../../shared/ui';
 import { companyTypes, companyApi, employeeProxy } from '../../company';
 import { Company, Employee } from '../../company/model/types';
@@ -17,7 +17,7 @@ type Props = {
 };
 
 const memoTabs = createMemo((companies: companyTypes.Company[] | BaseTypes.Empty) => {
-    const tabs: TabBarTypes.TabBarItem<Company>[] = [{ id: 0, title: 'Личные', callback: () => '' }];
+    const tabs: TabBarTypes.TabBarItem<Company>[] = [{ id: 0, title: 'личные', callback: () => '' }];
     if (companies?.length) {
         const arr: TabBarTypes.TabBarItem[] = [];
         companies.forEach((i, index) => {
@@ -31,15 +31,9 @@ const memoEmployees = createMemo(companyService.getUpdatedEmployeesList);
 
 function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnType {
     const tabs = memoTabs(props.companies);
-
+    const { navigate, pathname } = useRouter();
     const searchInput = Input.use({});
-    const {
-        data: searchData,
-        isLoading: searchLoading,
-        isFetching,
-        error,
-        isSuccess,
-    } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
+    const { data: searchData, isLoading: searchLoading, isFetching } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
 
     const departmentId = useEasyState<number | null>(null);
 
@@ -69,13 +63,19 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         departmentId.set(depId);
     };
 
+    const clickTab = (tab: TabBarTypes.TabBarItem) => {
+        activeTab.set(tab);
+        if (tab.title === 'личные') return navigate('/contacts');
+        return navigate('/companies');
+    };
+
     useUpdateEffect(() => {
         const key = departmentId.value as number;
         departmentsEmployees.set((prev) => ({ ...prev, [key]: employees }));
     }, [departmentEmployees?.pages]);
 
     useUpdateEffect(() => {
-        if (contacts && activeTab.value?.title === 'Личные') {
+        if (contacts && activeTab.value?.title === 'личные') {
             activeList.set(contacts);
         } else {
             props.companies &&
@@ -88,14 +88,23 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     }, [activeTab.value]);
 
     useEffect(() => {
-        tabs.length && activeTab.set(tabs[0]);
-        contacts?.length && activeList.set(contacts);
-    }, [contacts, props.companies]);
+        if (pathname.includes('companies')) {
+            tabs.length && activeTab.set(tabs[1]);
+            props.companies && activeList.set(props.companies);
+        }
+    }, [props.companies]);
+
+    useEffect(() => {
+        if (pathname.includes('contacts')) {
+            tabs.length && activeTab.set(tabs[0]);
+            contacts?.length && activeList.set(contacts);
+        }
+    }, [contacts]);
 
     return {
         tabs,
         activeTab: activeTab.value,
-        setActiveTab: activeTab.set,
+        setActiveTab: clickTab,
         activeList: activeList.value,
         departmentsEmployees: departmentsEmployees.value,
         getEmployees,

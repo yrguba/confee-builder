@@ -1,11 +1,9 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { AudioPlayer, Avatar, Box, Button, Card, Document, Dropdown, DropdownTypes, Icons, IconsTypes, Image, TabBar, Title } from 'shared/ui';
+import { Avatar, Button, Dropdown, DropdownTypes, Icons, IconsTypes, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useWidthMediaQuery } from '../../../../shared/hooks';
-import { userService } from '../../../user';
 import { ContactProxy } from '../../model/types';
 
 type Props = {
@@ -38,7 +36,7 @@ function ContactProfileView(props: Props) {
     ];
 
     return (
-        <Box.Animated visible className={styles.wrapper}>
+        <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
                 <Avatar size={200} img="" name={contact?.full_name} />
 
@@ -72,7 +70,7 @@ function ContactProfileView(props: Props) {
                     </div>
                 ))}
             </div>
-        </Box.Animated>
+        </div>
     );
 }
 

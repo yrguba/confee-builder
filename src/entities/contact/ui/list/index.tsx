@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect } from 'react';
 
-import { useWidthMediaQuery, useHeightMediaQuery } from 'shared/hooks';
+import { useWidthMediaQuery, useHeightMediaQuery, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Icons, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input } from 'shared/ui';
 
@@ -21,7 +21,7 @@ type Props = {
 
 function ContactsListView(props: Props) {
     const { activeUserId, clickContact, clickEmployee, actions, tabsAndLists, loading } = props;
-
+    const { navigate, params, pathname } = useRouter();
     const smHeightSize = useHeightMediaQuery().to('sm');
 
     const contactsArr = tabsAndLists.foundContacts?.length ? tabsAndLists.foundContacts : tabsAndLists.activeList;
@@ -42,8 +42,8 @@ function ContactsListView(props: Props) {
             <div className={styles.tabs}>
                 <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
             </div>
-            <div className={styles.list}>
-                {tabsAndLists.activeTab?.title === 'Личные'
+            <Box.Animated visible key={pathname} className={styles.list}>
+                {tabsAndLists.activeTab?.title === 'личные'
                     ? contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
                     : tabsAndLists.foundEmployees?.length
                     ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i)} {...props} />)
@@ -56,7 +56,7 @@ function ContactsListView(props: Props) {
                               </Collapse>
                           ))
                       )}
-            </div>
+            </Box.Animated>
         </Box.Animated>
     );
 }

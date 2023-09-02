@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { companyTypes } from 'entities/company';
 import { userTypes } from 'entities/user';
 
@@ -6,6 +8,7 @@ import { BaseTypes } from '../../types';
 
 export type BaseCardProps = {
     img?: string | BaseTypes.Empty;
+    icon?: ReactNode;
     name?: string;
     title?: string;
     subtitle?: string;
