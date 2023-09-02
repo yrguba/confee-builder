@@ -41,7 +41,7 @@ function EmployeeProfileView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
-                <Avatar size={200} img="" name={employee?.full_name} />
+                <Avatar size={200} img={employee?.avatar} name={employee?.full_name} />
 
                 <div className={styles.name}>
                     <Title textAlign="center" variant="H3M">

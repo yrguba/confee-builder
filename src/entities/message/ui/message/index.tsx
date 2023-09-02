@@ -38,7 +38,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
         my_last: lastMessageInBlock && isMy,
         another_last: lastMessageInBlock && !isMy,
     });
-    console.log('render');
+
     return (
         <Box className={styles.wrapper}>
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={author?.avatar} />}

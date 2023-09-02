@@ -13,9 +13,7 @@ class ViewerApi {
 
     handleGetViewer() {
         const storage = useStorage<appTypes.ValuesInStorage>();
-        const { data: companies, isLoading } = companyApi.handleGetCompanies();
         return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
-            enabled: isLoading,
             staleTime: Infinity,
             select: (res) => {
                 const updRes = httpHandlers.response<{ data: { user: Viewer; session: any; companies: companyTypes.Company[] } }>(res);
@@ -23,7 +21,7 @@ class ViewerApi {
                 return {
                     user: updRes.data?.data.user,
                     session: updRes.data?.data.session,
-                    companies,
+                    companies: updRes.data?.data.companies,
                 };
             },
         });

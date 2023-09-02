@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, memo, useEffect } from 'react';
 
 import { useWidthMediaQuery, useHeightMediaQuery, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -49,7 +49,7 @@ function ContactsListView(props: Props) {
                     ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i)} {...props} />)
                     : tabsAndLists.activeList?.map((i: any) =>
                           i?.departments?.map((dep: Department) => (
-                              <Collapse onTitleClick={() => tabsAndLists.getEmployees(dep.id)} key={dep.id} title={dep?.name || ''}>
+                              <Collapse isOpen onTitleClick={() => tabsAndLists.getEmployees(dep.id)} key={dep.id} title={dep?.name || ''}>
                                   {tabsAndLists.departmentsEmployees[dep.id]?.map((emp) => (
                                       <Item ref={lastItem} key={emp.id} employee={employeeProxy(emp)} {...props} />
                                   ))}
@@ -120,3 +120,11 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
 });
 
 export default ContactsListView;
+// export default memo(ContactsListView, (prevProps, nextProps): any => {
+//     // if (prevProps.activeUserId !== nextProps.activeUserId) return false;
+//     if (prevProps.tabsAndLists.activeTab?.id !== nextProps.tabsAndLists.activeTab?.id) return false;
+//     // if (prevProps.tabsAndLists.tabs.length !== nextProps.tabsAndLists.tabs.length) return false;
+//     // if (prevProps.tabsAndLists.activeList.length !== nextProps.tabsAndLists.activeList.length) return false;
+//     if (prevProps.tabsAndLists.departmentsEmployees !== nextProps.tabsAndLists.departmentsEmployees) return false;
+//     return true;
+// });

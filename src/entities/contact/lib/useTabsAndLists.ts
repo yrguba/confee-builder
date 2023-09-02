@@ -1,5 +1,5 @@
 import { prevCategory } from 'emoji-picker-react/dist/DomUtils/selectors';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { companyService } from 'entities/company';
@@ -31,6 +31,7 @@ const memoEmployees = createMemo(companyService.getUpdatedEmployeesList);
 
 function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnType {
     const tabs = memoTabs(props.companies);
+
     const { navigate, pathname } = useRouter();
     const searchInput = Input.use({});
     const { data: searchData, isLoading: searchLoading, isFetching } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
