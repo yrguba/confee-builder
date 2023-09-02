@@ -10,4 +10,5 @@ export type CollapseProps = {
     openByClickingOnArrow?: boolean;
     onTitleClick?: (arg: string) => void;
     activeAnimate?: boolean;
+    openItemId?: number | undefined;
 } & BaseTypes.Statuses;

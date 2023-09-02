@@ -7,8 +7,10 @@ import { Box, Title } from '../../index';
 import { CollapseProps } from '../types';
 
 function Collapse(props: CollapseProps) {
-    const { title, children, subtitle, isOpen, onTitleClick, openByClickingOnArrow, loading } = props;
+    const { title, children, subtitle, isOpen, onTitleClick, openByClickingOnArrow, openItemId, loading } = props;
+
     const [visible, toggle] = useToggle();
+
     const [isPending, startTransition] = useTransition();
     const headerClick = () => {
         !openByClickingOnArrow && toggle();
