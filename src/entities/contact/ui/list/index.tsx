@@ -1,14 +1,13 @@
 import React, { forwardRef, useEffect } from 'react';
 
-import { userService } from 'entities/user';
-import { useWidthMediaQuery, useHeightMediaQuery, UseArrayReturnType } from 'shared/hooks';
+import { useWidthMediaQuery, useHeightMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input, Notification, InputTypes } from 'shared/ui';
+import { Box, Icons, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useInView } from '../../../../shared/hooks';
 import { employeeProxy } from '../../../company';
-import { Employee, EmployeeProxy, Company, Department } from '../../../company/model/types';
+import { EmployeeProxy, Department } from '../../../company/model/types';
 import contactProxy from '../../lib/proxy';
 import { ContactProxy, Actions, UseContactsTabsAndListsReturnType, Contact } from '../../model/types';
 
@@ -18,17 +17,14 @@ type Props = {
     activeUserId: number | null;
     actions: (data?: { action: Actions; contact: ContactProxy | null; employee: EmployeeProxy | null }) => void;
     tabsAndLists: UseContactsTabsAndListsReturnType;
-    searchInput: InputTypes.UseReturnedType;
-    foundContacts: Contact[] | BaseTypes.Empty;
-    foundEmployees: Employee[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function ContactsListView(props: Props) {
-    const { activeUserId, clickContact, clickEmployee, actions, tabsAndLists, loading, searchInput, foundContacts, foundEmployees } = props;
+    const { activeUserId, clickContact, clickEmployee, actions, tabsAndLists, loading } = props;
 
     const smHeightSize = useHeightMediaQuery().to('sm');
 
-    const contactsArr = foundContacts?.length ? foundContacts : tabsAndLists.activeList;
+    const contactsArr = tabsAndLists.foundContacts?.length ? tabsAndLists.foundContacts : tabsAndLists.activeList;
 
     const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
 
@@ -40,7 +36,7 @@ function ContactsListView(props: Props) {
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             {!smHeightSize && (
                 <div className={styles.search}>
-                    <Input {...searchInput} prefixIcon="search" />
+                    <Input prefixIcon="search" />
                 </div>
             )}
             <div className={styles.tabs}>
@@ -49,8 +45,8 @@ function ContactsListView(props: Props) {
             <div className={styles.list}>
                 {tabsAndLists.activeTab?.title === 'Личные'
                     ? contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
-                    : foundEmployees?.length
-                    ? foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i)} {...props} />)
+                    : tabsAndLists.foundEmployees?.length
+                    ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i)} {...props} />)
                     : tabsAndLists.activeList?.map((i: any) =>
                           i?.departments?.map((dep: Department) => (
                               <Collapse onTitleClick={() => tabsAndLists.getEmployees(dep.id)} key={dep.id} title={dep?.name || ''}>
@@ -66,7 +62,7 @@ function ContactsListView(props: Props) {
 }
 
 const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeeProxy } & Props, ref: any) => {
-    const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, searchInput, contact, employee, foundEmployees, foundContacts } = props;
+    const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, contact, employee } = props;
 
     const mdWidthSize = useWidthMediaQuery().to('md');
 

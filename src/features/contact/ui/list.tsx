@@ -18,10 +18,6 @@ function ContactsList() {
 
     const redirect = useEasyState(false);
 
-    const searchInput = Input.use({});
-
-    const { data: searchData } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
-
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
@@ -80,9 +76,6 @@ function ContactsList() {
             clickEmployee={clickEmployee}
             activeUserId={Number(params.contact_id) || Number(params.employee_id) || null}
             tabsAndLists={tabsAndLists}
-            searchInput={searchInput}
-            foundContacts={searchInput.value ? searchData?.contacts : null}
-            foundEmployees={searchInput.value ? searchData?.employees : null}
         />
     );
 }

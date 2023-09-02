@@ -7,7 +7,7 @@ import { BaseTypes } from 'shared/types';
 
 import { contactApi, contactTypes } from '..';
 import { createMemo, useEasyState } from '../../../shared/hooks';
-import { TabBarTypes } from '../../../shared/ui';
+import { Input, TabBarTypes } from '../../../shared/ui';
 import { companyTypes, companyApi, employeeProxy } from '../../company';
 import { Company, Employee } from '../../company/model/types';
 import { UseContactsTabsAndListsReturnType } from '../model/types';
@@ -31,6 +31,15 @@ const memoEmployees = createMemo(companyService.getUpdatedEmployeesList);
 
 function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnType {
     const tabs = memoTabs(props.companies);
+
+    const searchInput = Input.use({});
+    const {
+        data: searchData,
+        isLoading: searchLoading,
+        isFetching,
+        error,
+        isSuccess,
+    } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
 
     const departmentId = useEasyState<number | null>(null);
 
@@ -91,6 +100,9 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         departmentsEmployees: departmentsEmployees.value,
         getEmployees,
         getNextPageEmployees,
+        searchInput,
+        foundContacts: isFetching ? null : searchInput.value ? searchData?.contacts || [] : null,
+        foundEmployees: isFetching ? null : searchInput.value ? searchData?.employees || [] : null,
         loading: isLoading,
     };
 }

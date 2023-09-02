@@ -22,6 +22,8 @@ type Props = {
 function CreateChatModalView(props: Props) {
     const { selectedContacts, selectedEmployees, isGroup, createChat, tabsAndLists, loading } = props;
 
+    const contactsArr = tabsAndLists.foundContacts ? tabsAndLists.foundContacts : tabsAndLists.activeList;
+
     const toggle = () => {
         isGroup.toggle();
         selectedContacts.clear();
@@ -61,10 +63,10 @@ function CreateChatModalView(props: Props) {
                     <Card.List
                         sortByName
                         selected={selectedContacts}
-                        items={tabsAndLists.activeList?.map((i: any) => {
+                        items={contactsArr?.map((i: any) => {
                             const contact: ContactProxy = contactProxy(i);
                             return {
-                                id: contact.id,
+                                id: contact.id || new Date().valueOf(),
                                 img: '',
                                 name: contact?.full_name || '',
                                 title: contact?.full_name || '',

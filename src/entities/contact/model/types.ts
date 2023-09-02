@@ -1,4 +1,4 @@
-import { TabBarTypes } from 'shared/ui';
+import { InputTypes, TabBarTypes } from 'shared/ui';
 
 import { BaseTypes } from '../../../shared/types';
 import { companyTypes } from '../../company';
@@ -29,6 +29,9 @@ export type UseContactsTabsAndListsReturnType = {
     getEmployees: (depId: number) => void;
     departmentsEmployees: Record<number, Employee[]>;
     getNextPageEmployees: () => void;
+    searchInput: InputTypes.UseReturnedType;
+    foundContacts: Contact[] | BaseTypes.Empty;
+    foundEmployees: Employee[] | BaseTypes.Empty;
     loading: boolean;
 };
 
