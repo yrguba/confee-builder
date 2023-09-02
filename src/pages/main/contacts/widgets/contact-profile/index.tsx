@@ -10,7 +10,7 @@ export default function () {
     const { params } = useRouter();
 
     return (
-        <Box.Animated visible key={params.contact_id} className={styles.wrapper}>
+        <Box.Animated backBtn visible key={params.contact_id} className={styles.wrapper}>
             <ContactProfile />
         </Box.Animated>
     );

@@ -13,14 +13,14 @@ function ContactsPage() {
     const { to } = useWidthMediaQuery();
 
     const isVisibleSidebar = () => {
-        if (to('sm')) {
+        if (to('lg')) {
             return !params.contact_id && !params.employee_id;
         }
         return true;
     };
 
     const isVisibleOutlet = () => {
-        if (to('sm')) {
+        if (to('lg')) {
             return !!params.contact_id || !!params.employee_id;
         }
         return true;
