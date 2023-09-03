@@ -7,11 +7,12 @@ import { Box, Title } from '../../index';
 import { CollapseProps } from '../types';
 
 function Collapse(props: CollapseProps) {
-    const { title, children, subtitle, isOpen, onTitleClick, openByClickingOnArrow, openItemId, loading } = props;
+    const { title, children, subtitle, isOpen, onTitleClick, openByClickingOnArrow, openClose, loading } = props;
 
     const visible = useEasyState(!!isOpen);
 
     const headerClick = () => {
+        openClose && openClose(!visible.value);
         !openByClickingOnArrow && visible.toggle();
     };
 
@@ -20,10 +21,12 @@ function Collapse(props: CollapseProps) {
     };
 
     const arrowClick = (e: any) => {
+        openClose && openClose(!visible.value);
         openByClickingOnArrow && visible.toggle();
     };
 
     useEffect(() => {
+        openClose && openClose(!!isOpen);
         visible.set(!!isOpen);
     }, [isOpen]);
 

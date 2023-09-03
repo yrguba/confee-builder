@@ -50,8 +50,8 @@ function ContactsListView(props: Props) {
                     : tabsAndLists.activeList?.map((i: any) =>
                           i?.departments?.map((dep: Department) => (
                               <Collapse
+                                  openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
                                   isOpen={dep.id === Number(params.department_id)}
-                                  onTitleClick={() => tabsAndLists.getEmployees(dep.id)}
                                   key={dep.id}
                                   title={dep?.name || ''}
                               >

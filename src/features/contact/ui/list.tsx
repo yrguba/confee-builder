@@ -27,11 +27,11 @@ function ContactsList() {
     const notification = Notification.use();
 
     const clickContact = useCallback((contact: ContactProxy) => {
-        navigate(`contact/${contact.id}/user/${contact.user_id}`);
+        navigate(`/contacts/personal/contact/${contact.id}/user/${contact.user_id}`);
     }, []);
 
     const clickEmployee = useCallback((employee: companyTypes.Employee) => {
-        navigate(`company/${employee.companies[0].id}/department/${employee.departments[0].id}/employee/${employee.id}`);
+        navigate(`/contacts/companies/company/${employee.companies[0].id}/department/${employee.departments[0].id}/employee/${employee.id}`);
     }, []);
 
     const redirect = () => {
