@@ -42,14 +42,19 @@ function ContactsListView(props: Props) {
             <div className={styles.tabs}>
                 <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
             </div>
-            <Box.Animated visible key={pathname} className={styles.list}>
+            <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
                 {tabsAndLists.activeTab?.title === 'личные'
                     ? contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
                     : tabsAndLists.foundEmployees?.length
                     ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i)} {...props} />)
                     : tabsAndLists.activeList?.map((i: any) =>
                           i?.departments?.map((dep: Department) => (
-                              <Collapse isOpen onTitleClick={() => tabsAndLists.getEmployees(dep.id)} key={dep.id} title={dep?.name || ''}>
+                              <Collapse
+                                  isOpen={dep.id === Number(params.department_id)}
+                                  onTitleClick={() => tabsAndLists.getEmployees(dep.id)}
+                                  key={dep.id}
+                                  title={dep?.name || ''}
+                              >
                                   {tabsAndLists.departmentsEmployees[dep.id]?.map((emp) => (
                                       <Item ref={lastItem} key={emp.id} employee={employeeProxy(emp)} {...props} />
                                   ))}

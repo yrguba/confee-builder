@@ -66,7 +66,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
 
     const clickTab = (tab: TabBarTypes.TabBarItem) => {
         activeTab.set(tab);
-        if (tab.title === 'личные') return navigate('/contacts');
+        if (tab.title === 'личные') return navigate('/contacts/personal');
         return navigate('/contacts/companies');
     };
 
