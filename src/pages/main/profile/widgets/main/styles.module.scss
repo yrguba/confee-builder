@@ -1,9 +1,25 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(calc(100% - 70px), auto);
-  @include flex-column(flex-start);
+  @include box-size(calc(100% - 24px), auto);
+  @include flex(space-between, flex-start, 40);
   background-color: var(--bg-secondary);
   border-radius: 12px;
   padding: 16px 12px;
+
+  @include width-to('xl') {
+    @include flex-column(flex-start, flex-start, 40);
+  }
+
+  .card {
+    flex: 1;
+    width: 100%;
+  }
+
+  .addCompanyMail {
+    @include flex;
+    @include box-size(375px, 198px);
+    background-color: #2EE5C9;
+    border-radius: 20px;
+  }
 }

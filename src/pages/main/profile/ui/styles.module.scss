@@ -7,9 +7,8 @@
 
   .tabs {
     @include flex(flex-start);
-    @include box-size(calc(100% - 46px), 72px);
+    @include box-size(calc(100% - 46px), 100px);
     overflow-y: auto;
-    margin: 24px 0;
     gap: 22px;
 
     .item{
@@ -21,5 +20,12 @@
       cursor: pointer;
     }
 
+  }
+
+  .outlet{
+    @include box-size(calc(100% - 46px), calc(100% - 112px));
+    overflow-y: auto;
+    border-radius: 12px;
+    margin-bottom: 12px;
   }
 }

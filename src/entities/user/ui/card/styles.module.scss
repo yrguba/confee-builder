@@ -1,0 +1,29 @@
+@import "src/app/styles";
+
+.wrapper {
+  @include box-size(100%, 100%);
+  @include flex(center, flex-start);
+  flex-wrap: wrap;
+  gap: 28px;
+  border-radius: var(--border-radius);
+
+  .info {
+    @include flex-column(flex-start, flex-start);
+    gap: 12px;
+    flex: 1;
+
+    .secondaryInfo {
+      @include flex-column();
+      @include box-size(100%, auto);
+      gap: 4px;
+      background-color: var(--bg-secondary);
+      border-radius: 12px;
+
+      .item {
+        @include box-size(100%, 50px);
+        @include flex-column(center, flex-start);
+        border-bottom: 1px solid var(--border-secondary);
+      }
+    }
+  }
+}

@@ -34,7 +34,9 @@ function ProfilePage() {
                     </div>
                 ))}
             </div>
-            <Outlet />
+            <div className={styles.outlet}>
+                <Outlet />
+            </div>
         </Box.Animated>
     );
 }

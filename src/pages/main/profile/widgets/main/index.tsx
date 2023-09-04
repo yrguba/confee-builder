@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { UserCard } from 'features/user';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -7,7 +8,10 @@ import styles from './styles.module.scss';
 function Main() {
     return (
         <Box.Animated visible className={styles.wrapper}>
-            Maina
+            <div className={styles.card}>
+                <UserCard />
+            </div>
+            <div className={styles.addCompanyMail}>addCompanyMail</div>
         </Box.Animated>
     );
 }
