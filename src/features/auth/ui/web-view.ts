@@ -15,6 +15,8 @@ const webView = () => {
     const { pathname } = useLocation();
 
     const { clientBaseURL, backBaseURL } = appService.getUrls();
+    const deviceId = appService.getDeviceId();
+
     const getClientId = () => {
         if (clientBaseURL.includes('localhost')) {
             if (clientBaseURL.includes('tauri')) {
@@ -55,7 +57,7 @@ const webView = () => {
             code,
         };
 
-        axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res) => {
+        axios.post(`${backBaseURL}/${tokenEndpoint}`, body, { headers: { 'X-DEVICE-ID': deviceId } }).then((res) => {
             if (res.data.access_token) {
                 tokensService.save({
                     access_token: res.data.access_token,

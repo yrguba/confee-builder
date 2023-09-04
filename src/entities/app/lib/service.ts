@@ -16,6 +16,10 @@ class AppService {
         };
     }
 
+    getDeviceId(): string {
+        return `${window.location.origin}%${window.navigator.userAgent}`;
+    }
+
     getProjectInfo(): { name: string; version: string } {
         const { name, version } = pjson;
         return { name, version };
