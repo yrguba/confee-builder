@@ -2,7 +2,7 @@
 
 .wrapper {
   @include flex-column(flex-start, flex-start);
-  @include box-size(100%, 400px);
+  @include box-size(100%, auto);
   max-width: 600px;
   gap: 12px;
 
@@ -26,7 +26,7 @@
       @include box-size(100%, 54px);
       @include flex;
 
-      .select{
+      .select {
         width: 100px;
       }
     }
@@ -35,7 +35,23 @@
   }
 
   .bottom {
-    @include box-size(100%, 40%);
+    @include box-size(100%, auto);
+
+    .item {
+      @include box-size(100%, 54px);
+      @include flex(space-between);
+      cursor: pointer;
+
+      svg {
+        fill: var(--text-primary);
+      }
+
+      &:last-child {
+        div {
+          color: var(--text-negative) !important;
+        }
+      }
+    }
   }
 }
 

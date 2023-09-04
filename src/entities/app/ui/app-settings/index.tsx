@@ -44,6 +44,11 @@ function AppSettingsView(props: Props) {
         },
     ];
 
+    const btns = [
+        { id: 0, title: 'Выйти из аккаунта', icon: 'logout', onclick: logout },
+        { id: 1, title: 'Удалить аккаунт', icon: 'delete', onclick: deleteAccount },
+    ];
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.top}>
@@ -60,12 +65,14 @@ function AppSettingsView(props: Props) {
                 ))}
             </div>
             <div className={styles.bottom}>
-                <Button onClick={logout} width="100px">
-                    logout
-                </Button>
-                <Button onClick={deleteAccount} width="100px">
-                    deleteAccount
-                </Button>
+                {btns.map((i) => (
+                    <div key={i.id} className={styles.item} onClick={i.onclick}>
+                        <div className={styles.titles}>
+                            <Title variant="H3M">{i.title}</Title>
+                        </div>
+                        <Icons variant={i.icon as any} />
+                    </div>
+                ))}
             </div>
         </div>
     );

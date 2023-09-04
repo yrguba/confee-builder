@@ -24,7 +24,7 @@ function Policy() {
     return (
         <Box.Animated visible className={styles.wrapper}>
             {items.map((i) => (
-                <div className={styles.item}>
+                <div key={i.id} className={styles.item}>
                     <Title textWrap variant="H3B">
                         {i.title}
                     </Title>
