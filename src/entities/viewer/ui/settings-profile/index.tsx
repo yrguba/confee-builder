@@ -49,15 +49,19 @@ function SettingsProfileView(props: Props) {
                 </div>
             </div>
             <div className={styles.item}>
-                <Title variant="H2">Введите новую почту</Title>
-                <Title primary={false} textWrap variant="H3M">
+                <Title textWrap variant="H2">
+                    Введите новую почту
+                </Title>
+                <Title textWrap primary={false} variant="H3M">
                     Мы отправим код подтверждения на вашу новую почту
                 </Title>
                 <Input />
             </div>
             <div className={styles.item}>
-                <Title variant="H2">Введите никнейм</Title>
-                <Title primary={false} textWrap variant="H3M">
+                <Title textWrap variant="H2">
+                    Введите никнейм
+                </Title>
+                <Title textWrap primary={false} variant="H3M">
                     Уникальный идентификатор, по которому вас можно найти
                 </Title>
                 <Input placeholder="nickname" {...inputs.nickname} prefix="@" clearIcon size="m" />
@@ -66,7 +70,9 @@ function SettingsProfileView(props: Props) {
                 </Title>
             </div>
             <div className={styles.item}>
-                <Title variant="H2">Укажите дату рождения</Title>
+                <Title textWrap variant="H2">
+                    Укажите дату рождения
+                </Title>
                 <Input placeholder="ДД.ММ.ГГГГ" type="date" {...inputs.birth} size="m" />
             </div>
         </div>

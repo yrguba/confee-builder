@@ -13,14 +13,14 @@ function Settings() {
             <div className={styles.item}>
                 <ProfileSettings />
             </div>
-            <div className={styles.item}>
-                <AppSettings />
-            </div>
             {appService.tauriIsRunning && (
                 <div className={styles.item}>
                     <TauriSettings />
                 </div>
             )}
+            <div className={styles.item}>
+                <AppSettings />
+            </div>
         </Box.Animated>
     );
 }

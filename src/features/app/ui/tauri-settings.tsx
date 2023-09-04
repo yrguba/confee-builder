@@ -9,11 +9,12 @@ import { useEasyState, useFs, useStorage } from '../../../shared/hooks';
 
 // tauri only
 function TauriSettings() {
-    const { version } = appService.getProjectInfo();
     const storage = useStorage<appTypes.ValuesInStorage>();
     const fs = useFs();
     if (!appService.tauriIsRunning) return null;
+
     const [loading, setLoading] = useState(false);
+
     const [updateAvailable, setUpdateAvailable] = useState(false);
 
     const check = async () => {
@@ -38,19 +39,16 @@ function TauriSettings() {
     }, []);
 
     const cacheSize = useEasyState<string>('');
-    const cacheValue = useEasyState<boolean>(!!storage.get('cache_size'));
 
-    const clickCache = () => {
-        if (cacheSize.value) {
+    const cacheValue = useEasyState<boolean>(!!storage.get('cache_size'), (value) => {
+        if (!value) {
+            storage.remove('cache_size');
             return fs.deleteFolder({ baseDir: 'Document', folderDir: 'cache' }).then(() => {
                 cacheSize.set('');
             });
         }
-        if (storage.get('cache_size')) {
-            return storage.remove('cache_size');
-        }
-        storage.set('cache_size', '111');
-    };
+        storage.set('cache_size', true);
+    });
 
     useEffect(() => {
         fs.getFolderSize({ baseDir: 'Document', folderDir: 'cache' }).then((res) => {
@@ -58,15 +56,7 @@ function TauriSettings() {
         });
     }, []);
 
-    return (
-        <TauriSettingsView
-            cacheValue={cacheValue.value}
-            cacheSize={cacheSize.value}
-            clickCache={clickCache}
-            updateAvailable={updateAvailable}
-            updateApp={updateApp}
-        />
-    );
+    return <TauriSettingsView cacheValue={cacheValue} cacheSize={cacheSize.value} updateAvailable={updateAvailable} updateApp={updateApp} />;
 }
 
 export default TauriSettings;

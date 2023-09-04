@@ -11,6 +11,10 @@
     overflow-y: auto;
     gap: 22px;
 
+    @include width-to('sm'){
+      @include box-size(calc(100% - 12px), 100px);
+    }
+
     .item{
       @include flex-column;
       @include box-size(300px, 72px);
@@ -32,5 +36,9 @@
     overflow-y: auto;
     border-radius: 12px;
     margin-bottom: 12px;
+
+    @include width-to('sm'){
+      @include box-size(calc(100% - 12px), calc(100% - 112px));
+    }
   }
 }

@@ -55,8 +55,10 @@ function AppSettingsView(props: Props) {
                 {switches.map((i) => (
                     <div key={i.id} className={styles.switchItem}>
                         <div className={styles.titles}>
-                            <Title variant="H3M">{i.title}</Title>
-                            <Title primary={false} variant="H4M">
+                            <Title textWrap variant="H3M">
+                                {i.title}
+                            </Title>
+                            <Title textWrap primary={false} variant="H4M">
                                 {i.subtitle}
                             </Title>
                         </div>
@@ -68,7 +70,9 @@ function AppSettingsView(props: Props) {
                 {btns.map((i) => (
                     <div key={i.id} className={styles.item} onClick={i.onclick}>
                         <div className={styles.titles}>
-                            <Title variant="H3M">{i.title}</Title>
+                            <Title textWrap variant="H3M">
+                                {i.title}
+                            </Title>
                         </div>
                         <Icons variant={i.icon as any} />
                     </div>

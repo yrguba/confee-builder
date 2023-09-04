@@ -35,9 +35,10 @@
     }
 
 
-    .switchItem {
+    .item {
+      max-width: 600px;
       @include box-size(100%, 54px);
-      @include flex;
+      @include flex(flex-start);
 
       .titles {
         width: 90%;

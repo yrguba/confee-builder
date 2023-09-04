@@ -18,10 +18,10 @@
 
   .addCompanyMail {
     @include flex-column(center, flex-start, 16);
-    @include box-size(calc(375px - 32px), auto);
     padding: 16px 20px;
     background-color: var(--bg-primary);
     border-radius: 20px;
+    max-width: 375px;
 
     .header {
       @include flex(flex-start, flex-start);
@@ -35,7 +35,7 @@
         border-radius: 50%;
       }
 
-      .titles{
+      .titles {
         @include flex-column(flex-start, flex-start, 12);
       }
     }

@@ -1,40 +1,45 @@
 import React from 'react';
 
+import { UseEasyStateReturnType } from 'shared/hooks';
 import { Button, Switch, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { appService } from '../../index';
 
 type Props = {
-    clickCache: () => void;
     cacheSize: string;
-    cacheValue: boolean;
+    cacheValue: UseEasyStateReturnType<boolean>;
     updateAvailable: boolean;
     updateApp?: () => void;
 };
 
 function TauriSettingsView(props: Props) {
-    const { clickCache, cacheSize, cacheValue, updateAvailable, updateApp } = props;
-
+    const { cacheSize, cacheValue, updateAvailable, updateApp } = props;
+    const { version } = appService.getProjectInfo();
     return (
         <div className={styles.wrapper}>
             <div className={styles.body}>
-                <div className={styles.switchItem}>
+                <div className={styles.item}>
                     <div className={styles.titles}>
                         <Title variant="H3M">Кэш</Title>
                         <Title primary={false} variant="H4M">
-                            {`Занято на диске: ${cacheSize}`}
+                            {cacheValue.value ? `Занято на диске: ${cacheSize || 0}` : 'Кэш отключен'}
                         </Title>
                     </div>
-                    <Switch onChange={clickCache} checked={cacheValue} />
+                    <Switch onChange={cacheValue.toggle} checked={cacheValue.value} />
                 </div>
-                <div className={styles.switchItem}>
+                <div className={styles.item}>
                     <div className={styles.titles}>
-                        <Title variant="H3M">Кэш</Title>
+                        <Title variant="H3M">Приложение</Title>
                         <Title primary={false} variant="H4M">
-                            {`Занято на диске: ${cacheSize}`}
+                            {`Версия: ${version}`}
                         </Title>
                     </div>
-                    <Switch onChange={clickCache} checked={cacheValue} />
+                    {updateAvailable && (
+                        <Button onClick={updateApp} width="100px">
+                            обновить
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>
