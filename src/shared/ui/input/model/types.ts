@@ -28,6 +28,7 @@ export type UseProps = {
     debounceDelay?: number;
     callback?: (arg: InputValue) => void;
     callbackPhone?: (phone: string | number) => void;
+    onFocus?: (value: boolean) => void;
 };
 
 export type BaseInputProps = {
@@ -39,6 +40,7 @@ export type BaseInputProps = {
     clear?: () => void;
     reload?: any;
     callbackPhone?: (phone: string | number) => void;
+    focus?: (value: boolean) => void;
 } & Shared;
 
 export type PhoneInputProps = {

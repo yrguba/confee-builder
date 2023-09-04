@@ -29,7 +29,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         }
     }, [other?.value]);
 
-    return <textarea ref={mergeRefs([ref, textAreaRef])} className={styles.wrapper} placeholder="Ваше сообщение" {...other} />;
+    return <textarea ref={mergeRefs([ref, textAreaRef])} className={styles.wrapper} {...other} />;
 });
 
 export default InputTextarea;

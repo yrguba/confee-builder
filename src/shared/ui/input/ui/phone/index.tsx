@@ -59,12 +59,12 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
                             </div>
                         }
                     >
-                        <div className={`${styles.input} ${focused ? styles.input_focused : ''}`}>
+                        <div className={`${styles.inputCode} ${focused ? styles.input_focused : ''}`}>
                             {countries.map(
                                 (i) =>
                                     i.id === activeItem && (
-                                        <div className={styles.input__body} key={i.id}>
-                                            <div className={styles.input__body_left}>
+                                        <div className={styles.inputCode__body} key={i.id}>
+                                            <div className={styles.inputCode__body_left}>
                                                 <Icons.Countries variant={i.icon} />
                                                 {i.payload.code}
                                             </div>

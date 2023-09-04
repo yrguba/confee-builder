@@ -1,0 +1,26 @@
+@import "src/app/styles";
+
+.wrapper {
+  @include box-size(100%, auto);
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr 1fr;
+
+  @include width-to('lg') {
+    grid-template-columns: 1fr;
+  }
+
+  .item {
+    @include flex-column(flex-start, flex-start);
+    gap: 4px;
+    width: 100%;
+    flex: 1;
+
+    .textArea {
+      width: calc(100% - 24px);
+      border-radius: 12px;
+      border: 1px solid var(--border-secondary);
+      padding: 12px;
+    }
+  }
+}

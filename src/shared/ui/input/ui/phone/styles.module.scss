@@ -1,27 +1,28 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex-column(center, flex-start);
-  gap: 8px;
+  @include box-size(100%, 55px);
+  @include flex-column(center, flex-end);
   height: auto;
-
+  padding-top: 6px;
 
   .row {
+    @include box-size(100%, 50px);
     @include flex;
-    gap: 8px;
-    height: 56px;
-
+    gap: 12px;
 
     .code {
-
-      .input {
+      @include box-size(100px, 100%);
+      .inputCode {
         max-height: 56px;
-        @include box-size(120px, 56px);
+        @include box-size(100px, 50px);
         @include flex;
+        padding-left: 4px;
         border: 1px solid var(--border-secondary);
         border-radius: 12px;
         cursor: pointer;
         transition: all .5s;
+
         &_focused {
           border: 1px solid var(--border-primary-pressed);
         }
@@ -42,11 +43,13 @@
     }
 
     .input {
-      @include box-size(240px, 100%);
-      @include flex;
+      @include box-size(calc(100% - 116px), 100%);
+      @include flex(flex-start);
       border: 1px solid var(--border-secondary);
+      padding-left: 8px;
       border-radius: 12px;
       transition: all .5s;
+      color: var(--text-primary);
       &_focused {
         border: 1px solid var(--border-primary-pressed);
       }
@@ -79,6 +82,7 @@
       gap: 16px;
       margin-left: 16px;
       cursor: pointer;
+      color: var(--text-primary);
 
       .left {
         @include flex;
@@ -88,10 +92,12 @@
   }
 
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
 input[type='number'] {
   -moz-appearance: textfield;
 }

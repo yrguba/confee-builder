@@ -30,6 +30,7 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         asyncValidate,
         setError,
         callbackPhone,
+        focus,
         ...other
     } = props;
 
@@ -43,8 +44,14 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
     const [focused, setFocused] = React.useState(false);
     const inputRef = useRef<any>(null);
 
-    const onFocus = () => setFocused(true);
-    const onBlur = () => setFocused(false);
+    const onFocus = () => {
+        setFocused(true);
+        focus && focus(true);
+    };
+    const onBlur = () => {
+        setFocused(false);
+        focus && focus(false);
+    };
 
     const classes = useStyles(styles, 'inputWrapper', {
         loading,
