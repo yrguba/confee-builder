@@ -7,7 +7,7 @@ export type Statuses = {
     error?: boolean;
 };
 
-export type Item<I, P, C = any> = {
+export type Item<I = any, P = any, C = any> = {
     id: number;
     title?: string;
     icon?: I;

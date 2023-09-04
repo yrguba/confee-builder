@@ -17,7 +17,7 @@ function Navbar() {
         { id: 0, title: 'Контакты', icon: 'contacts', payload: { path: '/contacts', counter: 0 } },
         { id: 1, title: 'Сообщения', icon: 'messages', payload: { path: '/chats', counter: totalPendingMessages } },
         { id: 2, title: 'Задачи', icon: 'tasks', payload: { path: '/tasks', counter: 0 } },
-        { id: 3, title: 'Профиль', icon: 'profile', payload: { path: '/settings', counter: 0 } },
+        { id: 3, title: 'Профиль', icon: 'profile', payload: { path: '/profile', counter: 0 } },
     ];
 
     const itemClick = (path: string) => {
