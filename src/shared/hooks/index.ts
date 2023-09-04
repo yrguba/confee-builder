@@ -42,7 +42,7 @@ import useSize from './useSize';
 import useStorage from './useStorage';
 import useStore, * as UseStoreTypes from './useStore';
 import useStyles from './useStyles';
-import useTheme from './useTheme';
+import useTheme, * as UseThemeType from './useTheme';
 import useThrottle from './useThrottle';
 import useToggle from './useToggle';
 import useWebSocket from './useWebSocket';
@@ -105,4 +105,4 @@ export {
     useWebSocket,
 };
 
-export type { UseArrayReturnType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes };
+export type { UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes };

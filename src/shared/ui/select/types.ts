@@ -8,4 +8,5 @@ export type SelectProps = {
     items: SelectItemInList[];
     title?: string;
     defaultValue?: string;
+    variant?: 'inherit';
 };

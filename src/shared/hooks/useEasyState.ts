@@ -9,7 +9,7 @@ type UseEasyStateReturnType<T> = {
     toggle: T extends boolean ? () => void : undefined;
 };
 
-const useEasyState = <T>(initial: T): UseEasyStateReturnType<T> => {
+const useEasyState = <T>(initial: T, updateTrigger?: (value: T) => void): UseEasyStateReturnType<T> => {
     const [state, setState] = useState<T>(() => freeze(typeof initial === 'function' ? initial() : initial, true));
 
     const prevValue = usePrevious<T>(state);
@@ -22,6 +22,7 @@ const useEasyState = <T>(initial: T): UseEasyStateReturnType<T> => {
         if (typeof newState === 'function') setState(produce(newState));
         else {
             setState(freeze(newState));
+            updateTrigger && updateTrigger(freeze(newState));
         }
     }, []);
 
@@ -29,6 +30,8 @@ const useEasyState = <T>(initial: T): UseEasyStateReturnType<T> => {
         if (typeof state === 'boolean') {
             // @ts-ignore
             setState(!state);
+            // @ts-ignore
+            updateTrigger && updateTrigger(!state);
         }
     };
 

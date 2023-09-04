@@ -12,11 +12,13 @@
 
   .item {
     @include flex-column(flex-start, flex-start);
+    height: auto;
     gap: 4px;
     width: 100%;
     flex: 1;
 
     .textArea {
+      margin-top: 6px;
       width: calc(100% - 24px);
       border-radius: 12px;
       border: 1px solid var(--border-secondary);

@@ -8,7 +8,7 @@ function EmojiItem(props: EmojiItemProps) {
     const { unified, clickOnEmoji } = props;
 
     return (
-        <div className={styles.wrapper} onClick={() => clickOnEmoji(unified)}>
+        <div className={styles.wrapper} onClick={() => clickOnEmoji && clickOnEmoji(unified)}>
             <Emoji emojiStyle={EmojiStyle.NATIVE} unified={unified} size={24} />
         </div>
     );

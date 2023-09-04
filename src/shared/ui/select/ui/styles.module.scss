@@ -5,7 +5,7 @@
   gap: 10px;
   padding: 5px 12px;
   border-radius: 16px;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-primary) !important;
   color: var(--text-primary);
   cursor: pointer;
 }
@@ -33,5 +33,17 @@
       color: var(--main-active);
       background-color: var(--bg-02);
     }
+  }
+}
+.inherit {
+  border: none;
+  background-color: inherit;
+  color: var(--text-primary);
+
+  &_active{
+    color: var(--text-action);
+  }
+
+  &:hover {
   }
 }

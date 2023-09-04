@@ -1,9 +1,15 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(calc(100% - 24px), auto);
+  @include box-size(100%, 100%);
   @include flex-column(flex-start);
-  background-color: var(--bg-secondary);
-  border-radius: 12px;
-  padding: 16px 12px;
+  gap: 12px;
+
+  .item{
+    @include box-size(calc(100% - 24px), auto);
+    @include flex-column(flex-start,flex-start);
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 16px 12px;
+  }
 }

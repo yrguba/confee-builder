@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { SettingsProfile } from 'features/viewer';
+import { AppSettings } from 'features/app';
+import { ProfileSettings } from 'features/viewer';
 import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -8,7 +9,12 @@ import styles from './styles.module.scss';
 function Settings() {
     return (
         <Box.Animated visible className={styles.wrapper}>
-            <SettingsProfile />
+            <div className={styles.item}>
+                <ProfileSettings />
+            </div>
+            <div className={styles.item}>
+                <AppSettings />
+            </div>
         </Box.Animated>
     );
 }

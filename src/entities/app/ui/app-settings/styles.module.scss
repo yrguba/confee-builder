@@ -2,36 +2,40 @@
 
 .wrapper {
   @include flex-column(flex-start, flex-start);
-  @include box-size(100%, 100%);
+  @include box-size(100%, 400px);
+  max-width: 600px;
   gap: 12px;
 
-  .title {
-    font-weight: 600;
-    font-size: 16px;
-    color: var(--text-primary);
-    margin-bottom: 20px;
-  }
-
-  .body {
+  .top {
+    @include box-size(100%, 230px);
     @include flex-column(flex-start, flex-start);
-    gap: 6px;
+    gap: 24px;
+    border-bottom: 1px solid var(--border-secondary);
 
-    .item {
-      width: 380px;
-      @include flex(space-between);
+    .switchItem {
+      @include box-size(100%, 54px);
+      @include flex;
 
-      &_title {
-        font-weight: 400;
-        font-size: 12px;
-        color: var(--text-primary);
-      }
-
-      &_value {
-        width: 40%;
-        @include flex(flex-start);
-        font-size: 12px;
+      .titles {
+        width: 90%;
+        @include flex-column(flex-start, flex-start);
       }
     }
+
+    .selectThemes {
+      @include box-size(100%, 54px);
+      @include flex;
+
+      .select{
+        width: 100px;
+      }
+    }
+
+
+  }
+
+  .bottom {
+    @include box-size(100%, 40%);
   }
 }
 
