@@ -3,7 +3,13 @@
 .wrapper {
   @include box-size(calc(100% - 70px), auto);
   @include flex-column(flex-start);
+  gap: 24px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
   padding: 16px 12px;
+
+  .item{
+    @include flex-column;
+    gap: 8px;
+  }
 }
