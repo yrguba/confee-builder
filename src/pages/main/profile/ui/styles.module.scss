@@ -18,6 +18,11 @@
       background-color: var(--bg-secondary);
       border-radius: 12px;
       cursor: pointer;
+      transition: background-color .5s;
+
+      &_active{
+        background-color: var(--bg-tertiary);
+      }
     }
 
   }

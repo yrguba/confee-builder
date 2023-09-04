@@ -50,7 +50,8 @@ export type BaseIconsVariants =
     | 'reply-black'
     | 'lock'
     | 'forward-black'
-    | 'group';
+    | 'group'
+    | 'portfolio';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

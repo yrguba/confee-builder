@@ -28,7 +28,7 @@ function Routing() {
 
     useEffect(() => {
         if (width < 450 || height < 470) return navigate('/warning/size');
-        location.pathname === '/warning/size' && navigate('/chats');
+        location.pathname === '/warning/size' && navigate(-1);
     }, [width, height]);
 
     useEffect(() => {
