@@ -4,6 +4,6 @@ import appApi from './model/api';
 import useAppStore from './model/store';
 import * as appTypes from './model/types';
 import AppSettingsView from './ui/app-settings';
-import CheckUpdateView from './ui/check-update';
+import TauriSettingsView from './ui/tauri-settings';
 
-export { appService, appTypes, useAppStore, appApi, notificationsManager, AppSettingsView, CheckUpdateView };
+export { appService, appTypes, useAppStore, appApi, notificationsManager, AppSettingsView, TauriSettingsView };

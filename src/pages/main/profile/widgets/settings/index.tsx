@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { AppSettings } from 'features/app';
+import { appService } from 'entities/app';
+import { AppSettings, TauriSettings } from 'features/app';
 import { ProfileSettings } from 'features/viewer';
 import { Box } from 'shared/ui';
 
@@ -15,6 +16,11 @@ function Settings() {
             <div className={styles.item}>
                 <AppSettings />
             </div>
+            {appService.tauriIsRunning && (
+                <div className={styles.item}>
+                    <TauriSettings />
+                </div>
+            )}
         </Box.Animated>
     );
 }

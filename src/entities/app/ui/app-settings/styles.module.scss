@@ -36,9 +36,11 @@
 
   .bottom {
     @include box-size(100%, auto);
+    @include flex-column(flex-start, flex-start);
+    gap: 12px;
 
     .item {
-      @include box-size(100%, 54px);
+      @include box-size(100%, 44px);
       @include flex(space-between);
       cursor: pointer;
 

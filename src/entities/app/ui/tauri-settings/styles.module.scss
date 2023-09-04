@@ -13,8 +13,9 @@
   }
 
   .body {
+    width: 100%;
     @include flex-column(flex-start, flex-start);
-    gap: 6px;
+    gap: 12px;
 
     .item {
       width: 380px;
@@ -30,6 +31,17 @@
         width: 40%;
         @include flex(flex-start);
         font-size: 12px;
+      }
+    }
+
+
+    .switchItem {
+      @include box-size(100%, 54px);
+      @include flex;
+
+      .titles {
+        width: 90%;
+        @include flex-column(flex-start, flex-start);
       }
     }
   }

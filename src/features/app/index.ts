@@ -1,4 +1,4 @@
 import AppSettings from './ui/app-settings';
-import CheckUpdate from './ui/checkUpdate';
+import TauriSettings from './ui/tauri-settings';
 
-export { CheckUpdate, AppSettings };
+export { TauriSettings, AppSettings };
