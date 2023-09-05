@@ -20,11 +20,11 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
 
     const createChat = () => {
         if (!selectedContacts.array.length && !selectedEmployees.array.length) {
-            return notifications.error({ title: isGroup.value ? `Выберите участников` : `Выберите кому хотите написать` });
+            return notifications.error({ title: `Выберите участников` });
         }
         if (selectedContacts.array.length) {
             handleCreatePersonalChat(

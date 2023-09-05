@@ -22,7 +22,6 @@ function chatProxy(chat: Chat | undefined): any {
                     return target.last_message.author?.id === viewerId;
 
                 case 'lastMessageTitle':
-                    console.log(target.last_message);
                     if (target.typing) return target.typing;
                     if (!target.last_message) return '';
                     const { type, text } = target.last_message;

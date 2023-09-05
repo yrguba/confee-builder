@@ -1,19 +1,19 @@
-import { prevCategory } from 'emoji-picker-react/dist/DomUtils/selectors';
-import { memo, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { companyService } from 'entities/company';
+import { createMemo, useEasyState, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
+import { Input, TabBarTypes } from 'shared/ui';
 
 import { contactApi, contactTypes } from '..';
-import { createMemo, useEasyState, useRouter } from '../../../shared/hooks';
-import { Input, TabBarTypes } from '../../../shared/ui';
-import { companyTypes, companyApi, employeeProxy } from '../../company';
+import { companyTypes, companyApi } from '../../company';
 import { Company, Employee } from '../../company/model/types';
 import { UseContactsTabsAndListsReturnType } from '../model/types';
 
 type Props = {
     companies: companyTypes.Company[] | BaseTypes.Empty;
+    redirect?: boolean;
 };
 
 const memoTabs = createMemo((companies: companyTypes.Company[] | BaseTypes.Empty) => {
@@ -31,7 +31,7 @@ const memoEmployees = createMemo(companyService.getUpdatedEmployeesList);
 
 function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnType {
     const tabs = memoTabs(props.companies);
-
+    const { redirect = true } = props;
     const { navigate, pathname } = useRouter();
     const searchInput = Input.use({});
     const { data: searchData, isLoading: searchLoading, isFetching } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
@@ -43,6 +43,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
 
     const { data: contacts } = contactApi.handleGetContacts({ type: 'registered' });
+
     const {
         data: departmentEmployees,
         isLoading,
@@ -66,8 +67,10 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
 
     const clickTab = (tab: TabBarTypes.TabBarItem) => {
         activeTab.set(tab);
-        if (tab.title === 'личные') return navigate('/contacts/personal');
-        return navigate('/contacts/companies');
+        if (redirect) {
+            if (tab.title === 'личные') return navigate('/contacts/personal');
+            return navigate('/contacts/companies');
+        }
     };
 
     useUpdateEffect(() => {
@@ -89,14 +92,14 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     }, [activeTab.value]);
 
     useEffect(() => {
-        if (pathname.includes('companies')) {
+        if (pathname.includes('companies') && redirect) {
             tabs.length && activeTab.set(tabs[1]);
             props.companies && activeList.set(props.companies);
         }
     }, [props.companies]);
 
     useEffect(() => {
-        if (pathname.includes('contacts')) {
+        if (pathname.includes('contacts') || !redirect) {
             tabs.length && activeTab.set(tabs[0]);
             contacts?.length && activeList.set(contacts);
         }
