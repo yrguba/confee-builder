@@ -36,6 +36,8 @@ const memoProxy = createMemo((chats: chatTypes.Chat[] | undefined) => {
 function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
     const { navigate, pathname, params } = useRouter();
 
+    const { redirect = true } = props;
+
     const { data: allChatsData } = chatApi.handleGetChats({ type: 'all' });
     const { data: personalChatsData } = chatApi.handleGetChats({ type: 'personal' });
     const { data: companyChatsData } = chatApi.handleGetChats({ type: 'company', companyId: 17 });
@@ -59,7 +61,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     const clickTab = (tab: TabBarTypes.TabBarItem) => {
         activeTab.set(tab);
-        if (props.redirect) {
+        if (redirect) {
             if (tab.title === 'все') return navigate('/chats/all');
             if (tab.title === 'личные') return navigate('/chats/personal');
             return navigate('/chats/company');

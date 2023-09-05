@@ -52,22 +52,25 @@ function messageGateway() {
                     }
                 });
             });
-            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                if (!cacheData?.data?.data.length) return cacheData;
-                return produce(cacheData, (draft: any) => {
-                    draft.data.data = draft?.data?.data.map((chat: Chat) => {
-                        if (socketData.data.message.chat_id === chat.id) {
-                            return {
+            ['all', 'personal'].forEach((i) =>
+                queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                    if (!cacheData?.data?.data.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        const foundChatIndex = draft?.data?.data.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
+                        if (foundChatIndex !== -1) {
+                            const chat = draft?.data?.data[foundChatIndex];
+                            draft.data.data.splice(foundChatIndex, 1);
+                            draft.data.data.unshift({
                                 ...chat,
                                 pending_messages_count: socketData.data.extra_info.chat_pending_messages_count,
                                 last_message: socketData.data.message,
                                 typing: '',
-                            };
+                            });
                         }
-                        return chat;
                     });
-                });
-            });
+                })
+            );
+
             queryClient.setQueryData(['get-chat', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.data?.data) return cacheData;
                 return produce(cacheData, (draft: any) => {
@@ -142,33 +145,33 @@ function messageGateway() {
                 });
             });
         });
-        onMessage('Typing', (socketData) => {
-            // console.log(socketData);
-            // if(viewerId === socketData)
-            const fn = (text: string) => {
-                queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
-                    if (!cacheData?.data?.data) return cacheData;
-                    return produce(cacheData, (draft: any) => {
-                        draft.data.data = { ...draft.data.data, typing: text };
-                    });
-                });
-                queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                    if (!cacheData?.data?.data.length) return cacheData;
-                    return produce(cacheData, (draft: any) => {
-                        draft.data.data = draft?.data?.data.map((chat: Chat) => {
-                            if (socketData.data.chat_id === chat.id) {
-                                return { ...chat, typing: text };
-                            }
-                            return chat;
-                        });
-                    });
-                });
-            };
-            throttleMessageTyping(() => {
-                fn('пользователь печатает...');
-                setTimeout(() => fn(''), 5000);
-            });
-        });
+        // onMessage('Typing', (socketData) => {
+        //     // console.log(socketData);
+        //     // if(viewerId === socketData)
+        //     const fn = (text: string) => {
+        //         queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
+        //             if (!cacheData?.data?.data) return cacheData;
+        //             return produce(cacheData, (draft: any) => {
+        //                 draft.data.data = { ...draft.data.data, typing: text };
+        //             });
+        //         });
+        //         queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
+        //             if (!cacheData?.data?.data?.length) return cacheData;
+        //             return produce(cacheData, (draft: any) => {
+        //                 draft.data.data = draft?.data?.data.map((chat: Chat) => {
+        //                     if (socketData.data.chat_id === chat.id) {
+        //                         return { ...chat, typing: text };
+        //                     }
+        //                     return chat;
+        //                 });
+        //             });
+        //         });
+        //     };
+        //     throttleMessageTyping(() => {
+        //         fn('пользователь печатает...');
+        //         setTimeout(() => fn(''), 5000);
+        //     });
+        // });
     }, []);
 }
 
