@@ -2,46 +2,65 @@
 
 .wrapper {
   @include box-size(100%, 100%);
-  @include flex(center, flex-start);
-  flex-wrap: wrap;
-  gap: 28px;
-  border-radius: var(--border-radius);
+  @include flex-column(flex-start, flex-start);
+  gap: 12px;
 
-  .avatar {
-    @include box-size(345px, auto);
-    @include flex-column(center, flex-start);
-    gap: 12px;
+  .header {
+    @include box-size(100%, 50px);
+    @include flex(space-berween);
 
-    .btns {
-      @include flex(center, flex-start);
+    .name {
+      width: 80%;
+      @include flex(flex-start);
+      gap: 12px;
+      flex: 1;
+    }
+  }
+
+  .body {
+    @include box-size(100%, 100%);
+    @include flex(center, flex-start);
+    flex-wrap: wrap;
+    gap: 28px;
+    border-radius: var(--border-radius);
+
+    .avatar {
       @include box-size(345px, auto);
+      @include flex-column(center, flex-start);
       gap: 12px;
 
-      svg {
-        fill: var(--text-fixed);
+      .btns {
+        @include flex(center, flex-start);
+        @include box-size(345px, auto);
+        gap: 12px;
+
+        svg {
+          fill: var(--text-fixed);
+        }
+      }
+    }
+
+    .info {
+      width: 0;
+      @include flex-column(flex-start, flex-start);
+      gap: 12px;
+      flex: 1;
+      min-width: 200px;
+
+      .secondaryInfo {
+        @include flex-column();
+        @include box-size(100%, auto);
+        gap: 4px;
+        background-color: var(--bg-secondary);
+        border-radius: 12px;
+
+        .item {
+          @include box-size(100%, 50px);
+          @include flex-column(center, flex-start);
+          border-bottom: 1px solid var(--border-secondary);
+        }
       }
     }
   }
 
-  .info {
-    width: 0;
-    @include flex-column(flex-start, flex-start);
-    gap: 12px;
-    flex: 1;
-    min-width: 200px;
-
-    .secondaryInfo {
-      @include flex-column();
-      @include box-size(100%, auto);
-      gap: 4px;
-      background-color: var(--bg-secondary);
-      border-radius: 12px;
-
-      .item {
-        @include box-size(100%, 50px);
-        @include flex-column(center, flex-start);
-        border-bottom: 1px solid var(--border-secondary);
-      }
-    }
-  }
 }

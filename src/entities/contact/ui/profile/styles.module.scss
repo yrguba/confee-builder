@@ -13,11 +13,12 @@
   }
 
   @include width-to('xl') {
-    @include flex-column(flex-start, flex-start, 40);
+    //@include flex-column(flex-start, flex-start, 40);
   }
 
   .card {
-    width: 100%;
+    flex: 1;
+    width: 0;
   }
 
   .btns {
