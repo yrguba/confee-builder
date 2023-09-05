@@ -8,7 +8,7 @@ import { TabBarTypes } from 'shared/ui';
 import chatService from './service';
 import { companyService, companyTypes } from '../../company';
 import { chatApi, chatProxy, chatTypes } from '../index';
-import { ChatProxy, UseChatsTabsAndListsReturnType } from '../model/types';
+import { ChatProxy, ChatsTypes, UseChatsTabsAndListsReturnType } from '../model/types';
 
 type Props = {
     redirect?: boolean;
@@ -34,9 +34,13 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     const { redirect = true } = props;
 
-    const { data: allChatsData, hasNextPage, fetchNextPage } = chatApi.handleGetChats({ type: 'all' });
-    const { data: personalChatsData } = chatApi.handleGetChats({ type: 'personal' });
-    const { data: companyChatsData } = chatApi.handleGetChats({ type: 'company', companyId: 17 });
+    const { data: allChatsData, hasNextPage: allHasNextPage, fetchNextPage: allFetchNextPage } = chatApi.handleGetChats({ type: 'all' });
+    const { data: personalChatsData, hasNextPage: personalHasNextPage, fetchNextPage: personalFetchNextPage } = chatApi.handleGetChats({ type: 'personal' });
+    const {
+        data: companyChatsData,
+        hasNextPage: companyHasNextPage,
+        fetchNextPage: companyFetchNextPage,
+    } = chatApi.handleGetChats({ type: 'company', companyId: 17 });
 
     const allChatsProxy = memoChats(allChatsData);
     const personalChatsProxy = memoChats(personalChatsData);
@@ -45,9 +49,12 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
     const tabs = memoTabs({ all: allChatsProxy, personal: personalChatsProxy, company: companyChatsProxy });
     const activeTab = useEasyState<TabBarTypes.TabBarItem | null>(null);
     const activeList = useEasyState<ChatProxy[] | BaseTypes.Empty>(null);
+    const activeType = useEasyState<ChatsTypes>('all');
 
     const getNextPage = () => {
-        hasNextPage && fetchNextPage();
+        if (activeType.value === 'all' && allHasNextPage) return allFetchNextPage();
+        if (activeType.value === 'personal' && personalHasNextPage) return personalFetchNextPage();
+        if (activeType.value === 'company' && companyHasNextPage) return companyFetchNextPage();
     };
 
     useUpdateEffect(() => {
@@ -70,6 +77,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     useEffect(() => {
         if (pathname.includes('all')) {
+            activeType.set('all');
             tabs.length && activeTab.set(tabs[0]);
             allChatsProxy?.length && activeList.set(allChatsProxy);
         }
@@ -77,6 +85,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     useEffect(() => {
         if (pathname.includes('personal') && personalChatsProxy) {
+            activeType.set('personal');
             tabs.length && activeTab.set(tabs[1]);
             personalChatsProxy?.length && activeList.set(personalChatsProxy);
         }
@@ -84,6 +93,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     useEffect(() => {
         if (pathname.includes('company') && companyChatsProxy) {
+            activeType.set('company');
             tabs.length && activeTab.set(tabs[2]);
             companyChatsProxy?.length && activeList.set(companyChatsProxy);
         }

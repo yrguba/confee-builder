@@ -36,6 +36,8 @@ export type ChatProxy = {
     subtitle: string;
 } & Chat;
 
+export type ChatsTypes = 'all' | 'personal' | 'company';
+
 export type UseChatsTabsAndListsReturnType = {
     tabs: TabBarTypes.TabBarItem[];
     activeTab: TabBarTypes.TabBarItem | null;
