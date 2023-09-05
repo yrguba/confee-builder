@@ -1,13 +1,24 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(calc(100% - 48px), calc(100% - 48px));
-  @include flex;
-  gap: 20px;
-  overflow-y: auto;
+  @include box-size(calc(100% - 32px),calc(100% - 32px));
+  @include flex(space-between, flex-start, 40);
   background-color: var(--bg-secondary);
   border-radius: 12px;
   padding: 16px;
+
+  @include width-to('sm') {
+    padding: 4px;
+    @include box-size(calc(100% - 8px),calc(100% - 8px));
+  }
+
+  @include width-to('xl') {
+    @include flex-column(flex-start, flex-start, 40);
+  }
+
+  .card {
+    width: 100%;
+  }
 
   .btns {
     @include box-size(370px, 61px);
