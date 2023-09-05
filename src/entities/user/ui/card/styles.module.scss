@@ -7,6 +7,22 @@
   gap: 28px;
   border-radius: var(--border-radius);
 
+  .avatar {
+    @include box-size(345px, auto);
+    @include flex-column(center, flex-start);
+    gap: 12px;
+
+    .btns {
+      @include flex(center, flex-start);
+      @include box-size(345px, auto);
+      gap: 12px;
+
+      svg {
+        fill: var(--text-fixed);
+      }
+    }
+  }
+
   .info {
     width: 0;
     @include flex-column(flex-start, flex-start);

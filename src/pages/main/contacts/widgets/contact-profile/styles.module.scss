@@ -8,7 +8,7 @@
   cursor: default;
 
   @include width-to('sm'){
-    @include box-size(calc(100% - 12px), calc(100% - 12px));
-    padding: 6px;
+    @include box-size(calc(100% - 12px), calc(100% - 32px));
+    padding: 16px 6px;
   }
 }
