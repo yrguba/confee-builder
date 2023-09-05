@@ -24,7 +24,7 @@ function ChatHeaderView(props: Props) {
     function Main() {
         return (
             <div className={styles.main}>
-                {useWidthMediaQuery().to('sm') && (
+                {useWidthMediaQuery().to('md') && (
                     <Button.Circle onClick={back} variant="secondary">
                         <Icons variant="arrow-left" />
                     </Button.Circle>

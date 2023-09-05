@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { UserCardView } from 'entities/user';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Button, Dropdown, DropdownTypes, Icons, IconsTypes, Title } from 'shared/ui';
 
@@ -37,19 +38,7 @@ function ContactProfileView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.mainInfo}>
-                <Avatar size={200} img="" name={contact?.full_name} />
-
-                <div className={styles.name}>
-                    <Title textAlign="center" variant="H3B">
-                        {contact?.full_name}
-                    </Title>
-                    <Button tag>tfn</Button>
-                </div>
-                <Title textAlign="center" variant="caption1M">
-                    {contact?.phone || ''}
-                </Title>
-            </div>
+            <UserCardView name={contact?.full_name || ''} aboutMe="" avatar="" birth="" phone={contact?.phone || ''} nickname="" />
             <div className={styles.btns}>
                 {btns.map((i) => (
                     <Dropdown.Menu visible={false} position="bottom-center" items={menuItems} key={i.id} disabled>
@@ -57,17 +46,6 @@ function ContactProfileView(props: Props) {
                             {i.title}
                         </Button>
                     </Dropdown.Menu>
-                ))}
-            </div>
-
-            <div className={styles.secondaryInfo}>
-                {secondaryInfo.map((i) => (
-                    <div key={i.id} className={styles.item}>
-                        <Title variant="H4M" primary={false}>
-                            {i.title}
-                        </Title>
-                        <Title variant="H3M">{i.subtitle}</Title>
-                    </div>
                 ))}
             </div>
         </div>

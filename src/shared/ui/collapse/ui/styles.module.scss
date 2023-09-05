@@ -1,8 +1,7 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(calc(100% - 48px), auto);
-  padding: 12px 24px;
+  @include box-size(100%, auto);
   .header {
 
     @include flex(space-between);

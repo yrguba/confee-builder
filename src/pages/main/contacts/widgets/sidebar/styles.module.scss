@@ -7,9 +7,6 @@
   gap: 8px;
   border-right: 1px solid var(--border-secondary);
 
-  @include width-to(sm) {
-    background-color: var(--bg-primary);
-  }
 
   .header {
     @include box-size(calc(100% - 32px), 48px);

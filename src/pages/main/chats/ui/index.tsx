@@ -19,14 +19,14 @@ function ChatsPage() {
     const { to } = useWidthMediaQuery();
 
     const isVisibleSidebar = () => {
-        if (to('sm')) {
+        if (to('md')) {
             return !params.chat_id;
         }
         return true;
     };
 
     const isVisibleOutlet = () => {
-        if (to('sm')) {
+        if (to('md')) {
             return !!params.chat_id;
         }
         return true;

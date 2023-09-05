@@ -9,10 +9,6 @@
     width: 375px;
 
     @include width-to('md') {
-      width: 300px;
-    }
-
-    @include width-to('sm') {
       width: 100%;
     }
   }

@@ -74,7 +74,8 @@ function ContactsListView(props: Props) {
 const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeeProxy } & Props, ref: any) => {
     const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, contact, employee } = props;
 
-    const mdWidthSize = useWidthMediaQuery().to('md');
+    const smWidthSize = useWidthMediaQuery().to('sm');
+    const lgWidthSize = useWidthMediaQuery().from('lg');
 
     const items: BaseTypes.Item<
         IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants,
@@ -105,24 +106,33 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
                     <Card avatarEmployeeStatuses={status} onClick={clickUser} size="m" name={full_name} img={avatar} title={full_name} subtitle={phone || ''} />
                 </div>
                 <div className={styles.icons}>
-                    {!mdWidthSize ? (
-                        items
-                            .filter((i) => !i.hidden)
-                            .map((i) => (
-                                <Button.Circle
-                                    key={i.id}
-                                    radius={36}
-                                    onClick={() => i.callback && i.callback({ action: i.payload, contact: contact || null, employee: employee || null })}
-                                    variant="inherit"
-                                >
-                                    {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}
-                                </Button.Circle>
-                            ))
-                    ) : (
-                        <Dropdown.Menu items={items as any}>
-                            <Icons variant="more" />
-                        </Dropdown.Menu>
-                    )}
+                    {!lgWidthSize ? (
+                        !smWidthSize ? (
+                            items
+                                .filter((i) => !i.hidden)
+                                .map((i) => (
+                                    <Button.Circle
+                                        key={i.id}
+                                        radius={36}
+                                        onClick={() =>
+                                            i.callback &&
+                                            i.callback({
+                                                action: i.payload,
+                                                contact: contact || null,
+                                                employee: employee || null,
+                                            })
+                                        }
+                                        variant="inherit"
+                                    >
+                                        {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}
+                                    </Button.Circle>
+                                ))
+                        ) : (
+                            <Dropdown.Menu items={items as any}>
+                                <Icons variant="more" />
+                            </Dropdown.Menu>
+                        )
+                    ) : null}
                 </div>
             </div>
         </div>
