@@ -5,7 +5,7 @@ import { axiosClient } from 'shared/configs';
 import { Company, Employee } from './types';
 import { httpHandlers } from '../../../shared/lib';
 import { Contact } from '../../contact/model/types';
-import { messages_limit } from '../../message/lib/constants';
+import { employee_limit } from '../lib/constants';
 
 class CompanyApi {
     handleGetCompanies() {
@@ -36,7 +36,7 @@ class CompanyApi {
                 return axiosClient.get(`api/v2/companies/${data.companyId}/departments/${data.departmentId}/employees`, {
                     params: {
                         page: pageParam || data.initialPage || 0,
-                        per_page: messages_limit,
+                        per_page: employee_limit,
                     },
                 });
             },

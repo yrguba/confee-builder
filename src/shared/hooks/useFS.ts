@@ -4,7 +4,7 @@ import { fileConverter, sizeConverter } from '../lib';
 
 type SaveFileProps = {
     baseDir: 'Download' | 'Document';
-    folderDir: 'cache' | '';
+    folderDir: 'cache' | 'database' | '';
     fileName: string | undefined;
     fileBlob: Blob;
 };
@@ -32,6 +32,7 @@ const useFS = () => {
         }
         return '';
     };
+
     const getFile = async (props: GetFileProps) => {
         if (disabled) return null;
         if (!props.fileName) return null;

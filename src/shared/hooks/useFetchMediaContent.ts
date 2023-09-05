@@ -33,11 +33,11 @@ function useFetchMediaContent(url = '', saveInCache = false) {
                     setOrientation(img.width > img.height ? 'horizontal' : 'vertical');
                 };
                 if (typeof fileInCache === 'string') img.src = fileInCache;
-                setFileBlob(fileConverter.fromBase64ToBlob(fileInCache));
+                setFileBlob(fileConverter.base64ToBlob(fileInCache));
             } else if (imgData) {
                 setFileBlob(imgData);
                 saveInCache && (await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop(), fileBlob: imgData }));
-                const base64 = await fileConverter.fromBlobToBase64(imgData);
+                const base64 = await fileConverter.blobToBase64(imgData);
                 const img = new Image();
                 img.onload = function () {
                     setOrientation(img.width > img.height ? 'horizontal' : 'vertical');

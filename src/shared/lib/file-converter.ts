@@ -1,4 +1,4 @@
-export const fromBlobToBase64 = async (blob: Blob) => {
+export const blobToBase64 = async (blob: Blob) => {
     const reader = new FileReader();
     await new Promise((resolve, reject) => {
         reader.onload = resolve;
@@ -10,11 +10,11 @@ export const fromBlobToBase64 = async (blob: Blob) => {
 
 export const arrayBufferToBase64 = async (arrayBuffer: ArrayBuffer) => {
     const blob = new Blob([arrayBuffer]);
-    const base64 = fromBlobToBase64(blob);
+    const base64 = blobToBase64(blob);
     return base64;
 };
 
-export const fromBase64ToBlob = (b64Data: string, contentType = '', sliceSize = 512) => {
+export const base64ToBlob = (b64Data: string, contentType = '', sliceSize = 512) => {
     const parts = b64Data.split(';base64,');
     const imageType = parts[0].split(':')[1];
     const decodedData = window.atob(parts[1]);
