@@ -85,16 +85,18 @@ function messageGateway() {
             });
         });
         onMessage('MessageUpdated', (socketData) => {
-            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                if (!cacheData?.data?.data.length) return cacheData;
-                return produce(cacheData, (draft: any) => {
-                    draft.data.data = draft?.data?.data.map((chat: Chat) => {
-                        if (socketData.data.chat_id === chat.id && chat.last_message.id === socketData.data.message_id)
-                            return { ...chat, last_message: { ...chat.last_message, ...socketData.data.updated_values } };
-                        return chat;
+            ['all', 'personal'].forEach((i) =>
+                queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                    if (!cacheData?.data?.data.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data = draft?.data?.data.map((chat: Chat) => {
+                            if (socketData.data.chat_id === chat.id && chat.last_message.id === socketData.data.message_id)
+                                return { ...chat, last_message: { ...chat.last_message, ...socketData.data.updated_values } };
+                            return chat;
+                        });
                     });
-                });
-            });
+                })
+            );
             queryClient.setQueryData(['get-messages', socketData.data.chat_id], (cacheData: any) => {
                 if (!cacheData?.pages.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
@@ -112,20 +114,22 @@ function messageGateway() {
             });
         });
         onMessage('MessageRead', (socketData) => {
-            queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                if (!cacheData?.data?.data.length) return cacheData;
-                return produce(cacheData, (draft: any) => {
-                    draft.data.data = draft?.data?.data.map((chat: Chat) => {
-                        if (socketData.data.chat_id === chat.id) {
-                            chat.pending_messages_count = socketData?.data?.extra_info?.chat_pending_messages_count;
-                            if (chat.last_message.id === socketData.data.message_id) {
-                                chat.last_message.users_have_read = [...chat.last_message.users_have_read, socketData.data.read_user_id];
+            ['all', 'personal'].forEach((i) =>
+                queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                    if (!cacheData?.data?.data.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data = draft?.data?.data.map((chat: Chat) => {
+                            if (socketData.data.chat_id === chat.id) {
+                                chat.pending_messages_count = socketData?.data?.extra_info?.chat_pending_messages_count;
+                                if (chat.last_message.id === socketData.data.message_id) {
+                                    chat.last_message.users_have_read = [...chat.last_message.users_have_read, socketData.data.read_user_id];
+                                }
                             }
-                        }
-                        return chat;
+                            return chat;
+                        });
                     });
-                });
-            });
+                })
+            );
             queryClient.setQueryData(['get-total-pending-messages'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {

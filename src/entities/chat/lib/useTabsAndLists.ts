@@ -73,21 +73,21 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
             tabs.length && activeTab.set(tabs[0]);
             allChatsProxy?.length && activeList.set(allChatsProxy);
         }
-    }, [allChatsProxy]);
+    }, [allChatsProxy, pathname]);
 
     useEffect(() => {
         if (pathname.includes('personal') && personalChatsProxy) {
             tabs.length && activeTab.set(tabs[1]);
             personalChatsProxy?.length && activeList.set(personalChatsProxy);
         }
-    }, [personalChatsProxy]);
+    }, [personalChatsProxy, pathname]);
 
     useEffect(() => {
         if (pathname.includes('company') && companyChatsProxy) {
             tabs.length && activeTab.set(tabs[2]);
             companyChatsProxy?.length && activeList.set(companyChatsProxy);
         }
-    }, [companyChatsProxy]);
+    }, [companyChatsProxy, pathname]);
 
     return {
         tabs,

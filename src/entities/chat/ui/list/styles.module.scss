@@ -11,7 +11,7 @@
     padding: 0 16px;
   }
 
-  .tabs{
+  .tabs {
     @include box-size(calc(100% - 16px), 48px);
     @include flex(flex-start);
     padding-left: 16px;
@@ -19,12 +19,14 @@
 
 
   .list {
-    @include flex-column;
-    width: 100%;
+    @include flex-column(flex-start,flex-start);
+    @include box-size(100%, 90%);
+    overflow-y: auto;
 
     .item {
       @include flex;
       @include box-size(100%, 74px);
+      min-height: 74px;
       gap: 16px;
       cursor: pointer;
       transition: background-color var(--transition);
