@@ -1,7 +1,7 @@
 import { viewerService } from 'entities/viewer';
 import { dateConverter, getEnding } from 'shared/lib';
 
-import { userService } from '../../user';
+import { userProxy, userService } from '../../user';
 import { ChatProxy, Chat } from '../model/types';
 
 function chatProxy(chat: Chat | undefined): any {
@@ -10,16 +10,13 @@ function chatProxy(chat: Chat | undefined): any {
     return new Proxy(chat, {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver: ChatProxy): ChatProxy[keyof ChatProxy] {
             const secondMember = target.is_group ? null : target?.members?.find((i) => i.id !== viewerId) || null;
+            const secondMemberProxy = secondMember ? userProxy(secondMember) : null;
             switch (prop) {
                 case 'is_personal':
                     return !target.employee_members?.length;
 
                 case 'secondMember':
-                    return secondMember;
-
-                case 'secondMemberStatus':
-                    if (chat?.is_group) return null;
-                    return receiver?.secondMember?.is_online ? 'ONLINE' : null;
+                    return secondMemberProxy;
 
                 case 'checkIsMyLastMessage':
                     return target.last_message.author?.id === viewerId;

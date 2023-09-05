@@ -4,7 +4,7 @@ import { companyTypes } from '../../company';
 import { Employee } from '../../company/model/types';
 import { contactTypes } from '../../contact';
 import { Message } from '../../message/model/types';
-import { User, NetworkStatuses } from '../../user/model/types';
+import { User, UserProxy } from '../../user/model/types';
 
 export type Chat = {
     name: string;
@@ -29,12 +29,11 @@ export type Chat = {
 export type ChatProxy = {
     is_personal: boolean;
     typing: string;
-    secondMember: User | null;
+    secondMember: UserProxy | null;
     lastMessageTitle: string;
     date: string;
     checkIsMyLastMessage: boolean;
     subtitle: string;
-    secondMemberStatus: keyof typeof NetworkStatuses;
 } & Chat;
 
 export type UseChatsTabsAndListsReturnType = {

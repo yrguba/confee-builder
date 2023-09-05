@@ -44,7 +44,7 @@ function ChatsListView(props: Props) {
                         >
                             <div className={styles.body}>
                                 <div className={styles.avatar}>
-                                    <Avatar networkStatus={chat?.secondMemberStatus} size={52} img={chat.avatar} name={chat?.name} />
+                                    <Avatar networkStatus={chat?.secondMember?.networkStatus} size={52} img={chat.avatar} name={chat?.name} />
                                 </div>
                                 <div className={styles.content}>
                                     <div className={styles.row}>

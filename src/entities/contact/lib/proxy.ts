@@ -1,4 +1,3 @@
-import { Message, MessageProxy } from '../../message/model/types';
 import { Contact, ContactProxy } from '../model/types';
 
 function contactProxy(contact: Contact | undefined): any {
@@ -12,9 +11,6 @@ function contactProxy(contact: Contact | undefined): any {
                 default:
                     return target[prop];
             }
-        },
-        set(target: Contact, prop: keyof MessageProxy, value, receiver) {
-            return Reflect.set(target, prop, value, receiver);
         },
     });
 }

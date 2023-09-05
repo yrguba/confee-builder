@@ -23,7 +23,8 @@ export type User = {
 
 export type UserProxy = {
     full_name: string;
-} & Contact;
+    networkStatus: keyof typeof NetworkStatuses;
+} & User;
 
 export type SocketIn = 'UserUpdated';
 export type SocketOut = '';
