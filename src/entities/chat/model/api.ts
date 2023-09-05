@@ -43,7 +43,7 @@ class ChatApi {
     handleGetChats = (data: { type: 'all' | 'personal' | 'company'; companyId?: number }) => {
         const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type || 'all';
         return useQuery(['get-chats', type], () => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit } }), {
-            enabled: data.type !== 'company' && !data.companyId,
+            enabled: !(data.type === 'company' && !data.companyId),
             staleTime: Infinity,
             select: (data) => {
                 const res = httpHandlers.response<{ data: Chat[] }>(data);

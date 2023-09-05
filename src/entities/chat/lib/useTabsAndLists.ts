@@ -6,68 +6,86 @@ import { BaseTypes } from 'shared/types';
 import { TabBarTypes } from 'shared/ui';
 
 import { companyTypes } from '../../company';
+import { chatApi, chatProxy, chatTypes } from '../index';
 import { ChatProxy, UseChatsTabsAndListsReturnType } from '../model/types';
 
 type Props = {
+    redirect?: boolean;
+};
+
+type MemoProps = {
     all: ChatProxy[] | BaseTypes.Empty;
     personal: ChatProxy[] | BaseTypes.Empty;
     company: ChatProxy[] | BaseTypes.Empty;
 };
 
-const memoTabs = createMemo((props: Props) => {
+const memoTabs = createMemo((props: MemoProps) => {
     const tabs: TabBarTypes.TabBarItem[] = [{ id: 0, title: 'все', callback: () => '' }];
     if (props.personal?.length) tabs.push({ id: 1, title: 'личные', callback: () => '' });
     // if (props.personal?.length) tabs.unshift({ id: 1, title: 'личные', callback: () => '' });
     return tabs;
 });
 
-function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
-    const tabs = memoTabs(props);
-    const { navigate, pathname } = useRouter();
+const memoProxy = createMemo((chats: chatTypes.Chat[] | undefined) => {
+    if (chats?.length) {
+        return chats.map((i) => chatProxy(i));
+    }
+    return [];
+});
 
+function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
+    const { navigate, pathname, params } = useRouter();
+
+    const { data: allChatsData } = chatApi.handleGetChats({ type: 'all' });
+    const { data: personalChatsData } = chatApi.handleGetChats({ type: 'personal' });
+    const { data: companyChatsData } = chatApi.handleGetChats({ type: 'company', companyId: 17 });
+
+    const allChatsProxy = memoProxy(allChatsData);
+    const personalChatsProxy = memoProxy(personalChatsData);
+    const companyChatsProxy = memoProxy(companyChatsData);
+
+    const tabs = memoTabs({ all: allChatsProxy, personal: personalChatsProxy, company: companyChatsProxy });
     const activeTab = useEasyState<TabBarTypes.TabBarItem | null>(null);
     const activeList = useEasyState<ChatProxy[] | BaseTypes.Empty>(null);
 
     useUpdateEffect(() => {
-        if (props.personal?.length && activeTab.value?.title === 'Личные') {
-            activeList.set(props.personal);
-        } else {
-            // props.companies &&
-            //     props.companies.forEach((i) => {
-            //         if (i.name === activeTab.value?.title) {
-            //             activeList.set([i]);
-            //         }
-            //     });
+        if (personalChatsData?.length && activeTab.value?.title === 'личные') {
+            activeList.set(personalChatsProxy);
+        }
+        if (allChatsProxy?.length && activeTab.value?.title === 'все') {
+            activeList.set(allChatsProxy);
         }
     }, [activeTab.value]);
 
     const clickTab = (tab: TabBarTypes.TabBarItem) => {
         activeTab.set(tab);
-        if (tab.title === 'все') return navigate('/chats/all');
-        if (tab.title === 'личные') return navigate('/chats/personal');
-        return navigate('/chats/company');
+        if (props.redirect) {
+            if (tab.title === 'все') return navigate('/chats/all');
+            if (tab.title === 'личные') return navigate('/chats/personal');
+            return navigate('/chats/company');
+        }
     };
 
     useEffect(() => {
         if (pathname.includes('all')) {
             tabs.length && activeTab.set(tabs[0]);
-            props.all?.length && activeList.set(props.all);
+            allChatsProxy?.length && activeList.set(allChatsProxy);
         }
-    }, [props.all]);
+    }, [allChatsProxy]);
 
     useEffect(() => {
-        if (pathname.includes('personal') && props.personal) {
+        if (pathname.includes('personal') && personalChatsProxy) {
             tabs.length && activeTab.set(tabs[1]);
-            props.all?.length && activeList.set(props.personal);
+            personalChatsProxy?.length && activeList.set(personalChatsProxy);
         }
-    }, [props.personal]);
+    }, [personalChatsProxy]);
 
     useEffect(() => {
-        if (pathname.includes('company') && props.company) {
+        if (pathname.includes('company') && companyChatsProxy) {
             tabs.length && activeTab.set(tabs[2]);
-            props.all?.length && activeList.set(props.company);
+            companyChatsProxy?.length && activeList.set(companyChatsProxy);
         }
-    }, [props.company]);
+    }, [companyChatsProxy]);
 
     return {
         tabs,

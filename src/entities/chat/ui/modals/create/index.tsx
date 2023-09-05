@@ -26,7 +26,7 @@ function CreateChatModalView(props: Props) {
         isGroup.toggle();
         selectedContacts.clear();
     };
-    console.log(tabsAndLists);
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
