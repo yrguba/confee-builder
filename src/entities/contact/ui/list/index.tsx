@@ -50,6 +50,7 @@ function ContactsListView(props: Props) {
                     : tabsAndLists.activeList?.map((i: any) =>
                           i?.departments?.map((dep: Department) => (
                               <Collapse
+                                  headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
                                   openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
                                   isOpen={dep.id === Number(params.department_id)}
                                   key={dep.id}

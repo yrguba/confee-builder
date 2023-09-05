@@ -7,7 +7,7 @@ import { Box, Title } from '../../index';
 import { CollapseProps } from '../types';
 
 function Collapse(props: CollapseProps) {
-    const { title, children, subtitle, isOpen, onTitleClick, openByClickingOnArrow, openClose, loading } = props;
+    const { title, children, subtitle, headerStyle, isOpen, onTitleClick, openByClickingOnArrow, openClose, loading } = props;
 
     const visible = useEasyState(!!isOpen);
 
@@ -32,7 +32,7 @@ function Collapse(props: CollapseProps) {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.header} onClick={headerClick}>
+            <div className={styles.header} style={headerStyle} onClick={headerClick}>
                 <div className={styles.title} onClick={titleClick}>
                     <div className={styles.caption}>
                         <Title primary variant="H4S">

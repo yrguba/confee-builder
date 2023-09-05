@@ -39,15 +39,15 @@ function ContactProfileView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <UserCardView name={contact?.full_name || ''} aboutMe="" avatar="" birth="" phone={contact?.phone || ''} nickname="" />
-            <div className={styles.btns}>
-                {btns.map((i) => (
-                    <Dropdown.Menu visible={false} position="bottom-center" items={menuItems} key={i.id} disabled>
-                        <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
-                            {i.title}
-                        </Button>
-                    </Dropdown.Menu>
-                ))}
-            </div>
+            {/* <div className={styles.btns}> */}
+            {/*    {btns.map((i) => ( */}
+            {/*        <Dropdown.Menu visible={false} position="bottom-center" items={menuItems} key={i.id} disabled> */}
+            {/*            <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}> */}
+            {/*                {i.title} */}
+            {/*            </Button> */}
+            {/*        </Dropdown.Menu> */}
+            {/*    ))} */}
+            {/* </div> */}
         </div>
     );
 }

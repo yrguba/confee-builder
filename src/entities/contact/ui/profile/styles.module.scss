@@ -1,13 +1,14 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(auto, 100%);
-  @include flex-column(flex-start);
-  max-height: 90vh;
-  max-width: 549px;
+  @include box-size(calc(100% - 48px), calc(100% - 48px));
+  @include flex;
   gap: 20px;
   overflow-y: auto;
-background-color: #1D005C;
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+
   .btns {
     @include box-size(370px, 61px);
     @include flex;

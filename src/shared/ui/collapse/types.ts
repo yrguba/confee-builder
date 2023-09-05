@@ -11,4 +11,5 @@ export type CollapseProps = {
     onTitleClick?: (arg: string) => void;
     activeAnimate?: boolean;
     openClose?: (value: boolean) => void;
+    headerStyle?: CSSProperties;
 } & BaseTypes.Statuses;
