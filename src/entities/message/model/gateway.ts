@@ -54,19 +54,21 @@ function messageGateway() {
             });
             ['all', 'personal'].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                    if (!cacheData?.data?.data.length) return cacheData;
+                    if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
-                        const foundChatIndex = draft?.data?.data.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
-                        if (foundChatIndex !== -1) {
-                            const chat = draft?.data?.data[foundChatIndex];
-                            draft.data.data.splice(foundChatIndex, 1);
-                            draft.data.data.unshift({
-                                ...chat,
-                                pending_messages_count: socketData.data.extra_info.chat_pending_messages_count,
-                                last_message: socketData.data.message,
-                                typing: '',
-                            });
-                        }
+                        draft?.pages.forEach((page: any) => {
+                            const foundChatIndex = page.data?.data?.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
+                            if (foundChatIndex !== -1) {
+                                const chat = page?.data?.data[foundChatIndex];
+                                page.data.data.splice(foundChatIndex, 1);
+                                page.data.data.unshift({
+                                    ...chat,
+                                    pending_messages_count: socketData.data.extra_info.chat_pending_messages_count,
+                                    last_message: socketData.data.message,
+                                    typing: '',
+                                });
+                            }
+                        });
                     });
                 })
             );
@@ -87,12 +89,14 @@ function messageGateway() {
         onMessage('MessageUpdated', (socketData) => {
             ['all', 'personal'].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                    if (!cacheData?.data?.data.length) return cacheData;
+                    if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
-                        draft.data.data = draft?.data?.data.map((chat: Chat) => {
-                            if (socketData.data.chat_id === chat.id && chat.last_message.id === socketData.data.message_id)
-                                return { ...chat, last_message: { ...chat.last_message, ...socketData.data.updated_values } };
-                            return chat;
+                        draft.pages.forEach((page: any) => {
+                            page.data.data = page?.data?.data.map((chat: Chat) => {
+                                if (socketData.data.chat_id === chat.id && chat.last_message.id === socketData.data.message_id)
+                                    return { ...chat, last_message: { ...chat.last_message, ...socketData.data.updated_values } };
+                                return chat;
+                            });
                         });
                     });
                 })
@@ -118,14 +122,16 @@ function messageGateway() {
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                     if (!cacheData?.data?.data.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
-                        draft.data.data = draft?.data?.data.map((chat: Chat) => {
-                            if (socketData.data.chat_id === chat.id) {
-                                chat.pending_messages_count = socketData?.data?.extra_info?.chat_pending_messages_count;
-                                if (chat.last_message.id === socketData.data.message_id) {
-                                    chat.last_message.users_have_read = [...chat.last_message.users_have_read, socketData.data.read_user_id];
+                        draft.pages.forEach((page: any) => {
+                            page.data.data = page?.data?.data.map((chat: Chat) => {
+                                if (socketData.data.chat_id === chat.id) {
+                                    chat.pending_messages_count = socketData?.data?.extra_info?.chat_pending_messages_count;
+                                    if (chat.last_message.id === socketData.data.message_id) {
+                                        chat.last_message.users_have_read = [...chat.last_message.users_have_read, socketData.data.read_user_id];
+                                    }
                                 }
-                            }
-                            return chat;
+                                return chat;
+                            });
                         });
                     });
                 })

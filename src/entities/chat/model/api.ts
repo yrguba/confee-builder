@@ -73,8 +73,11 @@ class ChatApi {
                 const updRes = httpHandlers.response<{ data: Chat }>(res);
                 ['all', 'personal'].forEach((i) =>
                     queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                        if (!cacheData?.pages?.length) return cacheData;
                         return produce(cacheData, (draft: any) => {
-                            draft?.data?.data.unshift(updRes.data?.data);
+                            draft?.pages.forEach((page: any) => {
+                                page?.data?.data.unshift(updRes.data?.data);
+                            });
                         });
                     })
                 );
@@ -93,8 +96,11 @@ class ChatApi {
                     const updRes = httpHandlers.response<{ data: Chat }>(res);
                     ['all', `for-company/${data.companyId}`].forEach((i) =>
                         queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                            if (!cacheData?.pages?.length) return cacheData;
                             return produce(cacheData, (draft: any) => {
-                                draft?.data?.data.unshift(updRes.data?.data);
+                                draft?.pages.forEach((page: any) => {
+                                    page?.data?.data.unshift(updRes.data?.data);
+                                });
                             });
                         })
                     );
@@ -110,9 +116,11 @@ class ChatApi {
             onSuccess: async (res, data) => {
                 ['all', 'personal'].forEach((i) =>
                     queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                        if (!cacheData?.data?.data.length) return cacheData;
+                        if (!cacheData?.pages?.length) return cacheData;
                         return produce(cacheData, (draft: any) => {
-                            draft.data.data = draft?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+                            draft?.pages.forEach((page: any) => {
+                                page.data.data = page?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+                            });
                         });
                     })
                 );
@@ -160,9 +168,11 @@ class ChatApi {
         return useMutation((data: { chatId: number }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`), {
             onSuccess: async (res, data) => {
                 queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                    if (!cacheData?.data?.data.length) return cacheData;
+                    if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
-                        draft.data.data = draft?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+                        draft?.pages.forEach((page: any) => {
+                            page.data.data = page?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+                        });
                     });
                 });
             },
