@@ -55,7 +55,7 @@ class CompanyApi {
                 select: (data: any) => {
                     return {
                         pages: data.pages,
-                        pageParams: [...data.pageParams].reverse(),
+                        pageParams: [...data.pageParams],
                     };
                 },
             }

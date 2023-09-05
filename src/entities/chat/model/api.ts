@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import produce from 'immer';
 
 import { axiosClient } from 'shared/configs';
@@ -42,14 +42,28 @@ class ChatApi {
 
     handleGetChats = (data: { type: 'all' | 'personal' | 'company'; companyId?: number }) => {
         const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type || 'all';
-        return useQuery(['get-chats', type], () => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit } }), {
-            enabled: !(data.type === 'company' && !data.companyId),
-            staleTime: Infinity,
-            select: (data) => {
-                const res = httpHandlers.response<{ data: Chat[] }>(data);
-                return res.data?.data;
-            },
-        });
+        return useInfiniteQuery(
+            ['get-chats', type],
+            ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+            {
+                enabled: !(data.type === 'company' && !data.companyId),
+                staleTime: Infinity,
+                getPreviousPageParam: (lastPage, pages) => {
+                    const { current_page } = lastPage?.data.meta;
+                    return current_page > 1 ? current_page - 1 : undefined;
+                },
+                getNextPageParam: (lastPage, pages) => {
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
+                },
+                select: (data) => {
+                    return {
+                        pages: data.pages,
+                        pageParams: [...data.pageParams],
+                    };
+                },
+            }
+        );
     };
 
     handleCreatePersonalChat() {
@@ -57,11 +71,13 @@ class ChatApi {
         return useMutation((data: { user_ids: number[] | string[] | null; is_group: boolean }) => axiosClient.post(`${this.pathPrefix}`, data), {
             onSuccess: async (res, data) => {
                 const updRes = httpHandlers.response<{ data: Chat }>(res);
-                queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                    return produce(cacheData, (draft: any) => {
-                        draft?.data?.data.unshift(updRes.data?.data);
-                    });
-                });
+                ['all', 'personal'].forEach((i) =>
+                    queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                        return produce(cacheData, (draft: any) => {
+                            draft?.data?.data.unshift(updRes.data?.data);
+                        });
+                    })
+                );
             },
         });
     }
@@ -75,11 +91,13 @@ class ChatApi {
             {
                 onSuccess: async (res, data) => {
                     const updRes = httpHandlers.response<{ data: Chat }>(res);
-                    queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                        return produce(cacheData, (draft: any) => {
-                            draft?.data?.data.unshift(updRes.data?.data);
-                        });
-                    });
+                    ['all', `for-company/${data.companyId}`].forEach((i) =>
+                        queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                            return produce(cacheData, (draft: any) => {
+                                draft?.data?.data.unshift(updRes.data?.data);
+                            });
+                        })
+                    );
                 },
             }
         );
@@ -90,12 +108,14 @@ class ChatApi {
         const { navigate } = useRouter();
         return useMutation((data: { chatId: number }) => axiosClient.delete(`${this.pathPrefix}/${data.chatId}`), {
             onSuccess: async (res, data) => {
-                queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                    if (!cacheData?.data?.data.length) return cacheData;
-                    return produce(cacheData, (draft: any) => {
-                        draft.data.data = draft?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
-                    });
-                });
+                ['all', 'personal'].forEach((i) =>
+                    queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                        if (!cacheData?.data?.data.length) return cacheData;
+                        return produce(cacheData, (draft: any) => {
+                            draft.data.data = draft?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+                        });
+                    })
+                );
                 navigate('/chat');
             },
         });

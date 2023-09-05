@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { BaseTypes } from 'shared/types';
 import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, TabBarTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { UseArrayReturnType, useHeightMediaQuery } from '../../../../shared/hooks';
+import { UseArrayReturnType, useHeightMediaQuery, useInView } from '../../../../shared/hooks';
 import { ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
 
 type Props = {
@@ -16,6 +16,12 @@ type Props = {
 function ChatsListView(props: Props) {
     const { clickOnChat, loading, activeChatId, tabsAndLists } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
+
+    const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
+
+    useEffect(() => {
+        inViewLastItem && tabsAndLists.getNextPage();
+    }, [inViewLastItem]);
 
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
@@ -31,6 +37,7 @@ function ChatsListView(props: Props) {
                 {tabsAndLists.activeList?.length &&
                     tabsAndLists.activeList?.map((chat, index: number) => (
                         <div
+                            ref={index + 1 === tabsAndLists.activeList?.length ? lastItem : null}
                             key={chat?.id}
                             className={`${styles.item} ${activeChatId === chat?.id ? styles.item_active : ''}`}
                             onClick={() => clickOnChat(chat)}
@@ -43,7 +50,7 @@ function ChatsListView(props: Props) {
                                     <div className={styles.row}>
                                         <div className={styles.left}>
                                             <Title variant="H3S">{chat?.name}</Title>
-                                            <Button tag>TFN</Button>
+                                            {!chat.is_personal && <Button tag>TFN</Button>}
                                         </div>
                                         <div className={styles.right}>
                                             <Title textAlign="right" variant="caption1M" primary={false}>

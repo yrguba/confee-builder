@@ -5,10 +5,17 @@ import { ForwardMessagesModalView, useMessageStore } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 import { Modal, ModalTypes } from 'shared/ui';
 
+import chatService from '../../../../entities/chat/lib/service';
+import { createMemo } from '../../../../shared/hooks';
+
+const memoChats = createMemo(chatService.getUpdatedChatsList);
+
 function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
 
-    const { data: chatsData } = chatApi.handleGetChats({ type: 'all' });
+    const { data: allChatsData } = chatApi.handleGetChats({ type: 'all' });
+
+    const allChatsProxy = memoChats(allChatsData);
 
     const forwardMessages = useMessageStore.use.forwardMessages();
 
@@ -23,7 +30,7 @@ function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
         forwardMessages.clear();
     };
 
-    return <ForwardMessagesModalView clickChat={clickChat} chats={chatsData?.map((chat) => chatProxy(chat))} back={back} />;
+    return <ForwardMessagesModalView clickChat={clickChat} chats={allChatsProxy?.map((chat) => chatProxy(chat))} back={back} />;
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {

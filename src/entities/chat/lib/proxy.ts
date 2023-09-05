@@ -11,6 +11,9 @@ function chatProxy(chat: Chat | undefined): any {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver: ChatProxy): ChatProxy[keyof ChatProxy] {
             const secondMember = target.is_group ? null : target?.members?.find((i) => i.id !== viewerId) || null;
             switch (prop) {
+                case 'is_personal':
+                    return !target.employee_members?.length;
+
                 case 'secondMember':
                     return secondMember;
 

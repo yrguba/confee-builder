@@ -5,7 +5,8 @@ import { createMemo, useEasyState, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { TabBarTypes } from 'shared/ui';
 
-import { companyTypes } from '../../company';
+import chatService from './service';
+import { companyService, companyTypes } from '../../company';
 import { chatApi, chatProxy, chatTypes } from '../index';
 import { ChatProxy, UseChatsTabsAndListsReturnType } from '../model/types';
 
@@ -26,32 +27,31 @@ const memoTabs = createMemo((props: MemoProps) => {
     return tabs;
 });
 
-const memoProxy = createMemo((chats: chatTypes.Chat[] | undefined) => {
-    if (chats?.length) {
-        return chats.map((i) => chatProxy(i));
-    }
-    return [];
-});
+const memoChats = createMemo(chatService.getUpdatedChatsList);
 
 function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
     const { navigate, pathname, params } = useRouter();
 
     const { redirect = true } = props;
 
-    const { data: allChatsData } = chatApi.handleGetChats({ type: 'all' });
+    const { data: allChatsData, hasNextPage, fetchNextPage } = chatApi.handleGetChats({ type: 'all' });
     const { data: personalChatsData } = chatApi.handleGetChats({ type: 'personal' });
     const { data: companyChatsData } = chatApi.handleGetChats({ type: 'company', companyId: 17 });
 
-    const allChatsProxy = memoProxy(allChatsData);
-    const personalChatsProxy = memoProxy(personalChatsData);
-    const companyChatsProxy = memoProxy(companyChatsData);
+    const allChatsProxy = memoChats(allChatsData);
+    const personalChatsProxy = memoChats(personalChatsData);
+    const companyChatsProxy = memoChats(companyChatsData);
 
     const tabs = memoTabs({ all: allChatsProxy, personal: personalChatsProxy, company: companyChatsProxy });
     const activeTab = useEasyState<TabBarTypes.TabBarItem | null>(null);
     const activeList = useEasyState<ChatProxy[] | BaseTypes.Empty>(null);
 
+    const getNextPage = () => {
+        hasNextPage && fetchNextPage();
+    };
+
     useUpdateEffect(() => {
-        if (personalChatsData?.length && activeTab.value?.title === 'личные') {
+        if (personalChatsProxy?.length && activeTab.value?.title === 'личные') {
             activeList.set(personalChatsProxy);
         }
         if (allChatsProxy?.length && activeTab.value?.title === 'все') {
@@ -94,6 +94,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
         activeTab: activeTab.value,
         setActiveTab: clickTab,
         activeList: activeList.value,
+        getNextPage,
     };
 }
 

@@ -55,8 +55,13 @@ function ContactsListView(props: Props) {
                                   key={dep.id}
                                   title={dep?.name || ''}
                               >
-                                  {tabsAndLists.departmentsEmployees[dep.id]?.map((emp) => (
-                                      <Item ref={lastItem} key={emp.id} employee={employeeProxy(emp)} {...props} />
+                                  {tabsAndLists.departmentsEmployees[dep.id]?.map((emp, index) => (
+                                      <Item
+                                          ref={index + 1 === tabsAndLists.departmentsEmployees[dep.id].length ? lastItem : null}
+                                          key={emp.id}
+                                          employee={employeeProxy(emp)}
+                                          {...props}
+                                      />
                                   ))}
                               </Collapse>
                           ))

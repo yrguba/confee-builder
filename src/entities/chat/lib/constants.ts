@@ -1,1 +1,1 @@
-export const chats_limit = 50;
+export const chats_limit = 15;
