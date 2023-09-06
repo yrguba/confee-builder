@@ -1,4 +1,4 @@
-import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, removeDir, readTextFile, removeFile } from '@tauri-apps/api/fs';
+import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, removeDir, readTextFile, writeTextFile } from '@tauri-apps/api/fs';
 
 import { fileConverter, sizeConverter } from '../lib';
 
@@ -7,6 +7,13 @@ type SaveFileProps = {
     folderDir: 'cache' | 'database' | '';
     fileName: string | undefined;
     fileBlob: Blob;
+};
+
+type SaveTextFileProps = {
+    baseDir: 'Download' | 'Document';
+    folderDir: 'cache' | 'database' | '';
+    fileName: string | undefined;
+    json: string;
 };
 
 type GetFileProps = {} & Omit<SaveFileProps, 'fileBlob'>;
@@ -33,6 +40,24 @@ const useFS = () => {
         return '';
     };
 
+    const saveTextFile = async (props: SaveTextFileProps) => {
+        if (disabled) return null;
+        if (!props.fileName) return null;
+        const baseDir: any = BaseDirectory[props.baseDir];
+        const folderDir: any = `Confee/${props.folderDir}`;
+
+        const checkPath = await exists(`${folderDir}`, { dir: baseDir });
+        if (!checkPath) await createDir(folderDir, { dir: baseDir, recursive: true });
+        try {
+            await writeTextFile(`${folderDir}/${props.fileName.split('/').join('')}`, props.json, {
+                dir: baseDir,
+            });
+        } catch (e) {
+            console.log(e);
+        }
+        return '';
+    };
+
     const getFile = async (props: GetFileProps) => {
         if (disabled) return null;
         if (!props.fileName) return null;
@@ -44,6 +69,17 @@ const useFS = () => {
         const contents = await readBinaryFile(`${folderDir}/${props.fileName}`, { dir: baseDir });
         const base64 = await fileConverter.arrayBufferToBase64(contents);
         return base64;
+    };
+
+    const getTextFile = async (props: GetFileProps) => {
+        if (disabled) return null;
+        if (!props.fileName) return null;
+        const baseDir: any = BaseDirectory[props.baseDir];
+        const folderDir: any = `Confee/${props.folderDir}`;
+
+        const checkPath = await exists(`${folderDir}/${props.fileName}`, { dir: baseDir });
+        if (!checkPath) return null;
+        return readTextFile(`${folderDir}/${props.fileName}`, { dir: baseDir });
     };
 
     const getFolderSize = async (props: GetFolderSizeProps) => {
