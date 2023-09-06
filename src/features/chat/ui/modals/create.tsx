@@ -46,7 +46,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
                 {
                     onSuccess: (data) => {
                         modal.close();
-                        navigate(`/chats/company/chat/${data.data.data.id}`);
+                        navigate(`/chats/company/${tabsAndLists.activeTab?.payload?.id}/chat/${data.data.data.id}`);
                     },
                 }
             );

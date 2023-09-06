@@ -9,7 +9,6 @@ import { viewerApi } from 'entities/viewer';
 import { useEasyState, useRouter } from 'shared/hooks';
 import { Notification, Input } from 'shared/ui';
 
-import { EmployeeProxy } from '../../../entities/company/model/types';
 import logo from '../../../shared/ui/icons/ui/logo';
 
 function ContactsList() {
@@ -17,12 +16,17 @@ function ContactsList() {
 
     const [isPending, startTransition] = useTransition();
 
-    const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
+    const contact = useEasyState<contactTypes.ContactProxy | null>(null);
+    const employee = useEasyState<companyTypes.EmployeeProxy | null>(null);
 
+    const userId = Number(params.user_id) || contact.value?.user_id;
+
+    const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const { data: chatData } = chatApi.handleGetPrivateChat({ userId: Number(params.user_id) });
+    const { data: chatData } = chatApi.handleGetPrivateChat({ userId });
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
+    const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
 
     const notification = Notification.use();
 
@@ -34,37 +38,49 @@ function ContactsList() {
         navigate(`/contacts/companies/company/${employee.companies[0].id}/department/${employee.departments[0].id}/employee/${employee.id}`);
     }, []);
 
-    const redirect = () => {
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
+
+    const createMessage = (contact: contactTypes.ContactProxy | null, employee: companyTypes.EmployeeProxy | null) => {
+        const chatType = contact ? 'personal' : 'company';
         if (chatData) {
-            return startTransition(() => navigate(`/chats/chat/${chatData?.id}`));
+            return startTransition(() => navigate(`/chats/${chatType}/chat/${chatData?.id}`));
         }
-        params.user_id &&
-            handleCreatePersonalChat(
-                { user_ids: [params.user_id], is_group: false },
+        if (contact) {
+            return handleCreatePersonalChat(
+                { user_ids: [contact.user_id], is_group: false },
                 {
                     onSuccess: (res) => {
-                        startTransition(() => navigate(`/chats/chat/${res?.data.data.id}`));
+                        startTransition(() => navigate(`/chats/personal/chat/${res?.data.data.id}`));
                     },
                 }
             );
+        }
+        if (employee) {
+            return handleCreateCompanyChat(
+                { body: { employee_ids: [employee.id], is_group: false }, companyId: tabsAndLists.activeTab?.payload?.id },
+                {
+                    onSuccess: (res) => {
+                        startTransition(() => navigate(`/chats/company/${tabsAndLists.activeTab?.payload?.id}/chat/${res?.data.data.id}`));
+                    },
+                }
+            );
+        }
     };
 
-    const actions = (data?: { action: contactTypes.Actions; contact: contactTypes.ContactProxy | null; employee: EmployeeProxy | null }) => {
-        if (data?.contact) clickContact(data.contact);
-        if (data?.employee) clickEmployee(data.employee);
+    const actions = (data?: { action: contactTypes.Actions; contact: contactTypes.ContactProxy | null; employee: companyTypes.EmployeeProxy | null }) => {
+        if (data?.contact) contact.set(data.contact);
+        if (data?.employee) employee.set(data.employee);
         switch (data?.action) {
             case 'delete':
                 return data.contact && handleDeleteContact({ contactId: data.contact.id });
             case 'mute':
                 return notification.inDev();
             case 'message':
-                return redirect();
+                return createMessage(data.contact, data.employee);
             case 'audioCall':
                 return notification.inDev();
         }
     };
-
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
 
     return (
         <ContactsListView

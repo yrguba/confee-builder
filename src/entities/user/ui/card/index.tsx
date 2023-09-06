@@ -35,8 +35,8 @@ function UserCardView(props: Props) {
         { id: 2, title: 'Чат', icon: 'chat', payload: '', callback: () => '' },
     ];
 
-    const btnsContact: BaseTypes.Item[] = [...sharedBtn, { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => '' }];
-    const btnsEmployee: BaseTypes.Item[] = [...sharedBtn, { id: 3, title: 'Выкл.', icon: 'mute', payload: '', callback: () => '' }];
+    const btnsContact: BaseTypes.Item[] = [...sharedBtn, { id: 4, title: 'Ещё', icon: 'more', payload: '', callback: () => '' }];
+    const btnsEmployee: BaseTypes.Item[] = [...sharedBtn, { id: 5, title: 'Выкл.', icon: 'mute', payload: '', callback: () => '' }];
 
     const sm = useWidthMediaQuery().to('sm');
 
@@ -61,6 +61,7 @@ function UserCardView(props: Props) {
                             {type === 'contact'
                                 ? btnsContact.map((i) => (
                                       <Button
+                                          key={i.id}
                                           direction="vertical"
                                           prefixIcon={i.id === 3 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
                                           onClick={i.callback}
@@ -70,6 +71,7 @@ function UserCardView(props: Props) {
                                   ))
                                 : btnsEmployee.map((i) => (
                                       <Button
+                                          key={i.id}
                                           direction="vertical"
                                           prefixIcon={i.id === 3 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
                                           onClick={i.callback}

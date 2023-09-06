@@ -19,11 +19,9 @@ type Props = {
 const memoTabs = createMemo((companies: companyTypes.Company[] | BaseTypes.Empty) => {
     const tabs: TabBarTypes.TabBarItem<Company>[] = [{ id: 0, title: 'личные', callback: () => '' }];
     if (companies?.length) {
-        const arr: TabBarTypes.TabBarItem[] = [];
         companies.forEach((i, index) => {
-            arr.push({ id: index + 1, title: i.name || '', callback: () => '', payload: i });
+            tabs.push({ id: index + 1, title: i.name || '', callback: () => '', payload: i });
         });
-        return tabs.concat(arr);
     }
     return tabs;
 });
@@ -96,7 +94,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
             tabs.length && activeTab.set(tabs[1]);
             props.companies && activeList.set(props.companies);
         }
-    }, [props.companies]);
+    }, [props.companies, activeTab.value]);
 
     useEffect(() => {
         if (pathname.includes('contacts') || !redirect) {
