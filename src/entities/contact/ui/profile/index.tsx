@@ -10,15 +10,23 @@ type Props = {
     contact: ContactProxy | BaseTypes.Empty;
     back: () => void;
     updateName: (name: string | number | undefined) => void;
+    remove: () => void;
 } & BaseTypes.Statuses;
 
 function ContactProfileView(props: Props) {
-    const { contact, back, updateName } = props;
+    const { contact, back, updateName, remove } = props;
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.card}>
                 <UserCardView
+                    actions={{
+                        delete: remove,
+                        videoCall: () => console.log('videoCall'),
+                        audioCall: () => console.log('audioCall'),
+                        getChat: () => console.log('getChat'),
+                        mute: () => console.log('mute'),
+                    }}
                     visibleHeader
                     type="contact"
                     visibleActionsMenu

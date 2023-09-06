@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Icons, Title } from 'shared/ui';
+import { Avatar, Box, Button, Dropdown, Icons, Title, DropdownTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useWidthMediaQuery } from '../../../../shared/hooks';
@@ -17,10 +17,17 @@ type Props = {
     visibleHeader?: boolean;
     networkStatus?: string;
     type?: 'contact' | 'employee';
+    actions?: {
+        audioCall: () => void;
+        videoCall: () => void;
+        getChat: () => void;
+        mute: () => void;
+        delete?: () => void;
+    };
 } & BaseTypes.Statuses;
 
 function UserCardView(props: Props) {
-    const { networkStatus, visibleHeader, type, avatar, name, nickname, aboutMe, birth, phone, loading, visibleActionsMenu } = props;
+    const { actions, networkStatus, visibleHeader, type, avatar, name, nickname, aboutMe, birth, phone, loading, visibleActionsMenu } = props;
 
     const secondaryInfo: { id: number; title: string; subtitle: string }[] = [
         { id: 0, title: 'Никнейм', subtitle: `@${nickname}` },
@@ -30,13 +37,18 @@ function UserCardView(props: Props) {
     ];
 
     const sharedBtn: BaseTypes.Item[] = [
-        { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => '' },
-        { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => '' },
-        { id: 2, title: 'Чат', icon: 'chat', payload: '', callback: () => '' },
+        { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: actions?.audioCall },
+        { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: actions?.videoCall },
+        { id: 2, title: 'Чат', icon: 'chat', payload: '', callback: actions?.getChat },
+    ];
+
+    const moreBtn: DropdownTypes.DropdownMenuItem[] = [
+        { id: 0, title: 'Выключить уведомления', icon: <Icons.Player variant="mute" />, callback: () => actions?.mute() },
+        { id: 1, title: 'Удалить', icon: <Icons variant="delete" />, callback: () => actions?.delete && actions?.delete() },
     ];
 
     const btnsContact: BaseTypes.Item[] = [...sharedBtn, { id: 4, title: 'Ещё', icon: 'more', payload: '', callback: () => '' }];
-    const btnsEmployee: BaseTypes.Item[] = [...sharedBtn, { id: 5, title: 'Выкл.', icon: 'mute', payload: '', callback: () => '' }];
+    const btnsEmployee: BaseTypes.Item[] = [...sharedBtn, { id: 5, title: 'Выкл.', icon: 'mute', payload: '', callback: actions?.mute }];
 
     const sm = useWidthMediaQuery().to('sm');
 
@@ -60,14 +72,15 @@ function UserCardView(props: Props) {
                         <div className={styles.btns} style={{ width: sm ? 346 : 375 }}>
                             {type === 'contact'
                                 ? btnsContact.map((i) => (
-                                      <Button
-                                          key={i.id}
-                                          direction="vertical"
-                                          prefixIcon={i.id === 3 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
-                                          onClick={i.callback}
-                                      >
-                                          {i.title}
-                                      </Button>
+                                      <Dropdown.Menu position="bottom-center" items={moreBtn} key={i.id} disabled={i.title !== 'Ещё'}>
+                                          <Button
+                                              direction="vertical"
+                                              prefixIcon={i.id === 3 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
+                                              onClick={i.callback}
+                                          >
+                                              {i.title}
+                                          </Button>
+                                      </Dropdown.Menu>
                                   ))
                                 : btnsEmployee.map((i) => (
                                       <Button
