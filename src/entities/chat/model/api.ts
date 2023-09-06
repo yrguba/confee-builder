@@ -2,7 +2,7 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tansta
 import produce from 'immer';
 
 import { axiosClient } from 'shared/configs';
-import { useWebSocket, useStorage, useRouter } from 'shared/hooks';
+import { useWebSocket, useStorage, useRouter, useDatabase } from 'shared/hooks';
 import { getFormData, httpHandlers } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
@@ -42,6 +42,8 @@ class ChatApi {
 
     handleGetChats = (data: { type?: 'all' | 'personal' | 'company'; companyId?: number }) => {
         const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
+
+        const { save } = useDatabase();
         return useInfiniteQuery(
             ['get-chats', type],
             ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
@@ -57,6 +59,7 @@ class ChatApi {
                     return current_page < last_page ? current_page + 1 : undefined;
                 },
                 select: (data) => {
+                    save(data, 'chats');
                     return {
                         pages: data.pages,
                         pageParams: [...data.pageParams],

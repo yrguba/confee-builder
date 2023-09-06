@@ -112,7 +112,7 @@ const useFS = () => {
         await removeDir(folderDir, { dir: baseDir, recursive: true });
     };
 
-    return { saveFile, getFile, getFolderSize, deleteFolder };
+    return { saveFile, saveTextFile, getFile, getTextFile, getFolderSize, deleteFolder };
 };
 
 export default useFS;

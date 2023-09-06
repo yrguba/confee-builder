@@ -5,9 +5,9 @@ import useFs from './useFS';
 type Entities = 'chats';
 
 function useDatabase() {
-    const { saveFile, getFile } = useFs();
+    const { saveTextFile, getFile } = useFs();
     const save = async (data: any, entity: Entities) => {
-        // await saveFile({ baseDir: 'Document', folderDir: 'database', fileName: entity, fileBlob: fileConverter.objectToBlob(data) });
+        await saveTextFile({ baseDir: 'Document', folderDir: 'database', fileName: entity, json: JSON.stringify(data) });
     };
     const get = async (entity: Entities) => {
         const file: any = await getFile({ baseDir: 'Document', folderDir: 'database', fileName: entity });
