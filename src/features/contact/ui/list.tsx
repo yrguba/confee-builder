@@ -24,6 +24,8 @@ function ContactsList() {
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
     const { data: viewerData } = viewerApi.handleGetViewer();
 
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
+
     const { data: chatData } = chatApi.handleGetPrivateChat({ userId });
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
     const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
@@ -34,11 +36,9 @@ function ContactsList() {
         navigate(`/contacts/personal/contact/${contact.id}/user/${contact.user_id}`);
     }, []);
 
-    const clickEmployee = useCallback((employee: companyTypes.Employee) => {
-        navigate(`/contacts/companies/company/${employee.companies[0].id}/department/${employee.departments[0].id}/employee/${employee.id}`);
-    }, []);
-
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
+    const clickEmployee = (employee: companyTypes.Employee) => {
+        navigate(`/contacts/companies/${tabsAndLists.activeTab?.payload?.id}/department/${employee.departments[0].id}/employee/${employee.id}`);
+    };
 
     const createMessage = (contact: contactTypes.ContactProxy | null, employee: companyTypes.EmployeeProxy | null) => {
         const chatType = contact ? 'personal' : 'company';

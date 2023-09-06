@@ -63,11 +63,11 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         departmentId.set(depId);
     };
 
-    const clickTab = (tab: TabBarTypes.TabBarItem) => {
+    const clickTab = (tab: TabBarTypes.TabBarItem<Company>) => {
         activeTab.set(tab);
         if (redirect) {
             if (tab.title === 'личные') return navigate('/contacts/personal');
-            return navigate('/contacts/companies');
+            return navigate(`/contacts/companies/${tab.payload?.id}`);
         }
     };
 
