@@ -22,6 +22,7 @@ import {
     useHoverDirty,
     useAudio,
     useMountedState,
+    useMount,
 } from 'react-use';
 import useDownloader from 'react-use-downloader';
 import { useDraggable as useDraggableScroll } from 'react-use-draggable-scroll';
@@ -46,6 +47,7 @@ import useStyles from './useStyles';
 import useTheme, * as UseThemeType from './useTheme';
 import useThrottle from './useThrottle';
 import useToggle from './useToggle';
+import useVoiceAssistant from './useVoiceAssistant';
 import useWebSocket from './useWebSocket';
 import useWebView from './useWebView';
 import useYup from './useYup';
@@ -53,6 +55,8 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useMount,
+    useVoiceAssistant,
     useDatabase,
     useMountedState,
     useAudio,

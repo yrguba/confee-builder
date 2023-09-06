@@ -14,6 +14,7 @@ import { Notification } from 'shared/ui';
 
 import { notificationsManager } from '../entities/app';
 import { viewerService } from '../entities/viewer';
+import useVoiceAssistant from '../shared/hooks/useVoiceAssistant';
 
 const queryClient = new QueryClient();
 moment.locale('ru');

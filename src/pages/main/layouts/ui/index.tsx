@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './styles.module.scss';
+import useVoiceAssistant from '../../../../shared/hooks/useVoiceAssistant';
 import Navbar from '../widgets/navbar';
 
 function MainLayout() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
-
+    useVoiceAssistant();
     useEffect(() => {
         if (pathname === '/') {
             navigate('/chats');
