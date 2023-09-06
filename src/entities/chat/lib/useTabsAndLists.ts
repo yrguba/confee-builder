@@ -6,7 +6,8 @@ import { BaseTypes } from 'shared/types';
 import { TabBarTypes } from 'shared/ui';
 
 import chatService from './service';
-import { companyService, companyTypes } from '../../company';
+import { Company } from '../../company/model/types';
+import { viewerApi } from '../../viewer';
 import { chatApi, chatProxy, chatTypes } from '../index';
 import { ChatProxy, ChatsTypes, UseChatsTabsAndListsReturnType } from '../model/types';
 
@@ -14,16 +15,16 @@ type Props = {
     redirect?: boolean;
 };
 
-type MemoProps = {
-    all: ChatProxy[] | BaseTypes.Empty;
-    personal: ChatProxy[] | BaseTypes.Empty;
-    company: ChatProxy[] | BaseTypes.Empty;
-};
+type TabPayload = { type: ChatsTypes; companyId?: number };
 
-const memoTabs = createMemo((props: MemoProps) => {
-    const tabs: TabBarTypes.TabBarItem[] = [{ id: 0, title: 'все', callback: () => '' }];
-    if (props.personal?.length) tabs.push({ id: 1, title: 'личные', callback: () => '' });
-    // if (props.personal?.length) tabs.unshift({ id: 1, title: 'личные', callback: () => '' });
+const memoTabs = createMemo((companies: Company[] | BaseTypes.Empty) => {
+    const tabs: TabBarTypes.TabBarItem<TabPayload>[] = [
+        { id: 0, title: 'все', callback: () => '', payload: { type: 'all' } },
+        { id: 1, title: 'личные', callback: () => '', payload: { type: 'personal' } },
+    ];
+    companies?.forEach((i, index) => {
+        tabs.push({ id: index + 2, title: i.name || '', callback: () => '', payload: { type: 'company', companyId: i.id } });
+    });
     return tabs;
 });
 
@@ -34,27 +35,30 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     const { redirect = true } = props;
 
-    const { data: allChatsData, hasNextPage: allHasNextPage, fetchNextPage: allFetchNextPage } = chatApi.handleGetChats({ type: 'all' });
-    const { data: personalChatsData, hasNextPage: personalHasNextPage, fetchNextPage: personalFetchNextPage } = chatApi.handleGetChats({ type: 'personal' });
+    const { data: viewerData } = viewerApi.handleGetViewer();
+
+    const activeTab = useEasyState<TabBarTypes.TabBarItem<TabPayload> | null>(null);
+    const activeList = useEasyState<ChatProxy[] | BaseTypes.Empty>(null);
+
+    const activeType = activeTab.value?.payload?.type;
+    const tabs = memoTabs(viewerData?.companies);
+
+    const { data: allChatsData, hasNextPage: allHasNextPage, fetchNextPage: allFetchNextPage } = chatApi.handleGetChats({ type: activeType });
+    const { data: personalChatsData, hasNextPage: personalHasNextPage, fetchNextPage: personalFetchNextPage } = chatApi.handleGetChats({ type: activeType });
     const {
         data: companyChatsData,
         hasNextPage: companyHasNextPage,
         fetchNextPage: companyFetchNextPage,
-    } = chatApi.handleGetChats({ type: 'company', companyId: 17 });
+    } = chatApi.handleGetChats({ type: activeType, companyId: activeTab.value?.payload?.companyId });
 
     const allChatsProxy = memoChats(allChatsData);
     const personalChatsProxy = memoChats(personalChatsData);
     const companyChatsProxy = memoChats(companyChatsData);
 
-    const tabs = memoTabs({ all: allChatsProxy, personal: personalChatsProxy, company: companyChatsProxy });
-    const activeTab = useEasyState<TabBarTypes.TabBarItem | null>(null);
-    const activeList = useEasyState<ChatProxy[] | BaseTypes.Empty>(null);
-    const activeType = useEasyState<ChatsTypes>('all');
-
     const getNextPage = () => {
-        if (activeType.value === 'all' && allHasNextPage) return allFetchNextPage();
-        if (activeType.value === 'personal' && personalHasNextPage) return personalFetchNextPage();
-        if (activeType.value === 'company' && companyHasNextPage) return companyFetchNextPage();
+        if (activeType === 'all' && allHasNextPage) return allFetchNextPage();
+        if (activeType === 'personal' && personalHasNextPage) return personalFetchNextPage();
+        if (activeType === 'company' && companyHasNextPage) return companyFetchNextPage();
     };
 
     useUpdateEffect(() => {
@@ -66,38 +70,36 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
         }
     }, [activeTab.value]);
 
-    const clickTab = (tab: TabBarTypes.TabBarItem) => {
+    const clickTab = (tab: TabBarTypes.TabBarItem<TabPayload>) => {
         activeTab.set(tab);
         if (redirect) {
             if (tab.title === 'все') return navigate('/chats/all');
             if (tab.title === 'личные') return navigate('/chats/personal');
-            return navigate('/chats/company');
+            return navigate(`/chats/company/${tab.payload?.companyId}`);
         }
     };
 
     useEffect(() => {
         if (pathname.includes('all')) {
-            activeType.set('all');
             tabs.length && activeTab.set(tabs[0]);
-            allChatsProxy?.length && activeList.set(allChatsProxy);
+            allChatsProxy?.length && activeList.set(allChatsProxy || []);
         }
-    }, [allChatsProxy, pathname]);
+    }, [allChatsProxy, activeTab]);
 
     useEffect(() => {
-        if (pathname.includes('personal') && personalChatsProxy) {
-            activeType.set('personal');
+        if (pathname.includes('personal')) {
             tabs.length && activeTab.set(tabs[1]);
-            personalChatsProxy?.length && activeList.set(personalChatsProxy);
+            personalChatsProxy?.length && activeList.set(personalChatsProxy || []);
         }
-    }, [personalChatsProxy, pathname]);
+    }, [personalChatsProxy, activeTab]);
 
     useEffect(() => {
-        if (pathname.includes('company') && companyChatsProxy) {
-            activeType.set('company');
-            tabs.length && activeTab.set(tabs[2]);
-            companyChatsProxy?.length && activeList.set(companyChatsProxy);
+        if (pathname.includes('company')) {
+            const foundIndex = tabs.findIndex((i) => i.payload?.companyId === Number(params.company_id));
+            tabs.length && activeTab.set(tabs[foundIndex === -1 ? 2 : foundIndex]);
+            companyChatsProxy?.length && activeList.set(companyChatsProxy || []);
         }
-    }, [companyChatsProxy, pathname]);
+    }, [companyChatsProxy, activeTab]);
 
     return {
         tabs,

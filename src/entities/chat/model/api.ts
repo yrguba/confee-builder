@@ -40,13 +40,13 @@ class ChatApi {
         });
     };
 
-    handleGetChats = (data: { type: 'all' | 'personal' | 'company'; companyId?: number }) => {
-        const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type || 'all';
+    handleGetChats = (data: { type?: 'all' | 'personal' | 'company'; companyId?: number }) => {
+        const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
         return useInfiniteQuery(
             ['get-chats', type],
             ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
             {
-                enabled: !(data.type === 'company' && !data.companyId),
+                enabled: !!type && !(data.type === 'company' && !data.companyId),
                 staleTime: Infinity,
                 getPreviousPageParam: (lastPage, pages) => {
                     const { current_page } = lastPage?.data.meta;

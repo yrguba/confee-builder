@@ -5,7 +5,7 @@ import Chat from './widgets/chat';
 
 const ChatsPage = lazy(() => import('./ui'));
 
-const chatsPageRouters = ['/chats/all', '/chats/personal', '/chats/company'].map((path) => (
+const chatsPageRouters = ['/chats/all', '/chats/personal', '/chats/company/:company_id'].map((path) => (
     <Fragment key={path}>
         <Route path={path} element={<ChatsPage />}>
             <Route path="chat/:chat_id" element={<Chat />} />
