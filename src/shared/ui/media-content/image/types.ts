@@ -9,6 +9,7 @@ export type BaseImageProps = {
     onClick?: () => void;
     borderRadius?: boolean;
     remove?: (id: number | string) => void;
+    objectFit?: 'cover' | 'contain';
 } & BaseTypes.Statuses;
 
 export type ImagesListItem = {

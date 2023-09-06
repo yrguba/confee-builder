@@ -11,12 +11,13 @@ import LoadingIndicator from '../../../../loading-indicator';
 import { BaseImageProps } from '../../types';
 
 function Image(props: BaseImageProps) {
-    const { url, width, height, horizontalImgWidth, onClick, borderRadius = true, id, remove, ...other } = props;
+    const { objectFit = 'cover', url, width, height, horizontalImgWidth, onClick, borderRadius = true, id, remove, ...other } = props;
     const storage = useStorage<appTypes.ValuesInStorage>();
 
     const { src, error, isLoading, orientation } = useFetchMediaContent(url || '', storage.get('cache_size'));
 
     const classes = useStyles(styles, 'img', {
+        [objectFit]: objectFit,
         error: error || !url,
     });
 

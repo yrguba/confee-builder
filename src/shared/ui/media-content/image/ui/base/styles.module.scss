@@ -38,6 +38,10 @@
     object-fit: cover;
   }
 
+  .contain {
+    object-fit: contain !important;
+  }
+
   .imgHidden {
     display: none;
   }
