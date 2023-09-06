@@ -38,7 +38,7 @@
           fill: var(--text-fixed);
         }
 
-        .noRegister{
+        .noRegister {
           @include flex;
           @include box-size(100%, 50px);
           background-color: var(--bg-primary);
@@ -54,6 +54,7 @@
       flex: 1;
       min-width: 200px;
 
+
       .secondaryInfo {
         @include flex-column();
         @include box-size(100%, auto);
@@ -66,6 +67,25 @@
           @include flex-column(center, flex-start);
           border-bottom: 1px solid var(--border-secondary);
         }
+      }
+    }
+  }
+
+  .companies {
+    @include flex(flex-start);
+    @include box-size(100%, auto);
+    flex-wrap: wrap;
+
+    .item{
+      @include flex;
+      @include box-size(474px, 186px);
+      background-color: var(--bg-primary);
+      border-radius: 12px;
+
+      .body{
+        @include flex-column(center, flex-start);
+        @include box-size(calc(100% - 20px), calc(100% - 20px));
+        gap: 18px;
       }
     }
   }

@@ -6,6 +6,7 @@
   background-color: var(--bg-secondary);
   border-radius: 12px;
   padding: 16px;
+  overflow-y: auto;
 
   @include width-to('sm') {
     padding: 16px 4px;

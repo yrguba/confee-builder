@@ -40,6 +40,8 @@ function EmployeeProfileView(props: Props) {
                     birth={user?.formatted_birth}
                     phone={user?.phone}
                     nickname={user?.nickname}
+                    companies={employee?.companies}
+                    departments={employee?.departments}
                 />
             </div>
         </div>

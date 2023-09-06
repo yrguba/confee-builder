@@ -1,16 +1,15 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(calc(100% - 32px), calc(100% - 32px));
+  @include box-size(calc(100% - 32px),calc(100% - 32px));
   @include flex(space-between, flex-start, 40);
   background-color: var(--bg-secondary);
   border-radius: 12px;
   padding: 16px;
-  overflow-y: auto;
 
   @include width-to('sm') {
     padding: 16px 4px;
-    @include box-size(calc(100% - 8px), calc(100% - 32px));
+    @include box-size(calc(100% - 8px),calc(100% - 32px));
   }
 
   @include width-to('xl') {

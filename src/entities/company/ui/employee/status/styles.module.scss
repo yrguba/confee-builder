@@ -2,6 +2,7 @@
 
 .wrapper {
   @include flex;
+  width: calc(100% - 24px);
   gap: 12px;
   padding: 4px 12px;
   border-radius: 6px;
@@ -9,12 +10,12 @@
   font-weight: 600;
   font-size: 10px;
   line-height: 24px;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-secondary);
 
   .indicator{
     @include box-size(16px, 16px);
+    min-width: 16px;
     border-radius: 50%;
-    background-color: #2EE5C9;
   }
 }
 

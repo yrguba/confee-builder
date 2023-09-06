@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
 
+import { companyTypes, EmployeeStatusView } from 'entities/company';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Dropdown, Icons, Title, DropdownTypes } from 'shared/ui';
+import { Avatar, Box, Button, Dropdown, Icons, Title, DropdownTypes, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useWidthMediaQuery } from '../../../../shared/hooks';
@@ -18,6 +19,8 @@ type Props = {
     visibleHeader?: boolean;
     networkStatus?: string;
     type?: 'contact' | 'employee';
+    companies?: companyTypes.Company[];
+    departments?: companyTypes.Department[];
     actions?: {
         audioCall: () => void;
         videoCall: () => void;
@@ -28,7 +31,23 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function UserCardView(props: Props) {
-    const { actions, email, networkStatus, visibleHeader, type, avatar, name, nickname, aboutMe, birth, phone, loading, visibleActionsMenu } = props;
+    const {
+        departments,
+        companies,
+        actions,
+        email,
+        networkStatus,
+        visibleHeader,
+        type,
+        avatar,
+        name,
+        nickname,
+        aboutMe,
+        birth,
+        phone,
+        loading,
+        visibleActionsMenu,
+    } = props;
 
     const secondaryInfo: { id: number; title: string; subtitle: string; hidden: boolean }[] = [
         { id: 0, title: 'Никнейм', subtitle: `@${nickname}`, hidden: !nickname },
@@ -122,6 +141,23 @@ function UserCardView(props: Props) {
                     </div>
                 </div>
             </div>
+            {companies?.length ? (
+                <div className={styles.companies}>
+                    {companies?.map((i) => (
+                        <div key={i.id} className={styles.item} style={{ width: sm ? 346 : 375 }}>
+                            <div className={styles.body}>
+                                <Card
+                                    icon={<Icons.Logo variant="softworks" />}
+                                    title={i.name || ''}
+                                    subtitle={departments?.length ? departments[0].name || '' : ''}
+                                />
+                                <Title variant="H3M">Нет данных</Title>
+                                <EmployeeStatusView status="in office" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : null}
         </Box.Animated>
     );
 }

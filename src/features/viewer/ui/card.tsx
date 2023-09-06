@@ -19,6 +19,8 @@ function ViewerCard() {
             avatar={viewer?.avatar || ''}
             loading={isLoading}
             email={viewer?.email}
+            companies={viewerData?.companies}
+            departments={viewerData?.companies?.length ? viewerData?.companies[0].departments : []}
         />
     );
 }
