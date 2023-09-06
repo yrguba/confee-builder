@@ -40,7 +40,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     const activeList = useEasyState<contactTypes.Contact[] | companyTypes.Company[]>([]);
     const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
 
-    const { data: contacts } = contactApi.handleGetContacts({ type: 'registered' });
+    const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
 
     const {
         data: departmentEmployees,
@@ -77,8 +77,8 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     }, [departmentEmployees?.pages]);
 
     useUpdateEffect(() => {
-        if (contacts && activeTab.value?.title === 'личные') {
-            activeList.set(contacts);
+        if (contactsData && activeTab.value?.title === 'личные') {
+            activeList.set(contactsData);
         } else {
             props.companies &&
                 props.companies.forEach((i) => {
@@ -99,9 +99,9 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     useEffect(() => {
         if (pathname.includes('contacts') || !redirect) {
             tabs.length && activeTab.set(tabs[0]);
-            contacts?.length && activeList.set(contacts);
+            contactsData && activeList.set(contactsData);
         }
-    }, [contacts]);
+    }, [contactsData]);
 
     return {
         tabs,
