@@ -25,6 +25,7 @@ export type UserProxy = {
     full_name: string;
     networkStatus: keyof typeof NetworkStatuses;
     formatted_birth: string;
+    formatted_last_active: string;
 } & User;
 
 export type SocketIn = 'UserUpdated';

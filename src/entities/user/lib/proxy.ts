@@ -16,6 +16,9 @@ function userProxy(user: User | undefined): any {
                 case 'networkStatus':
                     return target.is_online ? 'online' : 'offline';
 
+                case 'formatted_last_active':
+                    return moment(target.last_active).calendar();
+
                 default:
                     return target[prop];
             }

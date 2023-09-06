@@ -8,7 +8,7 @@ import { CardListProps } from '../../types';
 
 function CardList(props: CardListProps) {
     const { items, selected, sortByName, visibleLastItem } = props;
-
+    console.log(items);
     const getArray = () => {
         if (sortByName && items?.length) {
             const collator = new Intl.Collator('ru');

@@ -56,7 +56,7 @@ function Dropdown(props: BaseDropdownProps) {
             onClick={trigger === 'left-click' ? click : undefined}
             onContextMenu={trigger === 'right-click' ? click : undefined}
             onMouseEnter={trigger === 'hover' ? click : undefined}
-            onMouseLeave={trigger === 'hover' ? () => click : undefined}
+            onMouseLeave={trigger === 'hover' ? () => setIsOpen(false) : undefined}
         >
             {children}
             <Box.Animated
