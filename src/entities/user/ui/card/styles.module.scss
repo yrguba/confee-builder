@@ -37,6 +37,13 @@
         svg {
           fill: var(--text-fixed);
         }
+
+        .noRegister{
+          @include flex;
+          @include box-size(100%, 50px);
+          background-color: var(--bg-primary);
+          border-radius: 12px;
+        }
       }
     }
 

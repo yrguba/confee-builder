@@ -10,7 +10,7 @@ export default function () {
     const { params } = useRouter();
 
     return (
-        <Box.Animated backBtn={useWidthMediaQuery().to('lg')} visible key={params.contact_id} className={styles.wrapper}>
+        <Box.Animated visible key={params.contact_id} className={styles.wrapper}>
             <EmployeeProfile />
         </Box.Animated>
     );

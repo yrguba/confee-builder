@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Button, Dropdown, Icons, Title, DropdownTypes } from 'shared/ui';
@@ -7,12 +7,13 @@ import styles from './styles.module.scss';
 import { useWidthMediaQuery } from '../../../../shared/hooks';
 
 type Props = {
-    avatar: string;
-    name: string;
-    nickname: string;
-    phone: string;
-    birth: string;
-    aboutMe: string;
+    avatar: string | BaseTypes.Empty;
+    name: string | BaseTypes.Empty;
+    nickname: string | BaseTypes.Empty;
+    phone: string | BaseTypes.Empty;
+    email: string | BaseTypes.Empty;
+    birth: string | BaseTypes.Empty;
+    aboutMe: string | BaseTypes.Empty;
     visibleActionsMenu?: boolean;
     visibleHeader?: boolean;
     networkStatus?: string;
@@ -27,13 +28,14 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function UserCardView(props: Props) {
-    const { actions, networkStatus, visibleHeader, type, avatar, name, nickname, aboutMe, birth, phone, loading, visibleActionsMenu } = props;
+    const { actions, email, networkStatus, visibleHeader, type, avatar, name, nickname, aboutMe, birth, phone, loading, visibleActionsMenu } = props;
 
-    const secondaryInfo: { id: number; title: string; subtitle: string }[] = [
-        { id: 0, title: 'Никнейм', subtitle: `@${nickname}` },
-        { id: 1, title: 'Номер телефона', subtitle: phone },
-        { id: 2, title: 'Дата рождения', subtitle: birth },
-        { id: 3, title: 'О себе', subtitle: '' },
+    const secondaryInfo: { id: number; title: string; subtitle: string; hidden: boolean }[] = [
+        { id: 0, title: 'Никнейм', subtitle: `@${nickname}`, hidden: !nickname },
+        { id: 1, title: 'Номер телефона', subtitle: phone || '', hidden: !phone },
+        { id: 2, title: 'Дата рождения', subtitle: birth || '', hidden: !birth },
+        { id: 3, title: 'Почта', subtitle: email || '', hidden: !email },
+        { id: 4, title: 'О себе', subtitle: '', hidden: true },
     ];
 
     const sharedBtn: BaseTypes.Item[] = [
@@ -57,7 +59,7 @@ function UserCardView(props: Props) {
             {visibleHeader && (
                 <div className={styles.header}>
                     <div className={styles.name}>
-                        <Title variant="H1">{name}</Title>
+                        <Title variant="H1">{name || ''}</Title>
                         <Button tag>dw</Button>
                     </div>
                     <Title textAlign="right" variant="H4M">
@@ -70,43 +72,53 @@ function UserCardView(props: Props) {
                     <Avatar circle={false} size={sm ? 346 : 375} img={avatar} />
                     {visibleActionsMenu && (
                         <div className={styles.btns} style={{ width: sm ? 346 : 375 }}>
-                            {type === 'contact'
-                                ? btnsContact.map((i) => (
-                                      <Dropdown.Menu position="bottom-center" items={moreBtn} key={i.id} disabled={i.title !== 'Ещё'}>
-                                          <Button
-                                              direction="vertical"
-                                              prefixIcon={i.id === 3 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
-                                              onClick={i.callback}
-                                          >
-                                              {i.title}
-                                          </Button>
-                                      </Dropdown.Menu>
-                                  ))
-                                : btnsEmployee.map((i) => (
-                                      <Button
-                                          key={i.id}
-                                          direction="vertical"
-                                          prefixIcon={i.id === 3 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
-                                          onClick={i.callback}
-                                      >
-                                          {i.title}
-                                      </Button>
-                                  ))}
+                            {!nickname ? (
+                                <div className={styles.noRegister}>
+                                    <Title textAlign="center" variant="H2">
+                                        Не зарегистрирован в Confee
+                                    </Title>
+                                </div>
+                            ) : type === 'contact' ? (
+                                btnsContact.map((i) => (
+                                    <Dropdown.Menu position="bottom-center" items={moreBtn} key={i.id} disabled={i.title !== 'Ещё'}>
+                                        <Button
+                                            direction="vertical"
+                                            prefixIcon={i.id === 3 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
+                                            onClick={i.callback}
+                                        >
+                                            {i.title}
+                                        </Button>
+                                    </Dropdown.Menu>
+                                ))
+                            ) : (
+                                btnsEmployee.map((i) => (
+                                    <Button
+                                        key={i.id}
+                                        direction="vertical"
+                                        prefixIcon={i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
+                                        onClick={i.callback}
+                                    >
+                                        {i.title}
+                                    </Button>
+                                ))
+                            )}
                         </div>
                     )}
                 </div>
 
                 <div className={styles.info}>
-                    {!visibleHeader && <Title variant="H1">{name}</Title>}
+                    {!visibleHeader && <Title variant="H1">{name || ''}</Title>}
                     <div className={styles.secondaryInfo}>
-                        {secondaryInfo.map((i) => (
-                            <div key={i.id} className={styles.item}>
-                                <Title variant="H4M" primary={false}>
-                                    {i.title}
-                                </Title>
-                                <Title variant="H3M">{i.subtitle}</Title>
-                            </div>
-                        ))}
+                        {secondaryInfo
+                            .filter((i) => !i.hidden)
+                            .map((i) => (
+                                <div key={i.id} className={styles.item}>
+                                    <Title variant="H4M" primary={false}>
+                                        {i.title}
+                                    </Title>
+                                    <Title variant="H3M">{i.subtitle}</Title>
+                                </div>
+                            ))}
                     </div>
                 </div>
             </div>

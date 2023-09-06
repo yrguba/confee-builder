@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UserCard } from 'features/user';
+import { ViewerCard } from 'features/viewer';
 import { Box, Button, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -9,7 +9,7 @@ function Main() {
     return (
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.card}>
-                <UserCard />
+                <ViewerCard />
             </div>
             <div className={styles.addCompanyMail}>
                 <div className={styles.header}>

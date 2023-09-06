@@ -4,7 +4,7 @@ import { UserCardView } from 'entities/user';
 
 import { viewerApi, viewerProxy } from '../../../entities/viewer';
 
-function UserCard() {
+function ViewerCard() {
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
 
     const viewer = viewerProxy(viewerData?.user);
@@ -18,8 +18,9 @@ function UserCard() {
             phone={viewer?.phone || ''}
             avatar={viewer?.avatar || ''}
             loading={isLoading}
+            email={viewer?.email}
         />
     );
 }
 
-export default UserCard;
+export default ViewerCard;

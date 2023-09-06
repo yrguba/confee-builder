@@ -19,7 +19,7 @@ const AnimatedBox = forwardRef((props: AnimatedBoxProps, ref: any) => {
     const motionDiv = (
         <motion.div ref={ref} {...variant} {...motionDivAttrs} className={`${styles.wrapper} ${motionDivAttrs.className}`}>
             {backBtn && (
-                <Button.Circle onClick={() => navigate(-1)} className={styles.backBtn}>
+                <Button.Circle onClick={() => navigate(-1)} variant="inherit" className={styles.backBtn}>
                     <Icons variant="arrow-left" />
                 </Button.Circle>
             )}

@@ -30,12 +30,13 @@ function ContactProfileView(props: Props) {
                     visibleHeader
                     type="contact"
                     visibleActionsMenu
-                    name={contact?.full_name || ''}
+                    name={contact?.full_name}
                     aboutMe=""
                     avatar=""
                     birth=""
-                    phone={contact?.phone || ''}
+                    phone={contact?.phone}
                     nickname=""
+                    email=""
                 />
             </div>
         </div>

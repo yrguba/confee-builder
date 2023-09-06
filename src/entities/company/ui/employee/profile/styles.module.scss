@@ -1,59 +1,34 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(auto, 100%);
-  @include flex-column(flex-start);
-  max-height: 90vh;
-  max-width: 549px;
-  gap: 20px;
-  overflow-y: auto;
+  @include box-size(calc(100% - 32px),calc(100% - 32px));
+  @include flex(space-between, flex-start, 40);
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
 
-  .mainInfo {
-    @include flex-column();
-    width: calc(100% - 48px);
-    gap: 4px;
-    margin: 24px 24px 0 24px;
+  @include width-to('sm') {
+    padding: 16px 4px;
+    @include box-size(calc(100% - 8px),calc(100% - 32px));
+  }
 
-    .name {
-      @include flex;
-      margin-top: 16px;
-      max-width: 90%;
-      gap: 8px;
-    }
+  @include width-to('xl') {
+    //@include flex-column(flex-start, flex-start, 40);
+  }
+
+  .card {
+    flex: 1;
+    width: 0;
   }
 
   .btns {
-    @include box-size(370px, 61px);
+    @include box-size(375px, 61px);
     @include flex;
     gap: 16px;
-    margin: 0 90px;
 
     svg {
       fill: var(--text-fixed);
     }
   }
 
-  .companyInfo {
-    gap: 18px !important;
-
-    .position,.status {
-      width: 100%;
-    }
-
-  }
-
-  .secondaryInfo, .companyInfo {
-    @include flex-column();
-    @include box-size(calc(84% - 40px), auto);
-    gap: 4px;
-    background-color: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 20px;
-
-    .item {
-      @include box-size(100%, 50px);
-      @include flex-column(center, flex-start);
-      border-bottom: 1px solid var(--border-secondary);
-    }
-  }
 }

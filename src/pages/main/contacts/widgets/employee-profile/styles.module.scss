@@ -1,10 +1,14 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(auto, 100%);
-  @include flex-column(flex-start);
-  margin-left: 24px;
+  @include box-size(calc(100% - 32px), calc(100% - 32px));
+  @include flex;
   flex: 1;
-  background-color: var(--bg-primary);
+  padding: 16px;
   cursor: default;
+
+  @include width-to('sm'){
+    @include box-size(calc(100% - 12px), calc(100% - 32px));
+    padding: 16px 6px;
+  }
 }

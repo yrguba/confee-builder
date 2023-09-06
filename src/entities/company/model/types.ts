@@ -1,3 +1,5 @@
+import { User } from '../../user/model/types';
+
 export enum EmployeeStatuses {
     'in office' = '#29CC39',
     'home work' = '#8833FF',
@@ -19,6 +21,7 @@ export type Employee = {
     position: string | null;
     status: keyof typeof EmployeeStatuses;
     updated_at: Date;
+    user: User | null;
 };
 
 export type EmployeeProxy = {

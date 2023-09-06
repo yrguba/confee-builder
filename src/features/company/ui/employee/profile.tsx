@@ -15,6 +15,7 @@ function EmployeeProfile() {
     const data = queryClient.getQueryData(['get-department-employees', Number(params.company_id), Number(params.department_id)]);
     const employees = memoEmployees(data);
     const employee = employees?.find((i) => i.id === Number(params.employee_id));
+
     return <EmployeeProfileView back={() => navigate(-1)} employee={employee} />;
 }
 
