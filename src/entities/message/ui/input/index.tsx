@@ -157,12 +157,16 @@ function MessageInputView(props: Props) {
                     items={[
                         {
                             visible: !!messageTextState.value || showVoice || forwardMessages?.value?.redirect,
-                            item: (
-                                <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
-                                    <Icons variant="send" />
-                                </Button.Circle>
-                            ),
+                            item: <VoiceButton getText={(text) => messageTextState.set(text)} initRecord={initRecording} getEvents={getVoiceEvents} />,
                         },
+                        // {
+                        //     visible: !!messageTextState.value || showVoice || forwardMessages?.value?.redirect,
+                        //     item: (
+                        //         <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
+                        //             <Icons variant="send" />
+                        //         </Button.Circle>
+                        //     ),
+                        // },
                         {
                             visible: !messageTextState.value && !showVoice && !forwardMessages?.value?.redirect,
                             item: <VoiceButton initRecord={initRecording} getEvents={getVoiceEvents} />,
