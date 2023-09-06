@@ -6,6 +6,16 @@ function BaseIcons(props: BaseIconsProps) {
     const { variant, size = 24 } = props;
 
     switch (variant) {
+        case 'melody': {
+            return (
+                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                    <path
+                        d="M29.62 2.22a1 1 0 00-.85-.22l-17 4A1 1 0 0011 7v13.26A5.45 5.45 0 007.5 19a5.5 5.5 0 105.5 5.5V13.79l15-3.53v10A5.45 5.45 0 0024.5 19a5.5 5.5 0 105.5 5.5V3a1 1 0 00-.38-.78zM7.5 28a3.5 3.5 0 113.5-3.5A3.5 3.5 0 017.5 28zM13 11.74V7.79l15-3.53v4zM24.5 28a3.5 3.5 0 113.5-3.5 3.5 3.5 0 01-3.5 3.5z"
+                        data-name="music, audio, multimedia, note, song, sound, research"
+                    />
+                </svg>
+            );
+        }
         case 'portfolio': {
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="20" height="20" fill="none" viewBox="0 0 20 20">

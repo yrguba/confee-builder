@@ -36,6 +36,7 @@ import useDatabase from './useDatabase';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
+import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useScroll from './useScroll';
@@ -47,7 +48,6 @@ import useStyles from './useStyles';
 import useTheme, * as UseThemeType from './useTheme';
 import useThrottle from './useThrottle';
 import useToggle from './useToggle';
-import useVoiceAssistant from './useVoiceAssistant';
 import useWebSocket from './useWebSocket';
 import useWebView from './useWebView';
 import useYup from './useYup';
@@ -56,7 +56,7 @@ import mediaQuery from '../configs/media-query';
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
     useMount,
-    useVoiceAssistant,
+    useRecognizeSpeech,
     useDatabase,
     useMountedState,
     useAudio,

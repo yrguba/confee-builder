@@ -51,7 +51,8 @@ export type BaseIconsVariants =
     | 'lock'
     | 'forward-black'
     | 'group'
-    | 'portfolio';
+    | 'portfolio'
+    | 'melody';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

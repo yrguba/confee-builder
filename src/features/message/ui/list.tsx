@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { appTypes } from 'entities/app';
 import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo } from 'shared/hooks';
@@ -84,6 +83,7 @@ function MessageList() {
                 return confirmDeleteMessage.open({ messageId: message.id });
             case 'highlight':
                 return highlightedMessages.push(message);
+            case 'play':
         }
     };
 
