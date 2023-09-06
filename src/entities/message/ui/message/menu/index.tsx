@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useCallback, useEffect } from 'react';
 
 import { useArray, useEasyState } from 'shared/hooks';
 import { getEnding } from 'shared/lib';
@@ -60,6 +60,7 @@ function MessageMenu(props: Props) {
     const readUsers = memoReadUsers(chat?.members, message.users_have_read);
 
     useEffect(() => {
+        if (!message.users_have_read?.length) deleteById(7);
         if (!message.isMy) deleteByIds([1, 5]);
         if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400) deleteById(1);
         if (message.type !== 'text') deleteById(3);
