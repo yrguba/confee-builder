@@ -9,7 +9,6 @@ import { Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import LinkInfo from './widgets/link-info';
-import YouTubePlayer from './widgets/youTube-player';
 import 'linkify-plugin-mention';
 
 type Props = {
@@ -21,32 +20,6 @@ function TextMessage(props: Props) {
     const { text, clickTag } = props;
     const once = useRef(true);
     const linksInfo = useArray({});
-
-    const checkLongWord = useCallback((str: string, checkLink = true) => {
-        return str?.split('\n')?.map((row, index) => {
-            return (
-                <div key={index} className={styles.row}>
-                    {row.split(' ')?.map((word, index) => {
-                        if (regex.url.test(word)) {
-                            return (
-                                <div key={index} className={styles.url}>
-                                    {word}
-                                </div>
-                            );
-                        }
-                        if (word.length > 7) {
-                            return (
-                                <span key={index} className={styles.longWord}>
-                                    {`${word}\xa0`}
-                                </span>
-                            );
-                        }
-                        return <span key={index}>{`${word}\xa0`}</span>;
-                    })}
-                </div>
-            );
-        });
-    }, []);
 
     useEffect(() => {
         if (text && once.current) {
@@ -73,11 +46,9 @@ function TextMessage(props: Props) {
                 const { href, ...props } = attributes;
                 const preview: any = linksInfo.array.find((i) => i?.fullUrl === href);
 
-                return regex.youTubeUrl.test(href) ? (
-                    <YouTubePlayer url={href}>{checkLongWord(content)}</YouTubePlayer>
-                ) : (
+                return (
                     <LinkInfo preview={preview} content={content}>
-                        {checkLongWord(content)}
+                        {content}
                     </LinkInfo>
                 );
             },
@@ -94,7 +65,7 @@ function TextMessage(props: Props) {
 
     return (
         <Box className={styles.wrapper}>
-            <Linkify options={options}>{checkLongWord(text, false)}</Linkify>
+            <Linkify options={options}>{text}</Linkify>
         </Box>
     );
 }

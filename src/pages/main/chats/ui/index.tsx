@@ -16,8 +16,8 @@ function ChatsPage() {
     messageGateway();
     const { params } = useRouter();
 
-    const { to } = useWidthMediaQuery();
-
+    const { to, getCurrent } = useWidthMediaQuery();
+    console.log(getCurrent());
     const isVisibleSidebar = () => {
         if (to('md')) {
             return !params.chat_id;

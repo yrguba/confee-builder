@@ -24,7 +24,7 @@ export type User = {
 export type UserProxy = {
     full_name: string;
     networkStatus: keyof typeof NetworkStatuses;
-    formatted_birth: string;
+    formatted_birth: string | null;
     formatted_last_active: string;
 } & User;
 

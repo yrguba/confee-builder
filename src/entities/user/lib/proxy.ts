@@ -14,7 +14,7 @@ function userProxy(user: User | undefined): any {
                     return target.contact_name || `${target.first_name || ''} ${target.last_name || ''}`;
 
                 case 'formatted_birth':
-                    return moment(target.birth).format('LL');
+                    return target.birth ? moment(target.birth).format('LL') : null;
 
                 case 'networkStatus':
                     return target.is_online ? 'online' : 'offline';

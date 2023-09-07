@@ -2,7 +2,7 @@ import React, { forwardRef, memo, useEffect } from 'react';
 
 import { useWidthMediaQuery, useHeightMediaQuery, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Icons, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input } from 'shared/ui';
+import { Box, Icons, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useInView } from '../../../../shared/hooks';
@@ -40,7 +40,11 @@ function ContactsListView(props: Props) {
                 </div>
             )}
             <div className={styles.tabs}>
-                <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
+                {tabsAndLists.activeList?.length ? (
+                    <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
+                ) : (
+                    <Title variant="H2">Нет контактов</Title>
+                )}
             </div>
             <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
                 {tabsAndLists.activeTab?.title === 'личные'

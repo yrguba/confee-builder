@@ -31,7 +31,11 @@ function ChatsListView(props: Props) {
                 </div>
             )}
             <div className={styles.tabs}>
-                <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
+                {tabsAndLists.activeList?.length ? (
+                    <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
+                ) : (
+                    <Title variant="H2">Нет чатов</Title>
+                )}
             </div>
             <div className={styles.list}>
                 {tabsAndLists.activeList?.length &&
