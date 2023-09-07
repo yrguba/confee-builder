@@ -11,12 +11,12 @@ type Recording = 'start' | 'send' | 'stop' | 'cancel';
 
 type Props = {
     getEvents: (value: Recording) => void;
-    getText?: (text: string) => void;
     initRecord: boolean;
+    onClick?: () => void;
 } & BaseTypes.Statuses;
 
 function VoiceButton(props: Props) {
-    const { getEvents, initRecord, getText } = props;
+    const { getEvents, initRecord, onClick: click } = props;
 
     const once = useRef(true);
     const lock = useEasyState(false);
@@ -24,22 +24,12 @@ function VoiceButton(props: Props) {
     const mouseY = useEasyState<number>(0);
     const breakpoint = 130;
 
-    const { startSpeechToText, stopSpeechToText, interimResult } = useRecognizeSpeech();
-
     const [isReady, cancel, reset] = useTimeoutFn(() => {
         !once.current && event.set('start');
     }, 400);
 
     const readyState = isReady();
     const startRecording = event.value === 'start';
-
-    useUpdateEffect(() => {
-        getText && startRecording ? startSpeechToText() : stopSpeechToText();
-    }, [startRecording]);
-
-    useUpdateEffect(() => {
-        interimResult && getText && getText(interimResult);
-    }, [interimResult]);
 
     const onMouseDown = (e: MouseEvent) => {
         if (e.button === 0) {
@@ -70,6 +60,7 @@ function VoiceButton(props: Props) {
         e.stopPropagation();
         cancel();
         lock.set(false);
+        click && click();
     };
 
     const onMouseMoveLock = (e: any) => {
@@ -95,7 +86,7 @@ function VoiceButton(props: Props) {
 
     useEffect(() => {
         mouseY.set(0);
-        !getText && event.value ? getEvents(event.value) : getEvents('cancel');
+        event.value ? getEvents(event.value) : getEvents('cancel');
     }, [event.value]);
 
     const classes = useStyles(styles, 'wrapper', {

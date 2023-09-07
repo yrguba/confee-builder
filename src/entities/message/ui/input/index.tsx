@@ -1,6 +1,7 @@
 import React from 'react';
+import { useUpdateEffect } from 'react-use';
 
-import { UseEasyStateReturnType, UseStoreTypes } from 'shared/hooks';
+import { useEasyState, UseEasyStateReturnType, UseStoreTypes } from 'shared/hooks';
 import { getEnding, getUniqueArr } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
 import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer, IconsTypes } from 'shared/ui';
@@ -50,6 +51,8 @@ function MessageInputView(props: Props) {
 
     const { audio, initRecording, recordingSeconds, recordingMinutes } = voiceRecord.recorderState;
 
+    const icon = useEasyState<'arrow' | 'audio' | 'video'>('audio');
+
     const getHeaderTitle = () => {
         if (replyMessage.value.id) return replyMessage.value?.authorName;
         if (editMessage.value.id) return 'Редактировать';
@@ -97,6 +100,11 @@ function MessageInputView(props: Props) {
             }
         }
     };
+
+    useUpdateEffect(() => {
+        if (!!messageTextState.value || showVoice || forwardMessages?.value?.redirect) return icon.set('arrow');
+        return icon.set('audio');
+    }, [messageTextState.value, forwardMessages?.value?.redirect, showVoice]);
 
     return (
         <div className={styles.wrapper} style={{ pointerEvents: highlightedMessages.value.length ? 'none' : 'auto' }}>
@@ -156,20 +164,16 @@ function MessageInputView(props: Props) {
                     className={styles.sendBtn}
                     items={[
                         {
-                            visible: !!messageTextState.value || showVoice || forwardMessages?.value?.redirect,
-                            item: <VoiceButton getText={(text) => messageTextState.set(text)} initRecord={initRecording} getEvents={getVoiceEvents} />,
+                            visible: icon.value === 'arrow',
+                            item: (
+                                <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
+                                    <Icons variant="send" />
+                                </Button.Circle>
+                            ),
                         },
-                        // {
-                        //     visible: !!messageTextState.value || showVoice || forwardMessages?.value?.redirect,
-                        //     item: (
-                        //         <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
-                        //             <Icons variant="send" />
-                        //         </Button.Circle>
-                        //     ),
-                        // },
                         {
-                            visible: !messageTextState.value && !showVoice && !forwardMessages?.value?.redirect,
-                            item: <VoiceButton initRecord={initRecording} getEvents={getVoiceEvents} />,
+                            visible: icon.value === 'audio',
+                            item: <VoiceButton onClick={() => icon.set('video')} initRecord={initRecording} getEvents={getVoiceEvents} />,
                         },
                     ]}
                 />
