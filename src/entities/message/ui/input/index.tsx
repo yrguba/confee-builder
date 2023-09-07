@@ -51,6 +51,8 @@ function MessageInputView(props: Props) {
         forwardMessages,
     } = props;
 
+    const speechListener = useEasyState(false);
+
     const { audio, initRecording, recordingSeconds, recordingMinutes } = voiceRecord.recorderState;
 
     const icon = useEasyState<'arrow' | 'audio' | 'video' | 'keyboard'>('audio');
@@ -104,9 +106,10 @@ function MessageInputView(props: Props) {
     };
 
     useUpdateEffect(() => {
-        if (!!messageTextState.value || showVoice || forwardMessages?.value?.redirect) return icon.set('arrow');
+        if ((!!messageTextState.value || showVoice || forwardMessages?.value?.redirect) && !speechListener.value) return icon.set('arrow');
+        if (speechListener.value) return icon.set('keyboard');
         return icon.set('audio');
-    }, [messageTextState.value, forwardMessages?.value?.redirect, showVoice]);
+    }, [messageTextState.value, forwardMessages?.value?.redirect, showVoice, speechListener.value]);
 
     return (
         <div className={styles.wrapper} style={{ pointerEvents: highlightedMessages.value.length ? 'none' : 'auto' }}>
@@ -184,7 +187,14 @@ function MessageInputView(props: Props) {
                         },
                         {
                             visible: icon.value === 'keyboard',
-                            item: <SpeechButton getText={(text) => console.log(text)} onClick={() => icon.set('audio')} />,
+                            item: (
+                                <SpeechButton
+                                    send={sendMessage}
+                                    speechListener={speechListener.set}
+                                    getText={messageTextState.set}
+                                    onClick={() => icon.set('audio')}
+                                />
+                            ),
                         },
                     ]}
                 />
