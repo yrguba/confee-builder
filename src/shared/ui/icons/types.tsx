@@ -52,7 +52,8 @@ export type BaseIconsVariants =
     | 'forward-black'
     | 'group'
     | 'portfolio'
-    | 'melody';
+    | 'melody'
+    | 'keyboard';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

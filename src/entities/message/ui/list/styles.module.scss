@@ -4,7 +4,7 @@
   @include box-size(100%, calc(100% - 24px));
   @include flex-column(flex-start);
   background-color: var(--bg-dialogue);
-  gap: 8px;
+  gap: 4px;
   padding: 12px 0;
   overflow-y: auto;
   overflow-x: hidden;

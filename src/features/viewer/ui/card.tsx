@@ -1,18 +1,21 @@
 import React from 'react';
 
 import { UserCardView } from 'entities/user';
+import { useRouter } from 'shared/hooks';
 
 import { viewerApi, viewerProxy } from '../../../entities/viewer';
 
 function ViewerCard() {
+    const { navigate } = useRouter();
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
 
     const viewer = viewerProxy(viewerData?.user);
 
     return (
         <UserCardView
+            clickSettings={() => navigate('info_settings')}
             name={viewer?.full_name || ''}
-            birth={viewer?.birth || ''}
+            birth={viewer?.formatted_birth || ''}
             aboutMe=""
             nickname={viewer?.nickname || ''}
             phone={viewer?.phone || ''}

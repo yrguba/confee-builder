@@ -10,7 +10,7 @@ function viewerProxy(viewer: Viewer | undefined): ViewerProxy | null {
                 case 'full_name':
                     return `${target.first_name || ''} ${target.last_name || ''}`;
 
-                case 'birth':
+                case 'formatted_birth':
                     return moment(target.birth).format('LL');
 
                 default:

@@ -1,6 +1,7 @@
+import AppSettings from './app-settings';
+import InfoSettings from './info-settings';
 import Main from './main';
 import Policy from './policy';
-import Settings from './settings';
 import Support from './support';
 
-export { Main, Settings, Support, Policy };
+export { Main, AppSettings, Support, Policy, InfoSettings };

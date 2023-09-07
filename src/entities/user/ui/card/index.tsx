@@ -1,11 +1,11 @@
 import React, { memo } from 'react';
 
-import { companyTypes, EmployeeStatusView } from 'entities/company';
+import { companyTypes, EmployeeStatusView, CompanyCardView } from 'entities/company';
+import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Button, Dropdown, Icons, Title, DropdownTypes, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useWidthMediaQuery } from '../../../../shared/hooks';
 
 type Props = {
     avatar: string | BaseTypes.Empty;
@@ -18,6 +18,7 @@ type Props = {
     visibleActionsMenu?: boolean;
     visibleHeader?: boolean;
     networkStatus?: string;
+    clickSettings?: () => void;
     type?: 'contact' | 'employee';
     companies?: companyTypes.Company[];
     departments?: companyTypes.Department[];
@@ -32,6 +33,7 @@ type Props = {
 
 function UserCardView(props: Props) {
     const {
+        clickSettings,
         departments,
         companies,
         actions,
@@ -79,7 +81,7 @@ function UserCardView(props: Props) {
                 <div className={styles.header}>
                     <div className={styles.name}>
                         <Title variant="H1">{name || ''}</Title>
-                        <Button tag>dw</Button>
+                        <Button tag>TFN</Button>
                     </div>
                     <Title textAlign="right" variant="H4M">
                         {networkStatus}
@@ -89,6 +91,7 @@ function UserCardView(props: Props) {
             <div className={styles.body}>
                 <div className={styles.avatar} style={{ width: sm ? 346 : 375 }}>
                     <Avatar circle={false} size={sm ? 346 : 375} img={avatar} />
+                    {clickSettings && <Button onClick={clickSettings}>Редактировать личную информацию</Button>}
                     {visibleActionsMenu && (
                         <div className={styles.btns} style={{ width: sm ? 346 : 375 }}>
                             {!nickname ? (
@@ -140,24 +143,19 @@ function UserCardView(props: Props) {
                             ))}
                     </div>
                 </div>
+                {companies?.length ? (
+                    <div className={styles.companies}>
+                        {companies?.map((i) => (
+                            <CompanyCardView
+                                key={i.id}
+                                status="in office"
+                                title={i.name || ''}
+                                subtitle={departments?.length ? departments[0].name || '' : ''}
+                            />
+                        ))}
+                    </div>
+                ) : null}
             </div>
-            {companies?.length ? (
-                <div className={styles.companies}>
-                    {companies?.map((i) => (
-                        <div key={i.id} className={styles.item} style={{ width: sm ? 346 : 375 }}>
-                            <div className={styles.body}>
-                                <Card
-                                    icon={<Icons.Logo variant="softworks" />}
-                                    title={i.name || ''}
-                                    subtitle={departments?.length ? departments[0].name || '' : ''}
-                                />
-                                <Title variant="H3M">Нет данных</Title>
-                                <EmployeeStatusView status="in office" />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ) : null}
         </Box.Animated>
     );
 }

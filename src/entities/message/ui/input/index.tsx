@@ -7,6 +7,8 @@ import { BaseTypes } from 'shared/types';
 import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer, IconsTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import SpeechButton from './widgets/speech-button';
+import VideoButton from './widgets/video-button';
 import VoiceButton from './widgets/voice-button';
 import { ChatProxy } from '../../../chat/model/types';
 import { MessageProxy, VoiceEvents } from '../../model/types';
@@ -51,7 +53,7 @@ function MessageInputView(props: Props) {
 
     const { audio, initRecording, recordingSeconds, recordingMinutes } = voiceRecord.recorderState;
 
-    const icon = useEasyState<'arrow' | 'audio' | 'video'>('audio');
+    const icon = useEasyState<'arrow' | 'audio' | 'video' | 'keyboard'>('audio');
 
     const getHeaderTitle = () => {
         if (replyMessage.value.id) return replyMessage.value?.authorName;
@@ -162,6 +164,7 @@ function MessageInputView(props: Props) {
                 </Box.Animated>
                 <Box.Replace
                     className={styles.sendBtn}
+                    transition={{ duration: 0.05 }}
                     items={[
                         {
                             visible: icon.value === 'arrow',
@@ -174,6 +177,14 @@ function MessageInputView(props: Props) {
                         {
                             visible: icon.value === 'audio',
                             item: <VoiceButton onClick={() => icon.set('video')} initRecord={initRecording} getEvents={getVoiceEvents} />,
+                        },
+                        {
+                            visible: icon.value === 'video',
+                            item: <VideoButton onClick={() => icon.set('keyboard')} />,
+                        },
+                        {
+                            visible: icon.value === 'keyboard',
+                            item: <SpeechButton getText={(text) => console.log(text)} onClick={() => icon.set('audio')} />,
                         },
                     ]}
                 />

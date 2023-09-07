@@ -6,7 +6,7 @@ import messageGateway from './model/gateway';
 import useMessageStore from './model/store';
 import * as messageTypes from './model/types';
 import MessageInputView from './ui/input';
-import MessagesListView from './ui/messages-list';
+import MessagesListView from './ui/list';
 import FilesToSendModalView from './ui/modals/files-to-send';
 import ForwardMessagesModalView from './ui/modals/forward';
 
