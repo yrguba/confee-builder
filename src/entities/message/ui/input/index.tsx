@@ -183,7 +183,7 @@ function MessageInputView(props: Props) {
                         },
                         {
                             visible: icon.value === 'video',
-                            item: <VideoButton onClick={() => icon.set('keyboard')} />,
+                            item: <VideoButton onClick={() => icon.set('audio')} />,
                         },
                         {
                             visible: icon.value === 'keyboard',

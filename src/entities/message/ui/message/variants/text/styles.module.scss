@@ -9,12 +9,12 @@
   justify-content: flex-start;
   align-items: flex-start;
   word-wrap: break-word;
-  white-space: pre-line;
   color: var(--text-primary);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-
+  word-break: break-word;
+  white-space: pre-wrap;
   .row {
 
 

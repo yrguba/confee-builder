@@ -41,6 +41,10 @@ function TextMessage(props: Props) {
     }, []);
 
     const options = {
+        format: (value: any, type: any) => {
+            console.log(value, type);
+            return 'value';
+        },
         render: {
             url: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
@@ -62,6 +66,8 @@ function TextMessage(props: Props) {
             },
         },
     };
+
+    const updText = () => {};
 
     return (
         <Box className={styles.wrapper}>
