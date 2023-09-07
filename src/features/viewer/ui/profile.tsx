@@ -9,7 +9,7 @@ function ViewerCard() {
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
 
     const viewer = viewerProxy(viewerData?.user);
-    navigate('info_settings');
+
     return (
         <ViewerProfileView
             viewer={viewer}

@@ -20,6 +20,7 @@ type Props = {
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
+    openUserModal: (user: UserProxy) => void;
 } & BaseTypes.Statuses;
 
 const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: number[]) => {
@@ -33,9 +34,7 @@ const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: nu
 });
 
 function MessageMenu(props: Props) {
-    const { messageMenuAction, message, sendReaction, chat } = props;
-
-    const userProfileModal = Modal.use();
+    const { messageMenuAction, message, sendReaction, chat, openUserModal } = props;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions | 'read'>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
@@ -63,10 +62,6 @@ function MessageMenu(props: Props) {
 
     const readUsers = memoReadUsers(chat?.members, message.users_have_read);
 
-    const userClick = (user: UserProxy) => {
-        userProfileModal.open(user);
-    };
-
     useEffect(() => {
         if (message.type !== 'text') deleteById(7);
         if (!message.users_have_read?.length) deleteById(8);
@@ -80,63 +75,60 @@ function MessageMenu(props: Props) {
     };
 
     return (
-        <>
-            <UserProfileModal {...userProfileModal} />
-            <Box className={styles.wrapper}>
-                <div className={styles.reactions}>
-                    <div className={styles.baseList}>
-                        <div className={styles.list}>
-                            {reactions.map((i) => (
-                                <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} />
-                            ))}
-                        </div>
-                        <div
-                            className={styles.btn}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                visibleAllReactions.toggle();
-                            }}
-                        >
-                            <Icons.ArrowAnimated variant="rotate" activeAnimate={visibleAllReactions.value} initialDeg={0} animateDeg={90} />
-                        </div>
+        <Box className={styles.wrapper}>
+            <div className={styles.reactions}>
+                <div className={styles.baseList}>
+                    <div className={styles.list}>
+                        {reactions.map((i) => (
+                            <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} />
+                        ))}
                     </div>
-                    <Box.Animated visible={visibleAllReactions.value} animationVariant="autoHeight">
-                        <div className={styles.allList}>
-                            {reactions.map((i) => (
-                                <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} />
-                            ))}
+                    <div
+                        className={styles.btn}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            visibleAllReactions.toggle();
+                        }}
+                    >
+                        <Icons.ArrowAnimated variant="rotate" activeAnimate={visibleAllReactions.value} initialDeg={0} animateDeg={90} />
+                    </div>
+                </div>
+                <Box.Animated visible={visibleAllReactions.value} animationVariant="autoHeight">
+                    <div className={styles.allList}>
+                        {reactions.map((i) => (
+                            <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} />
+                        ))}
+                    </div>
+                </Box.Animated>
+            </div>
+            <div className={styles.items}>
+                {array.map((i) => (
+                    <Dropdown
+                        key={i.id}
+                        trigger="hover"
+                        position={message.isMy ? 'left-center' : 'right-center'}
+                        content={
+                            <Card.List
+                                items={readUsers.map((i) => ({
+                                    onClick: () => openUserModal(i),
+                                    id: i.id,
+                                    img: i.avatar,
+                                    name: i.full_name,
+                                    title: i.full_name,
+                                    subtitle: '',
+                                }))}
+                            />
+                        }
+                        disabled={i.payload !== 'read'}
+                    >
+                        <div className={styles.item} onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message)}>
+                            <Icons variant={i.icon} />
+                            <Title variant="H3M">{i.title}</Title>
                         </div>
-                    </Box.Animated>
-                </div>
-                <div className={styles.items}>
-                    {array.map((i) => (
-                        <Dropdown
-                            key={i.id}
-                            trigger="hover"
-                            position={message.isMy ? 'left-center' : 'right-center'}
-                            content={
-                                <Card.List
-                                    items={readUsers.map((i) => ({
-                                        onClick: () => userClick(i),
-                                        id: i.id,
-                                        img: i.avatar,
-                                        name: i.full_name,
-                                        title: i.full_name,
-                                        subtitle: '',
-                                    }))}
-                                />
-                            }
-                            disabled={i.payload !== 'read'}
-                        >
-                            <div className={styles.item} onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message)}>
-                                <Icons variant={i.icon} />
-                                <Title variant="H3M">{i.title}</Title>
-                            </div>
-                        </Dropdown>
-                    ))}
-                </div>
-            </Box>
-        </>
+                    </Dropdown>
+                ))}
+            </div>
+        </Box>
     );
 }
 

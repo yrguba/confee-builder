@@ -7,6 +7,7 @@ import { BaseTypes } from 'shared/types';
 import styles from './styles.module.scss';
 import { appTypes } from '../../../app';
 import { chatTypes } from '../../../chat';
+import { UserProxy } from '../../../user/model/types';
 import { MessageMenuActions, MessageProxy } from '../../model/types';
 import Message from '../message';
 import SystemMessage from '../message/variants/system';
@@ -21,7 +22,7 @@ type Props = {
     chatSubscription: number | null;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
-    clickTag: (tag: string) => void;
+    openUserModal: (user: UserProxy | null) => void;
     highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     voiceRecordingInProgress: boolean;
 } & BaseTypes.Statuses;
@@ -37,7 +38,7 @@ function MessagesListView(props: Props) {
         chatSubscription,
         messageMenuAction,
         sendReaction,
-        clickTag,
+        openUserModal,
         highlightedMessages,
         voiceRecordingInProgress,
     } = props;
@@ -111,7 +112,7 @@ function MessagesListView(props: Props) {
                         >
                             {index === 5 && <div ref={nextPageRef} />}
                             <Message
-                                clickTag={clickTag}
+                                openUserModal={openUserModal}
                                 sendReaction={sendReaction}
                                 chat={chat}
                                 ref={wrapperRef}

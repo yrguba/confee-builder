@@ -5,7 +5,9 @@ import { messageApi, MessagesListView, messageService, messageTypes, useMessageS
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
+import { UserProxy } from '../../../entities/user/model/types';
 import { reactionConverter } from '../../../shared/lib';
+import { UserProfileModal } from '../../user';
 import { ForwardMessagesModal } from '../index';
 
 const memoUpdateMessages = createMemo(messageService.getUpdatedList);
@@ -98,6 +100,10 @@ function MessageList() {
         });
     };
 
+    const openUserModal = (user: UserProxy | null) => {
+        user && userProfileModal.open(user);
+    };
+
     const clickTag = (tag: string) => {
         const user = chatData?.members.find((i) => `@${i.nickname}` === tag);
         user ? userProfileModal.open() : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
@@ -120,6 +126,7 @@ function MessageList() {
         <>
             <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
             <ForwardMessagesModal {...forwardMessagesModal} />
+            <UserProfileModal {...userProfileModal} />
             <MessagesListView
                 chat={chatData}
                 messages={messages}
@@ -130,7 +137,7 @@ function MessageList() {
                 chatSubscription={chatSubscription.value}
                 messageMenuAction={messageMenuAction}
                 sendReaction={clickReaction}
-                clickTag={clickTag}
+                openUserModal={openUserModal}
                 highlightedMessages={highlightedMessages}
                 voiceRecordingInProgress={voiceRecordingInProgress.value}
             />

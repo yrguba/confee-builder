@@ -16,6 +16,8 @@ import VideoMessage from './variants/video';
 import VoiceMessage from './variants/voice';
 import { useStyles } from '../../../../shared/hooks';
 import { appTypes } from '../../../app';
+import { userProxy } from '../../../user';
+import { UserProxy } from '../../../user/model/types';
 import messageProxy from '../../lib/proxy';
 import { MessageProxy, MessageMenuActions } from '../../model/types';
 
@@ -24,12 +26,12 @@ type Props = {
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
-    clickTag: (tag: string) => void;
+    openUserModal: (user: UserProxy | null) => void;
     voiceRecordingInProgress: boolean;
 } & BaseTypes.Statuses;
 
 const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
-    const { message, messageMenuAction, chat, sendReaction, clickTag, voiceRecordingInProgress } = props;
+    const { message, messageMenuAction, chat, sendReaction, openUserModal, voiceRecordingInProgress } = props;
 
     const { text, files, type, reply_to_message, lastMessageInBlock, isMy, isMock, author, forwarded_from_message } = message;
 
@@ -38,6 +40,11 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
         my_last: lastMessageInBlock && isMy,
         another_last: lastMessageInBlock && !isMy,
     });
+
+    const clickTag = (tag: string) => {
+        const user = chat?.members.find((i) => `@${i.nickname}` === tag);
+        openUserModal(userProxy(user) || null);
+    };
 
     return (
         <Box className={styles.wrapper}>
@@ -48,7 +55,15 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 ref={ref}
                 trigger="right-click"
                 closeAfterClick
-                content={<MessageMenu sendReaction={sendReaction} chat={chat} messageMenuAction={messageMenuAction} message={message} />}
+                content={
+                    <MessageMenu
+                        openUserModal={openUserModal}
+                        sendReaction={sendReaction}
+                        chat={chat}
+                        messageMenuAction={messageMenuAction}
+                        message={message}
+                    />
+                }
             >
                 <div className={styles.content}>
                     <div className={classes}>

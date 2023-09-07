@@ -22,6 +22,7 @@ type Props = {
     type?: 'contact' | 'employee' | 'user' | 'viewer';
     companies?: companyTypes.Company[];
     departments?: companyTypes.Department[];
+    resize?: boolean;
     actions?: {
         audioCall: () => void;
         videoCall: () => void;
@@ -49,6 +50,7 @@ function UserCardView(props: Props) {
         phone,
         loading,
         visibleActionsMenu,
+        resize = true,
     } = props;
 
     const secondaryInfo: { id: number; title: string; subtitle: string; hidden: boolean }[] = [
@@ -74,7 +76,7 @@ function UserCardView(props: Props) {
     const btnsEmployee: BaseTypes.Item[] = [...sharedBtn, { id: 5, title: 'Выкл.', icon: 'mute', payload: '', callback: actions?.mute }];
 
     const sm = useWidthMediaQuery().to('sm');
-
+    const AvatarSize = resize ? (sm ? 346 : 375) : 375;
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             {visibleHeader && (
@@ -89,11 +91,11 @@ function UserCardView(props: Props) {
                 </div>
             )}
             <div className={styles.body}>
-                <div className={styles.avatar} style={{ width: sm ? 346 : 375 }}>
-                    <Avatar circle={false} size={sm ? 346 : 375} img={avatar} />
+                <div className={styles.avatar} style={{ width: AvatarSize }}>
+                    <Avatar circle={false} size={AvatarSize} img={avatar} />
                     {clickSettings && <Button onClick={clickSettings}>Редактировать личную информацию</Button>}
                     {visibleActionsMenu && (
-                        <div className={styles.btns} style={{ width: sm ? 346 : 375 }}>
+                        <div className={styles.btns} style={{ width: AvatarSize }}>
                             {!nickname ? (
                                 <div className={styles.noRegister}>
                                     <Title textAlign="center" variant="H2">
