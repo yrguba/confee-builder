@@ -2,7 +2,7 @@ import React from 'react';
 
 import { chatApi, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
-import { useRouter, useCopyToClipboard, useLifecycles, createMemo } from 'shared/hooks';
+import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
 import { reactionConverter } from '../../../shared/lib';
@@ -14,6 +14,8 @@ function MessageList() {
     const { params } = useRouter();
     const [state, copyToClipboard] = useCopyToClipboard();
     const chatId = Number(params.chat_id);
+
+    const { playSpeech } = useTextToSpeech();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleSubscribeToChat } = chatApi.handleSubscribeToChat();
@@ -84,6 +86,7 @@ function MessageList() {
             case 'highlight':
                 return highlightedMessages.push(message);
             case 'play':
+                playSpeech(message.text);
         }
     };
 

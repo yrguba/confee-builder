@@ -45,6 +45,7 @@ import useSize from './useSize';
 import useStorage from './useStorage';
 import useStore, * as UseStoreTypes from './useStore';
 import useStyles from './useStyles';
+import useTextToSpeech from './useTextToSpeech';
 import useTheme, * as UseThemeType from './useTheme';
 import useThrottle from './useThrottle';
 import useToggle from './useToggle';
@@ -55,6 +56,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useTextToSpeech,
     useMount,
     useRecognizeSpeech,
     useDatabase,

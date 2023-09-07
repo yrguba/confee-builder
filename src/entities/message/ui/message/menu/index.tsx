@@ -61,6 +61,7 @@ function MessageMenu(props: Props) {
     const readUsers = memoReadUsers(chat?.members, message.users_have_read);
 
     useEffect(() => {
+        if (message.type !== 'text') deleteById(7);
         if (!message.users_have_read?.length) deleteById(8);
         if (!message.isMy) deleteByIds([1, 5]);
         if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400) deleteById(1);
