@@ -23,7 +23,7 @@ function ConfirmModal(props: ConfirmModalProps) {
     }, [isOpen]);
 
     return (
-        <Modal closeIcon={false} isOpen={isOpen} open={() => ''} close={() => ''} onClose={() => click(false)}>
+        <Modal payload={callbackData} closeIcon={false} isOpen={isOpen} open={() => ''} close={() => ''} onClose={() => click(false)}>
             <div className={styles.wrapper}>
                 <div className={styles.body}>
                     <Title variant="H2">{title}</Title>

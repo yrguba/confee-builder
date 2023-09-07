@@ -8,7 +8,7 @@ import { CardListProps } from '../../types';
 
 function CardList(props: CardListProps) {
     const { items, selected, sortByName, visibleLastItem } = props;
-    console.log(items);
+
     const getArray = () => {
         if (sortByName && items?.length) {
             const collator = new Intl.Collator('ru');
@@ -42,7 +42,7 @@ function CardList(props: CardListProps) {
                     {getDelimiter(arr, index)}
                     <div className={styles.item} onClick={() => selected && selected.pushOrDelete(i)} ref={index + 1 === arr?.length ? lastCard : null}>
                         <div className={styles.info}>
-                            <Card onClick={() => ''} key={i.id} name={i?.name || ''} title={i?.title || ''} img={i?.img || ''} subtitle={i?.subtitle || ' '} />
+                            <Card onClick={i.onClick} key={i.id} name={i?.name || ''} title={i?.title || ''} img={i?.img || ''} subtitle={i?.subtitle || ' '} />
                         </div>
 
                         {selected && (

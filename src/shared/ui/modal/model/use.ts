@@ -2,11 +2,13 @@ import { useCallback } from 'react';
 
 import { useEasyState } from '../../../hooks';
 
-function use() {
+function use<T = any>() {
     const openModal = useEasyState(false);
+    const payload = useEasyState<T | null>(null);
 
-    const open = () => {
+    const open = (data?: T) => {
         openModal.set(true);
+        data && payload.set(data);
     };
 
     const close = () => {
@@ -15,7 +17,7 @@ function use() {
 
     const isOpen = openModal.value;
 
-    return { isOpen, open, close };
+    return { isOpen, open, close, payload: payload.value };
 }
 
 function useConfirm<T = null | undefined>(cl: (value: boolean, callbackData: T | null | undefined) => void) {

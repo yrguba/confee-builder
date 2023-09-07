@@ -19,7 +19,7 @@ type Props = {
     visibleHeader?: boolean;
     networkStatus?: string;
     clickSettings?: () => void;
-    type?: 'contact' | 'employee';
+    type?: 'contact' | 'employee' | 'user' | 'viewer';
     companies?: companyTypes.Company[];
     departments?: companyTypes.Department[];
     actions?: {

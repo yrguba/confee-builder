@@ -2,9 +2,15 @@ import { ReactNode } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
-import { use } from './use';
+import { use, useConfirm } from './use';
 
-export type UseReturnedType = ReturnType<typeof use>;
+export type UseReturnedType<T = any> = {
+    open: (data?: T) => void;
+    close: () => void;
+    isOpen: boolean;
+    payload: T;
+};
+export type UseConfirmReturnedType = ReturnType<typeof useConfirm>;
 
 export type BaseModalProps = {
     children: ReactNode;
@@ -21,5 +27,7 @@ export type ConfirmModalProps = {
     onClose?: () => void;
     callback: (value: boolean) => void;
     callbackData: any;
-} & UseReturnedType &
-    BaseTypes.Statuses;
+    isOpen: boolean;
+    close: any;
+    open: any;
+} & BaseTypes.Statuses;
