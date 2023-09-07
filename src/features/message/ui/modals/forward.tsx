@@ -1,28 +1,24 @@
 import React from 'react';
 
-import { chatApi, chatProxy } from 'entities/chat';
+import { useChatsTabsAndLists } from 'entities/chat';
+import { ChatProxy } from 'entities/chat/model/types';
 import { ForwardMessagesModalView, useMessageStore } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 import { Modal, ModalTypes } from 'shared/ui';
 
-import chatService from '../../../../entities/chat/lib/service';
-import { createMemo } from '../../../../shared/hooks';
-
-const memoChats = createMemo(chatService.getUpdatedChatsList);
-
 function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
 
-    const { data: allChatsData } = chatApi.handleGetChats({ type: 'all' });
-
-    const allChatsProxy = memoChats(allChatsData);
+    const tabsAndLists = useChatsTabsAndLists({ redirect: false });
 
     const forwardMessages = useMessageStore.use.forwardMessages();
 
-    const clickChat = (chatId: number) => {
-        modal.close();
-        forwardMessages.set({ ...forwardMessages.value, toChatId: chatId, redirect: true });
-        navigate(`/chats/chat/${chatId}`);
+    const clickOnChat = (chat: ChatProxy) => {
+        if (chat.is_personal) {
+            forwardMessages.set({ ...forwardMessages.value, toChatId: chat.id, redirect: true });
+            modal.close();
+            navigate(`/chats/personal/chat/${chat.id}`);
+        }
     };
 
     const back = () => {
@@ -30,7 +26,7 @@ function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
         forwardMessages.clear();
     };
 
-    return <ForwardMessagesModalView clickChat={clickChat} chats={allChatsProxy?.map((chat) => chatProxy(chat))} back={back} />;
+    return <ForwardMessagesModalView clickOnChat={clickOnChat} tabsAndLists={tabsAndLists} back={back} />;
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {

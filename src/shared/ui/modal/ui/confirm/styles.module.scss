@@ -4,6 +4,7 @@
 .wrapper {
   @include box-size(300px, auto);
   @include flex-column();
+  min-height: 160px;
   padding: 12px;
   gap: 12px;
 

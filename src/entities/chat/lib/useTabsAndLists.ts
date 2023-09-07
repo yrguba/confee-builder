@@ -80,26 +80,33 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
     };
 
     useEffect(() => {
-        if (pathname.includes('all')) {
+        if (!redirect && !activeTab.value?.id) {
             tabs.length && activeTab.set(tabs[0]);
             allChatsProxy?.length && activeList.set(allChatsProxy || []);
         }
-    }, [allChatsProxy, activeTab]);
+    }, [allChatsProxy]);
 
     useEffect(() => {
-        if (pathname.includes('personal')) {
+        if (pathname.includes('all') && redirect) {
+            tabs.length && activeTab.set(tabs[0]);
+            allChatsProxy?.length && activeList.set(allChatsProxy || []);
+        }
+    }, [allChatsProxy, activeTab.value]);
+
+    useEffect(() => {
+        if (pathname.includes('personal') && redirect) {
             tabs.length && activeTab.set(tabs[1]);
             personalChatsProxy?.length && activeList.set(personalChatsProxy || []);
         }
-    }, [personalChatsProxy, activeTab]);
+    }, [personalChatsProxy, activeTab.value]);
 
     useEffect(() => {
-        if (pathname.includes('company')) {
+        if (pathname.includes('company') && redirect) {
             const foundIndex = tabs.findIndex((i) => i.payload?.companyId === Number(params.company_id));
             tabs.length && activeTab.set(tabs[foundIndex === -1 ? 2 : foundIndex]);
             companyChatsProxy?.length && activeList.set(companyChatsProxy || []);
         }
-    }, [companyChatsProxy, activeTab]);
+    }, [companyChatsProxy, activeTab.value]);
 
     return {
         tabs,

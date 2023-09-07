@@ -179,7 +179,7 @@ function MessageInputView(props: Props) {
                         },
                         {
                             visible: icon.value === 'audio',
-                            item: <VoiceButton onClick={() => icon.set('video')} initRecord={initRecording} getEvents={getVoiceEvents} />,
+                            item: <VoiceButton initRecord={initRecording} getEvents={getVoiceEvents} />,
                         },
                         {
                             visible: icon.value === 'video',
