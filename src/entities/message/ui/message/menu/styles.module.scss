@@ -16,6 +16,7 @@
     box-shadow: var(--box-shadow);
     border-radius: 12px;
     transform: translateX(-50%);
+    z-index: 20;
 
     .baseList {
       @include box-size(calc(100% - 16px), 44px);
@@ -59,6 +60,17 @@
     box-shadow: var(--box-shadow);
     border-radius: 12px;
     padding: 12px 0;
+    position: relative;
+
+    .users{
+      @include box-size(calc(100% - 24px), auto);
+      padding: 0 12px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: var(--bg-primary);
+      border-radius: 12px;
+    }
 
     .item {
       width: calc(100% - 16px);

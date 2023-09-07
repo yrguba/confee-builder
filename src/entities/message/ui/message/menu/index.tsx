@@ -1,18 +1,16 @@
 import moment from 'moment';
-import React, { ReactNode, useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useArray, useEasyState } from 'shared/hooks';
 import { getEnding } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Box, IconsTypes, Icons, Title, Emoji, Dropdown, Card, Modal } from 'shared/ui';
+import { Box, IconsTypes, Icons, Title, Emoji, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { UserProfileModal } from '../../../../../features/user';
 import { createMemo } from '../../../../../shared/hooks';
 import { chatTypes } from '../../../../chat';
 import { userProxy } from '../../../../user';
 import { UserProxy, User } from '../../../../user/model/types';
-import { messageService } from '../../../index';
 import { MessageMenuActions, MessageProxy } from '../../../model/types';
 
 type Props = {
@@ -55,6 +53,7 @@ function MessageMenu(props: Props) {
     const reactions = ['1f4a3', '1f440', '26d4', '1f49c', '1f4a5', '1f34c', '1f44c', '1f44d'];
 
     const visibleAllReactions = useEasyState(false);
+    const visibleUsers = useEasyState(false);
 
     const { array, deleteByIds, deleteById } = useArray({
         initialArr: items,
@@ -75,7 +74,7 @@ function MessageMenu(props: Props) {
     };
 
     return (
-        <Box className={styles.wrapper}>
+        <div className={styles.wrapper}>
             <div className={styles.reactions}>
                 <div className={styles.baseList}>
                     <div className={styles.list}>
@@ -102,34 +101,42 @@ function MessageMenu(props: Props) {
                 </Box.Animated>
             </div>
             <div className={styles.items}>
+                <Box.Animated visible={visibleUsers.value} animationVariant="autoHeight" className={styles.users} onMouseLeave={() => visibleUsers.set(false)}>
+                    <Card.List
+                        items={readUsers.map((i) => ({
+                            onClick: () => openUserModal(i),
+                            id: i.id,
+                            img: i.avatar,
+                            name: i.full_name,
+                            title: i.full_name,
+                            subtitle: '',
+                        }))}
+                    />
+                </Box.Animated>
+
                 {array.map((i) => (
-                    <Dropdown
-                        key={i.id}
-                        trigger="hover"
-                        position={message.isMy ? 'left-center' : 'right-center'}
-                        content={
-                            <Card.List
-                                items={readUsers.map((i) => ({
-                                    onClick: () => openUserModal(i),
-                                    id: i.id,
-                                    img: i.avatar,
-                                    name: i.full_name,
-                                    title: i.full_name,
-                                    subtitle: '',
-                                }))}
-                            />
-                        }
-                        disabled={i.payload !== 'read'}
+                    <div
+                        className={styles.item}
+                        onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message)}
+                        onMouseEnter={() => i.payload === 'read' && visibleUsers.set(true)}
                     >
-                        <div className={styles.item} onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message)}>
-                            <Icons variant={i.icon} />
-                            <Title variant="H3M">{i.title}</Title>
-                        </div>
-                    </Dropdown>
+                        <Icons variant={i.icon} />
+                        <Title variant="H3M">{i.title}</Title>
+                    </div>
                 ))}
             </div>
-        </Box>
+        </div>
     );
 }
 
 export default MessageMenu;
+// <Card.List
+//     items={readUsers.map((i) => ({
+//         onClick: () => openUserModal(i),
+//         id: i.id,
+//         img: i.avatar,
+//         name: i.full_name,
+//         title: i.full_name,
+//         subtitle: '',
+//     }))}
+// />
