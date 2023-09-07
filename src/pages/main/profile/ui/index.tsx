@@ -25,7 +25,7 @@ function ProfilePage() {
     };
 
     return (
-        <Box.Animated visible className={styles.wrapper}>
+        <Box.Animated transition={{ duration: 0.1 }} presence={false} visible className={styles.wrapper}>
             <div className={styles.tabs} {...events} ref={ref}>
                 {items.map((i) => (
                     <div

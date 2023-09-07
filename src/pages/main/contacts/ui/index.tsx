@@ -27,7 +27,7 @@ function ContactsPage() {
     };
 
     return (
-        <Box.Animated visible className={styles.wrapper}>
+        <Box.Animated transition={{ duration: 0.1 }} presence={false} visible className={styles.wrapper}>
             {isVisibleSidebar() && (
                 <div className={styles.sidebar}>
                     <Sidebar />

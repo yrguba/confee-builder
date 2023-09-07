@@ -14,10 +14,9 @@
       @include flex-column;
       @include box-size(88px, 72px);
       gap: 4px;
-      transition: all .5s;
       cursor: pointer;
       position: relative;
-
+      transition: all  .5s;
       svg{
         fill: var(--control-tertiary);
       }

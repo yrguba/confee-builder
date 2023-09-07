@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
@@ -17,13 +18,15 @@ function Routing() {
     const { data: viewerData, isLoading, error: viewerError } = viewerApi.handleGetViewer();
 
     const routes = (
-        <Routes location={location}>
-            {mainRoutes}
-            {callsPageRouters}
-            {initialFillingProfilePageRouters}
-            {warningPageRouters}
-            <Route path="*" element={<Navigate to="/chats" replace />} />
-        </Routes>
+        <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname.split('/')[1]}>
+                {mainRoutes}
+                {callsPageRouters}
+                {initialFillingProfilePageRouters}
+                {warningPageRouters}
+                <Route path="*" element={<Navigate to="/chats" replace />} />
+            </Routes>
+        </AnimatePresence>
     );
 
     useEffect(() => {

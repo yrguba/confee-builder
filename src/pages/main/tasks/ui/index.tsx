@@ -8,7 +8,7 @@ import { Header, Sidebar } from '../widgets';
 
 function TasksPage() {
     return (
-        <Box.Animated visible className={styles.page}>
+        <Box.Animated transition={{ duration: 0.1 }} presence={false} visible className={styles.wrapper}>
             Раздел находится в разработке
             {/* <div className={styles.sidebar}> */}
             {/*    <SidebarTasksPage /> */}
