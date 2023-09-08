@@ -153,6 +153,17 @@ class ChatApi {
         });
     };
 
+    handleGetAvatars = (data: { chatId: number }) => {
+        return useQuery(['get-chat-avatars', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/avatars`), {
+            staleTime: Infinity,
+            enabled: !!data.chatId,
+            select: (data) => {
+                const res = httpHandlers.response<{ data: { avatars: string[] } }>(data);
+                return res.data?.data.avatars;
+            },
+        });
+    };
+
     handleAddAvatar() {
         return useMutation((data: { chatId: number; img: string }) =>
             axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img))

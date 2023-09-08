@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { UserCardView } from 'entities/user';
 import { viewerApi, viewerProxy, ViewerProfileView } from 'entities/viewer';
 import { useRouter } from 'shared/hooks';
+
+import { UserAvatarsSwiper } from '../../user';
 
 function ViewerCard() {
     const { navigate } = useRouter();
@@ -11,12 +12,15 @@ function ViewerCard() {
     const viewer = viewerProxy(viewerData?.user);
 
     return (
-        <ViewerProfileView
-            viewer={viewer}
-            clickSettings={() => navigate('info_settings')}
-            companies={viewerData?.companies}
-            departments={viewerData?.companies?.length ? viewerData?.companies[0]?.departments : []}
-        />
+        <>
+            {viewerData?.user && <UserAvatarsSwiper userId={viewerData?.user.id} />}
+            <ViewerProfileView
+                viewer={viewer}
+                clickSettings={() => navigate('info_settings')}
+                companies={viewerData?.companies}
+                departments={viewerData?.companies?.length ? viewerData?.companies[0]?.departments : []}
+            />
+        </>
     );
 }
 

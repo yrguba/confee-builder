@@ -4,7 +4,7 @@ import { axiosClient } from 'shared/configs';
 
 import { User } from './types';
 import { httpHandlers } from '../../../shared/lib';
-import { Contact } from '../../contact/model/types';
+import { messageTypes } from '../../message';
 
 class UserApi {
     handleGetUserByPhone(data: { phone: string }) {
@@ -13,6 +13,17 @@ class UserApi {
             enabled: !!data.phone,
             select: (res) => {
                 const updRes = httpHandlers.response<{ data: User[] }>(res);
+                return updRes.data?.data;
+            },
+        });
+    }
+
+    handleGetAvatars(data: { userId: number }) {
+        return useQuery(['get-user-avatars', data.userId], () => axiosClient.get(`/api/v2/users/${data.userId}/avatars`), {
+            staleTime: Infinity,
+            enabled: !!data.userId,
+            select: (res) => {
+                const updRes = httpHandlers.response<{ data: messageTypes.File[] }>(res);
                 return updRes.data?.data;
             },
         });

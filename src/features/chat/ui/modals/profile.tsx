@@ -6,6 +6,8 @@ import { messageTypes } from 'entities/message';
 import { useRouter, useEasyState, UseFileUploaderTypes } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
+import ChatAvatarsSwiper from '../avatars-swiper';
+
 function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const { params, navigate } = useRouter();
     const chatId = Number(params.chat_id);
@@ -61,6 +63,7 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     return (
         <>
+            <ChatAvatarsSwiper chatId={chatId} />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
             <ChatProfileModalView
                 getScreenshot={getScreenshot}
