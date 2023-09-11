@@ -12,7 +12,7 @@ class ViewerApi {
     private pathPrefix = '/api/v2/profile';
 
     handleGetViewer() {
-        const storage = useStorage<appTypes.ValuesInStorage>();
+        const storage = useStorage();
         return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (res) => {

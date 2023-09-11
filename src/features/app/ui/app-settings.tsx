@@ -5,7 +5,7 @@ import { tokensService, viewerApi } from 'entities/viewer';
 import { useTheme, useStorage, useEasyState } from 'shared/hooks';
 
 function AppSettings() {
-    const storage = useStorage<appTypes.ValuesInStorage>();
+    const storage = useStorage();
 
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();

@@ -9,7 +9,7 @@ import { useEasyState, useFs, useStorage } from '../../../shared/hooks';
 
 // tauri only
 function TauriSettings() {
-    const storage = useStorage<appTypes.ValuesInStorage>();
+    const storage = useStorage();
     const fs = useFs();
     if (!appService.tauriIsRunning) return null;
 

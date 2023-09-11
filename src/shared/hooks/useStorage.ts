@@ -1,18 +1,19 @@
 const ls = window.localStorage;
+export type ValuesInStorage = 'access_token' | 'refresh_token' | 'theme' | 'notification_scope' | 'viewer_id' | 'cache_size' | 'chat_list_width';
 
-function useStorage<T extends string>() {
-    const set = (name: T, value: any) => {
+function useStorage() {
+    const set = (name: ValuesInStorage, value: any) => {
         ls.setItem(name, typeof value === 'string' ? value : JSON.stringify(value));
     };
 
-    const get = (name: T) => {
+    const get = (name: ValuesInStorage) => {
         const valueInLs = ls.getItem(name);
         if (!valueInLs) return null;
         if (valueInLs[0] === '{' && valueInLs[valueInLs.length - 1] === '}') return JSON.parse(valueInLs);
         return valueInLs;
     };
 
-    const remove = (name: T) => {
+    const remove = (name: ValuesInStorage) => {
         ls.removeItem(name);
     };
 

@@ -10,7 +10,7 @@ import { BaseVideoPlayerProps } from '../../types';
 
 function VideoPlayer(props: BaseVideoPlayerProps) {
     const { url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
-    const storage = useStorage<appTypes.ValuesInStorage>();
+    const storage = useStorage();
     const { src, isLoading, orientation, error } = useFetchMediaContent(url || '', storage.get('cache_size'));
     const [video, state, controls, ref] = useVideo(<video style={{ width, height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />);
 

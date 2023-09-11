@@ -12,7 +12,7 @@ import { BaseImageProps } from '../../types';
 
 function Image(props: BaseImageProps) {
     const { objectFit = 'cover', url, width, height, horizontalImgWidth, onClick, borderRadius = true, id, remove, ...other } = props;
-    const storage = useStorage<appTypes.ValuesInStorage>();
+    const storage = useStorage();
 
     const { src, error, isLoading, orientation } = useFetchMediaContent(url || '', storage.get('cache_size'));
 

@@ -1,9 +1,8 @@
-import { appTypes } from 'entities/app';
 import { useStorage } from 'shared/hooks';
 
 class ViewerService {
     getId(): number | null {
-        const storage = useStorage<appTypes.ValuesInStorage>();
+        const storage = useStorage();
         return Number(storage.get('viewer_id')) || null;
     }
 }
