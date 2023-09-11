@@ -157,7 +157,8 @@
         "fullscreen": false,
         "visible": true,
         "decorations": true,
-        "alwaysOnTop": false
+        "alwaysOnTop": false,
+        "fileDropEnabled": true
       }
     ],
     "updater": {

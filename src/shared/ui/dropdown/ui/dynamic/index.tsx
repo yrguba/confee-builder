@@ -47,7 +47,7 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, ref: any) 
         });
     };
 
-    useDebounce(update, 1000, [wrapperRef.current.offsetWidth, wrapperRef.current.offsetHeight]);
+    useDebounce(update, 500, [wrapperRef.current.offsetWidth, wrapperRef.current.offsetHeight]);
 
     const updateX = (contentRect: any, wrapperRect: any, padding: any) => {
         if (reverseX) {

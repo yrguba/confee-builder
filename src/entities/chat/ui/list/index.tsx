@@ -6,6 +6,7 @@ import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, TabBarTypes 
 import styles from './styles.module.scss';
 import { UseArrayReturnType, useHeightMediaQuery, useInView } from '../../../../shared/hooks';
 import { ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
+import ChatCardView from '../card';
 
 type Props = {
     clickOnChat: (arg: ChatProxy) => void;
@@ -40,49 +41,13 @@ function ChatsListView(props: Props) {
             <div className={styles.list}>
                 {tabsAndLists.activeList?.length &&
                     tabsAndLists.activeList?.map((chat, index: number) => (
-                        <div
+                        <ChatCardView
+                            key={chat.id}
+                            chat={chat}
+                            clickOnChat={clickOnChat}
+                            active={activeChatId === chat?.id}
                             ref={index + 1 === tabsAndLists.activeList?.length ? lastItem : null}
-                            key={chat?.id}
-                            className={`${styles.item} ${activeChatId === chat?.id ? styles.item_active : ''}`}
-                            onClick={() => clickOnChat(chat)}
-                        >
-                            <div className={styles.body}>
-                                <div className={styles.avatar}>
-                                    <Avatar networkStatus={chat?.secondMember?.networkStatus} size={52} img={chat.avatar} name={chat?.name} />
-                                </div>
-                                <div className={styles.content}>
-                                    <div className={styles.row}>
-                                        <div className={styles.left}>
-                                            <Title variant="H3S">{chat?.name}</Title>
-                                            {!chat.is_personal && <Button tag>TFN</Button>}
-                                        </div>
-                                        <div className={styles.right}>
-                                            <Title textAlign="right" variant="caption1M" primary={false}>
-                                                {chat?.date}
-                                            </Title>
-                                        </div>
-                                    </div>
-                                    <div className={styles.row}>
-                                        <div className={styles.left}>
-                                            <Title primary={false} variant="H3R">
-                                                {chat?.lastMessageTitle}
-                                            </Title>
-                                        </div>
-                                        <div className={styles.right}>
-                                            {chat.pending_messages_count ? (
-                                                <Counter variant="primary" height={18}>
-                                                    {chat?.pending_messages_count}
-                                                </Counter>
-                                            ) : (
-                                                chat?.checkIsMyLastMessage && (
-                                                    <Icons variant={chat?.last_message.users_have_read.length ? 'double-check' : 'check'} />
-                                                )
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        />
                     ))}
             </div>
         </Box.Animated>
