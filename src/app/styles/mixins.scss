@@ -27,3 +27,10 @@
     width: 8px;
   }
 }
+@mixin textSelect() {
+  -moz-user-select: auto;
+  -khtml-user-select: auto;
+  -webkit-user-select: auto;
+}
+
+

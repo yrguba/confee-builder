@@ -42,12 +42,12 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, ref: any) 
         wrapperRef?.current?.addEventListener('contextmenu', (e: MouseEvent) => {
             wrapperClickPosition.set({
                 x: e.clientX - wrapperRect.left,
-                y: e.pageY - wrapperRect.top + wrapperRef.current.scrollTop,
+                y: e.pageY - wrapperRect.top + wrapperRef.current?.scrollTop,
             });
         });
     };
 
-    useDebounce(update, 500, [wrapperRef.current.offsetWidth, wrapperRef.current.offsetHeight]);
+    useDebounce(update, 500, [wrapperRef.current?.offsetWidth, wrapperRef.current?.offsetHeight]);
 
     const updateX = (contentRect: any, wrapperRect: any, padding: any) => {
         if (reverseX) {
