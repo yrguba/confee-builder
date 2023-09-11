@@ -8,12 +8,12 @@ type Store = {
     chatSubscription: UseStoreTypes.SelectorWithPrimitive<number | null>;
 };
 
-const { createSelectors, generateSelectorWithObj } = useStore<Store>();
+const { createSelectors, generateSelectorWithPrimitive } = useStore<Store>();
 
 const chatStore = create<Store>()(
     devtools(
         immer((set) => ({
-            ...generateSelectorWithObj(['chatSubscription'], set),
+            ...generateSelectorWithPrimitive(['chatSubscription'], set),
         }))
     )
 );

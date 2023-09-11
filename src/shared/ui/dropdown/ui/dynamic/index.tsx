@@ -19,6 +19,7 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
         closeAfterClick,
         disabled,
         style,
+        containerWidth,
     } = props;
 
     const childrenRef = useRef<HTMLDivElement>(null);

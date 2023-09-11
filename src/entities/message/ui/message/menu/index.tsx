@@ -116,6 +116,7 @@ function MessageMenu(props: Props) {
 
                 {array.map((i) => (
                     <div
+                        key={i.id}
                         className={styles.item}
                         onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message)}
                         onMouseEnter={() => i.payload === 'read' && visibleUsers.set(true)}

@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useUpdateEffect } from 'react-use';
 
+import { useChatStore } from 'entities/chat';
 import { useWidthMediaQuery, useRouter, useRendersCount, useEasyState, useStorage, useThrottle } from 'shared/hooks';
 import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { Sidebar } from '../widgets';
 
-const [throttle] = useThrottle((cl) => cl(), 5000);
 function ChatsPage() {
     const { params } = useRouter();
     const storage = useStorage();
@@ -41,7 +41,7 @@ function ChatsPage() {
         }
     };
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         sidebarWidth.set(md ? '100%' : widthInStorage || '375px');
     }, [md]);
 

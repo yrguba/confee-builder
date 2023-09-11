@@ -25,6 +25,7 @@ export type DynamicDropdownProps = {
     reverseY?: boolean;
     reverseX?: boolean;
     style?: CSSProperties;
+    containerWidth?: number;
 } & BaseDropdownProps;
 
 export type DropdownMenuItem = {
