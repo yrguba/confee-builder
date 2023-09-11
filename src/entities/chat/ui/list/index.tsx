@@ -1,23 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { mergeRefs } from 'react-merge-refs';
 
 import { BaseTypes } from 'shared/types';
 import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, TabBarTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { UseArrayReturnType, useHeightMediaQuery, useInView } from '../../../../shared/hooks';
-import { ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
+import { Actions, ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
 import ChatCardView from '../card';
 
 type Props = {
     clickOnChat: (arg: ChatProxy) => void;
     activeChatId: number | null;
     tabsAndLists: UseChatsTabsAndListsReturnType;
+    chatMenuAction: (action: Actions, chat: ChatProxy) => void;
 } & BaseTypes.Statuses;
 
 function ChatsListView(props: Props) {
-    const { clickOnChat, loading, activeChatId, tabsAndLists } = props;
+    const { clickOnChat, loading, activeChatId, tabsAndLists, chatMenuAction } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
 
+    const wrapperRef = useRef(null);
     const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
 
     useEffect(() => {
@@ -38,15 +41,20 @@ function ChatsListView(props: Props) {
                     <Title variant="H2">Нет чатов</Title>
                 )}
             </div>
-            <div className={styles.list}>
+            <div className={styles.list} ref={wrapperRef}>
                 {tabsAndLists.activeList?.length &&
                     tabsAndLists.activeList?.map((chat, index: number) => (
                         <ChatCardView
+                            chatMenuAction={chatMenuAction}
                             key={chat.id}
                             chat={chat}
                             clickOnChat={clickOnChat}
                             active={activeChatId === chat?.id}
-                            ref={index + 1 === tabsAndLists.activeList?.length ? lastItem : null}
+                            ref={{
+                                // @ts-ignore
+                                lastChat: index + 1 === tabsAndLists.activeList?.length ? lastItem : null,
+                                wrapper: wrapperRef,
+                            }}
                         />
                     ))}
             </div>

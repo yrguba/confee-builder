@@ -31,9 +31,10 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, ref: any) 
     const wrapperWidth = useEasyState(0);
 
     useEffect(() => {
-        new ResizeObserver((entries) => {
-            setWrapperRef({ current: entries[0].target });
-        }).observe(ref.current);
+        ref.current &&
+            new ResizeObserver((entries) => {
+                setWrapperRef({ current: entries[0].target });
+            }).observe(ref.current);
     }, []);
 
     const update = () => {
@@ -47,7 +48,7 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, ref: any) 
         });
     };
 
-    useDebounce(update, 500, [wrapperRef.current?.offsetWidth, wrapperRef.current?.offsetHeight]);
+    useDebounce(update, 500, [wrapperRef?.current?.offsetWidth, wrapperRef?.current?.offsetHeight]);
 
     const updateX = (contentRect: any, wrapperRect: any, padding: any) => {
         if (reverseX) {
