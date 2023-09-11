@@ -120,7 +120,7 @@ function messageGateway() {
         onMessage('MessageRead', (socketData) => {
             ['all', 'personal'].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                    if (!cacheData?.data?.data.length) return cacheData;
+                    if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
                         draft.pages.forEach((page: any) => {
                             page.data.data = page?.data?.data.map((chat: Chat) => {
@@ -136,6 +136,17 @@ function messageGateway() {
                     });
                 })
             );
+            queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
+                if (!cacheData?.data?.data) return cacheData;
+                console.log(cacheData);
+                return produce(cacheData, (draft: any) => {
+                    const chat = draft.data.data;
+                    chat.pending_messages_count = socketData?.data?.extra_info?.chat_pending_messages_count;
+                    if (chat.last_message.id === socketData.data.message_id) {
+                        chat.last_message.users_have_read = [...chat.last_message.users_have_read, socketData.data.read_user_id];
+                    }
+                });
+            });
             queryClient.setQueryData(['get-total-pending-messages'], (cacheData: any) => {
                 if (!cacheData?.data?.data.length) return cacheData;
                 return produce(cacheData, (draft: any) => {

@@ -9,13 +9,26 @@
   overflow-y: auto;
   overflow-x: hidden;
 
+
+  .btnDown {
+    @include flex-column(flex-start);
+    gap: 4px;
+    position: fixed;
+    bottom: 64px;
+    right: 14px;
+
+    svg {
+      fill: var(--text-fixed);
+    }
+  }
+
   .row {
     @include box-size(98%, auto);
     display: flex;
     transition: background-color .5s;
     border-radius: 12px;
 
-    &_active{
+    &_active {
       background-color: var(--bg-quaternary);
     }
   }

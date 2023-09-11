@@ -5,6 +5,7 @@ import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
+import { Box, Button, Counter, Icons } from '../../../../shared/ui';
 import { appTypes } from '../../../app';
 import { chatTypes } from '../../../chat';
 import { UserProxy } from '../../../user/model/types';
@@ -56,11 +57,15 @@ function MessagesListView(props: Props) {
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
     const { ref: lastMessageCheckVisibleRef, inView: inViewLastMessageCheckVisibleRef } = useInView({ delay: 200 });
+    const { ref: firstUnreadCheckVisibleRef, inView: inViewFirstUnreadCheckVisibleRef } = useInView({ delay: 200 });
 
     const getMessageRefs = (message: MessageProxy, index: number) => {
         if (!messages?.length) return null;
         const refs = [];
-        if (message.isFirstUnread) refs.push(firstUnreadMessageRef);
+        if (message.isFirstUnread) {
+            refs.push(firstUnreadMessageRef);
+            refs.push(firstUnreadCheckVisibleRef);
+        }
         if (messages.length - 1 === index) refs.push(lastMessageRef);
         if (messages.length - 1 === index) refs.push(lastMessageCheckVisibleRef);
         return mergeRefs(refs);
@@ -69,6 +74,14 @@ function MessagesListView(props: Props) {
     const rowClick = (message: MessageProxy) => {
         if (highlightedMessages.value.length) {
             highlightedMessages.pushOrDelete(message);
+        }
+    };
+
+    const clickBtnDown = () => {
+        if (!chat?.pending_messages_count) {
+            executeScrollToElement({ ref: lastMessageRef, enable: true });
+        } else {
+            executeScrollToElement({ ref: firstUnreadMessageRef, enable: true });
         }
     };
 
@@ -96,6 +109,12 @@ function MessagesListView(props: Props) {
 
     return (
         <div className={styles.wrapper} ref={wrapperRef}>
+            <Box.Animated visible={!inViewFirstUnreadCheckVisibleRef && !inViewLastMessageCheckVisibleRef} className={styles.btnDown}>
+                <Counter>{chat?.pending_messages_count}</Counter>
+                <Button.Circle radius={34} onClick={clickBtnDown}>
+                    <Icons variant="arrow-drop-down" />
+                </Button.Circle>
+            </Box.Animated>
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
                     {message.systemMessages.length ? message.systemMessages.map((text, index) => <SystemMessage key={index} text={text} />) : null}
