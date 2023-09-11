@@ -4,6 +4,7 @@ import { useClickAway, useEasyState, useStyles, useCallbackRef } from 'shared/ho
 import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
+import { useDimensionsObserver, useDebounce } from '../../../../hooks';
 import { DynamicDropdownProps } from '../../types';
 
 const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef: any) => {
@@ -19,7 +20,6 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
         closeAfterClick,
         disabled,
         style,
-        containerWidth,
     } = props;
 
     const childrenRef = useRef<HTMLDivElement>(null);
@@ -28,6 +28,17 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
     const positionState = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
     const wrapperClickPosition = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
 
+    const wrapperWidth = useEasyState(0);
+
+    useDimensionsObserver<{ wrapperRef: any }>({
+        refs: { wrapperRef },
+        onResize: {
+            wrapperRef: (size) => {
+                wrapperWidth.set(size.width);
+            },
+        },
+    });
+    console.log(wrapperWidth.value);
     const updateX = (contentRect: any, wrapperRect: any, padding: any) => {
         if (reverseX) {
             if (wrapperClickPosition.value.x - padding < contentRect.width) {

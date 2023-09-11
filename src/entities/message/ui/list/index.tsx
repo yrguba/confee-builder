@@ -1,7 +1,7 @@
 import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 
-import { useInView, usePrevious, useScroll, UseStoreTypes } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -49,7 +49,7 @@ function MessagesListView(props: Props) {
 
     const { executeScrollToElement, scrollBottom } = useScroll();
 
-    const wrapperRef = useRef<HTMLDivElement>(null);
+    const wrapperRef: any = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
     const firstUnreadMessageRef = useRef<HTMLDivElement>(null);
 
