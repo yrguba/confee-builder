@@ -7,6 +7,7 @@ import { useWidthMediaQuery, useRouter, useRendersCount, useEasyState, useStorag
 import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { useDebounce } from '../../../../shared/hooks';
 import { Sidebar } from '../widgets';
 
 function ChatsPage() {
@@ -32,12 +33,13 @@ function ChatsPage() {
         return true;
     };
 
+    useDebounce(() => storage.set('chat_list_width', sidebarWidth.value), 500, [sidebarWidth]);
+
     const resize = (e: any) => {
         e.preventDefault();
         if (e.clientX - 88 >= 375) {
             const size = `${e.clientX - 88}px`;
             sidebarWidth.set(size);
-            storage.set('chat_list_width', size);
         }
     };
 

@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { useDimensionsObserver, useDebounce } from '../../../../hooks';
 import { DynamicDropdownProps } from '../../types';
 
-const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef: any) => {
+const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, ref: any) => {
     const {
         children,
         visible,
@@ -23,22 +23,32 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
     } = props;
 
     const childrenRef = useRef<HTMLDivElement>(null);
-
+    const [wrapperRef, setWrapperRef] = useState(ref);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const positionState = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
     const wrapperClickPosition = useEasyState<{ x: number; y: number }>({ x: 0, y: 0 });
 
     const wrapperWidth = useEasyState(0);
 
-    useDimensionsObserver<{ wrapperRef: any }>({
-        refs: { wrapperRef },
-        onResize: {
-            wrapperRef: (size) => {
-                wrapperWidth.set(size.width);
-            },
-        },
-    });
-    console.log(wrapperWidth.value);
+    useEffect(() => {
+        new ResizeObserver((entries) => {
+            setWrapperRef({ current: entries[0].target });
+        }).observe(ref.current);
+    }, []);
+
+    const update = () => {
+        wrapperRef.current.style.position = 'relative';
+        const wrapperRect = wrapperRef.current?.getBoundingClientRect();
+        wrapperRef?.current?.addEventListener('contextmenu', (e: MouseEvent) => {
+            wrapperClickPosition.set({
+                x: e.clientX - wrapperRect.left,
+                y: e.pageY - wrapperRect.top + wrapperRef.current.scrollTop,
+            });
+        });
+    };
+
+    useDebounce(update, 1000, [wrapperRef.current.offsetWidth, wrapperRef.current.offsetHeight]);
+
     const updateX = (contentRect: any, wrapperRect: any, padding: any) => {
         if (reverseX) {
             if (wrapperClickPosition.value.x - padding < contentRect.width) {
@@ -63,9 +73,9 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
                     prev.y = padding;
                 });
             }
-        } else if (wrapperRef.current.scrollTop + wrapperRect.height - wrapperClickPosition.value.y < contentRect.height) {
+        } else if (wrapperRef.current?.scrollTop + wrapperRect.height - wrapperClickPosition.value.y < contentRect.height) {
             return positionState.set((prev) => {
-                prev.y = wrapperRef.current.scrollTop + wrapperRect.height - padding - contentRect.height;
+                prev.y = wrapperRef.current?.scrollTop + wrapperRect.height - padding - contentRect.height;
             });
         }
         positionState.set((prev) => {
@@ -86,15 +96,7 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, wrapperRef
     });
 
     useEffect(() => {
-        wrapperRef.current.style.position = 'relative';
-        const wrapperRect = wrapperRef.current?.getBoundingClientRect();
-        wrapperRef?.current?.addEventListener('contextmenu', (e: MouseEvent) => {
-            wrapperClickPosition.set({
-                x: e.clientX - wrapperRect.left,
-                y: e.pageY - wrapperRect.top + wrapperRef.current.scrollTop,
-            });
-        });
-        // return () => wrapperRef.current && wrapperRef?.current?.removeListener('contextmenu', null);
+        update();
     }, []);
 
     useClickAway(childrenRef, () => {
