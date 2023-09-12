@@ -75,6 +75,9 @@ export type DocumentIconsProps = {
 export type LogoIconsProps = {
     variant: 'confee' | 'softworks' | 'tfn' | 'premium';
 };
+export type PictureIconsProps = {
+    variant: 'auth-ad';
+};
 
 export type CountriesIconsProps = {
     variant: 'armenia' | 'belarus' | 'kazakhstan' | 'kyrgyzstan' | 'russia' | 'uzbekistan';

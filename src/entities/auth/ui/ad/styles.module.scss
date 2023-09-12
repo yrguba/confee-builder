@@ -1,35 +1,42 @@
-@import "src/app/styles";
+@import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(100%,calc(100% - 32px));
-  @include flex(space-between, flex-start, 40);
-  background-color: var(--bg-secondary);
-  border-radius: 12px;
+  @include box-size(auto, 100%);
+  @include flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-height: 90vh;
+  max-width: 80vw;
 
   overflow-y: auto;
 
   @include width-to('sm') {
-    padding: 16px 4px;
-    @include box-size(calc(100% - 8px),calc(100% - 32px));
+    max-width: 96vw;
   }
 
-  @include width-to('xl') {
-    //@include flex-column(flex-start, flex-start, 40);
+  @include width-from('xl') {
+    max-width: 1200px;
   }
 
-  .card {
-    flex: 1;
-    width: 0;
+  .form {
+    @include flex-column();
+    margin: 30px 0 30px 30px;
+    gap: 32px;
+    width: 400px;
+
+    @include width-to('sm') {
+      margin: 10px 0;
+    }
+
   }
 
-  .btns {
-    @include box-size(375px, 61px);
+  .img {
     @include flex;
-    gap: 16px;
+    margin: 30px 30px 30px 0;
 
     svg {
-      fill: var(--text-fixed);
+      @include box-size(80%, 90%)
+
     }
   }
-
 }
