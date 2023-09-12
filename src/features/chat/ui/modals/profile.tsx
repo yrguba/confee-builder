@@ -12,6 +12,8 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const { params, navigate } = useRouter();
     const chatId = Number(params.chat_id);
 
+    const visibleSwiper = useEasyState(false);
+
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
@@ -63,9 +65,10 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     return (
         <>
-            <ChatAvatarsSwiper chatId={chatId} />
+            <ChatAvatarsSwiper visible={visibleSwiper.value} chatId={chatId} onClose={() => visibleSwiper.set(false)} />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
             <ChatProfileModalView
+                clickAvatar={() => visibleSwiper.set(true)}
                 getScreenshot={getScreenshot}
                 selectFile={selectFile}
                 chat={chatProxy(chatData)}

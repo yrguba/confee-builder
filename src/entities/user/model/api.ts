@@ -18,13 +18,13 @@ class UserApi {
         });
     }
 
-    handleGetAvatars(data: { userId: number }) {
+    handleGetAvatars(data: { userId: number | undefined }) {
         return useQuery(['get-user-avatars', data.userId], () => axiosClient.get(`/api/v2/users/${data.userId}/avatars`), {
             staleTime: Infinity,
             enabled: !!data.userId,
             select: (res) => {
-                const updRes = httpHandlers.response<{ data: messageTypes.File[] }>(res);
-                return updRes.data?.data;
+                const updRes = httpHandlers.response<{ avatars: string[] }>(res);
+                return updRes.data?.avatars;
             },
         });
     }

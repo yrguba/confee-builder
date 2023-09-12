@@ -4,6 +4,7 @@ import { UserCardView } from 'entities/user';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
+import { AvatarTypes } from '../../../../shared/ui';
 import { Company, Department } from '../../../company/model/types';
 import { ViewerProxy } from '../../model/types';
 
@@ -12,15 +13,18 @@ type Props = {
     companies?: Company[];
     departments?: Department[];
     clickSettings: () => void;
+    avatarActions?: AvatarTypes.AvatarChangeActions;
+    clickAvatar: () => void;
 } & BaseTypes.Statuses;
 
 function ViewerProfileView(props: Props) {
-    const { clickSettings, viewer, loading, companies, departments } = props;
+    const { clickAvatar, avatarActions, clickSettings, viewer, loading, companies, departments } = props;
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.card}>
                 <UserCardView
+                    clickAvatar={clickAvatar}
                     clickSettings={clickSettings}
                     name={viewer?.full_name || ''}
                     birth={viewer?.formatted_birth || ''}
@@ -32,6 +36,7 @@ function ViewerProfileView(props: Props) {
                     email={viewer?.email}
                     companies={companies}
                     departments={departments}
+                    avatarActions={avatarActions}
                 />
             </div>
         </div>

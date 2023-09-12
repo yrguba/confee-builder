@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 import { companyTypes, EmployeeStatusView, CompanyCardView } from 'entities/company';
 import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Button, Dropdown, Icons, Title, DropdownTypes, Card } from 'shared/ui';
+import { Avatar, Box, Button, Dropdown, Icons, Title, DropdownTypes, AvatarTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -30,6 +30,8 @@ type Props = {
         mute: () => void;
         delete?: () => void;
     };
+    avatarActions?: AvatarTypes.AvatarChangeActions;
+    clickAvatar?: () => void;
 } & BaseTypes.Statuses;
 
 function UserCardView(props: Props) {
@@ -38,6 +40,8 @@ function UserCardView(props: Props) {
         departments,
         companies,
         actions,
+        avatarActions,
+        clickAvatar,
         email,
         networkStatus,
         visibleHeader,
@@ -92,7 +96,20 @@ function UserCardView(props: Props) {
             )}
             <div className={styles.body}>
                 <div className={styles.avatar} style={{ width: AvatarSize }}>
-                    <Avatar circle={false} size={AvatarSize} img={avatar} />
+                    {avatarActions ? (
+                        <Avatar.Change
+                            clickAvatar={clickAvatar}
+                            dropdownLeft={270}
+                            dropdownTop={280}
+                            {...avatarActions}
+                            circle={false}
+                            size={AvatarSize}
+                            img={avatar}
+                        />
+                    ) : (
+                        <Avatar clickAvatar={clickAvatar} circle={false} size={AvatarSize} img={avatar} />
+                    )}
+
                     {clickSettings && <Button onClick={clickSettings}>Редактировать личную информацию</Button>}
                     {visibleActionsMenu && (
                         <div className={styles.btns} style={{ width: AvatarSize }}>

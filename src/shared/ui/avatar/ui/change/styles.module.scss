@@ -5,18 +5,20 @@
   gap: 12px;
   cursor: pointer;
 
-  .circle {
+  .avatar {
     position: relative;
     overflow: hidden;
     border-radius: 50%;
 
     &:hover {
       .cover {
+
         opacity: 1;
       }
     }
 
     .cover {
+      @include flex;
       @include box-size(100%, 30px);
       position: absolute;
       bottom: 0;

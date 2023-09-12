@@ -6,26 +6,21 @@ import { Modal, Input, Notification, ModalTypes, Image } from 'shared/ui';
 
 type Props = {
     chatId: number;
+    visible: boolean;
+    onClose: () => void;
 };
 
 function ChatAvatarsSwiper(props: Props) {
-    const { data: imagesData } = chatApi.handleGetAvatars({ chatId: props.chatId });
+    const { chatId, onClose, visible } = props;
 
-    const swiperState = useEasyState<{ visible: boolean; initial: number }>({ visible: true, initial: 0 });
+    const { data: imagesData } = chatApi.handleGetAvatars({ chatId });
 
     const updItems = imagesData?.map((i, index) => ({
         id: i,
         url: i || '',
     }));
 
-    return (
-        <Image.Swiper
-            initialSlide={swiperState.value.initial}
-            closeClick={() => swiperState.set({ visible: false, initial: 1 })}
-            visible={swiperState.value.visible}
-            items={imagesData?.length ? updItems : []}
-        />
-    );
+    return <Image.Swiper initialSlide={0} closeClick={onClose} visible={visible} items={imagesData?.length ? updItems : []} />;
 }
 
 export default ChatAvatarsSwiper;

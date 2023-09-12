@@ -16,11 +16,12 @@ type Props = {
     files: messageTypes.File[] | BaseTypes.Empty;
     selectFile: () => void;
     getScreenshot: (data: string) => void;
+    clickAvatar: () => void;
     updateChatName: (name: string) => void;
 } & BaseTypes.Statuses;
 
 function ChatProfileModalView(props: Props) {
-    const { chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
+    const { clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -58,6 +59,8 @@ function ChatProfileModalView(props: Props) {
             <div className={styles.mainInfo}>
                 {chat?.is_group ? (
                     <Avatar.Change
+                        clickAvatar={clickAvatar}
+                        dropdownLeft={90}
                         size={200}
                         img={chat?.avatar || ''}
                         name={chat?.name || ''}

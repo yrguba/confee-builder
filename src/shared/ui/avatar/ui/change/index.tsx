@@ -7,7 +7,19 @@ import styles from './styles.module.scss';
 import { AvatarChangeProps } from '../../types';
 
 function AvatarChange(props: AvatarChangeProps) {
-    const { img, name, selectFile, size = 80, deleteFile, getScreenshot } = props;
+    const {
+        img,
+        name,
+        clickAvatar,
+        dropdownLeft,
+        dropdownTop,
+        dropdownPosition = 'right-bottom',
+        selectFile,
+        circle = true,
+        size = 80,
+        deleteFile,
+        getScreenshot,
+    } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
 
@@ -27,9 +39,16 @@ function AvatarChange(props: AvatarChangeProps) {
             <Box.Animated visible={visibleCamera} className={styles.webCamera}>
                 <WebCameraPhoto getScreenshot={action} />
             </Box.Animated>
-            <Dropdown.Menu closeAfterClick position="right-bottom" items={items.filter((i) => !i.hidden)} left={size - 70}>
-                <div className={styles.circle}>
-                    <Avatar img={img || ''} name={name} size={size} />
+            <Dropdown.Menu
+                top={dropdownTop}
+                trigger="hover"
+                closeAfterClick
+                position={dropdownPosition}
+                items={items.filter((i) => !i.hidden)}
+                left={dropdownLeft}
+            >
+                <div className={styles.avatar} style={{ borderRadius: circle ? '50%' : 8 }}>
+                    <Avatar clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
                     <div className={styles.cover}>Сменить</div>
                 </div>
             </Dropdown.Menu>

@@ -10,7 +10,7 @@ import LoadingIndicator from '../../../loading-indicator';
 import { BaseAvatarProps } from '../../types';
 
 function Avatar(props: BaseAvatarProps) {
-    const { size = 80, name, img, circle = true, employeeStatuses, networkStatus, opacity = 1 } = props;
+    const { size = 80, name, clickAvatar, img, circle = true, employeeStatuses, networkStatus, opacity = 1 } = props;
 
     const { src, error, isLoading } = useFetchMediaContent(img || '');
 
@@ -63,6 +63,7 @@ function Avatar(props: BaseAvatarProps) {
     return (
         <div
             className={styles.wrapper}
+            onClick={clickAvatar}
             style={{
                 opacity,
                 borderRadius: circle ? '50%' : 8,

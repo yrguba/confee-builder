@@ -2,6 +2,7 @@ import { companyTypes } from 'entities/company';
 import { userTypes } from 'entities/user';
 
 import { BaseTypes } from '../../types';
+import { Position } from '../dropdown/types';
 
 export type BaseAvatarProps = {
     size?: number;
@@ -11,10 +12,20 @@ export type BaseAvatarProps = {
     employeeStatuses?: keyof typeof companyTypes.EmployeeStatuses;
     networkStatus?: keyof typeof userTypes.NetworkStatuses;
     opacity?: 0 | 1;
+    clickAvatar?: () => void;
 };
 
 export type AvatarChangeProps = {
     selectFile: () => void;
     getScreenshot: (data: string) => void;
     deleteFile: () => void;
+    dropdownPosition?: Position;
+    dropdownTop?: number;
+    dropdownLeft?: number;
 } & BaseAvatarProps;
+
+export type AvatarChangeActions = {
+    deleteFile: () => void;
+    getScreenshot: (data: string) => void;
+    selectFile: () => void;
+};

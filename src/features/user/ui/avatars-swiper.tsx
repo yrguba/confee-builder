@@ -5,31 +5,22 @@ import { useEasyState } from 'shared/hooks';
 import { Modal, Input, Notification, ModalTypes, Image } from 'shared/ui';
 
 type Props = {
-    userId: number;
+    userId?: number;
+    visible: boolean;
+    onClose: () => void;
 };
 
 function UserAvatarsSwiper(props: Props) {
-    const { data: imagesData } = userApi.handleGetAvatars({ userId: props.userId });
+    const { userId, onClose, visible } = props;
 
-    const swiperState = useEasyState<{ visible: boolean; initial: number }>({ visible: false, initial: 1 });
+    const { data: imagesData } = userApi.handleGetAvatars({ userId });
 
     const updItems = imagesData?.map((i, index) => ({
-        id: i.id,
-        url: i.link || '',
-        width: '49%',
-        horizontalImgWidth: '99%',
-        height: '200px',
-        onClick: () => swiperState.set({ visible: true, initial: index }),
+        id: i,
+        url: i || '',
     }));
 
-    return (
-        <Image.Swiper
-            initialSlide={swiperState.value.initial}
-            closeClick={() => swiperState.set({ visible: false, initial: 1 })}
-            visible={swiperState.value.visible}
-            items={updItems}
-        />
-    );
+    return <Image.Swiper initialSlide={0} closeClick={onClose} visible={visible} items={imagesData?.length ? updItems : []} />;
 }
 
 export default UserAvatarsSwiper;
