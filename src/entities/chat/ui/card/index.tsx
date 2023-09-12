@@ -18,7 +18,7 @@ type Props = {
 
 const ChatCardView = forwardRef((props: Props, refs: any) => {
     const { clickOnChat, chat, active, chatMenuAction } = props;
-    console.log(refs.wrapper);
+
     return (
         <Dropdown.Dynamic
             ref={refs.wrapper}

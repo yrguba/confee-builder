@@ -138,7 +138,6 @@ function messageGateway() {
             );
             queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
                 if (!cacheData?.data?.data) return cacheData;
-                console.log(cacheData);
                 return produce(cacheData, (draft: any) => {
                     const chat = draft.data.data;
                     chat.pending_messages_count = socketData?.data?.extra_info?.chat_pending_messages_count;
