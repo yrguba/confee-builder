@@ -88,10 +88,11 @@ const DynamicDropdown = forwardRef<any, DynamicDropdownProps>((props, ref: any) 
         if (element) {
             const wrapperRect = wrapperRef.current?.getBoundingClientRect();
             const contentRect = element?.getBoundingClientRect();
-            const padding = 34;
+            const paddingX = 34;
+            const paddingY = 14;
             if (contentRect) {
-                updateX(contentRect, wrapperRect, padding);
-                updateY(contentRect, wrapperRect, padding);
+                updateX(contentRect, wrapperRect, paddingX);
+                updateY(contentRect, wrapperRect, paddingY);
             }
         }
     });

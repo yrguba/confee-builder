@@ -109,6 +109,10 @@ function MessageList() {
         user ? userProfileModal.open() : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
     };
 
+    const readMessage = (message_id: number) => {
+        handleReadMessage({ chat_id: chatId, message_id });
+    };
+
     useLifecycles(
         () => {
             if (forwardMessages.value.toChatId && forwardMessages.value.toChatId !== chatId) {
@@ -132,7 +136,7 @@ function MessageList() {
                 messages={messages}
                 getNextPage={() => hasNextPage && !isFetching && fetchNextPage().then()}
                 getPrevPage={() => hasPreviousPage && !isFetching && fetchPreviousPage().then()}
-                hoverMessage={(message: messageTypes.MessageProxy) => !message.is_read && handleReadMessage({ chat_id: chatId, message_id: message.id })}
+                readMessage={readMessage}
                 subscribeToChat={subscribeToChat}
                 chatSubscription={chatSubscription.value}
                 messageMenuAction={messageMenuAction}

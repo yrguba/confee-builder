@@ -1,5 +1,6 @@
 import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
+import { useUpdateEffect } from 'react-use';
 
 import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -18,7 +19,7 @@ type Props = {
     messages: MessageProxy[];
     getPrevPage: () => void;
     getNextPage: () => void;
-    hoverMessage: (message: MessageProxy) => void;
+    readMessage: (messageId: number) => void;
     subscribeToChat: (action: 'sub' | 'unsub') => void;
     chatSubscription: number | null;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
@@ -34,7 +35,7 @@ function MessagesListView(props: Props) {
         messages,
         getPrevPage,
         getNextPage,
-        hoverMessage,
+        readMessage,
         subscribeToChat,
         chatSubscription,
         messageMenuAction,
@@ -107,6 +108,12 @@ function MessagesListView(props: Props) {
         subscribeToChat(inViewLastMessageCheckVisibleRef ? 'sub' : 'unsub');
     }, [inViewLastMessageCheckVisibleRef, chat?.pending_messages_count]);
 
+    useEffect(() => {
+        const firstUnread = messages.find((i) => i.isFirstUnread);
+        inViewFirstUnreadCheckVisibleRef && firstUnread && readMessage(firstUnread.id);
+        console.log(firstUnread);
+    }, [inViewFirstUnreadCheckVisibleRef]);
+
     return (
         <div className={styles.wrapper} ref={wrapperRef}>
             <Box.Animated visible={!inViewFirstUnreadCheckVisibleRef && !inViewLastMessageCheckVisibleRef} className={styles.btnDown}>
@@ -117,11 +124,17 @@ function MessagesListView(props: Props) {
             </Box.Animated>
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
-                    {message.systemMessages.length ? message.systemMessages.map((text, index) => <SystemMessage key={index} text={text} />) : null}
+                    {message.systemMessages.length
+                        ? message.systemMessages.map((text, index) => (
+                              <div key={index} ref={getMessageRefs(message, index)} onMouseEnter={() => !message.is_read && readMessage(message.id)}>
+                                  <SystemMessage text={text} />
+                              </div>
+                          ))
+                        : null}
                     {message.type !== 'system' && (
                         <div
                             onClick={() => rowClick(message)}
-                            onMouseEnter={() => hoverMessage(message)}
+                            onMouseEnter={() => !message.is_read && readMessage(message.id)}
                             className={`${styles.row} ${highlightedMessages.value.find((i) => i.id === message.id) ? styles.row_active : ''}`}
                             style={{
                                 justifyContent: message.isMy ? 'flex-end' : 'flex-start',
