@@ -15,11 +15,13 @@ function chatGateway() {
         onMessage('ChatUpdated', (socketData) => {
             ['all', 'personal'].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                    if (!cacheData?.data?.data.length) return cacheData;
+                    if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
-                        draft.data.data = draft?.data?.data.map((chat: Chat) => {
-                            if (socketData.data.chat_id === chat.id) return { ...chat, ...socketData.data.updated_values };
-                            return chat;
+                        draft?.pages.forEach((page: any) => {
+                            page.data.data = page?.data?.data.map((chat: Chat) => {
+                                if (socketData.data.chat_id === chat.id) return { ...chat, ...socketData.data.updated_values };
+                                return chat;
+                            });
                         });
                     });
                 })

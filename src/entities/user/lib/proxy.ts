@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+import { momentLocalZone } from 'shared/lib';
+
 import { viewerService } from '../../viewer';
 import { User, UserProxy } from '../model/types';
 
@@ -20,7 +22,7 @@ function userProxy(user: User | undefined): any {
                     return target.is_online ? 'online' : 'offline';
 
                 case 'formatted_last_active':
-                    return moment(target.last_active).calendar();
+                    return momentLocalZone(target.last_active).calendar();
 
                 default:
                     return target[prop];

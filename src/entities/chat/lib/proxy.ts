@@ -2,6 +2,7 @@ import { viewerService } from 'entities/viewer';
 import { dateConverter, getEnding } from 'shared/lib';
 
 import { userProxy, userService } from '../../user';
+import { UserProxy } from '../../user/model/types';
 import { ChatProxy, Chat } from '../model/types';
 
 function chatProxy(chat: Chat | undefined): any {
@@ -10,7 +11,7 @@ function chatProxy(chat: Chat | undefined): any {
     return new Proxy(chat, {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver: ChatProxy): ChatProxy[keyof ChatProxy] {
             const secondMember = target.is_group ? null : target?.members?.find((i) => i.id !== viewerId) || null;
-            const secondMemberProxy = secondMember ? userProxy(secondMember) : null;
+            const secondMemberProxy: UserProxy | null = secondMember ? userProxy(secondMember) : null;
             switch (prop) {
                 case 'is_personal':
                     return !target.employee_members?.length;
@@ -41,7 +42,7 @@ function chatProxy(chat: Chat | undefined): any {
                         const word = getEnding(target.members.length, ['участник', 'участника', 'участников']);
                         return `${target.members.length} ${word}`;
                     }
-                    return userService.getUserNetworkStatus(chat.members?.find((i) => i.id !== viewerId) || null);
+                    return userService.getUserNetworkStatus(secondMemberProxy);
 
                 default:
                     return target[prop];

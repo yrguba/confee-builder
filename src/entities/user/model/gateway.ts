@@ -17,20 +17,22 @@ function userGateway() {
         const viewerId = viewerService.getId();
         onMessage('UserUpdated', (socketData) => {
             queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                if (!cacheData?.data?.data.length) return cacheData;
+                if (!cacheData?.pages?.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
-                    draft.data.data = draft?.data?.data.map((chat: chatTypes.Chat) => {
-                        if (!chat.is_group && viewerId !== socketData.data.user_id) {
-                            return {
-                                ...chat,
-                                members: chat.members.map((i) => {
-                                    if (i.id === socketData.data.user_id) return { ...i, ...socketData.data.updated_values };
-                                    return i;
-                                }),
-                            };
-                        }
+                    draft?.pages.forEach((page: any) => {
+                        page.data.data = page?.data?.data.map((chat: chatTypes.Chat) => {
+                            if (!chat.is_group && viewerId !== socketData.data.user_id) {
+                                return {
+                                    ...chat,
+                                    members: chat.members.map((i) => {
+                                        if (i.id === socketData.data.user_id) return { ...i, ...socketData.data.updated_values };
+                                        return i;
+                                    }),
+                                };
+                            }
 
-                        return chat;
+                            return chat;
+                        });
                     });
                 });
             });

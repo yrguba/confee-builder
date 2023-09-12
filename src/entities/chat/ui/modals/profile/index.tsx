@@ -6,7 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer, Dropdown, DropdownTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { userService } from '../../../../user';
+import { userProxy, userService } from '../../../../user';
 import { ChatProxy, Actions } from '../../../model/types';
 
 type Props = {
@@ -128,7 +128,7 @@ function ChatProfileModalView(props: Props) {
                                                 img: i.avatar || '',
                                                 name: userService.getFullName(i),
                                                 title: userService.getFullName(i),
-                                                subtitle: userService.getUserNetworkStatus(i),
+                                                subtitle: userService.getUserNetworkStatus(userProxy(i)),
                                             }))}
                                         />
                                     </div>
