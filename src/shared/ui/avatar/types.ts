@@ -13,7 +13,7 @@ export type BaseAvatarProps = {
     networkStatus?: keyof typeof userTypes.NetworkStatuses;
     opacity?: 0 | 1;
     clickAvatar?: () => void;
-};
+} & BaseTypes.Statuses;
 
 export type AvatarChangeProps = {
     selectFile: () => void;

@@ -19,7 +19,7 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function ChatHeaderView(props: Props) {
-    const { chat, back, tabs, clickCard, highlightedMessages, clickDeleteMessages, clickForwardMessages } = props;
+    const { chat, back, tabs, clickCard, highlightedMessages, clickDeleteMessages, clickForwardMessages, loading } = props;
 
     function Main() {
         return (
@@ -37,6 +37,7 @@ function ChatHeaderView(props: Props) {
                         name={chat?.name}
                         title={chat?.name}
                         subtitle={chat?.subtitle}
+                        loading={loading}
                     />
                 </div>
                 <div>

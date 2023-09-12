@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { companyTypes } from 'entities/company';
 import { userTypes } from 'entities/user';
@@ -10,7 +10,7 @@ import LoadingIndicator from '../../../loading-indicator';
 import { BaseAvatarProps } from '../../types';
 
 function Avatar(props: BaseAvatarProps) {
-    const { size = 80, name, clickAvatar, img, circle = true, employeeStatuses, networkStatus, opacity = 1 } = props;
+    const { size = 80, name, clickAvatar, img, circle = true, employeeStatuses, networkStatus, opacity = 1, loading } = props;
 
     const { src, error, isLoading } = useFetchMediaContent(img || '');
 
@@ -31,13 +31,13 @@ function Avatar(props: BaseAvatarProps) {
         { id: 13, triggers: ['1', '2', '3', '4', '5', '6', 7, '8', '9', '10'], color1: '#E57373', color2: '#F06292' },
     ];
 
-    const getColor = () => {
+    const getColor = useCallback(() => {
         if (name) {
             const found = colors.find((i) => i.triggers.includes(name[0].toLowerCase()));
             if (found) return { color1: found.color1, color2: found.color2 };
         }
         return { color1: '#9575CD', color2: '#7986CB' };
-    };
+    }, [name]);
 
     const defaultIcon = (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
@@ -48,14 +48,14 @@ function Avatar(props: BaseAvatarProps) {
         </svg>
     );
 
-    const getPreview = () => {
+    const getPreview = useCallback(() => {
         if (name) {
             const splitName = name.split(' ').filter((i) => !!i);
             if (splitName.length > 1) return `${splitName[0][0]}${splitName[1][0]}`;
             return name[0];
         }
         return defaultIcon;
-    };
+    }, [name]);
 
     const color = getColor();
     const preview = getPreview();
@@ -72,7 +72,7 @@ function Avatar(props: BaseAvatarProps) {
                 height: size,
                 minHeight: size,
                 fontSize: size - size / 2,
-                background: !img || error ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
+                background: isLoading || loading ? '' : !img || error ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
             }}
         >
             <Box.Animated
@@ -89,7 +89,7 @@ function Avatar(props: BaseAvatarProps) {
                 }}
             />
 
-            {isLoading ? (
+            {isLoading || loading ? (
                 <div className={styles.loading}>
                     <LoadingIndicator visible />
                 </div>

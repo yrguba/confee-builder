@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import styles from './styles.module.scss';
 import { useStyles } from '../../../../hooks';
@@ -7,13 +7,13 @@ import Title from '../../../title';
 import { BaseCardProps } from '../../types';
 
 function Card(props: BaseCardProps) {
-    const { img, title, subtitle, onClick, size = 's', name, avatarNetworkStatus, avatarEmployeeStatuses, icon, visibleAvatar = true } = props;
+    const { loading, img, title, subtitle, onClick, size = 's', name, avatarNetworkStatus, avatarEmployeeStatuses, icon, visibleAvatar = true } = props;
 
-    const getAvatarSize = () => {
+    const getAvatarSize = useCallback(() => {
         if (!visibleAvatar) return 0;
         if (size === 's') return 44;
         if (size === 'm') return 52;
-    };
+    }, [size, visibleAvatar]);
 
     const avatarSize = getAvatarSize();
 
@@ -35,7 +35,16 @@ function Card(props: BaseCardProps) {
         <div className={classes} onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
             {visibleAvatar && (
                 <div className={styles.avatar}>
-                    {!icon && <Avatar employeeStatuses={avatarEmployeeStatuses} networkStatus={avatarNetworkStatus} img={img} name={name} size={avatarSize} />}
+                    {!icon && (
+                        <Avatar
+                            loading={loading}
+                            employeeStatuses={avatarEmployeeStatuses}
+                            networkStatus={avatarNetworkStatus}
+                            img={img}
+                            name={name}
+                            size={avatarSize}
+                        />
+                    )}
                     {icon && icon}
                 </div>
             )}
