@@ -3,18 +3,16 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import 'moment/locale/ru';
+import { useUpdateEffect } from 'react-use';
 
-import { appService } from 'entities/app';
+import 'moment/locale/ru';
+import { appService, notificationsManager } from 'entities/app';
 import { chatService } from 'entities/chat';
+import { viewerService } from 'entities/viewer';
 import Routing from 'pages';
 import './index.scss';
-import { useWebSocket, useTheme } from 'shared/hooks';
+import { useWebSocket, useTheme, useIdle } from 'shared/hooks';
 import { Notification } from 'shared/ui';
-
-import { notificationsManager } from '../entities/app';
-import { viewerService } from '../entities/viewer';
-import useRecognizeSpeech from '../shared/hooks/useRecognizeSpeech';
 
 const queryClient = new QueryClient();
 moment.locale('ru');
@@ -24,6 +22,12 @@ function App() {
     const notification = Notification.use();
     const viewerId = viewerService?.getId();
     const getOpenChatId = chatService?.getOpenChatId();
+
+    const isIdle = useIdle(1000 * 60 * 20);
+
+    useUpdateEffect(() => {
+        !isIdle && queryClient.refetchQueries();
+    }, [isIdle]);
 
     useTheme();
 
