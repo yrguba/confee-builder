@@ -53,7 +53,9 @@ export type BaseIconsVariants =
     | 'group'
     | 'portfolio'
     | 'melody'
-    | 'keyboard';
+    | 'keyboard'
+    | 'group-chat'
+    | 'not-authorized';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

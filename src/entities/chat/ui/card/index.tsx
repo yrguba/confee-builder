@@ -31,6 +31,11 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
             <div ref={refs.lastChat} key={chat?.id} className={`${styles.wrapper} ${active ? styles.wrapper_active : ''}`} onClick={() => clickOnChat(chat)}>
                 <div className={styles.body}>
                     <div className={styles.avatar}>
+                        {chat.is_group && (
+                            <div className={styles.icon}>
+                                <Icons variant="group-chat" />
+                            </div>
+                        )}
                         <Avatar networkStatus={chat?.secondMember?.networkStatus} size={52} img={chat.avatar} name={chat?.name} />
                     </div>
                     <div className={styles.content}>

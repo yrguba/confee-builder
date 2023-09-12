@@ -16,6 +16,16 @@
 
     .avatar {
       @include flex;
+      position: relative;
+      .icon{
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        z-index: 2;
+        svg{
+          fill: var(--text-action);
+        }
+      }
     }
 
     .content {
