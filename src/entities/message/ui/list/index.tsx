@@ -111,7 +111,6 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         const firstUnread = messages.find((i) => i.isFirstUnread);
         inViewFirstUnreadCheckVisibleRef && firstUnread && readMessage(firstUnread.id);
-        console.log(firstUnread);
     }, [inViewFirstUnreadCheckVisibleRef]);
 
     return (

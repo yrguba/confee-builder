@@ -108,7 +108,7 @@ function MessageMenu(props: Props) {
                             id: i.id,
                             img: i.avatar,
                             name: i.full_name,
-                            title: i.full_name,
+                            title: i.contact_name || i.first_name,
                             subtitle: '',
                         }))}
                     />
