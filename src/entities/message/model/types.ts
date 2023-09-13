@@ -17,7 +17,7 @@ export type File = {
     extension?: string;
     hash_id?: string;
     id: number;
-    link: string;
+    url: string;
     name?: string;
     path?: string;
     size?: number;

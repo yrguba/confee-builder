@@ -17,7 +17,7 @@ function VideoMessage(props: Props) {
 
     const updItems = videos?.map((i, index) => ({
         id: i.id,
-        url: i.link,
+        url: i.url || '',
         width: 'auto',
         horizontalImgWidth: '99%',
         height: '200px',

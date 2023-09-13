@@ -16,7 +16,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
 
     return (
         <div className={styles.wrapper} onClick={onClick} style={{ width: isLoading ? 200 : width, height: isLoading ? 200 : height }}>
-            {!(error || !url) && video}
+            {video}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>

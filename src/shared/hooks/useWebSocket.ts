@@ -26,7 +26,8 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
     const onMessage = (event: In | 'all', callback: (arg: any) => void) => {
         ws.addEventListener('message', function (e) {
             const data = JSON.parse(e.data);
-            if (data.event === event || event === 'all') {
+            if (data.event === event) {
+                console.log(data);
                 callback(data);
             }
         });

@@ -26,7 +26,7 @@ function App() {
     const isIdle = useIdle(1000 * 60 * 20);
 
     useUpdateEffect(() => {
-        !isIdle && queryClient.refetchQueries();
+        // !isIdle && queryClient.refetchQueries();
     }, [isIdle]);
 
     useTheme();

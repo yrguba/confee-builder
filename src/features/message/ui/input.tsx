@@ -73,7 +73,7 @@ function MessageInput() {
                 chatId,
                 filesType: 'voices',
                 files: voiceRecord.recorderState.formData,
-                filesForMock: [{ id: 0, link: voiceRecord.recorderState.audio || '' }],
+                filesForMock: [{ id: 0, url: voiceRecord.recorderState.audio || '' }],
                 params: { reply_to_message_id: replyMessage.value?.id },
                 replyMessage: replyMessage.value,
             });

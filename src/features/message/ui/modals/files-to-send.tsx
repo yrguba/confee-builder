@@ -42,7 +42,7 @@ function FilesToSendModal(props: Props) {
                 {
                     chatId,
                     files: formData,
-                    filesForMock: arr.map((i) => ({ id: getRandomInt(100), link: i.fileUrl, name: i.name })),
+                    filesForMock: arr.map((i) => ({ id: getRandomInt(100), url: i.fileUrl, name: i.name })),
                     filesType: type,
                 },
                 {

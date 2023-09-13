@@ -19,7 +19,7 @@ function ImagesMessage(props: Props) {
 
     const updItems = images?.map((i, index) => ({
         id: i.id,
-        url: i.link || '',
+        url: i.url || '',
         width: '49%',
         horizontalImgWidth: '99%',
         height: '200px',

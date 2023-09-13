@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useUpdateEffect } from 'react-use';
 
-import { useChatStore } from 'entities/chat';
-import { useWidthMediaQuery, useRouter, useRendersCount, useEasyState, useStorage, useThrottle } from 'shared/hooks';
+import { useWidthMediaQuery, useRouter, useEasyState, useStorage } from 'shared/hooks';
 import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';

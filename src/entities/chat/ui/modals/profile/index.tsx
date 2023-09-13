@@ -140,7 +140,7 @@ function ChatProfileModalView(props: Props) {
                                     <Image.List
                                         items={files?.map((i, index) => ({
                                             id: index,
-                                            url: i.link || '',
+                                            url: i.url || '',
                                             width: 'auto',
                                             height: '122px',
                                         }))}
@@ -154,7 +154,7 @@ function ChatProfileModalView(props: Props) {
                                         <Document.List
                                             items={files?.map((i, index) => ({
                                                 id: index,
-                                                url: i.link || '',
+                                                url: i.url || '',
                                                 name: i.name,
                                                 extension: i.extension,
                                             }))}
@@ -169,7 +169,7 @@ function ChatProfileModalView(props: Props) {
                                         <AudioPlayer.List
                                             items={files?.map((i, index) => ({
                                                 id: index,
-                                                url: i.link || '',
+                                                url: i.url || '',
                                             }))}
                                         />
                                     </div>

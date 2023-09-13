@@ -27,7 +27,6 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
             return notifications.error({ title: `Выберите участников` });
         }
         if (selectedContacts.array.length) {
-            console.log(selectedContacts);
             handleCreatePersonalChat(
                 { user_ids: selectedContacts.array.map((i) => i.payload.id), is_group: isGroup.value },
                 {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ChatsListView, chatTypes, useChatsTabsAndLists } from 'entities/chat';
+import { chatApi, ChatsListView, chatTypes, useChatsTabsAndLists } from 'entities/chat';
 import { useRouter } from 'shared/hooks';
 
 import { Actions, ChatProxy } from '../../../entities/chat/model/types';
@@ -8,6 +8,7 @@ import { Actions, ChatProxy } from '../../../entities/chat/model/types';
 function ChatsList() {
     const { navigate, params, pathname } = useRouter();
 
+    const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const clickOnChatCard = (chat: chatTypes.Chat) => {
         navigate(`chat/${chat?.id}`);
     };
@@ -15,7 +16,10 @@ function ChatsList() {
     const tabsAndLists = useChatsTabsAndLists({});
 
     const chatMenuAction = (action: Actions, chat: ChatProxy) => {
-        console.log(action, chat);
+        switch (action) {
+            case 'delete':
+                return handleDeleteChat({ chatId: chat.id }, { onSuccess: () => params.chat_id && navigate('/chats') });
+        }
     };
 
     return (

@@ -20,7 +20,7 @@ function ChatAvatarsSwiper(props: Props) {
         url: i || '',
     }));
 
-    return <Image.Swiper initialSlide={0} closeClick={onClose} visible={visible} items={imagesData?.length ? updItems : []} />;
+    return <Image.Swiper initialSlide={0} closeClick={onClose} visible={visible} items={updItems?.length ? updItems.reverse() : []} />;
 }
 
 export default ChatAvatarsSwiper;

@@ -17,7 +17,7 @@ function DocumentsMessage(props: Props) {
         <div className={styles.wrapper}>
             {documents.map((i, index) => (
                 <div key={i.id} className={styles.item}>
-                    <Document url={i.link} name={i.name} extension={i.extension} />
+                    <Document url={i.url} name={i.name} extension={i.extension} />
                 </div>
             ))}
         </div>
