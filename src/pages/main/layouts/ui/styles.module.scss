@@ -8,7 +8,7 @@
 
   .navbar {
     @include box-size(88px, 100%);
-    border-right: 1px solid var(--border-secondary);
+    border-right: 2px solid var(--border-secondary);
     min-width: 88px;
   }
 
