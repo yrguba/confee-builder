@@ -38,6 +38,7 @@ function MessageList() {
         fetchPreviousPage,
         fetchNextPage,
         isFetching,
+        isLoading,
     } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
@@ -144,6 +145,7 @@ function MessageList() {
                 openUserModal={openUserModal}
                 highlightedMessages={highlightedMessages}
                 voiceRecordingInProgress={voiceRecordingInProgress.value}
+                loading={isLoading}
             />
         </>
     );
