@@ -41,7 +41,7 @@ function Notification(props: NotificationsTypes.NotificationProps) {
     useEffect(() => {
         if (!options?.disabledDesktop && !!window.__TAURI__) {
             notifications.forEach((i) => {
-                if ((!i.system && i.scope === 'desktop') || i.scope === 'all') {
+                if (!i.system && (i.scope === 'desktop' || i.scope === 'all')) {
                     sendNotification({ title: i.body || '', body: i.title });
                 }
             });
@@ -49,7 +49,8 @@ function Notification(props: NotificationsTypes.NotificationProps) {
     }, [notifications]);
 
     const isVisible = (i: NotificationsTypes.Notification) => {
-        if (!options?.disabledApp) return true;
+        if (i.scope === 'all') return true;
+        if (i.scope === 'desktop') return false;
         return !!i.system;
     };
 

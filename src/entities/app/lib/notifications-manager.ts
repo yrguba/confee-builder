@@ -11,8 +11,9 @@ function notificationsManager(
 ) {
     switch (data.event) {
         case 'MessageCreated':
+            console.log(openChatId);
             if (viewerId === data.data.message.author.id || openChatId === data.data.message.chat_id) return null;
-            if (data.data.message.type === 'system') return notification.info({ title: data.data.message.text });
+            if (data.data.message.type === 'system') return notification.info({ title: data.data.message.text, scope: 'desktop' });
             const { last_name, first_name } = data?.data?.message?.author;
             notification.info({ title: `Новое сообщение от ${first_name || ''} ${last_name || ''}`, body: data.data.message.text, scope: 'desktop' });
     }
