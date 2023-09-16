@@ -12,10 +12,12 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
     const { url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
     const storage = useStorage();
     const { src, isLoading, orientation, error } = useFetchMediaContent(url || '', storage.get('cache_size'));
-    const [video, state, controls, ref] = useVideo(<video style={{ width, height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />);
+    const [video, state, controls, ref] = useVideo(
+        <video style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />
+    );
 
     return (
-        <div className={styles.wrapper} onClick={onClick} style={{ width: isLoading ? 200 : width, height: isLoading ? 200 : height }}>
+        <div className={styles.wrapper} onClick={onClick} style={{ width: isLoading ? 100 : width || '100%', height: isLoading ? 200 : height }}>
             {video}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
