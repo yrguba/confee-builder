@@ -43,8 +43,9 @@ function Counter(props: CounterProps) {
     });
 
     if (!zeroVisible && children === 0) return null;
+
     return (
-        <motion.div {...wrapperAnimations} className={classes} style={{ height, fontSize }}>
+        <motion.div className={classes} style={{ height, fontSize }}>
             <AnimatePresence mode="wait" key={children}>
                 <motion.div {...childrenAnimations}>{number}</motion.div>
             </AnimatePresence>

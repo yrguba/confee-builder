@@ -15,7 +15,7 @@ import { ForwardMessagesModal } from '../../message';
 function ChatHeader() {
     const { params, navigate } = useRouter();
 
-    const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
+    const { data: chatData, isLoading } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
 
     const highlightedMessages = useMessageStore.use.highlightedMessages();
@@ -73,6 +73,7 @@ function ChatHeader() {
                 highlightedMessages={highlightedMessages}
                 clickDeleteMessages={clickDeleteMessages}
                 clickForwardMessages={clickForwardMessages}
+                loading={isLoading}
             />
         </>
     );

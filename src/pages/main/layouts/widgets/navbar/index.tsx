@@ -29,25 +29,23 @@ function Navbar() {
         <>
             <div className={styles.wrapper}>
                 <div className={styles.list}>
-                    <AnimatePresence>
-                        {items.map((i) => (
-                            <div
-                                key={i.id}
-                                className={`${styles.item} ${`/${pathname?.split('/')[1]}` === i.payload.path ? styles.item_active : ''}`}
-                                onClick={() => itemClick(i.payload.path)}
-                            >
-                                <div className={styles.counter}>
-                                    <Counter maxVisibleNumber={999} variant="negative">
-                                        {i.payload.counter}
-                                    </Counter>
-                                </div>
-                                <Icons variant={i.icon} />
-                                <Title textAlign="center" primary={false} variant="caption1M">
-                                    {i.title}
-                                </Title>
+                    {items.map((i) => (
+                        <div
+                            key={i.id}
+                            className={`${styles.item} ${`/${pathname?.split('/')[1]}` === i.payload.path ? styles.item_active : ''}`}
+                            onClick={() => itemClick(i.payload.path)}
+                        >
+                            <div className={styles.counter}>
+                                <Counter maxVisibleNumber={999} variant="negative">
+                                    {i.payload.counter}
+                                </Counter>
                             </div>
-                        ))}
-                    </AnimatePresence>
+                            <Icons variant={i.icon} />
+                            <Title textAlign="center" primary={false} variant="caption1M">
+                                {i.title}
+                            </Title>
+                        </div>
+                    ))}
                 </div>
                 <div className={styles.viewer} />
             </div>
