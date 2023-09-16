@@ -36,7 +36,7 @@ function CreateChatModalView(props: Props) {
                 <div className={styles.search}>
                     <Input width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
-                <div className={styles.border} />
+                {/* <div className={styles.border} /> */}
                 <div className={styles.switch}>
                     <Button
                         onClick={toggle}

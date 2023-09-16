@@ -18,7 +18,8 @@
         @include box-size(100px, 50px);
         @include flex;
         padding-left: 4px;
-        border: 1px solid var(--control-tertiary);
+        background-color: var(--bg-primary);
+        border: 1px solid var(--bg-primary);
         border-radius: 12px;
         cursor: pointer;
         transition: all .5s;
@@ -45,7 +46,8 @@
     .input {
       @include box-size(calc(100% - 116px), 100%);
       @include flex(flex-start);
-      border: 1px solid var(--control-tertiary);
+      background-color: var(--bg-primary);
+      border: 1px solid var(--bg-primary);
       padding-left: 8px;
       border-radius: 12px;
       transition: all .5s;
