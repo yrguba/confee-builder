@@ -1,9 +1,11 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import produce from 'immer';
 
 import { axiosClient } from 'shared/configs';
 
 import { Company, Employee } from './types';
 import { httpHandlers } from '../../../shared/lib';
+import { Chat } from '../../chat/model/types';
 import { Contact } from '../../contact/model/types';
 import { employee_limit } from '../lib/constants';
 
@@ -15,6 +17,12 @@ class CompanyApi {
                 const updRes = httpHandlers.response<{ data: Company[] }>(res);
                 return updRes.data?.data;
             },
+        });
+    }
+
+    handleBind() {
+        return useMutation((data: { identifier: string; code: string }) => {
+            return axiosClient.post(`api/v2/ldap/bind`, data);
         });
     }
 

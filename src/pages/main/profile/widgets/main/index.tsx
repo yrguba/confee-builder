@@ -1,46 +1,23 @@
 import React from 'react';
 
+import { viewerApi } from 'entities/viewer';
+import { AuthAd } from 'features/auth';
+import { BindCompany } from 'features/company';
 import { ViewerProfile } from 'features/viewer';
 import { Box, Button, Icons, Modal, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { viewerApi } from '../../../../../entities/viewer';
-import { AuthAd } from '../../../../../features/auth';
 
 function Main() {
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const authAdModal = Modal.use();
-
     return (
-        <>
-            <Modal {...authAdModal}>
-                <AuthAd />
-            </Modal>
-            <Box.Animated visible className={styles.wrapper}>
-                <div className={styles.card}>
-                    <ViewerProfile />
-                </div>
-                {viewerData?.companies?.length ? null : (
-                    <div className={styles.addCompanyMail}>
-                        <div className={styles.header}>
-                            <div className={styles.icon}>
-                                <Icons variant="portfolio" />
-                            </div>
-                            <div className={styles.titles}>
-                                <Title textWrap variant="H3B">
-                                    Вы можете добавить свою корпоративную почту
-                                </Title>
-                                <Title primary={false} textWrap variant="H4M">
-                                    чтобы авторизоваться как сотрудник компании
-                                </Title>
-                            </div>
-                        </div>
-                        <Button onClick={authAdModal.open}>Добавить</Button>
-                    </div>
-                )}
-            </Box.Animated>
-        </>
+        <Box.Animated visible className={styles.wrapper}>
+            <div className={styles.card}>
+                <ViewerProfile />
+            </div>
+            {viewerData?.companies?.length ? null : <BindCompany />}
+        </Box.Animated>
     );
 }
 
