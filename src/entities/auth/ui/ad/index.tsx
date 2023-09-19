@@ -1,14 +1,17 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, Input, Title } from 'shared/ui';
+import { Button, Icons, Input, Title, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
-type Props = {} & BaseTypes.Statuses;
+type Props = {
+    addClick: () => void;
+    emailInput: InputTypes.UseReturnedType;
+} & BaseTypes.Statuses;
 
 function AuthAdView(props: Props) {
-    // const { } = props;
+    const { addClick, emailInput } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -16,8 +19,10 @@ function AuthAdView(props: Props) {
                 <Title textWrap variant="H2">
                     Введите свою корпоративную почту, чтобы добавить рабочее пространство
                 </Title>
-                <Input placeholder="Почта" />
-                <Button>Добавить</Button>
+                <Input {...emailInput} placeholder="Почта" />
+                <Button disabled={emailInput.error} onClick={addClick}>
+                    Добавить
+                </Button>
             </div>
             <div className={styles.img}>
                 <Icons.Picture variant="auth-ad" />
