@@ -3,6 +3,7 @@ import { InputTypes, TabBarTypes } from 'shared/ui';
 import { BaseTypes } from '../../../shared/types';
 import { companyTypes } from '../../company';
 import { Company, Employee, EmployeeProxy } from '../../company/model/types';
+import { User } from '../../user/model/types';
 import { contactTypes } from '../index';
 
 export type Contact = {
@@ -12,6 +13,7 @@ export type Contact = {
     last_name: string | null;
     owner: number;
     user_id: number;
+    user: User;
     contact_name: string | null;
     created_at: Date;
     updated_at: Date;

@@ -28,5 +28,13 @@ export type UserProxy = {
     formatted_last_active: string;
 } & User;
 
+export type UserCardActions = {
+    audioCall: () => void;
+    videoCall: () => void;
+    getChat: () => void;
+    mute: () => void;
+    delete?: () => void;
+};
+
 export type SocketIn = 'UserUpdated';
 export type SocketOut = '';

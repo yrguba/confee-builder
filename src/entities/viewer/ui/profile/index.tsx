@@ -26,14 +26,8 @@ function ViewerProfileView(props: Props) {
                 <UserCardView
                     clickAvatar={clickAvatar}
                     clickSettings={clickSettings}
-                    name={viewer?.full_name || ''}
-                    birth={viewer?.formatted_birth || ''}
-                    aboutMe=""
-                    nickname={viewer?.nickname || ''}
-                    phone={viewer?.phone || ''}
-                    avatar={viewer?.avatar || ''}
+                    user={viewer as any}
                     loading={loading}
-                    email={viewer?.email}
                     companies={companies}
                     departments={departments}
                     avatarActions={avatarActions}

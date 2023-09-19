@@ -16,19 +16,7 @@ function UserProfileView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.card}>
-                <UserCardView
-                    resize={false}
-                    visibleHeader
-                    type="user"
-                    visibleActionsMenu
-                    name={user?.full_name}
-                    aboutMe=""
-                    avatar={user?.avatar}
-                    birth={user?.birth}
-                    phone={user?.phone}
-                    nickname={user?.nickname}
-                    email={user?.email}
-                />
+                <UserCardView resize={false} visibleHeader type="user" visibleActionsMenu user={user} />
             </div>
         </div>
     );

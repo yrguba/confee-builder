@@ -33,13 +33,7 @@ function EmployeeProfileView(props: Props) {
                     visibleHeader
                     type="employee"
                     visibleActionsMenu
-                    name={employee?.full_name}
-                    aboutMe=""
-                    avatar={employee?.avatar}
-                    email={employee?.email}
-                    birth={user?.formatted_birth}
-                    phone={user?.phone}
-                    nickname={user?.nickname}
+                    user={user}
                     companies={employee?.companies}
                     departments={employee?.departments}
                 />

@@ -6,15 +6,10 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Button, Dropdown, Icons, Title, DropdownTypes, AvatarTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { UserProxy, UserCardActions } from '../../model/types';
 
 type Props = {
-    avatar: string | BaseTypes.Empty;
-    name: string | BaseTypes.Empty;
-    nickname: string | BaseTypes.Empty;
-    phone: string | BaseTypes.Empty;
-    email: string | BaseTypes.Empty;
-    birth: string | BaseTypes.Empty;
-    aboutMe: string | BaseTypes.Empty;
+    user?: UserProxy | null;
     visibleActionsMenu?: boolean;
     visibleHeader?: boolean;
     networkStatus?: string;
@@ -23,13 +18,7 @@ type Props = {
     companies?: companyTypes.Company[];
     departments?: companyTypes.Department[];
     resize?: boolean;
-    actions?: {
-        audioCall: () => void;
-        videoCall: () => void;
-        getChat: () => void;
-        mute: () => void;
-        delete?: () => void;
-    };
+    actions?: UserCardActions;
     avatarActions?: AvatarTypes.AvatarChangeActions;
     clickAvatar?: () => void;
 } & BaseTypes.Statuses;
@@ -42,26 +31,20 @@ function UserCardView(props: Props) {
         actions,
         avatarActions,
         clickAvatar,
-        email,
+        user,
         networkStatus,
         visibleHeader,
         type,
-        avatar,
-        name,
-        nickname,
-        aboutMe,
-        birth,
-        phone,
         loading,
         visibleActionsMenu,
         resize = true,
     } = props;
 
     const secondaryInfo: { id: number; title: string; subtitle: string; hidden: boolean }[] = [
-        { id: 0, title: 'Никнейм', subtitle: `@${nickname}`, hidden: !nickname },
-        { id: 1, title: 'Номер телефона', subtitle: phone || '', hidden: !phone },
-        { id: 2, title: 'Дата рождения', subtitle: birth || '', hidden: !birth },
-        { id: 3, title: 'Почта', subtitle: email || '', hidden: !email },
+        { id: 0, title: 'Никнейм', subtitle: `@${user?.nickname}`, hidden: !user?.nickname },
+        { id: 1, title: 'Номер телефона', subtitle: user?.phone || '', hidden: !user?.phone },
+        { id: 2, title: 'Дата рождения', subtitle: user?.birth || '', hidden: !user?.birth },
+        { id: 3, title: 'Почта', subtitle: user?.email || '', hidden: !user?.email },
         { id: 4, title: 'О себе', subtitle: '', hidden: true },
     ];
 
@@ -86,7 +69,7 @@ function UserCardView(props: Props) {
             {visibleHeader && (
                 <div className={styles.header}>
                     <div className={styles.name}>
-                        <Title variant="H1">{name || ''}</Title>
+                        <Title variant="H1">{user?.full_name || ''}</Title>
                         <Button tag>TFN</Button>
                     </div>
                     <Title textAlign="right" variant="H4M">
@@ -104,16 +87,16 @@ function UserCardView(props: Props) {
                             {...avatarActions}
                             circle={false}
                             size={AvatarSize}
-                            img={avatar}
+                            img={user?.avatar}
                         />
                     ) : (
-                        <Avatar clickAvatar={clickAvatar} circle={false} size={AvatarSize} img={avatar} />
+                        <Avatar clickAvatar={clickAvatar} circle={false} size={AvatarSize} img={user?.avatar} />
                     )}
 
                     {clickSettings && <Button onClick={clickSettings}>Редактировать личную информацию</Button>}
                     {visibleActionsMenu && (
                         <div className={styles.btns} style={{ width: AvatarSize }}>
-                            {!nickname ? (
+                            {!user?.nickname ? (
                                 <div className={styles.noRegister}>
                                     <Title textAlign="center" variant="H2">
                                         Не зарегистрирован в Confee
@@ -148,7 +131,7 @@ function UserCardView(props: Props) {
                 </div>
 
                 <div className={styles.info}>
-                    {!visibleHeader && <Title variant="H1">{name || ''}</Title>}
+                    {!visibleHeader && <Title variant="H1">{user?.full_name || ''}</Title>}
                     <div className={styles.secondaryInfo}>
                         {secondaryInfo
                             .filter((i) => !i.hidden)
