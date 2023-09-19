@@ -22,9 +22,10 @@ function ContactsList() {
     const userId = Number(params.user_id) || contact.value?.user_id;
 
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
-    const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
+    const { data: companiesData } = companyApi.handleGetCompanies();
+
+    const tabsAndLists = useContactsTabsAndLists({ companies: companiesData });
 
     const { data: chatData } = chatApi.handleGetPrivateChat({ userId });
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();

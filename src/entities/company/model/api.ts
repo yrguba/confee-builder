@@ -70,6 +70,26 @@ class CompanyApi {
         );
     }
 
+    handleGetEmployee(data: { employeeId: string | undefined }) {
+        return useQuery(
+            ['get-employee', data.employeeId],
+            () =>
+                axiosClient.get(`api/v2/employee/${data.employeeId}`, {
+                    params: {
+                        sort_by: 'first_name',
+                    },
+                }),
+            {
+                enabled: !!data.employeeId,
+                staleTime: Infinity,
+                select: (res) => {
+                    const updRes = httpHandlers.response<{ data: Employee }>(res);
+                    return updRes.data?.data;
+                },
+            }
+        );
+    }
+
     handleGetCompanyEmployees(data: { companyId: string | undefined }) {
         return useQuery(
             ['get-company-employees', data.companyId],

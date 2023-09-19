@@ -35,28 +35,25 @@ function ChatsListView(props: Props) {
                 </div>
             )}
             <div className={styles.tabs}>
-                {tabsAndLists.activeList?.length ? (
-                    <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
-                ) : (
-                    <Title variant="H2">Нет чатов</Title>
-                )}
+                <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
             </div>
             <div className={styles.list} ref={wrapperRef}>
-                {tabsAndLists.activeList?.length &&
-                    tabsAndLists.activeList?.map((chat, index: number) => (
-                        <ChatCardView
-                            chatMenuAction={chatMenuAction}
-                            key={chat.id}
-                            chat={chat}
-                            clickOnChat={clickOnChat}
-                            active={activeChatId === chat?.id}
-                            ref={{
-                                // @ts-ignore
-                                lastChat: index + 1 === tabsAndLists.activeList?.length ? lastItem : null,
-                                wrapper: wrapperRef,
-                            }}
-                        />
-                    ))}
+                {tabsAndLists.activeList?.length
+                    ? tabsAndLists.activeList?.map((chat, index: number) => (
+                          <ChatCardView
+                              chatMenuAction={chatMenuAction}
+                              key={chat.id}
+                              chat={chat}
+                              clickOnChat={clickOnChat}
+                              active={activeChatId === chat?.id}
+                              ref={{
+                                  // @ts-ignore
+                                  lastChat: index + 1 === tabsAndLists.activeList?.length ? lastItem : null,
+                                  wrapper: wrapperRef,
+                              }}
+                          />
+                      ))
+                    : null}
             </div>
         </Box.Animated>
     );

@@ -10,6 +10,8 @@ import { UserProxy, UserCardActions } from '../../model/types';
 
 type Props = {
     user?: UserProxy | null;
+    name?: string;
+    avatar?: string;
     visibleActionsMenu?: boolean;
     visibleHeader?: boolean;
     networkStatus?: string;
@@ -21,6 +23,7 @@ type Props = {
     actions?: UserCardActions;
     avatarActions?: AvatarTypes.AvatarChangeActions;
     clickAvatar?: () => void;
+    position?: string;
 } & BaseTypes.Statuses;
 
 function UserCardView(props: Props) {
@@ -32,12 +35,15 @@ function UserCardView(props: Props) {
         avatarActions,
         clickAvatar,
         user,
+        avatar,
+        name,
         networkStatus,
         visibleHeader,
         type,
         loading,
         visibleActionsMenu,
         resize = true,
+        position,
     } = props;
 
     const secondaryInfo: { id: number; title: string; subtitle: string; hidden: boolean }[] = [
@@ -69,7 +75,7 @@ function UserCardView(props: Props) {
             {visibleHeader && (
                 <div className={styles.header}>
                     <div className={styles.name}>
-                        <Title variant="H1">{user?.full_name || ''}</Title>
+                        <Title variant="H1">{user?.full_name || name || ''}</Title>
                         <Button tag>TFN</Button>
                     </div>
                     <Title textAlign="right" variant="H4M">
@@ -87,10 +93,10 @@ function UserCardView(props: Props) {
                             {...avatarActions}
                             circle={false}
                             size={AvatarSize}
-                            img={user?.avatar}
+                            img={user?.avatar || avatar}
                         />
                     ) : (
-                        <Avatar clickAvatar={clickAvatar} circle={false} size={AvatarSize} img={user?.avatar} />
+                        <Avatar clickAvatar={clickAvatar} circle={false} size={AvatarSize} img={user?.avatar || avatar} />
                     )}
 
                     {clickSettings && <Button onClick={clickSettings}>Редактировать личную информацию</Button>}
@@ -150,6 +156,7 @@ function UserCardView(props: Props) {
                         {companies?.map((i) => (
                             <CompanyCardView
                                 key={i.id}
+                                position={position || ''}
                                 status="in office"
                                 title={i.name || ''}
                                 subtitle={departments?.length ? departments[0].name || '' : ''}

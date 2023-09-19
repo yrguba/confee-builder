@@ -10,13 +10,9 @@ const memoEmployees = createMemo(companyService.getUpdatedEmployeesList);
 function EmployeeProfile() {
     const { params, navigate } = useRouter();
 
-    const queryClient = useQueryClient();
+    const { data: employeeData } = companyApi.handleGetEmployee({ employeeId: params.employee_id });
 
-    const data = queryClient.getQueryData(['get-department-employees', Number(params.company_id), Number(params.department_id)]);
-    const employees = memoEmployees(data);
-    const employee = employees?.find((i) => i.id === Number(params.employee_id));
-
-    return <EmployeeProfileView back={() => navigate(-1)} employee={employee} />;
+    return <EmployeeProfileView back={() => navigate(-1)} employee={employeeProxy(employeeData)} />;
 }
 
 export default EmployeeProfile;

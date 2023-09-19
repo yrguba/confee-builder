@@ -30,12 +30,15 @@ function EmployeeProfileView(props: Props) {
                         getChat: () => console.log('getChat'),
                         mute: () => console.log('mute'),
                     }}
+                    avatar={employee?.avatar || ''}
                     visibleHeader
                     type="employee"
                     visibleActionsMenu
                     user={user}
                     companies={employee?.companies}
                     departments={employee?.departments}
+                    position={employee?.position || ''}
+                    name={employee?.full_name}
                 />
             </div>
         </div>
