@@ -15,8 +15,11 @@ function messageProxy(data: { prevMessage?: Message | null; message: Message; ne
                     if (target.isMock) return true;
                     return target?.author?.id === viewerId && target.type !== 'system';
 
+                case 'firstMessageInBlock':
+                    if (!data.prevMessage) return true;
+                    return target?.author?.id !== data.prevMessage?.author?.id;
+
                 case 'lastMessageInBlock':
-                    if (data.nextMessage?.isMock) return false;
                     if (!data.nextMessage) return true;
                     if (target.isMock) return false;
                     return target?.author?.id !== data.nextMessage?.author?.id;

@@ -53,6 +53,7 @@ export type MessageProxy = {
     authorName: string;
     systemMessages: string[];
     lastMessageInBlock: boolean;
+    firstMessageInBlock: boolean;
 } & Message;
 
 export type VoiceEvents = 'start' | 'send' | 'stop' | 'cancel';
