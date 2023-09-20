@@ -27,7 +27,8 @@ function useFetchMediaContent(url = '', saveInCache = false, type?: 'video') {
 
     useEffect(() => {
         const fn = async () => {
-            let fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop() });
+            // let fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop() });
+            let fileInCache = '';
             if (fileInCache && typeof fileInCache === 'string' && !!window.__TAURI__) {
                 const img = new Image();
                 img.onload = function () {
@@ -43,7 +44,7 @@ function useFetchMediaContent(url = '', saveInCache = false, type?: 'video') {
                 setFileBlob(fileConverter.base64ToBlob(fileInCache));
             } else if (imgData) {
                 setFileBlob(imgData);
-                saveInCache && (await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop(), fileBlob: imgData }));
+                // saveInCache && (await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop(), fileBlob: imgData }));
                 const base64 = await fileConverter.blobToBase64(imgData);
                 const img = new Image();
                 img.onload = function () {
