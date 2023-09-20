@@ -1,0 +1,34 @@
+@import "src/app/styles/index";
+
+.wrapper {
+  @include box-size(auto, 100%);
+  @include flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-height: 90vh;
+  max-width: 80vw;
+
+  overflow-y: auto;
+
+  .form {
+    @include flex-column();
+    margin:  60px 0;
+    gap: 20px;
+    width: 400px;
+
+    @include width-to('sm') {
+      margin: 10px 0;
+    }
+
+  }
+
+  .img {
+    @include flex;
+    margin: 30px 30px 30px 0;
+
+    svg {
+      @include box-size(80%, 90%)
+
+    }
+  }
+}

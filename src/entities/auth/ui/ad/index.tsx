@@ -1,33 +1,36 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, Input, Title, InputTypes } from 'shared/ui';
+import { Button, Icons, Input, Title, InputTypes, Box } from 'shared/ui';
 
+import Registration from './registration';
+import SendCode from './send-code';
 import styles from './styles.module.scss';
+import { UseEasyStateReturnType } from '../../../../shared/hooks';
 
 type Props = {
-    addClick: () => void;
+    sendCode: () => void;
     emailInput: InputTypes.UseReturnedType;
+    steps: UseEasyStateReturnType<'sendCode' | 'registration'>;
 } & BaseTypes.Statuses;
 
 function AuthAdView(props: Props) {
-    const { addClick, emailInput } = props;
+    const { sendCode, emailInput, steps } = props;
 
     return (
-        <div className={styles.wrapper}>
-            <div className={styles.form}>
-                <Title textWrap variant="H2">
-                    Введите свою корпоративную почту, чтобы добавить рабочее пространство
-                </Title>
-                <Input {...emailInput} placeholder="Почта" />
-                <Button disabled={emailInput.error} onClick={addClick}>
-                    Добавить
-                </Button>
-            </div>
-            <div className={styles.img}>
-                <Icons.Picture variant="auth-ad" />
-            </div>
-        </div>
+        <Box.Replace
+            className={styles.wrapper}
+            items={[
+                {
+                    item: <SendCode {...props} />,
+                    visible: steps.value === 'sendCode',
+                },
+                {
+                    item: <Registration {...props} />,
+                    visible: steps.value === 'registration',
+                },
+            ]}
+        />
     );
 }
 

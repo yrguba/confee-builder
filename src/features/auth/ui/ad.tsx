@@ -8,21 +8,23 @@ import { Input } from 'shared/ui';
 function AuthAd() {
     const yup = useYup();
 
+    const steps = useEasyState<'sendCode' | 'registration'>('sendCode');
+
+    const { mutate: handleSendCode } = companyApi.handleSendCode();
     const { mutate: handleBind } = companyApi.handleBind();
 
     const email = Input.use({
         yupSchema: yup.checkEmail,
-        realtimeValidate: true,
     });
 
-    const bind = () => {
-        handleBind({
-            identifier: email.value,
-            code: '12345',
-        });
+    const sendCode = async () => {
+        const emailError = await email.asyncValidate();
+        if (!emailError.error) {
+            handleSendCode({ identifier: email.value }, { onSuccess: () => steps.set('registration') });
+        }
     };
 
-    return <AuthAdView addClick={bind} emailInput={email} />;
+    return <AuthAdView sendCode={sendCode} emailInput={email} steps={steps} />;
 }
 
 export default AuthAd;

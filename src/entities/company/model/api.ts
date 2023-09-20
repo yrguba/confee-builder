@@ -20,6 +20,12 @@ class CompanyApi {
         });
     }
 
+    handleSendCode() {
+        return useMutation((data: { identifier: string }) => {
+            return axiosClient.post(`api/v2/ldap/send-activation-code`, data);
+        });
+    }
+
     handleBind() {
         return useMutation((data: { identifier: string; code: string }) => {
             return axiosClient.post(`api/v2/ldap/bind`, data);
