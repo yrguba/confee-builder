@@ -3,7 +3,7 @@ import produce from 'immer';
 
 import { axiosClient } from 'shared/configs';
 
-import { Company, Employee } from './types';
+import { Company, Department, Employee } from './types';
 import { httpHandlers } from '../../../shared/lib';
 import { Chat } from '../../chat/model/types';
 import { Contact } from '../../contact/model/types';
@@ -82,6 +82,17 @@ class CompanyApi {
                 },
             }
         );
+    }
+
+    handleGetDepartments(data: { companyId: number | undefined }) {
+        return useQuery(['get-departments', data.companyId], () => axiosClient.get(`/api/v2/companies/${data.companyId}/departments/without-employees`), {
+            enabled: !!data.companyId,
+            staleTime: Infinity,
+            select: (res) => {
+                const updRes = httpHandlers.response<{ data: Department[] }>(res);
+                return updRes.data?.data;
+            },
+        });
     }
 
     handleGetEmployee(data: { employeeId: string | undefined }) {

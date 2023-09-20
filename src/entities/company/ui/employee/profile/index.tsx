@@ -16,7 +16,7 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function EmployeeProfileView(props: Props) {
-    const { employee, back } = props;
+    const { employee, back, loading } = props;
 
     const user: UserProxy | null = employee?.user ? userProxy(employee?.user) : null;
 
@@ -39,6 +39,7 @@ function EmployeeProfileView(props: Props) {
                     departments={employee?.departments}
                     position={employee?.position || ''}
                     name={employee?.full_name}
+                    loading={loading}
                 />
             </div>
         </div>

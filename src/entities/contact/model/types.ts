@@ -27,7 +27,7 @@ export type UseContactsTabsAndListsReturnType = {
     tabs: TabBarTypes.TabBarItem[];
     activeTab: TabBarTypes.TabBarItem<Company> | null;
     setActiveTab: (tab: TabBarTypes.TabBarItem) => void;
-    activeList: contactTypes.Contact[] | companyTypes.Company[];
+    activeList: contactTypes.Contact[] | companyTypes.Department[];
     getEmployees: (depId: number) => void;
     departmentsEmployees: Record<number, Employee[]>;
     getNextPageEmployees: () => void;

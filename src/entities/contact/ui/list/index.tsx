@@ -31,7 +31,7 @@ function ContactsListView(props: Props) {
     useEffect(() => {
         inViewLastItem && tabsAndLists.getNextPageEmployees();
     }, [inViewLastItem]);
-
+    console.log(tabsAndLists.activeList);
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             {!smHeightSize && (
@@ -51,26 +51,24 @@ function ContactsListView(props: Props) {
                     ? contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
                     : tabsAndLists.foundEmployees?.length
                     ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i)} {...props} />)
-                    : tabsAndLists.activeList?.map((i: any) =>
-                          i?.departments?.map((dep: Department) => (
-                              <Collapse
-                                  headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
-                                  openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
-                                  isOpen={dep.id === Number(params.department_id)}
-                                  key={dep.id}
-                                  title={dep?.name || ''}
-                              >
-                                  {tabsAndLists.departmentsEmployees[dep.id]?.map((emp, index) => (
-                                      <Item
-                                          ref={index + 1 === tabsAndLists.departmentsEmployees[dep.id].length ? lastItem : null}
-                                          key={emp.id}
-                                          employee={employeeProxy(emp)}
-                                          {...props}
-                                      />
-                                  ))}
-                              </Collapse>
-                          ))
-                      )}
+                    : tabsAndLists.activeList?.map((dep: any) => (
+                          <Collapse
+                              headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
+                              openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
+                              isOpen={dep.id === Number(params.department_id)}
+                              key={dep.id}
+                              title={dep?.name || ''}
+                          >
+                              {tabsAndLists.departmentsEmployees[dep.id]?.map((emp, index) => (
+                                  <Item
+                                      ref={index + 1 === tabsAndLists.departmentsEmployees[dep.id].length ? lastItem : null}
+                                      key={emp.id}
+                                      employee={employeeProxy(emp)}
+                                      {...props}
+                                  />
+                              ))}
+                          </Collapse>
+                      ))}
             </Box.Animated>
         </Box.Animated>
     );

@@ -74,32 +74,25 @@ function CreateChatModalView(props: Props) {
                         })}
                     />
                 ) : (
-                    tabsAndLists.activeList?.map((i: any) =>
-                        i?.departments?.map((dep: Department) => (
-                            <Collapse
-                                loading={tabsAndLists.loading}
-                                onTitleClick={() => tabsAndLists.getEmployees(dep.id)}
-                                key={dep.id}
-                                title={dep?.name || ''}
-                            >
-                                <Card.List
-                                    visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
-                                    selected={selectedEmployees}
-                                    items={tabsAndLists.departmentsEmployees[dep.id]?.map((i: any) => {
-                                        const employee: EmployeeProxy = employeeProxy(i);
-                                        return {
-                                            id: employee.id,
-                                            img: employee.avatar,
-                                            name: employee?.full_name || '',
-                                            title: employee?.full_name || '',
-                                            subtitle: employee?.email || '',
-                                            payload: { id: employee.id },
-                                        };
-                                    })}
-                                />
-                            </Collapse>
-                        ))
-                    )
+                    tabsAndLists.activeList?.map((dep: any) => (
+                        <Collapse loading={tabsAndLists.loading} onTitleClick={() => tabsAndLists.getEmployees(dep.id)} key={dep.id} title={dep?.name || ''}>
+                            <Card.List
+                                visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
+                                selected={selectedEmployees}
+                                items={tabsAndLists.departmentsEmployees[dep.id]?.map((i: any) => {
+                                    const employee: EmployeeProxy = employeeProxy(i);
+                                    return {
+                                        id: employee.id,
+                                        img: employee.avatar,
+                                        name: employee?.full_name || '',
+                                        title: employee?.full_name || '',
+                                        subtitle: employee?.email || '',
+                                        payload: { id: employee.id },
+                                    };
+                                })}
+                            />
+                        </Collapse>
+                    ))
                 )}
             </div>
             <div className={styles.footer}>

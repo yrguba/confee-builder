@@ -37,10 +37,11 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     const departmentId = useEasyState<number | null>(null);
 
     const activeTab = useEasyState<TabBarTypes.TabBarItem<Company> | null>(null);
-    const activeList = useEasyState<contactTypes.Contact[] | companyTypes.Company[]>([]);
+    const activeList = useEasyState<contactTypes.Contact[] | companyTypes.Department[]>([]);
     const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
 
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
+    const { data: departmentsData } = companyApi.handleGetDepartments({ companyId: activeTab.value?.payload?.id });
 
     const {
         data: departmentEmployees,
@@ -80,21 +81,18 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         if (contactsData && activeTab.value?.title === 'личные') {
             activeList.set(contactsData);
         } else {
-            props.companies &&
-                props.companies.forEach((i) => {
-                    if (i.name === activeTab.value?.title) {
-                        activeList.set([i]);
-                    }
-                });
+            props.companies && departmentsData && activeList.set(departmentsData);
         }
-    }, [activeTab.value]);
+    }, [activeTab.value, departmentsData]);
 
     useEffect(() => {
         if (pathname.includes('companies') && redirect) {
             tabs.length && activeTab.set(tabs[1]);
-            props.companies && activeList.set(props.companies);
+            if (departmentsData) {
+                activeList.set(departmentsData);
+            }
         }
-    }, [props.companies, activeTab.value]);
+    }, [props.companies, activeTab.value, departmentsData]);
 
     useEffect(() => {
         if (pathname.includes('contacts') || !redirect) {

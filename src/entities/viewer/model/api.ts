@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { appTypes } from 'entities/app';
-import { companyTypes, companyApi } from 'entities/company';
+import { companyApi, companyTypes } from 'entities/company';
 import { axiosClient, AxiosError } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
