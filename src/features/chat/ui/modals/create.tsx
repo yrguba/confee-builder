@@ -6,6 +6,8 @@ import { viewerApi } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal, Notification, ModalTypes, CardTypes } from 'shared/ui';
 
+import { companyApi } from '../../../../entities/company';
+
 function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const { navigate } = useRouter();
 
@@ -19,8 +21,9 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
+    const { data: companiesData } = companyApi.handleGetCompanies();
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
+    const tabsAndLists = useContactsTabsAndLists({ companies: companiesData, redirect: false });
 
     const createChat = () => {
         if (!selectedContacts.array.length && !selectedEmployees.array.length) {

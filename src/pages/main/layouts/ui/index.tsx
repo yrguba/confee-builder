@@ -5,8 +5,9 @@ import styles from './styles.module.scss';
 import { chatGateway, useChatStore } from '../../../../entities/chat';
 import { messageGateway } from '../../../../entities/message';
 import { userGateway } from '../../../../entities/user';
-import { useRouter } from '../../../../shared/hooks';
+import { useRouter, useWebSocket } from '../../../../shared/hooks';
 import useRecognizeSpeech from '../../../../shared/hooks/useRecognizeSpeech';
+import { Notification } from '../../../../shared/ui';
 import Navbar from '../widgets/navbar';
 
 function MainLayout() {
@@ -20,7 +21,7 @@ function MainLayout() {
     messageGateway();
 
     useEffect(() => {
-        if (!chatSubscription.value) chatSubscription.set(null);
+        if (!params.chat_id) chatSubscription.set(null);
     }, [params.chat_id]);
 
     return (

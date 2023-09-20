@@ -39,8 +39,9 @@ function chatProxy(chat: Chat | undefined): any {
                 case 'subtitle':
                     if (target.typing) return target.typing;
                     if (target.is_group) {
-                        const word = getEnding(target.members.length, ['участник', 'участника', 'участников']);
-                        return `${target.members.length} ${word}`;
+                        const memberCount = target.members.length || target.employee_members.length;
+                        const word = getEnding(memberCount, ['участник', 'участника', 'участников']);
+                        return `${memberCount} ${word}`;
                     }
                     return userService.getUserNetworkStatus(secondMemberProxy);
 

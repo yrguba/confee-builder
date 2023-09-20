@@ -106,7 +106,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
             tabs.length && activeTab.set(tabs[foundIndex === -1 ? 2 : foundIndex]);
             activeList.set(companyChatsProxy || []);
         }
-    }, [companyChatsProxy, activeTab.value]);
+    }, [companyChatsProxy, activeTab.value, tabs.length]);
 
     return {
         tabs,
