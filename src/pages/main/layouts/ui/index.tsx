@@ -24,6 +24,12 @@ function MainLayout() {
         if (!params.chat_id) chatSubscription.set(null);
     }, [params.chat_id]);
 
+    useEffect(() => {
+        if (pathname === '/') {
+            navigate('/chats');
+        }
+    }, [navigate]);
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.navbar}>

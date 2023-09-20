@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { AuthAdView } from 'entities/auth';
 import { companyApi } from 'entities/company';
@@ -8,23 +9,40 @@ import { Input } from 'shared/ui';
 function AuthAd() {
     const yup = useYup();
 
-    const steps = useEasyState<'sendCode' | 'registration'>('sendCode');
+    const steps = useEasyState<'sendCode' | 'registration' | 'success'>('sendCode');
 
     const { mutate: handleSendCode } = companyApi.handleSendCode();
     const { mutate: handleBind } = companyApi.handleBind();
 
-    const email = Input.use({
+    const emailInput = Input.use({
         yupSchema: yup.checkEmail,
     });
 
+    const codeInput = Input.use({});
+
     const sendCode = async () => {
-        const emailError = await email.asyncValidate();
+        const emailError = await emailInput.asyncValidate();
         if (!emailError.error) {
-            handleSendCode({ identifier: email.value }, { onSuccess: () => steps.set('registration') });
+            handleSendCode({ identifier: emailInput.value }, { onSuccess: () => steps.set('registration') });
         }
     };
 
-    return <AuthAdView sendCode={sendCode} emailInput={email} steps={steps} />;
+    useUpdateEffect(() => {
+        if (codeInput.value.length === 5) {
+            handleBind(
+                {
+                    identifier: emailInput.value,
+                    code: codeInput.value,
+                },
+                {
+                    onSuccess: () => steps.set('success'),
+                    onError: () => codeInput.setError('неверный код'),
+                }
+            );
+        }
+    }, [codeInput.value]);
+
+    return <AuthAdView sendCode={sendCode} inputs={{ code: codeInput, email: emailInput }} steps={steps} />;
 }
 
 export default AuthAd;

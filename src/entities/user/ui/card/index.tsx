@@ -49,7 +49,7 @@ function UserCardView(props: Props) {
     const secondaryInfo: { id: number; title: string; subtitle: string; hidden: boolean }[] = [
         { id: 0, title: 'Никнейм', subtitle: `@${user?.nickname}`, hidden: !user?.nickname },
         { id: 1, title: 'Номер телефона', subtitle: user?.phone || '', hidden: !user?.phone },
-        { id: 2, title: 'Дата рождения', subtitle: user?.birth || '', hidden: !user?.birth },
+        { id: 2, title: 'Дата рождения', subtitle: user?.formatted_birth || '', hidden: !user?.formatted_birth },
         { id: 3, title: 'Почта', subtitle: user?.email || '', hidden: !user?.email },
         { id: 4, title: 'О себе', subtitle: '', hidden: true },
     ];

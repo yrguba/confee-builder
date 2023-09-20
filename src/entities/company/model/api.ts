@@ -27,9 +27,17 @@ class CompanyApi {
     }
 
     handleBind() {
-        return useMutation((data: { identifier: string; code: string }) => {
-            return axiosClient.post(`api/v2/ldap/bind`, data);
-        });
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { identifier: string; code: string }) => {
+                return axiosClient.post(`api/v2/ldap/bind`, data);
+            },
+            {
+                onSuccess: () => {
+                    queryClient.invalidateQueries(['get-viewer']);
+                },
+            }
+        );
     }
 
     handleSearchEmployeesAndContacts(data: { name: string }) {

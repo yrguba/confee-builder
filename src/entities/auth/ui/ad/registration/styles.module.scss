@@ -12,14 +12,13 @@
 
   .form {
     @include flex-column();
-    margin:  60px 0;
+    margin:  60px 10px;
     gap: 20px;
     width: 400px;
 
     @include width-to('sm') {
-      margin: 10px 0;
+      margin: 10px 10px;
     }
-
   }
 
   .img {
