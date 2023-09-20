@@ -31,7 +31,7 @@ function ContactsListView(props: Props) {
     useEffect(() => {
         inViewLastItem && tabsAndLists.getNextPageEmployees();
     }, [inViewLastItem]);
-    console.log(tabsAndLists.activeList);
+
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             {!smHeightSize && (

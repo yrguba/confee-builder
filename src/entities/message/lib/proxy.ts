@@ -24,11 +24,19 @@ function messageProxy(data: { prevMessage?: Message | null; message: Message; ne
                     if (target.isMock) return false;
                     return target?.author?.id !== data.nextMessage?.author?.id;
 
+                case 'action':
+                    if (target.type === 'images') return 'Отправил фото';
+                    if (target.type === 'audios') return 'Отправил аудио';
+                    if (target.type === 'videos') return 'Отправил видео';
+                    if (target.type === 'voices') return 'Отправил голосовое';
+                    if (target.type === 'documents') return 'Отправил файл';
+                    return target.text;
+
                 case 'authorName':
                     return target?.author
                         ? target?.author?.id === viewerId
                             ? 'Вы'
-                            : target?.author?.first_name || target?.author?.last_name || target?.author?.nickname
+                            : target?.author?.contact_name || target?.author?.first_name || target?.author?.last_name || target?.author?.nickname
                         : 'Неизвестный';
 
                 case 'date':

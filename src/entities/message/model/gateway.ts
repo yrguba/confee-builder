@@ -6,24 +6,30 @@ import { useWebSocket, useThrottle } from 'shared/hooks';
 import { findLastIndex } from 'shared/lib';
 
 import { MessageProxy, SocketIn, SocketOut } from './types';
-import { useChatStore } from '../../chat';
+import { Notification } from '../../../shared/ui';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
+import messageProxy from '../lib/proxy';
 
 const [throttleMessageTyping] = useThrottle((cl) => cl(), 5000);
 
 function messageGateway() {
     const viewerId = viewerService.getId();
-    const chatSubscription = useChatStore.use.chatSubscription();
+    const notification = Notification.use();
     const queryClient = useQueryClient();
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
-                if (!cacheData?.pages.length) return cacheData;
-                if (socketData.data.message.author.id === viewerId || chatSubscription.value === socketData.data.message.chat_id) {
-                    socketData.data.message.is_read = true;
+                if (!socketData.data.extra_info.is_read && socketData.data.message) {
+                    const proxy: MessageProxy = messageProxy({ message: socketData.data.message });
+                    notification.info({
+                        body: proxy.action,
+                        title: `Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}`,
+                        scope: 'desktop',
+                    });
                 }
+                if (!cacheData?.pages.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     if (
                         socketData.data.message.author.id === viewerId &&
@@ -54,7 +60,7 @@ function messageGateway() {
             });
             ['all', 'personal'].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                    if (!cacheData?.pages?.length) return cacheData;
+                    if (!cacheData?.pages?.length || socketData.data.extra_info.is_read) return cacheData;
                     return produce(cacheData, (draft: any) => {
                         draft?.pages.forEach((page: any) => {
                             const foundChatIndex = page.data?.data?.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
@@ -80,9 +86,9 @@ function messageGateway() {
                 });
             });
             queryClient.setQueryData(['get-total-pending-messages'], (cacheData: any) => {
-                if (!cacheData?.data?.data.length) return cacheData;
+                if (!cacheData?.data?.data || socketData.data.extra_info.is_read) return cacheData;
                 return produce(cacheData, (draft: any) => {
-                    draft.data.data = socketData.data.extra_info.total_pending_messages_count;
+                    draft.data.data.total_pending_messages_count = socketData.data.extra_info.total_pending_messages_count;
                 });
             });
         });
@@ -147,9 +153,9 @@ function messageGateway() {
                 });
             });
             queryClient.setQueryData(['get-total-pending-messages'], (cacheData: any) => {
-                if (!cacheData?.data?.data.length) return cacheData;
+                if (!cacheData?.data?.data) return cacheData;
                 return produce(cacheData, (draft: any) => {
-                    draft.data.data = socketData?.data?.extra_info?.total_pending_messages_count;
+                    draft.data.data.total_pending_messages_count = socketData?.data?.extra_info?.total_pending_messages_count;
                 });
             });
             queryClient.setQueryData(['get-messages', socketData.data.chat_id], (cacheData: any) => {

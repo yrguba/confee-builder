@@ -9,7 +9,7 @@ import 'moment/locale/ru';
 import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useTheme, useIdle, useRouter } from 'shared/hooks';
+import { useTheme, useIdle, useRouter, useStorage } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
 const queryClient = new QueryClient();
@@ -17,6 +17,8 @@ moment.locale('ru');
 
 function App() {
     const { clientBaseURL } = appService.getUrls();
+    const storage = useStorage();
+    const notification_scope = storage.get('notification_scope');
 
     const isIdle = useIdle(1000 * 60 * 20);
 
@@ -33,7 +35,7 @@ function App() {
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
-                <Notification />
+                <Notification options={{ disabledDesktop: !notification_scope }} />
                 <Routing />
                 <ReactQueryDevtools position="bottom-left" />
             </QueryClientProvider>

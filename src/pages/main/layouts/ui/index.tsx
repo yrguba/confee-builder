@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './styles.module.scss';
-import { chatGateway, useChatStore } from '../../../../entities/chat';
+import { chatApi, chatGateway, useChatStore } from '../../../../entities/chat';
 import { messageGateway } from '../../../../entities/message';
 import { userGateway } from '../../../../entities/user';
 import { useRouter, useWebSocket } from '../../../../shared/hooks';
@@ -14,14 +14,17 @@ function MainLayout() {
     const navigate = useNavigate();
     const { params, pathname } = useRouter();
     const chatSubscription = useChatStore.use.chatSubscription();
-
+    const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
     useRecognizeSpeech();
     chatGateway();
     userGateway();
     messageGateway();
 
     useEffect(() => {
-        if (!params.chat_id) chatSubscription.set(null);
+        if (!params.chat_id) {
+            chatSubscription.value && handleUnsubscribeFromChat(chatSubscription.value);
+            chatSubscription.set(null);
+        }
     }, [params.chat_id]);
 
     useEffect(() => {

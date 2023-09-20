@@ -1,4 +1,3 @@
-import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
 import React, { useTransition } from 'react';
 
 import { chatApi } from 'entities/chat';
