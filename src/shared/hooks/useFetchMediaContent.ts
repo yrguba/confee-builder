@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { appApi } from 'entities/app';
 
+import useEasyState from './useEasyState';
 import useFS from './useFS';
-import { fileConverter } from '../lib';
+import { fileConverter, getVideoCover } from '../lib';
 
-function useFetchMediaContent(url = '', saveInCache = false) {
+function useFetchMediaContent(url = '', saveInCache = false, type?: 'video') {
     const [src, setSrc] = useState<any>('');
+    const videoPreview = useEasyState<string>('');
     const [fileBlob, setFileBlob] = useState<Blob | null>(null);
     const [orientation, setOrientation] = useState<'vertical' | 'horizontal'>('vertical');
 
@@ -25,14 +27,19 @@ function useFetchMediaContent(url = '', saveInCache = false) {
 
     useEffect(() => {
         const fn = async () => {
-            const fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop() });
+            let fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop() });
             if (fileInCache && typeof fileInCache === 'string' && !!window.__TAURI__) {
-                setSrc(fileInCache);
                 const img = new Image();
                 img.onload = function () {
                     setOrientation(img.width > img.height ? 'horizontal' : 'vertical');
                 };
+                if (type === 'video') {
+                    fileInCache = fileInCache.replace('application/octet-stream', 'video/mp4');
+                    const preview = await getVideoCover(fileInCache, 0.5);
+                    typeof preview === 'string' && videoPreview.set(preview);
+                }
                 if (typeof fileInCache === 'string') img.src = fileInCache;
+                setSrc(fileInCache);
                 setFileBlob(fileConverter.base64ToBlob(fileInCache));
             } else if (imgData) {
                 setFileBlob(imgData);
@@ -52,6 +59,7 @@ function useFetchMediaContent(url = '', saveInCache = false) {
     }, [url, imgData]);
 
     return {
+        videoPreview: videoPreview.value,
         src,
         fileBlob,
         orientation,

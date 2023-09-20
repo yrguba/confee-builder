@@ -1,4 +1,5 @@
 import React from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { appTypes } from 'entities/app';
 
@@ -11,9 +12,10 @@ import { BaseVideoPlayerProps } from '../../types';
 function VideoPlayer(props: BaseVideoPlayerProps) {
     const { url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
     const storage = useStorage();
-    const { src, isLoading, orientation, error } = useFetchMediaContent(url || '', storage.get('cache_size'));
+    const { src, isLoading, orientation, error, videoPreview } = useFetchMediaContent(url || '', storage.get('cache_size'), 'video');
+
     const [video, state, controls, ref] = useVideo(
-        <video style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />
+        <video poster={videoPreview} style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay={false} muted />
     );
 
     return (
