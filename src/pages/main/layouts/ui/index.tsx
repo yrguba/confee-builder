@@ -2,24 +2,26 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './styles.module.scss';
-import { chatGateway } from '../../../../entities/chat';
+import { chatGateway, useChatStore } from '../../../../entities/chat';
 import { messageGateway } from '../../../../entities/message';
 import { userGateway } from '../../../../entities/user';
+import { useRouter } from '../../../../shared/hooks';
 import useRecognizeSpeech from '../../../../shared/hooks/useRecognizeSpeech';
 import Navbar from '../widgets/navbar';
 
 function MainLayout() {
     const navigate = useNavigate();
-    const { pathname } = useLocation();
+    const { params, pathname } = useRouter();
+    const chatSubscription = useChatStore.use.chatSubscription();
+
     useRecognizeSpeech();
     chatGateway();
     userGateway();
     messageGateway();
+
     useEffect(() => {
-        if (pathname === '/') {
-            navigate('/chats');
-        }
-    }, [navigate]);
+        if (!chatSubscription.value) chatSubscription.set(null);
+    }, [params.chat_id]);
 
     return (
         <div className={styles.wrapper}>

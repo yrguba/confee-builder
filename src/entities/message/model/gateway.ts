@@ -21,7 +21,7 @@ function messageGateway() {
         onMessage('MessageCreated', (socketData) => {
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.pages.length) return cacheData;
-                if (socketData.data.message.author.id === viewerId || chatSubscription === socketData.data.message.chat_id) {
+                if (socketData.data.message.author.id === viewerId || chatSubscription.value === socketData.data.message.chat_id) {
                     socketData.data.message.is_read = true;
                 }
                 return produce(cacheData, (draft: any) => {

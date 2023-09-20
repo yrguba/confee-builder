@@ -9,7 +9,7 @@ import 'moment/locale/ru';
 import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useTheme, useIdle } from 'shared/hooks';
+import { useTheme, useIdle, useRouter } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
 const queryClient = new QueryClient();
