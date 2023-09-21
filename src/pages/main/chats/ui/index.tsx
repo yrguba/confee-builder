@@ -60,14 +60,24 @@ function ChatsPage() {
                 </div>
             )}
             {isVisibleOutlet() && (
-                <div className={styles.outlet} onMouseMove={resize}>
-                    {!params.chat_id && (
-                        <Title textWrap primary={false} textAlign="center" variant="H2">
-                            Выберите чат, для начала диалога
-                        </Title>
-                    )}
-                    <Outlet />
-                </div>
+                <Box.Replace
+                    className={styles.outlet}
+                    onMouseMove={resize}
+                    items={[
+                        {
+                            visible: !params.chat_id,
+                            item: (
+                                <Title textWrap primary={false} textAlign="center" variant="H2">
+                                    Выберите чат, для начала диалога
+                                </Title>
+                            ),
+                        },
+                        {
+                            visible: !!params.chat_id,
+                            item: <Outlet />,
+                        },
+                    ]}
+                />
             )}
         </Box.Animated>
     );
