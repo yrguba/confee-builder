@@ -15,7 +15,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
     const storage = useStorage();
     const { src, isLoading, error, videoPreview } = useFetchMediaContent(url || '', storage.get('cache_size'), 'video');
 
-    return !src ? <Video isLoading={isLoading} src={src} {...props} /> : <Image url={videoPreview} width={width || '100%'} height="500px" />;
+    return src ? <Video isLoading={isLoading} src={src} {...props} /> : <Image url={videoPreview} width={width || '100%'} height="500px" />;
 }
 
 type VideoProps = {
