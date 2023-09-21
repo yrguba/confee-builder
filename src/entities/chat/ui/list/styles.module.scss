@@ -4,7 +4,7 @@
   @include box-size(100%, 100%);
   @include flex-column(flex-start);
   border-radius: var(--border-radius);
-
+  overflow-x: hidden;
   .search {
     @include box-size(calc(100% - 32px), 48px);
     @include flex(space-between);
@@ -23,6 +23,7 @@
     @include flex-column(flex-start, flex-start);
     @include box-size(100%, 90%);
     overflow-y: auto;
+
     padding: 8px 0;
   }
 

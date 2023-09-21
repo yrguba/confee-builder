@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 
@@ -28,7 +29,7 @@ function ChatsListView(props: Props) {
     }, [inViewLastItem]);
 
     return (
-        <Box.Animated visible loading={loading} className={styles.wrapper}>
+        <Box loading={loading} className={styles.wrapper}>
             {!miniSearch && (
                 <div className={styles.search}>
                     <Input prefixIcon="search" />
@@ -37,25 +38,27 @@ function ChatsListView(props: Props) {
             <div className={styles.tabs}>
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
             </div>
-            <div className={styles.list} ref={wrapperRef}>
-                {tabsAndLists.activeList?.length
-                    ? tabsAndLists.activeList?.map((chat, index: number) => (
-                          <ChatCardView
-                              chatMenuAction={chatMenuAction}
-                              key={chat.id}
-                              chat={chat}
-                              clickOnChat={clickOnChat}
-                              active={activeChatId === chat?.id}
-                              ref={{
-                                  // @ts-ignore
-                                  lastChat: index + 1 === tabsAndLists.activeList?.length ? lastItem : null,
-                                  wrapper: wrapperRef,
-                              }}
-                          />
-                      ))
-                    : null}
-            </div>
-        </Box.Animated>
+            <AnimatePresence mode="wait" initial={false}>
+                {tabsAndLists.activeList?.length ? (
+                    <Box.Animated presence={false} visible key={tabsAndLists.activeTab?.id} className={styles.list} ref={wrapperRef}>
+                        {tabsAndLists.activeList?.map((chat, index: number) => (
+                            <ChatCardView
+                                chatMenuAction={chatMenuAction}
+                                key={chat.id}
+                                chat={chat}
+                                clickOnChat={clickOnChat}
+                                active={activeChatId === chat?.id}
+                                ref={{
+                                    // @ts-ignore
+                                    lastChat: index + 1 === tabsAndLists.activeList?.length ? lastItem : null,
+                                    wrapper: wrapperRef,
+                                }}
+                            />
+                        ))}
+                    </Box.Animated>
+                ) : null}
+            </AnimatePresence>
+        </Box>
     );
 }
 
