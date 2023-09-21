@@ -38,26 +38,22 @@ function ChatsListView(props: Props) {
             <div className={styles.tabs}>
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
             </div>
-            <AnimatePresence mode="wait" initial={false}>
-                {tabsAndLists.activeList?.length ? (
-                    <Box.Animated presence={false} visible key={tabsAndLists.activeTab?.id} className={styles.list} ref={wrapperRef}>
-                        {tabsAndLists.activeList?.map((chat, index: number) => (
-                            <ChatCardView
-                                chatMenuAction={chatMenuAction}
-                                key={chat.id}
-                                chat={chat}
-                                clickOnChat={clickOnChat}
-                                active={activeChatId === chat?.id}
-                                ref={{
-                                    // @ts-ignore
-                                    lastChat: index + 1 === tabsAndLists.activeList?.length ? lastItem : null,
-                                    wrapper: wrapperRef,
-                                }}
-                            />
-                        ))}
-                    </Box.Animated>
-                ) : null}
-            </AnimatePresence>
+            <Box.Animated trigger={String(tabsAndLists.activeTab?.id)} visible={!!tabsAndLists.activeList?.length} className={styles.list} ref={wrapperRef}>
+                {tabsAndLists.activeList?.map((chat, index: number) => (
+                    <ChatCardView
+                        chatMenuAction={chatMenuAction}
+                        key={chat.id}
+                        chat={chat}
+                        clickOnChat={clickOnChat}
+                        active={activeChatId === chat?.id}
+                        ref={{
+                            // @ts-ignore
+                            lastChat: index + 1 === tabsAndLists.activeList?.length ? lastItem : null,
+                            wrapper: wrapperRef,
+                        }}
+                    />
+                ))}
+            </Box.Animated>
         </Box>
     );
 }

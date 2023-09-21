@@ -19,6 +19,7 @@ export type AnimatedBoxProps = {
     presence?: boolean;
     presenceProps?: AnimatePresenceProps;
     backBtn?: boolean;
+    trigger?: string;
 } & Shared &
     AnimationProps &
     MotionProps;

@@ -10,14 +10,14 @@ import * as animationVariants from '../animation-variants';
 import { AnimatedBoxProps } from '../types';
 
 const AnimatedBox = forwardRef((props: AnimatedBoxProps, ref: any) => {
-    const { children, visible, animationVariant = 'visibleHidden', presence = true, presenceProps, loading, backBtn, ...motionDivAttrs } = props;
+    const { trigger, children, visible, animationVariant = 'visibleHidden', presence = true, presenceProps, loading, backBtn, ...motionDivAttrs } = props;
     const { navigate } = useRouter();
     const vars: Record<keyof typeof animationVariants, object> = animationVariants;
 
     const variant = vars[animationVariant];
 
     const motionDiv = (
-        <motion.div ref={ref} {...variant} {...motionDivAttrs} className={`${styles.wrapper} ${motionDivAttrs.className}`}>
+        <motion.div key={String(trigger)} ref={ref} {...variant} {...motionDivAttrs} className={`${styles.wrapper} ${motionDivAttrs.className}`}>
             {backBtn && (
                 <Button.Circle onClick={() => navigate(-1)} variant="inherit" className={styles.backBtn}>
                     <Icons variant="arrow-left" />
@@ -34,7 +34,7 @@ const AnimatedBox = forwardRef((props: AnimatedBoxProps, ref: any) => {
     );
 
     if (presence) {
-        return <AnimatePresence>{visible ? (loading ? load : motionDiv) : null}</AnimatePresence>;
+        return <AnimatePresence mode="wait">{visible ? (loading ? load : motionDiv) : null}</AnimatePresence>;
     }
     return visible ? motionDiv : null;
 });
