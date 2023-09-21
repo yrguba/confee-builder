@@ -4,7 +4,6 @@ windows_subsystem = "windows"
 )]
 use tauri::{plugin::TauriPlugin, AppHandle, Manager, Runtime};
 use tauri::{CustomMenuItem, SystemTray, SystemTrayMenu, SystemTrayEvent};
-use tauri::Manager;
 
 #[derive(Clone, serde::Serialize)]
 struct Payload {
