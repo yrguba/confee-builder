@@ -6,9 +6,8 @@ import useEasyState from './useEasyState';
 import useFS from './useFS';
 import { fileConverter, getVideoCover } from '../lib';
 
-function useFetchMediaContent(url = '', saveInCache = false, type?: 'video') {
+function useFetchMediaContent(url = '', saveInCache = false) {
     const [src, setSrc] = useState<any>('');
-    const videoPreview = useEasyState<string>('');
     const [fileBlob, setFileBlob] = useState<Blob | null>(null);
 
     const { saveFile, getFile } = useFS();
@@ -27,10 +26,6 @@ function useFetchMediaContent(url = '', saveInCache = false, type?: 'video') {
         const fn = async () => {
             if (isFetch && fileData) {
                 const filePath = fileConverter.blobLocalPath(fileData);
-                if (type === 'video') {
-                    const preview = await getVideoCover(filePath, 0.5);
-                    videoPreview.set(preview);
-                }
                 setSrc(filePath);
             } else {
                 setSrc(url);
@@ -40,7 +35,6 @@ function useFetchMediaContent(url = '', saveInCache = false, type?: 'video') {
     }, [url, fileData]);
 
     return {
-        videoPreview: videoPreview.value,
         src,
         fileBlob,
 

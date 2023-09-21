@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { useUpdateEffect } from 'react-use';
-
 import { useEasyState } from './index';
 
 type Options<T> = {

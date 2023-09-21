@@ -13,9 +13,9 @@ import { BaseVideoPlayerProps } from '../../types';
 function VideoPlayer(props: BaseVideoPlayerProps) {
     const { url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
     const storage = useStorage();
-    const { src, isLoading, error, videoPreview } = useFetchMediaContent(url || '', storage.get('cache_size'), 'video');
+    const { src, isLoading, error } = useFetchMediaContent(url || '', storage.get('cache_size'));
 
-    return src ? <Video isLoading={isLoading} src={src} {...props} /> : <Image url={videoPreview} width={width || '100%'} height="500px" />;
+    return <Video isLoading={isLoading} src={src} {...props} />;
 }
 
 type VideoProps = {
@@ -33,9 +33,9 @@ function Video(props: VideoProps) {
     return (
         <div className={styles.wrapper} onClick={onClick} style={{ width: isLoading ? 100 : width || '100%', height: isLoading ? 200 : height }}>
             {video}
-            {/* <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}> */}
-            {/*    <LoadingIndicator visible /> */}
-            {/* </Box.Animated> */}
+            <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
+                <LoadingIndicator visible />
+            </Box.Animated>
             {/* {(error || !url) && 'error'} */}
         </div>
     );

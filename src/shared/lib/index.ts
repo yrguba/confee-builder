@@ -1,3 +1,4 @@
+import compressImage from './compress-image';
 import crypto from './crypto';
 import dateConverter from './date-converter';
 import debounce from './debounce';
@@ -36,4 +37,5 @@ export {
     momentLocalZone,
     getUniqueArr,
     getVideoCover,
+    compressImage,
 };

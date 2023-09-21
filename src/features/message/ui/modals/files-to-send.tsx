@@ -2,11 +2,9 @@ import React from 'react';
 import { useParams } from 'react-router';
 
 import { FilesToSendModalView, messageApi, messageTypes } from 'entities/message';
-import { UseFileUploaderTypes, useFileUploader } from 'shared/hooks';
-import { getRandomInt } from 'shared/lib';
+import { UseFileUploaderTypes, useFileUploader, useArray } from 'shared/hooks';
+import { getRandomInt, compressImage } from 'shared/lib';
 import { Modal, ModalTypes, CardTypes } from 'shared/ui';
-
-import UseArray from '../../../../shared/hooks/useArray';
 
 type Props = {
     modal: ModalTypes.UseReturnedType;
@@ -21,10 +19,10 @@ function FilesToSendModal(props: Props) {
 
     const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
 
-    const images = UseArray<UseFileUploaderTypes.Types.ImageFile>({ initialArr: files.image });
-    const audios = UseArray<UseFileUploaderTypes.Types.AudioFile>({ initialArr: files.audio });
-    const videos = UseArray<UseFileUploaderTypes.Types.VideoFile>({ initialArr: files.video });
-    const documents = UseArray<UseFileUploaderTypes.Types.DocumentFile>({ initialArr: files.document });
+    const images = useArray<UseFileUploaderTypes.Types.ImageFile>({ initialArr: files.image });
+    const audios = useArray<UseFileUploaderTypes.Types.AudioFile>({ initialArr: files.audio });
+    const videos = useArray<UseFileUploaderTypes.Types.VideoFile>({ initialArr: files.video });
+    const documents = useArray<UseFileUploaderTypes.Types.DocumentFile>({ initialArr: files.document });
 
     const close = () => {
         modal.close();
@@ -32,12 +30,20 @@ function FilesToSendModal(props: Props) {
     };
 
     const sendFiles = async () => {
-        const send = (arr: any[], type: messageTypes.MediaContentType) => {
+        const send = async (arr: any[], type: messageTypes.MediaContentType) => {
             // return new Promise((resolve, reject) => {
             const formData = new FormData();
-            arr.forEach((i) => {
-                formData.append(`files[${type}][]`, i.file);
-            });
+
+            await Promise.all(
+                arr.map(async (i) => {
+                    if (type === 'images') {
+                        const compressed = await compressImage(i.file, i?.name, 10);
+                        formData.append(`files[${type}][]`, compressed);
+                    } else {
+                        formData.append(`files[${type}][]`, i.file);
+                    }
+                })
+            );
             handleSendFileMessage(
                 {
                     chatId,
