@@ -70,7 +70,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                         <div className={styles.body}>
                             {!isMy && chat?.is_group && firstMessageInBlock && (
                                 <div className={styles.authorName}>
-                                    <Title variant="H3S">{author.contact_name || author.first_name || author.last_name}</Title>
+                                    <Title variant="H3S">{author?.contact_name || author?.first_name || author?.last_name}</Title>
                                 </div>
                             )}
                             {reply_to_message?.id && <ReplyMessage message={reply_to_message} />}
