@@ -6,6 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer, Dropdown, DropdownTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { employeeProxy } from '../../../../company';
 import { userProxy, userService } from '../../../../user';
 import { ChatProxy, Actions } from '../../../model/types';
 
@@ -75,7 +76,7 @@ function ChatProfileModalView(props: Props) {
                     <Title animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H3B">
                         {chat?.name}
                     </Title>
-                    <Button tag>tfn</Button>
+                    {!chat?.is_personal && <Button tag>tfn</Button>}
                 </div>
                 <Title textAlign="center" variant="caption1M">
                     {chat?.subtitle}
@@ -123,13 +124,23 @@ function ChatProfileModalView(props: Props) {
                                 item: (
                                     <div className={styles.members}>
                                         <Card.List
-                                            items={chat?.members.map((i) => ({
-                                                id: i.id,
-                                                img: i.avatar || '',
-                                                name: userService.getFullName(i),
-                                                title: userService.getFullName(i),
-                                                subtitle: userService.getUserNetworkStatus(userProxy(i)),
-                                            }))}
+                                            items={
+                                                chat?.is_personal
+                                                    ? chat?.members.map((i) => ({
+                                                          id: i.id,
+                                                          img: i.avatar || '',
+                                                          name: userService.getFullName(i),
+                                                          title: userService.getFullName(i),
+                                                          subtitle: userService.getUserNetworkStatus(userProxy(i)),
+                                                      }))
+                                                    : chat?.employee_members.map((i) => ({
+                                                          id: i.id,
+                                                          img: i.avatar || '',
+                                                          name: userService.getFullName(i),
+                                                          title: userService.getFullName(i),
+                                                          subtitle: userService.getUserNetworkStatus(employeeProxy(i)),
+                                                      }))
+                                            }
                                         />
                                     </div>
                                 ),
