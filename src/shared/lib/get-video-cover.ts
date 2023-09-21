@@ -1,4 +1,4 @@
-import { blobToBase64 } from './file-converter';
+import { blobLocalPath } from './file-converter';
 
 async function getVideoCover(base64: string, seekTo = 0.0) {
     const blob = new Promise((resolve, reject) => {
@@ -45,7 +45,7 @@ async function getVideoCover(base64: string, seekTo = 0.0) {
         });
     });
     const res = await blob;
-    return blobToBase64(res as any);
+    return blobLocalPath(res as Blob);
 }
 
 export default getVideoCover;

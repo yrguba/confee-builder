@@ -14,20 +14,15 @@ function Image(props: BaseImageProps) {
     const { objectFit = 'cover', url, width, height, horizontalImgWidth, onClick, borderRadius = true, id, remove, ...other } = props;
     const storage = useStorage();
 
-    const { src, error, isLoading, orientation } = useFetchMediaContent(url || '', storage.get('cache_size'));
+    const { src, error, isLoading } = useFetchMediaContent(url || '', storage.get('cache_size'));
 
     const classes = useStyles(styles, 'img', {
         [objectFit]: objectFit,
         error: error || !url,
     });
 
-    const getWidth = () => {
-        if (orientation === 'horizontal' && horizontalImgWidth) return horizontalImgWidth;
-        return width;
-    };
-
     return (
-        <div onClick={onClick} className={styles.wrapper} style={{ width: getWidth(), height, borderRadius: borderRadius ? 12 : 0 }}>
+        <div onClick={onClick} className={styles.wrapper} style={{ width, height, borderRadius: borderRadius ? 12 : 0 }}>
             {!error && !isLoading && <img className={classes} src={src} alt="" />}
             {remove && (
                 <Button.Circle radius={30} className={styles.remove} onClick={id ? () => remove(id) : () => ''} variant="inherit">

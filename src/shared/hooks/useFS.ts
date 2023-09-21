@@ -67,8 +67,7 @@ const useFS = () => {
         const checkPath = await exists(`${folderDir}/${props.fileName}`, { dir: baseDir });
         if (!checkPath) return null;
         const contents = await readBinaryFile(`${folderDir}/${props.fileName}`, { dir: baseDir });
-        const base64 = await fileConverter.arrayBufferToBase64(contents);
-        return base64;
+        return fileConverter.arrayBufferToBlobLocalPath(contents);
     };
 
     const getTextFile = async (props: GetFileProps) => {
