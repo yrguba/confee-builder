@@ -71,12 +71,16 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
                     </div>
                 )}
                 {prefix && <div className={styles.inputPrefix}>{prefix}</div>}
-                <input ref={mergeRefs([inputRef, ref])} className={styles.input} {...other} />
-                {clearIcon && (
-                    <Box.Animated onClick={clear} className={styles.clearIcon} visible={!!other?.value}>
-                        <Icons variant="close" />
-                    </Box.Animated>
-                )}
+                <input
+                    ref={mergeRefs([inputRef, ref])}
+                    className={styles.input}
+                    {...other}
+                    placeholder={prefixIcon === 'search' ? 'поиск' : other.placeholder}
+                />
+
+                <Box.Animated onClick={clear} className={styles.clearIcon} visible={!!clearIcon && !!other?.value}>
+                    <Icons variant="close" />
+                </Box.Animated>
             </div>
             <Box.Animated animationVariant="autoHeight" visible={!!errorTitle} className={styles.errorTitle}>
                 {errorTitle}

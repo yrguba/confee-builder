@@ -13,7 +13,6 @@ function BaseButton(props: BaseButtonProps) {
         disabled,
         loading,
         variant = 'primary',
-        tag,
         prefixIcon,
         chips,
         error,
@@ -32,7 +31,6 @@ function BaseButton(props: BaseButtonProps) {
         [variant]: variant,
         [`${variant}_active`]: variant && active,
         chips,
-        tag,
         [direction]: direction,
         [`size-${size}`]: size,
     });

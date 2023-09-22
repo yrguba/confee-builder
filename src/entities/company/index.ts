@@ -7,5 +7,17 @@ import BindCompanyView from './ui/bind';
 import CompanyCardView from './ui/card';
 import EmployeeProfileView from './ui/employee/profile';
 import EmployeeStatusView from './ui/employee/status';
+import CompanyTagView from './ui/tag';
 
-export { companyTypes, employeeProxy, companyApi, EmployeeProfileView, companyService, constants, CompanyCardView, EmployeeStatusView, BindCompanyView };
+export {
+    companyTypes,
+    employeeProxy,
+    companyApi,
+    EmployeeProfileView,
+    companyService,
+    constants,
+    CompanyCardView,
+    EmployeeStatusView,
+    BindCompanyView,
+    CompanyTagView,
+};

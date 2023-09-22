@@ -14,7 +14,7 @@ function Counter(props: CounterProps) {
 
     useEffect(() => {
         if (children > maxVisibleNumber) {
-            setNumber(`${maxVisibleNumber}...`);
+            setNumber(`${maxVisibleNumber}+`);
         } else {
             setNumber(String(children));
         }

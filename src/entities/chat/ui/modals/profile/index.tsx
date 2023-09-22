@@ -6,7 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer, Dropdown, DropdownTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { employeeProxy } from '../../../../company';
+import { CompanyTagView, employeeProxy } from '../../../../company';
 import { userProxy, userService } from '../../../../user';
 import { ChatProxy, Actions } from '../../../model/types';
 
@@ -76,7 +76,7 @@ function ChatProfileModalView(props: Props) {
                     <Title animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H3B">
                         {chat?.name}
                     </Title>
-                    {!chat?.is_personal && <Button tag>tfn</Button>}
+                    {!chat?.is_personal && <CompanyTagView name="TFN" />}
                 </div>
                 <Title textAlign="center" variant="caption1M">
                     {chat?.subtitle}

@@ -1,12 +1,11 @@
-import React, { forwardRef, useRef } from 'react';
-import { mergeRefs } from 'react-merge-refs';
+import React, { forwardRef } from 'react';
 
+import { CompanyTagView } from 'entities/company';
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button, Dropdown } from 'shared/ui';
+import { Title, Counter, Icons, Avatar, Dropdown } from 'shared/ui';
 
 import ChatMenu from './menu';
 import styles from './styles.module.scss';
-import MessageMenu from '../../../message/ui/message/menu';
 import { Actions, ChatProxy } from '../../model/types';
 
 type Props = {
@@ -32,7 +31,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                 <div className={styles.body}>
                     <div className={styles.avatar}>
                         {chat.is_group && (
-                            <div className={styles.icon}>
+                            <div className={`${styles.icon} ${active ? styles.icon_active : ''}`}>
                                 <Icons variant="group-chat" />
                             </div>
                         )}
@@ -42,7 +41,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                         <div className={styles.row}>
                             <div className={styles.left}>
                                 <Title variant="H3S">{chat?.name}</Title>
-                                {!chat.is_personal && <Button tag>TFN</Button>}
+                                {!chat.is_personal && <CompanyTagView name="TFN" />}
                             </div>
                             <div className={styles.right}>
                                 <Title textAlign="right" variant="caption1M" primary={false}>
@@ -58,7 +57,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                             </div>
                             <div className={styles.right}>
                                 {chat.pending_messages_count ? (
-                                    <Counter variant="primary" height={18}>
+                                    <Counter variant="primary" height={18} maxVisibleNumber={99}>
                                         {chat?.pending_messages_count}
                                     </Counter>
                                 ) : (

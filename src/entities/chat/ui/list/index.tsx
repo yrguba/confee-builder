@@ -31,7 +31,7 @@ function ChatsListView(props: Props) {
     return (
         <Box loading={loading} className={styles.wrapper}>
             <div className={styles.search}>
-                <Input prefixIcon="search" />
+                <Input prefixIcon="search" clearIcon />
             </div>
             <div className={styles.tabs}>
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />

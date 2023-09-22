@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 
-import { companyTypes, EmployeeStatusView, CompanyCardView } from 'entities/company';
+import { companyTypes, EmployeeStatusView, CompanyCardView, CompanyTagView } from 'entities/company';
 import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Button, Dropdown, Icons, Title, DropdownTypes, AvatarTypes } from 'shared/ui';
@@ -76,7 +76,7 @@ function UserCardView(props: Props) {
                 <div className={styles.header}>
                     <div className={styles.name}>
                         <Title variant="H1">{user?.full_name || name || ''}</Title>
-                        <Button tag>TFN</Button>
+                        {departments?.length ? <CompanyTagView name="TFN" /> : null}
                     </div>
                     <Title textAlign="right" variant="H4M">
                         {networkStatus}

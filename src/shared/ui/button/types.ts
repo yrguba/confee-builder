@@ -17,7 +17,6 @@ export type BaseButtonProps = {
     width?: string;
     height?: string;
     chips?: boolean;
-    tag?: boolean;
 } & SharedProps;
 
 export type CircleButtonProps = {

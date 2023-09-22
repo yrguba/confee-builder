@@ -13,6 +13,7 @@
       width: 80%;
       @include flex(flex-start);
       flex: 1;
+      gap: 6px;
     }
   }
 
