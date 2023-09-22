@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { appApi } from 'entities/app';
 
@@ -22,11 +23,13 @@ function useFetchMediaContent(url = '', saveInCache = false) {
     const isFetch = !!checkFetch();
 
     const { data: fileData, isLoading, error } = appApi.handleGetFile(url, isFetch);
+
     useEffect(() => {
         const fn = async () => {
             if (isFetch && fileData) {
                 const filePath = fileConverter.blobLocalPath(fileData);
                 setSrc(filePath);
+                setFileBlob(fileData);
             } else {
                 setSrc(url);
             }

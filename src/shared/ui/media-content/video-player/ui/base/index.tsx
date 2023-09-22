@@ -27,7 +27,7 @@ function Video(props: VideoProps) {
     const { isLoading, src, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
 
     const [video, state, controls, ref] = useVideo(
-        <video style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />
+        <video style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay={false} muted />
     );
 
     return (
@@ -36,14 +36,8 @@ function Video(props: VideoProps) {
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>
-            {/* {(error || !url) && 'error'} */}
         </div>
     );
 }
 
-// export default memo(VideoPlayer, (prevProps, nextProps): any => {
-//     if (prevProps.url !== nextProps.url) return false;
-//
-//     return true;
-// });
 export default VideoPlayer;
