@@ -116,7 +116,7 @@ function MessagesListView(props: Props) {
 
     return (
         <div className={styles.wrapper} ref={wrapperRef}>
-            <Box.Animated visible={!inViewFirstUnreadCheckVisibleRef && !inViewLastMessageCheckVisibleRef && !loading} className={styles.btnDown}>
+            <Box.Animated visible={!inViewFirstUnreadCheckVisibleRef && !inViewLastMessageCheckVisibleRef && !initOnce} className={styles.btnDown}>
                 <Counter>{chat?.pending_messages_count}</Counter>
                 <Button.Circle radius={34} onClick={clickBtnDown}>
                     <Icons variant="arrow-drop-down" />

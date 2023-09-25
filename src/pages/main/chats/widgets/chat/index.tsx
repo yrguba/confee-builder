@@ -1,3 +1,4 @@
+import { delay } from 'framer-motion';
 import React from 'react';
 
 import { ChatHeader } from 'features/chat';
@@ -15,7 +16,7 @@ function Chat() {
             <div className={styles.header}>
                 <ChatHeader />
             </div>
-            <Box.Animated key={params.chat_id} visible className={styles.messageList}>
+            <Box.Animated key={params.chat_id} visible animate={{ opacity: 1, transition: { delay: 0.3 } }} className={styles.messageList}>
                 <MessagesList />
             </Box.Animated>
             <div className={styles.input}>
