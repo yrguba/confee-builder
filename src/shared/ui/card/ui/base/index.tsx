@@ -1,21 +1,22 @@
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 
 import styles from './styles.module.scss';
-import { useStyles } from '../../../../hooks';
+import { messageService } from '../../../../../entities/message';
+import { createMemo, useStyles } from '../../../../hooks';
 import { Avatar } from '../../../index';
 import Title from '../../../title';
 import { BaseCardProps } from '../../types';
 
+const memoAvatarSize = createMemo((visibleAvatar, size) => {
+    if (!visibleAvatar) return 0;
+    if (size === 's') return 44;
+    if (size === 'm') return 52;
+});
+
 function Card(props: BaseCardProps) {
     const { loading, img, title, subtitle, onClick, size = 's', name, avatarNetworkStatus, avatarEmployeeStatuses, icon, visibleAvatar = true } = props;
 
-    const getAvatarSize = useCallback(() => {
-        if (!visibleAvatar) return 0;
-        if (size === 's') return 44;
-        if (size === 'm') return 52;
-    }, [size, visibleAvatar]);
-
-    const avatarSize = getAvatarSize();
+    const avatarSize = memoAvatarSize(visibleAvatar, size);
 
     const classes = useStyles(styles, 'wrapper', {
         [size]: size,
@@ -57,5 +58,10 @@ function Card(props: BaseCardProps) {
         </div>
     );
 }
-
-export default Card;
+export default memo(Card, (prevProps, nextProps): any => {
+    if (prevProps.img !== nextProps.img) return false;
+    if (prevProps.subtitle !== nextProps.subtitle) return false;
+    if (prevProps.avatarNetworkStatus !== nextProps.avatarNetworkStatus) return false;
+    return true;
+});
+// export default Card;

@@ -21,53 +21,52 @@ type Props = {
 function ChatHeaderView(props: Props) {
     const { chat, back, tabs, clickCard, highlightedMessages, clickDeleteMessages, clickForwardMessages, loading } = props;
 
-    function Main() {
-        return (
-            <div className={styles.main}>
-                {useWidthMediaQuery().to('md') && (
-                    <Button.Circle onClick={back} variant="secondary">
-                        <Icons variant="arrow-left" />
-                    </Button.Circle>
-                )}
-                <div className={styles.left}>
-                    <Card
-                        onClick={clickCard}
-                        avatarNetworkStatus={chat?.secondMember?.networkStatus}
-                        img={chat?.avatar}
-                        name={chat?.name}
-                        title={chat?.name}
-                        subtitle={chat?.subtitle}
-                        loading={loading}
-                    />
-                </div>
-                <div>
-                    <TabBar variant="icons" items={tabs} activeItemId={0} />
-                </div>
-            </div>
-        );
-    }
-    function HighlightedMessages() {
-        return (
-            <div className={styles.highlightedMessages}>
-                <div className={styles.btns}>
-                    <Button onClick={clickForwardMessages}>Переслать {highlightedMessages.value.length}</Button>
-                    <Button onClick={clickDeleteMessages}>Удалить {highlightedMessages.value.length}</Button>
-                </div>
-                <div className={styles.cancel} onClick={highlightedMessages.clear}>
-                    <Title active variant="H2">
-                        Отмена
-                    </Title>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <Box.Replace
             className={styles.wrapper}
             items={[
-                { item: <HighlightedMessages />, visible: !!highlightedMessages.value.length },
-                { item: <Main />, visible: !highlightedMessages.value.length },
+                {
+                    item: (
+                        <div className={styles.highlightedMessages}>
+                            <div className={styles.btns}>
+                                <Button onClick={clickForwardMessages}>Переслать {highlightedMessages.value.length}</Button>
+                                <Button onClick={clickDeleteMessages}>Удалить {highlightedMessages.value.length}</Button>
+                            </div>
+                            <div className={styles.cancel} onClick={highlightedMessages.clear}>
+                                <Title active variant="H2">
+                                    Отмена
+                                </Title>
+                            </div>
+                        </div>
+                    ),
+                    visible: !!highlightedMessages.value.length,
+                },
+                {
+                    item: (
+                        <div className={styles.main}>
+                            {useWidthMediaQuery().to('md') && (
+                                <Button.Circle onClick={back} variant="secondary">
+                                    <Icons variant="arrow-left" />
+                                </Button.Circle>
+                            )}
+                            <div className={styles.left}>
+                                <Card
+                                    onClick={clickCard}
+                                    avatarNetworkStatus={chat?.secondMember?.networkStatus}
+                                    img={chat?.avatar}
+                                    name={chat?.name}
+                                    title={chat?.name}
+                                    subtitle={chat?.subtitle}
+                                    loading={loading}
+                                />
+                            </div>
+                            <div>
+                                <TabBar variant="icons" items={tabs} activeItemId={0} />
+                            </div>
+                        </div>
+                    ),
+                    visible: !highlightedMessages.value.length,
+                },
             ]}
         />
     );

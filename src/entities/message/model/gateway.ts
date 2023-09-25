@@ -2,16 +2,18 @@ import { useQueryClient } from '@tanstack/react-query';
 import produce from 'immer';
 import { useEffect } from 'react';
 
-import { useWebSocket, useThrottle } from 'shared/hooks';
+import { useWebSocket, useThrottle, useDebounce } from 'shared/hooks';
 import { findLastIndex } from 'shared/lib';
 
 import { MessageProxy, SocketIn, SocketOut } from './types';
+import debounce from '../../../shared/lib/debounce';
 import { Notification } from '../../../shared/ui';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
 import messageProxy from '../lib/proxy';
 
-const [throttleMessageTyping] = useThrottle((cl) => cl(), 5000);
+const [throttleMessageTyping] = useThrottle((cl) => cl(), 1000);
+const debounceMessageTypingClose = debounce((cl) => cl(), 3000);
 
 function messageGateway() {
     const viewerId = viewerService.getId();
@@ -171,33 +173,43 @@ function messageGateway() {
                 });
             });
         });
-        // onMessage('Typing', (socketData) => {
-        //     // console.log(socketData);
-        //     // if(viewerId === socketData)
-        //     const fn = (text: string) => {
-        //         queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
-        //             if (!cacheData?.data?.data) return cacheData;
-        //             return produce(cacheData, (draft: any) => {
-        //                 draft.data.data = { ...draft.data.data, typing: text };
-        //             });
-        //         });
-        //         queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-        //             if (!cacheData?.data?.data?.length) return cacheData;
-        //             return produce(cacheData, (draft: any) => {
-        //                 draft.data.data = draft?.data?.data.map((chat: Chat) => {
-        //                     if (socketData.data.chat_id === chat.id) {
-        //                         return { ...chat, typing: text };
-        //                     }
-        //                     return chat;
-        //                 });
-        //             });
-        //         });
-        //     };
-        //     throttleMessageTyping(() => {
-        //         fn('пользователь печатает...');
-        //         setTimeout(() => fn(''), 5000);
-        //     });
-        // });
+        onMessage('Typing', (socketData) => {
+            const fn = (name: string | null) => {
+                const getText = (is_group: boolean) => {
+                    return !name ? '' : is_group ? `${name} печатает...` : 'печатает...';
+                };
+
+                queryClient.setQueryData(['get-chat', socketData.data.chat_id], (cacheData: any) => {
+                    if (!cacheData?.data?.data) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data = { ...draft.data.data, typing: getText(draft.data.data.is_group) };
+                    });
+                });
+                ['all', 'personal'].forEach((i) => {
+                    queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                        if (!cacheData?.pages?.length) return cacheData;
+                        return produce(cacheData, (draft: any) => {
+                            draft.pages.forEach((page: any) => {
+                                page.data.data = page?.data?.data.map((chat: Chat) => {
+                                    if (socketData.data.chat_id === chat.id) {
+                                        return { ...chat, typing: getText(chat.is_group) };
+                                    }
+                                    return chat;
+                                });
+                            });
+                        });
+                    });
+                });
+            };
+            debounceMessageTypingClose(() => {
+                fn(null);
+            });
+            throttleMessageTyping(() => {
+                if (viewerId !== socketData.data.user_id) {
+                    fn(socketData.data?.extra_info?.contact_name);
+                }
+            });
+        });
     }, []);
 }
 
