@@ -31,6 +31,7 @@
     @include box-size(calc(100% - 32px), auto);
     gap: 14px;
     padding: 0 16px;
+    border-top: 2px solid var(--bg-primary);
 
     .openDownloads {
       svg {
@@ -67,17 +68,21 @@
           animation: pulsateIndicator 1.6s ease-out;
           animation-iteration-count: infinite;
         }
-        .timer{
+
+        .timer {
           color: var(--text-primary);
         }
       }
-      .voicePreview{
+
+      .voicePreview {
         @include flex;
         @include box-size(100%, 100%);
         gap: 8px;
-        .deleteIcon{
+
+        .deleteIcon {
           cursor: pointer;
-          svg{
+
+          svg {
             fill: var(--text-negative);
           }
         }
@@ -87,6 +92,7 @@
 
 
 }
+
 @keyframes pulsateIndicator {
   0% {
     transform: scale(0.6, 0.6);

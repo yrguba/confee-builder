@@ -6,15 +6,17 @@ import { chatTypes } from 'entities/chat';
 import { useRouter, useWebSocket } from 'shared/hooks';
 
 import { SocketOut, SocketIn } from './types';
+import chatService from '../../chat/lib/service';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
 
 function userGateway() {
     const queryClient = useQueryClient();
-    const { params } = useRouter();
+
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         const viewerId = viewerService.getId();
+        const openChatId = chatService.getOpenChatId();
         onMessage('UserUpdated', (socketData) => {
             queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
                 if (!cacheData?.pages?.length) return cacheData;
@@ -36,9 +38,8 @@ function userGateway() {
                     });
                 });
             });
-            params.chat_id &&
-                queryClient.setQueryData(['get-chat', Number(params.chat_id)], (cacheData: any) => {
-                    if (cacheData?.data?.data.is_group) return cacheData;
+            openChatId &&
+                queryClient.setQueryData(['get-chat', openChatId], (cacheData: any) => {
                     return produce(cacheData, (draft: any) => {
                         if (!draft?.data?.data) return draft;
                         const chat: Chat = cacheData?.data?.data;

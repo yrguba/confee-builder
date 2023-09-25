@@ -19,7 +19,7 @@ function userProxy(user: User | undefined): UserProxy | null {
                     return target.birth ? moment(target.birth).format('LL') : null;
 
                 case 'networkStatus':
-                    return target.is_online ? 'online' : 'offline';
+                    return viewerId === target.id ? 'online' : target.is_online ? 'online' : 'offline';
 
                 case 'formatted_last_active':
                     return momentLocalZone(target.last_active).calendar();

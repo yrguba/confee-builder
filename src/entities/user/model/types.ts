@@ -1,7 +1,7 @@
 import { Contact } from '../../contact/model/types';
 
 export enum NetworkStatuses {
-    'online' = '#0000ff',
+    'online' = 'var(--status-inoffice)',
     'offline' = '',
 }
 
