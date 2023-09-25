@@ -4,13 +4,16 @@ import { useUpdateEffect } from 'react-use';
 import { useEasyState, UseEasyStateReturnType, UseStoreTypes } from 'shared/hooks';
 import { getEnding, getUniqueArr } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer, IconsTypes } from 'shared/ui';
+import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer, IconsTypes, Dropdown, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import SpeechButton from './widgets/speech-button';
 import VideoButton from './widgets/video-button';
 import VoiceButton from './widgets/voice-button';
 import { ChatProxy } from '../../../chat/model/types';
+import { employeeProxy, companyService } from '../../../company';
+import { userProxy, userService } from '../../../user';
+import { UserProxy } from '../../../user/model/types';
 import { MessageProxy, VoiceEvents } from '../../model/types';
 
 type Props = {
@@ -113,6 +116,17 @@ function MessageInputView(props: Props) {
 
     return (
         <div className={styles.wrapper} style={{ pointerEvents: highlightedMessages.value.length ? 'none' : 'auto' }}>
+            <Box.Animated visible className={styles.header} animationVariant="autoHeight">
+                <Card.List
+                    items={chat?.currentMembers.map((i: any) => {
+                        const user = chat?.is_personal ? (userService.getUserFromCardList(i) as any) : companyService.getEmployeeFromCardList(i);
+                        return {
+                            ...user,
+                            size: 's',
+                        };
+                    })}
+                />
+            </Box.Animated>
             <Box.Animated
                 visible={!!replyMessage.value.id || !!editMessage.value.id || forwardMessages?.value?.redirect}
                 className={styles.header}

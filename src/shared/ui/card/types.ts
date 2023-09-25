@@ -13,7 +13,7 @@ export type BaseCardProps = {
     title?: string;
     subtitle?: string;
     visibleAvatar?: boolean;
-    size?: 's' | 'm';
+    size?: 's' | 'm' | 'l';
     onClick?: () => void;
     avatarNetworkStatus?: keyof typeof userTypes.NetworkStatuses;
     avatarEmployeeStatuses?: keyof typeof companyTypes.EmployeeStatuses;

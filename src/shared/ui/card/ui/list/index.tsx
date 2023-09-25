@@ -42,7 +42,15 @@ function CardList(props: CardListProps) {
                     {getDelimiter(arr, index)}
                     <div className={styles.item} onClick={() => selected && selected.pushOrDelete(i)} ref={index + 1 === arr?.length ? lastCard : null}>
                         <div className={styles.info}>
-                            <Card onClick={i.onClick} key={i.id} name={i?.name || ''} title={i?.title || ''} img={i?.img || ''} subtitle={i?.subtitle || ' '} />
+                            <Card
+                                onClick={i.onClick}
+                                key={i.id}
+                                size={i.size || 'm'}
+                                name={i?.name || ''}
+                                title={i?.title || ''}
+                                img={i?.img || ''}
+                                subtitle={i?.subtitle || ' '}
+                            />
                         </div>
 
                         {selected && (

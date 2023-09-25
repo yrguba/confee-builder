@@ -19,6 +19,9 @@ function chatProxy(chat: Chat | undefined): any {
                 case 'secondMember':
                     return secondMemberProxy;
 
+                case 'currentMembers':
+                    return receiver.is_personal ? target.members : target.employee_members;
+
                 case 'checkIsMyLastMessage':
                     return target.last_message.author?.id === viewerId;
 

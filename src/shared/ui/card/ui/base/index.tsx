@@ -9,12 +9,13 @@ import { BaseCardProps } from '../../types';
 
 const memoAvatarSize = createMemo((visibleAvatar, size) => {
     if (!visibleAvatar) return 0;
-    if (size === 's') return 44;
-    if (size === 'm') return 52;
+    if (size === 's') return 36;
+    if (size === 'm') return 44;
+    if (size === 'l') return 52;
 });
 
 function Card(props: BaseCardProps) {
-    const { loading, img, title, subtitle, onClick, size = 's', name, avatarNetworkStatus, avatarEmployeeStatuses, icon, visibleAvatar = true } = props;
+    const { loading, img, title, subtitle, onClick, size = 'm', name, avatarNetworkStatus, avatarEmployeeStatuses, icon, visibleAvatar = true } = props;
 
     const avatarSize = memoAvatarSize(visibleAvatar, size);
 
@@ -24,12 +25,14 @@ function Card(props: BaseCardProps) {
 
     const titleVar: any = {
         s: 'H4S',
-        m: 'H3S',
+        m: 'H4S',
+        l: 'H3S',
     };
 
     const subtitleVar: any = {
         s: 'H4M',
-        m: 'H3R',
+        m: 'H4M',
+        l: 'H3M',
     };
 
     return (

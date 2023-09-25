@@ -34,6 +34,7 @@ export type ChatProxy = {
     date: string;
     checkIsMyLastMessage: boolean;
     subtitle: string;
+    currentMembers: User[] | Employee[];
 } & Chat;
 
 export type ChatsTypes = 'all' | 'personal' | 'company';

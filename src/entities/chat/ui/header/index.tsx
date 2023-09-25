@@ -58,6 +58,7 @@ function ChatHeaderView(props: Props) {
                                     title={chat?.name}
                                     subtitle={chat?.subtitle}
                                     loading={loading}
+                                    size="l"
                                 />
                             </div>
                             <div>

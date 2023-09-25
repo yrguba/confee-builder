@@ -2,7 +2,7 @@
 
 .wrapper {
   @include flex-column();
-
+  gap: 12px;
   .delimiter {
     @include box-size(calc(100% - 40px), 28px);
     @include flex(flex-start);
@@ -15,8 +15,9 @@
   }
 
   .item {
-    @include box-size(calc(100% - 24px), 60px);
+    @include box-size(calc(100% - 24px), auto);
     @include flex();
+
     cursor: pointer;
     margin-right: 24px;
 
