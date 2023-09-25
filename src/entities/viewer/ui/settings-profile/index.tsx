@@ -45,7 +45,7 @@ function SettingsProfileView(props: Props) {
                     Эту информацию будут видеть другие пользователи
                 </Title>
                 <div className={styles.textArea}>
-                    <Input.Textarea />
+                    <Input.Textarea focusTrigger={[]} />
                 </div>
             </div>
             <div className={styles.item}>

@@ -49,7 +49,7 @@ export type PhoneInputProps = {
 
 export type TextareaInputProps = {
     focus?: boolean;
-    focusTrigger?: any;
+    focusTrigger: any[];
 } & TextareaHTMLAttributes<HTMLTextAreaElement> &
     Shared;
 

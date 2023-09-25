@@ -6,9 +6,10 @@ import { chatApi, chatProxy } from 'entities/chat';
 import { companyTypes } from 'entities/company';
 import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
 import { VoiceEvents } from 'entities/message/model/types';
-import { userTypes } from 'entities/user';
+import { userProxy, userTypes } from 'entities/user';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
 
+import { viewerService } from '../../../entities/viewer';
 import { Modal } from '../../../shared/ui';
 import { FilesToSendModal } from '../index';
 
@@ -17,6 +18,7 @@ const [throttleMessageTyping] = useThrottle((cl) => cl(), 2000);
 function MessageInput() {
     const params = useParams();
     const chatId = Number(params.chat_id);
+    const viewerId = viewerService.getId();
 
     const { mutate: handleSendTextMessage, isLoading } = messageApi.handleSendTextMessage();
     const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
@@ -36,7 +38,7 @@ function MessageInput() {
 
     const messageTextState = useEasyState('');
     const voiceEvent = useEasyState<VoiceEvents | null>(null);
-    const tagUsers = useEasyState<userTypes.User[] | companyTypes.Employee[]>([]);
+    const tagUsers = useEasyState<userTypes.UserProxy[]>([]);
 
     const recordForChatId = useEasyState<number | null>(null);
     const voiceRecord = useAudioRecorder({});
@@ -126,7 +128,9 @@ function MessageInput() {
         const text = messageTextState.value;
         const lasWord = text.split(' ').pop();
         if (proxyChat?.is_personal && lasWord && lasWord.includes('@')) {
-            const members = chatData?.members?.filter((i) => i.nickname.includes(lasWord.substring(1)));
+            const members = chatData?.members
+                ?.filter((i) => i.nickname.includes(lasWord.substring(1)) && lasWord !== `@${i.nickname}`)
+                .map((i) => userProxy(i)) as any;
             tagUsers.set(members || []);
         } else {
             tagUsers.set([]);

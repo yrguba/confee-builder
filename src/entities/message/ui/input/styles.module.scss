@@ -3,16 +3,22 @@
 .wrapper {
   @include box-size(100%, auto);
 
+  .tagUsers {
+    @include flex-column(flex-start);
+    @include box-size(calc(100% - 32px), 100%);
+    padding: 8px 16px;
+    gap: 12px;
+    max-height: 300px;
+    min-height: 60px;
+    overflow-y: auto;
+  }
 
   .header {
     @include flex(flex-start);
-    @include box-size(calc(100% - 32px), auto);
-    max-height: 300px;
-    min-height: 60px;
+    @include box-size(calc(100% - 32px), 70px);
     gap: 14px;
     padding: 8px 16px;
     background-color: var(--bg-secondary);
-    overflow-y: auto;
 
     .icon, .close {
       cursor: pointer;

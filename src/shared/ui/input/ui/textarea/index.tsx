@@ -13,7 +13,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         if (textAreaRef.current && focus) {
             textAreaRef.current.focus();
         }
-    }, [focus, focusTrigger]);
+    }, [focus, ...focusTrigger]);
 
     useEffect(() => {
         if (textAreaRef.current && typeof other.value === 'string') {

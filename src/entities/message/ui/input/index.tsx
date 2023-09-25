@@ -11,9 +11,7 @@ import SpeechButton from './widgets/speech-button';
 import VideoButton from './widgets/video-button';
 import VoiceButton from './widgets/voice-button';
 import { ChatProxy } from '../../../chat/model/types';
-import { employeeProxy, companyService } from '../../../company';
 import { Employee } from '../../../company/model/types';
-import { userProxy, userService } from '../../../user';
 import { User, UserProxy } from '../../../user/model/types';
 import { MessageProxy, VoiceEvents } from '../../model/types';
 
@@ -29,7 +27,7 @@ type Props = {
     getVoiceEvents: (e: VoiceEvents) => void;
     showVoice: boolean;
     deleteVoice: () => void;
-    tagUsers: UseEasyStateReturnType<User[] | Employee[]>;
+    tagUsers: UseEasyStateReturnType<UserProxy[]>;
     voiceRecord: {
         recorderState: {
             audio: string;
@@ -111,6 +109,11 @@ function MessageInputView(props: Props) {
         }
     };
 
+    const clickUser = (user: UserProxy) => {
+        messageTextState.set((prev) => `${prev.slice(0, -1)}@${user.nickname} `);
+        tagUsers.set([]);
+    };
+
     useUpdateEffect(() => {
         if ((!!messageTextState.value || showVoice || forwardMessages?.value?.redirect) && !speechListener.value) return icon.set('arrow');
         if (speechListener.value) return icon.set('keyboard');
@@ -119,16 +122,10 @@ function MessageInputView(props: Props) {
 
     return (
         <div className={styles.wrapper} style={{ pointerEvents: highlightedMessages.value.length ? 'none' : 'auto' }}>
-            <Box.Animated visible={!!tagUsers.value.length} className={styles.header} animationVariant="visibleHidden">
-                <Card.List
-                    items={tagUsers.value.map((i: any) => {
-                        const user = chat?.is_personal ? (userService.getUserFromCardList(i) as any) : companyService.getEmployeeFromCardList(i);
-                        return {
-                            ...user,
-                            size: 's',
-                        };
-                    })}
-                />
+            <Box.Animated visible={!!tagUsers.value.length} className={styles.tagUsers}>
+                {tagUsers.value.map((i) => (
+                    <Card key={i.id} onClick={() => clickUser(i)} size="s" img={i.avatar} title={i.full_name} />
+                ))}
             </Box.Animated>
             <Box.Animated
                 visible={!!replyMessage.value.id || !!editMessage.value.id || forwardMessages?.value?.redirect}
@@ -171,7 +168,7 @@ function MessageInputView(props: Props) {
                     ) : (
                         <Input.Textarea
                             placeholder="Написать сообщение..."
-                            focusTrigger={replyMessage.value.id || editMessage.value.id || chat?.id}
+                            focusTrigger={[tagUsers.value, replyMessage.value.id, editMessage.value.id, chat?.id]}
                             focus
                             value={messageTextState.value}
                             onChange={(e) => messageTextState.set(e.target.value)}
