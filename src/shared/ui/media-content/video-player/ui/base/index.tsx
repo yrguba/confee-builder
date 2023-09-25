@@ -13,7 +13,7 @@ import { BaseVideoPlayerProps } from '../../types';
 function VideoPlayer(props: BaseVideoPlayerProps) {
     const { url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
     const storage = useStorage();
-    const { src, isLoading, error } = useFetchMediaContent(url || '', storage.get('cache_size'));
+    const { src, isLoading, error } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
 
     return <Video isLoading={isLoading} src={src} {...props} />;
 }

@@ -1,6 +1,7 @@
 import { relaunch } from '@tauri-apps/api/process';
 import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
 import React, { useEffect, useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 import { boolean } from 'yup';
 
 import { TauriSettingsView, appService, appTypes } from 'entities/app';
@@ -40,23 +41,20 @@ function TauriSettings() {
 
     const cacheSize = useEasyState<string>('');
 
-    const cacheValue = useEasyState<boolean>(!!storage.get('cache_size'), (value) => {
-        if (!value) {
-            storage.remove('cache_size');
-            return fs.deleteFolder({ baseDir: 'Document', folderDir: 'cache' }).then(() => {
-                cacheSize.set('');
-            });
-        }
-        storage.set('cache_size', true);
-    });
+    const saveInCache = useEasyState<boolean>(!!storage.get('save_in_cache'));
+
+    useUpdateEffect(() => {
+        saveInCache.value ? storage.set('save_in_cache', true) : storage.remove('save_in_cache');
+    }, [saveInCache.value]);
 
     useEffect(() => {
+        cacheSize.set('загрузка...');
         fs.getFolderSize({ baseDir: 'Document', folderDir: 'cache' }).then((res) => {
             cacheSize.set(res?.human || '');
         });
     }, []);
 
-    return <TauriSettingsView cacheValue={cacheValue} cacheSize={cacheSize.value} updateAvailable={updateAvailable} updateApp={updateApp} />;
+    return <TauriSettingsView saveInCache={saveInCache} cacheSize={cacheSize.value} updateAvailable={updateAvailable} updateApp={updateApp} />;
 }
 
 export default TauriSettings;

@@ -26,6 +26,13 @@ function useFetchMediaContent(url = '', saveInCache = false) {
 
     useEffect(() => {
         const fn = async () => {
+            const fileInCache = await getFile({ fileName: url, folderDir: 'cache', baseDir: 'Document' });
+            if (fileInCache) {
+                console.log(fileInCache);
+            }
+            if (saveInCache && fileData && !fileInCache) {
+                saveFile({ fileName: url, folderDir: 'cache', baseDir: 'Document', fileBlob: fileData });
+            }
             if (isFetch && fileData) {
                 const filePath = fileConverter.blobLocalPath(fileData);
                 setSrc(filePath);

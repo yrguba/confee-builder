@@ -14,7 +14,7 @@ function Image(props: BaseImageProps) {
     const { objectFit = 'cover', url, width, height, horizontalImgWidth, onClick, borderRadius = true, id, remove, ...other } = props;
     const storage = useStorage();
 
-    const { src, error, isLoading } = useFetchMediaContent(url || '', storage.get('cache_size'));
+    const { src, error, isLoading } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
 
     const classes = useStyles(styles, 'img', {
         [objectFit]: objectFit,

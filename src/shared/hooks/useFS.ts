@@ -1,4 +1,5 @@
 import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, removeDir, readTextFile, writeTextFile } from '@tauri-apps/api/fs';
+import { metadata } from 'tauri-plugin-fs-extra-api';
 
 import { fileConverter, sizeConverter } from '../lib';
 

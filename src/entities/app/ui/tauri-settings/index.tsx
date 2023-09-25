@@ -8,13 +8,13 @@ import { appService } from '../../index';
 
 type Props = {
     cacheSize: string;
-    cacheValue: UseEasyStateReturnType<boolean>;
+    saveInCache: UseEasyStateReturnType<boolean>;
     updateAvailable: boolean;
     updateApp?: () => void;
 };
 
 function TauriSettingsView(props: Props) {
-    const { cacheSize, cacheValue, updateAvailable, updateApp } = props;
+    const { cacheSize, saveInCache, updateAvailable, updateApp } = props;
     const { version } = appService.getProjectInfo();
     return (
         <div className={styles.wrapper}>
@@ -23,10 +23,10 @@ function TauriSettingsView(props: Props) {
                     <div className={styles.titles}>
                         <Title variant="H3M">Кэш</Title>
                         <Title primary={false} variant="H4M">
-                            {cacheValue.value ? `Занято на диске: ${cacheSize || 0}` : 'Кэш отключен'}
+                            {cacheSize ? `Занято на диске: ${cacheSize || 0}` : 'Кэш отключен'}
                         </Title>
                     </div>
-                    <Switch onChange={cacheValue.toggle} checked={cacheValue.value} />
+                    <Switch onChange={saveInCache.toggle} checked={saveInCache.value} />
                 </div>
                 <div className={styles.item}>
                     <div className={styles.titles}>
