@@ -8,7 +8,7 @@ function ImageList(props: ImagesListProps) {
     const { items } = props;
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} style={{ maxWidth: items && items?.length < 2 ? '280px' : '' }}>
             {items?.map((i) => (
                 <Image key={i.id} {...i} borderRadius={false} />
             ))}

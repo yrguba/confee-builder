@@ -1,3 +1,4 @@
+import { companyTypes } from '../../company';
 import { userTypes } from '../../user';
 
 export type Content = {
@@ -29,6 +30,7 @@ export type File = {
 
 export type Message = {
     author: userTypes.User;
+    author_employee: companyTypes.Employee | null;
     chat_id?: number;
     created_at: Date;
     files: File[];
