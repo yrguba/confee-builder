@@ -12,8 +12,9 @@ import VideoButton from './widgets/video-button';
 import VoiceButton from './widgets/voice-button';
 import { ChatProxy } from '../../../chat/model/types';
 import { employeeProxy, companyService } from '../../../company';
+import { Employee } from '../../../company/model/types';
 import { userProxy, userService } from '../../../user';
-import { UserProxy } from '../../../user/model/types';
+import { User, UserProxy } from '../../../user/model/types';
 import { MessageProxy, VoiceEvents } from '../../model/types';
 
 type Props = {
@@ -28,6 +29,7 @@ type Props = {
     getVoiceEvents: (e: VoiceEvents) => void;
     showVoice: boolean;
     deleteVoice: () => void;
+    tagUsers: UseEasyStateReturnType<User[] | Employee[]>;
     voiceRecord: {
         recorderState: {
             audio: string;
@@ -52,6 +54,7 @@ function MessageInputView(props: Props) {
         deleteVoice,
         highlightedMessages,
         forwardMessages,
+        tagUsers,
     } = props;
 
     const speechListener = useEasyState(false);
@@ -116,9 +119,9 @@ function MessageInputView(props: Props) {
 
     return (
         <div className={styles.wrapper} style={{ pointerEvents: highlightedMessages.value.length ? 'none' : 'auto' }}>
-            <Box.Animated visible className={styles.header} animationVariant="autoHeight">
+            <Box.Animated visible={!!tagUsers.value.length} className={styles.header} animationVariant="visibleHidden">
                 <Card.List
-                    items={chat?.currentMembers.map((i: any) => {
+                    items={tagUsers.value.map((i: any) => {
                         const user = chat?.is_personal ? (userService.getUserFromCardList(i) as any) : companyService.getEmployeeFromCardList(i);
                         return {
                             ...user,

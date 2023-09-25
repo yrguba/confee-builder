@@ -63,10 +63,10 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     useUpdateEffect(() => {
         if (personalChatsProxy?.length && activeTab.value?.title === 'личные') {
-            activeList.set(personalChatsProxy);
+            activeList.set(personalChatsProxy as any);
         }
         if (allChatsProxy?.length && activeTab.value?.title === 'все') {
-            activeList.set(allChatsProxy);
+            activeList.set(allChatsProxy as any);
         }
     }, [activeTab.value]);
 
@@ -82,21 +82,21 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
     useEffect(() => {
         if (!redirect && !activeTab.value?.id) {
             tabs.length && activeTab.set(tabs[0]);
-            activeList.set(allChatsProxy || []);
+            activeList.set((allChatsProxy as any) || []);
         }
     }, [allChatsProxy]);
 
     useEffect(() => {
         if (pathname.includes('all') && redirect) {
             tabs.length && activeTab.set(tabs[0]);
-            activeList.set(allChatsProxy || []);
+            activeList.set((allChatsProxy as any) || []);
         }
     }, [allChatsProxy, activeTab.value]);
 
     useEffect(() => {
         if (pathname.includes('personal') && redirect) {
             tabs.length && activeTab.set(tabs[1]);
-            activeList.set(personalChatsProxy || []);
+            activeList.set((personalChatsProxy as any) || []);
         }
     }, [personalChatsProxy, activeTab.value]);
 
@@ -104,7 +104,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
         if (pathname.includes('company') && redirect) {
             const foundIndex = tabs.findIndex((i) => i.payload?.companyId === Number(params.company_id));
             tabs.length && activeTab.set(tabs[foundIndex === -1 ? 2 : foundIndex]);
-            activeList.set(companyChatsProxy || []);
+            activeList.set((companyChatsProxy as any) || []);
         }
     }, [companyChatsProxy, activeTab.value, tabs.length]);
 

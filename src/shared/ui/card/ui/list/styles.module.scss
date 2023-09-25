@@ -1,8 +1,9 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex-column();
+  @include flex-column;
   gap: 12px;
+
   .delimiter {
     @include box-size(calc(100% - 40px), 28px);
     @include flex(flex-start);

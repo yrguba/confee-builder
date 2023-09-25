@@ -106,7 +106,7 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
         <div ref={ref} key={id} className={`${styles.item} ${activeUserId === id ? styles.item_active : ''}`}>
             <div className={styles.body}>
                 <div className={styles.card}>
-                    <Card avatarEmployeeStatuses={status} onClick={clickUser} size="m" name={full_name} img={avatar} title={full_name} subtitle={phone || ''} />
+                    <Card avatarEmployeeStatuses={status} onClick={clickUser} size="l" name={full_name} img={avatar} title={full_name} subtitle={phone || ''} />
                 </div>
                 <div className={styles.icons}>
                     {!lgWidthSize ? (

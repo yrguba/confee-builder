@@ -5,7 +5,7 @@ import { userProxy, userService } from '../../user';
 import { UserProxy } from '../../user/model/types';
 import { ChatProxy, Chat } from '../model/types';
 
-function chatProxy(chat: Chat | undefined): any {
+function chatProxy(chat: Chat | undefined): ChatProxy | null {
     const viewerId = viewerService.getId();
     if (!chat) return null;
     return new Proxy(chat, {
@@ -52,7 +52,7 @@ function chatProxy(chat: Chat | undefined): any {
                     return target[prop];
             }
         },
-    });
+    }) as ChatProxy;
 }
 
 export default chatProxy;

@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy } from 'entities/chat';
+import { companyTypes } from 'entities/company';
 import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
 import { VoiceEvents } from 'entities/message/model/types';
+import { userTypes } from 'entities/user';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
 
 import { Modal } from '../../../shared/ui';
@@ -23,6 +26,8 @@ function MessageInput() {
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
+    const proxyChat = chatProxy(chatData);
+
     const replyMessage = useMessageStore.use.replyMessage();
     const editMessage = useMessageStore.use.editMessage();
     const forwardMessages = useMessageStore.use.forwardMessages();
@@ -31,6 +36,7 @@ function MessageInput() {
 
     const messageTextState = useEasyState('');
     const voiceEvent = useEasyState<VoiceEvents | null>(null);
+    const tagUsers = useEasyState<userTypes.User[] | companyTypes.Employee[]>([]);
 
     const recordForChatId = useEasyState<number | null>(null);
     const voiceRecord = useAudioRecorder({});
@@ -116,6 +122,17 @@ function MessageInput() {
         }
     };
 
+    useUpdateEffect(() => {
+        const text = messageTextState.value;
+        const lasWord = text.split(' ').pop();
+        if (proxyChat?.is_personal && lasWord && lasWord.includes('@')) {
+            const members = chatData?.members?.filter((i) => i.nickname.includes(lasWord.substring(1)));
+            tagUsers.set(members || []);
+        } else {
+            tagUsers.set([]);
+        }
+    }, [messageTextState.value]);
+
     useEffect(() => {
         if (voiceEvent.value === 'send') {
             sendMessage();
@@ -146,7 +163,8 @@ function MessageInput() {
         <>
             <FilesToSendModal onClose={clear} modal={filesToSendModal} files={sortByAccept as any} />
             <MessageInputView
-                chat={chatProxy(chatData)}
+                tagUsers={tagUsers}
+                chat={proxyChat}
                 messageTextState={messageTextState}
                 sendMessage={sendMessage}
                 loading={isLoading}
