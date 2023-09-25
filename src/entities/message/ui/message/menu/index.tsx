@@ -25,7 +25,7 @@ const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: nu
     const arr: UserProxy[] = [];
     users?.forEach((user) => {
         if (users_ids.includes(user.id)) {
-            arr.push(userProxy(user));
+            arr.push(userProxy(user) as any);
         }
     });
     return arr;

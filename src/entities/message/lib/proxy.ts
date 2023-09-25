@@ -2,14 +2,17 @@ import moment from 'moment';
 
 import { dateConverter } from '../../../shared/lib';
 import momentLocalZone from '../../../shared/lib/moment-local-zone';
+import { employeeProxy } from '../../company';
+import { userProxy } from '../../user';
 import { viewerService } from '../../viewer';
 import { Message, MessageProxy } from '../model/types';
 
-function messageProxy(data: { prevMessage?: Message | null; message: Message; nextMessage?: Message | null }): any {
+function messageProxy(data: { prevMessage?: Message | null; message: Message; nextMessage?: Message | null }): MessageProxy {
     const viewerId = viewerService.getId();
-
+    const employee = data.message.author_employee ? employeeProxy(data.message.author_employee) : null;
+    const author = data.message.author ? userProxy(data.message.author) : null;
     return new Proxy(data.message, {
-        get(target: MessageProxy, prop: keyof MessageProxy, receiver): MessageProxy[keyof MessageProxy] {
+        get(target: MessageProxy, prop: keyof MessageProxy, receiver) {
             switch (prop) {
                 case 'isMy':
                     if (target.isMock) return true;
@@ -33,11 +36,10 @@ function messageProxy(data: { prevMessage?: Message | null; message: Message; ne
                     return target.text;
 
                 case 'authorName':
-                    return target?.author
-                        ? target?.author?.id === viewerId
-                            ? 'Вы'
-                            : target?.author?.contact_name || target?.author?.first_name || target?.author?.last_name || target?.author?.nickname
-                        : 'Неизвестный';
+                    return target?.author?.id === viewerId ? 'Вы' : employee?.full_name || author?.full_name || 'Неизвестный';
+
+                case 'authorAvatar':
+                    return employee ? employee?.avatar || '' : author?.avatar || '';
 
                 case 'date':
                     return dateConverter(target.created_at, true);
@@ -77,7 +79,7 @@ function messageProxy(data: { prevMessage?: Message | null; message: Message; ne
         set(target: Message, prop: keyof MessageProxy, value, receiver) {
             return Reflect.set(target, prop, value, receiver);
         },
-    });
+    }) as MessageProxy;
 }
 
 export default messageProxy;

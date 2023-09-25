@@ -5,7 +5,7 @@ import { momentLocalZone } from 'shared/lib';
 import { viewerService } from '../../viewer';
 import { User, UserProxy } from '../model/types';
 
-function userProxy(user: User | undefined): any {
+function userProxy(user: User | undefined): UserProxy | null {
     if (!user) return null;
     const viewerId = viewerService.getId();
     return new Proxy(user, {
@@ -28,7 +28,7 @@ function userProxy(user: User | undefined): any {
                     return target[prop];
             }
         },
-    });
+    }) as UserProxy;
 }
 
 export default userProxy;

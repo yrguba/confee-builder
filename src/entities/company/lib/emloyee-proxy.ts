@@ -1,6 +1,6 @@
 import { EmployeeProxy, Employee } from '../model/types';
 
-function employeeProxy(employee: Employee | undefined): any {
+function employeeProxy(employee: Employee | undefined): EmployeeProxy | null {
     if (!employee) return null;
     return new Proxy(employee, {
         get(target, prop: keyof EmployeeProxy, receiver): EmployeeProxy[keyof EmployeeProxy] {
@@ -12,7 +12,7 @@ function employeeProxy(employee: Employee | undefined): any {
                     return target[prop];
             }
         },
-    });
+    }) as EmployeeProxy;
 }
 
 export default employeeProxy;

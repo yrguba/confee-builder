@@ -33,7 +33,20 @@ type Props = {
 const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     const { message, messageMenuAction, chat, sendReaction, openUserModal, voiceRecordingInProgress } = props;
 
-    const { text, files, type, reply_to_message, lastMessageInBlock, isMy, isMock, author, forwarded_from_message, firstMessageInBlock } = message;
+    const {
+        text,
+        files,
+        type,
+        reply_to_message,
+        lastMessageInBlock,
+        isMy,
+        isMock,
+        author,
+        forwarded_from_message,
+        firstMessageInBlock,
+        authorName,
+        authorAvatar,
+    } = message;
 
     const classes = useStyles(styles, 'bubble', {
         isMy,
@@ -48,7 +61,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 
     return (
         <Box className={styles.wrapper}>
-            {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={author?.avatar} />}
+            {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={authorAvatar} />}
             <Dropdown.Dynamic
                 disabled={voiceRecordingInProgress}
                 reverseX={message.isMy}
@@ -70,7 +83,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                         <div className={styles.body}>
                             {!isMy && chat?.is_group && firstMessageInBlock && (
                                 <div className={styles.authorName}>
-                                    <Title variant="H3S">{author?.contact_name || author?.first_name || author?.last_name}</Title>
+                                    <Title variant="H3S">{authorName}</Title>
                                 </div>
                             )}
                             {reply_to_message?.id && <ReplyMessage message={reply_to_message} />}

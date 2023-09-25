@@ -138,7 +138,7 @@ function ChatProfileModalView(props: Props) {
                                                           img: i.avatar || '',
                                                           name: userService.getFullName(i),
                                                           title: userService.getFullName(i),
-                                                          subtitle: userService.getUserNetworkStatus(employeeProxy(i)),
+                                                          subtitle: userService.getUserNetworkStatus(employeeProxy(i) as any),
                                                       }))
                                             }
                                         />

@@ -50,7 +50,7 @@ function ContactsListView(props: Props) {
                 {tabsAndLists.activeTab?.title === 'личные'
                     ? contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
                     : tabsAndLists.foundEmployees?.length
-                    ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i)} {...props} />)
+                    ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i) as any} {...props} />)
                     : tabsAndLists.activeList?.map((dep: any) => (
                           <Collapse
                               headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
@@ -63,7 +63,7 @@ function ContactsListView(props: Props) {
                                   <Item
                                       ref={index + 1 === tabsAndLists.departmentsEmployees[dep.id].length ? lastItem : null}
                                       key={emp.id}
-                                      employee={employeeProxy(emp)}
+                                      employee={employeeProxy(emp) as any}
                                       {...props}
                                   />
                               ))}

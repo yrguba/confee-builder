@@ -80,15 +80,15 @@ function CreateChatModalView(props: Props) {
                                 visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
                                 selected={selectedEmployees}
                                 items={tabsAndLists.departmentsEmployees[dep.id]?.map((i: any) => {
-                                    const employee: EmployeeProxy = employeeProxy(i);
+                                    const employee = employeeProxy(i);
                                     return {
-                                        id: employee.id,
-                                        img: employee.avatar,
+                                        id: employee?.id,
+                                        img: employee?.avatar,
                                         name: employee?.full_name || '',
                                         title: employee?.full_name || '',
                                         subtitle: employee?.email || '',
-                                        payload: { id: employee.id },
-                                    };
+                                        payload: { id: employee?.id },
+                                    } as any;
                                 })}
                             />
                         </Collapse>
