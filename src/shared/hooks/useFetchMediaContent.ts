@@ -22,17 +22,10 @@ function useFetchMediaContent(url = '', saveInCache = false) {
 
     const isFetch = !!checkFetch();
 
-    const { data: fileData, isLoading, error } = appApi.handleGetFile(url, isFetch);
+    const { data: fileData, isLoading, error, isFetching } = appApi.handleGetFile(url, isFetch);
 
     useEffect(() => {
         const fn = async () => {
-            const fileInCache = await getFile({ fileName: url, folderDir: 'cache', baseDir: 'Document' });
-            if (fileInCache) {
-                console.log(fileInCache);
-            }
-            if (saveInCache && fileData && !fileInCache) {
-                saveFile({ fileName: url, folderDir: 'cache', baseDir: 'Document', fileBlob: fileData });
-            }
             if (isFetch && fileData) {
                 const filePath = fileConverter.blobLocalPath(fileData);
                 setSrc(filePath);
