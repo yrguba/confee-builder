@@ -35,7 +35,13 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                                 <Icons variant="group-chat" />
                             </div>
                         )}
-                        <Avatar networkStatus={chat?.secondMember?.networkStatus} size={52} img={chat.avatar} name={chat?.name} />
+                        <Avatar
+                            networkStatus={chat?.secondUser?.networkStatus}
+                            employeeStatuses={chat.secondEmployee?.status}
+                            size={52}
+                            img={chat.avatar}
+                            name={chat?.name}
+                        />
                     </div>
                     <div className={styles.content}>
                         <div className={styles.row}>

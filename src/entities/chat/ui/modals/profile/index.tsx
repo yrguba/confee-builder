@@ -29,11 +29,9 @@ function ChatProfileModalView(props: Props) {
         { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
         { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
     ];
-
-    const secondaryInfo: { id: number; title: string; subtitle: string }[] = [
-        { id: 0, title: 'Никнейм', subtitle: chat?.secondMember?.nickname || '' },
-        { id: 1, title: 'Номер телефона', subtitle: chat?.secondMember?.phone || '' },
-        { id: 1, title: 'Номер телефона', subtitle: chat?.secondMember?.phone || '' },
+    const secondaryInfo: { id: number; title: string; subtitle: string; hidden?: boolean }[] = [
+        { id: 0, title: 'Никнейм', subtitle: chat?.secondUser?.nickname || '', hidden: !chat?.is_personal },
+        { id: 1, title: 'Номер телефона', subtitle: chat?.secondUser?.phone || '', hidden: !chat?.is_personal },
     ];
 
     const tabs: { id: number; type: messageTypes.MediaContentType | null; title: string; hidden?: boolean }[] = [
@@ -94,14 +92,16 @@ function ChatProfileModalView(props: Props) {
             </div>
             {!chat?.is_group && (
                 <div className={styles.secondaryInfo}>
-                    {secondaryInfo.map((i) => (
-                        <div key={i.id} className={styles.item}>
-                            <Title variant="H4M" primary={false}>
-                                {i.title}
-                            </Title>
-                            <Title variant="H3M">{i.subtitle}</Title>
-                        </div>
-                    ))}
+                    {secondaryInfo
+                        .filter((i) => !i.hidden)
+                        .map((i) => (
+                            <div key={i.id} className={styles.item}>
+                                <Title variant="H4M" primary={false}>
+                                    {i.title}
+                                </Title>
+                                <Title variant="H3M">{i.subtitle}</Title>
+                            </div>
+                        ))}
                 </div>
             )}
             <div className={styles.media}>

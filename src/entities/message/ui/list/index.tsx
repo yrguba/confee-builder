@@ -125,7 +125,7 @@ function MessagesListView(props: Props) {
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
                     {message.systemMessages.length
-                        ? message.systemMessages.map((text, index) => (
+                        ? message.systemMessages.map((text) => (
                               <div key={index} ref={getMessageRefs(message, index)} onMouseEnter={() => !message.is_read && readMessage(message.id)}>
                                   <SystemMessage text={text} />
                               </div>

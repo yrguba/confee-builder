@@ -29,7 +29,8 @@ export type Chat = {
 export type ChatProxy = {
     is_personal: boolean;
     typing: string;
-    secondMember: UserProxy | null;
+    secondUser: UserProxy | null;
+    secondEmployee: EmployeeProxy | null;
     lastMessageTitle: string;
     date: string;
     checkIsMyLastMessage: boolean;

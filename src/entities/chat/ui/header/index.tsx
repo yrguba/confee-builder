@@ -52,7 +52,8 @@ function ChatHeaderView(props: Props) {
                             <div className={styles.left}>
                                 <Card
                                     onClick={clickCard}
-                                    avatarNetworkStatus={chat?.secondMember?.networkStatus}
+                                    avatarNetworkStatus={chat?.secondUser?.networkStatus}
+                                    avatarEmployeeStatuses={chat?.secondEmployee?.status}
                                     img={chat?.avatar}
                                     name={chat?.name}
                                     title={chat?.name}

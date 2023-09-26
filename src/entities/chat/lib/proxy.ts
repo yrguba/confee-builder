@@ -11,14 +11,20 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
     if (!chat) return null;
     return new Proxy(chat, {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver: ChatProxy): ChatProxy[keyof ChatProxy] {
-            const secondMember = target.is_group ? null : target?.members?.find((i) => i.id !== viewerId) || null;
-            const secondMemberProxy: UserProxy | null = secondMember ? userProxy(secondMember) : null;
+            const secondUser = target.is_group ? undefined : target?.members?.find((i) => i.id !== viewerId);
+            const secondUserProxy = secondUser ? userProxy(secondUser) : null;
+            const secondEmployee = target.is_group ? undefined : target?.employee_members?.find((i) => i.id !== viewerId);
+            const secondEmployeeProxy = secondEmployee ? employeeProxy(secondEmployee) : null;
+
             switch (prop) {
                 case 'is_personal':
                     return !target.employee_members?.length;
 
-                case 'secondMember':
-                    return secondMemberProxy;
+                case 'secondUser':
+                    return secondUserProxy;
+
+                case 'secondEmployee':
+                    return secondEmployeeProxy;
 
                 case 'checkIsMyLastMessage':
                     return target.last_message.author?.id === viewerId;
@@ -44,7 +50,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                         const word = getEnding(memberCount, ['участник', 'участника', 'участников']);
                         return `${memberCount} ${word}`;
                     }
-                    return secondMemberProxy?.is_online ? 'В сети' : 'Не в сети';
+                    return secondUserProxy?.networkStatus || secondEmployeeProxy?.status || secondUserProxy?.formatted_last_active || '';
 
                 default:
                     return target[prop];

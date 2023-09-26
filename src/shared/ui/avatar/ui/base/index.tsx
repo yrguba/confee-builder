@@ -76,7 +76,7 @@ function Avatar(props: BaseAvatarProps) {
             }}
         >
             <Box.Animated
-                visible={!!employeeStatuses || (!!networkStatus && networkStatus !== 'offline')}
+                visible={!!employeeStatuses || (!!networkStatus && networkStatus === 'online')}
                 className={styles.status}
                 style={{
                     backgroundColor: employeeStatuses
