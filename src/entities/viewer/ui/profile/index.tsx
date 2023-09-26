@@ -29,6 +29,7 @@ function ViewerProfileView(props: Props) {
                     loading={loading}
                     companies={companies}
                     avatarActions={avatarActions}
+                    position={companies?.length ? companies[0]?.departments[0]?.employees[0]?.position || undefined : ''}
                 />
             </div>
         </div>
