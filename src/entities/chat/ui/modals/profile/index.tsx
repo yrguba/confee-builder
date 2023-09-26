@@ -3,11 +3,11 @@ import React from 'react';
 import { messageTypes } from 'entities/message';
 import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer, Dropdown, DropdownTypes } from 'shared/ui';
+import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer, Dropdown, DropdownTypes, VideoPlayer } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { CompanyTagView, employeeProxy, CompanyCardView } from '../../../../company';
-import { userProxy, userService } from '../../../../user';
+import { userProxy } from '../../../../user';
 import { ChatProxy, Actions } from '../../../model/types';
 
 type Props = {
@@ -178,6 +178,17 @@ function ChatProfileModalView(props: Props) {
                                 ),
                             },
                             {
+                                visible: mediaTypes.value === 'videos',
+                                item: (
+                                    <VideoPlayer.List
+                                        items={files?.map((i, index) => ({
+                                            id: index,
+                                            url: i.url || '',
+                                        }))}
+                                    />
+                                ),
+                            },
+                            {
                                 visible: mediaTypes.value === 'documents',
                                 item: (
                                     <div className={styles.documents}>
@@ -197,13 +208,9 @@ function ChatProfileModalView(props: Props) {
                                 visible: mediaTypes.value === 'voices' || mediaTypes.value === 'audios',
                                 item: (
                                     <div className={styles.audios}>
-                                        <AudioPlayer.List
-                                            items={files?.map((i, index) => ({
-                                                id: index,
-                                                url: i.url || '',
-                                                size: i.size,
-                                            }))}
-                                        />
+                                        {files?.map((i, index) => (
+                                            <AudioPlayer.Card key={i.id} url={i.url} name={i.name || ''} size={i.size ? +i.size : 0} />
+                                        ))}
                                     </div>
                                 ),
                             },
