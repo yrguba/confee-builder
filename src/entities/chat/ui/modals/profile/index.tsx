@@ -187,6 +187,7 @@ function ChatProfileModalView(props: Props) {
                                                 url: i.url || '',
                                                 name: i.name,
                                                 extension: i.extension,
+                                                size: i.size,
                                             }))}
                                         />
                                     </div>
@@ -200,6 +201,7 @@ function ChatProfileModalView(props: Props) {
                                             items={files?.map((i, index) => ({
                                                 id: index,
                                                 url: i.url || '',
+                                                size: i.size,
                                             }))}
                                         />
                                     </div>

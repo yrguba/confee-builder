@@ -5,10 +5,10 @@ import { ImagesListProps } from '../../types';
 import Image from '../base';
 
 function ImageList(props: ImagesListProps) {
-    const { items } = props;
+    const { items, style } = props;
 
     return (
-        <div className={styles.wrapper} style={{ maxWidth: items && items?.length < 2 ? '250px' : '' }}>
+        <div className={styles.wrapper} style={style}>
             {items?.map((i) => (
                 <Image key={i.id} {...i} borderRadius={false} />
             ))}

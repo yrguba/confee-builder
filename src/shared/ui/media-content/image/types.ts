@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 import { BaseTypes } from 'shared/types';
 
 export type BaseImageProps = {
@@ -18,6 +20,7 @@ export type ImagesListItem = {
 
 export type ImagesListProps = {
     items: ImagesListItem[] | BaseTypes.Empty;
+    style?: CSSProperties;
 } & BaseTypes.Statuses;
 
 export type ImageCardProps = {

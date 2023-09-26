@@ -35,7 +35,7 @@ function ImagesMessage(props: Props) {
                 items={updItems}
             />
             <div className={styles.wrapper}>
-                <Image.List items={updItems} />
+                <Image.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
             </div>
         </>
     );
