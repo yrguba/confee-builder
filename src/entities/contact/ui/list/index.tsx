@@ -34,11 +34,9 @@ function ContactsListView(props: Props) {
 
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
-            {!smHeightSize && (
-                <div className={styles.search}>
-                    <Input prefixIcon="search" />
-                </div>
-            )}
+            <div className={styles.search}>
+                <Input prefixIcon="search" />
+            </div>
             <div className={styles.tabs}>
                 {tabsAndLists.activeList?.length ? (
                     <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />

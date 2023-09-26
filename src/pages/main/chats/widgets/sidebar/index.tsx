@@ -7,7 +7,6 @@ import { Button, Icons, Modal, Title } from 'shared/ui';
 import styles from './styles.module.scss';
 
 function Sidebar() {
-    const miniSearch = useHeightMediaQuery().to('sm');
     const createChatModal = Modal.use();
 
     return (
@@ -20,7 +19,6 @@ function Sidebar() {
                         <Button.Circle variant="secondary" onClick={() => createChatModal.open()}>
                             <Icons variant="new-message" />
                         </Button.Circle>
-                        {miniSearch && <Icons variant="search" />}
                     </div>
                 </div>
                 <div className={styles.list}>

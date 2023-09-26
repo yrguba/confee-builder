@@ -24,6 +24,7 @@ function messageGateway() {
         onMessage('MessageCreated', (socketData) => {
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!socketData.data.extra_info.is_read && socketData.data.message) {
+                    console.log('push');
                     const proxy: MessageProxy = messageProxy({ message: socketData.data.message });
                     notification.info({
                         body: proxy.action,
