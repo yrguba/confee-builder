@@ -94,7 +94,7 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
     const id = contact?.id || employee?.id;
     const full_name = contact?.full_name || employee?.full_name;
     const phone = contact?.phone || '';
-    const avatar = employee?.avatar || '';
+    const avatar = contact?.avatar || employee?.avatar || '';
     const status: any = employee?.status || null;
 
     const clickUser = () => {

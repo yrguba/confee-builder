@@ -65,7 +65,7 @@ function CreateChatModalView(props: Props) {
                             const contact: ContactProxy = contactProxy(i);
                             return {
                                 id: contact.id || new Date().valueOf(),
-                                img: '',
+                                img: contact.avatar,
                                 name: contact?.full_name || '',
                                 title: contact?.full_name || '',
                                 subtitle: contact?.phone || '',

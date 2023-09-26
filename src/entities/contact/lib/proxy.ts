@@ -8,6 +8,9 @@ function contactProxy(contact: Contact | undefined): any {
                 case 'full_name':
                     return target.contact_name || `${target.first_name || ''} ${target.last_name || ''}`;
 
+                case 'avatar':
+                    return target.user?.avatar || '';
+
                 default:
                     return target[prop];
             }

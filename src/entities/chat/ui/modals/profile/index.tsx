@@ -23,7 +23,7 @@ type Props = {
 
 function ChatProfileModalView(props: Props) {
     const { clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
-
+    console.log(chat);
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
         { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
@@ -32,6 +32,7 @@ function ChatProfileModalView(props: Props) {
 
     const secondaryInfo: { id: number; title: string; subtitle: string }[] = [
         { id: 0, title: 'Никнейм', subtitle: chat?.secondMember?.nickname || '' },
+        { id: 1, title: 'Номер телефона', subtitle: chat?.secondMember?.phone || '' },
         { id: 1, title: 'Номер телефона', subtitle: chat?.secondMember?.phone || '' },
     ];
 

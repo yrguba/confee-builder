@@ -21,6 +21,7 @@ export type Contact = {
 
 export type ContactProxy = {
     full_name: string;
+    avatar: string;
 } & Contact;
 
 export type UseContactsTabsAndListsReturnType = {
