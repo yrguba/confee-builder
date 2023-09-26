@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { chatApi, ChatsListView, chatTypes, useChatsTabsAndLists } from 'entities/chat';
+import { Actions, ChatProxy } from 'entities/chat/model/types';
 import { useRouter } from 'shared/hooks';
-
-import { Actions, ChatProxy } from '../../../entities/chat/model/types';
 
 function ChatsList() {
     const { navigate, params, pathname } = useRouter();

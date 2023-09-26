@@ -17,7 +17,7 @@ type Props = {
 };
 
 const memoTabs = createMemo((companies: companyTypes.Company[] | BaseTypes.Empty) => {
-    const tabs: TabBarTypes.TabBarItem<Company>[] = [{ id: 0, title: 'личные', callback: () => '' }];
+    const tabs: TabBarTypes.TabBarItem<Company>[] = [{ id: 0, title: 'Личные', callback: () => '' }];
     if (companies?.length) {
         companies.forEach((i, index) => {
             tabs.push({ id: index + 1, title: i.name || '', callback: () => '', payload: i });
@@ -67,7 +67,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     const clickTab = (tab: TabBarTypes.TabBarItem<Company>) => {
         activeTab.set(tab);
         if (redirect) {
-            if (tab.title === 'личные') return navigate('/contacts/personal');
+            if (tab.title === 'Личные') return navigate('/contacts/personal');
             return navigate(`/contacts/companies/${tab.payload?.id}`);
         }
     };
@@ -78,7 +78,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     }, [departmentEmployees?.pages]);
 
     useUpdateEffect(() => {
-        if (contactsData && activeTab.value?.title === 'личные') {
+        if (contactsData && activeTab.value?.title === 'Личные') {
             activeList.set(contactsData);
         } else {
             props.companies && departmentsData && activeList.set(departmentsData);

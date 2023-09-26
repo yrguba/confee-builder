@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import { createMemo, useEasyState, useRouter } from 'shared/hooks';
+import { createMemo, useEasyState, useRouter, useStorage } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { TabBarTypes } from 'shared/ui';
 
@@ -19,8 +19,8 @@ type TabPayload = { type: ChatsTypes; companyId?: number };
 
 const memoTabs = createMemo((companies: Company[] | BaseTypes.Empty) => {
     const tabs: TabBarTypes.TabBarItem<TabPayload>[] = [
-        { id: 0, title: 'все', callback: () => '', payload: { type: 'all' } },
-        { id: 1, title: 'личные', callback: () => '', payload: { type: 'personal' } },
+        { id: 0, title: 'Все', callback: () => '', payload: { type: 'all' } },
+        { id: 1, title: 'Личные', callback: () => '', payload: { type: 'personal' } },
     ];
     companies?.forEach((i, index) => {
         tabs.push({ id: index + 2, title: i.name || '', callback: () => '', payload: { type: 'company', companyId: i.id } });
@@ -31,9 +31,10 @@ const memoTabs = createMemo((companies: Company[] | BaseTypes.Empty) => {
 const memoChats = createMemo(chatService.getUpdatedChatsList);
 
 function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
-    const { navigate, pathname, params } = useRouter();
-
     const { redirect = true } = props;
+
+    const { navigate, pathname, params } = useRouter();
+    const storage = useStorage();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
@@ -62,19 +63,20 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
     };
 
     useUpdateEffect(() => {
-        if (personalChatsProxy?.length && activeTab.value?.title === 'личные') {
+        if (personalChatsProxy?.length && activeTab.value?.title === 'Личные') {
             activeList.set(personalChatsProxy as any);
         }
-        if (allChatsProxy?.length && activeTab.value?.title === 'все') {
+        if (allChatsProxy?.length && activeTab.value?.title === 'Все') {
             activeList.set(allChatsProxy as any);
         }
     }, [activeTab.value]);
 
     const clickTab = (tab: TabBarTypes.TabBarItem<TabPayload>) => {
         activeTab.set(tab);
+        storage.set('active-chats-tab', tab.payload?.companyId ? `${tab.payload?.type}/${tab.payload?.companyId}` : tab.payload?.type);
         if (redirect) {
-            if (tab.title === 'все') return navigate('/chats/all');
-            if (tab.title === 'личные') return navigate('/chats/personal');
+            if (tab.title === 'Все') return navigate('/chats/all');
+            if (tab.title === 'Личные') return navigate('/chats/personal');
             return navigate(`/chats/company/${tab.payload?.companyId}`);
         }
     };

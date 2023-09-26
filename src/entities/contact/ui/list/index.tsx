@@ -47,7 +47,7 @@ function ContactsListView(props: Props) {
                 )}
             </div>
             <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
-                {tabsAndLists.activeTab?.title === 'личные'
+                {tabsAndLists.activeTab?.title === 'Личные'
                     ? contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
                     : tabsAndLists.foundEmployees?.length
                     ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i) as any} {...props} />)

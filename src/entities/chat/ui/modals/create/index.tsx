@@ -57,7 +57,7 @@ function CreateChatModalView(props: Props) {
                 activeItemId={tabsAndLists.activeTab?.id}
             />
             <div className={styles.list}>
-                {tabsAndLists.activeTab?.title === 'личные' ? (
+                {tabsAndLists.activeTab?.title === 'Личные' ? (
                     <Card.List
                         sortByName
                         selected={selectedContacts}

@@ -1,5 +1,13 @@
 const ls = window.localStorage;
-export type ValuesInStorage = 'access_token' | 'refresh_token' | 'theme' | 'notification_scope' | 'viewer_id' | 'save_in_cache' | 'chat_list_width';
+export type ValuesInStorage =
+    | 'access_token'
+    | 'refresh_token'
+    | 'theme'
+    | 'notification_scope'
+    | 'viewer_id'
+    | 'save_in_cache'
+    | 'chat_list_width'
+    | 'active-chats-tab';
 
 function useStorage() {
     const set = (name: ValuesInStorage, value: any) => {
