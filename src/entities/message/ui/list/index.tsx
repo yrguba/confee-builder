@@ -98,7 +98,7 @@ function MessagesListView(props: Props) {
             if (prevChat?.id !== chat.id) setInitOnce(true);
             setTimeout(() => setInitOnce(false), 1000);
         }
-    }, [messages, chatSubscription]);
+    }, [messages, chatSubscription, loading]);
 
     useEffect(() => {
         if (inViewPrevPage) getPrevPage();
