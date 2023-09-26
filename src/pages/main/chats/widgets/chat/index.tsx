@@ -16,7 +16,7 @@ function Chat() {
             <div className={styles.header}>
                 <ChatHeader />
             </div>
-            <Box.Animated key={params.chat_id} visible animate={{ opacity: 1, transition: { delay: 0.2 } }} className={styles.messageList}>
+            <Box.Animated key={params.chat_id} visible animate={{ opacity: 1, transition: { delay: 0.15 } }} className={styles.messageList}>
                 <MessagesList />
             </Box.Animated>
             <div className={styles.input}>

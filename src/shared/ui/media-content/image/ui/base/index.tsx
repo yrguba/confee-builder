@@ -25,7 +25,7 @@ function Image(props: BaseImageProps) {
         <div
             onClick={onClick}
             className={styles.wrapper}
-            style={{ width, height, borderRadius: borderRadius ? 12 : 0, cursor: onClick ? 'pointer' : 'default' }}
+            style={{ width: isLoading ? 100 : width, height, borderRadius: borderRadius ? 12 : 0, cursor: onClick ? 'pointer' : 'default' }}
         >
             {!error && !isLoading && <img className={classes} src={src} alt="" />}
             {remove && (
