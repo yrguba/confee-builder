@@ -173,6 +173,7 @@ function ChatProfileModalView(props: Props) {
                                             url: i.url || '',
                                             width: 'auto',
                                             height: '122px',
+                                            objectFit: 'contain',
                                         }))}
                                     />
                                 ),

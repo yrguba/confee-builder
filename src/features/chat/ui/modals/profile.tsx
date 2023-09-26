@@ -9,7 +9,7 @@ import { Modal, ModalTypes, Notification } from 'shared/ui';
 import ChatAvatarsSwiper from '../avatars-swiper';
 
 function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
-    const { params, navigate } = useRouter();
+    const { params, navigate, pathname } = useRouter();
     const chatId = Number(params.chat_id);
 
     const visibleSwiper = useEasyState(false);
@@ -25,6 +25,10 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
 
     const notification = Notification.use();
+
+    const confirmDeleteChat = Modal.useConfirm((value) => {
+        chatData?.is_group ? handleLeaveChat({ chatId }, { onSuccess: exitChat }) : handleDeleteChat({ chatId }, { onSuccess: exitChat });
+    });
 
     const confirmAddAvatar = Modal.useConfirm<{ img: string }>((value, callbackData) => {
         value &&
@@ -47,7 +51,7 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     const exitChat = () => {
         modal.close();
-        navigate('/chats');
+        navigate(`/chats/${pathname.split('/')[2]}`);
     };
 
     const actions = (action: chatTypes.Actions) => {
@@ -57,15 +61,20 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
             case 'videoCall':
                 return notification.inDev();
             case 'leave':
-                return handleLeaveChat({ chatId }, { onSuccess: exitChat });
+                return confirmDeleteChat.open();
             case 'delete':
-                return handleDeleteChat({ chatId }, { onSuccess: exitChat });
+                return confirmDeleteChat.open();
         }
     };
 
     return (
         <>
             <ChatAvatarsSwiper visible={visibleSwiper.value} chatId={chatId} onClose={() => visibleSwiper.set(false)} />
+            <Modal.Confirm
+                {...confirmDeleteChat}
+                okText={chatData?.is_group ? 'Покинуть' : 'Удалить'}
+                title={chatData?.is_group ? 'Покинуть чат' : 'Удалить чат'}
+            />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
             <ChatProfileModalView
                 clickAvatar={() => visibleSwiper.set(true)}

@@ -36,7 +36,7 @@ function useConfirm<T = null | undefined>(cl: (value: boolean, callbackData: T |
 
     const callback = useCallback(
         (value: boolean) => {
-            callbackData.value && cl(value, callbackData.value);
+            cl(value, callbackData.value);
         },
         [callbackData]
     );

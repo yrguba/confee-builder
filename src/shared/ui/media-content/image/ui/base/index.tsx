@@ -22,7 +22,11 @@ function Image(props: BaseImageProps) {
     });
 
     return (
-        <div onClick={onClick} className={styles.wrapper} style={{ width, height, borderRadius: borderRadius ? 12 : 0 }}>
+        <div
+            onClick={onClick}
+            className={styles.wrapper}
+            style={{ width, height, borderRadius: borderRadius ? 12 : 0, cursor: onClick ? 'pointer' : 'default' }}
+        >
             {!error && !isLoading && <img className={classes} src={src} alt="" />}
             {remove && (
                 <Button.Circle radius={30} className={styles.remove} onClick={id ? () => remove(id) : () => ''} variant="inherit">
