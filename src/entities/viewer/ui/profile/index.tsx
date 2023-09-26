@@ -11,14 +11,13 @@ import { ViewerProxy } from '../../model/types';
 type Props = {
     viewer: ViewerProxy | BaseTypes.Empty;
     companies?: Company[];
-    departments?: Department[];
     clickSettings: () => void;
     avatarActions?: AvatarTypes.AvatarChangeActions;
     clickAvatar: () => void;
 } & BaseTypes.Statuses;
 
 function ViewerProfileView(props: Props) {
-    const { clickAvatar, avatarActions, clickSettings, viewer, loading, companies, departments } = props;
+    const { clickAvatar, avatarActions, clickSettings, viewer, loading, companies } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -29,7 +28,6 @@ function ViewerProfileView(props: Props) {
                     user={viewer as any}
                     loading={loading}
                     companies={companies}
-                    departments={departments}
                     avatarActions={avatarActions}
                 />
             </div>

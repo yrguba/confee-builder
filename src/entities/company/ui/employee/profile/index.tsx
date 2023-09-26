@@ -33,7 +33,6 @@ function EmployeeProfileView(props: Props) {
                     visibleActionsMenu
                     user={user}
                     companies={employee?.companies}
-                    departments={employee?.departments}
                     position={employee?.position || ''}
                     name={employee?.full_name}
                     loading={loading}

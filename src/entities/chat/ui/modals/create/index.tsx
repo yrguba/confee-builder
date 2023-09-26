@@ -64,12 +64,12 @@ function CreateChatModalView(props: Props) {
                         items={tabsAndLists.activeList?.map((i: any) => {
                             const contact: ContactProxy = contactProxy(i);
                             return {
-                                id: contact.id,
-                                img: contact.avatar,
+                                id: contact?.id || '',
+                                img: contact?.avatar || '',
                                 name: contact?.full_name || '',
                                 title: contact?.full_name || '',
                                 subtitle: contact?.phone || '',
-                                payload: { id: contact.user.id },
+                                payload: { id: contact.user?.id },
                             };
                         })}
                     />
@@ -82,8 +82,8 @@ function CreateChatModalView(props: Props) {
                                 items={tabsAndLists.departmentsEmployees[dep.id]?.map((i: any) => {
                                     const employee = employeeProxy(i);
                                     return {
-                                        id: employee?.id,
-                                        img: employee?.avatar,
+                                        id: employee?.id || '',
+                                        img: employee?.avatar || '',
                                         name: employee?.full_name || '',
                                         title: employee?.full_name || '',
                                         subtitle: employee?.email || '',

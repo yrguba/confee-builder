@@ -18,7 +18,6 @@ type Props = {
     clickSettings?: () => void;
     type?: 'contact' | 'employee' | 'user' | 'viewer';
     companies?: companyTypes.Company[];
-    departments?: companyTypes.Department[];
     resize?: boolean;
     actions?: UserCardActions;
     avatarActions?: AvatarTypes.AvatarChangeActions;
@@ -29,7 +28,6 @@ type Props = {
 function UserCardView(props: Props) {
     const {
         clickSettings,
-        departments,
         companies,
         actions,
         avatarActions,
@@ -76,7 +74,7 @@ function UserCardView(props: Props) {
                 <div className={styles.header}>
                     <div className={styles.name}>
                         <Title variant="H1">{user?.full_name || name || ''}</Title>
-                        {departments?.length ? <CompanyTagView name="TFN" /> : null}
+                        {companies?.length ? <CompanyTagView name="TFN" /> : null}
                     </div>
                     <Title textAlign="right" variant="H4M">
                         {networkStatus}
@@ -159,7 +157,7 @@ function UserCardView(props: Props) {
                                 position={position || ''}
                                 status="in office"
                                 title={i.name || ''}
-                                subtitle={departments?.length ? departments[0].name || '' : ''}
+                                subtitle={i?.departments?.length ? i?.departments[0].name || '' : ''}
                             />
                         ))}
                     </div>
