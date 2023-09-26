@@ -31,7 +31,7 @@ function VideoMessage(props: Props) {
                 items={updItems}
             />
             <div className={styles.wrapper}>
-                <VideoPlayer.List items={updItems} />
+                <VideoPlayer.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
             </div>
         </>
     );

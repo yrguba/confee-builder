@@ -5,10 +5,10 @@ import { VideoListProps } from '../../types';
 import VideoPlayer from '../base';
 
 function VideoList(props: VideoListProps) {
-    const { items } = props;
+    const { items, style } = props;
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} style={style}>
             {items?.map((i) => (
                 <VideoPlayer key={i.id} {...i} />
             ))}

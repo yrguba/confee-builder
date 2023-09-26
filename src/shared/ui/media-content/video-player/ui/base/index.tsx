@@ -27,11 +27,11 @@ function Video(props: VideoProps) {
     const { isLoading, src, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
 
     const [video, state, controls, ref] = useVideo(
-        <video style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay={false} muted />
+        <video style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />
     );
 
     return (
-        <div className={styles.wrapper} onClick={onClick} style={{ width: isLoading ? 100 : width || '100%', height: isLoading ? 200 : height }}>
+        <div className={styles.wrapper} onClick={onClick} style={{ width: width || '100%', height: !state.buffered.length ? 500 : height }}>
             {video}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />

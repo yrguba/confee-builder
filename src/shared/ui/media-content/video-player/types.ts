@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 import { BaseTypes } from 'shared/types';
 import { SwiperTypes } from 'shared/ui';
 
@@ -19,6 +21,7 @@ export type VideoListItem = {
 
 export type VideoListProps = {
     items: VideoListItem[] | BaseTypes.Empty;
+    style?: CSSProperties;
 } & BaseTypes.Statuses;
 
 export type VideoCardProps = {

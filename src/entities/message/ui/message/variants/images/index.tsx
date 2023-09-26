@@ -21,7 +21,6 @@ function ImagesMessage(props: Props) {
         id: i.id,
         url: i.url || '',
         width: 'auto',
-        horizontalImgWidth: '99%',
         height: '220px',
         onClick: () => swiperState.set({ visible: true, initial: index }),
     }));

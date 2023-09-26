@@ -68,8 +68,8 @@ function MessagesListView(props: Props) {
             refs.push(firstUnreadMessageRef);
             refs.push(firstUnreadCheckVisibleRef);
         }
-        if (messages.length - 1 === index) refs.push(lastMessageRef);
-        if (messages.length - 1 === index) refs.push(lastMessageCheckVisibleRef);
+        // if (messages.length - 1 === index) refs.push(lastMessageRef);
+        // if (messages.length - 1 === index) refs.push(lastMessageCheckVisibleRef);
         return mergeRefs(refs);
     };
 
@@ -157,6 +157,7 @@ function MessagesListView(props: Props) {
                     )}
                 </Fragment>
             ))}
+            <div ref={mergeRefs([lastMessageRef, lastMessageCheckVisibleRef])} />
         </div>
     );
 }
