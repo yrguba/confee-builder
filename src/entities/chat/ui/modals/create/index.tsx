@@ -44,7 +44,7 @@ function CreateChatModalView(props: Props) {
                         variant="inherit"
                         active
                         animateTrigger={`${isGroup.value}`}
-                        prefixIcon={<Icons variant={isGroup.value ? 'contacts' : 'group'} />}
+                        prefixIcon={<Icons variant={isGroup.value ? 'personal-acc' : 'contacts'} />}
                     >
                         {!isGroup.value ? 'Создать группу' : 'Написать личное сообщение'}
                     </Button>
