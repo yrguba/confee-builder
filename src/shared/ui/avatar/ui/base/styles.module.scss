@@ -8,6 +8,7 @@
   white-space: nowrap;
   //overflow: hidden;
   position: relative;
+  box-shadow: var(--box-shadow);
 
   .status {
     @include flex;
@@ -41,5 +42,6 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
+
 }
 

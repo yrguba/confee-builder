@@ -49,31 +49,34 @@ function Title(props: TitleProps) {
 
     return animateTrigger === undefined ? (
         <div ref={ref} {...shared} {...mouseEvents} onClick={() => isEdit.set(!!updCallback)}>
-            {!isEdit.value ? (
+            {!isEdit.value || !updCallback ? (
                 children
             ) : (
                 <div className={styles.input}>
                     <input autoFocus onChange={(e) => newValue.set(e.target.value)} value={newValue.value} />
-                    {updCallback && (
-                        <Box.Animated animationVariant="autoWidth" className={styles.icon} visible={visibleEditIcon.value} onClick={(e) => clickIconUpdate(e)}>
-                            <Icons variant={isEdit.value ? 'check-circle' : 'edit'} />
-                        </Box.Animated>
-                    )}
+                    <Box.Animated animationVariant="autoWidth" className={styles.icon} visible={visibleEditIcon.value} onClick={(e) => clickIconUpdate(e)}>
+                        <Icons variant={isEdit.value ? 'check-circle' : 'edit'} />
+                    </Box.Animated>
                 </div>
             )}
         </div>
     ) : (
-        <Box.Animated ref={ref} key={String(isEdit.value || animateTrigger)} {...shared} {...mouseEvents} visible onClick={() => isEdit.set(true)}>
-            {!isEdit.value ? (
+        <Box.Animated
+            ref={ref}
+            key={String(isEdit.value || animateTrigger)}
+            {...shared}
+            {...mouseEvents}
+            visible
+            onClick={() => (updCallback ? isEdit.set(true) : '')}
+        >
+            {!isEdit.value || !updCallback ? (
                 children
             ) : (
                 <div className={styles.input}>
                     <input onChange={(e) => newValue.set(e.target.value)} value={newValue.value} />
-                    {updCallback && (
-                        <Box.Animated animationVariant="autoWidth" className={styles.icon} visible={visibleEditIcon.value} onClick={(e) => clickIconUpdate(e)}>
-                            <Icons variant={isEdit.value ? 'check-circle' : 'edit'} />
-                        </Box.Animated>
-                    )}
+                    <Box.Animated animationVariant="autoWidth" className={styles.icon} visible={visibleEditIcon.value} onClick={(e) => clickIconUpdate(e)}>
+                        <Icons variant={isEdit.value ? 'check-circle' : 'edit'} />
+                    </Box.Animated>
                 </div>
             )}
         </Box.Animated>

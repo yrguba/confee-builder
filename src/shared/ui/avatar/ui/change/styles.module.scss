@@ -9,6 +9,7 @@
     position: relative;
     overflow: hidden;
     border-radius: 50%;
+    box-shadow: var(--box-shadow);
 
     &:hover {
       .cover {

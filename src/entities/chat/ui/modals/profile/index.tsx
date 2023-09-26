@@ -33,6 +33,7 @@ function ChatProfileModalView(props: Props) {
     const secondaryInfo: { id: number; title: string; subtitle: string; hidden?: boolean }[] = [
         { id: 0, title: 'Никнейм', subtitle: chat?.secondUser?.nickname || '', hidden: !chat?.secondUser?.nickname },
         { id: 1, title: 'Номер телефона', subtitle: chat?.secondUser?.phone || '', hidden: !chat?.secondUser?.phone },
+        { id: 2, title: 'О себе', subtitle: chat?.secondUser?.about || '', hidden: !chat?.secondUser?.about },
     ];
 
     const tabs: { id: number; type: messageTypes.MediaContentType | null; title: string; hidden?: boolean }[] = [
@@ -58,7 +59,7 @@ function ChatProfileModalView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
-                {chat?.is_group ? (
+                {chat?.is_group && chat.is_personal ? (
                     <Avatar.Change
                         clickAvatar={clickAvatar}
                         dropdownLeft={90}
@@ -70,10 +71,15 @@ function ChatProfileModalView(props: Props) {
                         getScreenshot={getScreenshot}
                     />
                 ) : (
-                    <Avatar size={200} img={chat?.avatar} name={chat?.name || ''} />
+                    <Avatar clickAvatar={clickAvatar} size={200} img={chat?.avatar} name={chat?.name || ''} />
                 )}
                 <div className={styles.name}>
-                    <Title animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H1">
+                    <Title
+                        animateTrigger={chat?.name}
+                        updCallback={chat?.is_personal && chat.is_group ? (name) => updateChatName(String(name)) : undefined}
+                        textAlign="center"
+                        variant="H1"
+                    >
                         {chat?.name}
                     </Title>
                     {!chat?.is_personal && <CompanyTagView name="TFN" />}
