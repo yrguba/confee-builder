@@ -9,7 +9,7 @@ import { Modal, Notification, ModalTypes, CardTypes } from 'shared/ui';
 import { companyApi } from '../../../../entities/company';
 
 function CreateChatModal(modal: ModalTypes.UseReturnedType) {
-    const { navigate } = useRouter();
+    const { navigate, pathname } = useRouter();
 
     const notifications = Notification.use();
 
@@ -23,8 +23,9 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const { data: viewerData } = viewerApi.handleGetViewer();
 
     const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
-    console.log(selectedContacts);
+
     const createChat = () => {
+        const chatsType = pathname.split('/')[2];
         if (!selectedContacts.array.length && !selectedEmployees.array.length) {
             return notifications.error({ title: `Выберите участников` });
         }
@@ -34,7 +35,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
                 {
                     onSuccess: (data) => {
                         modal.close();
-                        navigate(`/chats/personal/chat/${data.data.data.id}`);
+                        navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${data.data.data.id}`);
                     },
                 }
             );
@@ -48,7 +49,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
                 {
                     onSuccess: (data) => {
                         modal.close();
-                        navigate(`/chats/company/${tabsAndLists.activeTab?.payload?.id}/chat/${data.data.data.id}`);
+                        navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.id}/chat/${data.data.data.id}`);
                     },
                 }
             );

@@ -93,14 +93,14 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
             tabs.length && activeTab.set(tabs[0]);
             activeList.set((allChatsProxy as any) || []);
         }
-    }, [allChatsProxy, activeTab.value]);
+    }, [allChatsProxy, activeTab.value, pathname]);
 
     useEffect(() => {
         if (pathname.includes('personal') && redirect) {
             tabs.length && activeTab.set(tabs[1]);
             activeList.set((personalChatsProxy as any) || []);
         }
-    }, [personalChatsProxy, activeTab.value]);
+    }, [personalChatsProxy, activeTab.value, pathname]);
 
     useEffect(() => {
         if (pathname.includes('company') && redirect) {
@@ -108,7 +108,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
             tabs.length && activeTab.set(tabs[foundIndex === -1 ? 2 : foundIndex]);
             activeList.set((companyChatsProxy as any) || []);
         }
-    }, [companyChatsProxy, activeTab.value, tabs.length]);
+    }, [companyChatsProxy, activeTab.value, tabs.length, pathname]);
 
     return {
         tabs,
