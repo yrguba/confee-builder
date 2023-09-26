@@ -7,21 +7,6 @@
   border-radius: 12px;
   padding: 16px;
   overflow-y: auto;
-  max-height: 90vh;
-
-  .card {
-    flex: 1;
-    width: 0;
-  }
-
-  .btns {
-    @include box-size(375px, 61px);
-    @include flex;
-    gap: 16px;
-
-    svg {
-      fill: var(--text-fixed);
-    }
-  }
+  max-height: 87vh;
 
 }

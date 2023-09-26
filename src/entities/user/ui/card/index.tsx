@@ -49,7 +49,7 @@ function UserCardView(props: Props) {
         { id: 1, title: 'Номер телефона', subtitle: user?.phone || '', hidden: !user?.phone },
         { id: 2, title: 'Дата рождения', subtitle: user?.formatted_birth || '', hidden: !user?.formatted_birth },
         { id: 3, title: 'Почта', subtitle: user?.email || '', hidden: !user?.email },
-        { id: 4, title: 'О себе', subtitle: '', hidden: true },
+        { id: 4, title: 'О себе', subtitle: user?.about || '', hidden: !user?.about },
     ];
 
     const sharedBtn: BaseTypes.Item[] = [
