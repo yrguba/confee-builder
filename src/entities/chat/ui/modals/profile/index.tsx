@@ -6,7 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer, Dropdown, DropdownTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { CompanyTagView, employeeProxy } from '../../../../company';
+import { CompanyTagView, employeeProxy, CompanyCardView } from '../../../../company';
 import { userProxy, userService } from '../../../../user';
 import { ChatProxy, Actions } from '../../../model/types';
 
@@ -29,9 +29,10 @@ function ChatProfileModalView(props: Props) {
         { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
         { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
     ];
+
     const secondaryInfo: { id: number; title: string; subtitle: string; hidden?: boolean }[] = [
-        { id: 0, title: 'Никнейм', subtitle: chat?.secondUser?.nickname || '', hidden: !chat?.is_personal },
-        { id: 1, title: 'Номер телефона', subtitle: chat?.secondUser?.phone || '', hidden: !chat?.is_personal },
+        { id: 0, title: 'Никнейм', subtitle: chat?.secondUser?.nickname || '', hidden: !chat?.secondUser?.nickname },
+        { id: 1, title: 'Номер телефона', subtitle: chat?.secondUser?.phone || '', hidden: !chat?.secondUser?.phone },
     ];
 
     const tabs: { id: number; type: messageTypes.MediaContentType | null; title: string; hidden?: boolean }[] = [
@@ -90,7 +91,18 @@ function ChatProfileModalView(props: Props) {
                     </Dropdown.Menu>
                 ))}
             </div>
-            {!chat?.is_group && (
+            {chat?.secondEmployee && (
+                <div className={styles.companyCard}>
+                    <CompanyCardView
+                        width="100%"
+                        status={chat.secondEmployee.status}
+                        position={chat.secondEmployee.position || ''}
+                        title={chat.secondEmployee.companies[0]?.name || ''}
+                        subtitle={chat.secondEmployee.departments[0]?.name || ''}
+                    />
+                </div>
+            )}
+            {!chat?.is_group && chat?.is_personal && (
                 <div className={styles.secondaryInfo}>
                     {secondaryInfo
                         .filter((i) => !i.hidden)

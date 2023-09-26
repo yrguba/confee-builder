@@ -33,6 +33,11 @@
     }
   }
 
+  .companyCard{
+    @include flex;
+    @include box-size(84%, auto);
+  }
+
   .secondaryInfo {
     @include flex-column();
     @include box-size(calc(84% - 40px), auto);
