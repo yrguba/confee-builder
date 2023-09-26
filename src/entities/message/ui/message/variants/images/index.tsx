@@ -20,9 +20,9 @@ function ImagesMessage(props: Props) {
     const updItems = images?.map((i, index) => ({
         id: i.id,
         url: i.url || '',
-        width: '49%',
+        width: 'auto',
         horizontalImgWidth: '99%',
-        height: 'auto',
+        height: '220px',
         onClick: () => swiperState.set({ visible: true, initial: index }),
     }));
 

@@ -163,6 +163,7 @@ function ChatProfileModalView(props: Props) {
                                                               name: user?.full_name || '',
                                                               title: user?.full_name || '',
                                                               subtitle: user?.status || '',
+                                                              companyNames: ['TFN'],
                                                           };
                                                       })
                                             }
@@ -178,8 +179,7 @@ function ChatProfileModalView(props: Props) {
                                             id: index,
                                             url: i.url || '',
                                             width: 'auto',
-                                            height: '122px',
-                                            objectFit: 'contain',
+                                            height: '120px',
                                         }))}
                                     />
                                 ),

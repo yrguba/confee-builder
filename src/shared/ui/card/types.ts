@@ -17,6 +17,7 @@ export type BaseCardProps = {
     onClick?: () => void;
     avatarNetworkStatus?: keyof typeof userTypes.NetworkStatuses;
     avatarEmployeeStatuses?: keyof typeof companyTypes.EmployeeStatuses;
+    companyNames?: string[];
 } & BaseTypes.Statuses;
 
 export type CardListItem<T = any> = {

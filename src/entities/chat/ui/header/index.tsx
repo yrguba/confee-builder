@@ -60,6 +60,7 @@ function ChatHeaderView(props: Props) {
                                     subtitle={chat?.subtitle}
                                     loading={loading}
                                     size="l"
+                                    companyNames={['TFN']}
                                 />
                             </div>
                             <div>

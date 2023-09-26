@@ -10,8 +10,14 @@
   }
 
   .caption{
-    @include flex-column;
+    @include flex-column(flex-start, flex-start);
     width: 100%;
+
+    .title{
+      @include flex(flex-start);
+      gap: 4px;
+      max-width: 100%;
+    }
     //gap: 4px;
   }
 }

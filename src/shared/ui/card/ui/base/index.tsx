@@ -1,6 +1,7 @@
 import React, { memo, useCallback } from 'react';
 
 import styles from './styles.module.scss';
+import { CompanyTagView } from '../../../../../entities/company';
 import { messageService } from '../../../../../entities/message';
 import { createMemo, useStyles } from '../../../../hooks';
 import { Avatar } from '../../../index';
@@ -15,7 +16,20 @@ const memoAvatarSize = createMemo((visibleAvatar, size) => {
 });
 
 function Card(props: BaseCardProps) {
-    const { loading, img, title, subtitle, onClick, size = 'm', name, avatarNetworkStatus, avatarEmployeeStatuses, icon, visibleAvatar = true } = props;
+    const {
+        companyNames,
+        loading,
+        img,
+        title,
+        subtitle,
+        onClick,
+        size = 'm',
+        name,
+        avatarNetworkStatus,
+        avatarEmployeeStatuses,
+        icon,
+        visibleAvatar = true,
+    } = props;
 
     const avatarSize = memoAvatarSize(visibleAvatar, size);
 
@@ -53,7 +67,13 @@ function Card(props: BaseCardProps) {
                 </div>
             )}
             <div className={styles.caption} style={{ width: `calc(100% - ${avatarSize}px - 12px)` }}>
-                <Title variant={titleVar[size]}>{title}</Title>
+                <div className={styles.title}>
+                    <Title textAlign="left" variant={titleVar[size]}>
+                        {title}
+                    </Title>
+                    {companyNames?.length ? <CompanyTagView name={companyNames[0]} /> : null}
+                </div>
+
                 <Title primary={false} variant={subtitleVar[size]}>
                     {subtitle}
                 </Title>
