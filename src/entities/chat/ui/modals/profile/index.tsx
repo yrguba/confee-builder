@@ -137,6 +137,7 @@ function ChatProfileModalView(props: Props) {
                 </div>
                 <div className={styles.mediaList}>
                     <Box.Replace
+                        animationVariant="autoHeight"
                         items={[
                             {
                                 visible: !mediaTypes.value,
