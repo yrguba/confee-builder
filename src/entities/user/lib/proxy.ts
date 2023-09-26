@@ -9,7 +9,7 @@ function userProxy(user: User | undefined): UserProxy | null {
     if (!user) return null;
     const viewerId = viewerService.getId();
     return new Proxy(user, {
-        get(target, prop: keyof UserProxy, receiver): UserProxy[keyof UserProxy] {
+        get(target, prop: keyof UserProxy, receiver: UserProxy): UserProxy[keyof UserProxy] {
             switch (prop) {
                 case 'full_name':
                     if (viewerId === target.id) return 'Вы';
@@ -19,7 +19,7 @@ function userProxy(user: User | undefined): UserProxy | null {
                     return target.birth ? moment(target.birth).format('LL') : null;
 
                 case 'networkStatus':
-                    return viewerId === target.id ? 'online' : target.is_online ? 'online' : 'offline';
+                    return viewerId === target.id ? 'online' : target.is_online ? 'online' : receiver.formatted_last_active;
 
                 case 'formatted_last_active':
                     return momentLocalZone(target.last_active).calendar();

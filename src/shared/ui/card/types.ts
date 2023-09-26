@@ -20,7 +20,7 @@ export type BaseCardProps = {
 } & BaseTypes.Statuses;
 
 export type CardListItem<T = any> = {
-    id: number;
+    id: string | number;
     payload?: T;
 } & BaseCardProps;
 

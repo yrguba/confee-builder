@@ -16,7 +16,7 @@ export type Employee = {
     departments: Department[];
     email: string | null;
     first_name: string | null;
-    id: 580;
+    id: number;
     last_name: string | null;
     position: string | null;
     status: keyof typeof EmployeeStatuses;

@@ -1,6 +1,7 @@
 import { viewerService } from 'entities/viewer';
 import { dateConverter, getEnding } from 'shared/lib';
 
+import { employeeProxy } from '../../company';
 import { userProxy, userService } from '../../user';
 import { UserProxy } from '../../user/model/types';
 import { ChatProxy, Chat } from '../model/types';
@@ -18,9 +19,6 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
 
                 case 'secondMember':
                     return secondMemberProxy;
-
-                case 'currentMembers':
-                    return receiver.is_personal ? target.members : target.employee_members;
 
                 case 'checkIsMyLastMessage':
                     return target.last_message.author?.id === viewerId;
@@ -46,7 +44,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                         const word = getEnding(memberCount, ['участник', 'участника', 'участников']);
                         return `${memberCount} ${word}`;
                     }
-                    return userService.getUserNetworkStatus(secondMemberProxy);
+                    return secondMemberProxy?.is_online ? 'В сети' : 'Не в сети';
 
                 default:
                     return target[prop];

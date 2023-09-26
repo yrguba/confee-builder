@@ -19,7 +19,7 @@ function messageProxy(data: { prevMessage?: Message | null; message: Message; ne
                     return target?.author?.id === viewerId && target.type !== 'system';
 
                 case 'firstMessageInBlock':
-                    if (!data.prevMessage) return true;
+                    if (!data.prevMessage || data.prevMessage.type === 'system') return true;
                     return target?.author?.id !== data.prevMessage?.author?.id;
 
                 case 'lastMessageInBlock':

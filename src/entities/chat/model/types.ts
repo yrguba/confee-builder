@@ -1,7 +1,7 @@
 import { BaseTypes } from '../../../shared/types';
 import { TabBarTypes } from '../../../shared/ui';
 import { companyTypes } from '../../company';
-import { Employee } from '../../company/model/types';
+import { Employee, EmployeeProxy } from '../../company/model/types';
 import { contactTypes } from '../../contact';
 import { Message } from '../../message/model/types';
 import { User, UserProxy } from '../../user/model/types';
@@ -34,7 +34,6 @@ export type ChatProxy = {
     date: string;
     checkIsMyLastMessage: boolean;
     subtitle: string;
-    currentMembers: User[] | Employee[];
 } & Chat;
 
 export type ChatsTypes = 'all' | 'personal' | 'company';

@@ -23,7 +23,7 @@ type Props = {
 
 function ChatProfileModalView(props: Props) {
     const { clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
-    console.log(chat);
+
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
         { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
@@ -74,12 +74,12 @@ function ChatProfileModalView(props: Props) {
                     <Avatar size={200} img={chat?.avatar} name={chat?.name || ''} />
                 )}
                 <div className={styles.name}>
-                    <Title animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H3B">
+                    <Title animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H1">
                         {chat?.name}
                     </Title>
                     {!chat?.is_personal && <CompanyTagView name="TFN" />}
                 </div>
-                <Title textAlign="center" variant="caption1M">
+                <Title textAlign="center" variant="H3R">
                     {chat?.subtitle}
                 </Title>
             </div>
@@ -127,20 +127,26 @@ function ChatProfileModalView(props: Props) {
                                         <Card.List
                                             items={
                                                 chat?.is_personal
-                                                    ? chat?.members.map((i) => ({
-                                                          id: i.id,
-                                                          img: i.avatar || '',
-                                                          name: userService.getFullName(i),
-                                                          title: userService.getFullName(i),
-                                                          subtitle: userService.getUserNetworkStatus(userProxy(i)),
-                                                      }))
-                                                    : chat?.employee_members.map((i) => ({
-                                                          id: i.id,
-                                                          img: i.avatar || '',
-                                                          name: userService.getFullName(i),
-                                                          title: userService.getFullName(i),
-                                                          subtitle: userService.getUserNetworkStatus(employeeProxy(i) as any),
-                                                      }))
+                                                    ? chat?.members.map((i) => {
+                                                          const user = userProxy(i);
+                                                          return {
+                                                              id: user?.id || '',
+                                                              img: user?.avatar || '',
+                                                              name: user?.full_name || '',
+                                                              title: user?.full_name || '',
+                                                              subtitle: user?.networkStatus || '',
+                                                          };
+                                                      })
+                                                    : chat?.employee_members.map((i) => {
+                                                          const user = employeeProxy(i);
+                                                          return {
+                                                              id: user?.id || '',
+                                                              img: user?.avatar || '',
+                                                              name: user?.full_name || '',
+                                                              title: user?.full_name || '',
+                                                              subtitle: user?.status || '',
+                                                          };
+                                                      })
                                             }
                                         />
                                     </div>
