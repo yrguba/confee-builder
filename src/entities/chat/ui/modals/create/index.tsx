@@ -64,12 +64,12 @@ function CreateChatModalView(props: Props) {
                         items={tabsAndLists.activeList?.map((i: any) => {
                             const contact: ContactProxy = contactProxy(i);
                             return {
-                                id: contact.id || new Date().valueOf(),
+                                id: contact.id,
                                 img: contact.avatar,
                                 name: contact?.full_name || '',
                                 title: contact?.full_name || '',
                                 subtitle: contact?.phone || '',
-                                payload: { id: contact.user_id },
+                                payload: { id: contact.user.id },
                             };
                         })}
                     />

@@ -23,7 +23,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const { data: viewerData } = viewerApi.handleGetViewer();
 
     const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
-
+    console.log(selectedContacts);
     const createChat = () => {
         if (!selectedContacts.array.length && !selectedEmployees.array.length) {
             return notifications.error({ title: `Выберите участников` });
