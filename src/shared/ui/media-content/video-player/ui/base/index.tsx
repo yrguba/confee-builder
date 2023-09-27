@@ -1,7 +1,4 @@
 import React, { memo } from 'react';
-import { useRendersCount, useUpdateEffect } from 'react-use';
-
-import { appTypes } from 'entities/app';
 
 import styles from './styles.module.scss';
 import { useEasyState, useFetchMediaContent, useStorage, useVideo } from '../../../../../hooks';
@@ -33,7 +30,7 @@ function Video(props: VideoProps) {
 
     return (
         <div className={styles.wrapper} onClick={onClick} style={{ width: width || '100%', height: !state.buffered.length ? 500 : height }}>
-            {videoCover ? <Image url={videoCover} height={height} width={width} /> : video}
+            {videoCover ? <Image url={videoCover} height={height} width={width} onClick={() => ''} /> : video}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>
