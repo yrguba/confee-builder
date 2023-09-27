@@ -17,7 +17,7 @@ import VoiceMessage from './variants/voice';
 import { useStyles } from '../../../../shared/hooks';
 import { appTypes } from '../../../app';
 import { userProxy } from '../../../user';
-import { UserProxy } from '../../../user/model/types';
+import { User, UserProxy } from '../../../user/model/types';
 import messageProxy from '../../lib/proxy';
 import { MessageProxy, MessageMenuActions } from '../../model/types';
 
@@ -54,9 +54,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         another_last: lastMessageInBlock && !isMy,
     });
 
-    const clickTag = (tag: string) => {
-        const arr: any = chat?.is_personal ? chat?.members : chat?.employee_members;
-        const user = arr?.find((i: any) => `@${i.nickname}` === tag);
+    const clickTag = (user: User) => {
         openUserModal(userProxy(user) || null);
     };
 
@@ -89,7 +87,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             )}
                             {reply_to_message?.id && <ReplyMessage message={reply_to_message} />}
                             {forwarded_from_message?.id && <ForwardMessage message={messageProxy({ message: forwarded_from_message })} />}
-                            {type === 'text' && <TextMessage text={text} clickTag={clickTag} />}
+                            {type === 'text' && <TextMessage text={text} clickTag={clickTag} chat={chat} />}
                             {type === 'images' && <ImagesMessage images={files} />}
                             {type === 'documents' && <DocumentsMessage documents={files} />}
                             {type === 'voices' && <VoiceMessage voices={message.files} />}

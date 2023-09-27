@@ -102,7 +102,7 @@ function MessageList() {
     };
 
     const openUserModal = (user: UserProxy | null) => {
-        user ? userProfileModal.open() : notification.info({ title: `Пользователь не найдено.`, system: true });
+        user ? userProfileModal.open(user) : notification.info({ title: `Пользователь не найдено.`, system: true });
     };
 
     const readMessage = (message_id: number) => {

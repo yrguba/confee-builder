@@ -10,14 +10,18 @@ import { Box } from 'shared/ui';
 import styles from './styles.module.scss';
 import LinkInfo from './widgets/link-info';
 import 'linkify-plugin-mention';
+import { chatTypes } from '../../../../../chat';
+import { ChatProxy } from '../../../../../chat/model/types';
+import { User } from '../../../../../user/model/types';
 
 type Props = {
     text: string;
-    clickTag: (tag: string) => void;
+    clickTag: (tag: User) => void;
+    chat: chatTypes.ChatProxy | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function TextMessage(props: Props) {
-    const { text, clickTag } = props;
+    const { text, clickTag, chat } = props;
     const once = useRef(true);
     const linksInfo = useArray({});
 
@@ -45,7 +49,6 @@ function TextMessage(props: Props) {
             url: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
                 const preview: any = linksInfo.array.find((i) => i?.fullUrl === href);
-
                 return (
                     <LinkInfo preview={preview} content={content}>
                         {content}
@@ -54,8 +57,10 @@ function TextMessage(props: Props) {
             },
             mention: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
+                const arr: any = chat?.is_personal ? chat?.members : chat?.employee_members;
+                const user = arr.find((i: any) => content === `@${i.nickname}`);
                 return (
-                    <span onClick={() => clickTag(content)} className={styles.tag} {...props}>
+                    <span onClick={() => (user ? clickTag(user) : '')} className={user ? styles.tag : ''} {...props}>
                         {`${content}\xa0`}
                     </span>
                 );
