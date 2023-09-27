@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { sendNotification } from '@tauri-apps/api/notification';
 import produce from 'immer';
 import { useEffect } from 'react';
 
@@ -24,13 +25,8 @@ function messageGateway() {
         onMessage('MessageCreated', (socketData) => {
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!socketData.data.extra_info.is_read && socketData.data.message) {
-                    console.log('push');
                     const proxy: MessageProxy = messageProxy({ message: socketData.data.message });
-                    notification.info({
-                        body: proxy.action,
-                        title: `Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}`,
-                        scope: 'desktop',
-                    });
+                    sendNotification({ title: `Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}` || '', body: proxy.action });
                 }
                 if (!cacheData?.pages.length) return cacheData;
                 return produce(cacheData, (draft: any) => {

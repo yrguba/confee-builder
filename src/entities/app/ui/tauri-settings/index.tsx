@@ -23,10 +23,12 @@ function TauriSettingsView(props: Props) {
                     <div className={styles.titles}>
                         <Title variant="H3M">Кэш</Title>
                         <Title primary={false} variant="H4M">
-                            {cacheSize ? `Занято на диске: ${cacheSize || 0}` : 'Кэш отключен'}
+                            {/* {cacheSize ? `Занято на диске: ${cacheSize || 0}` : 'Кэш отключен'} */}
+                            Кэш пока недоступен
                         </Title>
                     </div>
-                    <Switch onChange={saveInCache.toggle} checked={saveInCache.value} />
+                    <Switch onChange={saveInCache.toggle} checked={false} />
+                    {/* <Switch onChange={saveInCache.toggle} checked={saveInCache.value} /> */}
                 </div>
                 <div className={styles.item}>
                     <div className={styles.titles}>
