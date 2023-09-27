@@ -22,7 +22,7 @@ import messageProxy from '../../lib/proxy';
 import { MessageProxy, MessageMenuActions } from '../../model/types';
 
 type Props = {
-    chat: chatTypes.Chat | BaseTypes.Empty;
+    chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
@@ -55,7 +55,8 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     });
 
     const clickTag = (tag: string) => {
-        const user = chat?.members.find((i) => `@${i.nickname}` === tag);
+        const arr: any = chat?.is_personal ? chat?.members : chat?.employee_members;
+        const user = arr?.find((i: any) => `@${i.nickname}` === tag);
         openUserModal(userProxy(user) || null);
     };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { chatApi, useChatStore } from 'entities/chat';
+import { chatApi, chatProxy, useChatStore } from 'entities/chat';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
@@ -102,12 +102,7 @@ function MessageList() {
     };
 
     const openUserModal = (user: UserProxy | null) => {
-        user && userProfileModal.open(user);
-    };
-
-    const clickTag = (tag: string) => {
-        const user = chatData?.members.find((i) => `@${i.nickname}` === tag);
-        user ? userProfileModal.open() : notification.info({ title: `Имя ${tag} не найдено.`, system: true });
+        user ? userProfileModal.open() : notification.info({ title: `Пользователь не найдено.`, system: true });
     };
 
     const readMessage = (message_id: number) => {
@@ -133,7 +128,7 @@ function MessageList() {
             <ForwardMessagesModal {...forwardMessagesModal} />
             <UserProfileModal {...userProfileModal} />
             <MessagesListView
-                chat={chatData}
+                chat={chatProxy(chatData)}
                 messages={messages}
                 getNextPage={() => hasNextPage && !isFetching && fetchNextPage().then()}
                 getPrevPage={() => hasPreviousPage && !isFetching && fetchPreviousPage().then()}

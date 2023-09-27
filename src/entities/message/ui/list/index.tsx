@@ -15,7 +15,7 @@ import Message from '../message';
 import SystemMessage from '../message/variants/system';
 
 type Props = {
-    chat: chatTypes.Chat | BaseTypes.Empty;
+    chat: chatTypes.ChatProxy | BaseTypes.Empty;
     messages: MessageProxy[];
     getPrevPage: () => void;
     getNextPage: () => void;
