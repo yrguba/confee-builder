@@ -13,6 +13,7 @@ export type BaseVideoPlayerProps = {
     onClick?: () => void;
     borderRadius?: boolean;
     reset?: boolean;
+    visibleCover?: boolean;
 } & BaseTypes.Statuses;
 
 export type VideoListItem = {

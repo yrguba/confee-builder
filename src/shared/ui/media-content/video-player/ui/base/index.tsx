@@ -11,20 +11,21 @@ import Image from '../../../image';
 import { BaseVideoPlayerProps } from '../../types';
 
 function VideoPlayer(props: BaseVideoPlayerProps) {
-    const { url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
+    const { visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
     const storage = useStorage();
-    const { src, isLoading, error } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
+    const { src, isLoading, error, videoCover } = useFetchMediaContent(url || '', storage.get('save_in_cache'), visibleCover);
 
-    return <Video isLoading={isLoading} src={src} {...props} />;
+    return <Video videoCover={videoCover || ''} isLoading={isLoading} src={src} {...props} />;
 }
 
 type VideoProps = {
     src: string;
     isLoading: boolean;
+    videoCover: string;
 } & BaseVideoPlayerProps;
 
 function Video(props: VideoProps) {
-    const { isLoading, src, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
+    const { videoCover, isLoading, src, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
 
     const [video, state, controls, ref] = useVideo(
         <video style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />
@@ -32,7 +33,7 @@ function Video(props: VideoProps) {
 
     return (
         <div className={styles.wrapper} onClick={onClick} style={{ width: width || '100%', height: !state.buffered.length ? 500 : height }}>
-            {video}
+            {videoCover ? <Image url={videoCover} height={height} width={width} /> : video}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>

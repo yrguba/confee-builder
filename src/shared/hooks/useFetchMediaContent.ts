@@ -7,9 +7,10 @@ import useEasyState from './useEasyState';
 import useFS from './useFS';
 import { fileConverter, getVideoCover } from '../lib';
 
-function useFetchMediaContent(url = '', saveInCache = false) {
+function useFetchMediaContent(url = '', saveInCache = false, returnVideoCover = false) {
     const [src, setSrc] = useState<any>('');
     const [fileBlob, setFileBlob] = useState<Blob | null>(null);
+    const videoCover = useEasyState<string | null>(null);
 
     const { saveFile, getFile } = useFS();
 
@@ -30,6 +31,10 @@ function useFetchMediaContent(url = '', saveInCache = false) {
                 const filePath = fileConverter.blobLocalPath(fileData);
                 setSrc(filePath);
                 setFileBlob(fileData);
+                if (returnVideoCover) {
+                    const cover = await getVideoCover(filePath, 0.1);
+                    videoCover.set(cover);
+                }
             } else {
                 setSrc(url);
             }
@@ -40,7 +45,7 @@ function useFetchMediaContent(url = '', saveInCache = false) {
     return {
         src,
         fileBlob,
-
+        videoCover: videoCover.value,
         error,
         isLoading: !url || !isFetch ? false : isLoading,
     };

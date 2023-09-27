@@ -6,6 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Document, AudioPlayer, Dropdown, DropdownTypes, VideoPlayer } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { getVideoCover } from '../../../../../shared/lib';
 import { CompanyTagView, employeeProxy, CompanyCardView } from '../../../../company';
 import { userProxy, UserInfoView } from '../../../../user';
 import { ChatProxy, Actions } from '../../../model/types';
@@ -177,6 +178,9 @@ function ChatProfileModalView(props: Props) {
                                         items={files?.map((i, index) => ({
                                             id: index,
                                             url: i.url || '',
+                                            width: 'auto',
+                                            height: '120px',
+                                            visibleCover: true,
                                         }))}
                                     />
                                 ),
