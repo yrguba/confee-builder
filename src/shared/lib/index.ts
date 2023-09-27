@@ -2,6 +2,7 @@ import compressImage from './compress-image';
 import crypto from './crypto';
 import dateConverter from './date-converter';
 import debounce from './debounce';
+import downloadUrl from './download-url';
 import * as fileConverter from './file-converter';
 import findLastIndex from './find-last-index';
 import generateItems from './generate-items';
@@ -38,4 +39,5 @@ export {
     getUniqueArr,
     getVideoCover,
     compressImage,
+    downloadUrl,
 };
