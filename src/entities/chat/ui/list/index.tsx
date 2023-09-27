@@ -3,10 +3,10 @@ import React, { useEffect, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, TabBarTypes } from 'shared/ui';
+import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { UseArrayReturnType, useHeightMediaQuery, useInView } from '../../../../shared/hooks';
+import { UseArrayReturnType, UseEasyStateReturnType, useHeightMediaQuery, useInView } from '../../../../shared/hooks';
 import { Actions, ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
 import ChatCardView from '../card';
 
@@ -15,10 +15,11 @@ type Props = {
     activeChatId: number | null;
     tabsAndLists: UseChatsTabsAndListsReturnType;
     chatMenuAction: (action: Actions, chat: ChatProxy) => void;
+    searchInput: InputTypes.UseReturnedType;
 } & BaseTypes.Statuses;
 
 function ChatsListView(props: Props) {
-    const { clickOnChat, loading, activeChatId, tabsAndLists, chatMenuAction } = props;
+    const { searchInput, clickOnChat, loading, activeChatId, tabsAndLists, chatMenuAction } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
 
     const wrapperRef = useRef(null);
@@ -31,7 +32,7 @@ function ChatsListView(props: Props) {
     return (
         <Box loading={loading} className={styles.wrapper}>
             <div className={styles.search}>
-                <Input prefixIcon="search" clearIcon />
+                <Input {...searchInput} prefixIcon="search" clearIcon />
             </div>
             <div className={styles.tabs}>
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />

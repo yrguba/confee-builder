@@ -42,7 +42,7 @@
     cursor: pointer;
 
     svg {
-      fill: var(--text-primary);
+      fill: var(--text-primary) !important;
     }
   }
 
@@ -68,6 +68,7 @@
     padding-left: 0;
     padding-right: 0;
     background-color: inherit;
+    min-width: 100%;
     svg{
       fill: #A5ABD7;
     }

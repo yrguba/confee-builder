@@ -75,7 +75,7 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
                     ref={mergeRefs([inputRef, ref])}
                     className={styles.input}
                     {...other}
-                    placeholder={prefixIcon === 'search' ? 'поиск' : other.placeholder}
+                    placeholder={prefixIcon === 'search' ? 'Поиск' : other.placeholder}
                 />
 
                 <Box.Animated onClick={clear} className={styles.clearIcon} visible={!!clearIcon && !!other?.value}>

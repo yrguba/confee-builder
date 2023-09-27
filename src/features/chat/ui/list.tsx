@@ -2,12 +2,17 @@ import React from 'react';
 
 import { chatApi, ChatsListView, chatTypes, useChatsTabsAndLists } from 'entities/chat';
 import { Actions, ChatProxy } from 'entities/chat/model/types';
-import { useRouter } from 'shared/hooks';
+import { useEasyState, useRouter } from 'shared/hooks';
+
+import { Input } from '../../../shared/ui';
 
 function ChatsList() {
     const { navigate, params, pathname } = useRouter();
 
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
+
+    const searchInput = Input.use({});
+
     const clickOnChatCard = (chat: chatTypes.Chat) => {
         navigate(`chat/${chat?.id}`);
     };
@@ -27,6 +32,7 @@ function ChatsList() {
             clickOnChat={clickOnChatCard}
             activeChatId={Number(params.chat_id) || null}
             tabsAndLists={tabsAndLists}
+            searchInput={searchInput}
         />
     );
 }

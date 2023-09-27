@@ -7,9 +7,8 @@
   overflow-x: hidden;
   .search {
     @include box-size(calc(100% - 32px), 48px);
-    @include flex(space-between);
+    @include flex;
     padding: 0 16px;
-    margin-bottom: 12px;
   }
 
   .tabs {
