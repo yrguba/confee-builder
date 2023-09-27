@@ -4,20 +4,22 @@ import { AppSettingsView, appTypes } from 'entities/app';
 import { tokensService, viewerApi } from 'entities/viewer';
 import { useTheme, useStorage, useEasyState } from 'shared/hooks';
 
+import { useUnmount } from '../../../shared/hooks';
+
 function AppSettings() {
     const storage = useStorage();
 
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
 
-    const not_scope = storage.get('notification_scope');
+    const not_scope = storage.get('notification');
 
     const notificationActive = useEasyState(!!not_scope, (value) => {
-        value ? storage.set('notification_scope', true) : storage.remove('notification_scope');
+        value ? storage.set('notification', true) : storage.remove('notification');
     });
 
     const visibleLastActive = useEasyState(!!not_scope, (value) => {
-        value ? storage.set('notification_scope', true) : storage.remove('notification_scope');
+        // value ? storage.set('notification', true) : storage.remove('notification');
     });
     const theme = useTheme();
 
@@ -35,6 +37,9 @@ function AppSettings() {
             },
         });
     };
+    useUnmount(() => {
+        window.location.reload();
+    });
 
     return (
         <AppSettingsView

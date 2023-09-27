@@ -22,7 +22,7 @@ function AppSettingsView(props: Props) {
             id: 0,
             title: 'Последняя активность',
             subtitle: 'Отображать время моей последней активности в приложении',
-            switch: <Switch onChange={visibleLastActive.toggle} checked={visibleLastActive.value} />,
+            switch: <Switch onChange={visibleLastActive.toggle} checked />,
         },
         {
             id: 1,

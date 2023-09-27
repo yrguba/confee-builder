@@ -43,15 +43,15 @@ function TauriSettings() {
 
     const saveInCache = useEasyState<boolean>(!!storage.get('save_in_cache'));
 
-    useUpdateEffect(() => {
-        saveInCache.value ? storage.set('save_in_cache', true) : storage.remove('save_in_cache');
-    }, [saveInCache.value]);
+    // useUpdateEffect(() => {
+    //     saveInCache.value ? storage.set('save_in_cache', true) : storage.remove('save_in_cache');
+    // }, [saveInCache.value]);
 
     useEffect(() => {
-        cacheSize.set('загрузка...');
-        fs.getFolderSize({ baseDir: 'Document', folderDir: 'cache' }).then((res) => {
-            cacheSize.set(res?.human || '');
-        });
+        // cacheSize.set('загрузка...');
+        // fs.getFolderSize({ baseDir: 'Document', folderDir: 'cache' }).then((res) => {
+        //     cacheSize.set(res?.human || '');
+        // });
     }, []);
 
     return <TauriSettingsView saveInCache={saveInCache} cacheSize={cacheSize.value} updateAvailable={updateAvailable} updateApp={updateApp} />;

@@ -18,7 +18,7 @@ moment.locale('ru');
 function App() {
     const { clientBaseURL } = appService.getUrls();
     const storage = useStorage();
-    const notification_scope = storage.get('notification_scope');
+    const notification = storage.get('notification');
 
     const isIdle = useIdle(1000 * 60 * 20);
 
@@ -35,7 +35,7 @@ function App() {
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
-                <Notification options={{ disabledDesktop: !notification_scope }} />
+                <Notification options={{ disabledDesktop: !notification }} />
                 <Routing />
                 <ReactQueryDevtools position="bottom-left" />
             </QueryClientProvider>

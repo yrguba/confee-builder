@@ -12,6 +12,7 @@ import { Notification } from '../../../shared/ui';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
 import messageProxy from '../lib/proxy';
+import messageService from '../lib/service';
 
 const [throttleMessageTyping] = useThrottle((cl) => cl(), 1000);
 const debounceMessageTypingClose = debounce((cl) => cl(), 3000);
@@ -26,7 +27,7 @@ function messageGateway() {
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!socketData.data.extra_info.is_read && socketData.data.message) {
                     const proxy: MessageProxy = messageProxy({ message: socketData.data.message });
-                    sendNotification({ title: `Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}` || '', body: proxy.action });
+                    messageService.notification(`Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}` || '', proxy.action);
                 }
                 if (!cacheData?.pages.length) return cacheData;
                 return produce(cacheData, (draft: any) => {

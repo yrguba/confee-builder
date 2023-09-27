@@ -1,3 +1,5 @@
+import { sendNotification } from '@tauri-apps/api/notification';
+
 import { appApi } from 'entities/app';
 import { getUniqueArr } from 'shared/lib';
 
@@ -29,6 +31,10 @@ class MessageService {
         if (!message) return '';
         const viewerId = viewerService.getId();
         return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;
+    }
+
+    notification(title: string, body: string) {
+        if (window.localStorage.getItem('notification')) return sendNotification({ title, body });
     }
 }
 
