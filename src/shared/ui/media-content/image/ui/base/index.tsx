@@ -27,7 +27,7 @@ function Image(props: BaseImageProps) {
             className={styles.wrapper}
             style={{ width: isLoading ? 100 : width, height, borderRadius: borderRadius ? 12 : 0, cursor: onClick ? 'pointer' : 'default' }}
         >
-            {!error && !isLoading && <img className={classes} src={src} alt="" />}
+            {!error && !isLoading && <img onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />}
             {remove && (
                 <Button.Circle radius={30} className={styles.remove} onClick={id ? () => remove(id) : () => ''} variant="inherit">
                     <Icons variant="delete" />

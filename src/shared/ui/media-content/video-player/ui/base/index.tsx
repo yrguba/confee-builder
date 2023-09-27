@@ -25,7 +25,13 @@ function Video(props: VideoProps) {
     const { videoCover, isLoading, src, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
 
     const [video, state, controls, ref] = useVideo(
-        <video style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }} src={src} autoPlay muted />
+        <video
+            onContextMenu={(e) => e.preventDefault()}
+            style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }}
+            src={src}
+            autoPlay
+            muted
+        />
     );
 
     return (
