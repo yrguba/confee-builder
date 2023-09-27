@@ -127,10 +127,11 @@ function MessageInput() {
     useUpdateEffect(() => {
         const text = messageTextState.value;
         const lasWord = text.split(' ').pop();
-        if (proxyChat?.is_personal && lasWord && lasWord.includes('@')) {
-            const members = chatData?.members
-                ?.filter((i) => i.nickname.includes(lasWord.substring(1)) && lasWord !== `@${i.nickname}`)
-                .map((i) => userProxy(i)) as any;
+        if (lasWord && lasWord.includes('@')) {
+            const arr: any = proxyChat?.is_personal ? chatData?.members : chatData?.employee_members;
+            const members = arr
+                ?.filter((i: any) => i.nickname?.includes(lasWord.substring(1)) && lasWord !== `@${i.nickname}`)
+                .map((i: any) => userProxy(i)) as any;
             tagUsers.set(members || []);
         } else {
             tagUsers.set([]);

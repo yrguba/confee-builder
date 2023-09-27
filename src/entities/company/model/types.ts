@@ -22,6 +22,7 @@ export type Employee = {
     status: keyof typeof EmployeeStatuses;
     updated_at: Date;
     user: User | null;
+    nickname: string | null;
 };
 
 export type EmployeeProxy = {

@@ -7,7 +7,7 @@ import { Title, Box, Icons, Avatar, Button, IconsTypes, TabBar, Card, Image, Doc
 
 import styles from './styles.module.scss';
 import { CompanyTagView, employeeProxy, CompanyCardView } from '../../../../company';
-import { userProxy } from '../../../../user';
+import { userProxy, UserInfoView } from '../../../../user';
 import { ChatProxy, Actions } from '../../../model/types';
 
 type Props = {
@@ -28,12 +28,6 @@ function ChatProfileModalView(props: Props) {
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
         { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
         { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
-    ];
-
-    const secondaryInfo: { id: number; title: string; subtitle: string; hidden?: boolean }[] = [
-        { id: 0, title: 'Никнейм', subtitle: chat?.secondUser?.nickname || '', hidden: !chat?.secondUser?.nickname },
-        { id: 1, title: 'Номер телефона', subtitle: chat?.secondUser?.phone || '', hidden: !chat?.secondUser?.phone },
-        { id: 2, title: 'О себе', subtitle: chat?.secondUser?.about || '', hidden: !chat?.secondUser?.about },
     ];
 
     const tabs: { id: number; type: messageTypes.MediaContentType | null; title: string; hidden?: boolean }[] = [
@@ -110,16 +104,7 @@ function ChatProfileModalView(props: Props) {
             )}
             {!chat?.is_group && chat?.is_personal && (
                 <div className={styles.secondaryInfo}>
-                    {secondaryInfo
-                        .filter((i) => !i.hidden)
-                        .map((i) => (
-                            <div key={i.id} className={styles.item}>
-                                <Title variant="H4M" primary={false}>
-                                    {i.title}
-                                </Title>
-                                <Title variant="H3M">{i.subtitle}</Title>
-                            </div>
-                        ))}
+                    <UserInfoView user={chat.secondUser} />
                 </div>
             )}
             <div className={styles.media}>
