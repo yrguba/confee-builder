@@ -8,7 +8,7 @@ import { useRouter, useEasyState } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
-    const { navigate, pathname } = useRouter();
+    const { navigate, pathname, params } = useRouter();
     const { user } = modal.payload;
     const { employee } = modal.payload;
 
@@ -19,6 +19,8 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId: proxyChat?.id, filesType: mediaTypes.value });
 
+    const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
+    const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
 
     const notification = Notification.use();
@@ -37,12 +39,24 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
         }
     });
 
-    const actions = (action: chatTypes.Actions) => {
+    const actions = (action: chatTypes.PrivateChatActions) => {
         switch (action) {
             case 'audioCall':
                 return notification.inDev();
             case 'videoCall':
                 return notification.inDev();
+            case 'message':
+                const redirect = (chatId?: number) => navigate(`/chats/${user ? 'personal' : `company/${params.company_id}`}/chat/${chatId}`);
+                if (!proxyChat) {
+                    if (user) {
+                        handleCreatePersonalChat({ user_ids: [user.id], is_group: false }, { onSuccess: (data) => redirect(data.data.data.id) });
+                    } else {
+                        employee && handleCreateCompanyChat({ companyId: params.company_id, body: { employee_ids: [employee?.id], is_group: false } });
+                    }
+                } else {
+                    return redirect(proxyChat?.id);
+                }
+                return;
             case 'delete':
                 return confirmDeleteChat.open();
         }
@@ -59,6 +73,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 actions={actions}
                 mediaTypes={mediaTypes}
                 files={filesData}
+                visibleChatBtn={String(proxyChat?.id) !== params.chat_id}
             />
         </>
     );

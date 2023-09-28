@@ -9,11 +9,11 @@ import styles from './styles.module.scss';
 import { getVideoCover } from '../../../../../shared/lib';
 import { CompanyTagView, employeeProxy, CompanyCardView } from '../../../../company';
 import { userProxy, UserInfoView } from '../../../../user';
-import { ChatProxy, Actions } from '../../../model/types';
+import { ChatProxy } from '../../../model/types';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
-    actions: (actions: Actions) => void;
+    actions: (actions: any) => void;
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
     files: messageTypes.File[] | BaseTypes.Empty;
     selectFile: () => void;

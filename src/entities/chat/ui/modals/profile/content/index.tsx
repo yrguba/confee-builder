@@ -12,7 +12,7 @@ import { ChatProxy } from '../../../../model/types';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
-    addMemberClick: () => void;
+    addMemberClick?: () => void;
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
     files: messageTypes.File[] | BaseTypes.Empty;
     clickUser?: (member: any) => void;

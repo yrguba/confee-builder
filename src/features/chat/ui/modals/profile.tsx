@@ -61,7 +61,7 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
         navigate(`/chats/${pathname.split('/')[2]}`);
     };
 
-    const actions = (action: chatTypes.Actions) => {
+    const actions = (action: any) => {
         switch (action) {
             case 'audioCall':
                 return notification.inDev();

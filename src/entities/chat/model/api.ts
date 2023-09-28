@@ -84,7 +84,7 @@ class ChatApi {
     handleCreatePersonalChat() {
         const queryClient = useQueryClient();
         return useMutation((data: { user_ids: number[] | string[] | null; is_group: boolean }) => axiosClient.post(`${this.pathPrefix}`, data), {
-            onSuccess: async (res, data) => {
+            onSuccess: (res, data) => {
                 const updRes = httpHandlers.response<{ data: Chat }>(res);
                 ['all', 'personal'].forEach((i) =>
                     queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
@@ -96,6 +96,7 @@ class ChatApi {
                         });
                     })
                 );
+                return updRes;
             },
         });
     }

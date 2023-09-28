@@ -6,13 +6,13 @@ import { Title, Counter, Icons, Avatar, Dropdown } from 'shared/ui';
 
 import ChatMenu from './menu';
 import styles from './styles.module.scss';
-import { Actions, ChatProxy } from '../../model/types';
+import { PrivateChatActions, GroupChatActions, ChatProxy } from '../../model/types';
 
 type Props = {
     clickOnChat: (arg: ChatProxy) => void;
     chat: ChatProxy;
     active: boolean;
-    chatMenuAction: (action: Actions, chat: ChatProxy) => void;
+    chatMenuAction: (action: PrivateChatActions | GroupChatActions, chat: ChatProxy) => void;
 } & BaseTypes.Statuses;
 
 const ChatCardView = forwardRef((props: Props, refs: any) => {

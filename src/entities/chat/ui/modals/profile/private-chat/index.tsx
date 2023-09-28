@@ -10,26 +10,28 @@ import { Title, Icons, Avatar, Button, IconsTypes, Dropdown, DropdownTypes } fro
 import styles from './styles.module.scss';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import { UserProxy } from '../../../../../user/model/types';
-import { ChatProxy, Actions } from '../../../../model/types';
+import { ChatProxy, PrivateChatActions } from '../../../../model/types';
 import ChatProfileContentView from '../content';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
     user?: UserProxy;
     employee?: EmployeeProxy;
-    actions: (actions: Actions) => void;
+    actions: (actions: PrivateChatActions) => void;
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
     files: messageTypes.File[] | BaseTypes.Empty;
     clickAvatar: () => void;
+    visibleChatBtn: boolean;
 } & BaseTypes.Statuses;
 
 function PrivateChatProfileModalView(props: Props) {
-    const { user, employee, chat, actions, mediaTypes, files, clickAvatar } = props;
+    const { user, employee, chat, actions, mediaTypes, files, clickAvatar, visibleChatBtn } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
         { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
-        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
+        { id: 2, title: 'Написать', icon: 'messages', payload: '', callback: () => actions('message'), hidden: !visibleChatBtn },
+        { id: 3, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
     ];
 
     const menuItems: DropdownTypes.DropdownMenuItem[] = [
@@ -61,13 +63,15 @@ function PrivateChatProfileModalView(props: Props) {
                 </Title>
             </div>
             <div className={styles.btns}>
-                {btns.map((i) => (
-                    <Dropdown.Menu position="bottom-center" items={menuItems} key={i.id} disabled={i.id !== 2}>
-                        <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
-                            {i.title}
-                        </Button>
-                    </Dropdown.Menu>
-                ))}
+                {btns
+                    .filter((i) => !i.hidden)
+                    .map((i) => (
+                        <Dropdown.Menu position="bottom-center" items={menuItems} key={i.id} disabled={i.id !== 3}>
+                            <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
+                                {i.title}
+                            </Button>
+                        </Dropdown.Menu>
+                    ))}
             </div>
             {employee && (
                 <div className={styles.companyCard}>
@@ -85,7 +89,7 @@ function PrivateChatProfileModalView(props: Props) {
                     <UserInfoView user={user} />
                 </div>
             )}
-            <ChatProfileContentView files={files} chat={chat} mediaTypes={mediaTypes} addMemberClick={() => actions('add-members')} />
+            <ChatProfileContentView files={files} chat={chat} mediaTypes={mediaTypes} />
         </div>
     );
 }

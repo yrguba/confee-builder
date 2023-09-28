@@ -10,11 +10,11 @@ import styles from './styles.module.scss';
 import { createMemo } from '../../../../../shared/hooks';
 import { userProxy } from '../../../../user';
 import { UserProxy, User } from '../../../../user/model/types';
-import { ChatProxy, Actions } from '../../../model/types';
+import { ChatProxy, PrivateChatActions, GroupChatActions } from '../../../model/types';
 
 type Props = {
     chat: ChatProxy;
-    chatMenuAction: (action: Actions, chat: ChatProxy) => void;
+    chatMenuAction: (action: PrivateChatActions | GroupChatActions, chat: ChatProxy) => void;
 } & BaseTypes.Statuses;
 
 const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: number[]) => {
@@ -30,7 +30,9 @@ const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: nu
 function ChatMenu(props: Props) {
     const { chatMenuAction, chat } = props;
 
-    const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, Actions>[] = [{ id: 0, title: 'Удалить', icon: 'delete', payload: 'delete' }];
+    const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, PrivateChatActions | GroupChatActions>[] = [
+        { id: 0, title: 'Удалить', icon: 'delete', payload: 'delete' },
+    ];
     const reactions = ['1f4a3', '1f440', '26d4', '1f49c', '1f4a5', '1f34c', '1f44c', '1f44d'];
 
     const visibleAllReactions = useEasyState(false);

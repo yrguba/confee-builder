@@ -7,14 +7,14 @@ import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, InputTypes }
 
 import styles from './styles.module.scss';
 import { UseArrayReturnType, UseEasyStateReturnType, useHeightMediaQuery, useInView } from '../../../../shared/hooks';
-import { Actions, ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
+import { PrivateChatActions, GroupChatActions, ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
 import ChatCardView from '../card';
 
 type Props = {
     clickOnChat: (arg: ChatProxy) => void;
     activeChatId: number | null;
     tabsAndLists: UseChatsTabsAndListsReturnType;
-    chatMenuAction: (action: Actions, chat: ChatProxy) => void;
+    chatMenuAction: (action: PrivateChatActions | GroupChatActions, chat: ChatProxy) => void;
     searchInput: InputTypes.UseReturnedType;
 } & BaseTypes.Statuses;
 

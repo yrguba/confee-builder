@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { chatApi, ChatsListView, chatTypes, useChatsTabsAndLists } from 'entities/chat';
-import { Actions, ChatProxy } from 'entities/chat/model/types';
+import { PrivateChatActions, GroupChatActions, ChatProxy } from 'entities/chat/model/types';
 import { useEasyState, useRouter } from 'shared/hooks';
 
 import { Input, Modal } from '../../../shared/ui';
@@ -29,7 +29,7 @@ function ChatsList() {
 
     const tabsAndLists = useChatsTabsAndLists({});
 
-    const chatMenuAction = (action: Actions, chat: ChatProxy) => {
+    const chatMenuAction = (action: PrivateChatActions | GroupChatActions, chat: ChatProxy) => {
         switch (action) {
             case 'delete':
                 return confirmDeleteChat.open(chat, {
