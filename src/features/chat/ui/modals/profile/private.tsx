@@ -56,7 +56,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 } else {
                     return redirect(proxyChat?.id);
                 }
-                return;
+                return modal.close();
             case 'delete':
                 return confirmDeleteChat.open();
         }

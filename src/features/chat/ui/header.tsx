@@ -9,6 +9,7 @@ import { useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 import { TabBarTypes, Notification, Modal } from 'shared/ui';
 
+import GroupChatProfileModal from './modals/profile/group';
 import PrivateChatProfileModal from './modals/profile/private';
 import { ForwardMessagesModal } from '../../message';
 
@@ -28,6 +29,7 @@ function ChatHeader() {
 
     const webView = useWebView(callPath, 'аудио звонок');
 
+    const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
@@ -63,12 +65,17 @@ function ChatHeader() {
     ];
 
     const clickCard = () => {
-        if (proxyChat?.is_personal) return privateChatProfileModal.open({ user: proxyChat.secondUser });
-        privateChatProfileModal.open({ employee: proxyChat?.secondEmployee });
+        if (proxyChat?.is_group) {
+            groupChatProfileModal.open({ chatId: proxyChat.id });
+        } else {
+            if (proxyChat?.is_personal) return privateChatProfileModal.open({ user: proxyChat.secondUser });
+            privateChatProfileModal.open({ employee: proxyChat?.secondEmployee });
+        }
     };
 
     return (
         <>
+            <GroupChatProfileModal {...groupChatProfileModal} />
             <PrivateChatProfileModal {...privateChatProfileModal} />
             <ForwardMessagesModal {...forwardMessagesModal} />
             <ChatHeaderView

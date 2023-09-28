@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import useFileUploader from 'react-use-file-uploader';
 
-import { chatApi, chatProxy, ChatProfileModalView, chatTypes } from 'entities/chat';
+import { chatApi, chatProxy, GroupChatProfileModalView, chatTypes } from 'entities/chat';
 import { messageTypes } from 'entities/message';
 import { useRouter, useEasyState, UseFileUploaderTypes } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
-import AddMembersInChatModal from './add-members';
-import { UserProfileModal } from '../../../user';
-import ChatAvatarsSwiper from '../avatars-swiper';
+import PrivateChatProfileModal from './private';
+import { EmployeeProxy } from '../../../../../entities/company/model/types';
+import { UserProxy } from '../../../../../entities/user/model/types';
+import ChatAvatarsSwiper from '../../avatars-swiper';
+import AddMembersInChatModal from '../add-members';
 
-function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
+function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: number }>) {
     const { params, navigate, pathname } = useRouter();
-    const chatId = Number(params.chat_id);
+    const { chatId } = modal.payload;
 
     const visibleSwiper = useEasyState(false);
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
-    const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
+
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
     const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
@@ -29,12 +31,19 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const notification = Notification.use();
 
     const addMembersModal = Modal.use();
-    const userProfileModal = Modal.use();
+    const privateChatProfileModal = Modal.use();
 
-    const confirmDeleteChat = Modal.useConfirm((value) => {
-        if (value) {
-            chatData?.is_group ? handleLeaveChat({ chatId }, { onSuccess: exitChat }) : handleDeleteChat({ chatId }, { onSuccess: exitChat });
-        }
+    const confirmLeaveChat = Modal.useConfirm<{ img: string }>((value, callbackData) => {
+        value &&
+            handleLeaveChat(
+                { chatId },
+                {
+                    onSuccess: () => {
+                        modal.close();
+                        navigate(`/chats/${pathname.split('/')[2]}`);
+                    },
+                }
+            );
     });
 
     const confirmAddAvatar = Modal.useConfirm<{ img: string }>((value, callbackData) => {
@@ -56,21 +65,14 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const getScreenshot = (data: string) => handleAddAvatar({ chatId, img: data });
     const updateChatName = (name: string) => handleUpdateChatName({ chatId, name });
 
-    const exitChat = () => {
-        modal.close();
-        navigate(`/chats/${pathname.split('/')[2]}`);
-    };
-
-    const actions = (action: any) => {
+    const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
             case 'audioCall':
                 return notification.inDev();
             case 'videoCall':
                 return notification.inDev();
             case 'leave':
-                return confirmDeleteChat.open();
-            case 'delete':
-                return confirmDeleteChat.open();
+                return confirmLeaveChat.open();
             case 'add-members':
                 addMembersModal.open();
         }
@@ -78,16 +80,12 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     return (
         <>
-            <UserProfileModal {...userProfileModal} />
+            <PrivateChatProfileModal {...privateChatProfileModal} />
             <AddMembersInChatModal {...addMembersModal} />
             <ChatAvatarsSwiper visible={visibleSwiper.value} chatId={chatId} onClose={() => visibleSwiper.set(false)} />
-            <Modal.Confirm
-                {...confirmDeleteChat}
-                okText={chatData?.is_group ? 'Покинуть' : 'Удалить'}
-                title={chatData?.is_group ? 'Покинуть чат' : 'Удалить чат'}
-            />
+            <Modal.Confirm {...confirmLeaveChat} okText="Покинуть" title="Покинуть чат" />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
-            <ChatProfileModalView
+            <GroupChatProfileModalView
                 clickAvatar={() => visibleSwiper.set(true)}
                 getScreenshot={getScreenshot}
                 selectFile={selectFile}
@@ -96,7 +94,7 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
                 mediaTypes={mediaTypes}
                 files={filesData}
                 updateChatName={updateChatName}
-                clickUser={userProfileModal.open}
+                clickUser={privateChatProfileModal.open}
             />
         </>
     );
@@ -105,7 +103,7 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
 export default function (modal: ModalTypes.UseReturnedType) {
     return (
         <Modal {...modal}>
-            <ChatProfileModal {...modal} />
+            <GroupChatProfileModal {...modal} />
         </Modal>
     );
 }

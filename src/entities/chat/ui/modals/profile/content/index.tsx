@@ -7,7 +7,9 @@ import { Box, Icons, Button, TabBar, Card, Image, Document, AudioPlayer, VideoPl
 
 import styles from './styles.module.scss';
 import { employeeProxy } from '../../../../../company';
+import { EmployeeProxy } from '../../../../../company/model/types';
 import { userProxy } from '../../../../../user';
+import { UserProxy } from '../../../../../user/model/types';
 import { ChatProxy } from '../../../../model/types';
 
 type Props = {
@@ -15,7 +17,7 @@ type Props = {
     addMemberClick?: () => void;
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
     files: messageTypes.File[] | BaseTypes.Empty;
-    clickUser?: (member: any) => void;
+    clickUser?: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
 } & BaseTypes.Statuses;
 
 function ChatProfileContentView(props: Props) {
@@ -70,18 +72,19 @@ function ChatProfileContentView(props: Props) {
                                                           name: user?.full_name || '',
                                                           title: user?.full_name || '',
                                                           subtitle: user?.networkStatus || '',
-                                                          onClick: () => clickUser && clickUser(user),
+                                                          onClick: () => clickUser && clickUser({ user: user || undefined }),
                                                       };
                                                   })
                                                 : chat?.employee_members.map((i) => {
-                                                      const user = employeeProxy(i);
+                                                      const employee = employeeProxy(i);
                                                       return {
-                                                          id: user?.id || '',
-                                                          img: user?.avatar || '',
-                                                          name: user?.full_name || '',
-                                                          title: user?.full_name || '',
-                                                          subtitle: user?.status || '',
+                                                          id: employee?.id || '',
+                                                          img: employee?.avatar || '',
+                                                          name: employee?.full_name || '',
+                                                          title: employee?.full_name || '',
+                                                          subtitle: employee?.status || '',
                                                           companyNames: ['TFN'],
+                                                          onClick: () => clickUser && clickUser({ employee: employee || undefined }),
                                                       };
                                                   })
                                         }

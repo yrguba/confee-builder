@@ -9,7 +9,7 @@ import ChatHeaderView from './ui/header';
 import ChatsListView from './ui/list';
 import AddMembersInChatModalView from './ui/modals/add-members';
 import CreateChatModalView from './ui/modals/create';
-import ChatProfileModalView from './ui/modals/profile';
+import GroupChatProfileModalView from './ui/modals/profile/group-chat';
 import PrivateChatProfileModalView from './ui/modals/profile/private-chat';
 
 export {
@@ -21,7 +21,7 @@ export {
     chatGateway,
     ChatHeaderView,
     ChatsListView,
-    ChatProfileModalView,
+    GroupChatProfileModalView,
     CreateChatModalView,
     useChatsTabsAndLists,
     AddMembersInChatModalView,

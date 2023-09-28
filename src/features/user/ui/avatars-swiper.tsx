@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { userApi, UserProfileView } from 'entities/user';
+import { userApi } from 'entities/user';
 import { useEasyState } from 'shared/hooks';
 import { Modal, Input, Notification, ModalTypes, Image } from 'shared/ui';
 
