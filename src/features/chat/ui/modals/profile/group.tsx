@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
 
 import { chatApi, chatProxy, GroupChatProfileModalView, chatTypes } from 'entities/chat';
@@ -80,6 +81,11 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
                 addMembersModal.open();
         }
     };
+
+    useUpdateEffect(() => {
+        modal.close();
+        privateChatProfileModal.close();
+    }, [params.chat_id]);
 
     return (
         <>

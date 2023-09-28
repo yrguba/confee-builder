@@ -55,7 +55,11 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                     if (user) {
                         handleCreatePersonalChat({ user_ids: [user.id], is_group: false }, { onSuccess: (data) => redirect(data.data.data.id) });
                     } else {
-                        employee && handleCreateCompanyChat({ companyId: params.company_id, body: { employee_ids: [employee?.id], is_group: false } });
+                        employee &&
+                            handleCreateCompanyChat(
+                                { companyId: params.company_id, body: { employee_ids: [employee?.id], is_group: false } },
+                                { onSuccess: (data) => redirect(data.data.data.id) }
+                            );
                     }
                 } else {
                     return redirect(proxyChat?.id);
