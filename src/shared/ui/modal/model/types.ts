@@ -20,7 +20,7 @@ export type BaseModalProps = {
     BaseTypes.Statuses;
 
 export type ConfirmModalProps = {
-    title: string;
+    title?: string;
     subtitle?: string;
     okText?: string;
     closeText?: string;

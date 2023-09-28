@@ -27,7 +27,9 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const notification = Notification.use();
 
     const confirmDeleteChat = Modal.useConfirm((value) => {
-        chatData?.is_group ? handleLeaveChat({ chatId }, { onSuccess: exitChat }) : handleDeleteChat({ chatId }, { onSuccess: exitChat });
+        if (value) {
+            chatData?.is_group ? handleLeaveChat({ chatId }, { onSuccess: exitChat }) : handleDeleteChat({ chatId }, { onSuccess: exitChat });
+        }
     });
 
     const confirmAddAvatar = Modal.useConfirm<{ img: string }>((value, callbackData) => {
