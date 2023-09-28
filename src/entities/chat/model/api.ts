@@ -105,6 +105,22 @@ class ChatApi {
         );
     }
 
+    handleAddMembersCompanyChat() {
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { chatId: number | string; employee_ids: number[] | string[] | null }) =>
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/for-company/add-members `, data),
+            {
+                onSuccess: async (res, data) => {
+                    const updRes = httpHandlers.response<{ data: Chat }>(res);
+                    queryClient.setQueryData(['get-chat', updRes.data?.data.id], (cacheData: any) => {
+                        cacheData.data.data = updRes.data?.data;
+                    });
+                },
+            }
+        );
+    }
+
     handleCreateCompanyChat() {
         const queryClient = useQueryClient();
         return useMutation(

@@ -30,7 +30,7 @@ const memoEmployees = createMemo(companyService.getUpdatedEmployeesList);
 function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnType {
     const tabs = memoTabs(props.companies);
     const { redirect = true } = props;
-    const { navigate, pathname } = useRouter();
+    const { navigate, pathname, params } = useRouter();
     const searchInput = Input.use({});
     const { data: searchData, isLoading: searchLoading, isFetching } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
 
@@ -40,8 +40,10 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     const activeList = useEasyState<contactTypes.Contact[] | companyTypes.Department[]>([]);
     const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
 
+    const companyId = params.company_id || activeTab.value?.payload?.id;
+
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
-    const { data: departmentsData } = companyApi.handleGetDepartments({ companyId: activeTab.value?.payload?.id });
+    const { data: departmentsData } = companyApi.handleGetDepartments({ companyId });
 
     const {
         data: departmentEmployees,
@@ -49,7 +51,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         hasNextPage,
         fetchNextPage,
     } = companyApi.handleGetDepartmentEmployees({
-        companyId: activeTab.value?.payload?.id,
+        companyId,
         departmentId: departmentId.value,
         initialPage: 0,
     });
@@ -77,7 +79,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         departmentsEmployees.set((prev) => ({ ...prev, [key]: employees }));
     }, [departmentEmployees?.pages]);
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         if (contactsData && activeTab.value?.title === 'Личные') {
             activeList.set(contactsData);
         } else {
@@ -95,7 +97,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     }, [props.companies, activeTab.value, departmentsData]);
 
     useEffect(() => {
-        if (pathname.includes('contacts') || !redirect) {
+        if (pathname.includes('personal') || !redirect) {
             tabs.length && activeTab.set(tabs[0]);
             contactsData && activeList.set(contactsData);
         }

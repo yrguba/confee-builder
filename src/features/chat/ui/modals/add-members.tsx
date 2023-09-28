@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { chatApi, chatProxy, chatTypes, AddMembersInChatModalView } from 'entities/chat';
 import { contactProxy, contactApi, useContactsTabsAndLists } from 'entities/contact';
@@ -15,11 +15,11 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
     const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: true });
 
     const { mutate: handleAddMembersPersonalChat, isLoading } = chatApi.handleAddMembersPersonalChat();
-    const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
+    const { mutate: handleAddMembersCompanyChat } = chatApi.handleAddMembersCompanyChat();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
 
     const add = () => {
         if (!selectedContacts.array.length && !selectedEmployees.array.length) {
@@ -33,20 +33,17 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
                 }
             );
         }
-        // if (selectedEmployees.array.length) {
-        //     handleCreateCompanyChat(
-        //         {
-        //             body: { employee_ids: selectedEmployees.array.map((i) => i.payload.id), is_group: isGroup.value },
-        //             companyId: tabsAndLists.activeTab?.payload?.id,
-        //         },
-        //         {
-        //             onSuccess: (data) => {
-        //                 modal.close();
-        //                 navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.id}/chat/${data.data.data.id}`);
-        //             },
-        //         }
-        //     );
-        // }
+        if (selectedEmployees.array.length && params.chat_id) {
+            handleAddMembersCompanyChat(
+                {
+                    chatId: params.chat_id,
+                    employee_ids: selectedEmployees.array.map((i) => i.payload.id),
+                },
+                {
+                    onSuccess: (data) => modal.close(),
+                }
+            );
+        }
     };
 
     return (

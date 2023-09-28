@@ -51,9 +51,14 @@ class CompanyApi {
         });
     }
 
-    handleGetDepartmentEmployees(data: { initialPage?: number | undefined; companyId: number | undefined | null; departmentId: number | undefined | null }) {
+    handleGetDepartmentEmployees(data: {
+        initialPage?: number | undefined;
+        companyId: number | string | undefined | null;
+        departmentId: number | undefined | null;
+    }) {
         return useInfiniteQuery(
             ['get-department-employees', data.companyId, data.departmentId],
+
             ({ pageParam }) => {
                 return axiosClient.get(`api/v2/companies/${data.companyId}/departments/${data.departmentId}/employees`, {
                     params: {
@@ -62,7 +67,6 @@ class CompanyApi {
                     },
                 });
             },
-
             {
                 enabled: !!data.departmentId && !!data.companyId,
                 staleTime: Infinity,
@@ -84,7 +88,7 @@ class CompanyApi {
         );
     }
 
-    handleGetDepartments(data: { companyId: number | undefined }) {
+    handleGetDepartments(data: { companyId: number | string | undefined }) {
         return useQuery(['get-departments', data.companyId], () => axiosClient.get(`/api/v2/companies/${data.companyId}/departments/without-employees`), {
             enabled: !!data.companyId,
             staleTime: Infinity,
