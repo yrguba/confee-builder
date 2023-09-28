@@ -7,8 +7,12 @@ import { UserProxy } from 'entities/user/model/types';
 import { useRouter, useEasyState } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
+import { viewerService } from '../../../../../entities/viewer';
+
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
     const { navigate, pathname, params } = useRouter();
+
+    const viewerId = viewerService.getId();
     const { user } = modal.payload;
     const { employee } = modal.payload;
 
@@ -74,6 +78,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 mediaTypes={mediaTypes}
                 files={filesData}
                 visibleChatBtn={String(proxyChat?.id) !== params.chat_id}
+                visibleBtns={user?.id !== viewerId}
             />
         </>
     );

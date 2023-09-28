@@ -3,6 +3,7 @@ import useFileUploader from 'react-use-file-uploader';
 
 import { chatApi, chatProxy, GroupChatProfileModalView, chatTypes } from 'entities/chat';
 import { messageTypes } from 'entities/message';
+import { viewerService } from 'entities/viewer';
 import { useRouter, useEasyState, UseFileUploaderTypes } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
@@ -14,6 +15,8 @@ import AddMembersInChatModal from '../add-members';
 
 function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: number }>) {
     const { params, navigate, pathname } = useRouter();
+
+    const viewerId = viewerService.getId();
     const { chatId } = modal.payload;
 
     const visibleSwiper = useEasyState(false);

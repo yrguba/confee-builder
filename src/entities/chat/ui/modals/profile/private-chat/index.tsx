@@ -22,10 +22,11 @@ type Props = {
     files: messageTypes.File[] | BaseTypes.Empty;
     clickAvatar: () => void;
     visibleChatBtn: boolean;
+    visibleBtns?: boolean;
 } & BaseTypes.Statuses;
 
 function PrivateChatProfileModalView(props: Props) {
-    const { user, employee, chat, actions, mediaTypes, files, clickAvatar, visibleChatBtn } = props;
+    const { user, employee, chat, actions, mediaTypes, files, clickAvatar, visibleChatBtn, visibleBtns = true } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -63,15 +64,16 @@ function PrivateChatProfileModalView(props: Props) {
                 </Title>
             </div>
             <div className={styles.btns}>
-                {btns
-                    .filter((i) => !i.hidden)
-                    .map((i) => (
-                        <Dropdown.Menu position="bottom-center" items={menuItems} key={i.id} disabled={i.id !== 3}>
-                            <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
-                                {i.title}
-                            </Button>
-                        </Dropdown.Menu>
-                    ))}
+                {visibleBtns &&
+                    btns
+                        .filter((i) => !i.hidden)
+                        .map((i) => (
+                            <Dropdown.Menu position="bottom-center" items={menuItems} key={i.id} disabled={i.id !== 3}>
+                                <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
+                                    {i.title}
+                                </Button>
+                            </Dropdown.Menu>
+                        ))}
             </div>
             {employee && (
                 <div className={styles.companyCard}>

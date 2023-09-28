@@ -23,7 +23,7 @@
   }
 
   .btns {
-    @include box-size(370px, 61px);
+    @include box-size(370px, auto);
     @include flex;
     gap: 16px;
     margin: 0 90px;
