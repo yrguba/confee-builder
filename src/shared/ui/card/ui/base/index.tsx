@@ -85,6 +85,7 @@ export default memo(Card, (prevProps, nextProps): any => {
     if (prevProps.img !== nextProps.img) return false;
     if (prevProps.subtitle !== nextProps.subtitle) return false;
     if (prevProps.avatarNetworkStatus !== nextProps.avatarNetworkStatus) return false;
+    if (prevProps.title !== nextProps.title) return false;
     return true;
 });
 // export default Card;

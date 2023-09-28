@@ -205,7 +205,29 @@ class ChatApi {
     handleUpdateChatName() {
         const queryClient = useQueryClient();
         return useMutation((data: { chatId: number; name: string }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/name`, { name: data.name }), {
-            onSuccess: async (data) => {},
+            onSuccess: async (res, data) => {
+                ['all', 'personal'].forEach((i) =>
+                    queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                        if (!cacheData?.pages?.length) return cacheData;
+                        return produce(cacheData, (draft: any) => {
+                            draft?.pages.forEach((page: any) => {
+                                page.data.data = page?.data?.data.map((chat: Chat) => {
+                                    if (data.chatId === chat.id) {
+                                        return { ...chat, name: data.name };
+                                    }
+                                    return chat;
+                                });
+                            });
+                        });
+                    })
+                );
+                queryClient.setQueryData(['get-chat', data?.chatId], (cacheData: any) => {
+                    if (!cacheData?.data?.data) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data = { ...draft.data.data, name: data.name };
+                    });
+                });
+            },
         });
     }
 

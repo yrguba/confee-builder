@@ -46,7 +46,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                 case 'subtitle':
                     if (target.typing) return target.typing;
                     if (target.is_group) {
-                        const memberCount = target.members.length || target.employee_members.length;
+                        const memberCount = target.members?.length || target.employee_members?.length;
                         const word = getEnding(memberCount, ['участник', 'участника', 'участников']);
                         return `${memberCount} ${word}`;
                     }
