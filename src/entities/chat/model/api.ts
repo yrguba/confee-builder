@@ -19,7 +19,7 @@ class ChatApi {
 
     socket = useWebSocket<SocketIn, SocketOut>();
 
-    handleGetChat = (data: { chatId: number | undefined }) => {
+    handleGetChat = (data: { chatId: number | string | undefined }) => {
         return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
             staleTime: Infinity,
             enabled: !!data.chatId,

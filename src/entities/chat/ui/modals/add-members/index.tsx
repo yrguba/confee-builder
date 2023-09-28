@@ -8,16 +8,18 @@ import styles from './styles.module.scss';
 import { employeeProxy } from '../../../../company';
 import contactProxy from '../../../../contact/lib/proxy';
 import { ContactProxy, UseContactsTabsAndListsReturnType } from '../../../../contact/model/types';
+import { ChatProxy } from '../../../model/types';
 
 type Props = {
     selectedContacts: UseArrayReturnType<CardTypes.CardListItem>;
     selectedEmployees: UseArrayReturnType<CardTypes.CardListItem>;
+    chat: ChatProxy | BaseTypes.Empty;
     add: () => void;
     tabsAndLists: UseContactsTabsAndListsReturnType;
 } & BaseTypes.Statuses;
 
 function AddMembersInChatModalView(props: Props) {
-    const { selectedContacts, selectedEmployees, add, tabsAndLists, loading } = props;
+    const { chat, selectedContacts, selectedEmployees, add, tabsAndLists, loading } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -36,13 +38,14 @@ function AddMembersInChatModalView(props: Props) {
                         items={tabsAndLists.activeList?.map((i: any) => {
                             const contact: ContactProxy = contactProxy(i);
                             return {
-                                id: contact?.id || '',
+                                id: contact?.user.id || '',
                                 img: contact?.avatar || '',
                                 name: contact?.full_name || '',
                                 title: contact?.full_name || '',
                                 subtitle: contact?.phone || '',
                                 payload: { id: contact.user?.id },
                                 onClick: () => '',
+                                disabledSelect: !!chat?.members.find((i) => i?.id === contact.user?.id),
                             };
                         })}
                     />
@@ -63,6 +66,7 @@ function AddMembersInChatModalView(props: Props) {
                                         subtitle: employee?.email || '',
                                         payload: { id: employee?.id },
                                         onClick: () => '',
+                                        disabledSelect: !!chat?.employee_members.find((i) => i.id === employee?.id),
                                     } as any;
                                 })}
                             />

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy, chatTypes, AddMembersInChatModalView } from 'entities/chat';
 import { contactProxy, contactApi, useContactsTabsAndLists } from 'entities/contact';
@@ -11,15 +12,17 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
 
     const notifications = Notification.use();
 
-    const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: true });
-    const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: true });
-
     const { mutate: handleAddMembersPersonalChat, isLoading } = chatApi.handleAddMembersPersonalChat();
     const { mutate: handleAddMembersCompanyChat } = chatApi.handleAddMembersCompanyChat();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
+    const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
+    const proxyChat = chatProxy(chatData);
 
     const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
+
+    const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: true });
+    const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: true });
 
     const add = () => {
         if (!selectedContacts.array.length && !selectedEmployees.array.length) {
@@ -52,6 +55,7 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
             selectedContacts={selectedContacts}
             selectedEmployees={selectedEmployees}
             add={add}
+            chat={proxyChat}
             loading={isLoading}
         />
     );

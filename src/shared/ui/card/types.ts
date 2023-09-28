@@ -23,6 +23,7 @@ export type BaseCardProps = {
 export type CardListItem<T = any> = {
     id: string | number;
     payload?: T;
+    disabledSelect?: boolean;
 } & BaseCardProps;
 
 export type CardListProps = {

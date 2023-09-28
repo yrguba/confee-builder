@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from 'react';
-import { useUpdateEffect } from 'react-use';
 
 import styles from './styles.module.scss';
 import { useInView } from '../../../../hooks';
@@ -40,14 +39,18 @@ function CardList(props: CardListProps) {
             {arr?.map((i, index) => (
                 <Fragment key={i.id}>
                     {getDelimiter(arr, index)}
-                    <div className={styles.item} onClick={() => selected && selected.pushOrDelete(i)} ref={index + 1 === arr?.length ? lastCard : null}>
+                    <div
+                        className={styles.item}
+                        onClick={() => !i.disabledSelect && selected && selected.pushOrDelete(i)}
+                        ref={index + 1 === arr?.length ? lastCard : null}
+                    >
                         <div className={styles.info}>
                             <Card {...i} />
                         </div>
 
                         {selected && (
                             <div className={styles.selectIndicator}>
-                                <Box.Animated visible={!!selected && !!selected.findById(i.id)}>
+                                <Box.Animated visible={!!selected?.findById(i.id) || !!i?.disabledSelect}>
                                     <Icons variant="check" />
                                 </Box.Animated>
                             </div>
