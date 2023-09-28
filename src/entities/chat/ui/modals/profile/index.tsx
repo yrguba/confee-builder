@@ -109,6 +109,11 @@ function ChatProfileModalView(props: Props) {
                 </div>
             )}
             <div className={styles.media}>
+                <div className={styles.addContact}>
+                    <Button.Circle variant="inherit" onClick={() => actions('add-members')}>
+                        <Icons variant="add-contact" />
+                    </Button.Circle>
+                </div>
                 <div className={styles.tabBar}>
                     <TabBar.WithLine
                         wrapperStyle={{ justifyContent: 'space-around' }}

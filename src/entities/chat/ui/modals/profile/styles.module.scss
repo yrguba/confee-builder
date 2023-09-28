@@ -63,6 +63,17 @@
     background-color: var(--bg-primary);
     border-radius: 12px;
     margin-bottom: 24px;
+    position: relative;
+
+    .addContact {
+      position: absolute;
+      top: 62px;
+      right: 12px;
+
+      svg {
+        fill: var(--text-primary);
+      }
+    }
 
     .tabBar {
       padding: 20px 20px 0 20px;

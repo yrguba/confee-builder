@@ -13,8 +13,15 @@
 .primary {
   background-color: var(--control-primary);
   color: var(--text-fixed);
+
   &:hover {
     background-color: var(--control-primary-pressed);
+  }
+}
+
+.inherit {
+  &:hover {
+    transform: scale(1.1);
   }
 }
 
@@ -22,6 +29,7 @@
   background-color: inherit;
   color: var(--text-action-pressed);
   transition: all .5s;
+
   &:hover {
     //background-color: var(--control-primary);
   }

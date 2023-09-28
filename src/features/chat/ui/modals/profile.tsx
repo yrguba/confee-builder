@@ -66,6 +66,8 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
                 return confirmDeleteChat.open();
             case 'delete':
                 return confirmDeleteChat.open();
+            case 'add-members':
+                console.log('a');
         }
     };
 

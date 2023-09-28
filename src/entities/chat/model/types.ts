@@ -47,6 +47,6 @@ export type UseChatsTabsAndListsReturnType = {
     getNextPage: () => void;
 };
 
-export type Actions = 'delete' | 'leave' | 'audioCall' | 'videoCall';
+export type Actions = 'delete' | 'leave' | 'audioCall' | 'videoCall' | 'add-members';
 export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated';
 export type SocketOut = 'ChatListenersUpdated';

@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { contactTypes } from 'entities/contact';
-import { UseEasyStateReturnType, UseArrayReturnType, useWidthMediaQuery } from 'shared/hooks';
+import { UseEasyStateReturnType, UseArrayReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, Input, Title, TabBar, Card, CardTypes, IconsTypes, Dropdown, Collapse } from 'shared/ui';
+import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { employeeProxy } from '../../../../company';
-import { Department, EmployeeProxy } from '../../../../company/model/types';
 import contactProxy from '../../../../contact/lib/proxy';
-import { Actions, ContactProxy, UseContactsTabsAndListsReturnType } from '../../../../contact/model/types';
+import { ContactProxy, UseContactsTabsAndListsReturnType } from '../../../../contact/model/types';
 
 type Props = {
     selectedContacts: UseArrayReturnType<CardTypes.CardListItem>;
