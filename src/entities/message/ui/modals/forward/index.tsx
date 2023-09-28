@@ -41,7 +41,14 @@ function ForwardMessagesModalView(props: Props) {
                 <div className={styles.list}>
                     {tabsAndLists.activeList?.length &&
                         tabsAndLists.activeList?.map((chat) => (
-                            <Card onClick={() => clickOnChat(chat)} key={chat?.id} title={chat.name || ''} subtitle={chat.subtitle || ''} />
+                            <Card
+                                onClick={() => clickOnChat(chat)}
+                                name={chat.name}
+                                img={chat.avatar}
+                                key={chat?.id}
+                                title={chat.name || ''}
+                                subtitle={chat.subtitle || ''}
+                            />
                         ))}
                 </div>
             </div>

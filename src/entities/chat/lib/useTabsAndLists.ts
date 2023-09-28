@@ -64,12 +64,15 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     useUpdateEffect(() => {
         if (personalChatsProxy?.length && activeTab.value?.title === 'Личные') {
-            activeList.set(personalChatsProxy as any);
+            return activeList.set(personalChatsProxy as any);
         }
         if (allChatsProxy?.length && activeTab.value?.title === 'Все') {
-            activeList.set(allChatsProxy as any);
+            return activeList.set(allChatsProxy as any);
         }
-    }, [activeTab.value]);
+        if (companyChatsProxy?.length) {
+            activeList.set(companyChatsProxy as any);
+        }
+    }, [activeTab.value, companyChatsProxy]);
 
     const clickTab = (tab: TabBarTypes.TabBarItem<TabPayload>) => {
         activeTab.set(tab);

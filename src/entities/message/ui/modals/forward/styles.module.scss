@@ -4,7 +4,7 @@
   @include box-size(416px, auto);
   @include flex-column(flex-start, flex-start);
   max-height: 90vh;
-  gap: 16px;
+
 
   .header {
     @include flex-column();
@@ -22,20 +22,22 @@
     @include box-size(calc(100% - 16px), 48px);
     @include flex(flex-start);
     padding-left: 16px;
+    margin-bottom: 8px;
   }
 
   .body {
-    @include flex-column(flex-start, flex-start);
+    @include flex-column(flex-start, flex-end);
     @include scrollBarVertical;
-    width: calc(100% - 24px);
+    width: 100%;
     flex: 1;
-    margin-left: 24px;
+    //margin-left: 24px;
     gap: 20px;
     overflow-y: auto;
 
     .list {
       @include flex-column(flex-start, flex-start, 12);
-      max-height: 300px;
+      width: 94%;
+      padding: 12px 0;
     }
   }
 
