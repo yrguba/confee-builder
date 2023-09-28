@@ -33,8 +33,9 @@ function messageGateway() {
                 return produce(cacheData, (draft: any) => {
                     if (
                         socketData.data.message.author.id === viewerId &&
-                        socketData.data.message.type !== 'system' &&
-                        !socketData.data.message.forwarded_from_message
+                        socketData.data.message.type !== 'system'
+                        // &&
+                        // !socketData.data.message.forwarded_from_message
                     ) {
                         if (socketData.data.message?.files?.length) {
                             const foundMockIndex = draft.pages[0].data.data.findIndex((i: MessageProxy) => i.isMock && socketData.data.message.type === i.type);
@@ -60,7 +61,7 @@ function messageGateway() {
             });
             ['all', 'personal'].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                    if (!cacheData?.pages?.length || socketData.data.extra_info.is_read) return cacheData;
+                    if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
                         draft?.pages.forEach((page: any) => {
                             const foundChatIndex = page.data?.data?.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
@@ -69,7 +70,9 @@ function messageGateway() {
                                 page.data.data.splice(foundChatIndex, 1);
                                 page.data.data.unshift({
                                     ...chat,
-                                    pending_messages_count: socketData.data.extra_info.chat_pending_messages_count,
+                                    pending_messages_count: socketData.data.extra_info.is_read
+                                        ? chat.pending_messages_count
+                                        : socketData.data.extra_info.chat_pending_messages_count,
                                     last_message: socketData.data.message,
                                     typing: '',
                                 });

@@ -55,7 +55,7 @@ class MessageApi {
             {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                        const message = mockMessage({ text: data.text, viewer: viewerData?.data.data, reply: data.replyMessage });
+                        const message = mockMessage({ text: data.text, author: viewerData?.data.data, reply: data.replyMessage });
                         return produce(cacheData, (draft: any) => {
                             draft.pages[0].data.data.unshift(message);
                         });
@@ -83,7 +83,7 @@ class MessageApi {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
                         const message = mockMessage({
                             text: '',
-                            viewer: viewerData?.data.data,
+                            author: viewerData?.data.data,
                             files: data.filesForMock,
                             type: data.filesType,
                             reply: data.replyMessage,
@@ -100,8 +100,28 @@ class MessageApi {
     handleForwardMessages() {
         const queryClient = useQueryClient();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
-        return useMutation((data: { messages: number[]; chatId: number }) =>
-            axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages/forward`, { forward_from_message_ids: data.messages })
+        return useMutation(
+            (data: { messages: Message[]; chatId: number }) =>
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages/forward`, { forward_from_message_ids: data.messages.map((i) => i.id) }),
+            {
+                onMutate: (data) => {
+                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                        const messages = data.messages.map((i: any) => {
+                            return mockMessage({
+                                text: i.text,
+                                author: i.author,
+                                files: i.files,
+                                type: i.type,
+                                reply: i.reply_to_message,
+                                forward: i,
+                            });
+                        });
+                        return produce(cacheData, (draft: any) => {
+                            draft.pages[0].data.data = [...messages, ...draft.pages[0].data.data];
+                        });
+                    });
+                },
+            }
         );
     }
 

@@ -70,7 +70,7 @@ function MessageInput() {
             setTimeout(() => {
                 handleForwardMessages({
                     chatId,
-                    messages: forwardMessages.value.messages.map((i) => i.id),
+                    messages: forwardMessages.value.messages,
                 });
             }, 1000);
             forwardMessages.clear();
