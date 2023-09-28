@@ -20,10 +20,11 @@ type Props = {
     getScreenshot: (data: string) => void;
     clickAvatar: () => void;
     updateChatName: (name: string) => void;
+    clickUser: (member: any) => void;
 } & BaseTypes.Statuses;
 
 function ChatProfileModalView(props: Props) {
-    const { clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
+    const { clickUser, clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -109,11 +110,13 @@ function ChatProfileModalView(props: Props) {
                 </div>
             )}
             <div className={styles.media}>
-                <div className={styles.addContact}>
-                    <Button.Circle variant="inherit" onClick={() => actions('add-members')}>
-                        <Icons variant="add-contact" />
-                    </Button.Circle>
-                </div>
+                {chat?.is_group && (
+                    <div className={styles.addContact}>
+                        <Button.Circle variant="inherit" onClick={() => actions('add-members')}>
+                            <Icons variant="add-contact" />
+                        </Button.Circle>
+                    </div>
+                )}
                 <div className={styles.tabBar}>
                     <TabBar.WithLine
                         wrapperStyle={{ justifyContent: 'space-around' }}
@@ -145,6 +148,7 @@ function ChatProfileModalView(props: Props) {
                                                               name: user?.full_name || '',
                                                               title: user?.full_name || '',
                                                               subtitle: user?.networkStatus || '',
+                                                              onClick: () => clickUser(user),
                                                           };
                                                       })
                                                     : chat?.employee_members.map((i) => {

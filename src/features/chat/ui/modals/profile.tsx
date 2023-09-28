@@ -7,6 +7,7 @@ import { useRouter, useEasyState, UseFileUploaderTypes } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
 import AddMembersInChatModal from './add-members';
+import { UserProfileModal } from '../../../user';
 import ChatAvatarsSwiper from '../avatars-swiper';
 
 function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
@@ -28,6 +29,7 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const notification = Notification.use();
 
     const addMembersModal = Modal.use();
+    const userProfileModal = Modal.use();
 
     const confirmDeleteChat = Modal.useConfirm((value) => {
         if (value) {
@@ -76,6 +78,7 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     return (
         <>
+            <UserProfileModal {...userProfileModal} />
             <AddMembersInChatModal {...addMembersModal} />
             <ChatAvatarsSwiper visible={visibleSwiper.value} chatId={chatId} onClose={() => visibleSwiper.set(false)} />
             <Modal.Confirm
@@ -93,6 +96,7 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
                 mediaTypes={mediaTypes}
                 files={filesData}
                 updateChatName={updateChatName}
+                clickUser={userProfileModal.open}
             />
         </>
     );
