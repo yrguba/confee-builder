@@ -29,23 +29,15 @@ function FilesToSendModalView(props: Props) {
             </div>
             <div className={styles.list}>
                 {images.array.length ? (
-                    images.array.length > 3 ? (
-                        images.array.map((i) => (
-                            <Item key={i.id} remove={() => images.deleteById(i.id)}>
-                                <Image.Card url={i.fileUrl} name={i.name} size={+i.size} />
-                            </Item>
-                        ))
-                    ) : (
-                        <Image.List
-                            items={images.array.map((i) => ({
-                                remove: (id) => images.deleteById(id),
-                                id: i.id,
-                                url: i.fileUrl,
-                                height: images.array.length === 1 ? '100%' : '150px',
-                                width: images.array.length === 1 ? '100%' : '150px',
-                            }))}
-                        />
-                    )
+                    <Image.List
+                        items={images.array.map((i) => ({
+                            remove: (id) => images.deleteById(id),
+                            id: i.id,
+                            url: i.fileUrl,
+                            height: images.array.length === 1 ? '100%' : '120px',
+                            width: images.array.length === 1 ? '100%' : 'auto',
+                        }))}
+                    />
                 ) : null}
                 {audios.array.length
                     ? audios.array.map((i) => (

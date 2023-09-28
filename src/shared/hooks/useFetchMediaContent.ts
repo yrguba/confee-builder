@@ -11,7 +11,7 @@ function useFetchMediaContent(url = '', saveInCache = false, returnVideoCover = 
     const [src, setSrc] = useState<any>('');
     const [fileBlob, setFileBlob] = useState<Blob | null>(null);
     const videoCover = useEasyState<string | null>(null);
-
+    const loading = useEasyState(false);
     const { saveFile, getFile } = useFS();
 
     const checkFetch = () => {
@@ -27,6 +27,7 @@ function useFetchMediaContent(url = '', saveInCache = false, returnVideoCover = 
 
     useEffect(() => {
         const fn = async () => {
+            loading.set(true);
             if (isFetch && fileData) {
                 const filePath = fileConverter.blobLocalPath(fileData);
                 setSrc(filePath);
@@ -39,7 +40,9 @@ function useFetchMediaContent(url = '', saveInCache = false, returnVideoCover = 
                 setSrc(url);
             }
         };
-        fn().then();
+        fn()
+            .then()
+            .finally(() => loading.set(false));
     }, [url, fileData]);
 
     return {
@@ -47,7 +50,7 @@ function useFetchMediaContent(url = '', saveInCache = false, returnVideoCover = 
         fileBlob,
         videoCover: videoCover.value,
         error,
-        isLoading: !url || !isFetch ? false : isLoading,
+        isLoading: !url || !isFetch ? false : loading.value || isLoading,
     };
 }
 
