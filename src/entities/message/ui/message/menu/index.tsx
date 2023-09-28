@@ -9,6 +9,7 @@ import { Box, IconsTypes, Icons, Title, Emoji, Card } from 'shared/ui';
 import styles from './styles.module.scss';
 import { createMemo } from '../../../../../shared/hooks';
 import { chatTypes } from '../../../../chat';
+import { EmployeeProxy } from '../../../../company/model/types';
 import { userProxy } from '../../../../user';
 import { UserProxy, User } from '../../../../user/model/types';
 import { MessageMenuActions, MessageProxy } from '../../../model/types';
@@ -18,7 +19,7 @@ type Props = {
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
-    openUserModal: (user: UserProxy) => void;
+    openChatProfileModal: (data: { user: UserProxy; employee: EmployeeProxy }) => void;
 } & BaseTypes.Statuses;
 
 const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: number[]) => {
@@ -32,7 +33,7 @@ const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: nu
 });
 
 function MessageMenu(props: Props) {
-    const { messageMenuAction, message, sendReaction, chat, openUserModal } = props;
+    const { messageMenuAction, message, sendReaction, chat, openChatProfileModal } = props;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions | 'read'>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
@@ -104,7 +105,7 @@ function MessageMenu(props: Props) {
                 <Box.Animated visible={visibleUsers.value} animationVariant="autoHeight" className={styles.users} onMouseLeave={() => visibleUsers.set(false)}>
                     <Card.List
                         items={readUsers.map((i) => ({
-                            onClick: () => openUserModal(i),
+                            // onClick: () => openChatProfileModal(),
                             id: i.id,
                             img: i.avatar,
                             name: i.full_name,

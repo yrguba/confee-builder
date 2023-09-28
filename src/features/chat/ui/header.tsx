@@ -9,7 +9,7 @@ import { useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 import { TabBarTypes, Notification, Modal } from 'shared/ui';
 
-import ChatProfileModal from './modals/profile';
+import PrivateChatProfileModal from './modals/profile/private';
 import { ForwardMessagesModal } from '../../message';
 
 function ChatHeader() {
@@ -17,6 +17,7 @@ function ChatHeader() {
 
     const { data: chatData, isLoading } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
+    const proxyChat = chatProxy(chatData);
 
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const forwardMessages = useMessageStore.use.forwardMessages();
@@ -27,7 +28,7 @@ function ChatHeader() {
 
     const webView = useWebView(callPath, 'аудио звонок');
 
-    const chatProfileModal = Modal.use();
+    const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
     const clickChatAudioCall = async () => {
@@ -61,15 +62,20 @@ function ChatHeader() {
         { id: 2, icon: 'videocam-outlined', callback: () => notification.inDev() },
     ];
 
+    const clickCard = () => {
+        if (proxyChat?.is_personal) return privateChatProfileModal.open({ user: proxyChat.secondUser });
+        privateChatProfileModal.open({ employee: proxyChat?.secondEmployee });
+    };
+
     return (
         <>
-            <ChatProfileModal {...chatProfileModal} />
+            <PrivateChatProfileModal {...privateChatProfileModal} />
             <ForwardMessagesModal {...forwardMessagesModal} />
             <ChatHeaderView
                 back={() => navigate('/chats')}
                 chat={chatProxy(chatData)}
                 tabs={tabs}
-                clickCard={chatProfileModal.open}
+                clickCard={clickCard}
                 highlightedMessages={highlightedMessages}
                 clickDeleteMessages={clickDeleteMessages}
                 clickForwardMessages={clickForwardMessages}

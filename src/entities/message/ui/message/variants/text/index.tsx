@@ -12,16 +12,19 @@ import LinkInfo from './widgets/link-info';
 import 'linkify-plugin-mention';
 import { chatTypes } from '../../../../../chat';
 import { ChatProxy } from '../../../../../chat/model/types';
-import { User } from '../../../../../user/model/types';
+import { employeeProxy } from '../../../../../company';
+import { EmployeeProxy } from '../../../../../company/model/types';
+import { userProxy } from '../../../../../user';
+import { User, UserProxy } from '../../../../../user/model/types';
 
 type Props = {
     text: string;
-    clickTag: (tag: User) => void;
+    openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
 } & BaseTypes.Statuses;
 
 function TextMessage(props: Props) {
-    const { text, clickTag, chat } = props;
+    const { text, openChatProfileModal, chat } = props;
     const once = useRef(true);
     const linksInfo = useArray({});
 
@@ -57,10 +60,17 @@ function TextMessage(props: Props) {
             },
             mention: ({ attributes, content }: any) => {
                 const { href, ...props } = attributes;
-                const arr: any = chat?.is_personal ? chat?.members : chat?.employee_members;
-                const user = arr.find((i: any) => content === `@${i.nickname}`);
+                const user = chat?.members.find((i: any) => content === `@${i.nickname}`);
+                const employee = chat?.employee_members.find((i: any) => content === `@${i.nickname}`);
+
                 return (
-                    <span onClick={() => (user ? clickTag(user) : '')} className={user ? styles.tag : ''} {...props}>
+                    <span
+                        onClick={() =>
+                            user ? openChatProfileModal({ user: userProxy(user) || undefined, employee: employeeProxy(employee) || undefined }) : ''
+                        }
+                        className={user ? styles.tag : ''}
+                        {...props}
+                    >
                         {`${content}\xa0`}
                     </span>
                 );

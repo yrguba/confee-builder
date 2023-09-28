@@ -30,6 +30,17 @@ class ChatApi {
         });
     };
 
+    handleGetChatWithUser = (data: { userId: number | string | undefined }) => {
+        return useQuery(['get-chat-with-user', data.userId], () => axiosClient.get(`${this.pathPrefix}/chat/with-user/${data.userId}`), {
+            staleTime: Infinity,
+            enabled: !!data.userId,
+            select: (data) => {
+                const res = httpHandlers.response<{ data: Chat }>(data);
+                return res.data?.data;
+            },
+        });
+    };
+
     handleGetPrivateChat = (data: { userId: number | undefined }) => {
         return useQuery(['get-private-chat', data.userId], () => axiosClient.get(`${this.pathPrefix}/chat/with-user/${data.userId}`), {
             staleTime: Infinity,
@@ -175,9 +186,9 @@ class ChatApi {
         });
     };
 
-    handleGetChatFiles = (data: { chatId: number; filesType: MediaContentType | null }) => {
+    handleGetChatFiles = (data: { chatId: number | undefined; filesType: MediaContentType | null }) => {
         return useQuery(['get-chat-files', data.chatId, data?.filesType], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/files/${data.filesType}`), {
-            enabled: !!data.filesType,
+            enabled: !!data.filesType && !!data.chatId,
             select: (data) => {
                 const res = httpHandlers.response<{ data: File[] }>(data);
                 return res.data?.data;

@@ -10,6 +10,7 @@ import ChatsListView from './ui/list';
 import AddMembersInChatModalView from './ui/modals/add-members';
 import CreateChatModalView from './ui/modals/create';
 import ChatProfileModalView from './ui/modals/profile';
+import PrivateChatProfileModalView from './ui/modals/profile/private-chat';
 
 export {
     chatApi,
@@ -24,4 +25,5 @@ export {
     CreateChatModalView,
     useChatsTabsAndLists,
     AddMembersInChatModalView,
+    PrivateChatProfileModalView,
 };

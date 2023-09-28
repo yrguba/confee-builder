@@ -1,0 +1,41 @@
+@import "src/app/styles/index";
+
+.wrapper {
+  @include flex-column();
+  @include box-size(84%, auto);
+  gap: 4px;
+  flex: 1;
+  background-color: var(--bg-primary);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  position: relative;
+
+  .addContact {
+    position: absolute;
+    top: 62px;
+    right: 12px;
+
+    svg {
+      fill: var(--text-primary);
+    }
+  }
+
+  .tabBar {
+    padding: 20px 20px 0 20px;
+    position: relative;
+    @include box-size(calc(100% - 40px), auto);
+  }
+
+  .mediaList {
+    @include box-size(100%, auto);
+    margin-top: 10px;
+    min-height: 100px;
+    max-height: 40vh;
+    overflow-y: auto;
+    color: var(--text-action);
+
+    .members, .documents, .audios {
+      padding: 10px 20px;
+    }
+  }
+}

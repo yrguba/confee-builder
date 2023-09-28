@@ -16,6 +16,7 @@ import VideoMessage from './variants/video';
 import VoiceMessage from './variants/voice';
 import { useStyles } from '../../../../shared/hooks';
 import { appTypes } from '../../../app';
+import { EmployeeProxy } from '../../../company/model/types';
 import { userProxy } from '../../../user';
 import { User, UserProxy } from '../../../user/model/types';
 import messageProxy from '../../lib/proxy';
@@ -26,12 +27,12 @@ type Props = {
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
-    openUserModal: (user: UserProxy | null) => void;
+    openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     voiceRecordingInProgress: boolean;
 } & BaseTypes.Statuses;
 
 const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
-    const { message, messageMenuAction, chat, sendReaction, openUserModal, voiceRecordingInProgress } = props;
+    const { message, messageMenuAction, chat, sendReaction, openChatProfileModal, voiceRecordingInProgress } = props;
 
     const {
         text,
@@ -54,10 +55,6 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         another_last: lastMessageInBlock && !isMy,
     });
 
-    const clickTag = (user: User) => {
-        openUserModal(userProxy(user) || null);
-    };
-
     return (
         <Box className={styles.wrapper}>
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={authorAvatar} />}
@@ -69,7 +66,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 closeAfterClick
                 content={
                     <MessageMenu
-                        openUserModal={openUserModal}
+                        openChatProfileModal={openChatProfileModal}
                         sendReaction={sendReaction}
                         chat={chat}
                         messageMenuAction={messageMenuAction}
@@ -87,7 +84,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             )}
                             {reply_to_message?.id && <ReplyMessage message={reply_to_message} />}
                             {forwarded_from_message?.id && <ForwardMessage message={messageProxy({ message: forwarded_from_message })} />}
-                            {type === 'text' && <TextMessage text={text} clickTag={clickTag} chat={chat} />}
+                            {type === 'text' && <TextMessage text={text} openChatProfileModal={openChatProfileModal} chat={chat} />}
                             {type === 'images' && <ImagesMessage images={files} />}
                             {type === 'documents' && <DocumentsMessage documents={files} />}
                             {type === 'voices' && <VoiceMessage voices={message.files} />}

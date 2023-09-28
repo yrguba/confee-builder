@@ -9,6 +9,7 @@ import styles from './styles.module.scss';
 import { Box, Button, Counter, Icons } from '../../../../shared/ui';
 import { appTypes } from '../../../app';
 import { chatTypes } from '../../../chat';
+import { EmployeeProxy } from '../../../company/model/types';
 import { UserProxy } from '../../../user/model/types';
 import { MessageMenuActions, MessageProxy } from '../../model/types';
 import Message from '../message';
@@ -24,7 +25,7 @@ type Props = {
     chatSubscription: number | null;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction: (emoji: string, messageId: number) => void;
-    openUserModal: (user: UserProxy | null) => void;
+    openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     voiceRecordingInProgress: boolean;
 } & BaseTypes.Statuses;
@@ -40,7 +41,7 @@ function MessagesListView(props: Props) {
         chatSubscription,
         messageMenuAction,
         sendReaction,
-        openUserModal,
+        openChatProfileModal,
         highlightedMessages,
         voiceRecordingInProgress,
         loading,
@@ -144,7 +145,7 @@ function MessagesListView(props: Props) {
                         >
                             {index === 5 && <div ref={nextPageRef} />}
                             <Message
-                                openUserModal={openUserModal}
+                                openChatProfileModal={openChatProfileModal}
                                 sendReaction={sendReaction}
                                 chat={chat}
                                 ref={wrapperRef}

@@ -5,9 +5,10 @@ import { messageApi, MessagesListView, messageService, messageTypes, useMessageS
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
+import { EmployeeProxy } from '../../../entities/company/model/types';
 import { UserProxy } from '../../../entities/user/model/types';
 import { reactionConverter } from '../../../shared/lib';
-import { UserProfileModal } from '../../user';
+import PrivateChatProfileModal from '../../chat/ui/modals/profile/private';
 import { ForwardMessagesModal } from '../index';
 
 const memoUpdateMessages = createMemo(messageService.getUpdatedList);
@@ -48,7 +49,7 @@ function MessageList() {
 
     const notification = Notification.use();
 
-    const userProfileModal = Modal.use();
+    const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
     const confirmDeleteMessage = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
@@ -101,8 +102,8 @@ function MessageList() {
         });
     };
 
-    const openUserModal = (user: UserProxy | null) => {
-        user ? userProfileModal.open(user) : notification.info({ title: `Пользователь не найдено.`, system: true });
+    const openChatProfileModal = (data: { user?: UserProxy; employee?: EmployeeProxy }) => {
+        privateChatProfileModal.open(data);
     };
 
     const readMessage = (message_id: number) => {
@@ -126,7 +127,7 @@ function MessageList() {
         <>
             <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
             <ForwardMessagesModal {...forwardMessagesModal} />
-            <UserProfileModal {...userProfileModal} />
+            <PrivateChatProfileModal {...privateChatProfileModal} />
             <MessagesListView
                 chat={chatProxy(chatData)}
                 messages={messages}
@@ -137,7 +138,7 @@ function MessageList() {
                 chatSubscription={chatSubscription.value}
                 messageMenuAction={messageMenuAction}
                 sendReaction={clickReaction}
-                openUserModal={openUserModal}
+                openChatProfileModal={openChatProfileModal}
                 highlightedMessages={highlightedMessages}
                 voiceRecordingInProgress={voiceRecordingInProgress.value}
                 loading={isLoading}
