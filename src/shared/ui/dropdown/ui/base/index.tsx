@@ -1,6 +1,7 @@
 import React, { forwardRef, RefObject, useEffect, useRef, useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 
-import { useClickAway, useStyles } from 'shared/hooks';
+import { useClickAway, useReverseTimer, useStyles } from 'shared/hooks';
 import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
@@ -25,6 +26,8 @@ function Dropdown(props: BaseDropdownProps) {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
+    const timeout = useRef<any>(null);
+
     useClickAway(elementRef, () => {
         isOpen && setIsOpen(false);
     });
@@ -41,8 +44,18 @@ function Dropdown(props: BaseDropdownProps) {
         event.preventDefault();
         event.stopPropagation();
         if (trigger !== null && !disabled) {
-            setIsOpen(true);
+            if (trigger === 'hover') {
+                if (timeout.current) timeout.current = null;
+                timeout.current = setTimeout(() => setIsOpen(true), 200);
+            } else {
+                setIsOpen(true);
+            }
         }
+    };
+
+    const mouseLeave = () => {
+        setIsOpen(false);
+        if (timeout.current) clearTimeout(timeout.current);
     };
 
     useEffect(() => {
@@ -56,7 +69,7 @@ function Dropdown(props: BaseDropdownProps) {
             onClick={trigger === 'left-click' ? click : undefined}
             onContextMenu={trigger === 'right-click' ? click : undefined}
             onMouseEnter={trigger === 'hover' ? click : undefined}
-            onMouseLeave={trigger === 'hover' ? () => setIsOpen(false) : undefined}
+            onMouseLeave={trigger === 'hover' ? () => mouseLeave() : undefined}
         >
             {children}
             <Box.Animated
