@@ -6,6 +6,7 @@ import { useWebSocket, useStorage, useRouter, useDatabase } from 'shared/hooks';
 import { getFormData, httpHandlers } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
+import chat from '../../../pages/main/chats/widgets/chat';
 import { Company } from '../../company/model/types';
 import { MessageType, MediaContentType, File } from '../../message/model/types';
 import { chatTypes } from '../index';
@@ -86,6 +87,22 @@ class ChatApi {
                 );
             },
         });
+    }
+
+    handleAddMembersPersonalChat() {
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { chatId: number | string; user_ids: number[] | string[] | null }) =>
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/add-members `, data),
+            {
+                onSuccess: async (res, data) => {
+                    const updRes = httpHandlers.response<{ data: Chat }>(res);
+                    queryClient.setQueryData(['get-chat', updRes.data?.data.id], (cacheData: any) => {
+                        cacheData.data.data = updRes.data?.data;
+                    });
+                },
+            }
+        );
     }
 
     handleCreateCompanyChat() {

@@ -56,12 +56,14 @@ function chatGateway() {
                     }
                     return produce(cacheData, (draft: any) => {
                         draft?.pages.forEach((page: any) => {
-                            console.log('p', page.data.data);
                             page.data.data = page.data.data.filter((chat: ChatProxy) => chat.id !== socketData.data.chat_id);
                         });
                     });
                 })
             );
+        });
+        onMessage('ChatMembersDeleted', (socketData) => {
+            queryClient.invalidateQueries(['get-chat', socketData.data.chat_id]);
         });
     }, []);
 }

@@ -7,6 +7,7 @@ import useChatStore from './model/store';
 import * as chatTypes from './model/types';
 import ChatHeaderView from './ui/header';
 import ChatsListView from './ui/list';
+import AddMembersInChatModalView from './ui/modals/add-members';
 import CreateChatModalView from './ui/modals/create';
 import ChatProfileModalView from './ui/modals/profile';
 
@@ -22,4 +23,5 @@ export {
     ChatProfileModalView,
     CreateChatModalView,
     useChatsTabsAndLists,
+    AddMembersInChatModalView,
 };

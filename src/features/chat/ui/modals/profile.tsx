@@ -6,6 +6,7 @@ import { messageTypes } from 'entities/message';
 import { useRouter, useEasyState, UseFileUploaderTypes } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
+import AddMembersInChatModal from './add-members';
 import ChatAvatarsSwiper from '../avatars-swiper';
 
 function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
@@ -25,6 +26,8 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
 
     const notification = Notification.use();
+
+    const addMembersModal = Modal.use();
 
     const confirmDeleteChat = Modal.useConfirm((value) => {
         if (value) {
@@ -67,12 +70,13 @@ function ChatProfileModal(modal: ModalTypes.UseReturnedType) {
             case 'delete':
                 return confirmDeleteChat.open();
             case 'add-members':
-                console.log('a');
+                addMembersModal.open();
         }
     };
 
     return (
         <>
+            <AddMembersInChatModal {...addMembersModal} />
             <ChatAvatarsSwiper visible={visibleSwiper.value} chatId={chatId} onClose={() => visibleSwiper.set(false)} />
             <Modal.Confirm
                 {...confirmDeleteChat}
