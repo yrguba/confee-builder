@@ -4,10 +4,19 @@
   @include box-size(100%, 100%);
   @include flex-column(flex-start, flex-start);
   gap: 12px;
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 0 20px;
+  overflow-y: auto;
+
+  @include width-to(sm){
+    padding: 4px;
+  }
 
   .avatarBlock {
     @include flex-column(flex-start,flex-start);
     gap: 12px;
+    margin-top: 12px;
 
     .name {
       width: 80%;
