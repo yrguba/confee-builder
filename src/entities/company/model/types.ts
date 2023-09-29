@@ -1,4 +1,4 @@
-import { User } from '../../user/model/types';
+import { User, UserProxy } from '../../user/model/types';
 
 export enum EmployeeStatuses {
     'in office' = '#29CC39',
@@ -21,12 +21,13 @@ export type Employee = {
     position: string | null;
     status: keyof typeof EmployeeStatuses;
     updated_at: Date;
-    user: User | null;
+    user: User;
     nickname: string | null;
 };
 
 export type EmployeeProxy = {
     full_name: string;
+    userProxy: UserProxy;
 } & Employee;
 
 export type Department = {

@@ -1,3 +1,4 @@
+import { userProxy } from '../../user';
 import { EmployeeProxy, Employee } from '../model/types';
 
 function employeeProxy(employee: Employee | undefined): EmployeeProxy | null {
@@ -7,6 +8,9 @@ function employeeProxy(employee: Employee | undefined): EmployeeProxy | null {
             switch (prop) {
                 case 'full_name':
                     return `${target.first_name || ''} ${target.last_name || ''}`;
+
+                case 'userProxy':
+                    return userProxy(target.user);
 
                 default:
                     return target[prop];
