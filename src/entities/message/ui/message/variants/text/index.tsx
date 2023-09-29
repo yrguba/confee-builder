@@ -66,9 +66,9 @@ function TextMessage(props: Props) {
                 return (
                     <span
                         onClick={() =>
-                            user ? openChatProfileModal({ user: userProxy(user) || undefined, employee: employeeProxy(employee) || undefined }) : ''
+                            user || employee ? openChatProfileModal({ user: userProxy(user) || undefined, employee: employeeProxy(employee) || undefined }) : ''
                         }
-                        className={user ? styles.tag : ''}
+                        className={user || employee ? styles.tag : ''}
                         {...props}
                     >
                         {`${content}\xa0`}
