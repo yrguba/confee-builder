@@ -90,7 +90,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
 
 export default function (modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
     return (
-        <Modal {...modal}>
+        <Modal {...modal} centered={false}>
             <PrivateChatProfileModal {...modal} />
         </Modal>
     );

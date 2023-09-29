@@ -49,7 +49,7 @@ function ViewerCard() {
                 }}
                 viewer={viewer}
                 clickSettings={() => navigate('info_settings')}
-                companies={viewerData?.companies}
+                companies={viewerData?.companies || []}
             />
         </>
     );

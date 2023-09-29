@@ -111,7 +111,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
 
 export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal {...modal}>
+        <Modal {...modal} centered={false}>
             <GroupChatProfileModal {...modal} />
         </Modal>
     );

@@ -57,7 +57,6 @@ function GroupChatProfileModalView(props: Props) {
                     selectFile={selectFile}
                     getScreenshot={getScreenshot}
                 />
-                )
                 <div className={styles.name}>
                     <Title
                         animateTrigger={chat?.name}

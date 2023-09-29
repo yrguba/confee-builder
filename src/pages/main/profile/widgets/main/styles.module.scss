@@ -2,17 +2,14 @@
 
 .wrapper {
   @include box-size(calc(100% - 24px), auto);
-  @include flex(space-between, flex-start, 40);
+  @include flex-column(flex-start);
+  gap: 24px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
   padding: 16px 12px;
 
-  @include width-to('xl') {
-    @include flex-column(flex-start, flex-start, 12);
-  }
-
-  .card {
-    flex: 1;
-    width: 100%;
+  @include width-to('sm') {
+    @include box-size(calc(100% - 8px), auto);
+    padding: 16px 4px;
   }
 }
