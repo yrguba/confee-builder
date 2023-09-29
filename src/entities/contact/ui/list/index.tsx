@@ -24,7 +24,7 @@ function ContactsListView(props: Props) {
     const { navigate, params, pathname } = useRouter();
     const smHeightSize = useHeightMediaQuery().to('sm');
 
-    const contactsArr = tabsAndLists.foundContacts?.length ? tabsAndLists.foundContacts : tabsAndLists.activeList;
+    const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
 
     const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
 
@@ -35,7 +35,7 @@ function ContactsListView(props: Props) {
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             <div className={styles.search}>
-                <Input prefixIcon="search" />
+                <Input {...tabsAndLists.searchInput} prefixIcon="search" />
             </div>
             <div className={styles.tabs}>
                 {tabsAndLists.activeList?.length ? (
@@ -47,7 +47,7 @@ function ContactsListView(props: Props) {
             <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
                 {tabsAndLists.activeTab?.title === 'Личные'
                     ? contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
-                    : tabsAndLists.foundEmployees?.length
+                    : tabsAndLists.foundEmployees
                     ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i) as any} {...props} />)
                     : tabsAndLists.activeList?.map((dep: any) => (
                           <Collapse
