@@ -1,3 +1,4 @@
+import { userProxy } from '../../user';
 import { Contact, ContactProxy } from '../model/types';
 
 function contactProxy(contact: Contact | undefined): any {
@@ -10,6 +11,9 @@ function contactProxy(contact: Contact | undefined): any {
 
                 case 'avatar':
                     return target.user?.avatar || '';
+
+                case 'userProxy':
+                    return userProxy(target?.user);
 
                 default:
                     return target[prop];

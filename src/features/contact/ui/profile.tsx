@@ -11,19 +11,18 @@ function ContactProfile() {
 
     const notifications = Notification.use();
 
-    const { data: contactData } = contactApi.handleGetContact({ contactId: Number(params.contact_id) });
-    const { data: chatData } = chatApi.handleGetPrivateChat({ userId: contactData?.user_id });
+    const { data: contactData, isLoading } = contactApi.handleGetContact({ contactId: Number(params.contact_id) });
+    const { data: chatData } = chatApi.handleGetChatWithUser({ userId: contactData?.user.id });
 
-    const { mutate: handleUpdateName } = contactApi.handleUpdateName();
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
 
     const getChat = () => {
         if (chatData) {
             navigate(`/chats/personal/chat/${chatData?.id}`);
-        } else if (contactData?.user_id) {
+        } else if (contactData?.user.id) {
             handleCreatePersonalChat(
-                { user_ids: [contactData?.user_id], is_group: false },
+                { user_ids: [contactData?.user.id], is_group: false },
                 {
                     onSuccess: (res) => {
                         navigate(`/chats/personal/chat/${res?.data.data.id}`);
@@ -37,6 +36,8 @@ function ContactProfile() {
         handleDeleteContact({ contactId: Number(params.contact_id) }, { onSuccess: () => navigate('/contacts/personal') });
     };
 
+    const clickAvatar = () => {};
+
     return (
         <ContactProfileView
             actions={{
@@ -46,8 +47,10 @@ function ContactProfile() {
                 videoCall: notifications.inDev,
                 mute: notifications.inDev,
             }}
+            clickAvatar={clickAvatar}
             back={() => navigate('/contacts')}
             contact={contactProxy(contactData)}
+            loading={isLoading}
         />
     );
 }

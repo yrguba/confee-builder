@@ -3,7 +3,7 @@ import { InputTypes, TabBarTypes } from 'shared/ui';
 import { BaseTypes } from '../../../shared/types';
 import { companyTypes } from '../../company';
 import { Company, Employee, EmployeeProxy } from '../../company/model/types';
-import { User } from '../../user/model/types';
+import { User, UserProxy } from '../../user/model/types';
 import { contactTypes } from '../index';
 
 export type Contact = {
@@ -12,7 +12,6 @@ export type Contact = {
     first_name: string | null;
     last_name: string | null;
     owner: number;
-    user_id: number;
     user: User;
     contact_name: string | null;
     created_at: Date;
@@ -22,6 +21,7 @@ export type Contact = {
 export type ContactProxy = {
     full_name: string;
     avatar: string;
+    userProxy: UserProxy;
 } & Contact;
 
 export type UseContactsTabsAndListsReturnType = {

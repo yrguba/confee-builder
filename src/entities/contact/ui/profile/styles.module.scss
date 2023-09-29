@@ -1,35 +1,36 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(calc(100% - 32px),calc(100% - 32px));
-  @include flex(space-between, flex-start, 40);
-  background-color: var(--bg-secondary);
-  border-radius: 12px;
-  padding: 16px;
-  overflow-y: auto;
+  @include box-size(100%, 100%);
+  @include flex-column(flex-start, flex-start);
+  gap: 12px;
 
-  @include width-to('sm') {
-    padding: 16px 4px;
-    @include box-size(calc(100% - 8px),calc(100% - 32px));
-  }
+  .avatarBlock {
+    @include flex-column(flex-start,flex-start);
+    gap: 12px;
 
-  @include width-to('xl') {
-    //@include flex-column(flex-start, flex-start, 40);
-  }
+    .name {
+      width: 80%;
+      @include flex(flex-start);
+      flex: 1;
+      gap: 6px;
+    }
 
-  .card {
-    flex: 1;
-    width: 0;
-  }
+    .btns {
+      @include flex(center, flex-start);
+      @include box-size(100%, auto);
+      gap: 12px;
 
-  .btns {
-    @include box-size(375px, 61px);
-    @include flex;
-    gap: 16px;
+      svg {
+        fill: var(--text-fixed);
+      }
 
-    svg {
-      fill: var(--text-fixed);
+      .noRegister {
+        @include flex;
+        @include box-size(100%, 50px);
+        background-color: var(--bg-primary);
+        border-radius: 12px;
+      }
     }
   }
-
 }

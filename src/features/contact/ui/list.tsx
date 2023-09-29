@@ -19,21 +19,21 @@ function ContactsList() {
     const contact = useEasyState<contactTypes.ContactProxy | null>(null);
     const employee = useEasyState<companyTypes.EmployeeProxy | null>(null);
 
-    const userId = Number(params.user_id) || contact.value?.user_id;
+    const userId = Number(params.user_id) || contact.value?.user.id;
 
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
     const { data: viewerData } = viewerApi.handleGetViewer();
 
     const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
 
-    const { data: chatData } = chatApi.handleGetPrivateChat({ userId });
+    const { data: chatData } = chatApi.handleGetChatWithUser({ userId });
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
     const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
 
     const notification = Notification.use();
 
     const clickContact = useCallback((contact: ContactProxy) => {
-        navigate(`/contacts/personal/contact/${contact.id}/user/${contact.user_id}`);
+        navigate(`/contacts/personal/contact/${contact.id}/user/${contact.user.id}`);
     }, []);
 
     const clickEmployee = (employee: companyTypes.Employee) => {
@@ -47,7 +47,7 @@ function ContactsList() {
         }
         if (contact) {
             return handleCreatePersonalChat(
-                { user_ids: [contact.user_id], is_group: false },
+                { user_ids: [contact.user.id], is_group: false },
                 {
                     onSuccess: (res) => {
                         startTransition(() => navigate(`/chats/personal/chat/${res?.data.data.id}`));
