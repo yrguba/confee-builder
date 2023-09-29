@@ -20,7 +20,6 @@
     margin-top: 12px;
 
     .name {
-      width: 80%;
       @include flex(flex-start);
       flex: 1;
       gap: 6px;
@@ -38,6 +37,7 @@
   }
   .description{
     min-width: 340px;
+    max-width: 600px;
     @include flex-column(flex-start,flex-start, 12);
   }
 }

@@ -56,6 +56,15 @@ function ProfileSettings() {
         },
     });
 
+    const aboutInput = Input.use({
+        initialValue: viewerData?.user?.about,
+        onFocus: (value) => {
+            if (!value && !aboutInput.error) {
+                aboutInput.value ? handleEditProfile({ about: aboutInput.value }) : aboutInput.reload();
+            }
+        },
+    });
+
     const { open: selectFile } = useFileUploader({
         accept: 'image',
         onAfterUploading: (data) => {
@@ -75,6 +84,7 @@ function ProfileSettings() {
                 lastName: lastNameInput,
                 birth: birthInput,
                 nickname: nicknameInput,
+                about: aboutInput,
             }}
             getScreenshot={getScreenshot}
             deleteFile={() => ''}

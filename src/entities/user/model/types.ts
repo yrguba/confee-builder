@@ -19,7 +19,7 @@ export type User = {
     nickname: string;
     phone: string;
     updated_at: Date;
-    about: string | null;
+    about: string;
 };
 
 export type UserProxy = {

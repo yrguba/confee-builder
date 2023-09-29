@@ -30,7 +30,9 @@ function UserInfoView(props: Props) {
                         <Title variant="H4M" primary={false}>
                             {i.title}
                         </Title>
-                        <Title variant="H3M">{i.subtitle}</Title>
+                        <Title textWrap={i.id === 4} variant="H3M">
+                            {i.subtitle}
+                        </Title>
                     </div>
                 ))}
         </div>

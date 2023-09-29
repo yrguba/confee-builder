@@ -10,9 +10,7 @@ import styles from './styles.module.scss';
 function InfoSettings() {
     return (
         <Box.Animated visible className={styles.wrapper}>
-            <div className={styles.item}>
-                <ProfileSettings />
-            </div>
+            <ProfileSettings />
         </Box.Animated>
     );
 }

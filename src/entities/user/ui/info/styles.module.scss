@@ -7,7 +7,8 @@
   border-radius: 12px;
 
   .item {
-    @include box-size(100%, 50px);
+    @include box-size(100%, auto);
+    min-height: 50px;
     @include flex-column(center, flex-start);
     border-bottom: 1px solid var(--border-secondary);
   }

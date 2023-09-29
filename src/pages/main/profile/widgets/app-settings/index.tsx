@@ -10,14 +10,9 @@ import styles from './styles.module.scss';
 function AppSettings() {
     return (
         <Box.Animated visible className={styles.wrapper}>
-            {appService.tauriIsRunning && (
-                <div className={styles.item}>
-                    <AppFeatures.TauriSettings />
-                </div>
-            )}
-            <div className={styles.item}>
-                <AppFeatures.AppSettings />
-            </div>
+            {appService.tauriIsRunning && <AppFeatures.TauriSettings />}
+
+            <AppFeatures.AppSettings />
         </Box.Animated>
     );
 }

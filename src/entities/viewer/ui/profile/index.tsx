@@ -32,7 +32,7 @@ function ViewerProfileView(props: Props) {
                         dropdownTop={280}
                         {...avatarActions}
                         circle={false}
-                        size={sm ? 346 : 375}
+                        size={sm ? 340 : 375}
                         img={viewer?.avatar || ''}
                     />
                 )}

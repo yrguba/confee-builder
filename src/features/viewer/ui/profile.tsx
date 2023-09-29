@@ -8,7 +8,7 @@ import { getFormData } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
 import { UserAvatarsSwiper } from '../../user';
 
-function ViewerCard() {
+function ViewerProfile() {
     const { navigate } = useRouter();
     const visibleSwiper = useEasyState(false);
 
@@ -55,4 +55,4 @@ function ViewerCard() {
     );
 }
 
-export default ViewerCard;
+export default ViewerProfile;

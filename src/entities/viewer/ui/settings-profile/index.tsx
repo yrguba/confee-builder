@@ -16,6 +16,7 @@ type Props = {
         lastName: InputTypes.UseReturnedType;
         birth: InputTypes.UseReturnedType;
         nickname: InputTypes.UseReturnedType;
+        about: InputTypes.UseReturnedType;
     };
 } & BaseTypes.Statuses;
 
@@ -44,9 +45,7 @@ function SettingsProfileView(props: Props) {
                 <Title primary={false} textWrap variant="H3M">
                     Эту информацию будут видеть другие пользователи
                 </Title>
-                <div className={styles.textArea}>
-                    <Input.Textarea focusTrigger={[]} />
-                </div>
+                <Input placeholder="О себе" {...inputs.about} clearIcon maxLength={120} />
             </div>
             <div className={styles.item}>
                 <Title textWrap variant="H2">
