@@ -1,4 +1,5 @@
 import React from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy, chatTypes, CreateChatModalView } from 'entities/chat';
 import { contactProxy, contactApi, useContactsTabsAndLists } from 'entities/contact';
@@ -56,6 +57,11 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         }
     };
 
+    useUpdateEffect(() => {
+        selectedContacts.clear();
+        selectedEmployees.clear();
+    }, [tabsAndLists.activeTab?.id]);
+
     return (
         <CreateChatModalView
             isGroup={isGroup}
@@ -70,7 +76,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
 export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal {...modal}>
+        <Modal {...modal} centered={false}>
             <CreateChatModal {...modal} />
         </Modal>
     );

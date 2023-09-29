@@ -45,7 +45,7 @@ function CardList(props: CardListProps) {
                         ref={index + 1 === arr?.length ? lastCard : null}
                     >
                         <div className={styles.info}>
-                            <Card {...i} />
+                            <Card {...i} onClick={() => (i.onClick ? i.onClick() : '')} />
                         </div>
 
                         {selected && (

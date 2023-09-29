@@ -32,7 +32,7 @@ function CreateChatModalView(props: Props) {
                     {isGroup.value ? 'Группа' : 'Написать сообщение'}
                 </Title>
                 <div className={styles.search}>
-                    <Input width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
+                    <Input {...tabsAndLists.searchInput} width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
                 {/* <div className={styles.border} /> */}
                 <div className={styles.switch}>
@@ -69,6 +69,22 @@ function CreateChatModalView(props: Props) {
                                 subtitle: contact?.phone || '',
                                 payload: { id: contact.user?.id },
                             };
+                        })}
+                    />
+                ) : tabsAndLists.searchInput.value ? (
+                    <Card.List
+                        visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
+                        selected={selectedEmployees}
+                        items={tabsAndLists.foundEmployees?.map((i: any) => {
+                            const employee = employeeProxy(i);
+                            return {
+                                id: employee?.id || '',
+                                img: employee?.avatar || '',
+                                name: employee?.full_name || '',
+                                title: employee?.full_name || '',
+                                subtitle: employee?.email || '',
+                                payload: { id: employee?.id },
+                            } as any;
                         })}
                     />
                 ) : (

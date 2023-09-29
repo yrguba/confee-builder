@@ -16,6 +16,7 @@ export type BaseModalProps = {
     children: ReactNode;
     onClose?: () => void;
     closeIcon?: boolean;
+    centered?: boolean;
 } & UseReturnedType &
     BaseTypes.Statuses;
 

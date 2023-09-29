@@ -32,12 +32,13 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     const { redirect = true } = props;
     const { navigate, pathname, params } = useRouter();
     const searchInput = Input.use({});
+
     const { data: searchData, isLoading: searchLoading, isFetching } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
 
     const departmentId = useEasyState<number | null>(null);
 
     const activeTab = useEasyState<TabBarTypes.TabBarItem<Company> | null>(null);
-    const activeList = useEasyState<contactTypes.Contact[] | companyTypes.Department[]>([]);
+    const activeList = useEasyState<contactTypes.Contact[] | companyTypes.Department[] | companyTypes.Employee[]>([]);
     const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
 
     const companyId = params.company_id || activeTab.value?.payload?.id;
