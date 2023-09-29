@@ -55,7 +55,8 @@ export type BaseIconsVariants =
     | 'melody'
     | 'keyboard'
     | 'group-chat'
-    | 'not-authorized';
+    | 'not-authorized'
+    | 'privacy-policy';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

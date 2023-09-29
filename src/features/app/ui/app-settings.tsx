@@ -1,4 +1,5 @@
 import React from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { AppSettingsView, appTypes } from 'entities/app';
 import { tokensService, viewerApi } from 'entities/viewer';
@@ -9,6 +10,8 @@ import { useUnmount } from '../../../shared/hooks';
 function AppSettings() {
     const storage = useStorage();
 
+    const isUpdate = useEasyState(false);
+
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
 
@@ -16,6 +19,7 @@ function AppSettings() {
 
     const notificationActive = useEasyState(!!not_scope, (value) => {
         value ? storage.set('notification', true) : storage.remove('notification');
+        isUpdate.set(true);
     });
 
     const visibleLastActive = useEasyState(!!not_scope, (value) => {
@@ -37,8 +41,13 @@ function AppSettings() {
             },
         });
     };
+
+    useUpdateEffect(() => {
+        isUpdate.set(true);
+    });
+
     useUnmount(() => {
-        window.location.reload();
+        isUpdate.value && window.location.reload();
     });
 
     return (
