@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UserCardView, UserInfoView } from 'entities/user';
+import { UserInfoView } from 'entities/user';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
