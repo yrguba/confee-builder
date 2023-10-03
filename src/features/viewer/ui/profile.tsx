@@ -6,6 +6,7 @@ import { useEasyState, useRouter } from 'shared/hooks';
 
 import { getFormData } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
+import BindCompany from '../../company/ui/bind';
 import { UserAvatarsSwiper } from '../../user';
 
 function ViewerProfile() {
@@ -40,6 +41,7 @@ function ViewerProfile() {
         <>
             <UserAvatarsSwiper userId={viewerData?.user?.id} onClose={() => visibleSwiper.set(false)} visible={visibleSwiper.value} />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
+
             <ViewerProfileView
                 clickAvatar={() => visibleSwiper.set(true)}
                 avatarActions={{
@@ -51,6 +53,7 @@ function ViewerProfile() {
                 clickSettings={() => navigate('info_settings')}
                 companies={viewerData?.companies || []}
             />
+            {!viewerData?.companies?.length ? <BindCompany /> : null}
         </>
     );
 }

@@ -12,7 +12,7 @@ function ProfilePage() {
 
     const { width } = useSize();
 
-    const m = width < 913;
+    const m = width < 990;
     const l = width > 1340;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, { description: string; path: string; active: string[] }>[] = [
@@ -49,22 +49,20 @@ function ProfilePage() {
     return (
         <Box.Animated transition={{ duration: 0.1 }} presence={false} visible className={styles.wrapper}>
             <div className={styles.tabs}>
-                {items.map((i) => (
-                    <div
-                        key={i.id}
-                        className={`${styles.item} ${i.payload.active.includes(pathname.split('/').pop() || '') ? styles.item_active : ''}`}
-                        onClick={() => itemClick(i.payload.path)}
-                    >
-                        {m ? (
+                {items.map((i) => {
+                    const active = i.payload.active.includes(pathname.split('/').pop() || '');
+                    return (
+                        <div key={i.id} className={`${styles.item} ${active ? styles.item_active : ''}`} onClick={() => itemClick(i.payload.path)}>
                             <Icons variant={i.icon} />
-                        ) : (
-                            <>
-                                <Title variant="H3M">{i.title}</Title>
-                                <Title variant="H4M">{i.payload.description}</Title>
-                            </>
-                        )}
-                    </div>
-                ))}
+
+                            {!m && (
+                                <Title variant="H3M" primary={active}>
+                                    {i.title}
+                                </Title>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
             <div className={styles.outlet}>
                 <Outlet />

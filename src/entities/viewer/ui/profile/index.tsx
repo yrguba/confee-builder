@@ -6,7 +6,7 @@ import { BaseTypes } from 'shared/types';
 import styles from './styles.module.scss';
 import { useWidthMediaQuery } from '../../../../shared/hooks';
 import { Avatar, AvatarTypes, Button, Title } from '../../../../shared/ui';
-import { CompanyCardView } from '../../../company';
+import { BindCompanyView, CompanyCardView } from '../../../company';
 import { Company } from '../../../company/model/types';
 import { ViewerProxy } from '../../model/types';
 

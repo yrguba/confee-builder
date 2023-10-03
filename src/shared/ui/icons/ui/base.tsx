@@ -9,10 +9,7 @@ function BaseIcons(props: BaseIconsProps) {
         case 'privacy-policy': {
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path
-                        fill="#000"
-                        d="M11.6 21.9C11.2 21.7 3 17.6 3 12V5c0-.5.3-.9.8-1l8-2h.5l8 2c.4.1.7.5.7 1v7c0 5.6-8.2 9.7-8.6 9.9-.3.1-.5.1-.8 0zM5 5.8V12c0 3.4 4.7 6.6 7 7.9 2.3-1.3 7-4.5 7-7.9V5.8L12 4 5 5.8z"
-                    />
+                    <path d="M11.6 21.9C11.2 21.7 3 17.6 3 12V5c0-.5.3-.9.8-1l8-2h.5l8 2c.4.1.7.5.7 1v7c0 5.6-8.2 9.7-8.6 9.9-.3.1-.5.1-.8 0zM5 5.8V12c0 3.4 4.7 6.6 7 7.9 2.3-1.3 7-4.5 7-7.9V5.8L12 4 5 5.8z" />
                 </svg>
             );
         }

@@ -6,13 +6,8 @@
   gap: 12px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
-  padding: 0 20px;
   overflow-y: auto;
   flex-wrap: wrap;
-
-  @include width-to(sm){
-    padding: 0
-  }
 
   .avatarBlock {
     @include flex-column(flex-start,flex-start);
