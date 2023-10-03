@@ -1,7 +1,6 @@
 import React from 'react';
-import { useUpdateEffect } from 'react-use';
 
-import { AppSettingsView, appTypes } from 'entities/app';
+import { AppSettingsView } from 'entities/app';
 import { tokensService, viewerApi } from 'entities/viewer';
 import { useTheme, useStorage, useEasyState } from 'shared/hooks';
 
@@ -22,9 +21,7 @@ function AppSettings() {
         isUpdate.set(true);
     });
 
-    const visibleLastActive = useEasyState(!!not_scope, (value) => {
-        // value ? storage.set('notification', true) : storage.remove('notification');
-    });
+    const visibleLastActive = useEasyState(!!not_scope, (value) => {});
     const theme = useTheme();
 
     const logout = () => {
@@ -41,10 +38,6 @@ function AppSettings() {
             },
         });
     };
-
-    useUpdateEffect(() => {
-        isUpdate.set(true);
-    });
 
     useUnmount(() => {
         isUpdate.value && window.location.reload();

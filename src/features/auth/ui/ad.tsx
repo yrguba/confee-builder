@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { AuthAdView } from 'entities/auth';

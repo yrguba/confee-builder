@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { chatApi } from 'entities/chat';
-import { useEasyState } from 'shared/hooks';
-import { Modal, Input, Notification, ModalTypes, Image } from 'shared/ui';
+import { Image } from 'shared/ui';
 
 type Props = {
     chatId: number;

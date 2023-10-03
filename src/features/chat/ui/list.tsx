@@ -2,7 +2,7 @@ import React from 'react';
 
 import { chatApi, ChatsListView, chatTypes, useChatsTabsAndLists } from 'entities/chat';
 import { PrivateChatActions, GroupChatActions, ChatProxy } from 'entities/chat/model/types';
-import { useEasyState, useRouter } from 'shared/hooks';
+import { useRouter } from 'shared/hooks';
 
 import { Input, Modal } from '../../../shared/ui';
 
