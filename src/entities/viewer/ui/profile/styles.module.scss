@@ -3,7 +3,7 @@
 .wrapper {
   @include box-size(100%, 100%);
   @include flex(flex-start, flex-start);
-  gap: 12px;
+  gap: 40px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
   overflow-y: auto;
@@ -11,7 +11,7 @@
 
   .avatarBlock {
     @include flex-column(flex-start,flex-start);
-    gap: 12px;
+    gap: 20px;
     margin-top: 12px;
 
     .name {
@@ -31,7 +31,6 @@
     }
   }
   .description{
-    min-width: 340px;
     max-width: 600px;
     @include flex-column(flex-start,flex-start, 12);
   }

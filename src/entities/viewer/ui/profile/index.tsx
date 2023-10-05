@@ -32,26 +32,26 @@ function ViewerProfileView(props: Props) {
                         dropdownTop={280}
                         {...avatarActions}
                         circle={false}
-                        size={sm ? 340 : 375}
+                        size={201}
                         img={viewer?.avatar || ''}
                     />
                 )}
-                <Button onClick={clickSettings}>Редактировать личную информацию</Button>
+                <Button onClick={clickSettings}>Редактировать профиль</Button>
             </div>
             <div className={styles.description}>
                 <div className={styles.name}>
                     <Title variant="H1">{viewer?.full_name}</Title>
                 </div>
                 <UserInfoView user={viewer as any} />
+                {companies.length ? (
+                    <CompanyCardView
+                        title={companies[0]?.name || ''}
+                        subtitle={companies[0].departments[0].name || ''}
+                        status="in office"
+                        position={companies[0].departments[0].employees[0].status || 'in office'}
+                    />
+                ) : null}
             </div>
-            {companies.length ? (
-                <CompanyCardView
-                    title={companies[0]?.name || ''}
-                    subtitle={companies[0].departments[0].name || ''}
-                    status="in office"
-                    position={companies[0].departments[0].employees[0].status || 'in office'}
-                />
-            ) : null}
         </div>
     );
 }

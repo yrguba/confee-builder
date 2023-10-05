@@ -1,12 +1,16 @@
 @import "src/app/styles/index";
 
-.wrapper{
+.wrapper {
   @include flex;
-  @include box-size(474px, 186px);
+  @include box-size(268px, 186px);
   background-color: var(--bg-primary);
   border-radius: 12px;
 
-  .body{
+  @include width-from(sm){
+    width: 375px;
+  }
+
+  .body {
     @include flex-column(center, flex-start);
     @include box-size(calc(100% - 20px), calc(100% - 20px));
     gap: 12px;

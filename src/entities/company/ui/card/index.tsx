@@ -21,7 +21,7 @@ function CompanyCardView(props: Props) {
     const sm = useWidthMediaQuery().to('sm');
 
     return (
-        <div className={styles.wrapper} style={{ width: width || (sm ? 346 : 375) }}>
+        <div className={styles.wrapper}>
             <div className={styles.body}>
                 <Card icon={<Icons.Logo variant="softworks" />} title={title} subtitle={subtitle} />
                 <Title variant="H3M">{position || 'Нет данных'}</Title>
