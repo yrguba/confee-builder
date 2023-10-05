@@ -12,7 +12,7 @@ function ProfilePage() {
 
     const { width } = useSize();
 
-    const m = width < 990;
+    const m = width < 738;
     const l = width > 1340;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, { description: string; path: string; active: string[] }>[] = [
@@ -20,7 +20,7 @@ function ProfilePage() {
             id: 0,
             title: 'Личная информация',
             payload: { description: l ? 'Изменить персональные данные' : '', path: '', active: ['profile', 'info_settings'] },
-            icon: 'profile',
+            icon: 'personal-acc',
         },
         {
             id: 1,
@@ -38,7 +38,7 @@ function ProfilePage() {
             id: 3,
             title: 'Поддержка',
             payload: { description: l ? 'Задать вопрос, сообщить об ошибке' : '', path: 'support', active: ['support'] },
-            icon: 'call-end',
+            icon: 'support',
         },
     ];
 
@@ -53,10 +53,12 @@ function ProfilePage() {
                     const active = i.payload.active.includes(pathname.split('/').pop() || '');
                     return (
                         <div key={i.id} className={`${styles.item} ${active ? styles.item_active : ''}`} onClick={() => itemClick(i.payload.path)}>
-                            <Icons variant={i.icon} />
+                            <div className={styles.icon}>
+                                <Icons variant={i.icon} />
+                            </div>
 
                             {!m && (
-                                <Title variant="H3M" primary={active}>
+                                <Title variant="caption1M" active={active} primary={false} textWrap>
                                     {i.title}
                                 </Title>
                             )}

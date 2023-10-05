@@ -16,19 +16,31 @@
     .item {
       @include flex;
       @include box-size(auto, 52px);
+
       gap: 8px;
       padding: 0 16px;
       background-color: var(--bg-secondary);
       border-radius: 12px 12px 0 0;
       cursor: pointer;
-      color: red;
+      transition: height 0.2s;
+      border-bottom: 1px solid var(--bg-primary);
 
+      .icon{
+
+      }
+
+      &:last-child{
+        margin-right: 14px;
+      }
       svg {
         transition: fill .5s;
         fill: var(--bg-tertiary);
       }
 
       &_active {
+        @include box-size(auto, 54px);
+        border-bottom: 1px solid var(--bg-secondary);
+
         svg {
           fill: var(--text-action);
         }
@@ -48,6 +60,7 @@
     margin-bottom: 12px;
     border-radius: 0 12px 12px 12px;
     background-color: var(--bg-secondary);
+
     @include width-to('sm') {
       @include box-size(calc(100% - 12px), auto);
     }
