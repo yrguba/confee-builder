@@ -2,13 +2,10 @@
 
 .wrapper {
   @include flex;
-  @include box-size(268px, 186px);
+  @include box-size(100%, 186px);
   background-color: var(--bg-primary);
   border-radius: 12px;
-
-  @include width-from(sm){
-    width: 375px;
-  }
+  max-width: 375px;
 
   .body {
     @include flex-column(center, flex-start);

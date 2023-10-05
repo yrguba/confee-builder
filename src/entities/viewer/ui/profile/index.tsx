@@ -28,8 +28,8 @@ function ViewerProfileView(props: Props) {
                 {avatarActions && (
                     <Avatar.Change
                         clickAvatar={clickAvatar}
-                        dropdownLeft={sm ? 100 : 270}
-                        dropdownTop={280}
+                        dropdownLeft={20}
+                        dropdownTop={180}
                         {...avatarActions}
                         circle={false}
                         size={201}

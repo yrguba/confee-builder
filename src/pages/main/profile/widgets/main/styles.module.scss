@@ -1,8 +1,7 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(calc(100% - 80px), auto);
+  @include box-size(100%, auto);
   @include flex-column(flex-start,flex-start);
   gap: 24px;
-  padding: 40px;
 }
