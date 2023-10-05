@@ -28,7 +28,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
     const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
 
-    const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(!chatData?.is_group ? 'images' : null);
+    const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(null);
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
 

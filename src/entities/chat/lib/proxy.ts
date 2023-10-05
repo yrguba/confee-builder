@@ -13,7 +13,8 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver: ChatProxy): ChatProxy[keyof ChatProxy] {
             const secondUser = target.is_group ? undefined : target?.members?.find((i) => i.id !== viewerId);
             const secondUserProxy = secondUser ? userProxy(secondUser) : null;
-            const secondEmployee = target.is_group ? undefined : target?.employee_members?.find((i) => i.id !== viewerId);
+
+            const secondEmployee = target.is_group ? undefined : target?.employee_members?.find((i) => i.user?.id !== viewerId);
             const secondEmployeeProxy = secondEmployee ? employeeProxy(secondEmployee) : null;
 
             switch (prop) {

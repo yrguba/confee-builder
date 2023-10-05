@@ -4,22 +4,22 @@ import { chatApi, chatProxy, chatTypes, PrivateChatProfileModalView } from 'enti
 import { EmployeeProxy } from 'entities/company/model/types';
 import { messageTypes } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
+import { viewerService } from 'entities/viewer';
 import { useRouter, useEasyState } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
-
-import { viewerService } from '../../../../../entities/viewer';
 
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
     const { navigate, pathname, params } = useRouter();
 
     const viewerId = viewerService.getId();
-    const { user } = modal.payload;
-    const { employee } = modal.payload;
+    const { user, employee } = modal.payload;
 
-    const { data: chatData } = chatApi.handleGetChatWithUser({ userId: user?.id });
-    const proxyChat = chatProxy(chatData);
+    const { data: useChatData } = chatApi.handleGetChatWithUser({ userId: user?.id });
+    const { data: employeeChatData } = chatApi.handleGetChatWithEmployee({ employeeId: employee?.id });
 
-    const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(!chatData?.is_group ? 'images' : null);
+    const proxyChat = chatProxy(useChatData || employeeChatData);
+
+    const mediaTypes = useEasyState<messageTypes.MediaContentType | null>('images');
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId: proxyChat?.id, filesType: mediaTypes.value });
 
@@ -77,7 +77,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 user={user}
                 employee={employee}
                 clickAvatar={() => ''}
-                chat={chatProxy(chatData)}
+                chat={proxyChat}
                 actions={actions}
                 mediaTypes={mediaTypes}
                 files={filesData}
