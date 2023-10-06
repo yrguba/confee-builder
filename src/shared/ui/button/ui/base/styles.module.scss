@@ -13,13 +13,13 @@
   transition: all .5s;
   font-weight: 600;
 
-  .animateContent{
+  .animateContent {
     @include flex;
     gap: 8px;
   }
 }
 
-.vertical{
+.vertical {
   @include flex-column;
 }
 
@@ -41,6 +41,17 @@
   }
 }
 
+.shadow {
+  color: var(--text-action-pressed);
+  box-shadow: var(--box-shadow);
+  border: none;
+  background-color: var(--bg-secondary);
+
+  &:hover {
+    box-shadow: var(--box-shadow-active);
+  }
+}
+
 .tertiary {
   border: none;
   color: var(--text-action);
@@ -52,13 +63,14 @@
 
 .negative {
   background-color: var(--control-negative);
+
   &:hover {
     color: var(--text-negative-pressed);
   }
 }
 
-.chips{
-  width: auto!important;
+.chips {
+  width: auto !important;
   border-radius: 20px;
   height: 40px !important;
   padding: 0 16px !important;
@@ -67,7 +79,7 @@
 
 
 .disabled {
-  pointer-events: none!important;
+  pointer-events: none !important;
   cursor: default;
   opacity: 0.4;
 }
@@ -83,7 +95,7 @@
   background-color: inherit;
   color: var(--text-primary);
 
-  &_active{
+  &_active {
     color: var(--text-action);
   }
 

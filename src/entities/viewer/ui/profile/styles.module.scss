@@ -3,7 +3,8 @@
 .wrapper {
   @include box-size(calc(100% - 80px), 100%);
   @include flex(flex-start, flex-start);
-  gap: 40px;
+  column-gap: 40px;
+  row-gap: 20px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
   overflow-y: auto;

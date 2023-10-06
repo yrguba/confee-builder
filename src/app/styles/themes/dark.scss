@@ -34,7 +34,8 @@
   --border-negative: #FF4B4B;
   --border-negative-pressed: #E74343;
   //------------------------------------
-  --box-shadow: 0 2px 14px 0 #717394;
+  --box-shadow: 0 0 6px 0 #717394;
+  --box-shadow-active: 0 0 3px 0 #717394;
   //------------------------------------
   input {
     color-scheme: dark;

@@ -4,14 +4,9 @@
   @include box-size(100%, 100%);
   @include flex-column(flex-start, flex-start);
   gap: 12px;
-  background-color: var(--bg-secondary);
   border-radius: 12px;
   padding: 0 20px;
   overflow-y: auto;
-
-  @include width-to(sm){
-    padding: 4px;
-  }
 
   .avatarBlock {
     @include flex-column(flex-start,flex-start);
@@ -31,8 +26,15 @@
       gap: 12px;
 
       svg {
-        fill: var(--text-fixed);
+        fill: var(--text-action);
       }
     }
+  }
+
+  .userInfo{
+    min-width: 240px;
+    padding: 24px;
+    border-radius: 20px;
+    background-color: var(--bg-secondary);
   }
 }
