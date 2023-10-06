@@ -4,7 +4,6 @@ import { UserInfoView, userTypes } from 'entities/user';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
-import { useWidthMediaQuery } from '../../../../shared/hooks';
 import { Avatar, Button, Dropdown, DropdownTypes, Icons, Title } from '../../../../shared/ui';
 import { ContactProxy } from '../../model/types';
 
@@ -42,13 +41,7 @@ function ContactProfileView(props: Props) {
                 <div className={styles.btns}>
                     {btns.map((i) => (
                         <Dropdown.Menu position="bottom-center" items={moreBtn} key={i.id} disabled={i.title !== 'Ещё'}>
-                            <Button
-                                variant="shadow"
-                                width="61px"
-                                direction="vertical"
-                                // prefixIcon={i.id === 3 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
-                                onClick={i.callback}
-                            >
+                            <Button variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
                                 {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
                             </Button>
                         </Dropdown.Menu>

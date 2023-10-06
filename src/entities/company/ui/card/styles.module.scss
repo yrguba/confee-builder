@@ -2,11 +2,12 @@
 
 .wrapper {
   @include flex;
-  @include box-size(100%, 186px);
+  @include box-size(auto, 180px);
   background-color: var(--bg-primary);
   border-radius: 12px;
   max-width: 375px;
-
+  min-width: 288px;
+  min-height: 180px;
   .body {
     @include flex-column(center, flex-start);
     @include box-size(calc(100% - 20px), calc(100% - 20px));

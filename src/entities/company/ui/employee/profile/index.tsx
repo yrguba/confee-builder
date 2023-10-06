@@ -22,9 +22,10 @@ function EmployeeProfileView(props: Props) {
 
     const btns: BaseTypes.Item[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: actions?.audioCall },
-        { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: actions?.videoCall },
-        { id: 2, title: 'Чат', icon: 'chat', payload: '', callback: actions?.getChat },
-        { id: 3, title: 'Выкл', icon: 'mute', payload: '', callback: () => actions?.mute() },
+        // { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: actions?.videoCall },
+        { id: 1, title: 'Чат', icon: 'chat', payload: '', callback: actions?.getChat },
+        { id: 2, title: 'Выключить уведомления', payload: '', icon: 'mute', callback: () => actions?.mute() },
+        // { id: 3, title: 'Выкл', icon: 'mute', payload: '', callback: () => actions?.mute() },
     ];
 
     const moreBtn: DropdownTypes.DropdownMenuItem[] = [
@@ -34,45 +35,46 @@ function EmployeeProfileView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.avatarBlock}>
-                <div className={styles.name}>
-                    <Title variant="H1">{employee?.full_name}</Title>
-                    {employee?.companies?.length ? <CompanyTagView name="TFN" /> : null}
-                </div>
-                <Avatar loading={loading} circle={false} size={sm ? 346 : 375} img={employee?.avatar} />
-                <div className={styles.btns}>
-                    {employee?.user ? (
-                        btns.map((i) => (
-                            <Dropdown.Menu position="bottom-center" items={moreBtn} key={i.id} disabled={i.title !== 'Ещё'}>
-                                <Button
-                                    direction="vertical"
-                                    prefixIcon={i.id === 3 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
-                                    onClick={i.callback}
-                                >
-                                    {i.title}
-                                </Button>
-                            </Dropdown.Menu>
-                        ))
-                    ) : (
-                        <Title textAlign="center" variant="H2">
-                            Не зарегестрирован
-                        </Title>
-                    )}
+                <Avatar loading={loading} circle={false} size={201} img={employee?.avatar} />
+                <div className={styles.center}>
+                    <div className={styles.name}>
+                        <Title variant="H1">{employee?.full_name}</Title>
+                        {employee?.companies?.length ? <CompanyTagView name="TFN" /> : null}
+                    </div>
+                    <div className={styles.btns}>
+                        {employee?.user ? (
+                            btns.map((i) => (
+                                <Dropdown.Menu position="bottom-center" items={moreBtn} key={i.id} disabled={i.title !== 'Ещё'}>
+                                    <Button variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
+                                        {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
+                                    </Button>
+                                </Dropdown.Menu>
+                            ))
+                        ) : (
+                            <Title variant="H2">Не зарегестрирован</Title>
+                        )}
+                    </div>
                 </div>
             </div>
-            <UserInfoView user={employee?.userProxy || null} />
-            {employee?.companies?.length ? (
-                <div className={styles.companies}>
-                    {employee?.companies?.map((i) => (
-                        <CompanyCardView
-                            key={i.id}
-                            position={employee.position || ''}
-                            status="in office"
-                            title={i.name || ''}
-                            subtitle={employee.departments[0]?.name || ''}
-                        />
-                    ))}
+
+            {employee?.companies?.length
+                ? employee?.companies?.map((i) => (
+                      <CompanyCardView
+                          style={{ backgroundColor: 'var(--bg-secondary)' }}
+                          key={i.id}
+                          position={employee.position || ''}
+                          status="in office"
+                          title={i.name || ''}
+                          subtitle={employee.departments[0]?.name || ''}
+                      />
+                  ))
+                : null}
+
+            {employee?.user && (
+                <div className={styles.userInfo}>
+                    <UserInfoView user={employee?.userProxy || null} />
                 </div>
-            ) : null}
+            )}
         </div>
     );
 }
