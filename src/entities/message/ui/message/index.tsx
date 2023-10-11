@@ -54,7 +54,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         my_last: lastMessageInBlock && isMy,
         another_last: lastMessageInBlock && !isMy,
     });
-
+    console.log(message);
     return (
         <Box className={styles.wrapper}>
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={authorAvatar} />}
@@ -84,7 +84,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             )}
                             {reply_to_message?.id && <ReplyMessage message={reply_to_message} />}
                             {forwarded_from_message?.id && <ForwardMessage message={messageProxy({ message: forwarded_from_message })} />}
-                            {(type === 'text' || forwarded_from_message?.type === 'text') && (
+                            {((type === 'text' && !forwarded_from_message) || forwarded_from_message?.type === 'text') && (
                                 <TextMessage text={forwarded_from_message?.text || text} openChatProfileModal={openChatProfileModal} chat={chat} />
                             )}
                             {(type === 'images' || forwarded_from_message?.type === 'images') && (
