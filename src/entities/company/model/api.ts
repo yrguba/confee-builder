@@ -4,6 +4,7 @@ import produce from 'immer';
 import { axiosClient } from 'shared/configs';
 
 import { Company, Department, Employee } from './types';
+import contacts from '../../../pages/main/contacts';
 import { httpHandlers } from '../../../shared/lib';
 import { Chat } from '../../chat/model/types';
 import { Contact } from '../../contact/model/types';
@@ -46,7 +47,7 @@ class CompanyApi {
             staleTime: Infinity,
             select: (res) => {
                 const updRes = httpHandlers.response<{ data: { employees: Employee[]; contacts: Contact[] } }>(res);
-                return updRes.data?.data;
+                return { ...updRes.data?.data, contacts: updRes.data?.data.contacts.filter((i) => i.user) };
             },
         });
     }
