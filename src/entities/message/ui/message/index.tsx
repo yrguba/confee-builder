@@ -53,6 +53,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     const nameTitleVariant = useEasyState<TitleTypes.TitleVariants>('H3S');
     const dateTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4M');
     const replyAndForwardTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4S');
+    const messageWrapperWidth = useEasyState(0);
 
     const classes = useStyles(styles, 'bubble', {
         isMy,
@@ -69,6 +70,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 nameTitleVariant.set(bp ? 'H4S' : 'H3S');
                 dateTitleVariant.set(bp ? 'caption1M' : 'H4M');
                 replyAndForwardTitleVariant.set(bp ? 'caption1S' : 'H4S');
+                messageWrapperWidth.set(size.width);
             },
         },
     });
@@ -101,7 +103,11 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                                 </div>
                             )}
                             {reply_to_message?.id && (
-                                <ReplyMessage nameTitleVariant={replyAndForwardTitleVariant.value} message={messageProxy({ message: reply_to_message })} />
+                                <ReplyMessage
+                                    messageWrapperWidth={messageWrapperWidth.value}
+                                    nameTitleVariant={replyAndForwardTitleVariant.value}
+                                    message={messageProxy({ message: reply_to_message })}
+                                />
                             )}
                             {forwarded_from_message?.id && (
                                 <ForwardMessage
