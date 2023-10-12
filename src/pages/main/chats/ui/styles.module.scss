@@ -31,10 +31,6 @@
   }
 
   .search{
-
-    .bar{
-      min-width: 480px;
-      background-color: #2db7f5;
-    }
+    @include box-size(450px, 100%);
   }
 }

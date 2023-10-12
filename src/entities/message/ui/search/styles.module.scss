@@ -1,0 +1,40 @@
+@import "src/app/styles";
+
+.wrapper {
+  @include box-size(100%, 100%);
+  @include flex-column(flex-start, flex-start);
+  //background-color: var(--bg-dialogue);
+  min-width: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .header {
+    @include box-size(100%, 114px);
+    @include flex-column();
+    gap: 16px;
+    background-color: var(--bg-secondary);
+    padding: 12px;
+
+    .title {
+      @include box-size(100%, auto);
+      @include flex;
+      gap: 16px;
+
+      svg {
+        fill: var(--text-primary);
+      }
+    }
+
+    .search {
+      @include box-size(100%, auto);
+      @include flex;
+    }
+  }
+
+
+  .messages {
+    @include box-size(100%, calc(100% - 114px));
+    background-color: var(--bg-secondary);
+    padding: 12px;
+  }
+}

@@ -9,6 +9,7 @@ import MessageInputView from './ui/input';
 import MessagesListView from './ui/list';
 import FilesToSendModalView from './ui/modals/files-to-send';
 import ForwardMessagesModalView from './ui/modals/forward';
+import SearchMessagesView from './ui/search';
 
 export {
     messageApi,
@@ -22,4 +23,5 @@ export {
     MessageInputView,
     ForwardMessagesModalView,
     FilesToSendModalView,
+    SearchMessagesView,
 };

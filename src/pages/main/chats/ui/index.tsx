@@ -6,6 +6,7 @@ import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useMessageStore } from '../../../../entities/message';
+import { SearchMessages } from '../../../../features/message';
 import { useDebounce } from '../../../../shared/hooks';
 import { Sidebar } from '../widgets';
 
@@ -88,7 +89,7 @@ function ChatsPage() {
                 />
             )}
             <Box.Animated className={styles.search} animationVariant="autoWidth" visible={visibleSearchMessages.value && xl}>
-                <div className={styles.bar}>d</div>
+                <SearchMessages />
             </Box.Animated>
         </Box.Animated>
     );
