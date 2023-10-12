@@ -51,6 +51,8 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 
     const avatarSize = useEasyState(52);
     const nameTitleVariant = useEasyState<TitleTypes.TitleVariants>('H3S');
+    const dateTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4M');
+    const replyAndForwardTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4S');
 
     const classes = useStyles(styles, 'bubble', {
         isMy,
@@ -64,7 +66,9 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
             wrapper: (size) => {
                 const bp = size.width < 450;
                 avatarSize.set(bp ? 40 : 52);
-                nameTitleVariant.set(bp ? 'caption1S' : 'H3S');
+                nameTitleVariant.set(bp ? 'H4S' : 'H3S');
+                dateTitleVariant.set(bp ? 'caption1M' : 'H4M');
+                replyAndForwardTitleVariant.set(bp ? 'caption1S' : 'H4S');
             },
         },
     });
@@ -97,10 +101,13 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                                 </div>
                             )}
                             {reply_to_message?.id && (
-                                <ReplyMessage nameTitleVariant={nameTitleVariant.value} message={messageProxy({ message: reply_to_message })} />
+                                <ReplyMessage nameTitleVariant={replyAndForwardTitleVariant.value} message={messageProxy({ message: reply_to_message })} />
                             )}
                             {forwarded_from_message?.id && (
-                                <ForwardMessage nameTitleVariant={nameTitleVariant.value} message={messageProxy({ message: forwarded_from_message })} />
+                                <ForwardMessage
+                                    nameTitleVariant={replyAndForwardTitleVariant.value}
+                                    message={messageProxy({ message: forwarded_from_message })}
+                                />
                             )}
                             {((type === 'text' && !forwarded_from_message) || forwarded_from_message?.type === 'text') && (
                                 <TextMessage text={forwarded_from_message?.text || text} openChatProfileModal={openChatProfileModal} chat={chat} />
@@ -127,7 +134,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                                     <Title variant="Body14">Изменено</Title>
                                 </div>
                             )}
-                            <Title primary={false} variant="H4M">
+                            <Title primary={false} variant={dateTitleVariant.value}>
                                 {message.date}
                             </Title>
                             <Box.Replace
