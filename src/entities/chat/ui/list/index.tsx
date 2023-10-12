@@ -15,15 +15,16 @@ type Props = {
     activeChatId: number | null;
     tabsAndLists: UseChatsTabsAndListsReturnType;
     chatMenuAction: (action: PrivateChatActions | GroupChatActions, chat: ChatProxy) => void;
-    searchInput: InputTypes.UseReturnedType;
 } & BaseTypes.Statuses;
 
 function ChatsListView(props: Props) {
-    const { searchInput, clickOnChat, loading, activeChatId, tabsAndLists, chatMenuAction } = props;
+    const { clickOnChat, loading, activeChatId, tabsAndLists, chatMenuAction } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
 
     const wrapperRef = useRef(null);
     const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
+
+    const chats = tabsAndLists.searchInput.value ? tabsAndLists.foundChats : tabsAndLists.activeList;
 
     useEffect(() => {
         inViewLastItem && tabsAndLists.getNextPage();
@@ -32,13 +33,13 @@ function ChatsListView(props: Props) {
     return (
         <Box loading={loading} className={styles.wrapper}>
             <div className={styles.search}>
-                <Input {...searchInput} prefixIcon="search" clearIcon />
+                <Input {...tabsAndLists.searchInput} prefixIcon="search" clearIcon />
             </div>
             <div className={styles.tabs}>
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
             </div>
             <Box.Animated trigger={String(tabsAndLists.activeTab?.id)} visible={!!tabsAndLists.activeList?.length} className={styles.list} ref={wrapperRef}>
-                {tabsAndLists.activeList?.map((chat, index: number) => (
+                {chats?.map((chat, index: number) => (
                     <ChatCardView
                         chatMenuAction={chatMenuAction}
                         key={chat.id}

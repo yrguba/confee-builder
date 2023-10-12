@@ -12,8 +12,6 @@ function ChatsList() {
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
 
-    const searchInput = Input.use({});
-
     const confirmDeleteChat = Modal.useConfirm<ChatProxy>((value, chat) => {
         if (value && chat) {
             const exitChat = () => {
@@ -47,7 +45,6 @@ function ChatsList() {
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
                 tabsAndLists={tabsAndLists}
-                searchInput={searchInput}
             />
         </>
     );

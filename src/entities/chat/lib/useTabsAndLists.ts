@@ -3,9 +3,10 @@ import { useUpdateEffect } from 'react-use';
 
 import { createMemo, useEasyState, useRouter, useStorage } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { TabBarTypes } from 'shared/ui';
+import { Input, TabBarTypes } from 'shared/ui';
 
 import chatService from './service';
+import { companyApi } from '../../company';
 import { Company } from '../../company/model/types';
 import { viewerApi } from '../../viewer';
 import { chatApi, chatProxy, chatTypes } from '../index';
@@ -43,6 +44,10 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     const activeType = activeTab.value?.payload?.type;
     const tabs = memoTabs(viewerData?.companies);
+
+    const searchInput = Input.use({});
+
+    const { data: foundChats } = chatApi.handleSearchChat({ pattern: searchInput.value });
 
     const { data: allChatsData, hasNextPage: allHasNextPage, fetchNextPage: allFetchNextPage } = chatApi.handleGetChats({ type: activeType });
     const { data: personalChatsData, hasNextPage: personalHasNextPage, fetchNextPage: personalFetchNextPage } = chatApi.handleGetChats({ type: activeType });
@@ -119,6 +124,8 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
         setActiveTab: clickTab,
         activeList: activeList.value,
         getNextPage,
+        searchInput,
+        foundChats: foundChats?.map((i) => chatProxy(i) as any) || [],
     };
 }
 

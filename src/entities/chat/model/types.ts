@@ -1,5 +1,5 @@
 import { BaseTypes } from '../../../shared/types';
-import { TabBarTypes } from '../../../shared/ui';
+import { InputTypes, TabBarTypes } from '../../../shared/ui';
 import { companyTypes } from '../../company';
 import { Employee, EmployeeProxy } from '../../company/model/types';
 import { contactTypes } from '../../contact';
@@ -45,6 +45,8 @@ export type UseChatsTabsAndListsReturnType = {
     setActiveTab: (tab: TabBarTypes.TabBarItem) => void;
     activeList: ChatProxy[] | BaseTypes.Empty;
     getNextPage: () => void;
+    searchInput: InputTypes.UseReturnedType;
+    foundChats: ChatProxy[] | BaseTypes.Empty;
 };
 
 export type PrivateChatActions = 'delete' | 'audioCall' | 'videoCall' | 'message';

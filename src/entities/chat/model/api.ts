@@ -41,6 +41,17 @@ class ChatApi {
         });
     };
 
+    handleSearchChat = (data: { pattern: string | undefined }) => {
+        return useQuery(['get-search-chat', data.pattern], () => axiosClient.get(`/api/v2/search/chats/${data.pattern}`), {
+            staleTime: Infinity,
+            enabled: !!data.pattern,
+            select: (data) => {
+                const res = httpHandlers.response<{ data: Chat[] }>(data);
+                return res.data?.data;
+            },
+        });
+    };
+
     handleGetChatWithEmployee = (data: { employeeId: number | string | undefined }) => {
         return useQuery(['get-chat-with-user', data.employeeId], () => axiosClient.get(`${this.pathPrefix}/chat/with-employee/${data.employeeId}`), {
             staleTime: Infinity,
