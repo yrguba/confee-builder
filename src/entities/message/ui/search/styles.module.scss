@@ -48,6 +48,19 @@
       min-height: 64px;
       @include flex-column(flex-start, flex-start);
       cursor: pointer;
+
+      .text{
+        color: var(--text-primary);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+      }
+
+      .highlight{
+        color: var(--text-action) !important;
+        background-color: inherit;
+      }
     }
   }
 }

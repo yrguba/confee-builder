@@ -1,4 +1,6 @@
+import moment from 'moment';
 import React from 'react';
+import Highlighter from 'react-highlight-words';
 import { useUpdateEffect } from 'react-use';
 
 import { dateConverter, getEnding } from 'shared/lib';
@@ -43,8 +45,17 @@ function SearchMessagesView(props: Props) {
             <div className={styles.messages}>
                 {messages?.map((i, index) => (
                     <div key={i.id} className={styles.item}>
-                        <Title variant="caption1M">{dateConverter(i.created_at)}</Title>
-                        <Title variant="caption1M">{i.text}</Title>
+                        <Title primary={false} variant="caption1M">
+                            {moment(i.created_at).calendar().split(',')[0]}
+                        </Title>
+                        <Highlighter
+                            highlightClassName={styles.highlight}
+                            className={styles.text}
+                            searchWords={[searchInput.value]}
+                            autoEscape
+                            textToHighlight={i.text}
+                        />
+                        {/* <Title variant="H4M">{i.text}</Title> */}
                     </div>
                 ))}
                 <div ref={lastMessage} />
