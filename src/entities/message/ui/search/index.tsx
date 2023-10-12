@@ -1,16 +1,30 @@
 import React from 'react';
+import { useUpdateEffect } from 'react-use';
 
+import { dateConverter, getEnding } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
+import { Button, Icons, Input, Title, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Button, Icons, Input, Title } from '../../../../shared/ui';
+import { useInView } from '../../../../shared/hooks';
+import messageProxy from '../../lib/proxy';
+import { Message, MessageProxy } from '../../model/types';
 
 type Props = {
     close: () => void;
+    searchInput: InputTypes.UseReturnedType;
+    messages: Message[];
+    getNextPage: () => void;
 } & BaseTypes.Statuses;
 
 function SearchMessagesView(props: Props) {
-    const { close } = props;
+    const { getNextPage, close, searchInput, messages } = props;
+
+    const { ref: lastMessage, inView: inViewLastMessage } = useInView({ delay: 200 });
+
+    useUpdateEffect(() => {
+        inViewLastMessage && getNextPage();
+    }, [inViewLastMessage]);
 
     return (
         <div className={styles.wrapper}>
@@ -22,11 +36,19 @@ function SearchMessagesView(props: Props) {
                     <Title variant="H2">Поиск сообщений</Title>
                 </div>
                 <div className={styles.search}>
-                    <Input clearIcon prefixIcon="search" />
+                    <Input {...searchInput} clearIcon prefixIcon="search" />
                 </div>
             </div>
 
-            <div className={styles.messages}>messages</div>
+            <div className={styles.messages}>
+                {messages?.map((i, index) => (
+                    <div key={i.id} className={styles.item}>
+                        <Title variant="caption1M">{dateConverter(i.created_at)}</Title>
+                        <Title variant="caption1M">{i.text}</Title>
+                    </div>
+                ))}
+                <div ref={lastMessage} />
+            </div>
         </div>
     );
 }

@@ -46,6 +46,35 @@ class MessageApi {
         );
     }
 
+    handleSearchMessages({ chatId, text }: { text: string; chatId: number }) {
+        return useInfiniteQuery(
+            ['search-messages', chatId, text],
+            ({ pageParam }) => {
+                return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
+                    params: {
+                        page: pageParam || 1,
+                        text,
+                    },
+                });
+            },
+            {
+                getNextPageParam: (lastPage, pages) => {
+                    console.log(lastPage);
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
+                },
+                select: (data) => {
+                    return {
+                        pages: data.pages,
+                        pageParams: data.pageParams,
+                    };
+                },
+                enabled: !!chatId,
+                staleTime: Infinity,
+            }
+        );
+    }
+
     handleSendTextMessage() {
         const queryClient = useQueryClient();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
