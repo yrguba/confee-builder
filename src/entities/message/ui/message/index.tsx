@@ -14,7 +14,7 @@ import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
 import VideoMessage from './variants/video';
 import VoiceMessage from './variants/voice';
-import { useStyles } from '../../../../shared/hooks';
+import { useDimensionsObserver, useEasyState, useStyles } from '../../../../shared/hooks';
 import { appTypes } from '../../../app';
 import { EmployeeProxy } from '../../../company/model/types';
 import { userProxy } from '../../../user';
@@ -49,15 +49,29 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         authorAvatar,
     } = message;
 
+    const avatarSize = useEasyState(52);
+    const nameTitleVariant = useEasyState<'H3S' | 'caption1S'>('H3S');
+
     const classes = useStyles(styles, 'bubble', {
         isMy,
         my_last: lastMessageInBlock && isMy,
         another_last: lastMessageInBlock && !isMy,
     });
-    console.log(message);
+
+    useDimensionsObserver({
+        refs: { wrapper: ref },
+        onResize: {
+            wrapper: (size) => {
+                const bp = size.width < 450;
+                avatarSize.set(bp ? 40 : 52);
+                nameTitleVariant.set(bp ? 'caption1S' : 'H3S');
+            },
+        },
+    });
+
     return (
         <Box className={styles.wrapper}>
-            {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={52} img={authorAvatar} />}
+            {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={avatarSize.value} img={authorAvatar} />}
             <Dropdown.Dynamic
                 disabled={voiceRecordingInProgress}
                 reverseX={message.isMy}
@@ -79,7 +93,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                         <div className={styles.body}>
                             {!isMy && chat?.is_group && firstMessageInBlock && (
                                 <div className={styles.authorName}>
-                                    <Title variant="H3S">{authorName}</Title>
+                                    <Title variant={nameTitleVariant.value}>{authorName}</Title>
                                 </div>
                             )}
                             {reply_to_message?.id && <ReplyMessage message={reply_to_message} />}

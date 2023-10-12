@@ -22,6 +22,7 @@ function ChatHeader() {
 
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const forwardMessages = useMessageStore.use.forwardMessages();
+    const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
 
     const notification = Notification.use();
 
@@ -59,7 +60,7 @@ function ChatHeader() {
     };
 
     const tabs: TabBarTypes.TabBarItem[] = [
-        { id: 0, icon: 'search', callback: () => notification.inDev() },
+        { id: 0, icon: 'search', callback: () => visibleSearchMessages.set(!visibleSearchMessages.value) },
         { id: 1, icon: 'phone', callback: clickChatAudioCall },
         { id: 2, icon: 'videocam-outlined', callback: () => notification.inDev() },
     ];
