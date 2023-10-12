@@ -4,7 +4,7 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useStore, UseStoreTypes } from 'shared/hooks';
 
-import { MessageProxy } from './types';
+import { Message, MessageProxy } from './types';
 
 type Store = {
     replyMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
@@ -13,6 +13,8 @@ type Store = {
     highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     voiceRecordingInProgress: UseStoreTypes.SelectorWithPrimitive<boolean>;
     visibleSearchMessages: UseStoreTypes.SelectorWithPrimitive<boolean>;
+    initialPage: UseStoreTypes.SelectorWithPrimitive<number | null>;
+    foundMessage: UseStoreTypes.SelectorWithObj<Message | null>;
 };
 
 const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, generateSelectorWithPrimitive } = useStore<Store>();
@@ -20,8 +22,8 @@ const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, gener
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
-            ...generateSelectorWithPrimitive(['voiceRecordingInProgress', 'visibleSearchMessages'], set),
-            ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages'], set),
+            ...generateSelectorWithPrimitive(['voiceRecordingInProgress', 'visibleSearchMessages', 'initialPage'], set),
+            ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages', 'foundMessage'], set),
             ...generateSelectorWithArr(['highlightedMessages'], set),
         }))
     )

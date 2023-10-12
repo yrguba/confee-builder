@@ -17,10 +17,11 @@ type Props = {
     searchInput: InputTypes.UseReturnedType;
     messages: Message[];
     getNextPage: () => void;
+    clickMessage: (message: Message) => void;
 } & BaseTypes.Statuses;
 
 function SearchMessagesView(props: Props) {
-    const { getNextPage, close, searchInput, messages } = props;
+    const { clickMessage, getNextPage, close, searchInput, messages } = props;
 
     const { ref: lastMessage, inView: inViewLastMessage } = useInView({ delay: 200 });
 
@@ -44,7 +45,7 @@ function SearchMessagesView(props: Props) {
 
             <div className={styles.messages}>
                 {messages?.map((i, index) => (
-                    <div key={i.id} className={styles.item}>
+                    <div key={i.id} className={styles.item} onClick={() => clickMessage(i)}>
                         <Title primary={false} variant="caption1M">
                             {moment(i.created_at).calendar().split(',')[0]}
                         </Title>

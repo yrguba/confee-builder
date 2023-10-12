@@ -9,8 +9,8 @@ import { Message, MessageProxy } from '../model/types';
 
 function messageProxy(data: { prevMessage?: Message | null; message: Message; nextMessage?: Message | null }): MessageProxy {
     const viewerId = viewerService.getId();
-    const employee = data.message.author_employee ? employeeProxy(data.message.author_employee) : null;
-    const author = data.message.author ? userProxy(data.message.author) : null;
+    const employee = data.message?.author_employee ? employeeProxy(data.message.author_employee) : null;
+    const author = data.message.author ? userProxy(data.message?.author) : null;
     return new Proxy(data.message, {
         get(target: MessageProxy, prop: keyof MessageProxy, receiver) {
             switch (prop) {

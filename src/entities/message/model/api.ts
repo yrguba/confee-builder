@@ -14,7 +14,7 @@ class MessageApi {
 
     socket = useWebSocket<any, SocketOut>();
 
-    handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined; chatId: number }) {
+    handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined | null; chatId: number }) {
         return useInfiniteQuery(
             ['get-messages', chatId],
             ({ pageParam }) => {

@@ -28,10 +28,14 @@ type Props = {
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     voiceRecordingInProgress: boolean;
+    foundMessage: MessageProxy | null;
+    deleteFoundMessage: () => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
     const {
+        deleteFoundMessage,
+        foundMessage,
         chat,
         messages,
         getPrevPage,
@@ -56,6 +60,7 @@ function MessagesListView(props: Props) {
     const wrapperRef: any = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
     const firstUnreadMessageRef = useRef<HTMLDivElement>(null);
+    const foundMessageRef = useRef<HTMLDivElement>(null);
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
@@ -69,8 +74,9 @@ function MessagesListView(props: Props) {
             refs.push(firstUnreadMessageRef);
             refs.push(firstUnreadCheckVisibleRef);
         }
-        // if (messages.length - 1 === index) refs.push(lastMessageRef);
-        // if (messages.length - 1 === index) refs.push(lastMessageCheckVisibleRef);
+        if (foundMessage?.id && foundMessage.id === message.id) {
+            refs.push(foundMessageRef);
+        }
         return mergeRefs(refs);
     };
 
@@ -87,9 +93,12 @@ function MessagesListView(props: Props) {
             executeScrollToElement({ ref: firstUnreadMessageRef, enable: true });
         }
     };
-
     useEffect(() => {
         if (wrapperRef?.current && chat) {
+            if (foundMessageRef.current) {
+                setTimeout(() => deleteFoundMessage(), 1000);
+                return executeScrollToElement({ ref: foundMessageRef, enable: true, block: 'center' });
+            }
             scrollBottom({
                 ref: wrapperRef,
                 enable: (initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef,
@@ -136,7 +145,9 @@ function MessagesListView(props: Props) {
                         <div
                             onClick={() => rowClick(message)}
                             onMouseEnter={() => !message.is_read && readMessage(message.id)}
-                            className={`${styles.row} ${highlightedMessages.value.find((i) => i.id === message.id) ? styles.row_active : ''}`}
+                            className={`${styles.row} ${
+                                highlightedMessages.value.find((i) => i.id === message.id) || message.id === foundMessage?.id ? styles.row_active : ''
+                            }`}
                             style={{
                                 justifyContent: message.isMy ? 'flex-end' : 'flex-start',
                                 cursor: highlightedMessages.value.length ? 'pointer' : 'default',

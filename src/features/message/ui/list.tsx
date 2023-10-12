@@ -1,7 +1,8 @@
 import React from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy, useChatStore } from 'entities/chat';
-import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore } from 'entities/message';
+import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore, messageProxy } from 'entities/message';
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
@@ -31,6 +32,8 @@ function MessageList() {
     const forwardMessages = useMessageStore.use.forwardMessages();
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const voiceRecordingInProgress = useMessageStore.use.voiceRecordingInProgress();
+    const initialPage = useMessageStore.use.initialPage();
+    const foundMessage = useMessageStore.use.foundMessage();
 
     const {
         data: messageData,
@@ -40,7 +43,8 @@ function MessageList() {
         fetchNextPage,
         isFetching,
         isLoading,
-    } = messageApi.handleGetMessages({ chatId, initialPage: messageService.getInitialPage(chatData) });
+    } = messageApi.handleGetMessages({ chatId, initialPage: initialPage.value || messageService.getInitialPage(chatData) });
+
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const { mutate: handleSendReaction } = messageApi.handleSendReaction();
@@ -141,6 +145,8 @@ function MessageList() {
                 openChatProfileModal={openChatProfileModal}
                 highlightedMessages={highlightedMessages}
                 voiceRecordingInProgress={voiceRecordingInProgress.value}
+                foundMessage={foundMessage.value ? messageProxy({ message: foundMessage.value }) : null}
+                deleteFoundMessage={() => foundMessage.set(null)}
                 loading={isLoading}
             />
         </>

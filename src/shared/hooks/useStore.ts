@@ -7,7 +7,7 @@ type SelectorWithPrimitive<T extends number | string | boolean | null> = {
     set: (arg: T) => void;
 };
 
-type SelectorWithObj<T extends object> = {
+type SelectorWithObj<T extends object | null> = {
     value: T;
     set: (arg: T) => void;
     clear: () => void;
