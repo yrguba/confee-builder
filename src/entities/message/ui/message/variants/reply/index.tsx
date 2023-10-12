@@ -1,25 +1,25 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Title } from 'shared/ui';
+import { Title, TitleTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import MessageService from '../../../../lib/service';
-import { Message } from '../../../../model/types';
+import { Message, MessageProxy } from '../../../../model/types';
 
 type Props = {
-    message: Message | null;
+    message: MessageProxy | null;
+    nameTitleVariant: TitleTypes.TitleVariants;
 } & BaseTypes.Statuses;
 
 function ReplyMessage(props: Props) {
-    const { message } = props;
-    const authorName = MessageService.getAuthorName(message);
+    const { nameTitleVariant, message } = props;
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.description}>
-                <Title active variant="H4S">
-                    {authorName}
+                <Title active variant={nameTitleVariant}>
+                    {message?.authorName}
                 </Title>
                 <Title variant="H4M">{message?.text}</Title>
             </div>

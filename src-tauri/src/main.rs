@@ -79,9 +79,9 @@ fn main() {
             _ => {}
         })
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
-            app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
             let window = app.get_window("main").unwrap();
             window.show().unwrap();
+            app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
         }))
         .plugin(tauri_plugin_fs_extra::init())
         .run(tauri::generate_context!())

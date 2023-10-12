@@ -9,6 +9,7 @@
   //overflow: hidden;
   position: relative;
   box-shadow: var(--box-shadow);
+transition: all 0.5s;
 
   .status {
     @include flex;

@@ -2,7 +2,7 @@ import React, { forwardRef, memo } from 'react';
 
 import { chatTypes, useChatStore } from 'entities/chat';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Box, Dropdown, Icons, Title } from 'shared/ui';
+import { Avatar, Box, Dropdown, Icons, Title, TitleTypes } from 'shared/ui';
 
 import MessageMenu from './menu';
 import styles from './styles.module.scss';
@@ -50,7 +50,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     } = message;
 
     const avatarSize = useEasyState(52);
-    const nameTitleVariant = useEasyState<'H3S' | 'caption1S'>('H3S');
+    const nameTitleVariant = useEasyState<TitleTypes.TitleVariants>('H3S');
 
     const classes = useStyles(styles, 'bubble', {
         isMy,
@@ -96,8 +96,12 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                                     <Title variant={nameTitleVariant.value}>{authorName}</Title>
                                 </div>
                             )}
-                            {reply_to_message?.id && <ReplyMessage message={reply_to_message} />}
-                            {forwarded_from_message?.id && <ForwardMessage message={messageProxy({ message: forwarded_from_message })} />}
+                            {reply_to_message?.id && (
+                                <ReplyMessage nameTitleVariant={nameTitleVariant.value} message={messageProxy({ message: reply_to_message })} />
+                            )}
+                            {forwarded_from_message?.id && (
+                                <ForwardMessage nameTitleVariant={nameTitleVariant.value} message={messageProxy({ message: forwarded_from_message })} />
+                            )}
                             {((type === 'text' && !forwarded_from_message) || forwarded_from_message?.type === 'text') && (
                                 <TextMessage text={forwarded_from_message?.text || text} openChatProfileModal={openChatProfileModal} chat={chat} />
                             )}
