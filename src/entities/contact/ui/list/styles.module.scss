@@ -30,6 +30,7 @@
     .item {
       @include flex;
       @include box-size(calc(100% - 32px), 74px);
+      min-height: 74px;
       padding:0 16px;
       gap: 16px;
       cursor: pointer;
@@ -38,7 +39,6 @@
       .body {
         @include box-size(100%, 100%);
         @include flex(space-between);
-
         gap: 16px;
 
         .card {
