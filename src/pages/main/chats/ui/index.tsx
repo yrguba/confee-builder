@@ -77,8 +77,12 @@ function ChatsPage() {
                             ),
                         },
                         {
-                            visible: !!params.chat_id,
+                            visible: (!!params.chat_id && !visibleSearchMessages.value) || (!!params.chat_id && visibleSearchMessages.value && xl),
                             item: <Outlet />,
+                        },
+                        {
+                            visible: !!params.chat_id && visibleSearchMessages.value && !xl,
+                            item: <div className={styles.bar}>d</div>,
                         },
                     ]}
                 />
