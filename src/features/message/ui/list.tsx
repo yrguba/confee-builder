@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useUpdateEffect } from 'react-use';
 
@@ -18,6 +19,8 @@ function MessageList() {
     const { params } = useRouter();
     const [state, copyToClipboard] = useCopyToClipboard();
     const chatId = Number(params.chat_id);
+
+    const queryClient = useQueryClient();
 
     const { playSpeech } = useTextToSpeech();
 
@@ -116,8 +119,11 @@ function MessageList() {
 
     const clickMessageReply = (message: messageTypes.MessageProxy) => {
         if (message.message_chat_order) {
-            console.log('message_chat_order', message.message_chat_order);
-            console.log('message_chat_order / per_page', Math.ceil(message.message_chat_order / messageConstants.messages_limit));
+            initialPage.set(Math.ceil(message.message_chat_order / messageConstants.messages_limit));
+            foundMessage.set(message);
+            setTimeout(() => {
+                queryClient.prefetchInfiniteQuery(['get-messages', chatId]);
+            }, 200);
         }
     };
 

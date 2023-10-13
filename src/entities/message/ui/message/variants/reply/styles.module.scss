@@ -8,12 +8,13 @@
   min-width: 160px;
   margin-bottom: 12px;
   cursor: pointer;
+  padding-left: 8px;
+  gap: 8px;
 
   .description{
     @include flex-column;
     flex: 1;
     width: 0;
-    padding-left: 8px;
   }
 }
 

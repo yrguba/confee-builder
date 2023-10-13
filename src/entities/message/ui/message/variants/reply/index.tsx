@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Image, Title, TitleTypes } from 'shared/ui';
+import { Avatar, Image, Title, TitleTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import MessageService from '../../../../lib/service';
-import { Message, MessageProxy } from '../../../../model/types';
+import { getVideoCover } from '../../../../../../shared/lib';
+import { MessageProxy } from '../../../../model/types';
 
 type Props = {
     message: MessageProxy;
@@ -29,14 +29,19 @@ function ReplyMessage(props: Props) {
         return 140;
     };
 
+    const fileLength = message.files.length;
+
     return (
         <div className={styles.wrapper} onClick={() => clickMessageReply(message)}>
-            {/* {message?.type === 'images' && <Image width="10px" height="40px" url={message.files[0].url} />} */}
+            {message?.type === 'images' && <Avatar circle={false} size={40} img={message.files[0].url} />}
+            {/* {message.type === 'videos' && <Avatar circle={false} size={40} img={(getVideoCover(message.files[0].url) as any) || ''} />} */}
             <div className={styles.description}>
                 <Title active variant={nameTitleVariant}>
                     {message?.authorName}
                 </Title>
-                <Title variant="H4M">{message?.text}</Title>
+                {message.type === 'text' && <Title variant="H4M">{message?.text}</Title>}
+                {message.type === 'images' && <Title variant="H4M">{`${fileLength} фото`}</Title>}
+                {message.type === 'videos' && <Title variant="H4M">{`${fileLength} видео`}</Title>}
             </div>
         </div>
     );
