@@ -32,7 +32,7 @@ function SearchMessages() {
     };
 
     const clickMessage = (message: Message) => {
-        initialPage.set(3);
+        initialPage.set(1);
         foundMessage.set(message);
         !xl && visibleSearchMessages.set(false);
         setTimeout(() => {

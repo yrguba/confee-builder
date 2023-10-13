@@ -29,10 +29,11 @@ type Props = {
     sendReaction: (emoji: string, messageId: number) => void;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     voiceRecordingInProgress: boolean;
+    clickMessageReply: (message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
-    const { message, messageMenuAction, chat, sendReaction, openChatProfileModal, voiceRecordingInProgress } = props;
+    const { clickMessageReply, message, messageMenuAction, chat, sendReaction, openChatProfileModal, voiceRecordingInProgress } = props;
 
     const {
         text,
@@ -104,6 +105,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             )}
                             {reply_to_message?.id && (
                                 <ReplyMessage
+                                    clickMessageReply={clickMessageReply}
                                     messageWrapperWidth={messageWrapperWidth.value}
                                     nameTitleVariant={replyAndForwardTitleVariant.value}
                                     message={messageProxy({ message: reply_to_message })}

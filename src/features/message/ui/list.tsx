@@ -2,13 +2,13 @@ import React from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy, useChatStore } from 'entities/chat';
-import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore, messageProxy } from 'entities/message';
+import { EmployeeProxy } from 'entities/company/model/types';
+import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore, messageProxy, messageConstants } from 'entities/message';
+import { UserProxy } from 'entities/user/model/types';
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech } from 'shared/hooks';
+import { reactionConverter } from 'shared/lib';
 import { Modal, Notification } from 'shared/ui';
 
-import { EmployeeProxy } from '../../../entities/company/model/types';
-import { UserProxy } from '../../../entities/user/model/types';
-import { reactionConverter } from '../../../shared/lib';
 import PrivateChatProfileModal from '../../chat/ui/modals/profile/private';
 import { ForwardMessagesModal } from '../index';
 
@@ -114,6 +114,13 @@ function MessageList() {
         handleReadMessage({ chat_id: chatId, message_id });
     };
 
+    const clickMessageReply = (message: messageTypes.MessageProxy) => {
+        if (message.message_chat_order) {
+            console.log('message_chat_order', message.message_chat_order);
+            console.log('message_chat_order / per_page', Math.ceil(message.message_chat_order / messageConstants.messages_limit));
+        }
+    };
+
     useLifecycles(
         () => {
             if (forwardMessages.value.toChatId && forwardMessages.value.toChatId !== chatId) {
@@ -148,6 +155,7 @@ function MessageList() {
                 foundMessage={foundMessage.value ? messageProxy({ message: foundMessage.value }) : null}
                 deleteFoundMessage={() => foundMessage.set(null)}
                 loading={isLoading}
+                clickMessageReply={clickMessageReply}
             />
         </>
     );

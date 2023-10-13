@@ -13,6 +13,7 @@ import { EmployeeProxy } from '../../../company/model/types';
 import { UserProxy } from '../../../user/model/types';
 import { MessageMenuActions, MessageProxy } from '../../model/types';
 import Message from '../message';
+import message from '../message';
 import SystemMessage from '../message/variants/system';
 
 type Props = {
@@ -30,10 +31,12 @@ type Props = {
     voiceRecordingInProgress: boolean;
     foundMessage: MessageProxy | null;
     deleteFoundMessage: () => void;
+    clickMessageReply: (message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
     const {
+        clickMessageReply,
         deleteFoundMessage,
         foundMessage,
         chat,
@@ -156,6 +159,7 @@ function MessagesListView(props: Props) {
                         >
                             {index === 5 && <div ref={nextPageRef} />}
                             <Message
+                                clickMessageReply={clickMessageReply}
                                 openChatProfileModal={openChatProfileModal}
                                 sendReaction={sendReaction}
                                 chat={chat}

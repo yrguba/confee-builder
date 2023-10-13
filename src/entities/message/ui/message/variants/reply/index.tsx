@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Title, TitleTypes } from 'shared/ui';
+import { Image, Title, TitleTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import MessageService from '../../../../lib/service';
 import { Message, MessageProxy } from '../../../../model/types';
 
 type Props = {
-    message: MessageProxy | null;
+    message: MessageProxy;
     nameTitleVariant: TitleTypes.TitleVariants;
     messageWrapperWidth: number;
+    clickMessageReply: (message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 function ReplyMessage(props: Props) {
-    const { messageWrapperWidth, nameTitleVariant, message } = props;
+    const { clickMessageReply, messageWrapperWidth, nameTitleVariant, message } = props;
 
     const getMinWidth = () => {
         if (message) {
@@ -29,7 +30,8 @@ function ReplyMessage(props: Props) {
     };
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onClick={() => clickMessageReply(message)}>
+            {/* {message?.type === 'images' && <Image width="10px" height="40px" url={message.files[0].url} />} */}
             <div className={styles.description}>
                 <Title active variant={nameTitleVariant}>
                     {message?.authorName}
