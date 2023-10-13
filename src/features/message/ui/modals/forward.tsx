@@ -16,7 +16,7 @@ function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
     const clickOnChat = (chat: ChatProxy) => {
         forwardMessages.set({ ...forwardMessages.value, toChatId: chat.id, redirect: true });
         modal.close();
-        navigate(`/chats/${chat.is_personal ? 'personal' : `company/${params.company_id}`}/chat/${chat.id}`);
+        navigate(`/chats/${pathname.includes('all') ? 'all' : chat.is_personal ? 'personal' : `company/${params.company_id}`}/chat/${chat.id}`);
     };
 
     const back = () => {
