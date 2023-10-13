@@ -41,10 +41,18 @@ class ChatApi {
         });
     };
 
-    handleSearchChat = (data: { pattern: string | undefined }) => {
-        return useQuery(['get-search-chat', data.pattern], () => axiosClient.get(`/api/v2/search/chats/${data.pattern}`), {
+    handleSearchChat = (data: { pattern: string | undefined; type: 'all' | 'personal' | 'company' | undefined; companyId?: number }) => {
+        const getPath = () => {
+            if (data.type === 'all') return '';
+            if (data.type === 'personal') return '/contacts';
+            if (data.type === 'company' && data.companyId) return `/company/${data.companyId}`;
+        };
+
+        const path = getPath();
+
+        return useQuery([path, data.pattern], () => axiosClient.get(`/api/v2/search/chats${path}/${data.pattern}`), {
             staleTime: Infinity,
-            enabled: !!data.pattern,
+            enabled: !!data.pattern && !!data.type,
             select: (data) => {
                 const res = httpHandlers.response<{ data: Chat[] }>(data);
                 return res.data?.data;

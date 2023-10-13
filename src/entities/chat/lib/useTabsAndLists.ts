@@ -47,7 +47,11 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     const searchInput = Input.use({});
 
-    const { data: foundChats } = chatApi.handleSearchChat({ pattern: searchInput.value });
+    const { data: foundChats } = chatApi.handleSearchChat({
+        pattern: searchInput.value,
+        type: activeTab.value?.payload?.type,
+        companyId: activeTab.value?.payload?.companyId,
+    });
 
     const { data: allChatsData, hasNextPage: allHasNextPage, fetchNextPage: allFetchNextPage } = chatApi.handleGetChats({ type: activeType });
     const { data: personalChatsData, hasNextPage: personalHasNextPage, fetchNextPage: personalFetchNextPage } = chatApi.handleGetChats({ type: activeType });

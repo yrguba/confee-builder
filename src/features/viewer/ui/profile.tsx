@@ -6,7 +6,7 @@ import { useEasyState, useRouter } from 'shared/hooks';
 
 import { getFormData } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
-import BindCompany from '../../company/ui/bind';
+import { AuthAd } from '../../auth';
 import { UserAvatarsSwiper } from '../../user';
 
 function ViewerProfile() {
@@ -17,6 +17,7 @@ function ViewerProfile() {
 
     const viewer = viewerProxy(viewerData?.user);
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
+    const authCompanyModal = Modal.use();
 
     const confirmAddAvatar = Modal.useConfirm<{ img: string }>((value, callbackData) => {
         value &&
@@ -39,6 +40,9 @@ function ViewerProfile() {
 
     return (
         <>
+            <Modal {...authCompanyModal}>
+                <AuthAd />
+            </Modal>
             <UserAvatarsSwiper userId={viewerData?.user?.id} onClose={() => visibleSwiper.set(false)} visible={visibleSwiper.value} />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
 
@@ -52,8 +56,8 @@ function ViewerProfile() {
                 viewer={viewer}
                 clickSettings={() => navigate('info_settings')}
                 companies={viewerData?.companies || []}
+                openAuthCompanyModal={authCompanyModal.open}
             />
-            {!viewerData?.companies?.length ? <BindCompany /> : null}
         </>
     );
 }

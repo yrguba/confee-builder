@@ -15,7 +15,7 @@ function AppSettings() {
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
 
-    const confirmLogout = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
+    const confirmLogout = Modal.useConfirm((value, callbackData) => {
         if (value && callbackData) {
             tokensService.remove();
             handleLogout(null);
@@ -23,13 +23,15 @@ function AppSettings() {
         }
     });
 
-    const confirmDeleteAccount = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
-        handleDeleteAccount(null, {
-            onSuccess: () => {
-                tokensService.remove();
-                window.location.reload();
-            },
-        });
+    const confirmDeleteAccount = Modal.useConfirm((value, callbackData) => {
+        if (value) {
+            handleDeleteAccount(null, {
+                onSuccess: () => {
+                    tokensService.remove();
+                    window.location.reload();
+                },
+            });
+        }
     });
     const not_scope = storage.get('notification');
 
@@ -48,6 +50,7 @@ function AppSettings() {
     return (
         <>
             <Modal.Confirm {...confirmLogout} title="Выйти из аккаунта" closeText="Отмена" okText="Выйти" />
+            <Modal.Confirm {...confirmDeleteAccount} title="Удалить аккаунт" closeText="Отмена" okText="Удалить" />
             <AppSettingsView
                 theme={theme}
                 visibleLastActive={visibleLastActive}

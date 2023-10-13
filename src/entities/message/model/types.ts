@@ -44,6 +44,7 @@ export type Message = {
     reactions: Record<string, []>;
     users_have_read: number[] | [];
     isMock: boolean;
+    message_chat_order?: number;
 };
 
 export type MessageProxy = {
