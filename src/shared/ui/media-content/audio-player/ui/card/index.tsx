@@ -7,12 +7,12 @@ import { AudioCardProps } from '../../types';
 import AudioPlayer from '../base';
 
 function AudioCard(props: AudioCardProps) {
-    const { url, size, name } = props;
+    const { disabled, url, size, name } = props;
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.icon}>
-                <AudioPlayer url={url} btnRadius={34} visibleWave={false} />
+                <AudioPlayer disabled={disabled} url={url} btnRadius={34} visibleWave={false} />
             </div>
             <div className={styles.caption}>
                 <Title variant="H3M">{name}</Title>

@@ -6,11 +6,8 @@
   gap: 2px;
   flex-wrap: wrap;
   color: var(--text-primary);
-  max-width: 600px;
+  max-width: 200px;
 
-  @media (min-width: 680px) and (max-width: 850px) {
-    width: 150px;
-  }
 }
 
 

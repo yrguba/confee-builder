@@ -13,14 +13,14 @@ import { BaseAudioPlayerProps } from '../../types';
 import waveformStatic from '../wave-form/static';
 
 function AudioPlayer(props: BaseAudioPlayerProps) {
-    const { url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
+    const { disabled, url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
     const storage = useStorage();
     const { src } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
 
     const [waveform, waveSurferRef, isPlaying, time, currentTime, isLoading] = waveformStatic({ url: src || ' ' });
 
     const playPauseClick = () => {
-        if (typeof waveSurferRef.current.playPause === 'function') {
+        if (!disabled && typeof waveSurferRef.current.playPause === 'function') {
             waveSurferRef.current.playPause();
         }
     };

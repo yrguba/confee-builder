@@ -25,7 +25,13 @@ function Image(props: BaseImageProps) {
         <div
             onClick={onClick}
             className={styles.wrapper}
-            style={{ width: isLoading ? 100 : width, height, borderRadius: borderRadius ? 12 : 0, cursor: onClick ? 'pointer' : 'default' }}
+            style={{
+                maxWidth: isLoading ? 100 : width,
+                width: isLoading ? 100 : width,
+                height,
+                borderRadius: borderRadius ? 12 : 0,
+                cursor: onClick ? 'pointer' : 'default',
+            }}
         >
             {!error && !isLoading && <img onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />}
             {remove && (

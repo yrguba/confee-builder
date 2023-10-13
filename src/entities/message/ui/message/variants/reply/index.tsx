@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Avatar, Image, Title, TitleTypes } from 'shared/ui';
+import { AudioPlayer, Avatar, Document, Image, Title, TitleTypes, VideoPlayer } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { getVideoCover } from '../../../../../../shared/lib';
+import { getEnding, getVideoCover } from '../../../../../../shared/lib';
 import { MessageProxy } from '../../../../model/types';
 
 type Props = {
@@ -30,18 +30,25 @@ function ReplyMessage(props: Props) {
     };
 
     const fileLength = message.files.length;
+    const firstFile = message.files[0];
 
     return (
         <div className={styles.wrapper} onClick={() => clickMessageReply(message)}>
-            {message?.type === 'images' && <Avatar circle={false} size={40} img={message.files[0].url} />}
-            {/* {message.type === 'videos' && <Avatar circle={false} size={40} img={(getVideoCover(message.files[0].url) as any) || ''} />} */}
+            {message?.type === 'images' && <Avatar circle={false} size={40} img={firstFile.url} />}
+            {message.type === 'videos' && <VideoPlayer width="40px" height="40px" visibleCover url={firstFile.url} />}
+            {message.type === 'documents' && <Document url={firstFile.url} disableDownload />}
             <div className={styles.description}>
                 <Title active variant={nameTitleVariant}>
                     {message?.authorName}
                 </Title>
                 {message.type === 'text' && <Title variant="H4M">{message?.text}</Title>}
-                {message.type === 'images' && <Title variant="H4M">{`${fileLength} фото`}</Title>}
-                {message.type === 'videos' && <Title variant="H4M">{`${fileLength} видео`}</Title>}
+                {message.type === 'images' && <Title variant="H4M">{`${fileLength > 1 ? fileLength : ''} фото`}</Title>}
+                {message.type === 'videos' && <Title variant="H4M">{`${fileLength > 1 ? fileLength : ''} видео`}</Title>}
+                {message.type === 'documents' && (
+                    <Title variant="H4M">{`${fileLength > 1 ? fileLength : ''} ${getEnding(fileLength, ['файл', 'файла', 'файлов'])}`}</Title>
+                )}
+                {message.type === 'voices' && <Title variant="H4M">голосовое сообщение</Title>}
+                {message.type === 'audios' && <Title variant="H4M">аудио</Title>}
             </div>
         </div>
     );

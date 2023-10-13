@@ -5,6 +5,7 @@ export type BaseDocumentProps = {
     name?: string;
     size?: number;
     extension?: string;
+    disableDownload?: boolean;
 };
 
 export type DocumentsListItemProps = {
