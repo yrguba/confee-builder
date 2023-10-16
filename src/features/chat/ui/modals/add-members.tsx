@@ -50,12 +50,14 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
     };
 
     useEffect(() => {
-        if (proxyChat?.is_personal) {
-            tabsAndLists.setActiveTab(tabsAndLists.tabs[0]);
-        } else {
-            tabsAndLists.setActiveTab(tabsAndLists.tabs[1]);
+        if (proxyChat) {
+            if (proxyChat?.is_personal) {
+                tabsAndLists.setActiveTab(tabsAndLists.tabs[0]);
+            } else {
+                tabsAndLists.setActiveTab(tabsAndLists.tabs[1]);
+            }
         }
-    }, [chatData]);
+    }, [proxyChat?.is_personal]);
 
     return (
         <AddMembersInChatModalView

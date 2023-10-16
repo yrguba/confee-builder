@@ -6,6 +6,7 @@ export type BaseImageProps = {
     id?: number | string;
     url: string;
     width?: string;
+    maxWidth?: string;
     horizontalImgWidth?: string;
     height?: string;
     onClick?: () => void;

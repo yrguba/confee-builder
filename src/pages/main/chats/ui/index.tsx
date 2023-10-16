@@ -37,12 +37,13 @@ function ChatsPage() {
         return true;
     };
 
-    useDebounce(() => storage.set('chat_list_width', sidebarWidth.value), 500, [sidebarWidth]);
+    // useDebounce(() => storage.set('chat_list_width', sidebarWidth.value), 500, [sidebarWidth]);
 
     const resize = (e: any) => {
         if (isResize.value && e.clientX - 88 >= 375) {
             const size = `${e.clientX - 88}px`;
             sidebarWidth.set(size);
+            storage.set('chat_list_width', size);
         }
     };
 
@@ -51,6 +52,9 @@ function ChatsPage() {
     }, [md]);
 
     useEffect(() => {
+        if (!widthInStorage) {
+            storage.set('chat_list_width', '375px');
+        }
         window.addEventListener('mouseup', () => {
             isResize.set(false);
         });

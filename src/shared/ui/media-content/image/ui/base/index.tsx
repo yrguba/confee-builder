@@ -11,7 +11,7 @@ import LoadingIndicator from '../../../../loading-indicator';
 import { BaseImageProps } from '../../types';
 
 function Image(props: BaseImageProps) {
-    const { objectFit = 'cover', url, width, height, horizontalImgWidth, onClick, borderRadius = true, id, remove, ...other } = props;
+    const { maxWidth, objectFit = 'cover', url, width, height, horizontalImgWidth, onClick, borderRadius = true, id, remove, ...other } = props;
     const storage = useStorage();
 
     const { src, error, isLoading } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
@@ -26,7 +26,7 @@ function Image(props: BaseImageProps) {
             onClick={onClick}
             className={styles.wrapper}
             style={{
-                maxWidth: isLoading ? 100 : width,
+                maxWidth,
                 width: isLoading ? 100 : width,
                 height,
                 borderRadius: borderRadius ? 12 : 0,
