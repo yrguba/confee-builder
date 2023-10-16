@@ -15,6 +15,7 @@ function ContactProfile() {
     const { data: chatData } = chatApi.handleGetChatWithUser({ userId: contactData?.user.id });
 
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
+    const { mutate: handleUpdateName } = contactApi.handleUpdateName();
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
 
     const getChat = () => {
@@ -36,6 +37,8 @@ function ContactProfile() {
         handleDeleteContact({ contactId: Number(params.contact_id) }, { onSuccess: () => navigate('/contacts/personal') });
     };
 
+    const updName = (name: string) => {};
+
     const clickAvatar = () => {};
 
     return (
@@ -47,6 +50,7 @@ function ContactProfile() {
                 videoCall: notifications.inDev,
                 mute: notifications.inDev,
             }}
+            updName={updName}
             clickAvatar={clickAvatar}
             back={() => navigate('/contacts')}
             contact={contactProxy(contactData)}

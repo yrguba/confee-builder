@@ -12,10 +12,11 @@ type Props = {
     clickAvatar: () => void;
     back: () => void;
     actions: userTypes.UserCardActions;
+    updName: (name: string) => void;
 } & BaseTypes.Statuses;
 
 function ContactProfileView(props: Props) {
-    const { loading, clickAvatar, contact, back, actions } = props;
+    const { updName, loading, clickAvatar, contact, back, actions } = props;
 
     const btns: BaseTypes.Item[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: actions?.audioCall },

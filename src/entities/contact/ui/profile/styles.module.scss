@@ -9,11 +9,11 @@
   overflow-y: auto;
 
   .avatarBlock {
-    @include flex-column(flex-start,flex-start);
+    @include flex-column(flex-start, flex-start);
     gap: 12px;
 
     .name {
-      width: 80%;
+      width: 100%;
       @include flex(flex-start);
       flex: 1;
       gap: 6px;
@@ -23,6 +23,7 @@
       @include flex(center, flex-start);
       @include box-size(100%, auto);
       gap: 12px;
+      max-width: 280px;
 
       svg {
         fill: var(--text-action);
@@ -30,7 +31,7 @@
     }
   }
 
-  .userInfo{
+  .userInfo {
     min-width: 240px;
     padding: 24px;
     border-radius: 20px;
