@@ -2,13 +2,10 @@
 
 .wrapper {
   @include box-size(100%, auto);
-  display: grid;
+  @include flex-column;
   gap: 24px;
-  grid-template-columns: 1fr 1fr;
+  max-width: 550px;
 
-  @include width-to('lg') {
-    grid-template-columns: 1fr;
-  }
 
   .item {
     @include flex-column(flex-start, flex-start);

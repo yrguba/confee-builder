@@ -33,28 +33,19 @@ function SettingsProfileView(props: Props) {
                 <Input placeholder="Имя" {...inputs.firstName} clearIcon />
                 <Input placeholder="Фамилия" {...inputs.lastName} clearIcon />
             </div>
-            <div className={styles.item}>
-                <Title variant="H2">Введите новый номер</Title>
-                <Title primary={false} textWrap variant="H3M">
-                    Мы отправим код подтверждения на ваш новый номер телефона
-                </Title>
-                <Input.Phone />
-            </div>
+            {/* <div className={styles.item}> */}
+            {/*    <Title variant="H2">Введите новый номер</Title> */}
+            {/*    <Title primary={false} textWrap variant="H3M"> */}
+            {/*        Мы отправим код подтверждения на ваш новый номер телефона */}
+            {/*    </Title> */}
+            {/*    <Input.Phone /> */}
+            {/* </div> */}
             <div className={styles.item}>
                 <Title variant="H2">Расскажите немного о себе</Title>
                 <Title primary={false} textWrap variant="H3M">
                     Эту информацию будут видеть другие пользователи
                 </Title>
                 <Input placeholder="О себе" {...inputs.about} clearIcon maxLength={120} />
-            </div>
-            <div className={styles.item}>
-                <Title textWrap variant="H2">
-                    Введите новую почту
-                </Title>
-                <Title textWrap primary={false} variant="H3M">
-                    Мы отправим код подтверждения на вашу новую почту
-                </Title>
-                <Input />
             </div>
             <div className={styles.item}>
                 <Title textWrap variant="H2">

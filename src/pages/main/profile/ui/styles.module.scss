@@ -4,6 +4,7 @@
   @include box-size(100%, 100%);
   @include flex-column(flex-start);
   background-color: var(--bg-primary);
+  max-width: 1000px;
 
   .tabs {
     @include flex(flex-start, flex-end);
@@ -25,13 +26,14 @@
       transition: height 0.2s;
       border-bottom: 1px solid var(--bg-primary);
 
-      .icon{
+      .icon {
 
       }
 
-      &:last-child{
+      &:last-child {
         margin-right: 14px;
       }
+
       svg {
         transition: fill .5s;
         fill: var(--bg-tertiary);
