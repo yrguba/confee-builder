@@ -17,10 +17,11 @@ type Props = {
     avatarActions?: AvatarTypes.AvatarChangeActions;
     clickAvatar: () => void;
     openAuthCompanyModal: () => void;
+    clickCompanyCard: (company: Company) => void;
 } & BaseTypes.Statuses;
 
 function ViewerProfileView(props: Props) {
-    const { openAuthCompanyModal, companies, clickAvatar, avatarActions, clickSettings, viewer, loading } = props;
+    const { clickCompanyCard, openAuthCompanyModal, companies, clickAvatar, avatarActions, clickSettings, viewer, loading } = props;
     const sm = useWidthMediaQuery().to('sm');
 
     return (
@@ -46,6 +47,7 @@ function ViewerProfileView(props: Props) {
                 <UserInfoView user={viewer as any} />
                 {companies.length ? (
                     <CompanyCardView
+                        cardClick={() => clickCompanyCard(companies[0])}
                         title={companies[0]?.name || ''}
                         subtitle={companies[0].departments[0].name || ''}
                         status="in office"

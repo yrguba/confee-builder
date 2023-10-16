@@ -5,6 +5,7 @@ import companyApi from './model/api';
 import * as companyTypes from './model/types';
 import BindCompanyView from './ui/bind';
 import CompanyCardView from './ui/card';
+import EmployeeProfileModalView from './ui/employee/modals/profile';
 import EmployeeProfileView from './ui/employee/profile';
 import EmployeeStatusView from './ui/employee/status';
 import CompanyTagView from './ui/tag';
@@ -20,4 +21,5 @@ export {
     EmployeeStatusView,
     BindCompanyView,
     CompanyTagView,
+    EmployeeProfileModalView,
 };

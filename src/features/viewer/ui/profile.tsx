@@ -7,6 +7,7 @@ import { useEasyState, useRouter } from 'shared/hooks';
 import { getFormData } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
 import { AuthAd } from '../../auth';
+import { EmployeeProfile, EmployeeProfileModal } from '../../company';
 import { UserAvatarsSwiper } from '../../user';
 
 function ViewerProfile() {
@@ -17,7 +18,9 @@ function ViewerProfile() {
 
     const viewer = viewerProxy(viewerData?.user);
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
+
     const authCompanyModal = Modal.use();
+    const employeeProfileModal = Modal.use();
 
     const confirmAddAvatar = Modal.useConfirm<{ img: string }>((value, callbackData) => {
         value &&
@@ -43,10 +46,12 @@ function ViewerProfile() {
             <Modal {...authCompanyModal}>
                 <AuthAd />
             </Modal>
+            <EmployeeProfileModal {...employeeProfileModal} />
             <UserAvatarsSwiper userId={viewerData?.user?.id} onClose={() => visibleSwiper.set(false)} visible={visibleSwiper.value} />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
 
             <ViewerProfileView
+                clickCompanyCard={employeeProfileModal.open}
                 clickAvatar={() => visibleSwiper.set(true)}
                 avatarActions={{
                     getScreenshot,

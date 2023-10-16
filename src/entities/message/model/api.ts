@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import produce from 'immer';
 
 import { appApi } from 'entities/app';
@@ -6,6 +6,8 @@ import { axiosClient } from 'shared/configs';
 import { useWebSocket } from 'shared/hooks';
 
 import { File, Message, MessageProxy, MessageType, SocketOut } from './types';
+import { httpHandlers } from '../../../shared/lib';
+import { Chat } from '../../chat/model/types';
 import { messages_limit } from '../lib/constants';
 import mockMessage from '../lib/mock';
 
@@ -124,6 +126,21 @@ class MessageApi {
             }
         );
     }
+
+    handleGetMessageOrder = (data: { chatId: number | undefined; messageId: number | null | undefined }) => {
+        return useQuery(
+            ['get-message-order', data.chatId, data.messageId],
+            () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/message/${data.messageId}`, { params: { per_page: messages_limit } }),
+            {
+                staleTime: Infinity,
+                enabled: !!data.chatId && !!data.messageId,
+                select: (data) => {
+                    const res = httpHandlers.response<{ data: Message }>(data);
+                    return res.data?.data;
+                },
+            }
+        );
+    };
 
     handleForwardMessages() {
         const queryClient = useQueryClient();

@@ -1,7 +1,7 @@
 import { userProxy } from '../../user';
 import { EmployeeProxy, Employee } from '../model/types';
 
-function employeeProxy(employee: Employee | undefined): EmployeeProxy | null {
+function employeeProxy(employee: Employee | undefined | null): EmployeeProxy | null {
     if (!employee) return null;
     return new Proxy(employee, {
         get(target, prop: keyof EmployeeProxy, receiver): EmployeeProxy[keyof EmployeeProxy] {

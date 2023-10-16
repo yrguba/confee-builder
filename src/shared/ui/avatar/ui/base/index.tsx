@@ -86,6 +86,7 @@ function Avatar(props: BaseAvatarProps) {
                         : '',
                     width: size / 5,
                     height: size / 5,
+                    right: size > 160 ? 29 : '',
                 }}
             />
 

@@ -1,12 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useUpdateEffect } from 'react-use';
+import { number } from 'yup';
 
 import { chatApi, chatProxy, useChatStore } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore, messageProxy, messageConstants } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
-import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech } from 'shared/hooks';
+import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech, useEasyState } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 import { Modal, Notification } from 'shared/ui';
 
@@ -21,6 +22,8 @@ function MessageList() {
     const chatId = Number(params.chat_id);
 
     const queryClient = useQueryClient();
+
+    const messageIdToSearchForPage = useEasyState<number | null>(null);
 
     const { playSpeech } = useTextToSpeech();
 
@@ -48,6 +51,7 @@ function MessageList() {
         isLoading,
     } = messageApi.handleGetMessages({ chatId, initialPage: initialPage.value || messageService.getInitialPage(chatData) });
 
+    const { data: messageOrder } = messageApi.handleGetMessageOrder({ chatId, messageId: messageIdToSearchForPage.value });
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const { mutate: handleSendReaction } = messageApi.handleSendReaction();
@@ -117,15 +121,15 @@ function MessageList() {
         handleReadMessage({ chat_id: chatId, message_id });
     };
 
-    const clickMessageReply = (message: messageTypes.MessageProxy) => {
-        if (message.message_chat_order) {
-            initialPage.set(Math.ceil(message.message_chat_order / messageConstants.messages_limit));
-            foundMessage.set(message);
+    useUpdateEffect(() => {
+        if (messageOrder?.in_page) {
+            initialPage.set(messageOrder?.in_page);
+            foundMessage.set(messageOrder);
             setTimeout(() => {
                 queryClient.prefetchInfiniteQuery(['get-messages', chatId]);
-            }, 200);
+            }, 500);
         }
-    };
+    }, [messageOrder?.id]);
 
     useLifecycles(
         () => {
@@ -161,7 +165,7 @@ function MessageList() {
                 foundMessage={foundMessage.value ? messageProxy({ message: foundMessage.value }) : null}
                 deleteFoundMessage={() => foundMessage.set(null)}
                 loading={isLoading}
-                clickMessageReply={clickMessageReply}
+                clickMessageReply={(message) => messageIdToSearchForPage.set(message.id)}
             />
         </>
     );
