@@ -18,6 +18,8 @@ function ForwardMessagesModalView(props: Props) {
 
     const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
 
+    const chats = tabsAndLists.searchInput.value ? tabsAndLists.foundChats : tabsAndLists.activeList;
+
     useEffect(() => {
         inViewLastItem && tabsAndLists.getNextPage();
     }, [inViewLastItem]);
@@ -27,7 +29,7 @@ function ForwardMessagesModalView(props: Props) {
             <div className={styles.header}>
                 <Title variant="H2">Переслать...</Title>
                 <div className={styles.search}>
-                    <Input width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
+                    <Input {...tabsAndLists.searchInput} width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
             </div>
             <div className={styles.tabs}>
@@ -40,7 +42,7 @@ function ForwardMessagesModalView(props: Props) {
             <div className={styles.body}>
                 <div className={styles.list}>
                     {tabsAndLists.activeList?.length &&
-                        tabsAndLists.activeList?.map((chat) => (
+                        chats?.map((chat) => (
                             <Card
                                 onClick={() => clickOnChat(chat)}
                                 name={chat.name}

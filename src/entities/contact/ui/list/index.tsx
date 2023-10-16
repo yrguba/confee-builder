@@ -78,15 +78,11 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
     const smWidthSize = useWidthMediaQuery().to('sm');
     const lgWidthSize = useWidthMediaQuery().from('lg');
 
-    const items: BaseTypes.Item<
-        IconsTypes.BaseIconsVariants | IconsTypes.PlayerIconsVariants,
-        Actions,
-        { action: Actions; contact: ContactProxy | null; employee: EmployeeProxy | null }
-    >[] = [
-        { id: 0, icon: 'phone', callback: actions, payload: 'audioCall', title: '' },
-        { id: 1, icon: 'messages', callback: actions, payload: 'message', title: '' },
-        { id: 2, icon: 'mute', callback: actions, payload: 'mute', title: '' },
-        { id: 4, icon: 'delete', callback: actions, payload: 'delete', title: '', hidden: !!employee },
+    const items: BaseTypes.Item<any, Actions, { action: Actions; contact: ContactProxy | null; employee: EmployeeProxy | null }>[] = [
+        { id: 0, icon: <Icons variant="call-end" />, callback: actions, payload: 'audioCall', title: 'позвонить' },
+        { id: 1, icon: <Icons variant="messages" />, callback: actions, payload: 'message', title: 'написать' },
+        { id: 2, icon: <Icons.Player variant="mute" />, callback: actions, payload: 'mute', title: 'вкл.звук' },
+        { id: 4, icon: <Icons variant="delete" />, callback: actions, payload: 'delete', title: 'удалить', hidden: !!employee },
     ];
 
     const id = contact?.id || employee?.id;
@@ -125,7 +121,7 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
                                         }
                                         variant="inherit"
                                     >
-                                        {i.icon === 'mute' ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon as IconsTypes.BaseIconsVariants} />}
+                                        {i.icon}
                                     </Button.Circle>
                                 ))
                         ) : (

@@ -28,7 +28,7 @@ function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
 
 export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal {...modal}>
+        <Modal centered={false} {...modal}>
             <ForwardMessagesModal {...modal} />
         </Modal>
     );
