@@ -38,7 +38,7 @@ function AddMembersInChatModalView(props: Props) {
                         items={tabsAndLists.activeList?.map((i: any) => {
                             const contact: ContactProxy = contactProxy(i);
                             return {
-                                id: contact?.user.id || '',
+                                id: contact?.user?.id || '',
                                 img: contact?.avatar || '',
                                 name: contact?.full_name || '',
                                 title: contact?.full_name || '',
