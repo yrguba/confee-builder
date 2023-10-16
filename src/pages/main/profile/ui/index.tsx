@@ -34,12 +34,12 @@ function ProfilePage() {
             payload: { description: l ? 'Узнать подробную информацию' : '', path: 'policy', active: ['policy'] },
             icon: 'privacy-policy',
         },
-        {
-            id: 3,
-            title: 'Поддержка',
-            payload: { description: l ? 'Задать вопрос, сообщить об ошибке' : '', path: 'support', active: ['support'] },
-            icon: 'support',
-        },
+        // {
+        //     id: 3,
+        //     title: 'Поддержка',
+        //     payload: { description: l ? 'Задать вопрос, сообщить об ошибке' : '', path: 'support', active: ['support'] },
+        //     icon: 'support',
+        // },
     ];
 
     const itemClick = (path: string) => {

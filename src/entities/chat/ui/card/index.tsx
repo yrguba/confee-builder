@@ -37,7 +37,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                         )}
                         <Avatar
                             networkStatus={chat?.secondUser?.networkStatus}
-                            employeeStatuses={chat.secondEmployee?.status}
+                            // employeeStatuses={chat.secondEmployee?.status}
                             size={52}
                             img={chat.avatar}
                             name={chat?.name}

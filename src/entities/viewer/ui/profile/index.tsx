@@ -50,8 +50,8 @@ function ViewerProfileView(props: Props) {
                         cardClick={() => clickCompanyCard(companies[0])}
                         title={companies[0]?.name || ''}
                         subtitle={companies[0].departments[0].name || ''}
-                        status="in office"
-                        position={companies[0].departments[0].employees[0].status || 'in office'}
+                        position={companies[0].departments[0].employees[0].position || ''}
+                        status={companies[0].departments[0].employees[0].status || ''}
                     />
                 ) : (
                     <BindCompanyView addClick={openAuthCompanyModal} />

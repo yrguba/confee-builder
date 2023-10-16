@@ -61,8 +61,8 @@ function ChatHeader() {
 
     const tabs: TabBarTypes.TabBarItem[] = [
         { id: 0, icon: 'search', callback: () => visibleSearchMessages.set(!visibleSearchMessages.value) },
-        { id: 1, icon: 'phone', callback: clickChatAudioCall },
-        { id: 2, icon: 'videocam-outlined', callback: () => notification.inDev() },
+        // { id: 1, icon: 'phone', callback: clickChatAudioCall },
+        // { id: 2, icon: 'videocam-outlined', callback: () => notification.inDev() },
     ];
 
     const clickCard = () => {

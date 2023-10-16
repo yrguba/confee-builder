@@ -43,7 +43,7 @@ function MessageMenu(props: Props) {
         { id: 4, title: 'Переслать', icon: 'redirect', payload: 'forward' },
         { id: 5, title: 'Удалить', icon: 'delete', payload: 'delete' },
         { id: 6, title: 'Выделить', icon: 'check-circle', payload: 'highlight' },
-        { id: 7, title: 'Воспроизвести', icon: 'melody', payload: 'play' },
+        // { id: 7, title: 'Воспроизвести', icon: 'melody', payload: 'play' },
         {
             id: 8,
             title: `${message.users_have_read.length} ${getEnding(message.users_have_read.length, ['просмотр', 'просмотра', 'просмотров'])}`,

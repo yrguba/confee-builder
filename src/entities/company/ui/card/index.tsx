@@ -29,7 +29,7 @@ function CompanyCardView(props: Props) {
                 <Title textWrap variant="H3M">
                     {position || 'Нет данных'}
                 </Title>
-                <EmployeeStatusView status={status} />
+                {/* <EmployeeStatusView status={status} /> */}
             </div>
         </div>
     );
