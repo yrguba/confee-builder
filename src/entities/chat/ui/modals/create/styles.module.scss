@@ -12,6 +12,13 @@
     margin: 24px 24px 0 24px;
     color: var(--text-primary);
 
+    .groupSettings{
+      @include flex;
+      margin-top: 12px;
+      width: 100%;
+      gap: 12px;
+    }
+
     .search {
       width: 100%;
     }

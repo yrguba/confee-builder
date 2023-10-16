@@ -1,13 +1,15 @@
 import React from 'react';
 import { useUpdateEffect } from 'react-use';
+import useFileUploader from 'react-use-file-uploader';
 
 import { chatApi, chatProxy, chatTypes, CreateChatModalView } from 'entities/chat';
 import { contactProxy, contactApi, useContactsTabsAndLists } from 'entities/contact';
 import { viewerApi } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
-import { Modal, Notification, ModalTypes, CardTypes } from 'shared/ui';
+import { Modal, Notification, ModalTypes, CardTypes, Input } from 'shared/ui';
 
 import { companyApi } from '../../../../entities/company';
+import { getFormData } from '../../../../shared/lib';
 
 function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const { navigate, pathname } = useRouter();
@@ -15,15 +17,29 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const notifications = Notification.use();
 
     const isGroup = useEasyState(false);
+    const chatAvatar = useEasyState<string | null>(null);
+    const chatName = Input.use({});
+
     const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
     const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
 
     const { mutate: handleCreatePersonalChat, isLoading } = chatApi.handleCreatePersonalChat();
     const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
+    const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
+    const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
     const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
+
+    const { open: selectFile } = useFileUploader({
+        accept: 'image',
+        onAfterUploading: (data) => {
+            chatAvatar.set(data.files[0].fileUrl);
+        },
+    });
+
+    const getScreenshot = (data: string) => chatAvatar.set(data);
 
     const createChat = () => {
         const chatsType = pathname.split('/')[2];
@@ -34,9 +50,16 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
             handleCreatePersonalChat(
                 { user_ids: selectedContacts.array.map((i) => i.payload.id), is_group: isGroup.value },
                 {
-                    onSuccess: (data) => {
+                    onSuccess: (res) => {
+                        const chatId = res.data.data.id;
+                        if (chatName.value && chatId) {
+                            handleUpdateChatName({ chatId, name: chatName.value });
+                        }
+                        if (chatAvatar.value && chatId) {
+                            handleAddAvatar({ chatId, img: chatAvatar.value });
+                        }
                         modal.close();
-                        navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${data.data.data.id}`);
+                        navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${chatId}`);
                     },
                 }
             );
@@ -70,6 +93,13 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
             selectedEmployees={selectedEmployees}
             createChat={createChat}
             loading={isLoading}
+            chatName={chatName}
+            avatar={chatAvatar.value}
+            avatarActions={{
+                getScreenshot,
+                selectFile,
+                deleteFile: () => chatAvatar.set(null),
+            }}
         />
     );
 }

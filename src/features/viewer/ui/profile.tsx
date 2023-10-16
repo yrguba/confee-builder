@@ -36,6 +36,7 @@ function ViewerProfile() {
             confirmAddAvatar.open({ img: data.files[0].fileUrl });
         },
     });
+
     const getScreenshot = (data: string) =>
         handleAddAvatar({
             file: getFormData('images', data),

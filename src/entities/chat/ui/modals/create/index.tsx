@@ -2,7 +2,7 @@ import React from 'react';
 
 import { UseEasyStateReturnType, UseArrayReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse } from 'shared/ui';
+import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse, Avatar, AvatarTypes, Box, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { employeeProxy } from '../../../../company';
@@ -15,10 +15,13 @@ type Props = {
     isGroup: UseEasyStateReturnType<boolean>;
     createChat: () => void;
     tabsAndLists: UseContactsTabsAndListsReturnType;
+    avatarActions: AvatarTypes.AvatarChangeActions;
+    chatName: InputTypes.UseReturnedType;
+    avatar: string | null;
 } & BaseTypes.Statuses;
 
 function CreateChatModalView(props: Props) {
-    const { selectedContacts, selectedEmployees, isGroup, createChat, tabsAndLists, loading } = props;
+    const { avatar, chatName, avatarActions, selectedContacts, selectedEmployees, isGroup, createChat, tabsAndLists, loading } = props;
 
     const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
 
@@ -33,6 +36,10 @@ function CreateChatModalView(props: Props) {
                 <Title animateTrigger={`${isGroup.value}`} variant="H2">
                     {isGroup.value ? 'Группа' : 'Написать сообщение'}
                 </Title>
+                <Box.Animated className={styles.groupSettings} visible={isGroup.value}>
+                    <Avatar.Change dropdownLeft={20} {...avatarActions} img={avatar} />
+                    <Input {...chatName} placeholder="Введите название" clearIcon />
+                </Box.Animated>
                 <div className={styles.search}>
                     <Input {...tabsAndLists.searchInput} width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
