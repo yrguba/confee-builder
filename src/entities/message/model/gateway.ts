@@ -15,11 +15,11 @@ import messageProxy from '../lib/proxy';
 import messageService from '../lib/service';
 
 const [throttleMessageTyping] = useThrottle((cl) => cl(), 1000);
+const [throttlePushNotification] = useThrottle((cl) => cl(), 500);
 const debounceMessageTypingClose = debounce((cl) => cl(), 3000);
 
 function messageGateway() {
     const viewerId = viewerService.getId();
-    const notification = Notification.use();
     const queryClient = useQueryClient();
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
@@ -27,7 +27,9 @@ function messageGateway() {
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!socketData.data.extra_info.is_read && socketData.data.message) {
                     const proxy: MessageProxy = messageProxy({ message: socketData.data.message });
-                    messageService.notification(`Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}` || '', proxy.action);
+                    throttlePushNotification(() =>
+                        messageService.notification(`Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}` || '', proxy.action)
+                    );
                 }
                 if (!cacheData?.pages.length) return cacheData;
                 return produce(cacheData, (draft: any) => {

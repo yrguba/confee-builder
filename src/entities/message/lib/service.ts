@@ -34,7 +34,9 @@ class MessageService {
     }
 
     notification(title: string, body: string) {
-        if (window.localStorage.getItem('notification')) return sendNotification({ title, body });
+        if (window.localStorage.getItem('notification')) {
+            return sendNotification({ title, body });
+        }
     }
 }
 
