@@ -23,6 +23,8 @@ function AppSettings() {
         }
     });
 
+    const a = 0;
+
     const confirmDeleteAccount = Modal.useConfirm((value, callbackData) => {
         if (value) {
             handleDeleteAccount(null, {
