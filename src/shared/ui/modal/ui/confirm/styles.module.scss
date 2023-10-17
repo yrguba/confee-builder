@@ -10,6 +10,7 @@
 
   .body {
     @include flex-column;
+    width: 100%;
     gap: 8px;
     flex: 1;
   }

@@ -22,10 +22,11 @@ type Props = {
     clickAvatar: () => void;
     updateChatName: (name: string) => void;
     clickUser: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
+    removeMember: (id: number, name: string) => void;
 } & BaseTypes.Statuses;
 
 function GroupChatProfileModalView(props: Props) {
-    const { clickUser, clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
+    const { removeMember, clickUser, clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
@@ -81,7 +82,14 @@ function GroupChatProfileModalView(props: Props) {
                     </Dropdown.Menu>
                 ))}
             </div>
-            <ChatProfileContentView files={files} chat={chat} mediaTypes={mediaTypes} clickUser={clickUser} addMemberClick={() => actions('add-members')} />
+            <ChatProfileContentView
+                removeMember={removeMember}
+                files={files}
+                chat={chat}
+                mediaTypes={mediaTypes}
+                clickUser={clickUser}
+                addMemberClick={() => actions('add-members')}
+            />
         </div>
     );
 }

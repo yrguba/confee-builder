@@ -23,10 +23,13 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const visibleSwiper = useEasyState(false);
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
+    const proxyChat = chatProxy(chatData);
 
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
     const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
+    const { mutate: handleRemoveMemberFromCompany } = chatApi.handleRemoveMemberFromCompany();
+    const { mutate: handleRemoveMemberFromPersonal } = chatApi.handleRemoveMemberFromPersonal();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(null);
 
@@ -36,6 +39,15 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
 
     const addMembersModal = Modal.use();
     const privateChatProfileModal = Modal.use();
+    const confirmRemoveMember = Modal.useConfirm<number>((value, memberId) => {
+        if (value && memberId) {
+            if (proxyChat?.is_personal) {
+                handleRemoveMemberFromPersonal({ user_ids: [memberId], chatId });
+            } else {
+                handleRemoveMemberFromCompany({ employee_ids: [memberId], chatId });
+            }
+        }
+    });
 
     const confirmLeaveChat = Modal.useConfirm<{ img: string }>((value, callbackData) => {
         value &&
@@ -69,6 +81,10 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const getScreenshot = (data: string) => handleAddAvatar({ chatId, img: data });
     const updateChatName = (name: string) => handleUpdateChatName({ chatId, name });
 
+    const removeMember = (id: number, name: string) => {
+        confirmRemoveMember.open(id, { title: `Удалить ${name} из чата` });
+    };
+
     const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
             case 'audioCall':
@@ -93,8 +109,10 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
             <AddMembersInChatModal {...addMembersModal} />
             <ChatAvatarsSwiper visible={visibleSwiper.value} chatId={chatId} onClose={() => visibleSwiper.set(false)} />
             <Modal.Confirm {...confirmLeaveChat} okText="Покинуть" title="Покинуть чат" />
+            <Modal.Confirm {...confirmRemoveMember} okText="Удалить" />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
             <GroupChatProfileModalView
+                removeMember={removeMember}
                 clickAvatar={() => visibleSwiper.set(true)}
                 getScreenshot={getScreenshot}
                 selectFile={selectFile}

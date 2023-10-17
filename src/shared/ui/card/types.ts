@@ -24,6 +24,7 @@ export type CardListItem<T = any> = {
     id: string | number;
     payload?: T;
     disabledSelect?: boolean;
+    remove?: ((id: number, name: string) => void) | null;
 } & BaseCardProps;
 
 export type CardListProps = {

@@ -10,6 +10,7 @@ import { employeeProxy } from '../../../../../company';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import { userProxy } from '../../../../../user';
 import { UserProxy } from '../../../../../user/model/types';
+import { viewerService } from '../../../../../viewer';
 import { ChatProxy } from '../../../../model/types';
 
 type Props = {
@@ -18,10 +19,13 @@ type Props = {
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
     files: messageTypes.File[] | BaseTypes.Empty;
     clickUser?: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
+    removeMember?: (id: number, name: string) => void;
 } & BaseTypes.Statuses;
 
 function ChatProfileContentView(props: Props) {
-    const { clickUser, chat, addMemberClick, mediaTypes, files } = props;
+    const { removeMember, clickUser, chat, addMemberClick, mediaTypes, files } = props;
+
+    const viewerId = viewerService.getId();
 
     const tabs: { id: number; type: messageTypes.MediaContentType | null; title: string; hidden?: boolean }[] = [
         { id: 0, type: null, title: 'Участники', hidden: !chat?.is_group },
@@ -73,6 +77,7 @@ function ChatProfileContentView(props: Props) {
                                                           title: user?.full_name || '',
                                                           subtitle: user?.networkStatus || '',
                                                           onClick: () => clickUser && clickUser({ user: user || undefined }),
+                                                          remove: viewerId !== user?.id ? removeMember : null,
                                                       };
                                                   })
                                                 : chat?.employee_members.map((i) => {
@@ -85,6 +90,7 @@ function ChatProfileContentView(props: Props) {
                                                           subtitle: employee?.status || '',
                                                           companyNames: ['TFN'],
                                                           onClick: () => clickUser && clickUser({ employee: employee || undefined }),
+                                                          remove: viewerId !== employee?.user?.id ? removeMember : null,
                                                       };
                                                   })
                                         }

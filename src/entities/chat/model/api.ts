@@ -278,6 +278,29 @@ class ChatApi {
         });
     }
 
+    handleRemoveMemberFromPersonal() {
+        const queryClient = useQueryClient();
+        return useMutation((data: { user_ids: number[]; chatId: number }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/remove-members`, data), {
+            onSuccess: async (res, data) => {
+                queryClient.invalidateQueries(['get-chat', data.chatId]);
+            },
+        });
+    }
+
+    handleRemoveMemberFromCompany() {
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { employee_ids: number[]; chatId: number }) => {
+                return axiosClient.post(`${this.pathPrefix}/${data.chatId}/for-company/remove-members`, data);
+            },
+            {
+                onSuccess: async (res, data, e) => {
+                    queryClient.invalidateQueries(['get-chat', data.chatId]);
+                },
+            }
+        );
+    }
+
     handleSubscribeToChat() {
         return {
             mutate: (chatId: number | null) => {

@@ -26,7 +26,9 @@ function ConfirmModal(props: ConfirmModalProps) {
         <Modal payload={callbackData} closeIcon={false} isOpen={isOpen} open={() => ''} close={() => ''} onClose={() => click(false)}>
             <div className={styles.wrapper}>
                 <div className={styles.body}>
-                    <Title variant="H2">{title}</Title>
+                    <Title textAlign="center" textWrap variant="H2">
+                        {title}
+                    </Title>
                     {callbackData?.value?.img && <Image url={callbackData?.value?.img} />}
                     {subtitle && <Title variant="H2">{subtitle}</Title>}
                 </div>

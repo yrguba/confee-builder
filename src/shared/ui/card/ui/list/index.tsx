@@ -47,7 +47,11 @@ function CardList(props: CardListProps) {
                         <div className={styles.info}>
                             <Card {...i} onClick={() => (i.onClick ? i.onClick() : '')} />
                         </div>
-
+                        {i.remove && (
+                            <div onClick={() => i.remove && i.remove(Number(i.id), String(i.title))}>
+                                <Icons variant="delete" />
+                            </div>
+                        )}
                         {selected && (
                             <div className={styles.selectIndicator}>
                                 <Box.Animated visible={!!selected?.findById(i.id) || !!i?.disabledSelect}>
