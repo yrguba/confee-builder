@@ -76,31 +76,31 @@ function MessageMenu(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.reactions}>
-                <div className={styles.baseList}>
-                    <div className={styles.list}>
-                        {reactions.map((i) => (
-                            <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} />
-                        ))}
-                    </div>
-                    <div
-                        className={styles.btn}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            visibleAllReactions.toggle();
-                        }}
-                    >
-                        <Icons.ArrowAnimated variant="rotate" activeAnimate={visibleAllReactions.value} initialDeg={0} animateDeg={90} />
-                    </div>
-                </div>
-                <Box.Animated visible={visibleAllReactions.value} animationVariant="autoHeight">
-                    <div className={styles.allList}>
-                        {reactions.map((i) => (
-                            <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} />
-                        ))}
-                    </div>
-                </Box.Animated>
-            </div>
+            {/* <div className={styles.reactions}> */}
+            {/*    <div className={styles.baseList}> */}
+            {/*        <div className={styles.list}> */}
+            {/*            {reactions.map((i) => ( */}
+            {/*                <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} /> */}
+            {/*            ))} */}
+            {/*        </div> */}
+            {/*        <div */}
+            {/*            className={styles.btn} */}
+            {/*            onClick={(e) => { */}
+            {/*                e.stopPropagation(); */}
+            {/*                visibleAllReactions.toggle(); */}
+            {/*            }} */}
+            {/*        > */}
+            {/*            <Icons.ArrowAnimated variant="rotate" activeAnimate={visibleAllReactions.value} initialDeg={0} animateDeg={90} /> */}
+            {/*        </div> */}
+            {/*    </div> */}
+            {/*    <Box.Animated visible={visibleAllReactions.value} animationVariant="autoHeight"> */}
+            {/*        <div className={styles.allList}> */}
+            {/*            {reactions.map((i) => ( */}
+            {/*                <Emoji.Item key={i} unified={i} clickOnEmoji={reactionClick} /> */}
+            {/*            ))} */}
+            {/*        </div> */}
+            {/*    </Box.Animated> */}
+            {/* </div> */}
             <div className={styles.items}>
                 <Box.Animated visible={visibleUsers.value} animationVariant="autoHeight" className={styles.users} onMouseLeave={() => visibleUsers.set(false)}>
                     <Card.List
