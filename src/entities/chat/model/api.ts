@@ -178,22 +178,24 @@ class ChatApi {
 
     handleDeleteChat() {
         const queryClient = useQueryClient();
-        const { navigate } = useRouter();
-        return useMutation((data: { chatId: number }) => axiosClient.delete(`${this.pathPrefix}/${data.chatId}`), {
-            onSuccess: async (res, data) => {
-                ['all', 'personal'].forEach((i) =>
-                    queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                        if (!cacheData?.pages?.length) return cacheData;
-                        return produce(cacheData, (draft: any) => {
-                            draft?.pages.forEach((page: any) => {
-                                page.data.data = page?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+        return useMutation(
+            (data: { type: 'personal' | 'company'; chatId: number; companyId?: string }) => axiosClient.delete(`${this.pathPrefix}/${data.chatId}`),
+            {
+                onSuccess: async (res, data) => {
+                    const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
+                    ['all', type].forEach((i) =>
+                        queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                            if (!cacheData?.pages?.length) return cacheData;
+                            return produce(cacheData, (draft: any) => {
+                                draft?.pages.forEach((page: any) => {
+                                    page.data.data = page?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+                                });
                             });
-                        });
-                    })
-                );
-                navigate('/chat');
-            },
-        });
+                        })
+                    );
+                },
+            }
+        );
     }
 
     handleGetTotalPendingMessages = () => {
@@ -264,18 +266,24 @@ class ChatApi {
 
     handleLeaveChat() {
         const queryClient = useQueryClient();
-        return useMutation((data: { chatId: number }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`), {
-            onSuccess: async (res, data) => {
-                queryClient.setQueryData(['get-chats', 'all'], (cacheData: any) => {
-                    if (!cacheData?.pages?.length) return cacheData;
-                    return produce(cacheData, (draft: any) => {
-                        draft?.pages.forEach((page: any) => {
-                            page.data.data = page?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+        return useMutation(
+            (data: { type: 'company' | 'personal'; chatId: number; companyId?: string }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/exit`),
+            {
+                onSuccess: async (res, data) => {
+                    const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
+                    ['all', type].forEach((i) => {
+                        queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                            if (!cacheData?.pages?.length) return cacheData;
+                            return produce(cacheData, (draft: any) => {
+                                draft?.pages.forEach((page: any) => {
+                                    page.data.data = page?.data?.data.filter((chat: chatTypes.Chat) => chat.id !== data.chatId);
+                                });
+                            });
                         });
                     });
-                });
-            },
-        });
+                },
+            }
+        );
     }
 
     handleRemoveMemberFromPersonal() {

@@ -38,7 +38,12 @@ function ChatsListView(props: Props) {
             <div className={styles.tabs}>
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
             </div>
-            <Box.Animated trigger={String(tabsAndLists.activeTab?.id)} visible={!!tabsAndLists.activeList?.length} className={styles.list} ref={wrapperRef}>
+            <Box.Animated
+                // trigger={String(tabsAndLists.activeTab?.id && tabsAndLists.activeTab.title)}
+                visible={!!chats?.length}
+                className={styles.list}
+                ref={wrapperRef}
+            >
                 {chats?.map((chat, index: number) => (
                     <ChatCardView
                         chatMenuAction={chatMenuAction}

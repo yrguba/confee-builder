@@ -32,11 +32,11 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const confirmDeleteChat = Modal.useConfirm((value) => {
         if (value && proxyChat?.id) {
             handleDeleteChat(
-                { chatId: proxyChat?.id },
+                { type: proxyChat.is_personal ? 'personal' : 'company', chatId: proxyChat?.id, companyId: params.company_id },
                 {
                     onSuccess: () => {
                         modal.close();
-                        navigate(`/chats/${pathname.split('/')[2]}`);
+                        navigate(`/chats/${pathname.split('/')[2]}${params.company_id ? `/${params.company_id}` : ''}`);
                     },
                 }
             );

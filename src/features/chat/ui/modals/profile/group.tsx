@@ -26,10 +26,12 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const proxyChat = chatProxy(chatData);
 
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
+
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
     const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
     const { mutate: handleRemoveMemberFromCompany } = chatApi.handleRemoveMemberFromCompany();
     const { mutate: handleRemoveMemberFromPersonal } = chatApi.handleRemoveMemberFromPersonal();
+    const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(null);
 
@@ -49,17 +51,13 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
         }
     });
 
-    const confirmLeaveChat = Modal.useConfirm<{ img: string }>((value, callbackData) => {
-        value &&
-            handleLeaveChat(
-                { chatId },
-                {
-                    onSuccess: () => {
-                        modal.close();
-                        navigate(`/chats/${pathname.split('/')[2]}`);
-                    },
-                }
-            );
+    const confirmLeaveChat = Modal.useConfirm((value, callbackData) => {
+        if (value) {
+            const exitChat = () => {
+                navigate(`/chats/${pathname.split('/')[2]}${params.company_id ? `/${params.company_id}` : ''}`);
+            };
+            handleLeaveChat({ type: proxyChat?.is_personal ? 'personal' : 'company', chatId, companyId: params.company_id }, { onSuccess: exitChat });
+        }
     });
 
     const confirmAddAvatar = Modal.useConfirm<{ img: string }>((value, callbackData) => {
@@ -92,7 +90,10 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
             case 'videoCall':
                 return notification.inDev();
             case 'leave':
-                return confirmLeaveChat.open();
+                return confirmLeaveChat.open(null, {
+                    okText: proxyChat?.is_group ? 'Покинуть' : 'Удалить',
+                    title: proxyChat?.is_group ? 'Покинуть чат' : 'Удалить чат',
+                });
             case 'add-members':
                 addMembersModal.open();
         }
@@ -108,7 +109,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
             <PrivateChatProfileModal {...privateChatProfileModal} />
             <AddMembersInChatModal {...addMembersModal} />
             <ChatAvatarsSwiper visible={visibleSwiper.value} chatId={chatId} onClose={() => visibleSwiper.set(false)} />
-            <Modal.Confirm {...confirmLeaveChat} okText="Покинуть" title="Покинуть чат" />
+            <Modal.Confirm {...confirmLeaveChat} />
             <Modal.Confirm {...confirmRemoveMember} okText="Удалить" />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
             <GroupChatProfileModalView
