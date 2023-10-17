@@ -5,14 +5,14 @@ import { BaseTypes } from 'shared/types';
 import styles from './styles.module.scss';
 import { useWidthMediaQuery } from '../../../../../shared/hooks';
 import { Avatar, Button, Dropdown, DropdownTypes, Icons, Title } from '../../../../../shared/ui';
-import { UserInfoView } from '../../../../user';
+import { UserInfoView, userTypes } from '../../../../user';
 import { CompanyCardView, CompanyTagView } from '../../../index';
 import { EmployeeProxy } from '../../../model/types';
 
 type Props = {
     employee: EmployeeProxy | BaseTypes.Empty;
     back: () => void;
-    actions: any;
+    actions: userTypes.UserCardActions;
 } & BaseTypes.Statuses;
 
 function EmployeeProfileView(props: Props) {
