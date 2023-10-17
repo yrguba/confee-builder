@@ -73,7 +73,7 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
 
 export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal {...modal}>
+        <Modal centered={false} {...modal}>
             <AddMembersInChatModal {...modal} />
         </Modal>
     );

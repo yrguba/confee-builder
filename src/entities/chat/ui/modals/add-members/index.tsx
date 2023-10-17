@@ -21,21 +21,24 @@ type Props = {
 function AddMembersInChatModalView(props: Props) {
     const { chat, selectedContacts, selectedEmployees, add, tabsAndLists, loading } = props;
 
+    const personalUsers = chat?.is_personal ? (tabsAndLists.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList) : null;
+    const employeeUsers = !chat?.is_personal ? (tabsAndLists.searchInput.value ? tabsAndLists.foundEmployees : null) : null;
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <Title variant="H2">Добавить участников</Title>
                 <div className={styles.search}>
-                    <Input width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
+                    <Input {...tabsAndLists.searchInput} width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
                 <div className={styles.border} />
             </div>
             <div className={styles.list}>
-                {tabsAndLists.activeTab?.title === 'Личные' ? (
+                {personalUsers && (
                     <Card.List
                         sortByName
                         selected={selectedContacts}
-                        items={tabsAndLists.activeList?.map((i: any) => {
+                        items={personalUsers?.map((i: any) => {
                             const contact: ContactProxy = contactProxy(i);
                             return {
                                 id: contact?.user?.id || '',
@@ -49,9 +52,35 @@ function AddMembersInChatModalView(props: Props) {
                             };
                         })}
                     />
-                ) : (
+                )}
+                {employeeUsers && (
+                    <Card.List
+                        sortByName
+                        selected={selectedContacts}
+                        items={employeeUsers?.map((i: any) => {
+                            const employee: any = employeeProxy(i);
+                            return {
+                                id: employee?.id || '',
+                                img: employee?.avatar || '',
+                                name: employee?.full_name || '',
+                                title: employee?.full_name || '',
+                                // subtitle: employee?.user.phone || '',
+                                payload: { id: employee.user?.id },
+                                onClick: () => '',
+                                disabledSelect: !!chat?.members.find((i) => i?.id === employee.user?.id),
+                            };
+                        })}
+                    />
+                )}
+                {!chat?.is_personal &&
+                    !tabsAndLists.searchInput.value &&
                     tabsAndLists.activeList?.map((dep: any) => (
-                        <Collapse loading={tabsAndLists.loading} onTitleClick={() => tabsAndLists.getEmployees(dep.id)} key={dep.id} title={dep?.name || ''}>
+                        <Collapse
+                            loading={tabsAndLists.loading}
+                            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
+                            key={dep.id}
+                            title={dep?.name || ''}
+                        >
                             <Card.List
                                 sortByName
                                 visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
@@ -71,8 +100,7 @@ function AddMembersInChatModalView(props: Props) {
                                 })}
                             />
                         </Collapse>
-                    ))
-                )}
+                    ))}
             </div>
             <div className={styles.footer}>
                 <Button variant="secondary" onClick={add}>
