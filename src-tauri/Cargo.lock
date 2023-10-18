@@ -70,6 +70,7 @@ dependencies = [
  "serde_json",
  "tauri",
  "tauri-build",
+ "tauri-plugin-fs-extra",
  "tauri-plugin-single-instance",
  "tauri-plugin-store",
 ]
@@ -3469,9 +3470,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "tauri-plugin-fs-extra"
+version = "0.0.0"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#b04bde3461066c709d6801cf9ca305cf889a8394"
+dependencies = [
+ "log",
+ "serde",
+ "serde_json",
+ "tauri",
+ "thiserror",
+]
+
+[[package]]
 name = "tauri-plugin-single-instance"
 version = "0.0.0"
-source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#0190f68f1dff80576595a1b79e31338a3e9ebba1"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#b04bde3461066c709d6801cf9ca305cf889a8394"
 dependencies = [
  "log",
  "serde",
