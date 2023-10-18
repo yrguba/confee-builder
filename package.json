@@ -1,6 +1,6 @@
 {
     "name": "confee",
-    "version": "0.0.76",
+    "version": "0.0.77",
     "private": true,
     "browserslist": {
         "production": [
@@ -28,7 +28,6 @@
         "bundle-analyze": "webpack-bundle-analyzer build/bundle-stats.json"
     },
     "dependencies": {
-
         "@hookform/resolvers": "^2.9.11",
         "@tanstack/react-query": "^4.24.4",
         "@tanstack/react-query-devtools": "^4.24.4",
