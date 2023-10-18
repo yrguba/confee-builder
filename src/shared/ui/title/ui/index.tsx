@@ -73,7 +73,7 @@ function Title(props: TitleProps) {
                 children
             ) : (
                 <div className={styles.input}>
-                    <input onChange={(e) => newValue.set(e.target.value)} value={newValue.value} />
+                    <input maxLength={70} onChange={(e) => newValue.set(e.target.value)} value={newValue.value} />
                     <Box.Animated animationVariant="autoWidth" className={styles.icon} visible={visibleEditIcon.value} onClick={(e) => clickIconUpdate(e)}>
                         <Icons variant={isEdit.value ? 'check-circle' : 'edit'} />
                     </Box.Animated>
