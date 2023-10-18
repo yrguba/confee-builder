@@ -82,6 +82,7 @@
         "zustand": "^4.3.3"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@babel/plugin-transform-private-property-in-object": "^7.22.11",
         "@tauri-apps/cli": "^1.4.0",
         "@types/crypto-js": "^4.1.1",
