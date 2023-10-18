@@ -38,7 +38,7 @@ function MessageMenu(props: Props) {
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions | 'read'>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
         { id: 1, title: 'Изменить', icon: 'edit', payload: 'edit' },
-        { id: 2, title: 'Закрепить', icon: 'pin', payload: 'fixed' },
+        // { id: 2, title: 'Закрепить', icon: 'pin', payload: 'fixed' },
         { id: 3, title: 'Копировать текст', icon: 'copy', payload: 'copy' },
         { id: 4, title: 'Переслать', icon: 'redirect', payload: 'forward' },
         { id: 5, title: 'Удалить', icon: 'delete', payload: 'delete' },
