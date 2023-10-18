@@ -1,6 +1,6 @@
 {
     "name": "confee",
-    "version": "0.0.73",
+    "version": "0.0.74",
     "private": true,
     "browserslist": {
         "production": [
@@ -82,7 +82,6 @@
         "zustand": "^4.3.3"
     },
     "devDependencies": {
-
         "@tauri-apps/cli": "^1.4.0",
         "@types/crypto-js": "^4.1.1",
         "@types/react-highlight-words": "^0.16.5",
