@@ -20,7 +20,6 @@ serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.2.4", features = ["api-all", "system-tray", "updater"] }
 tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
 tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
-tauri-plugin-fs-extra = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 
 [features]
 # by default Tauri runs in production mode

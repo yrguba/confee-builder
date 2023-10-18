@@ -2,7 +2,6 @@
 all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
-
 use tauri::{plugin::TauriPlugin, AppHandle, Manager, Runtime};
 use tauri::{CustomMenuItem, SystemTray, SystemTrayMenu, SystemTrayEvent};
 
@@ -11,7 +10,6 @@ struct Payload {
     args: Vec<String>,
     cwd: String,
 }
-
 
 fn main() {
     let open = CustomMenuItem::new("open".to_string(), "Открыть");
@@ -78,12 +76,6 @@ fn main() {
             }
             _ => {}
         })
-        .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
-            let window = app.get_window("main").unwrap();
-            window.show().unwrap();
-            app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
-        }))
-        .plugin(tauri_plugin_fs_extra::init())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
