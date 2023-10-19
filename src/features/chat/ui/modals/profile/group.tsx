@@ -77,7 +77,8 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     });
 
     const getScreenshot = (data: string) => handleAddAvatar({ chatId, img: data });
-    const updateChatName = (name: string) => handleUpdateChatName({ chatId, name });
+    const updateChatName = (name: string) =>
+        handleUpdateChatName({ chatId, name, type: proxyChat?.is_personal ? 'personal' : 'company', companyId: params.company_id });
 
     const removeMember = (id: number, name: string) => {
         confirmRemoveMember.open(id, { title: `Удалить ${name} из чата` });

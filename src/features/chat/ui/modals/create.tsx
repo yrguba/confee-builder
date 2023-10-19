@@ -12,7 +12,7 @@ import { companyApi } from '../../../../entities/company';
 import { getFormData } from '../../../../shared/lib';
 
 function CreateChatModal(modal: ModalTypes.UseReturnedType) {
-    const { navigate, pathname } = useRouter();
+    const { navigate, pathname, params } = useRouter();
 
     const notifications = Notification.use();
 
@@ -51,9 +51,15 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
                 { user_ids: selectedContacts.array.map((i) => i.payload.id), is_group: isGroup.value },
                 {
                     onSuccess: (res) => {
-                        const chatId = res.data.data.id;
+                        const chat = chatProxy(res.data.data);
+                        const chatId = chat?.id;
                         if (chatName.value && chatId) {
-                            handleUpdateChatName({ chatId, name: chatName.value });
+                            handleUpdateChatName({
+                                chatId,
+                                name: chatName.value,
+                                type: chat?.is_personal ? 'personal' : 'company',
+                                companyId: params.company_id,
+                            });
                         }
                         if (chatAvatar.value && chatId) {
                             handleAddAvatar({ chatId, img: chatAvatar.value });

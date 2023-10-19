@@ -237,31 +237,36 @@ class ChatApi {
 
     handleUpdateChatName() {
         const queryClient = useQueryClient();
-        return useMutation((data: { chatId: number; name: string }) => axiosClient.patch(`${this.pathPrefix}/${data.chatId}/name`, { name: data.name }), {
-            onSuccess: async (res, data) => {
-                ['all', 'personal'].forEach((i) =>
-                    queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                        if (!cacheData?.pages?.length) return cacheData;
-                        return produce(cacheData, (draft: any) => {
-                            draft?.pages.forEach((page: any) => {
-                                page.data.data = page?.data?.data.map((chat: Chat) => {
-                                    if (data.chatId === chat.id) {
-                                        return { ...chat, name: data.name };
-                                    }
-                                    return chat;
+        return useMutation(
+            (data: { chatId: number; name: string; type: 'personal' | 'company'; companyId?: string }) =>
+                axiosClient.patch(`${this.pathPrefix}/${data.chatId}/name`, { name: data.name }),
+            {
+                onSuccess: async (res, data) => {
+                    const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
+                    ['all', type].forEach((i) =>
+                        queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                            if (!cacheData?.pages?.length) return cacheData;
+                            return produce(cacheData, (draft: any) => {
+                                draft?.pages.forEach((page: any) => {
+                                    page.data.data = page?.data?.data.map((chat: Chat) => {
+                                        if (data.chatId === chat.id) {
+                                            return { ...chat, name: data.name };
+                                        }
+                                        return chat;
+                                    });
                                 });
                             });
+                        })
+                    );
+                    queryClient.setQueryData(['get-chat', data?.chatId], (cacheData: any) => {
+                        if (!cacheData?.data?.data) return cacheData;
+                        return produce(cacheData, (draft: any) => {
+                            draft.data.data = { ...draft.data.data, name: data.name };
                         });
-                    })
-                );
-                queryClient.setQueryData(['get-chat', data?.chatId], (cacheData: any) => {
-                    if (!cacheData?.data?.data) return cacheData;
-                    return produce(cacheData, (draft: any) => {
-                        draft.data.data = { ...draft.data.data, name: data.name };
                     });
-                });
-            },
-        });
+                },
+            }
+        );
     }
 
     handleLeaveChat() {

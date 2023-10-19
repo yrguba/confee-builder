@@ -19,6 +19,7 @@
   .video {
     @include flex(center, flex-end);
     @include box-size(500px, auto);
+    max-height: 76vh;
   }
 
   .controls {
