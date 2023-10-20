@@ -57,6 +57,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                         </div>
                         <div className={styles.row}>
                             <div className={styles.left}>
+                                {chat.is_group && <div>{chat.last_message.author.first_name || chat.last_message.author.last_name}: </div>}
                                 <Title primary={false} variant="H3R">
                                     {chat?.lastMessageTitle}
                                 </Title>
