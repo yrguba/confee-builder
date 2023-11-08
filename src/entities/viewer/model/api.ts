@@ -49,11 +49,7 @@ class ViewerApi {
     }
 
     handleLogout() {
-        const data = {
-            device_id: '',
-            user_agent: navigator.userAgent,
-        };
-        return useMutation((data?: null) => axiosClient.post('/api/v2/logout', data));
+        return useMutation((data?: null) => axiosClient.post('/api/v2/logout'));
     }
 
     handleDeleteAccount() {

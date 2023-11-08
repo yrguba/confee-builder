@@ -8,6 +8,7 @@ import { viewerApi } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal, Notification, ModalTypes, CardTypes, Input } from 'shared/ui';
 
+import { ChatProxy } from '../../../../entities/chat/model/types';
 import { companyApi } from '../../../../entities/company';
 import { getFormData } from '../../../../shared/lib';
 
@@ -46,6 +47,22 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         if (!selectedContacts.array.length && !selectedEmployees.array.length) {
             return notifications.error({ title: `Выберите участников` });
         }
+        if (isGroup && !chatName.value) {
+            return notifications.error({ title: `Введите название чата` });
+        }
+        const updGroupChat = (chat: ChatProxy) => {
+            if (chatName.value && chat.id) {
+                handleUpdateChatName({
+                    chatId: chat.id,
+                    name: chatName.value,
+                    type: chat?.is_personal ? 'personal' : 'company',
+                    companyId: params.company_id,
+                });
+            }
+            if (chatAvatar.value && chat.id) {
+                handleAddAvatar({ chatId: chat.id, img: chatAvatar.value });
+            }
+        };
         if (selectedContacts.array.length) {
             handleCreatePersonalChat(
                 { user_ids: selectedContacts.array.map((i) => i.payload.id), is_group: isGroup.value },
@@ -53,19 +70,11 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
                     onSuccess: (res) => {
                         const chat = chatProxy(res.data.data);
                         const chatId = chat?.id;
-                        if (chatName.value && chatId) {
-                            handleUpdateChatName({
-                                chatId,
-                                name: chatName.value,
-                                type: chat?.is_personal ? 'personal' : 'company',
-                                companyId: params.company_id,
-                            });
+                        if (chat) {
+                            updGroupChat(chat);
+                            modal.close();
+                            navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${chatId}`);
                         }
-                        if (chatAvatar.value && chatId) {
-                            handleAddAvatar({ chatId, img: chatAvatar.value });
-                        }
-                        modal.close();
-                        navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${chatId}`);
                     },
                 }
             );
@@ -77,9 +86,14 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
                     companyId: tabsAndLists.activeTab?.payload?.id,
                 },
                 {
-                    onSuccess: (data) => {
-                        modal.close();
-                        navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.id}/chat/${data.data.data.id}`);
+                    onSuccess: (res) => {
+                        const chat = chatProxy(res.data.data);
+                        const chatId = chat?.id;
+                        if (chat) {
+                            updGroupChat(chat);
+                            modal.close();
+                            navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.id}/chat/${chatId}`);
+                        }
                     },
                 }
             );

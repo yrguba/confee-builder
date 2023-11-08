@@ -11,7 +11,7 @@ function use() {
     const info = (props: UseProps) => set(props, 'info');
     const success = (props: UseProps) => set(props, 'success');
     const warning = (props: UseProps) => set(props, 'warning');
-    const error = (props: UseProps) => set(props, 'error');
+    const error = (props: UseProps) => set({ ...props, system: true }, 'error');
     const inDev = () => set({ body: 'В разработке', title: 'Пока недоступно', system: true }, 'inDev');
 
     return {

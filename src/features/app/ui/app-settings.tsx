@@ -17,13 +17,14 @@ function AppSettings() {
 
     const confirmLogout = Modal.useConfirm((value, callbackData) => {
         if (value && callbackData) {
-            tokensService.remove();
-            handleLogout(null);
-            window.location.reload();
+            handleLogout(null, {
+                onSuccess: () => {
+                    tokensService.remove();
+                    window.location.reload();
+                },
+            });
         }
     });
-
-    const a = 0;
 
     const confirmDeleteAccount = Modal.useConfirm((value, callbackData) => {
         if (value) {
