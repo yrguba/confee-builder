@@ -38,7 +38,7 @@ function ChatProfileContentView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            {chat?.is_group && (
+            {chat?.is_group && !mediaTypes.value && (
                 <div className={styles.addMembers}>
                     <Button.Circle variant="inherit" onClick={addMemberClick}>
                         <Icons variant="add-contact" />
