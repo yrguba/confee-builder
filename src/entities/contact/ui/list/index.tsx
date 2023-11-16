@@ -23,7 +23,7 @@ function ContactsListView(props: Props) {
     const { activeUserId, clickContact, clickEmployee, actions, tabsAndLists, loading } = props;
     const { navigate, params, pathname } = useRouter();
     const smHeightSize = useHeightMediaQuery().to('sm');
-
+    console.log(tabsAndLists);
     const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
 
     const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
@@ -38,35 +38,37 @@ function ContactsListView(props: Props) {
                 <Input {...tabsAndLists.searchInput} prefixIcon="search" />
             </div>
             <div className={styles.tabs}>
-                {tabsAndLists.activeList?.length ? (
-                    <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
-                ) : (
-                    <Title variant="H2">Нет контактов</Title>
-                )}
+                <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
             </div>
             <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
-                {tabsAndLists.activeTab?.title === 'Личные'
-                    ? contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
-                    : tabsAndLists.foundEmployees
-                    ? tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i) as any} {...props} />)
-                    : tabsAndLists.activeList?.map((dep: any) => (
-                          <Collapse
-                              headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
-                              openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
-                              isOpen={dep.id === Number(params.department_id)}
-                              key={dep.id}
-                              title={dep?.name || ''}
-                          >
-                              {tabsAndLists.departmentsEmployees[dep.id]?.map((emp, index) => (
-                                  <Item
-                                      ref={index + 1 === tabsAndLists.departmentsEmployees[dep.id].length ? lastItem : null}
-                                      key={emp.id}
-                                      employee={employeeProxy(emp) as any}
-                                      {...props}
-                                  />
-                              ))}
-                          </Collapse>
-                      ))}
+                {!tabsAndLists.activeList?.length ? (
+                    <div style={{ marginLeft: 12 }}>
+                        <Title variant="H2">Нет контактов</Title>
+                    </div>
+                ) : tabsAndLists.activeTab?.title === 'Личные' ? (
+                    contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
+                ) : tabsAndLists.foundEmployees ? (
+                    tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i) as any} {...props} />)
+                ) : (
+                    tabsAndLists.activeList?.map((dep: any) => (
+                        <Collapse
+                            headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
+                            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
+                            isOpen={dep.id === Number(params.department_id)}
+                            key={dep.id}
+                            title={dep?.name || ''}
+                        >
+                            {tabsAndLists.departmentsEmployees[dep.id]?.map((emp, index) => (
+                                <Item
+                                    ref={index + 1 === tabsAndLists.departmentsEmployees[dep.id].length ? lastItem : null}
+                                    key={emp.id}
+                                    employee={employeeProxy(emp) as any}
+                                    {...props}
+                                />
+                            ))}
+                        </Collapse>
+                    ))
+                )}
             </Box.Animated>
         </Box.Animated>
     );
