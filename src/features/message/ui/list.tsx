@@ -121,6 +121,11 @@ function MessageList() {
         handleReadMessage({ chat_id: chatId, message_id });
     };
 
+    const deleteFoundMessage = () => {
+        messageIdToSearchForPage.set(null);
+        foundMessage.set(null);
+    };
+
     useUpdateEffect(() => {
         if (messageOrder?.in_page) {
             initialPage.set(messageOrder?.in_page);
@@ -163,7 +168,7 @@ function MessageList() {
                 highlightedMessages={highlightedMessages}
                 voiceRecordingInProgress={voiceRecordingInProgress.value}
                 foundMessage={foundMessage.value ? messageProxy({ message: foundMessage.value }) : null}
-                deleteFoundMessage={() => foundMessage.set(null)}
+                deleteFoundMessage={deleteFoundMessage}
                 loading={isLoading}
                 clickMessageReply={(message) => messageIdToSearchForPage.set(message.id)}
             />

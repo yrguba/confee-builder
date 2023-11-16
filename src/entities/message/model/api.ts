@@ -132,7 +132,6 @@ class MessageApi {
             ['get-message-order', data.chatId, data.messageId],
             () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/message/${data.messageId}`, { params: { per_page: messages_limit } }),
             {
-                staleTime: Infinity,
                 enabled: !!data.chatId && !!data.messageId,
                 select: (data) => {
                     const res = httpHandlers.response<{ data: Message }>(data);
