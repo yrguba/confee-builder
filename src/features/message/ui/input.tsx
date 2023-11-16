@@ -10,6 +10,7 @@ import { userProxy, userTypes } from 'entities/user';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
 
 import { viewerService } from '../../../entities/viewer';
+import { chunkString } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
 import { FilesToSendModal } from '../index';
 
@@ -65,7 +66,7 @@ function MessageInput() {
         voiceRecordingInProgress.set(false);
     };
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
         if (forwardMessages.value.fromChatName) {
             setTimeout(() => {
                 handleForwardMessages({
@@ -97,12 +98,28 @@ function MessageInput() {
                     messageId: editMessage.value.id,
                 });
             }
-            handleSendTextMessage({
-                text: messageTextState.value,
-                chatId,
-                params: { reply_to_message_id: replyMessage.value?.id },
-                replyMessage: replyMessage.value,
-            });
+
+            const textChunk = chunkString(messageTextState.value, 4096);
+
+            const sendChunks = (chunkOrder: number) => {
+                handleSendTextMessage(
+                    {
+                        text: textChunk[chunkOrder],
+                        chatId,
+                        params: { reply_to_message_id: replyMessage.value?.id },
+                        replyMessage: replyMessage.value,
+                    },
+                    {
+                        onSuccess: () => {
+                            if (textChunk[chunkOrder + 1]) {
+                                sendChunks(chunkOrder + 1);
+                            }
+                        },
+                    }
+                );
+            };
+            sendChunks(0);
+
             if (replyMessage.value.id) replyMessage.clear();
             messageTextState.set('');
         }

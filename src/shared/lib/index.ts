@@ -1,3 +1,4 @@
+import chunkString from './chunk-string';
 import compressImage from './compress-image';
 import crypto from './crypto';
 import dateConverter from './date-converter';
@@ -20,6 +21,7 @@ import secondsToHms from './seconds-to-hms';
 import sizeConverter from './size-converter';
 
 export {
+    chunkString,
     secondsToHms,
     getRandomInt,
     fileConverter,
