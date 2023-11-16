@@ -3,9 +3,19 @@
 .wrapper {
   @include box-size(100%, auto);
   @include flex-column;
+  align-items: flex-start;
   gap: 24px;
   max-width: 550px;
 
+  .back {
+    @include flex(flex-start);
+    gap: 12px;
+    cursor: pointer;
+
+    svg {
+      fill: var(--text-action);
+    }
+  }
 
   .item {
     @include flex-column(flex-start, flex-start);

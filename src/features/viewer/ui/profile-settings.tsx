@@ -2,11 +2,13 @@ import React from 'react';
 import useFileUploader from 'react-use-file-uploader';
 
 import { viewerApi, SettingsProfileView } from 'entities/viewer';
-import { useYup } from 'shared/hooks';
+import { useRouter, useYup } from 'shared/hooks';
 import { getFormData } from 'shared/lib';
 import { Input } from 'shared/ui';
 
 function ProfileSettings() {
+    const { navigate } = useRouter();
+
     const { data: viewerData } = viewerApi.handleGetViewer();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
@@ -90,6 +92,7 @@ function ProfileSettings() {
             deleteFile={() => ''}
             selectFile={selectFile}
             user={viewerData?.user}
+            back={() => navigate('/profile')}
         />
     );
 }

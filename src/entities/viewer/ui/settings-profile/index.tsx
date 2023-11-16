@@ -12,6 +12,7 @@ type Props = {
     selectFile: () => void;
     deleteFile: () => void;
     getScreenshot: (img: string) => void;
+    back: () => void;
     inputs: {
         firstName: InputTypes.UseReturnedType;
         lastName: InputTypes.UseReturnedType;
@@ -22,10 +23,17 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function SettingsProfileView(props: Props) {
-    const { user, deleteFile, selectFile, getScreenshot, inputs } = props;
+    const { inputs, back } = props;
 
     return (
         <div className={styles.wrapper}>
+            <div className={styles.back} onClick={back}>
+                <Icons variant="arrow-left" />
+                <Title active variant="H3M">
+                    Вернуться к личной информации
+                </Title>
+            </div>
+
             <div className={styles.item}>
                 <Title variant="H2">Введите имя и фамилию</Title>
                 <Title primary={false} textWrap variant="H3M">
