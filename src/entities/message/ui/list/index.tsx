@@ -2,7 +2,7 @@ import React, { useRef, Fragment, useEffect, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useUpdateEffect } from 'react-use';
 
-import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -32,6 +32,7 @@ type Props = {
     foundMessage: MessageProxy | null;
     deleteFoundMessage: () => void;
     clickMessageReply: (message: MessageProxy) => void;
+    dropContainerRef: any;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
@@ -52,6 +53,7 @@ function MessagesListView(props: Props) {
         highlightedMessages,
         voiceRecordingInProgress,
         loading,
+        dropContainerRef,
     } = props;
 
     const [initOnce, setInitOnce] = useState(true);
@@ -59,6 +61,8 @@ function MessagesListView(props: Props) {
     const prevChat = usePrevious(chat);
 
     const { executeScrollToElement, scrollBottom } = useScroll();
+
+    const isDrag = useEasyState(false);
 
     const wrapperRef: any = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -128,13 +132,19 @@ function MessagesListView(props: Props) {
     }, [inViewFirstUnreadCheckVisibleRef]);
 
     return (
-        <div className={styles.wrapper} ref={wrapperRef}>
+        <div
+            className={`${styles.wrapper} ${isDrag.value ? styles.wrapper_dragOver : ''}`}
+            ref={mergeRefs([wrapperRef, dropContainerRef])}
+            onDragOver={() => isDrag.set(true)}
+            onDragLeave={() => isDrag.set(false)}
+        >
             <Box.Animated visible={!inViewFirstUnreadCheckVisibleRef && !inViewLastMessageCheckVisibleRef && !initOnce} className={styles.btnDown}>
                 <Counter>{chat?.pending_messages_count}</Counter>
                 <Button.Circle radius={34} onClick={clickBtnDown}>
                     <Icons variant="arrow-drop-down" />
                 </Button.Circle>
             </Box.Animated>
+
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
                     {message.systemMessages.length

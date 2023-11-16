@@ -8,7 +8,11 @@
   padding: 12px 0;
   overflow-y: auto;
   overflow-x: hidden;
+  transition: background-color 0.5s;
 
+  &_dragOver {
+    background-color: var(--bg-dialogue);
+  }
 
   .btnDown {
     @include flex-column(flex-start);

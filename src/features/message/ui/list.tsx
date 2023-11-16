@@ -7,12 +7,12 @@ import { chatApi, chatProxy, useChatStore } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore, messageProxy, messageConstants } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
-import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech, useEasyState } from 'shared/hooks';
+import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech, useEasyState, useFileUploader } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 import { Modal, Notification } from 'shared/ui';
 
 import PrivateChatProfileModal from '../../chat/ui/modals/profile/private';
-import { ForwardMessagesModal } from '../index';
+import { FilesToSendModal, ForwardMessagesModal } from '../index';
 
 const memoUpdateMessages = createMemo(messageService.getUpdatedList);
 
@@ -62,9 +62,20 @@ function MessageList() {
 
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
+    const filesToSendModal = Modal.use();
 
     const confirmDeleteMessage = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
         value && callbackData && handleDeleteMessage({ chatId, messageIds: [callbackData.messageId], fromAll: true });
+    });
+
+    const { sortByAccept, clear, dropContainerRef } = useFileUploader({
+        accept: 'all',
+        multiple: true,
+        onAfterUploading: (data) => {
+            if (data.sortByAccept) {
+                filesToSendModal.open();
+            }
+        },
     });
 
     const subscribeToChat = (action: 'sub' | 'unsub') => {
@@ -151,6 +162,7 @@ function MessageList() {
 
     return (
         <>
+            <FilesToSendModal onClose={clear} modal={filesToSendModal} files={sortByAccept as any} />
             <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
             <ForwardMessagesModal {...forwardMessagesModal} />
             <PrivateChatProfileModal {...privateChatProfileModal} />
@@ -171,6 +183,7 @@ function MessageList() {
                 deleteFoundMessage={deleteFoundMessage}
                 loading={isLoading}
                 clickMessageReply={(message) => messageIdToSearchForPage.set(message.id)}
+                dropContainerRef={dropContainerRef}
             />
         </>
     );

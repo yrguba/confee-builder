@@ -50,6 +50,7 @@ function MessageInput() {
         open: openFilesDownloader,
         sortByAccept,
         clear,
+        copyFromClipboard,
     } = useFileUploader({
         accept: 'all',
         multiple: true,
@@ -178,6 +179,10 @@ function MessageInput() {
     useEffect(() => {
         messageTextState.set(editMessage.value.text || '');
     }, [editMessage.value.id]);
+
+    useEffect(() => {
+        copyFromClipboard();
+    }, []);
 
     return (
         <>

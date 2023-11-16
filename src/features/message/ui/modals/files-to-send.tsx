@@ -8,7 +8,7 @@ import { Modal, ModalTypes, CardTypes } from 'shared/ui';
 
 type Props = {
     modal: ModalTypes.UseReturnedType;
-    files: UseFileUploaderTypes.Types.SortBuAcceptType;
+    files: UseFileUploaderTypes.Types.SortByAcceptType;
     onClose: () => void;
 };
 
