@@ -4,6 +4,7 @@ import { BaseTypes } from 'shared/types';
 import { Avatar, Icons, Input, Title, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { getEnding } from '../../../../shared/lib';
 import { Viewer } from '../../model/types';
 
 type Props = {
@@ -46,6 +47,11 @@ function SettingsProfileView(props: Props) {
                     Эту информацию будут видеть другие пользователи
                 </Title>
                 <Input placeholder="О себе" {...inputs.about} clearIcon maxLength={120} />
+                <Title variant="caption1M">{`Осталось ${100 - inputs.about.value.length} ${getEnding(100 - inputs.about.value.length, [
+                    'символ',
+                    'символа',
+                    'символов',
+                ])}`}</Title>
             </div>
             <div className={styles.item}>
                 <Title textWrap variant="H2">

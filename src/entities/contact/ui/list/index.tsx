@@ -23,7 +23,7 @@ function ContactsListView(props: Props) {
     const { activeUserId, clickContact, clickEmployee, actions, tabsAndLists, loading } = props;
     const { navigate, params, pathname } = useRouter();
     const smHeightSize = useHeightMediaQuery().to('sm');
-    console.log(tabsAndLists);
+
     const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
 
     const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
