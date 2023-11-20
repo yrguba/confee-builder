@@ -1,18 +1,15 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
-
   "package": {
     "productName": "Confee",
     "version": "../package.json"
   },
-
   "build": {
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "cross-env BROWSER=none npm run start",
     "devPath": "http://localhost:3000",
     "distDir": "../build"
   },
-
   "tauri": {
     "bundle": {
       "active": true,
@@ -67,7 +64,9 @@
       },
       "fs": {
         "all": true,
-        "scope": ["**"],
+        "scope": [
+          "**"
+        ],
         "readFile": true,
         "writeFile": true,
         "readDir": true,
@@ -164,9 +163,10 @@
     "updater": {
       "active": true,
       "endpoints": [
-               "https://dev.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}",
-               "https://prod.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}"
-
+        "https://prod.api.confee.ru/api/v2/files/get/apk",
+        "https://dev.api.confee.ru/api/v2/files/get/apk",
+        "https://dev.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}",
+        "https://prod.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}"
       ],
       "dialog": false,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEVBOTc0NDYyMjk5NjgxMkUKUldRdWdaWXBZa1NYNmhKakdadGdlSEZhRDEyNHh6SklJQlVqT0UrcEF6ZjhQOWFvUm1Pakl4TlcK"
