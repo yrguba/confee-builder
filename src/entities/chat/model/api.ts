@@ -90,7 +90,7 @@ class ChatApi {
                     return current_page < last_page ? current_page + 1 : undefined;
                 },
                 select: (data) => {
-                    save(data, 'chats');
+                    // save(data, 'chats');
                     return {
                         pages: data.pages,
                         pageParams: [...data.pageParams],
