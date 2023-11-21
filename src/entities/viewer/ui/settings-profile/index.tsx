@@ -54,7 +54,7 @@ function SettingsProfileView(props: Props) {
                 <Title primary={false} textWrap variant="H3M">
                     Эту информацию будут видеть другие пользователи
                 </Title>
-                <Input placeholder="О себе" {...inputs.about} clearIcon maxLength={120} />
+                <Input placeholder="О себе" {...inputs.about} clearIcon maxLength={100} />
                 <Title variant="caption1M">{`Осталось ${100 - inputs.about.value.length} ${getEnding(100 - inputs.about.value.length, [
                     'символ',
                     'символа',

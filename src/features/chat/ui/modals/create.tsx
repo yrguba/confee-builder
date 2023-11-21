@@ -47,7 +47,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         if (!selectedContacts.array.length && !selectedEmployees.array.length) {
             return notifications.error({ title: `Выберите участников` });
         }
-        if (isGroup && !chatName.value) {
+        if (isGroup.value && !chatName.value) {
             return notifications.error({ title: `Введите название чата` });
         }
         const updGroupChat = (chat: ChatProxy) => {
