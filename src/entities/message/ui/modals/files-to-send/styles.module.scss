@@ -29,7 +29,7 @@
 
       .children {
         width: 80%;
-        @include flex;
+        @include flex(flex-start);
       }
 
       .deleteIcon {

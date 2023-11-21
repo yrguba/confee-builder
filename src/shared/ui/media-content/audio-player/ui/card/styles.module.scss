@@ -2,7 +2,6 @@
 
 .wrapper {
   @include flex;
-  width: 100%;
   gap: 8px;
   cursor: pointer;
 
@@ -11,6 +10,7 @@
   }
 
   .caption {
+    max-width: 290px;
     width: calc(100% - 45px);
     @include flex-column;
   }

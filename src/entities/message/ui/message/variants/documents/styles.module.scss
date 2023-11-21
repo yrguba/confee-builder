@@ -2,7 +2,7 @@
 
 .wrapper {
   @include box-size(100%, auto);
-  @include flex;
+  @include flex-column;
   gap: 2px;
   flex-wrap: wrap;
   color: var(--text-primary);
