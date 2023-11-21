@@ -21,7 +21,7 @@ class ChatApi {
 
     handleGetChat = (data: { chatId: number | string | undefined }) => {
         return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
-            staleTime: Infinity,
+            // staleTime: Infinity,
             enabled: !!data.chatId,
             select: (data) => {
                 const res = httpHandlers.response<{ data: Chat }>(data);

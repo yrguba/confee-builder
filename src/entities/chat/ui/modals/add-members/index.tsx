@@ -56,7 +56,7 @@ function AddMembersInChatModalView(props: Props) {
                 {employeeUsers && (
                     <Card.List
                         sortByName
-                        selected={selectedContacts}
+                        selected={selectedEmployees}
                         items={employeeUsers?.map((i: any) => {
                             const employee: any = employeeProxy(i);
                             return {
@@ -65,7 +65,7 @@ function AddMembersInChatModalView(props: Props) {
                                 name: employee?.full_name || '',
                                 title: employee?.full_name || '',
                                 // subtitle: employee?.user.phone || '',
-                                payload: { id: employee.user?.id },
+                                payload: { id: employee?.id },
                                 onClick: () => '',
                                 disabledSelect: !!chat?.members.find((i) => i?.id === employee.user?.id),
                             };
