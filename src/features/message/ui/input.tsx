@@ -10,7 +10,7 @@ import { userProxy, userTypes } from 'entities/user';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
 
 import { viewerService } from '../../../entities/viewer';
-import { chunkString } from '../../../shared/lib';
+import { chunkString, getRandomString } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
 import { FilesToSendModal } from '../index';
 
@@ -113,7 +113,7 @@ function MessageInput() {
                     {
                         onSuccess: () => {
                             if (textChunk[chunkOrder + 1]) {
-                                sendChunks(chunkOrder + 1);
+                                setTimeout(() => sendChunks(chunkOrder + 1), 500);
                             }
                         },
                     }

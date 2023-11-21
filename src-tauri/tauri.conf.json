@@ -157,7 +157,7 @@
         "visible": true,
         "decorations": true,
         "alwaysOnTop": false,
-        "fileDropEnabled": true
+        "fileDropEnabled": false
       }
     ],
     "updater": {
