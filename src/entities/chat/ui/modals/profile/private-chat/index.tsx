@@ -75,20 +75,20 @@ function PrivateChatProfileModalView(props: Props) {
                             </Dropdown.Menu>
                         ))}
             </div>
+            {(user || employee?.user) && (
+                <div className={styles.secondaryInfo}>
+                    <UserInfoView user={user || employee?.userProxy} />
+                </div>
+            )}
             {employee && (
                 <div className={styles.companyCard}>
                     <CompanyCardView
-                        width="100%"
+                        style={{ width: '100%', maxWidth: 'none' }}
                         status={employee.status}
                         position={employee.position || ''}
                         title={employee.companies[0]?.name || ''}
                         subtitle={employee.departments[0]?.name || ''}
                     />
-                </div>
-            )}
-            {user && (
-                <div className={styles.secondaryInfo}>
-                    <UserInfoView user={user} />
                 </div>
             )}
             <ChatProfileContentView files={files} chat={chat} mediaTypes={mediaTypes} />
