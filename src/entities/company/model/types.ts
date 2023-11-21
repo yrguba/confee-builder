@@ -28,6 +28,7 @@ export type Employee = {
 export type EmployeeProxy = {
     full_name: string;
     userProxy: UserProxy;
+    viewer: boolean;
 } & Employee;
 
 export type Department = {

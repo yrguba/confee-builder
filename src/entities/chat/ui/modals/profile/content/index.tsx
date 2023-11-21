@@ -76,8 +76,8 @@ function ChatProfileContentView(props: Props) {
                                                           name: user?.full_name || '',
                                                           title: user?.full_name || '',
                                                           subtitle: user?.networkStatus || '',
-                                                          onClick: () => clickUser && clickUser({ user: user || undefined }),
-                                                          remove: viewerId !== user?.id ? removeMember : null,
+                                                          onClick: () => clickUser && !user?.viewer && clickUser({ user: user || undefined }),
+                                                          remove: !user?.viewer ? removeMember : null,
                                                       };
                                                   })
                                                 : chat?.employee_members.map((i) => {
@@ -89,8 +89,8 @@ function ChatProfileContentView(props: Props) {
                                                           title: employee?.full_name || '',
                                                           subtitle: employee?.status || '',
                                                           companyNames: ['TFN'],
-                                                          onClick: () => clickUser && clickUser({ employee: employee || undefined }),
-                                                          remove: viewerId !== employee?.user?.id ? removeMember : null,
+                                                          onClick: () => clickUser && !employee?.viewer && clickUser({ employee: employee || undefined }),
+                                                          remove: !employee?.viewer ? removeMember : null,
                                                       };
                                                   })
                                         }

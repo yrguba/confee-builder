@@ -27,6 +27,7 @@ export type UserProxy = {
     networkStatus: keyof typeof NetworkStatuses;
     formatted_birth: string | null;
     formatted_last_active: string;
+    viewer: boolean;
 } & User;
 
 export type UserCardActions = {

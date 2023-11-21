@@ -11,8 +11,10 @@ function userProxy(user: User | undefined): UserProxy | null {
     return new Proxy(user, {
         get(target, prop: keyof UserProxy, receiver: UserProxy): UserProxy[keyof UserProxy] {
             switch (prop) {
+                case 'viewer':
+                    return viewerId === target.id;
+
                 case 'full_name':
-                    if (viewerId === target.id) return 'Вы';
                     return target.contact_name || `${target.first_name || ''} ${target.last_name || ''}`;
 
                 case 'formatted_birth':
