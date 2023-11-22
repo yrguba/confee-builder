@@ -12,14 +12,15 @@ import { chatTypes } from '../../../../chat';
 import { EmployeeProxy } from '../../../../company/model/types';
 import { userProxy } from '../../../../user';
 import { UserProxy, User } from '../../../../user/model/types';
-import { MessageMenuActions, MessageProxy } from '../../../model/types';
+import { File, MessageMenuActions, MessageProxy } from '../../../model/types';
 
 type Props = {
     chat: chatTypes.Chat | BaseTypes.Empty;
     message: MessageProxy;
-    messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
+    messageMenuAction: (action: MessageMenuActions, message: MessageProxy, file: { blob: Blob; name: string } | null) => void;
     sendReaction: (emoji: string, messageId: number) => void;
     openChatProfileModal: (data: { user: UserProxy; employee: EmployeeProxy }) => void;
+    clickedFile: { blob: Blob; name: string } | null;
 } & BaseTypes.Statuses;
 
 const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: number[]) => {
@@ -33,7 +34,7 @@ const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: nu
 });
 
 function MessageMenu(props: Props) {
-    const { messageMenuAction, message, sendReaction, chat, openChatProfileModal } = props;
+    const { clickedFile, messageMenuAction, message, sendReaction, chat, openChatProfileModal } = props;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions | 'read'>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
@@ -44,6 +45,12 @@ function MessageMenu(props: Props) {
         { id: 5, title: 'Удалить', icon: 'delete', payload: 'delete' },
         { id: 6, title: 'Выделить', icon: 'check-circle', payload: 'highlight' },
         // { id: 7, title: 'Воспроизвести', icon: 'melody', payload: 'play' },
+        {
+            id: 9,
+            title: 'скачать файл',
+            icon: 'save',
+            payload: 'save',
+        },
         {
             id: 8,
             title: `${message.users_have_read.length} ${getEnding(message.users_have_read.length, ['просмотр', 'просмотра', 'просмотров'])}`,
@@ -68,6 +75,7 @@ function MessageMenu(props: Props) {
         if (!message.isMy) deleteByIds([1, 5]);
         if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400) deleteById(1);
         if (message.type !== 'text') deleteById(3);
+        if (!clickedFile) deleteById(9);
     }, []);
 
     const reactionClick = (emoji: string) => {
@@ -119,7 +127,7 @@ function MessageMenu(props: Props) {
                     <div
                         key={i.id}
                         className={styles.item}
-                        onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message)}
+                        onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message, clickedFile)}
                         onMouseEnter={() => i.payload === 'read' && visibleUsers.set(true)}
                     >
                         <Icons variant={i.icon} />

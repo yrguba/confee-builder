@@ -41,6 +41,7 @@ import useFs from './useFS';
 import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
+import useSaveMediaContent from './useSaveMediaContent';
 import useScroll from './useScroll';
 import useSip from './useSip';
 import useSize from './useSize';
@@ -58,6 +59,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useSaveMediaContent,
     useUnmount,
     useLongPress,
     useTextToSpeech,

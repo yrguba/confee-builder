@@ -20,19 +20,19 @@ import { EmployeeProxy } from '../../../company/model/types';
 import { userProxy } from '../../../user';
 import { User, UserProxy } from '../../../user/model/types';
 import messageProxy from '../../lib/proxy';
-import { MessageProxy, MessageMenuActions } from '../../model/types';
+import { MessageProxy, MessageMenuActions, File } from '../../model/types';
 
 type Props = {
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
-    messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
+    messageMenuAction: (action: MessageMenuActions, message: MessageProxy, file: { blob: Blob; name: string } | null) => void;
     sendReaction: (emoji: string, messageId: number) => void;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     voiceRecordingInProgress: boolean;
     clickMessageReply: (message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
-const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
+const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     const { clickMessageReply, message, messageMenuAction, chat, sendReaction, openChatProfileModal, voiceRecordingInProgress } = props;
 
     const {
@@ -55,6 +55,8 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     const dateTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4M');
     const replyAndForwardTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4S');
     const messageWrapperWidth = useEasyState(0);
+
+    const clickedFile = useEasyState<{ blob: Blob; name: string } | null>(null);
 
     const classes = useStyles(styles, 'bubble', {
         isMy,
@@ -80,6 +82,9 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         <Box className={styles.wrapper}>
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={avatarSize.value} img={authorAvatar} />}
             <Dropdown.Dynamic
+                openCloseTrigger={(value) => {
+                    !value && clickedFile.set(null);
+                }}
                 disabled={voiceRecordingInProgress}
                 reverseX={message.isMy}
                 ref={ref}
@@ -87,6 +92,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 closeAfterClick
                 content={
                     <MessageMenu
+                        clickedFile={clickedFile.value}
                         openChatProfileModal={openChatProfileModal}
                         sendReaction={sendReaction}
                         chat={chat}
@@ -124,7 +130,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                                 <ImagesMessage images={forwarded_from_message?.files || files} />
                             )}
                             {(type === 'documents' || forwarded_from_message?.type === 'documents') && (
-                                <DocumentsMessage documents={forwarded_from_message?.files || files} />
+                                <DocumentsMessage clickedFile={clickedFile} documents={forwarded_from_message?.files || files} />
                             )}
                             {(type === 'voices' || forwarded_from_message?.type === 'voices') && (
                                 <VoiceMessage voices={forwarded_from_message?.files || message.files} />
@@ -170,7 +176,7 @@ const Message = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     );
 });
 
-export default memo(Message, (prevProps, nextProps): any => {
+export default memo(MessageView, (prevProps, nextProps): any => {
     if (prevProps.message?.text !== nextProps.message?.text) return false;
     if (prevProps.message?.text !== nextProps.message?.text) return false;
     if (prevProps.message?.isMock !== nextProps.message?.isMock) return false;

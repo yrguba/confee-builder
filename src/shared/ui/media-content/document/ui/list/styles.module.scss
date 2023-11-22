@@ -6,9 +6,10 @@
   gap: 6px;
   flex-wrap: wrap;
   //border-radius: 12px;
-  overflow: hidden;
+  //overflow: hidden;
 
   .item{
+    @include flex(flex-start);
     width: 100%;
   }
 }

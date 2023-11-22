@@ -6,8 +6,9 @@ import { number } from 'yup';
 import { chatApi, chatProxy, useChatStore } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
 import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore, messageProxy, messageConstants } from 'entities/message';
+import { File } from 'entities/message/model/types';
 import { UserProxy } from 'entities/user/model/types';
-import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech, useEasyState, useFileUploader } from 'shared/hooks';
+import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech, useEasyState, useFileUploader, useSaveMediaContent } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 import { Modal, Notification } from 'shared/ui';
 
@@ -23,6 +24,7 @@ function MessageList() {
 
     const queryClient = useQueryClient();
 
+    const { saveInDownload } = useSaveMediaContent();
     const messageIdToSearchForPage = useEasyState<number | null>(null);
 
     const { playSpeech } = useTextToSpeech();
@@ -93,7 +95,7 @@ function MessageList() {
         }
     };
 
-    const messageMenuAction = (action: messageTypes.MessageMenuActions, message: messageTypes.MessageProxy) => {
+    const messageMenuAction = (action: messageTypes.MessageMenuActions, message: messageTypes.MessageProxy, file: { blob: Blob; name: string } | null) => {
         switch (action) {
             case 'reply':
                 return replyMessage.set(message);
@@ -113,7 +115,10 @@ function MessageList() {
             case 'highlight':
                 return highlightedMessages.push(message);
             case 'play':
-                playSpeech(message.text);
+                return playSpeech(message.text);
+            case 'save':
+                saveInDownload(file?.blob, file?.name);
+                notification.success({ title: 'Файл сохранен', system: true });
         }
     };
 

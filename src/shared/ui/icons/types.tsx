@@ -57,7 +57,8 @@ export type BaseIconsVariants =
     | 'group-chat'
     | 'not-authorized'
     | 'privacy-policy'
-    | 'support';
+    | 'support'
+    | 'save';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

@@ -31,6 +31,9 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
             className={styles.video}
             style={{ borderRadius: borderRadius ? 12 : 0 }}
             src={src}
+            onContextMenu={(e) => {
+                e.preventDefault();
+            }}
         />
     );
 

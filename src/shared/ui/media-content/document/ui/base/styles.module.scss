@@ -1,7 +1,7 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include flex;
+  @include flex(flex-start);
   gap: 8px;
   cursor: pointer;
 

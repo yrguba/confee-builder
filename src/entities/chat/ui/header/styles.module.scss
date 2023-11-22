@@ -10,6 +10,10 @@
     @include flex(space-between);
     @include box-size(100%, 100%);
 
+    svg{
+      fill: var(--text-secondary);
+    }
+
     .left {
       @include flex(flex-start);
       gap: 10px;
