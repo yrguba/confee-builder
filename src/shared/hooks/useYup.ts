@@ -9,7 +9,8 @@ function useYup(errorText?: string) {
         .min(5, 'Слишком короткий nickname')
         .max(20, 'Слишком длинный nickname');
 
-    const checkName = yup.string().matches(/^[a-zA-Zа-яА-Я]*$/, 'Не верный формат');
+    const checkName = yup.string().matches(/^[a-zA-Zа-яёА-ЯЁ]*$/, 'Не верный формат');
+
     const checkEmail = yup
         .string()
         .matches(
