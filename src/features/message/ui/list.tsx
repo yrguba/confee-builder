@@ -40,6 +40,7 @@ function MessageList() {
     const voiceRecordingInProgress = useMessageStore.use.voiceRecordingInProgress();
     const initialPage = useMessageStore.use.initialPage();
     const foundMessage = useMessageStore.use.foundMessage();
+    const goDownList = useMessageStore.use.goDownList();
 
     const {
         data: messageData,
@@ -184,6 +185,7 @@ function MessageList() {
                 loading={isLoading}
                 clickMessageReply={(message) => messageIdToSearchForPage.set(message.id)}
                 dropContainerRef={dropContainerRef}
+                goDownList={goDownList.value}
             />
         </>
     );

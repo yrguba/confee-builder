@@ -33,6 +33,7 @@ type Props = {
     deleteFoundMessage: () => void;
     clickMessageReply: (message: MessageProxy) => void;
     dropContainerRef: any;
+    goDownList: boolean;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
@@ -54,6 +55,7 @@ function MessagesListView(props: Props) {
         voiceRecordingInProgress,
         loading,
         dropContainerRef,
+        goDownList,
     } = props;
 
     const [initOnce, setInitOnce] = useState(true);
@@ -100,6 +102,7 @@ function MessagesListView(props: Props) {
             executeScrollToElement({ ref: firstUnreadMessageRef, enable: true });
         }
     };
+
     useEffect(() => {
         if (wrapperRef?.current && chat) {
             if (foundMessageRef.current) {
@@ -130,6 +133,12 @@ function MessagesListView(props: Props) {
         const firstUnread = messages.find((i) => i.isFirstUnread);
         inViewFirstUnreadCheckVisibleRef && firstUnread && readMessage(firstUnread.id);
     }, [inViewFirstUnreadCheckVisibleRef]);
+
+    useUpdateEffect(() => {
+        if (goDownList) {
+            executeScrollToElement({ ref: lastMessageRef, enable: true });
+        }
+    }, [goDownList]);
 
     return (
         <div

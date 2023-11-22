@@ -15,6 +15,7 @@ type Store = {
     visibleSearchMessages: UseStoreTypes.SelectorWithPrimitive<boolean>;
     initialPage: UseStoreTypes.SelectorWithPrimitive<number | null>;
     foundMessage: UseStoreTypes.SelectorWithObj<Message | null>;
+    goDownList: UseStoreTypes.SelectorWithPrimitive<boolean>;
 };
 
 const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, generateSelectorWithPrimitive } = useStore<Store>();
@@ -22,7 +23,7 @@ const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, gener
 const messageStore = create<Store>()(
     devtools(
         immer((set) => ({
-            ...generateSelectorWithPrimitive(['voiceRecordingInProgress', 'visibleSearchMessages', 'initialPage'], set),
+            ...generateSelectorWithPrimitive(['voiceRecordingInProgress', 'visibleSearchMessages', 'initialPage', 'goDownList'], set),
             ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages', 'foundMessage'], set),
             ...generateSelectorWithArr(['highlightedMessages'], set),
         }))

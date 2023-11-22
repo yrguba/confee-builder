@@ -36,6 +36,7 @@ function MessageInput() {
     const forwardMessages = useMessageStore.use.forwardMessages();
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const voiceRecordingInProgress = useMessageStore.use.voiceRecordingInProgress();
+    const goDownList = useMessageStore.use.goDownList();
 
     const messageTextState = useEasyState('');
     const voiceEvent = useEasyState<VoiceEvents | null>(null);
@@ -124,6 +125,8 @@ function MessageInput() {
             if (replyMessage.value.id) replyMessage.clear();
             messageTextState.set('');
         }
+        goDownList.set(true);
+        setTimeout(() => goDownList.set(false), 1000);
     };
 
     const getVoiceEvents = (event: VoiceEvents) => {
