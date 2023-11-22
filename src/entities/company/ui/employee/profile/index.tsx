@@ -1,11 +1,12 @@
 import React from 'react';
 
+import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
+import { Avatar, Button, Dropdown, DropdownTypes, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useWidthMediaQuery } from '../../../../../shared/hooks';
-import { Avatar, Button, Dropdown, DropdownTypes, Icons, Title } from '../../../../../shared/ui';
 import { UserInfoView, userTypes } from '../../../../user';
+import { viewerService } from '../../../../viewer';
 import { CompanyCardView, CompanyTagView } from '../../../index';
 import { EmployeeProxy } from '../../../model/types';
 
@@ -17,6 +18,8 @@ type Props = {
 
 function EmployeeProfileView(props: Props) {
     const { actions, employee, back, loading } = props;
+
+    const viewerId = viewerService.getId();
 
     const sm = useWidthMediaQuery().to('sm');
 
@@ -42,7 +45,9 @@ function EmployeeProfileView(props: Props) {
                         {employee?.companies?.length ? <CompanyTagView name="TFN" /> : null}
                     </div>
                     <div className={styles.btns}>
-                        {employee?.user ? (
+                        {viewerId === employee?.user?.id ? (
+                            ''
+                        ) : employee?.user ? (
                             btns.map((i) => (
                                 <Dropdown.Menu position="bottom-center" items={moreBtn} key={i.id} disabled={i.title !== 'Ещё'}>
                                     <Button variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
