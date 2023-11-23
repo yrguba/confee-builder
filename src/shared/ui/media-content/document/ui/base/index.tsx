@@ -21,7 +21,7 @@ function Document(props: BaseDocumentProps) {
     const menuItems: DropdownTypes.DropdownMenuItem[] = [
         {
             id: 0,
-            title: 'скачать файл',
+            title: 'Скачать файл',
             icon: <Icons variant="save" />,
             callback: () => {
                 saveInDownload(fileBlob, name);

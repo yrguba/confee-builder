@@ -47,7 +47,7 @@ function MessageMenu(props: Props) {
         // { id: 7, title: 'Воспроизвести', icon: 'melody', payload: 'play' },
         {
             id: 9,
-            title: 'скачать файл',
+            title: 'Скачать файл',
             icon: 'save',
             payload: 'save',
         },
