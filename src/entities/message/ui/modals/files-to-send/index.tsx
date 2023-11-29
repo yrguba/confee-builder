@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { UseArrayReturnType, UseFileUploaderTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { AudioPlayer, Button, Document, Icons, Image, Title, VideoPlayer } from 'shared/ui';
+import { AudioPlayer, Box, Button, Document, Icons, Image, Title, VideoPlayer } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { getEnding } from '../../../../../shared/lib';
@@ -18,12 +18,12 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function FilesToSendModalView(props: Props) {
-    const { images, documents, audios, videos, addFiles, sendFiles, close } = props;
+    const { loading, images, documents, audios, videos, addFiles, sendFiles, close } = props;
 
     const fileLength = images.length + documents.length + audios.length + videos.length;
 
     return (
-        <div className={styles.wrapper}>
+        <Box loading={loading} className={styles.wrapper}>
             <div className={styles.header}>
                 <Title variant="H2">{!fileLength ? 'Выбирите файлы' : `Отправить ${fileLength} ${getEnding(fileLength, ['файл', 'файла', 'файлов'])}`}</Title>
             </div>
@@ -74,7 +74,7 @@ function FilesToSendModalView(props: Props) {
                     </Button>
                 </div>
             </div>
-        </div>
+        </Box>
     );
 }
 

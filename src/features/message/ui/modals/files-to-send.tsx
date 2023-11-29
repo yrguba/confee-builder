@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 
 import { FilesToSendModalView, messageApi, messageTypes } from 'entities/message';
-import { UseFileUploaderTypes, useFileUploader, useArray } from 'shared/hooks';
+import { UseFileUploaderTypes, useFileUploader, useArray, useEasyState } from 'shared/hooks';
 import { getRandomInt, compressImage } from 'shared/lib';
 import { Modal, ModalTypes, CardTypes } from 'shared/ui';
 
@@ -17,6 +17,8 @@ function FilesToSendModal(props: Props) {
     const params = useParams();
     const chatId = Number(params.chat_id);
 
+    const isLoading = useEasyState(false);
+
     const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
 
     const images = useArray<UseFileUploaderTypes.Types.ImageFile>({ initialArr: files.image });
@@ -30,34 +32,35 @@ function FilesToSendModal(props: Props) {
     };
 
     const sendFiles = async () => {
+        isLoading.set(true);
         const send = async (arr: any[], type: messageTypes.MediaContentType) => {
-            // return new Promise((resolve, reject) => {
             const formData = new FormData();
 
             await Promise.all(
                 arr.map(async (i) => {
                     if (type === 'images') {
-                        const compressed = await compressImage(i.file, i?.name, 10);
+                        const compressed = await compressImage(i.file, i?.name, 50);
                         formData.append(`files[${type}][]`, compressed);
                     } else {
                         formData.append(`files[${type}][]`, i.file);
                     }
                 })
             );
-            handleSendFileMessage(
-                {
-                    chatId,
-                    files: formData,
-                    filesForMock: arr.map((i) => ({ id: getRandomInt(100), url: i.fileUrl, name: i.name })),
-                    filesType: type,
-                },
-                {
-                    onSuccess: (data) => {
-                        console.log('success');
+            return new Promise((resolve, reject) => {
+                handleSendFileMessage(
+                    {
+                        chatId,
+                        files: formData,
+                        filesForMock: arr.map((i) => ({ id: getRandomInt(100), url: i.fileUrl, name: i.name })),
+                        filesType: type,
                     },
-                }
-            );
-            // });
+                    {
+                        onSuccess: (data) => {
+                            resolve(null);
+                        },
+                    }
+                );
+            });
         };
         if (images.array.length) {
             await send(images.array, 'images');
@@ -72,6 +75,7 @@ function FilesToSendModal(props: Props) {
             await send(documents.array, 'documents');
         }
         close();
+        isLoading.set(false);
     };
 
     const { open: openFilesDownloader } = useFileUploader({
@@ -79,6 +83,7 @@ function FilesToSendModal(props: Props) {
         multiple: true,
         onAfterUploading: (data) => {
             if (data.sortByAccept) {
+                isLoading.set(true);
                 Object.entries(data.sortByAccept).forEach(([key, value]) => {
                     switch (key) {
                         case 'image':
@@ -91,6 +96,7 @@ function FilesToSendModal(props: Props) {
                             return documents.concat(value);
                     }
                 });
+                isLoading.set(false);
             }
         },
     });
@@ -104,6 +110,7 @@ function FilesToSendModal(props: Props) {
             audios={audios}
             videos={videos}
             documents={documents}
+            loading={isLoading.value}
         />
     );
 }
