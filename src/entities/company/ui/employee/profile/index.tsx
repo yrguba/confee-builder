@@ -77,7 +77,7 @@ function EmployeeProfileView(props: Props) {
 
             {employee?.user && (
                 <div className={styles.userInfo}>
-                    <UserInfoView user={employee?.userProxy || null} />
+                    <UserInfoView hiddenEmail user={employee?.userProxy || null} />
                 </div>
             )}
         </div>
