@@ -43,6 +43,7 @@ function MessageList() {
     const initialPage = useMessageStore.use.initialPage();
     const foundMessage = useMessageStore.use.foundMessage();
     const goDownList = useMessageStore.use.goDownList();
+    const isFileDrag = useMessageStore.use.isFileDrag();
 
     const {
         data: messageData,
@@ -191,6 +192,7 @@ function MessageList() {
                 clickMessageReply={(message) => messageIdToSearchForPage.set(message.id)}
                 dropContainerRef={dropContainerRef}
                 goDownList={goDownList.value}
+                isFileDrag={isFileDrag}
             />
         </>
     );

@@ -3,6 +3,8 @@ import axios, { AxiosRequestConfig, AxiosInstance, AxiosError } from 'axios';
 import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
+import { useWebSocket } from '../hooks';
+
 const { backBaseURL } = appService.getUrls();
 const { auth } = appService.getSecret();
 const config: AxiosRequestConfig = {
@@ -33,6 +35,7 @@ axiosClient.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
         const currentTokens = tokensService.get();
+        const { sendMessage } = useWebSocket<any, any>();
         if (error.response.status === 401 && error.config && currentTokens && !error.config._isRetry) {
             error.config._isRetry = true;
             try {
@@ -42,6 +45,9 @@ axiosClient.interceptors.response.use(
                 if (res.data.data) {
                     const { access_token, refresh_token } = res.data.data;
                     await tokensService.save({ access_token, refresh_token });
+                    sendMessage('Auth', {
+                        token: access_token,
+                    });
                     return await axiosClient.request(originalRequest);
                 }
                 await tokensService.remove();

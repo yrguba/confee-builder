@@ -37,6 +37,7 @@ function MessageInput() {
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const voiceRecordingInProgress = useMessageStore.use.voiceRecordingInProgress();
     const goDownList = useMessageStore.use.goDownList();
+    const isFileDrag = useMessageStore.use.isFileDrag();
 
     const messageTextState = useEasyState('');
     const voiceEvent = useEasyState<VoiceEvents | null>(null);
@@ -52,6 +53,7 @@ function MessageInput() {
         sortByAccept,
         clear,
         copyFromClipboard,
+        dropContainerRef,
     } = useFileUploader({
         accept: 'all',
         multiple: true,
@@ -205,6 +207,8 @@ function MessageInput() {
                 voiceRecord={voiceRecord as any}
                 deleteVoice={deleteVoice}
                 showVoice={voiceEvent.value === 'stop'}
+                dropContainerRef={dropContainerRef}
+                isFileDrag={isFileDrag}
             />
         </>
     );

@@ -34,6 +34,7 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
     };
 
     ws.onclose = function (event) {};
+
     const sendMessage = (event: Out, data: string) => {
         ws.readyState &&
             ws.send(

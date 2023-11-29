@@ -1,12 +1,12 @@
-import React, { useRef, Fragment, useEffect, useState } from 'react';
+import React, { useRef, Fragment, useEffect, useState, RefObject } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useUpdateEffect } from 'react-use';
 
 import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
+import { Box, Button, Counter, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Box, Button, Counter, Icons } from '../../../../shared/ui';
 import { appTypes } from '../../../app';
 import { chatTypes } from '../../../chat';
 import { EmployeeProxy } from '../../../company/model/types';
@@ -31,8 +31,9 @@ type Props = {
     foundMessage: MessageProxy | null;
     deleteFoundMessage: () => void;
     clickMessageReply: (message: MessageProxy) => void;
-    dropContainerRef: any;
+    dropContainerRef: RefObject<any>;
     goDownList: boolean;
+    isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
@@ -55,6 +56,7 @@ function MessagesListView(props: Props) {
         loading,
         dropContainerRef,
         goDownList,
+        isFileDrag,
     } = props;
 
     const [initOnce, setInitOnce] = useState(true);
@@ -62,8 +64,6 @@ function MessagesListView(props: Props) {
     const prevChat = usePrevious(chat);
 
     const { executeScrollToElement, scrollBottom } = useScroll();
-
-    const isDrag = useEasyState(false);
 
     const wrapperRef: any = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -141,10 +141,11 @@ function MessagesListView(props: Props) {
 
     return (
         <div
-            className={`${styles.wrapper} ${isDrag.value ? styles.wrapper_dragOver : ''}`}
+            className={`${styles.wrapper} ${isFileDrag.value ? styles.wrapper_dragOver : ''}`}
             ref={mergeRefs([wrapperRef, dropContainerRef])}
-            onDragOver={() => isDrag.set(true)}
-            onDragLeave={() => isDrag.set(false)}
+            onDragOver={() => isFileDrag.set(true)}
+            onDragLeave={() => isFileDrag.set(false)}
+            onDrop={() => isFileDrag.set(false)}
         >
             <Box.Animated visible={!inViewFirstUnreadCheckVisibleRef && !inViewLastMessageCheckVisibleRef && !initOnce} className={styles.btnDown}>
                 <Counter>{chat?.pending_messages_count}</Counter>

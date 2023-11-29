@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { useEasyState, UseEasyStateReturnType, UseStoreTypes } from 'shared/hooks';
@@ -28,6 +28,8 @@ type Props = {
     showVoice: boolean;
     deleteVoice: () => void;
     tagUsers: UseEasyStateReturnType<UserProxy[]>;
+    dropContainerRef: RefObject<any>;
+    isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
     voiceRecord: {
         recorderState: {
             audio: string;
@@ -53,6 +55,8 @@ function MessageInputView(props: Props) {
         highlightedMessages,
         forwardMessages,
         tagUsers,
+        dropContainerRef,
+        isFileDrag,
     } = props;
 
     const speechListener = useEasyState(false);
@@ -121,7 +125,14 @@ function MessageInputView(props: Props) {
     }, [messageTextState.value, forwardMessages?.value?.redirect, showVoice, speechListener.value]);
 
     return (
-        <div className={styles.wrapper} style={{ pointerEvents: highlightedMessages.value.length ? 'none' : 'auto' }}>
+        <div
+            ref={dropContainerRef}
+            className={styles.wrapper}
+            style={{ pointerEvents: highlightedMessages.value.length ? 'none' : 'auto' }}
+            onDragOver={() => isFileDrag.set(true)}
+            onDragLeave={() => isFileDrag.set(false)}
+            onDrop={() => isFileDrag.set(false)}
+        >
             <Box.Animated visible={!!tagUsers.value.length} className={styles.tagUsers}>
                 {tagUsers.value.map((i) => (
                     <Card key={i.id} onClick={() => clickUser(i)} size="s" img={i.avatar} title={i.full_name} />
