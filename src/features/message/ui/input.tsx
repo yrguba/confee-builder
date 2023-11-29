@@ -116,7 +116,7 @@ function MessageInput() {
                     {
                         onSuccess: () => {
                             if (textChunk[chunkOrder + 1]) {
-                                setTimeout(() => sendChunks(chunkOrder + 1), 500);
+                                sendChunks(chunkOrder + 1);
                             }
                         },
                     }
