@@ -9,7 +9,7 @@ import Icons from '../../icons';
 import { TitleProps } from '../types';
 
 function Title(props: TitleProps) {
-    const { children, isError, textWrap, primary = true, variant, textAlign = 'left', updCallback, animateTrigger, active = false } = props;
+    const { maxLength, children, isError, textWrap, primary = true, variant, textAlign = 'left', updCallback, animateTrigger, active = false } = props;
 
     const cx = cnBind.bind(styles);
     const isEdit = useEasyState(false);
@@ -73,7 +73,7 @@ function Title(props: TitleProps) {
                 children
             ) : (
                 <div className={styles.input}>
-                    <input maxLength={70} onChange={(e) => newValue.set(e.target.value)} value={newValue.value} />
+                    <input maxLength={maxLength} onChange={(e) => newValue.set(e.target.value)} value={newValue.value} />
                     <Box.Animated animationVariant="autoWidth" className={styles.icon} visible={visibleEditIcon.value} onClick={(e) => clickIconUpdate(e)}>
                         <Icons variant={isEdit.value ? 'check-circle' : 'edit'} />
                     </Box.Animated>

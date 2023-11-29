@@ -59,7 +59,7 @@ function GroupChatProfileModalView(props: Props) {
                     getScreenshot={getScreenshot}
                 />
                 <div className={styles.name}>
-                    <Title animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H1">
+                    <Title maxLength={22} animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H1">
                         {chat?.name}
                     </Title>
                     {!chat?.is_personal && <CompanyTagView name="TFN" />}

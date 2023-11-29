@@ -38,7 +38,7 @@ function CreateChatModalView(props: Props) {
                 </Title>
                 <Box.Animated className={styles.groupSettings} visible={isGroup.value}>
                     <Avatar.Change dropdownLeft={20} {...avatarActions} img={avatar} />
-                    <Input {...chatName} placeholder="Введите название" clearIcon />
+                    <Input {...chatName} placeholder="Введите название" clearIcon maxLength={22} />
                 </Box.Animated>
                 <div className={styles.search}>
                     <Input {...tabsAndLists.searchInput} width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
