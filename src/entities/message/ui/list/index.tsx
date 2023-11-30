@@ -148,7 +148,7 @@ function MessagesListView(props: Props) {
             onDrop={() => isFileDrag.set(false)}
         >
             <Box.Animated visible={!inViewFirstUnreadCheckVisibleRef && !inViewLastMessageCheckVisibleRef && !initOnce} className={styles.btnDown}>
-                <Counter>{chat?.pending_messages_count}</Counter>
+                <Counter>{chat?.pending_messages_count || 0}</Counter>
                 <Button.Circle radius={34} onClick={clickBtnDown}>
                     <Icons variant="arrow-drop-down" />
                 </Button.Circle>

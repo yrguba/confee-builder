@@ -13,7 +13,7 @@ function chatGateway() {
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('ChatUpdated', (socketData) => {
-            ['all', 'personal'].forEach((i) =>
+            ['all', 'personal', `for-company/17`].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                     if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
@@ -34,7 +34,7 @@ function chatGateway() {
             });
         });
         onMessage('ChatCreated', (socketData) => {
-            ['all', 'personal'].forEach((i) =>
+            ['all', 'personal', `for-company/17`].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                     if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
@@ -48,7 +48,7 @@ function chatGateway() {
         });
         onMessage('ChatDeleted', (socketData) => {
             const openChatId = ChatService.getOpenChatId();
-            ['all', 'personal'].forEach((i) =>
+            ['all', 'personal', `for-company/17`].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                     if (!cacheData?.pages?.length) return cacheData;
                     if (Number(openChatId) === socketData.data.chat_id) {
