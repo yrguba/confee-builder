@@ -30,6 +30,9 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                 case 'checkIsMyLastMessage':
                     return target.last_message.author?.id === viewerId;
 
+                case 'authorLastMessage':
+                    return receiver.checkIsMyLastMessage ? 'Вы' : target.last_message.author.first_name || target.last_message.author.last_name;
+
                 case 'lastMessageTitle':
                     if (target.typing) return target.typing;
                     if (!target.last_message) return '';
