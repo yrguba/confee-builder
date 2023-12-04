@@ -37,6 +37,9 @@ function useFetchMediaContent(url = '', saveInCache = false, returnVideoCover = 
                     videoCover.set(cover);
                 }
             } else {
+                fetch(url)
+                    .then((res) => res.blob())
+                    .then((res) => setFileBlob(res));
                 setSrc(url);
             }
         };

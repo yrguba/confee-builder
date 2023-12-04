@@ -13,6 +13,7 @@ import { BaseDocumentProps } from '../../types';
 
 function Document(props: BaseDocumentProps) {
     const { clickedFile, disableDownload = true, url, size, name, extension } = props;
+
     const { src, fileBlob } = useFetchMediaContent(url);
     const notification = Notification.use();
 
