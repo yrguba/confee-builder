@@ -71,7 +71,7 @@ function MessageMenu(props: Props) {
 
     useEffect(() => {
         if (message.type !== 'text') deleteById(7);
-        if (!message.users_have_read?.length) deleteById(8);
+        if (!message.users_have_read?.length || !chat?.is_group) deleteById(8);
         if (!message.isMy) deleteByIds([1, 5]);
         if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400) deleteById(1);
         if (message.type !== 'text') deleteById(3);
