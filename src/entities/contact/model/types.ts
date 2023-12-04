@@ -36,6 +36,7 @@ export type UseContactsTabsAndListsReturnType = {
     foundContacts: Contact[] | BaseTypes.Empty;
     foundEmployees: Employee[] | BaseTypes.Empty;
     loading: boolean;
+    searchLoading: boolean;
 };
 
 export type Actions = 'delete' | 'mute' | 'audioCall' | 'videoCall' | 'message' | 'editName';

@@ -41,6 +41,22 @@ function ContactsListView(props: Props) {
                 <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
             </div>
             <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
+                {tabsAndLists.activeTab?.title === 'Личные' &&
+                    tabsAndLists.searchInput.value &&
+                    !tabsAndLists.searchLoading &&
+                    !tabsAndLists.foundContacts?.length && (
+                        <div style={{ marginLeft: 12 }}>
+                            <Title variant="H2">ничего не найдено</Title>
+                        </div>
+                    )}
+                {tabsAndLists.activeTab?.title !== 'Личные' &&
+                    tabsAndLists.searchInput.value &&
+                    !tabsAndLists.searchLoading &&
+                    !tabsAndLists.foundEmployees?.length && (
+                        <div style={{ marginLeft: 12 }}>
+                            <Title variant="H2">ничего не найдено</Title>
+                        </div>
+                    )}
                 {!tabsAndLists.activeList?.length ? (
                     <div style={{ marginLeft: 12 }}>
                         <Title variant="H2">Нет контактов</Title>

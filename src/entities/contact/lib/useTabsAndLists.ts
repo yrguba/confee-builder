@@ -116,6 +116,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         foundContacts: isFetching ? null : searchInput.value ? searchData?.contacts || [] : null,
         foundEmployees: isFetching ? null : searchInput.value ? searchData?.employees || [] : null,
         loading: isLoading,
+        searchLoading,
     };
 }
 
