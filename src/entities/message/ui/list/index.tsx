@@ -95,11 +95,11 @@ function MessagesListView(props: Props) {
     };
 
     const clickBtnDown = () => {
-        if (!chat?.pending_messages_count) {
-            executeScrollToElement({ ref: lastMessageRef, enable: true });
-        } else {
-            executeScrollToElement({ ref: firstUnreadMessageRef, enable: true });
-        }
+        // if (!chat?.pending_messages_count) {
+        executeScrollToElement({ ref: lastMessageRef, enable: true });
+        // } else {
+        //     executeScrollToElement({ ref: firstUnreadMessageRef, enable: true });
+        // }
     };
 
     useEffect(() => {
@@ -147,7 +147,7 @@ function MessagesListView(props: Props) {
             onDragLeave={() => isFileDrag.set(false)}
             onDrop={() => isFileDrag.set(false)}
         >
-            <Box.Animated visible={!inViewFirstUnreadCheckVisibleRef && !inViewLastMessageCheckVisibleRef && !initOnce} className={styles.btnDown}>
+            <Box.Animated visible={!inViewLastMessageCheckVisibleRef && !initOnce} className={styles.btnDown}>
                 <Counter>{chat?.pending_messages_count || 0}</Counter>
                 <Button.Circle radius={34} onClick={clickBtnDown}>
                     <Icons variant="arrow-drop-down" />

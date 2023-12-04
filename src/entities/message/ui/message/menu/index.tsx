@@ -15,7 +15,7 @@ import { UserProxy, User } from '../../../../user/model/types';
 import { File, MessageMenuActions, MessageProxy } from '../../../model/types';
 
 type Props = {
-    chat: chatTypes.Chat | BaseTypes.Empty;
+    chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy, file: { blob: Blob; name: string } | null) => void;
     sendReaction: (emoji: string, messageId: number) => void;
@@ -26,7 +26,7 @@ type Props = {
 const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: number[]) => {
     const arr: UserProxy[] = [];
     users?.forEach((user) => {
-        if (users_ids.includes(user.id)) {
+        if (users_ids.includes(user?.id)) {
             arr.push(userProxy(user) as any);
         }
     });
@@ -67,7 +67,7 @@ function MessageMenu(props: Props) {
         initialArr: items,
     });
 
-    const readUsers = memoReadUsers(chat?.members, message.users_have_read);
+    const readUsers = memoReadUsers(chat?.is_personal ? chat?.members : chat?.employee_members.map((i) => i.user), message.users_have_read);
 
     useEffect(() => {
         if (message.type !== 'text') deleteById(7);
@@ -110,7 +110,7 @@ function MessageMenu(props: Props) {
             {/*    </Box.Animated> */}
             {/* </div> */}
             <div className={styles.items}>
-                <Box.Animated visible={visibleUsers.value} animationVariant="autoHeight" className={styles.users} onMouseLeave={() => visibleUsers.set(false)}>
+                <Box.Animated visible={visibleUsers.value} className={styles.users} onMouseLeave={() => visibleUsers.set(false)}>
                     <Card.List
                         items={readUsers.map((i) => ({
                             // onClick: () => openChatProfileModal(),

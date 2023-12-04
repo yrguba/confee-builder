@@ -64,12 +64,14 @@
 
     .users{
       @include box-size(calc(100% - 24px), auto);
-      padding: 0 12px;
+      max-height: 200px;
+      padding: 12px;
       position: absolute;
       bottom: 0;
       left: 0;
       background-color: var(--bg-primary);
       border-radius: 12px;
+      overflow-y: auto;
     }
 
     .item {
