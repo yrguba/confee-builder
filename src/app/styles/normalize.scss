@@ -5,6 +5,7 @@ html {
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
+
   a, button {
     all: unset;
     cursor: pointer;
@@ -50,4 +51,25 @@ html {
   }
 }
 
+.react-switch-bg {
 
+  div {
+    display: flex;
+    align-items: center;
+
+    &:nth-child(1) {
+      justify-content: flex-start;
+    }
+
+    &:nth-child(2) {
+      justify-content: flex-end;
+    }
+
+    .styles_wrapper__x-ey7{
+      position: relative;
+      top: 1px;
+    }
+  }
+
+
+}
