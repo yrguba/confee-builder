@@ -6,7 +6,7 @@ import { axiosClient } from 'shared/configs';
 import { useWebSocket } from 'shared/hooks';
 
 import { File, Message, MessageProxy, MessageType, SocketOut } from './types';
-import { httpHandlers } from '../../../shared/lib';
+import { getRandomString, httpHandlers } from '../../../shared/lib';
 import { Chat } from '../../chat/model/types';
 import { messages_limit } from '../lib/constants';
 import mockMessage from '../lib/mock';
@@ -80,8 +80,15 @@ class MessageApi {
         const queryClient = useQueryClient();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
         return useMutation(
-            (data: { text: string; chatId: number; params?: { reply_to_message_id?: number }; replyMessage?: MessageProxy | null }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages`, { text: data.text, message_type: 'text' }, { params: data.params }),
+            (data: { text: string; chatId: number; params?: { reply_to_message_id?: number }; replyMessage?: MessageProxy | null }) => {
+                const log_id = getRandomString(10);
+                console.log('отправка newMessage', log_id, `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`);
+                return axiosClient.post(
+                    `${this.pathPrefix}/${data.chatId}/messages`,
+                    { text: data.text, message_type: 'text', log_id },
+                    { params: data.params }
+                );
+            },
             {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
@@ -171,9 +178,13 @@ class MessageApi {
 
     handleEditTextMessage() {
         const queryClient = useQueryClient();
+
         return useMutation(
-            (data: { chatId: number; messageId: number; text: string }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages/${data.messageId}`, { text: data.text }),
+            (data: { chatId: number; messageId: number; text: string }) => {
+                const log_id = getRandomString(10);
+                console.log('отправка updateMessage', log_id, `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`);
+                return axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages/${data.messageId}`, { text: data.text, log_id });
+            },
             {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
@@ -222,7 +233,9 @@ class MessageApi {
         const queryClient = useQueryClient();
         return {
             mutate: (data: { chat_id: number; message_id: number }) => {
-                data.message_id && this.socket.sendMessage('MessageRead', data);
+                const log_id = getRandomString(10);
+                console.log('отправка MessageRead', log_id, `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`);
+                data.message_id && this.socket.sendMessage('MessageRead', { ...data, log_id });
                 queryClient.setQueryData(['get-messages', data.chat_id], (cacheData: any) => {
                     if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
