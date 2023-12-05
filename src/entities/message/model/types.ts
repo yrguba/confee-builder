@@ -9,6 +9,7 @@ export type Content = {
 };
 
 export type MediaContentType = 'images' | 'videos' | 'audios' | 'documents' | 'voices';
+
 export type MessageType = 'text' | 'system' | MediaContentType;
 
 export type File = {

@@ -3,10 +3,13 @@ import { CSSProperties } from 'react';
 import { BaseTypes } from 'shared/types';
 import { SwiperTypes } from 'shared/ui';
 
+import { MediaContentType } from '../../../../entities/message/model/types';
+import { UseEasyStateReturnType } from '../../../hooks';
 import { ImagesListItem } from '../image/types';
 
 export type BaseVideoPlayerProps = {
     url: string;
+    name?: string;
     width?: string;
     horizontalImgWidth?: string;
     height?: string;
@@ -14,6 +17,7 @@ export type BaseVideoPlayerProps = {
     borderRadius?: boolean;
     reset?: boolean;
     visibleCover?: boolean;
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 export type VideoListItem = {
@@ -23,6 +27,7 @@ export type VideoListItem = {
 export type VideoListProps = {
     items: VideoListItem[] | BaseTypes.Empty;
     style?: CSSProperties;
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 export type VideoCardProps = {

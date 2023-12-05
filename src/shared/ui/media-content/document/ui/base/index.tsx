@@ -33,7 +33,7 @@ function Document(props: BaseDocumentProps) {
 
     function Doc() {
         return (
-            <div className={styles.wrapper} onContextMenu={() => fileBlob && name && clickedFile?.set({ blob: fileBlob, name })}>
+            <div className={styles.wrapper} onContextMenu={() => fileBlob && name && clickedFile?.set({ blob: fileBlob, name, type: 'documents' })}>
                 <div className={styles.icon}>
                     <Icons.Document variant={extension as any} />
                 </div>

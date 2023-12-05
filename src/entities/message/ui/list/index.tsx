@@ -11,7 +11,7 @@ import { appTypes } from '../../../app';
 import { chatTypes } from '../../../chat';
 import { EmployeeProxy } from '../../../company/model/types';
 import { UserProxy } from '../../../user/model/types';
-import { File, MessageMenuActions, MessageProxy } from '../../model/types';
+import { File, MediaContentType, MessageMenuActions, MessageProxy } from '../../model/types';
 import Message from '../message';
 import SystemMessage from '../message/variants/system';
 
@@ -23,7 +23,7 @@ type Props = {
     readMessage: (messageId: number) => void;
     subscribeToChat: (action: 'sub' | 'unsub') => void;
     chatSubscription: number | null;
-    messageMenuAction: (action: MessageMenuActions, message: MessageProxy, file: { blob: Blob; name: string } | null) => void;
+    messageMenuAction: (action: MessageMenuActions, message: MessageProxy, file: { blob: Blob; name: string; type: MediaContentType } | null) => void;
     sendReaction: (emoji: string, messageId: number) => void;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;

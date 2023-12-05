@@ -2,9 +2,13 @@ import { CSSProperties } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
+import { MediaContentType } from '../../../../entities/message/model/types';
+import { UseEasyStateReturnType } from '../../../hooks';
+
 export type BaseImageProps = {
     id?: number | string;
     url: string;
+    name?: string;
     width?: string;
     maxWidth?: string;
     horizontalImgWidth?: string;
@@ -13,6 +17,7 @@ export type BaseImageProps = {
     borderRadius?: boolean;
     remove?: (id: number | string) => void;
     objectFit?: 'cover' | 'contain';
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 export type ImagesListItem = {
@@ -22,6 +27,7 @@ export type ImagesListItem = {
 export type ImagesListProps = {
     items: ImagesListItem[] | BaseTypes.Empty;
     style?: CSSProperties;
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 export type ImageCardProps = {

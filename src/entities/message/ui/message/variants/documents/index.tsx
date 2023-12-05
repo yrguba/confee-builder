@@ -5,11 +5,11 @@ import { Document } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { UseEasyStateReturnType } from '../../../../../../shared/hooks';
-import { File } from '../../../../model/types';
+import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
     documents: File[];
-    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string } | null>;
+    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 function DocumentsMessage(props: Props) {

@@ -1,12 +1,17 @@
 import { BaseTypes } from 'shared/types';
 
+import { MediaContentType } from '../../../../entities/message/model/types';
+import { UseEasyStateReturnType } from '../../../hooks';
+
 export type BaseAudioPlayerProps = {
     url: string;
+    name?: string;
     size?: number;
     isVisibleMeta?: boolean;
     btnRadius?: number;
     visibleWave?: boolean;
     disabled?: boolean;
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 export type AudioListItem = {

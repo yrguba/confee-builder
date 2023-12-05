@@ -1,24 +1,26 @@
 import React from 'react';
 
-import { useEasyState } from 'shared/hooks';
+import { useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appTypes } from '../../../../../app';
-import { File } from '../../../../model/types';
+import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
+    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
     images: File[];
 } & BaseTypes.Statuses;
 
 function ImagesMessage(props: Props) {
-    const { images } = props;
+    const { clickedFile, images } = props;
 
     const swiperState = useEasyState<{ visible: boolean; initial: number }>({ visible: false, initial: 1 });
 
     const updItems = images?.map((i, index) => ({
         id: i.id,
+        name: i.name,
         url: i.url || '',
         width: 'auto',
         height: '220px',
@@ -34,7 +36,7 @@ function ImagesMessage(props: Props) {
                 items={updItems}
             />
             <div className={styles.wrapper}>
-                <Image.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+                <Image.List clickedFile={clickedFile} items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
             </div>
         </>
     );

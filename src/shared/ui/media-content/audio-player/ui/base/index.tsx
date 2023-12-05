@@ -13,9 +13,9 @@ import { BaseAudioPlayerProps } from '../../types';
 import waveformStatic from '../wave-form/static';
 
 function AudioPlayer(props: BaseAudioPlayerProps) {
-    const { disabled, url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
+    const { name, clickedFile, disabled, url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
     const storage = useStorage();
-    const { src } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
+    const { src, fileBlob } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
 
     const [waveform, waveSurferRef, isPlaying, time, currentTime, isLoading] = waveformStatic({ url: src || ' ' });
 
@@ -26,7 +26,11 @@ function AudioPlayer(props: BaseAudioPlayerProps) {
     };
 
     return (
-        <div className={styles.wrapper} style={{ overflow: isLoading ? 'hidden' : 'visible' }}>
+        <div
+            onContextMenu={() => fileBlob && name && clickedFile?.set({ blob: fileBlob, name, type: 'audios' })}
+            className={styles.wrapper}
+            style={{ overflow: isLoading ? 'hidden' : 'visible' }}
+        >
             <LoadingIndicator.Glare visible={isLoading} />
             <div className={styles.controls}>
                 <Button.Circle radius={btnRadius} onClick={playPauseClick}>

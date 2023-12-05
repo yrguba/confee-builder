@@ -11,10 +11,24 @@ import LoadingIndicator from '../../../../loading-indicator';
 import { BaseImageProps } from '../../types';
 
 function Image(props: BaseImageProps) {
-    const { maxWidth, objectFit = 'cover', url, width, height, horizontalImgWidth, onClick, borderRadius = true, id, remove, ...other } = props;
+    const {
+        name,
+        clickedFile,
+        maxWidth,
+        objectFit = 'cover',
+        url,
+        width,
+        height,
+        horizontalImgWidth,
+        onClick,
+        borderRadius = true,
+        id,
+        remove,
+        ...other
+    } = props;
     const storage = useStorage();
 
-    const { src, error, isLoading } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
+    const { src, error, isLoading, fileBlob } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
 
     const classes = useStyles(styles, 'img', {
         [objectFit]: objectFit,
@@ -23,6 +37,7 @@ function Image(props: BaseImageProps) {
 
     return (
         <div
+            onContextMenu={() => clickedFile && fileBlob && name && clickedFile.set({ blob: fileBlob, name, type: 'images' })}
             onClick={onClick}
             className={styles.wrapper}
             style={{

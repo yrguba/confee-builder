@@ -1,6 +1,6 @@
 import { BaseTypes } from 'shared/types';
 
-import { File } from '../../../../entities/message/model/types';
+import { File, MediaContentType } from '../../../../entities/message/model/types';
 import { UseEasyStateReturnType } from '../../../hooks';
 
 export type BaseDocumentProps = {
@@ -9,7 +9,7 @@ export type BaseDocumentProps = {
     size?: number;
     extension?: string;
     disableDownload?: boolean;
-    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string } | null>;
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
 };
 
 export type DocumentsListItemProps = {

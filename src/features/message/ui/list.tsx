@@ -5,8 +5,17 @@ import { number } from 'yup';
 
 import { chatApi, chatProxy, useChatStore } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
-import { messageApi, MessagesListView, messageService, messageTypes, useMessageStore, messageProxy, messageConstants } from 'entities/message';
-import { File } from 'entities/message/model/types';
+import {
+    messageApi,
+    MessagesListView,
+    messageService,
+    messageTypes,
+    useMessageStore,
+    messageProxy,
+    messageConstants,
+    messageDictionaries,
+} from 'entities/message';
+import { File, MediaContentType } from 'entities/message/model/types';
 import { UserProxy } from 'entities/user/model/types';
 import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech, useEasyState, useFileUploader, useSaveMediaContent } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
@@ -96,7 +105,11 @@ function MessageList() {
         }
     };
 
-    const messageMenuAction = (action: messageTypes.MessageMenuActions, message: messageTypes.MessageProxy, file: { blob: Blob; name: string } | null) => {
+    const messageMenuAction = (
+        action: messageTypes.MessageMenuActions,
+        message: messageTypes.MessageProxy,
+        file: { blob: Blob; name: string; type: MediaContentType } | null
+    ) => {
         switch (action) {
             case 'reply':
                 return replyMessage.set(message);
@@ -119,7 +132,10 @@ function MessageList() {
                 return playSpeech(message.text);
             case 'save':
                 saveInDownload(file?.blob, file?.name);
-                notification.success({ title: 'Файл сохранен', system: true });
+                notification.success({
+                    title: `${file?.type ? messageDictionaries.mediaContent[file?.type] : ''} ${file?.type === 'documents' ? 'сохранен' : 'сохранено'}`,
+                    system: true,
+                });
         }
     };
 

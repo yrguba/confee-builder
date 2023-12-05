@@ -1,4 +1,5 @@
 import * as messageConstants from './lib/constants';
+import * as messageDictionaries from './lib/dictionaries';
 import messageProxy from './lib/proxy';
 import messageService from './lib/service';
 import messageApi from './model/api';
@@ -24,4 +25,5 @@ export {
     ForwardMessagesModalView,
     FilesToSendModalView,
     SearchMessagesView,
+    messageDictionaries,
 };

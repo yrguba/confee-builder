@@ -7,10 +7,10 @@ import Image from '../base';
 import Swiper from '../swiper';
 
 function ImageList(props: ImagesListProps) {
-    const { items, style } = props;
+    const { clickedFile, items, style } = props;
 
     const visibleSwiper = useEasyState({ visible: false, init: 0 });
-
+    console.log(items);
     return (
         <>
             <Swiper
@@ -21,7 +21,14 @@ function ImageList(props: ImagesListProps) {
             />
             <div className={styles.wrapper} style={style}>
                 {items?.map((i, index) => (
-                    <Image onClick={() => visibleSwiper.set({ visible: true, init: index })} key={i.id} {...i} borderRadius={false} />
+                    <Image
+                        name={i.name}
+                        clickedFile={clickedFile}
+                        onClick={() => visibleSwiper.set({ visible: true, init: index })}
+                        key={i.id}
+                        {...i}
+                        borderRadius={false}
+                    />
                 ))}
             </div>
         </>
