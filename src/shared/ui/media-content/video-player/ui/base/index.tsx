@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 
 import styles from './styles.module.scss';
+import { useChatStore } from '../../../../../../entities/chat';
 import { MediaContentType } from '../../../../../../entities/message/model/types';
 import { useEasyState, UseEasyStateReturnType, useFetchMediaContent, useStorage, useVideo } from '../../../../../hooks';
 import Box from '../../../../box';
@@ -9,24 +10,27 @@ import Image from '../../../image';
 import { BaseVideoPlayerProps } from '../../types';
 
 function VideoPlayer(props: BaseVideoPlayerProps) {
-    const { name, clickedFile, visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
+    const { id, name, clickedFile, visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
     const storage = useStorage();
     const { src, isLoading, error, videoCover, fileBlob } = useFetchMediaContent(url || '', storage.get('save_in_cache'), visibleCover);
 
-    return <Video fileBlob={fileBlob} clickedFile={clickedFile} name={name} videoCover={videoCover || ''} isLoading={isLoading} src={src} {...props} />;
+    return <Video id={id} fileBlob={fileBlob} clickedFile={clickedFile} name={name} videoCover={videoCover || ''} isLoading={isLoading} src={src} {...props} />;
 }
 
 type VideoProps = {
+    id?: number | string;
     src: string;
     name?: string;
     isLoading: boolean;
     videoCover: string;
-    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
     fileBlob: Blob | null;
 } & BaseVideoPlayerProps;
 
 function Video(props: VideoProps) {
-    const { name, fileBlob, clickedFile, videoCover, isLoading, src, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
+    const { id, name, fileBlob, clickedFile, videoCover, isLoading, src, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
+
+    const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
     const [video, state, controls, ref] = useVideo(
         <video
@@ -40,11 +44,16 @@ function Video(props: VideoProps) {
 
     return (
         <div
-            onContextMenu={() => fileBlob && name && clickedFile && clickedFile.set({ blob: fileBlob, name, type: 'videos' })}
+            onContextMenu={() => fileBlob && name && clickedFile && id && clickedFile.set({ blob: fileBlob, name, id, type: 'videos' })}
             className={styles.wrapper}
             onClick={onClick}
             style={{ maxWidth: width || '100%', width: width || '100%', height: !state.buffered.length ? 500 : height }}
         >
+            {id === idOfSavedFile.value && (
+                <div className={styles.savingFile}>
+                    <LoadingIndicator.Downloaded size={50} visible primary={false} />
+                </div>
+            )}
             {videoCover ? <Image url={videoCover} height={height} width={width} onClick={() => ''} /> : video}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />

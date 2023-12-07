@@ -18,10 +18,14 @@ import { File, MediaContentType, MessageMenuActions, MessageProxy } from '../../
 type Props = {
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
-    messageMenuAction: (action: MessageMenuActions, message: MessageProxy, file: { blob: Blob; name: string; type: MediaContentType } | null) => void;
+    messageMenuAction: (
+        action: MessageMenuActions,
+        message: MessageProxy,
+        file: { blob: Blob; name: string; id: number | string; type: MediaContentType } | null
+    ) => void;
     sendReaction: (emoji: string, messageId: number) => void;
     openChatProfileModal: (data: { user: UserProxy; employee: EmployeeProxy }) => void;
-    clickedFile: { blob: Blob; name: string; type: MediaContentType } | null;
+    clickedFile: { blob: Blob; name: string; id: number | string; type: MediaContentType } | null;
 } & BaseTypes.Statuses;
 
 const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: number[]) => {

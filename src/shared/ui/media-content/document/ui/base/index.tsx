@@ -4,20 +4,24 @@ import { appService } from 'entities/app';
 import { useFetchMediaContent, useFs, useSaveMediaContent } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import { useChatStore } from '../../../../../../entities/chat';
 import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
 import { Dropdown, DropdownTypes } from '../../../../index';
+import LoadingIndicator from '../../../../loading-indicator';
 import Notification from '../../../../notification';
 import Title from '../../../../title';
 import { BaseDocumentProps } from '../../types';
 
 function Document(props: BaseDocumentProps) {
-    const { clickedFile, disableDownload = true, url, size, name, extension } = props;
+    const { id, clickedFile, disableDownload = true, url, size, name, extension } = props;
+
+    const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
     const { src, fileBlob } = useFetchMediaContent(url);
     const notification = Notification.use();
 
-    const { saveInDownload } = useSaveMediaContent();
+    const { saveInDownload, isLoading } = useSaveMediaContent();
 
     const menuItems: DropdownTypes.DropdownMenuItem[] = [
         {
@@ -33,9 +37,13 @@ function Document(props: BaseDocumentProps) {
 
     function Doc() {
         return (
-            <div className={styles.wrapper} onContextMenu={() => fileBlob && name && clickedFile?.set({ blob: fileBlob, name, type: 'documents' })}>
+            <div className={styles.wrapper} onContextMenu={() => fileBlob && name && id && clickedFile?.set({ blob: fileBlob, name, id, type: 'documents' })}>
                 <div className={styles.icon}>
-                    <Icons.Document variant={extension as any} />
+                    {isLoading || idOfSavedFile.value === id ? (
+                        <LoadingIndicator.Downloaded primary={false} visible />
+                    ) : (
+                        <Icons.Document variant={extension as any} />
+                    )}
                 </div>
 
                 {(size || name || extension) && (

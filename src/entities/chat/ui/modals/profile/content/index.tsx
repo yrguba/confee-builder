@@ -102,8 +102,10 @@ function ChatProfileContentView(props: Props) {
                             visible: mediaTypes.value === 'images',
                             item: (
                                 <Image.List
+                                    disableDownload={false}
                                     items={files?.map((i, index) => ({
                                         id: index,
+                                        name: i.name,
                                         url: i.url || '',
                                         width: 'auto',
                                         height: '120px',

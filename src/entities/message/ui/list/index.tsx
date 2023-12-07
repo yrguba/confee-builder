@@ -23,7 +23,11 @@ type Props = {
     readMessage: (messageId: number) => void;
     subscribeToChat: (action: 'sub' | 'unsub') => void;
     chatSubscription: number | null;
-    messageMenuAction: (action: MessageMenuActions, message: MessageProxy, file: { blob: Blob; name: string; type: MediaContentType } | null) => void;
+    messageMenuAction: (
+        action: MessageMenuActions,
+        message: MessageProxy,
+        file: { blob: Blob; name: string; id: number | string; type: MediaContentType } | null
+    ) => void;
     sendReaction: (emoji: string, messageId: number) => void;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;

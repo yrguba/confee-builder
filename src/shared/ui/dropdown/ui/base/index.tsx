@@ -20,6 +20,7 @@ function Dropdown(props: BaseDropdownProps) {
         disabled,
         top,
         left,
+        style,
     } = props;
 
     const elementRef = useRef<HTMLDivElement>(null);
@@ -64,6 +65,7 @@ function Dropdown(props: BaseDropdownProps) {
 
     return (
         <div
+            style={style}
             ref={elementRef}
             className={styles.wrapper}
             onClick={trigger === 'left-click' ? click : undefined}

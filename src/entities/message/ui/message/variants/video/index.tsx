@@ -9,7 +9,7 @@ import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
     videos: File[];
-    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
+    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 function VideoMessage(props: Props) {

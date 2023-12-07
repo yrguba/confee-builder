@@ -17,7 +17,8 @@ export type BaseImageProps = {
     borderRadius?: boolean;
     remove?: (id: number | string) => void;
     objectFit?: 'cover' | 'contain';
-    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
+    disableDownload?: boolean;
 } & BaseTypes.Statuses;
 
 export type ImagesListItem = {
@@ -27,7 +28,8 @@ export type ImagesListItem = {
 export type ImagesListProps = {
     items: ImagesListItem[] | BaseTypes.Empty;
     style?: CSSProperties;
-    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
+    disableDownload?: boolean;
 } & BaseTypes.Statuses;
 
 export type ImageCardProps = {

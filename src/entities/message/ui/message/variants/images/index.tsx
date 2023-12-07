@@ -6,10 +6,11 @@ import { Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appTypes } from '../../../../../app';
+import { useChatStore } from '../../../../../chat';
 import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
-    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
+    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
     images: File[];
 } & BaseTypes.Statuses;
 

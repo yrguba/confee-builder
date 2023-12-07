@@ -33,7 +33,7 @@ function MessageList() {
 
     const queryClient = useQueryClient();
 
-    const { saveInDownload } = useSaveMediaContent();
+    const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();
     const messageIdToSearchForPage = useEasyState<number | null>(null);
 
     const { playSpeech } = useTextToSpeech();
@@ -43,6 +43,7 @@ function MessageList() {
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
 
     const chatSubscription = useChatStore.use.chatSubscription();
+    const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
     const replyMessage = useMessageStore.use.replyMessage();
     const editMessage = useMessageStore.use.editMessage();
@@ -108,7 +109,7 @@ function MessageList() {
     const messageMenuAction = (
         action: messageTypes.MessageMenuActions,
         message: messageTypes.MessageProxy,
-        file: { blob: Blob; name: string; type: MediaContentType } | null
+        file: { blob: Blob; name: string; id: number | string; type: MediaContentType } | null
     ) => {
         switch (action) {
             case 'reply':
@@ -132,6 +133,7 @@ function MessageList() {
                 return playSpeech(message.text);
             case 'save':
                 saveInDownload(file?.blob, file?.name);
+                file?.id && idOfSavedFile.set(file.id);
                 notification.success({
                     title: `${file?.type ? messageDictionaries.mediaContent[file?.type] : ''} ${file?.type === 'documents' ? 'сохранен' : 'сохранено'}`,
                     system: true,
@@ -182,6 +184,14 @@ function MessageList() {
             editMessage.clear();
         }
     );
+
+    useUpdateEffect(() => {
+        if (!loadingSaveFile) {
+            setTimeout(() => {
+                idOfSavedFile.set(null);
+            }, 500);
+        }
+    }, [loadingSaveFile]);
 
     return (
         <>

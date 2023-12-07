@@ -5,11 +5,12 @@ import { UseEasyStateReturnType } from '../../../hooks';
 
 export type BaseDocumentProps = {
     url: string;
+    id?: number | string;
     name?: string;
     size?: number;
     extension?: string;
     disableDownload?: boolean;
-    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
+    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
 };
 
 export type DocumentsListItemProps = {

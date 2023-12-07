@@ -9,7 +9,7 @@ import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
     voices: File[];
-    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; type: MediaContentType } | null>;
+    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 function VoiceMessage(props: Props) {
@@ -17,7 +17,7 @@ function VoiceMessage(props: Props) {
     const voice = voices[0];
     return (
         <div className={styles.wrapper}>
-            <AudioPlayer clickedFile={clickedFile} url={voice.url} name={voice.name} isVisibleMeta />
+            <AudioPlayer clickedFile={clickedFile} url={voice.url} name={voice.name} id={voice.id} isVisibleMeta />
         </div>
     );
 }

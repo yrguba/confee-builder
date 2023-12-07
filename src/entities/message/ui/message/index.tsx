@@ -25,7 +25,11 @@ import { MessageProxy, MessageMenuActions, File, MediaContentType } from '../../
 type Props = {
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
-    messageMenuAction: (action: MessageMenuActions, message: MessageProxy, file: { blob: Blob; name: string; type: MediaContentType } | null) => void;
+    messageMenuAction: (
+        action: MessageMenuActions,
+        message: MessageProxy,
+        file: { blob: Blob; name: string; id: number | string; type: MediaContentType } | null
+    ) => void;
     sendReaction: (emoji: string, messageId: number) => void;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     voiceRecordingInProgress: boolean;
@@ -56,7 +60,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     const replyAndForwardTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4S');
     const messageWrapperWidth = useEasyState(0);
 
-    const clickedFile = useEasyState<{ blob: Blob; name: string; type: MediaContentType } | null>(null);
+    const clickedFile = useEasyState<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>(null);
 
     const classes = useStyles(styles, 'bubble', {
         isMy,
