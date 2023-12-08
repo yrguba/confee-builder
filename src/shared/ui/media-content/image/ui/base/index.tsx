@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { appTypes } from 'entities/app';
-import { useEasyState, useFetchMediaContent, useSaveMediaContent, useStorage, useStyles } from 'shared/hooks';
+import { useEasyState, useFetchMediaContent, useSaveMediaContent, useStorage, useStyles, useWindowMouseClick } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { useChatStore } from '../../../../../../entities/chat';
@@ -41,6 +41,8 @@ function Image(props: BaseImageProps) {
 
     const notification = Notification.use();
 
+    const clickCoord = useWindowMouseClick();
+    console.log(clickCoord);
     const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();
 
     const clickContextMenu = () => {
@@ -99,7 +101,13 @@ function Image(props: BaseImageProps) {
                 <LoadingIndicator visible />
             </Box.Animated>
             {(error || !url) && icon}
-            <Box.Animated animationVariant="visibleHidden" className={styles.menu} visible={visibleMenu.value} presence>
+            <Box.Animated
+                animationVariant="visibleHidden"
+                style={{ top: clickCoord.y, left: clickCoord.x }}
+                className={styles.menu}
+                visible={visibleMenu.value}
+                presence
+            >
                 {menuItems.map((i) => (
                     <div
                         key={i.id}

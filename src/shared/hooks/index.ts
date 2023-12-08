@@ -54,11 +54,13 @@ import useThrottle from './useThrottle';
 import useToggle from './useToggle';
 import useWebSocket from './useWebSocket';
 import useWebView from './useWebView';
+import { useWindowMouseClick } from './useWindowMouseClick';
 import useYup from './useYup';
 import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useWindowMouseClick,
     useSaveMediaContent,
     useUnmount,
     useLongPress,
