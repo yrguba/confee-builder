@@ -60,6 +60,8 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     const replyAndForwardTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4S');
     const messageWrapperWidth = useEasyState(0);
 
+    const visibleMenu = useEasyState(false);
+
     const clickedFile = useEasyState<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>(null);
 
     const classes = useStyles(styles, 'bubble', {
@@ -82,18 +84,21 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         },
     });
 
+    const clickContextMenu = (e: any) => {
+        e.preventDefault();
+        visibleMenu.set(true);
+    };
+
     return (
-        <Box className={styles.wrapper}>
+        <Box className={styles.wrapper} onContextMenu={clickContextMenu}>
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={avatarSize.value} img={authorAvatar} />}
-            <Dropdown.Dynamic
+            <Dropdown
+                visible={visibleMenu.value}
                 openCloseTrigger={(value) => {
                     !value && clickedFile.set(null);
                 }}
                 disabled={voiceRecordingInProgress}
-                reverseX={message.isMy}
-                ref={ref}
-                trigger="right-click"
-                closeAfterClick
+                position={message.isMy ? 'left-top' : 'right-top'}
                 content={
                     <MessageMenu
                         clickedFile={clickedFile.value}
@@ -104,78 +109,74 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                         message={message}
                     />
                 }
-            >
-                <div className={styles.content}>
-                    <div className={classes}>
-                        <div className={styles.body}>
-                            {!isMy && chat?.is_group && firstMessageInBlock && (
-                                <div className={styles.authorName}>
-                                    <Title variant={nameTitleVariant.value}>{authorName}</Title>
-                                </div>
-                            )}
-                            {reply_to_message?.id && (
-                                <ReplyMessage
-                                    clickMessageReply={clickMessageReply}
-                                    messageWrapperWidth={messageWrapperWidth.value}
-                                    nameTitleVariant={replyAndForwardTitleVariant.value}
-                                    message={messageProxy({ message: reply_to_message })}
-                                />
-                            )}
-                            {forwarded_from_message?.id && (
-                                <ForwardMessage
-                                    nameTitleVariant={replyAndForwardTitleVariant.value}
-                                    message={messageProxy({ message: forwarded_from_message })}
-                                />
-                            )}
-                            {((type === 'text' && !forwarded_from_message) || forwarded_from_message?.type === 'text') && (
-                                <TextMessage text={forwarded_from_message?.text || text} openChatProfileModal={openChatProfileModal} chat={chat} />
-                            )}
-                            {(type === 'images' || forwarded_from_message?.type === 'images') && (
-                                <ImagesMessage clickedFile={clickedFile} images={forwarded_from_message?.files || files} />
-                            )}
-                            {(type === 'documents' || forwarded_from_message?.type === 'documents') && (
-                                <DocumentsMessage clickedFile={clickedFile} documents={forwarded_from_message?.files || files} />
-                            )}
-                            {(type === 'voices' || forwarded_from_message?.type === 'voices') && (
-                                <VoiceMessage clickedFile={clickedFile} voices={forwarded_from_message?.files || message.files} />
-                            )}
-                            {(type === 'audios' || forwarded_from_message?.type === 'audios') && (
-                                <AudioMessage audios={forwarded_from_message?.files || message.files} />
-                            )}
-                            {(type === 'videos' || forwarded_from_message?.type === 'videos') && (
-                                <VideoMessage clickedFile={clickedFile} videos={forwarded_from_message?.files || message.files} />
-                            )}
-                        </div>
-                        <div className={styles.info}>
-                            {message.is_edited && (
-                                <div className={styles.edited}>
-                                    <Title variant="Body14">Изменено</Title>
-                                </div>
-                            )}
-                            <Title primary={false} variant={dateTitleVariant.value}>
-                                {message.date}
-                            </Title>
-                            <Box.Replace
-                                className={styles.icon}
-                                items={[
-                                    {
-                                        visible: isMy && !isMock,
-                                        item: (
-                                            <div className={styles.checkIcon}>
-                                                <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />
-                                            </div>
-                                        ),
-                                    },
-                                    {
-                                        visible: isMock,
-                                        item: <Icons variant="clock" />,
-                                    },
-                                ]}
+            />
+            <div className={styles.content}>
+                <div className={classes}>
+                    <div className={styles.body}>
+                        {!isMy && chat?.is_group && firstMessageInBlock && (
+                            <div className={styles.authorName}>
+                                <Title variant={nameTitleVariant.value}>{authorName}</Title>
+                            </div>
+                        )}
+                        {reply_to_message?.id && (
+                            <ReplyMessage
+                                clickMessageReply={clickMessageReply}
+                                messageWrapperWidth={messageWrapperWidth.value}
+                                nameTitleVariant={replyAndForwardTitleVariant.value}
+                                message={messageProxy({ message: reply_to_message })}
                             />
-                        </div>
+                        )}
+                        {forwarded_from_message?.id && (
+                            <ForwardMessage nameTitleVariant={replyAndForwardTitleVariant.value} message={messageProxy({ message: forwarded_from_message })} />
+                        )}
+                        {((type === 'text' && !forwarded_from_message) || forwarded_from_message?.type === 'text') && (
+                            <TextMessage text={forwarded_from_message?.text || text} openChatProfileModal={openChatProfileModal} chat={chat} />
+                        )}
+                        {(type === 'images' || forwarded_from_message?.type === 'images') && (
+                            <ImagesMessage clickedFile={clickedFile} images={forwarded_from_message?.files || files} />
+                        )}
+                        {(type === 'documents' || forwarded_from_message?.type === 'documents') && (
+                            <DocumentsMessage clickedFile={clickedFile} documents={forwarded_from_message?.files || files} />
+                        )}
+                        {(type === 'voices' || forwarded_from_message?.type === 'voices') && (
+                            <VoiceMessage clickedFile={clickedFile} voices={forwarded_from_message?.files || message.files} />
+                        )}
+                        {(type === 'audios' || forwarded_from_message?.type === 'audios') && (
+                            <AudioMessage audios={forwarded_from_message?.files || message.files} />
+                        )}
+                        {(type === 'videos' || forwarded_from_message?.type === 'videos') && (
+                            <VideoMessage clickedFile={clickedFile} videos={forwarded_from_message?.files || message.files} />
+                        )}
+                    </div>
+                    <div className={styles.info}>
+                        {message.is_edited && (
+                            <div className={styles.edited}>
+                                <Title variant="Body14">Изменено</Title>
+                            </div>
+                        )}
+                        <Title primary={false} variant={dateTitleVariant.value}>
+                            {message.date}
+                        </Title>
+                        <Box.Replace
+                            className={styles.icon}
+                            items={[
+                                {
+                                    visible: isMy && !isMock,
+                                    item: (
+                                        <div className={styles.checkIcon}>
+                                            <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />
+                                        </div>
+                                    ),
+                                },
+                                {
+                                    visible: isMock,
+                                    item: <Icons variant="clock" />,
+                                },
+                            ]}
+                        />
                     </div>
                 </div>
-            </Dropdown.Dynamic>
+            </div>
         </Box>
     );
 });

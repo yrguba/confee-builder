@@ -3,6 +3,7 @@ import { mergeRefs } from 'react-merge-refs';
 
 import countries from './countries';
 import styles from './styles.module.scss';
+import { useEasyState } from '../../../../hooks';
 import Box from '../../../box';
 import { Dropdown, Icons } from '../../../index';
 import { PhoneInputProps } from '../../model/types';
@@ -14,7 +15,7 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
     const [openDropdown, setSetOpenDropdown] = useState(false);
     const [focused, setFocused] = React.useState(false);
     const inputRef = useRef<any>(null);
-
+    const visibleDropdown = useEasyState(false);
     const click = (payload: { code: string; id: number }) => {
         setActiveItem(payload.id);
     };
@@ -36,10 +37,8 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
             <div className={styles.row} onFocus={onFocus} onBlur={onBlur}>
                 <div className={styles.code}>
                     <Dropdown
+                        visible={visibleDropdown.value}
                         openCloseTrigger={setSetOpenDropdown}
-                        top={70}
-                        left={186}
-                        closeAfterClick
                         position="bottom-center"
                         content={
                             <div className={styles.contentDropdown}>
@@ -58,23 +57,22 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
                                 </div>
                             </div>
                         }
-                    >
-                        <div className={`${styles.inputCode} ${focused ? styles.input_focused : ''}`}>
-                            {countries.map(
-                                (i) =>
-                                    i.id === activeItem && (
-                                        <div className={styles.inputCode__body} key={i.id}>
-                                            <div className={styles.inputCode__body_left}>
-                                                <Icons.Countries variant={i.icon} />
-                                                {i.payload.code}
-                                            </div>
-
-                                            <Icons.ArrowAnimated activeAnimate={openDropdown} initialDeg={0} animateDeg={90} variant="rotate" />
+                    />
+                    <div className={`${styles.inputCode} ${focused ? styles.input_focused : ''}`}>
+                        {countries.map(
+                            (i) =>
+                                i.id === activeItem && (
+                                    <div className={styles.inputCode__body} key={i.id}>
+                                        <div className={styles.inputCode__body_left}>
+                                            <Icons.Countries variant={i.icon} />
+                                            {i.payload.code}
                                         </div>
-                                    )
-                            )}
-                        </div>
-                    </Dropdown>
+
+                                        <Icons.ArrowAnimated activeAnimate={openDropdown} initialDeg={0} animateDeg={90} variant="rotate" />
+                                    </div>
+                                )
+                        )}
+                    </div>
                 </div>
                 <div className={`${styles.input} ${focused ? styles.input_focused : ''}`}>
                     <input

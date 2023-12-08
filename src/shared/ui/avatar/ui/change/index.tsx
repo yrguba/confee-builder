@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Avatar, DropdownTypes, WebCameraPhoto, Box, ContextMenu } from 'shared/ui';
+import { Avatar, DropdownTypes, WebCameraPhoto, Box, ContextMenu, ContextMenuTypes } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
@@ -31,7 +31,7 @@ function AvatarChange(props: AvatarChangeProps) {
         getScreenshot(data);
     };
 
-    const items: DropdownTypes.DropdownMenuItem[] = [
+    const items: ContextMenuTypes.ContextMenuItem[] = [
         { id: 0, icon: <Icons variant="select" />, title: 'Выбрать файл', callback: selectFile },
         { id: 1, icon: <Icons variant="makePhoto" />, title: 'Сделать фото', callback: () => setVisibleCamera(!visibleCamera) },
         { id: 2, icon: <Icons variant="delete" />, isRed: true, title: 'Удалить фото', callback: deleteFile, hidden: !img },

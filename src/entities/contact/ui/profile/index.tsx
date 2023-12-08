@@ -4,7 +4,8 @@ import { UserInfoView, userTypes } from 'entities/user';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
-import { Avatar, Button, Dropdown, DropdownTypes, Icons, Title } from '../../../../shared/ui';
+import { useEasyState } from '../../../../shared/hooks';
+import { Avatar, Button, ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes, Icons, Title } from '../../../../shared/ui';
 import { ContactProxy } from '../../model/types';
 
 type Props = {
@@ -17,7 +18,7 @@ type Props = {
 
 function ContactProfileView(props: Props) {
     const { updName, loading, clickAvatar, contact, back, actions } = props;
-
+    const visibleMenu = useEasyState(false);
     const btns: BaseTypes.Item[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: actions?.audioCall },
         // { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: actions?.videoCall },
@@ -27,7 +28,7 @@ function ContactProfileView(props: Props) {
         { id: 3, title: 'Удалить', icon: 'delete', payload: '', callback: () => actions?.delete && actions?.delete() },
     ];
 
-    const moreBtn: DropdownTypes.DropdownMenuItem[] = [
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         { id: 0, title: 'Выключить уведомления', icon: <Icons.Player variant="mute" />, callback: () => actions?.mute() },
         { id: 1, title: 'Удалить', icon: <Icons variant="delete" />, callback: () => actions?.delete && actions?.delete() },
     ];
@@ -39,13 +40,12 @@ function ContactProfileView(props: Props) {
                 <div className={styles.name}>
                     <Title variant="H1">{contact?.full_name}</Title>
                 </div>
+                <ContextMenu items={menuItems} visible={visibleMenu.value} />
                 <div className={styles.btns}>
                     {btns.map((i) => (
-                        <Dropdown.Menu position="bottom-center" items={moreBtn} key={i.id} disabled={i.title !== 'Ещё'}>
-                            <Button variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
-                                {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
-                            </Button>
-                        </Dropdown.Menu>
+                        <Button variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
+                            {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
+                        </Button>
                     ))}
                 </div>
             </div>

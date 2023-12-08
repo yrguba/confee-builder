@@ -6,7 +6,7 @@ import { MediaContentType } from '../../../../../../entities/message/model/types
 import { useEasyState, UseEasyStateReturnType, useFetchMediaContent, useSaveMediaContent, useStorage, useVideo } from '../../../../../hooks';
 import Box from '../../../../box';
 import Icons from '../../../../icons';
-import { ContextMenu, Dropdown, DropdownTypes } from '../../../../index';
+import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../../../index';
 import LoadingIndicator from '../../../../loading-indicator';
 import Notification from '../../../../notification';
 import Image from '../../../image';
@@ -42,7 +42,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
         }
     };
 
-    const menuItems: DropdownTypes.DropdownMenuItem[] = [
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
             title: 'Скачать видео',

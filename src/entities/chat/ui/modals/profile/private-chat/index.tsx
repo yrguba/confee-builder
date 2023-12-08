@@ -3,9 +3,9 @@ import React from 'react';
 import { CompanyTagView, CompanyCardView } from 'entities/company';
 import { messageTypes } from 'entities/message';
 import { UserInfoView } from 'entities/user';
-import { UseEasyStateReturnType } from 'shared/hooks';
+import { useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, Icons, Avatar, Button, IconsTypes, Dropdown, DropdownTypes } from 'shared/ui';
+import { Title, Icons, Avatar, Button, IconsTypes, Dropdown, DropdownTypes, ContextMenuTypes, ContextMenu } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { EmployeeProxy } from '../../../../../company/model/types';
@@ -28,14 +28,16 @@ type Props = {
 function PrivateChatProfileModalView(props: Props) {
     const { user, employee, chat, actions, mediaTypes, files, clickAvatar, visibleChatBtn, visibleBtns = true } = props;
 
+    const visibleMenu = useEasyState(false);
+
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
         { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
         { id: 2, title: 'Написать', icon: 'messages', payload: '', callback: () => actions('message'), hidden: !visibleChatBtn },
-        { id: 3, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
+        { id: 3, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
     ];
 
-    const menuItems: DropdownTypes.DropdownMenuItem[] = [
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
             title: 'Удалить',
@@ -63,16 +65,15 @@ function PrivateChatProfileModalView(props: Props) {
                     {status}
                 </Title>
             </div>
+            <ContextMenu items={menuItems} visible={visibleMenu.value} />
             <div className={styles.btns}>
                 {visibleBtns &&
                     btns
                         .filter((i) => !i.hidden)
                         .map((i) => (
-                            <Dropdown.Menu position="bottom-center" items={menuItems} key={i.id} disabled={i.id !== 3}>
-                                <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
-                                    {i.title}
-                                </Button>
-                            </Dropdown.Menu>
+                            <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
+                                {i.title}
+                            </Button>
                         ))}
             </div>
             {(user || employee?.user) && (

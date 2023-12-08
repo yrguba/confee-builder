@@ -9,7 +9,7 @@ import { sizeConverter } from '../../../../../lib';
 import Box from '../../../../box';
 import Button from '../../../../button';
 import Icons from '../../../../icons';
-import { DropdownTypes, ContextMenu } from '../../../../index';
+import { DropdownTypes, ContextMenu, ContextMenuTypes } from '../../../../index';
 import LoadingIndicator from '../../../../loading-indicator';
 import Notification from '../../../../notification';
 import Title from '../../../../title';
@@ -52,7 +52,7 @@ function Image(props: BaseImageProps) {
         }
     };
 
-    const menuItems: DropdownTypes.DropdownMenuItem[] = [
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
             title: 'Скачать фото',

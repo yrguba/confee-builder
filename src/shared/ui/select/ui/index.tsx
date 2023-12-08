@@ -3,7 +3,6 @@ import React from 'react';
 import { useStyles, useToggle } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import DropdownMenu from '../../dropdown/ui/menu';
 import Icons from '../../icons';
 import { SelectProps } from '../types';
 
@@ -15,12 +14,10 @@ function Select(props: SelectProps) {
         [variant]: variant,
     });
     return (
-        <DropdownMenu items={items} openCloseTrigger={(isOpen) => toggle(isOpen)} animationVariant="autoHeight" position="bottom-center">
-            <div className={classes}>
-                {defaultValue ? items.map((i) => i.title === defaultValue && <div key={i.id}>{i.title}</div>) : <div key={items[0].id}>{items[0].title}</div>}
-                <Icons.ArrowAnimated variant="rotate" initialDeg={90} />
-            </div>
-        </DropdownMenu>
+        <div className={classes}>
+            {defaultValue ? items.map((i) => i.title === defaultValue && <div key={i.id}>{i.title}</div>) : <div key={items[0].id}>{items[0].title}</div>}
+            <Icons.ArrowAnimated variant="rotate" initialDeg={90} />
+        </div>
     );
 }
 

@@ -1,7 +1,7 @@
 import React, { forwardRef, RefObject, useEffect, useRef, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import { useClickAway, useReverseTimer, useStyles } from 'shared/hooks';
+import { useClickAway, useReverseTimer, useStyles, useWindowMouseClick } from 'shared/hooks';
 import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
@@ -9,85 +9,41 @@ import { BaseDropdownProps } from '../../types';
 
 function Dropdown(props: BaseDropdownProps) {
     const {
-        children,
         visible,
         openCloseTrigger,
         content,
-        trigger = 'left-click',
+
         position = 'left-bottom',
-        closeAfterClick,
+        onClick,
         animationVariant = 'visibleHidden',
         disabled,
-        top,
-        left,
-        style,
+        clickAway,
     } = props;
 
     const elementRef = useRef<HTMLDivElement>(null);
-
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-
-    const timeout = useRef<any>(null);
-
+    const clickCoord = useWindowMouseClick();
     useClickAway(elementRef, () => {
-        isOpen && setIsOpen(false);
+        clickAway && clickAway();
     });
-
-    useEffect(() => {
-        !disabled && setIsOpen(!!visible);
-    }, [visible]);
 
     const classes = useStyles(styles, 'body', {
         [`position-${position}`]: position,
     });
 
-    const click = (event: any) => {
-        event.preventDefault();
-        event.stopPropagation();
-        if (trigger !== null && !disabled) {
-            if (trigger === 'hover') {
-                if (timeout.current) timeout.current = null;
-                timeout.current = setTimeout(() => setIsOpen(true), 200);
-            } else {
-                setIsOpen(true);
-            }
-        }
-    };
-
-    const mouseLeave = () => {
-        setIsOpen(false);
-        if (timeout.current) clearTimeout(timeout.current);
-    };
-
-    useEffect(() => {
-        openCloseTrigger && openCloseTrigger(isOpen);
-    }, [isOpen]);
-
     return (
-        <div
-            style={style}
-            ref={elementRef}
-            className={styles.wrapper}
-            onClick={trigger === 'left-click' ? click : undefined}
-            onContextMenu={trigger === 'right-click' ? click : undefined}
-            onMouseEnter={trigger === 'hover' ? click : undefined}
-            onMouseLeave={trigger === 'hover' ? () => mouseLeave() : undefined}
+        <Box.Animated
+            animationVariant={animationVariant}
+            style={{ top: clickCoord.y, left: clickCoord.x }}
+            className={classes}
+            visible={visible}
+            presence
+            onClick={(e) => {
+                onClick && onClick();
+                e.stopPropagation();
+            }}
         >
-            {children}
-            <Box.Animated
-                animationVariant={animationVariant}
-                style={{ position: 'absolute', top, left }}
-                className={classes}
-                visible={visible || isOpen}
-                presence
-                onClick={(e) => {
-                    closeAfterClick && setIsOpen(false);
-                    e.stopPropagation();
-                }}
-            >
-                {content}
-            </Box.Animated>
-        </div>
+            {content}
+        </Box.Animated>
     );
 }
 

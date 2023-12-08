@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { messageTypes } from 'entities/message';
-import { UseEasyStateReturnType } from 'shared/hooks';
+import { useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, Icons, Avatar, Button, IconsTypes, Dropdown, DropdownTypes } from 'shared/ui';
+import { Title, Icons, Avatar, Button, IconsTypes, ContextMenu, ContextMenuTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { CompanyTagView } from '../../../../../company';
@@ -28,13 +28,15 @@ type Props = {
 function GroupChatProfileModalView(props: Props) {
     const { removeMember, clickUser, clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
 
+    const visibleMenu = useEasyState(false);
+
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
         { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
-        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
+        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
     ];
 
-    const menuItems: DropdownTypes.DropdownMenuItem[] = [
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
             title: 'Покинуть чат',
@@ -68,13 +70,12 @@ function GroupChatProfileModalView(props: Props) {
                     {chat?.subtitle}
                 </Title>
             </div>
+            <ContextMenu items={menuItems} visible={visibleMenu.value} />
             <div className={styles.btns}>
                 {btns.map((i) => (
-                    <Dropdown.Menu position="bottom-center" items={menuItems} key={i.id} disabled={i.id !== 2}>
-                        <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
-                            {i.title}
-                        </Button>
-                    </Dropdown.Menu>
+                    <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
+                        {i.title}
+                    </Button>
                 ))}
             </div>
             <ChatProfileContentView

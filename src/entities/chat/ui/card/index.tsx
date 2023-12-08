@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 
 import { CompanyTagView } from 'entities/company';
 import { BaseTypes } from 'shared/types';
-import { Title, Counter, Icons, Avatar, Dropdown, DropdownTypes, ContextMenu } from 'shared/ui';
+import { Title, Counter, Icons, Avatar, Dropdown, ContextMenuTypes, ContextMenu } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useEasyState } from '../../../../shared/hooks';
@@ -26,7 +26,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
         visibleMenu.set(true);
     };
 
-    const menuItems: DropdownTypes.DropdownMenuItem[] = [
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
             title: 'Удалить чат',

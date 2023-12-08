@@ -2,15 +2,12 @@ import { ReactNode, CSSProperties } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
-import { AnimationVariants } from '../box/types';
-import { DropdownMenuItem } from '../dropdown/types';
-
 export type Position = 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
 export type Trigger = 'left-click' | 'right-click' | 'hover' | null;
 
 export type BaseContextMenuProps = {
     visible: boolean;
-    items: DropdownMenuItem[];
+    items: ContextMenuItem[];
 } & BaseTypes.Statuses;
 
 export type ContextMenuItem = {

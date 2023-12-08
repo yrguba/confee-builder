@@ -143,9 +143,7 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
                                     </Button.Circle>
                                 ))
                         ) : (
-                            <Dropdown.Menu items={items as any}>
-                                <Icons variant="more" />
-                            </Dropdown.Menu>
+                            <Icons variant="more" />
                         )
                     ) : null}
                 </div>

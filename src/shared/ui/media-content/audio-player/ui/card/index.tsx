@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { useEasyState, useSaveMediaContent } from '../../../../../hooks';
 import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
-import { ContextMenu, Dropdown, DropdownTypes } from '../../../../index';
+import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../../../index';
 import Notification from '../../../../notification';
 import Title from '../../../../title';
 import { AudioCardProps } from '../../types';
@@ -22,7 +22,7 @@ function AudioCard(props: AudioCardProps) {
         visibleMenu.set(true);
     };
 
-    const menuItems: DropdownTypes.DropdownMenuItem[] = [
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
             title: 'Скачать аудио',

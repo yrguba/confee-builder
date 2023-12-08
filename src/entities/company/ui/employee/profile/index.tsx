@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { useWidthMediaQuery } from 'shared/hooks';
+import { useEasyState, useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Button, Dropdown, DropdownTypes, Icons, Title } from 'shared/ui';
+import { Avatar, Button, ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { UserInfoView, userTypes } from '../../../../user';
@@ -19,6 +19,8 @@ type Props = {
 function EmployeeProfileView(props: Props) {
     const { actions, employee, back, loading } = props;
 
+    const visibleMenu = useEasyState(false);
+
     const viewerId = viewerService.getId();
 
     const sm = useWidthMediaQuery().to('sm');
@@ -31,7 +33,7 @@ function EmployeeProfileView(props: Props) {
         // { id: 3, title: 'Выкл', icon: 'mute', payload: '', callback: () => actions?.mute() },
     ];
 
-    const moreBtn: DropdownTypes.DropdownMenuItem[] = [
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         { id: 0, title: 'Выключить уведомления', icon: <Icons.Player variant="mute" />, callback: () => actions?.mute() },
     ];
 
@@ -44,16 +46,15 @@ function EmployeeProfileView(props: Props) {
                         <Title variant="H1">{employee?.full_name}</Title>
                         {employee?.companies?.length ? <CompanyTagView name="TFN" /> : null}
                     </div>
+                    <ContextMenu items={menuItems} visible={visibleMenu.value} />
                     <div className={styles.btns}>
                         {viewerId === employee?.user?.id ? (
                             ''
                         ) : employee?.user ? (
                             btns.map((i) => (
-                                <Dropdown.Menu position="bottom-center" items={moreBtn} key={i.id} disabled={i.title !== 'Ещё'}>
-                                    <Button variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
-                                        {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
-                                    </Button>
-                                </Dropdown.Menu>
+                                <Button variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
+                                    {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
+                                </Button>
                             ))
                         ) : (
                             <Title variant="H2">Не зарегестрирован</Title>
