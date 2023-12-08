@@ -6,7 +6,7 @@ import { MediaContentType } from '../../../../../../entities/message/model/types
 import { useEasyState, UseEasyStateReturnType, useFetchMediaContent, useSaveMediaContent, useStorage, useVideo } from '../../../../../hooks';
 import Box from '../../../../box';
 import Icons from '../../../../icons';
-import { DropdownTypes } from '../../../../index';
+import { Dropdown, DropdownTypes } from '../../../../index';
 import LoadingIndicator from '../../../../loading-indicator';
 import Notification from '../../../../notification';
 import Image from '../../../image';
@@ -72,23 +72,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>
-            <Box.Animated animationVariant="visibleHidden" className={styles.menu} visible={visibleMenu.value} presence>
-                {menuItems.map((i) => (
-                    <div
-                        key={i.id}
-                        className={styles.item}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            i.callback();
-                        }}
-                    >
-                        <div className={`${styles.content} ${i.isRed && styles.content_red}`}>
-                            <div>{i.icon}</div>
-                            <div>{i.title}</div>
-                        </div>
-                    </div>
-                ))}
-            </Box.Animated>
+            <Dropdown.Fixed visible={visibleMenu.value} items={menuItems} />
         </div>
     );
 }

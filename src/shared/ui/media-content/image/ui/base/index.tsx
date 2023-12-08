@@ -41,8 +41,6 @@ function Image(props: BaseImageProps) {
 
     const notification = Notification.use();
 
-    const clickCoord = useWindowMouseClick();
-    console.log(clickCoord);
     const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();
 
     const clickContextMenu = () => {
@@ -101,29 +99,7 @@ function Image(props: BaseImageProps) {
                 <LoadingIndicator visible />
             </Box.Animated>
             {(error || !url) && icon}
-            <Box.Animated
-                animationVariant="visibleHidden"
-                style={{ top: clickCoord.y, left: clickCoord.x }}
-                className={styles.menu}
-                visible={visibleMenu.value}
-                presence
-            >
-                {menuItems.map((i) => (
-                    <div
-                        key={i.id}
-                        className={styles.item}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            i.callback();
-                        }}
-                    >
-                        <div className={`${styles.content} ${i.isRed && styles.content_red}`}>
-                            <div>{i.icon}</div>
-                            <div>{i.title}</div>
-                        </div>
-                    </div>
-                ))}
-            </Box.Animated>
+            <Dropdown.Fixed visible={visibleMenu.value} items={menuItems} />
         </div>
     );
 }
