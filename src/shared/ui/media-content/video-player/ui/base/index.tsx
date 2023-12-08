@@ -14,22 +14,6 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
     const storage = useStorage();
     const { src, isLoading, error, videoCover, fileBlob } = useFetchMediaContent(url || '', storage.get('save_in_cache'), visibleCover);
 
-    return <Video id={id} fileBlob={fileBlob} clickedFile={clickedFile} name={name} videoCover={videoCover || ''} isLoading={isLoading} src={src} {...props} />;
-}
-
-type VideoProps = {
-    id?: number | string;
-    src: string;
-    name?: string;
-    isLoading: boolean;
-    videoCover: string;
-    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
-    fileBlob: Blob | null;
-} & BaseVideoPlayerProps;
-
-function Video(props: VideoProps) {
-    const { id, name, fileBlob, clickedFile, videoCover, isLoading, src, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
-
     const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
     const [video, state, controls, ref] = useVideo(
