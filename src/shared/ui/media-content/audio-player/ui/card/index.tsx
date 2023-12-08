@@ -33,26 +33,6 @@ function AudioCard(props: AudioCardProps) {
                 notification.success({ title: 'Аудио сохранен', system: true });
             },
         },
-        {
-            id: 1,
-            title: 'Скачать аудио',
-            icon: <Icons variant="save" />,
-            callback: async () => {
-                const fileBlob = await fetch(url).then((res) => res.blob());
-                await saveInDownload(fileBlob, name);
-                notification.success({ title: 'Аудио сохранен', system: true });
-            },
-        },
-        {
-            id: 2,
-            title: 'Скачать аудио',
-            icon: <Icons variant="save" />,
-            callback: async () => {
-                const fileBlob = await fetch(url).then((res) => res.blob());
-                await saveInDownload(fileBlob, name);
-                notification.success({ title: 'Аудио сохранен', system: true });
-            },
-        },
     ];
 
     return (
