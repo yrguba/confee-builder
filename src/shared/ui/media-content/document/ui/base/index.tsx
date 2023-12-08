@@ -28,8 +28,8 @@ function Document(props: BaseDocumentProps) {
             id: 0,
             title: 'Скачать файл',
             icon: <Icons variant="save" />,
-            callback: () => {
-                saveInDownload(fileBlob, name);
+            callback: async () => {
+                await saveInDownload(fileBlob, name);
                 notification.success({ title: 'Файл сохранен', system: true });
             },
         },
