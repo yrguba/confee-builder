@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { useEasyState, useSaveMediaContent } from '../../../../../hooks';
 import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
-import { Dropdown, DropdownTypes } from '../../../../index';
+import { ContextMenu, Dropdown, DropdownTypes } from '../../../../index';
 import Notification from '../../../../notification';
 import Title from '../../../../title';
 import { AudioCardProps } from '../../types';
@@ -44,7 +44,7 @@ function AudioCard(props: AudioCardProps) {
                 <Title variant="H3M">{name}</Title>
                 <Title variant="H4M">{sizeConverter(size)}</Title>
             </div>
-            <Dropdown.Fixed visible={visibleMenu.value} items={menuItems} />
+            <ContextMenu visible={visibleMenu.value} items={menuItems} />
         </div>
     );
 }

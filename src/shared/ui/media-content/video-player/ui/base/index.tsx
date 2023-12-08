@@ -6,7 +6,7 @@ import { MediaContentType } from '../../../../../../entities/message/model/types
 import { useEasyState, UseEasyStateReturnType, useFetchMediaContent, useSaveMediaContent, useStorage, useVideo } from '../../../../../hooks';
 import Box from '../../../../box';
 import Icons from '../../../../icons';
-import { Dropdown, DropdownTypes } from '../../../../index';
+import { ContextMenu, Dropdown, DropdownTypes } from '../../../../index';
 import LoadingIndicator from '../../../../loading-indicator';
 import Notification from '../../../../notification';
 import Image from '../../../image';
@@ -72,7 +72,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>
-            <Dropdown.Fixed visible={visibleMenu.value} items={menuItems} />
+            <ContextMenu visible={visibleMenu.value} items={menuItems} />
         </div>
     );
 }

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { Avatar, Title, Dropdown, DropdownTypes, WebCameraPhoto, Box } from 'shared/ui';
+import { Avatar, DropdownTypes, WebCameraPhoto, Box, ContextMenu } from 'shared/ui';
 
 import Icons from './icons';
 import styles from './styles.module.scss';
+import { useEasyState } from '../../../../hooks';
 import { AvatarChangeProps } from '../../types';
 
 function AvatarChange(props: AvatarChangeProps) {
@@ -23,6 +24,8 @@ function AvatarChange(props: AvatarChangeProps) {
 
     const [visibleCamera, setVisibleCamera] = useState(false);
 
+    const visibleMenu = useEasyState(false);
+
     const action = (data: string) => {
         setVisibleCamera(false);
         getScreenshot(data);
@@ -35,23 +38,15 @@ function AvatarChange(props: AvatarChangeProps) {
     ];
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onMouseEnter={() => visibleMenu.set(true)}>
             <Box.Animated visible={visibleCamera} className={styles.webCamera}>
                 <WebCameraPhoto getScreenshot={action} />
             </Box.Animated>
-            <Dropdown.Menu
-                top={dropdownTop}
-                trigger="hover"
-                closeAfterClick
-                position={dropdownPosition}
-                items={items.filter((i) => !i.hidden)}
-                left={dropdownLeft}
-            >
-                <div className={styles.avatar} style={{ borderRadius: circle ? '50%' : 8 }}>
-                    <Avatar clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
-                    <div className={styles.cover}>Сменить</div>
-                </div>
-            </Dropdown.Menu>
+            <ContextMenu visible={visibleMenu.value} items={items.filter((i) => !i.hidden)} />
+            <div className={styles.avatar} style={{ borderRadius: circle ? '50%' : 8 }}>
+                <Avatar clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
+                <div className={styles.cover}>Сменить</div>
+            </div>
         </div>
     );
 }

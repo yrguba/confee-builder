@@ -4,6 +4,7 @@ import Breadcrumb, { Types as BreadcrumbTypes } from './breadcrumb';
 import Button, { Types as ButtonTypes } from './button';
 import Card, { Types as CardTypes } from './card';
 import Collapse, { CollapseTypes } from './collapse';
+import ContextMenu, { Types as ContextMenuTypes } from './context-menu';
 import Counter, { CounterTypes } from './counter';
 import Dropdown, { Types as DropdownTypes } from './dropdown';
 import Emoji, { Types as EmojiTypes } from './emoji';
@@ -27,6 +28,7 @@ import TabBar, { Types as TabBarTypes } from './tab-bar';
 import Title, { Types as TitleTypes } from './title';
 
 export {
+    ContextMenu,
     Slider,
     Swiper,
     VideoPlayer,
@@ -56,6 +58,7 @@ export {
     Notification,
 };
 export type {
+    ContextMenuTypes,
     SliderTypes,
     SwiperTypes,
     VideoPlayerTypes,

@@ -1,15 +1,13 @@
-import React, { forwardRef, RefObject, useEffect, useRef, useState } from 'react';
-import { useUpdateEffect } from 'react-use';
+import React from 'react';
 
-import { useClickAway, useReverseTimer, useStyles, useWindowMouseClick } from 'shared/hooks';
+import { useWindowMouseClick } from 'shared/hooks';
 import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
-import { FixedDropdownProps } from '../../types';
+import { BaseContextMenuProps } from '../../types';
 
-function Fixed(props: FixedDropdownProps) {
-    const { visible, items } = props;
-
+function ContextMenu(props: BaseContextMenuProps) {
+    const { visible, items, disabled } = props;
     const clickCoord = useWindowMouseClick();
 
     return (
@@ -33,4 +31,4 @@ function Fixed(props: FixedDropdownProps) {
     );
 }
 
-export default Fixed;
+export default ContextMenu;

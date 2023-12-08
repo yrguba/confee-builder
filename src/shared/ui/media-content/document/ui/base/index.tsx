@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { useChatStore } from '../../../../../../entities/chat';
 import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
-import { Dropdown, DropdownTypes } from '../../../../index';
+import { ContextMenu, Dropdown, DropdownTypes } from '../../../../index';
 import LoadingIndicator from '../../../../loading-indicator';
 import Notification from '../../../../notification';
 import Title from '../../../../title';
@@ -63,7 +63,7 @@ function Document(props: BaseDocumentProps) {
                     {size && <Title variant="H3R">{sizeConverter(+size)}</Title>}
                 </div>
             )}
-            <Dropdown.Fixed visible={visibleMenu.value} items={menuItems} />
+            <ContextMenu visible={visibleMenu.value} items={menuItems} />
         </div>
     );
 }

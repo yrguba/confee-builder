@@ -9,7 +9,7 @@ import { sizeConverter } from '../../../../../lib';
 import Box from '../../../../box';
 import Button from '../../../../button';
 import Icons from '../../../../icons';
-import { Dropdown, DropdownTypes } from '../../../../index';
+import { DropdownTypes, ContextMenu } from '../../../../index';
 import LoadingIndicator from '../../../../loading-indicator';
 import Notification from '../../../../notification';
 import Title from '../../../../title';
@@ -99,7 +99,7 @@ function Image(props: BaseImageProps) {
                 <LoadingIndicator visible />
             </Box.Animated>
             {(error || !url) && icon}
-            <Dropdown.Fixed visible={visibleMenu.value} items={menuItems} />
+            <ContextMenu visible={visibleMenu.value} items={menuItems} />
         </div>
     );
 }

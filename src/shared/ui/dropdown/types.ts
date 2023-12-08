@@ -27,10 +27,6 @@ export type DynamicDropdownProps = {
     style?: CSSProperties;
 } & BaseDropdownProps;
 
-export type FixedDropdownProps = {
-    visible: boolean;
-} & DropdownMenuProps;
-
 export type DropdownMenuItem = {
     id: number;
     icon?: ReactNode;
