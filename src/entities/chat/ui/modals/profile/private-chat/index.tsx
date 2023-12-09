@@ -65,13 +65,19 @@ function PrivateChatProfileModalView(props: Props) {
                     {status}
                 </Title>
             </div>
-            <ContextMenu items={menuItems} visible={visibleMenu.value} />
+            <ContextMenu trigger="click" items={menuItems} visible={visibleMenu.value} />
             <div className={styles.btns}>
                 {visibleBtns &&
                     btns
                         .filter((i) => !i.hidden)
                         .map((i) => (
-                            <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
+                            <Button
+                                direction="vertical"
+                                prefixIcon={<Icons variant={i.icon} />}
+                                key={i.id}
+                                onMouseLeave={() => visibleMenu.set(false)}
+                                onClick={i.callback}
+                            >
                                 {i.title}
                             </Button>
                         ))}

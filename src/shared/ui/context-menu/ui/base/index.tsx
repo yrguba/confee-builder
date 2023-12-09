@@ -7,8 +7,8 @@ import styles from './styles.module.scss';
 import { BaseContextMenuProps } from '../../types';
 
 function ContextMenu(props: BaseContextMenuProps) {
-    const { visible, items, disabled } = props;
-    const clickCoord = useWindowMouseClick();
+    const { trigger, visible, items, disabled } = props;
+    const clickCoord = useWindowMouseClick(trigger);
 
     return (
         <Box.Animated animationVariant="visibleHidden" style={{ top: clickCoord.y, left: clickCoord.x }} className={styles.wrapper} visible={visible} presence>

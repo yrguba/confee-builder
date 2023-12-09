@@ -39,7 +39,6 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
                     <Dropdown
                         visible={visibleDropdown.value}
                         openCloseTrigger={setSetOpenDropdown}
-                        position="bottom-center"
                         content={
                             <div className={styles.contentDropdown}>
                                 <div className={styles.body}>

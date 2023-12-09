@@ -1,12 +1,8 @@
 import { EmojiClickData } from 'emoji-picker-react';
-import { ReactNode } from 'react';
-
-import { Types } from '../dropdown';
 
 type SharedProps = {};
 
 export type BaseEmojiProps = {
-    position?: Types.Position;
     clickOnEmoji: (arg: EmojiClickData) => void;
     openCloseTrigger?: (isOpen: boolean) => void;
 };

@@ -2,12 +2,12 @@ import { ReactNode, CSSProperties } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
-export type Position = 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
-export type Trigger = 'left-click' | 'right-click' | 'hover' | null;
+export type Trigger = 'contextmenu' | 'click';
 
 export type BaseContextMenuProps = {
     visible: boolean;
     items: ContextMenuItem[];
+    trigger?: Trigger;
 } & BaseTypes.Statuses;
 
 export type ContextMenuItem = {

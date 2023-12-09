@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export function useWindowMouseClick() {
+export function useWindowMouseClick(event?: 'contextmenu' | 'click') {
     const [coords, setCoords] = useState({ x: 0, y: 0 });
     useEffect(() => {
         const handleWindowMouseMove = (event: any) => {
@@ -9,10 +9,10 @@ export function useWindowMouseClick() {
                 y: event.clientY,
             });
         };
-        window.addEventListener('contextmenu', handleWindowMouseMove);
+        window.addEventListener(event || 'contextmenu', handleWindowMouseMove);
 
         return () => {
-            window.removeEventListener('contextmenu', handleWindowMouseMove);
+            window.removeEventListener(event || 'contextmenu', handleWindowMouseMove);
         };
     }, []);
 

@@ -8,22 +8,29 @@ import Icons from '../../../icons';
 import { BaseEmojiProps } from '../../types';
 
 function EmojiBase(props: BaseEmojiProps) {
-    const { openCloseTrigger, clickOnEmoji, position = 'left-top' } = props;
+    const { openCloseTrigger, clickOnEmoji } = props;
+
     const theme = useTheme();
+
     const visibleMenu = useEasyState(false);
+
     const click = (data: any) => {
         clickOnEmoji(data.emoji);
-        console.log(data);
     };
     return (
         <>
             <Dropdown
+                clickAway={() => visibleMenu.set(false)}
+                trigger="click"
+                reverseY
+                reverseX
                 visible={visibleMenu.value}
                 openCloseTrigger={openCloseTrigger}
-                position={position}
                 content={<EmojiPicker emojiStyle={EmojiStyle.NATIVE} theme={theme.value === 'light' ? Theme.LIGHT : Theme.DARK} onEmojiClick={click} />}
             />
-            <Icons variant="emoji" />
+            <div onClick={() => visibleMenu.set(true)}>
+                <Icons variant="emoji" />
+            </div>
         </>
     );
 }

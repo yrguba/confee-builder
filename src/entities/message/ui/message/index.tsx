@@ -97,8 +97,9 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 openCloseTrigger={(value) => {
                     !value && clickedFile.set(null);
                 }}
+                reverseX={isMy}
                 disabled={voiceRecordingInProgress}
-                position={message.isMy ? 'left-top' : 'right-top'}
+                clickAway={() => visibleMenu.set(false)}
                 content={
                     <MessageMenu
                         clickedFile={clickedFile.value}

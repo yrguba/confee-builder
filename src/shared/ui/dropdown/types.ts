@@ -4,14 +4,15 @@ import { BaseTypes } from 'shared/types';
 
 import { AnimationVariants } from '../box/types';
 
-export type Position = 'top-center' | 'right-top' | 'right-center' | 'right-bottom' | 'bottom-center' | 'left-bottom' | 'left-center' | 'left-top';
-
+export type Trigger = 'contextmenu' | 'click';
 export type BaseDropdownProps = {
     visible: boolean;
     content?: ReactNode;
-    position?: Position;
+    reverseX?: boolean;
+    reverseY?: boolean;
     animationVariant?: AnimationVariants;
     openCloseTrigger?: (arg: boolean) => void;
     onClick?: () => void;
     clickAway?: () => void;
+    trigger?: Trigger;
 } & BaseTypes.Statuses;

@@ -2,7 +2,6 @@ import { companyTypes } from 'entities/company';
 import { userTypes } from 'entities/user';
 
 import { BaseTypes } from '../../types';
-import { Position } from '../dropdown/types';
 
 export type BaseAvatarProps = {
     size?: number;
@@ -19,7 +18,6 @@ export type AvatarChangeProps = {
     selectFile: () => void;
     getScreenshot: (data: string) => void;
     deleteFile: () => void;
-    dropdownPosition?: Position;
     dropdownTop?: number;
     dropdownLeft?: number;
 } & BaseAvatarProps;

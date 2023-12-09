@@ -8,19 +8,7 @@ import { useEasyState } from '../../../../hooks';
 import { AvatarChangeProps } from '../../types';
 
 function AvatarChange(props: AvatarChangeProps) {
-    const {
-        img,
-        name,
-        clickAvatar,
-        dropdownLeft,
-        dropdownTop,
-        dropdownPosition = 'right-bottom',
-        selectFile,
-        circle = true,
-        size = 80,
-        deleteFile,
-        getScreenshot,
-    } = props;
+    const { img, name, clickAvatar, dropdownLeft, dropdownTop, selectFile, circle = true, size = 80, deleteFile, getScreenshot } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
 
