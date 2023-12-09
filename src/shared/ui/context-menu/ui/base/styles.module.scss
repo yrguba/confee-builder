@@ -3,9 +3,9 @@
 .wrapper {
   //@include box-size(150px, 50px);
   box-shadow: var(--box-shadow);
-  position: fixed;
+  //position: fixed;
   border-radius: 12px;
-  z-index: 100;
+  z-index: 100000;
   background-color: var(--bg-secondary);
   padding: 8px 0;
 

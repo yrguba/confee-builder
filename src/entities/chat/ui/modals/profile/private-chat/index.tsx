@@ -42,7 +42,10 @@ function PrivateChatProfileModalView(props: Props) {
             id: 0,
             title: 'Удалить',
             icon: <Icons variant="delete" />,
-            callback: () => actions('delete'),
+            callback: () => {
+                actions('delete');
+                visibleMenu.set(false);
+            },
             isRed: true,
         },
     ];
@@ -65,19 +68,19 @@ function PrivateChatProfileModalView(props: Props) {
                     {status}
                 </Title>
             </div>
-            <ContextMenu trigger="click" items={menuItems} visible={visibleMenu.value} />
+            <ContextMenu
+                onClick={() => visibleMenu.set(false)}
+                trigger="mouseup"
+                items={menuItems}
+                visible={visibleMenu.value}
+                clickAway={() => visibleMenu.set(false)}
+            />
             <div className={styles.btns}>
                 {visibleBtns &&
                     btns
                         .filter((i) => !i.hidden)
                         .map((i) => (
-                            <Button
-                                direction="vertical"
-                                prefixIcon={<Icons variant={i.icon} />}
-                                key={i.id}
-                                onMouseLeave={() => visibleMenu.set(false)}
-                                onClick={i.callback}
-                            >
+                            <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} key={i.id} onClick={i.callback}>
                                 {i.title}
                             </Button>
                         ))}

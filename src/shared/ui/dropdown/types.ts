@@ -4,7 +4,7 @@ import { BaseTypes } from 'shared/types';
 
 import { AnimationVariants } from '../box/types';
 
-export type Trigger = 'contextmenu' | 'click';
+export type Trigger = 'contextmenu' | 'click' | 'mousedown' | 'mouseup';
 export type BaseDropdownProps = {
     visible: boolean;
     content?: ReactNode;

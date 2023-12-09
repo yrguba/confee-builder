@@ -2,13 +2,14 @@ import { ReactNode, CSSProperties } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
-export type Trigger = 'contextmenu' | 'click';
+import { DropdownTypes } from '../index';
 
 export type BaseContextMenuProps = {
     visible: boolean;
     items: ContextMenuItem[];
-    trigger?: Trigger;
-} & BaseTypes.Statuses;
+    mouseLeave?: () => void;
+} & BaseTypes.Statuses &
+    DropdownTypes.BaseDropdownProps;
 
 export type ContextMenuItem = {
     id: number;

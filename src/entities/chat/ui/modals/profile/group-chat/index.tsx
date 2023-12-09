@@ -42,7 +42,10 @@ function GroupChatProfileModalView(props: Props) {
             title: 'Покинуть чат',
             icon: <Icons variant="delete" />,
             hidden: !chat?.is_group,
-            callback: () => actions('leave'),
+            callback: () => {
+                actions('leave');
+                visibleMenu.set(false);
+            },
             isRed: true,
         },
     ];
@@ -70,10 +73,16 @@ function GroupChatProfileModalView(props: Props) {
                     {chat?.subtitle}
                 </Title>
             </div>
-            <ContextMenu items={menuItems} visible={visibleMenu.value} />
+            <ContextMenu
+                onClick={() => visibleMenu.set(false)}
+                trigger="mouseup"
+                items={menuItems}
+                visible={visibleMenu.value}
+                clickAway={() => visibleMenu.set(false)}
+            />
             <div className={styles.btns}>
                 {btns.map((i) => (
-                    <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} onClick={i.callback}>
+                    <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} key={i.id} onClick={i.callback}>
                         {i.title}
                     </Button>
                 ))}
