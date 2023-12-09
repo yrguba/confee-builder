@@ -12,9 +12,9 @@ import { BaseDropdownProps } from '../../types';
 function Dropdown(props: BaseDropdownProps) {
     const { openCloseTrigger, reverseX, reverseY, visible, content, trigger, onClick, animationVariant = 'visibleHidden', disabled, clickAway } = props;
 
-    const clickCoord = useWindowMouseClick(trigger);
-
     const elementRef = useRef<HTMLDivElement>(null);
+
+    const clickCoord = useWindowMouseClick(trigger, visible && trigger === 'mouseup');
 
     const { innerHeight, innerWidth } = window;
     const wrapperSize = useEasyState<any>({ width: 0, height: 0 });
