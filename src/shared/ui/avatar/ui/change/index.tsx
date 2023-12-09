@@ -25,15 +25,20 @@ function AvatarChange(props: AvatarChangeProps) {
         { id: 2, icon: <Icons variant="delete" />, isRed: true, title: 'Удалить фото', callback: deleteFile, hidden: !img },
     ];
 
+    const clickContextMenu = (e: any) => {
+        e.preventDefault();
+        visibleMenu.set(true);
+    };
+
     return (
-        <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onMouseEnter={() => visibleMenu.set(true)}>
+        <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
             <Box.Animated visible={visibleCamera} className={styles.webCamera}>
                 <WebCameraPhoto getScreenshot={action} />
             </Box.Animated>
             <ContextMenu visible={visibleMenu.value} items={items.filter((i) => !i.hidden)} />
             <div className={styles.avatar} style={{ borderRadius: circle ? '50%' : 8 }}>
                 <Avatar clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
-                <div className={styles.cover}>Сменить</div>
+                {/* <div className={styles.cover}>Сменить</div> */}
             </div>
         </div>
     );
