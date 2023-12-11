@@ -12,10 +12,10 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
     const { value, onChange, callbackPhone, onFocus: inputFocus, errorTitle } = props;
 
     const [activeItem, setActiveItem] = useState(0);
-    const [openDropdown, setSetOpenDropdown] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState(false);
     const [focused, setFocused] = React.useState(false);
     const inputRef = useRef<any>(null);
-    const visibleDropdown = useEasyState(false);
+
     const click = (payload: { code: string; id: number }) => {
         setActiveItem(payload.id);
     };
@@ -35,10 +35,13 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
     return (
         <div className={styles.wrapper}>
             <div className={styles.row} onFocus={onFocus} onBlur={onBlur}>
-                <div className={styles.code}>
+                <div className={styles.code} onClick={() => setOpenDropdown(true)}>
                     <Dropdown
-                        visible={visibleDropdown.value}
-                        openCloseTrigger={setSetOpenDropdown}
+                        trigger="mouseup"
+                        visible={openDropdown}
+                        openCloseTrigger={setOpenDropdown}
+                        onClick={() => setOpenDropdown(false)}
+                        clickAway={() => setOpenDropdown(false)}
                         content={
                             <div className={styles.contentDropdown}>
                                 <div className={styles.body}>

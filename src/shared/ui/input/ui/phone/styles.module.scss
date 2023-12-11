@@ -67,9 +67,11 @@
 
 .contentDropdown {
   @include flex;
-  @include box-size(375px, 280px);
+  @include box-size(auto, auto);
   background-color: var(--bg-secondary);
-  padding: 12px 0;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
 
   .body {
     @include flex-column(flex-start, flex-start);
@@ -79,10 +81,10 @@
 
     .item {
       @include flex(space-between);
+      white-space: nowrap;
       width: 90%;
-      min-height: 60px;
+      min-height: 40px;
       gap: 16px;
-      margin-left: 16px;
       cursor: pointer;
       color: var(--text-primary);
 
