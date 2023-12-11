@@ -5,19 +5,19 @@ function useYup(errorText?: string) {
     const checkNickname = yup
         .string()
         .required('Поле обязательно для заполнения')
-        .matches(/^[a-zA-Z_0-9]+$/, 'неверный формат')
+        .matches(/^[a-zA-Z_0-9]+$/, 'Неверный формат')
         .min(5, 'Слишком короткий nickname')
         .max(20, 'Слишком длинный nickname');
 
-    const checkName = yup.string().matches(/^[a-zA-Zа-яёА-ЯЁ]*$/, 'Не верный формат');
+    const checkName = yup.string().matches(/^[a-zA-Zа-яёА-ЯЁ\\-]*$/, 'Неверный формат');
 
     const checkEmail = yup
         .string()
         .matches(
             /(^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(?:[a-zA-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$)/,
-            'неверный формат'
+            'Неверный формат'
         );
-    const checkBirthDate = yup.string().matches(/^[0-9]{2}.[0-9]{2}.[0-9]{4}$/, 'неверный формат');
+    const checkBirthDate = yup.string().matches(/^[0-9]{2}.[0-9]{2}.[0-9]{4}$/, 'Неверный формат');
 
     const checkPhone = yup
         .string()
