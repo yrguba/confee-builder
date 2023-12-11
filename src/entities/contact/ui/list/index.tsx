@@ -121,31 +121,30 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
                     <Card onClick={clickUser} size="l" name={full_name} img={avatar} title={full_name} subtitle={phone || ''} />
                 </div>
                 <div className={styles.icons}>
-                    {!lgWidthSize ? (
-                        !smWidthSize ? (
-                            items
-                                .filter((i) => !i.hidden)
-                                .map((i) => (
-                                    <Button.Circle
-                                        key={i.id}
-                                        radius={36}
-                                        onClick={() =>
-                                            i.callback &&
-                                            i.callback({
-                                                action: i.payload,
-                                                contact: contact || null,
-                                                employee: employee || null,
-                                            })
-                                        }
-                                        variant="inherit"
-                                    >
-                                        {i.icon}
-                                    </Button.Circle>
-                                ))
-                        ) : (
-                            <Icons variant="more" />
-                        )
-                    ) : null}
+                    {!lgWidthSize
+                        ? !smWidthSize
+                            ? items
+                                  .filter((i) => !i.hidden)
+                                  .map((i) => (
+                                      <Button.Circle
+                                          key={i.id}
+                                          radius={36}
+                                          onClick={() =>
+                                              i.callback &&
+                                              i.callback({
+                                                  action: i.payload,
+                                                  contact: contact || null,
+                                                  employee: employee || null,
+                                              })
+                                          }
+                                          variant="inherit"
+                                      >
+                                          {i.icon}
+                                      </Button.Circle>
+                                  ))
+                            : // <Icons variant="more" />
+                              null
+                        : null}
                 </div>
             </div>
         </div>

@@ -91,7 +91,7 @@ function CreateChatModalView(props: Props) {
                                 img: employee?.avatar || '',
                                 name: employee?.full_name || '',
                                 title: employee?.full_name || '',
-                                subtitle: employee?.email || '',
+                                subtitle: employee?.position || '',
                                 payload: { id: employee?.id },
                             } as any;
                         })}
@@ -109,7 +109,7 @@ function CreateChatModalView(props: Props) {
                                         img: employee?.avatar || '',
                                         name: employee?.full_name || '',
                                         title: employee?.full_name || '',
-                                        subtitle: employee?.email || '',
+                                        subtitle: employee?.position || '',
                                         payload: { id: employee?.id },
                                     } as any;
                                 })}

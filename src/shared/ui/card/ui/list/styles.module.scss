@@ -26,6 +26,7 @@
     .info {
       @include flex(flex-start);
       flex: 1;
+      width: 0;
     }
 
     .selectIndicator {
