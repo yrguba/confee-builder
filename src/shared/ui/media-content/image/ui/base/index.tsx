@@ -48,7 +48,7 @@ function Image(props: BaseImageProps) {
             clickedFile.set({ blob: fileBlob, name, id, type: 'images' });
         }
         if (!disableDownload) {
-            visibleMenu.set(true);
+            visibleMenu.toggle();
         }
     };
 

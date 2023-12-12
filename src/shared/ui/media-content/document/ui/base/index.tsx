@@ -29,7 +29,7 @@ function Document(props: BaseDocumentProps) {
             clickedFile.set({ blob: fileBlob, name, id, type: 'documents' });
         }
         if (!disableDownload) {
-            visibleMenu.set(true);
+            visibleMenu.toggle();
         }
     };
 

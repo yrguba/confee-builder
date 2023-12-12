@@ -22,8 +22,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-
-        visibleMenu.set(true);
+        visibleMenu.toggle();
     };
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [

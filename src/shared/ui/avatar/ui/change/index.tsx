@@ -27,7 +27,7 @@ function AvatarChange(props: AvatarChangeProps) {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-        visibleMenu.set(true);
+        visibleMenu.toggle();
     };
 
     return (

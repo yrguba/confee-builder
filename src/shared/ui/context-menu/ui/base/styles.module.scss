@@ -16,6 +16,10 @@
     transition: background-color 0.5s;
     cursor: pointer;
 
+    svg{
+      fill: var(--text-primary);
+    }
+
     &:hover {
       background-color: var(--bg-primary);
     }

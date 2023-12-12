@@ -38,7 +38,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
             clickedFile.set({ blob: fileBlob, name, id, type: 'videos' });
         }
         if (!disableDownload) {
-            visibleMenu.set(true);
+            visibleMenu.toggle();
         }
     };
 

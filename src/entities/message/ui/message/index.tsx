@@ -86,7 +86,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-        visibleMenu.set(true);
+        visibleMenu.toggle();
     };
 
     return (
@@ -100,6 +100,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 reverseX={isMy}
                 disabled={voiceRecordingInProgress}
                 clickAway={() => visibleMenu.set(false)}
+                onClick={() => visibleMenu.set(false)}
                 content={
                     <MessageMenu
                         clickedFile={clickedFile.value}

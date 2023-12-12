@@ -19,7 +19,7 @@ function AudioCard(props: AudioCardProps) {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-        visibleMenu.set(true);
+        visibleMenu.toggle();
     };
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [

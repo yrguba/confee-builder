@@ -1,8 +1,8 @@
 import React, { forwardRef, memo, useEffect } from 'react';
 
-import { useWidthMediaQuery, useHeightMediaQuery, useRouter } from 'shared/hooks';
+import { useWidthMediaQuery, useHeightMediaQuery, useRouter, useEasyState } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Icons, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input, Title } from 'shared/ui';
+import { Box, Icons, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input, Title, ContextMenu, DropdownTypes, ContextMenuTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useInView } from '../../../../shared/hooks';
@@ -93,14 +93,35 @@ function ContactsListView(props: Props) {
 const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeeProxy } & Props, ref: any) => {
     const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, contact, employee } = props;
 
-    const smWidthSize = useWidthMediaQuery().to('sm');
-    const lgWidthSize = useWidthMediaQuery().from('lg');
+    const visibleMenu = useEasyState(false);
 
-    const items: BaseTypes.Item<any, Actions, { action: Actions; contact: ContactProxy | null; employee: EmployeeProxy | null }>[] = [
-        { id: 0, icon: <Icons variant="call-end" />, callback: actions, payload: 'audioCall', title: 'позвонить' },
-        { id: 1, icon: <Icons variant="messages" />, callback: actions, payload: 'message', title: 'написать' },
-        { id: 2, icon: <Icons.Player variant="mute" />, callback: actions, payload: 'mute', title: 'вкл.звук' },
-        { id: 4, icon: <Icons variant="delete" />, callback: actions, payload: 'delete', title: 'удалить', hidden: !!employee },
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
+        {
+            id: 0,
+            icon: <Icons variant="call-end" />,
+            callback: () => actions({ action: 'audioCall', contact: contact || null, employee: employee || null }),
+            title: 'позвонить',
+        },
+        {
+            id: 1,
+            icon: <Icons variant="messages" />,
+            callback: () => actions({ action: 'message', contact: contact || null, employee: employee || null }),
+            title: 'написать',
+        },
+        {
+            id: 2,
+            icon: <Icons.Player variant="mute" />,
+            callback: () => actions({ action: 'mute', contact: contact || null, employee: employee || null }),
+            title: 'вкл.звук',
+        },
+        {
+            id: 4,
+            icon: <Icons variant="delete" />,
+            callback: () => actions({ action: 'delete', contact: contact || null, employee: employee || null }),
+            title: 'удалить',
+            isRed: true,
+            hidden: !!employee,
+        },
     ];
 
     const id = contact?.id || employee?.id;
@@ -114,37 +135,23 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
         if (employee && clickEmployee) return clickEmployee(employee);
     };
 
+    const clickContextMenu = (e: any) => {
+        e.preventDefault();
+        visibleMenu.toggle();
+    };
+
     return (
-        <div ref={ref} key={id} className={`${styles.item} ${activeUserId === id ? styles.item_active : ''}`}>
+        <div
+            onContextMenu={clickContextMenu}
+            onMouseLeave={() => visibleMenu.set(false)}
+            ref={ref}
+            key={id}
+            className={`${styles.item} ${activeUserId === id ? styles.item_active : ''}`}
+        >
+            <ContextMenu visible={visibleMenu.value} items={menuItems} />
             <div className={styles.body}>
                 <div className={styles.card}>
                     <Card onClick={clickUser} size="l" name={full_name} img={avatar} title={full_name} subtitle={phone || ''} />
-                </div>
-                <div className={styles.icons}>
-                    {!lgWidthSize
-                        ? !smWidthSize
-                            ? items
-                                  .filter((i) => !i.hidden)
-                                  .map((i) => (
-                                      <Button.Circle
-                                          key={i.id}
-                                          radius={36}
-                                          onClick={() =>
-                                              i.callback &&
-                                              i.callback({
-                                                  action: i.payload,
-                                                  contact: contact || null,
-                                                  employee: employee || null,
-                                              })
-                                          }
-                                          variant="inherit"
-                                      >
-                                          {i.icon}
-                                      </Button.Circle>
-                                  ))
-                            : // <Icons variant="more" />
-                              null
-                        : null}
                 </div>
             </div>
         </div>
@@ -152,11 +159,3 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
 });
 
 export default ContactsListView;
-// export default memo(ContactsListView, (prevProps, nextProps): any => {
-//     // if (prevProps.activeUserId !== nextProps.activeUserId) return false;
-//     if (prevProps.tabsAndLists.activeTab?.id !== nextProps.tabsAndLists.activeTab?.id) return false;
-//     // if (prevProps.tabsAndLists.tabs.length !== nextProps.tabsAndLists.tabs.length) return false;
-//     // if (prevProps.tabsAndLists.activeList.length !== nextProps.tabsAndLists.activeList.length) return false;
-//     if (prevProps.tabsAndLists.departmentsEmployees !== nextProps.tabsAndLists.departmentsEmployees) return false;
-//     return true;
-// });
