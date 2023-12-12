@@ -9,10 +9,12 @@ import { appService } from '../../index';
 type Props = {
     cacheSize: string;
     saveInCache: UseEasyStateReturnType<boolean>;
+    updateAvailable: boolean;
+    updateApp?: () => void;
 };
 
 function TauriSettingsView(props: Props) {
-    const { cacheSize, saveInCache } = props;
+    const { cacheSize, saveInCache, updateAvailable, updateApp } = props;
     const { version } = appService.getProjectInfo();
     return (
         <div className={styles.wrapper}>
@@ -35,6 +37,11 @@ function TauriSettingsView(props: Props) {
                             {`Версия: ${version}`}
                         </Title>
                     </div>
+                    {updateAvailable && (
+                        <Button onClick={updateApp} width="100px">
+                            обновить
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>

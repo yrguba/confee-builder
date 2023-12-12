@@ -14,6 +14,31 @@ function TauriSettings() {
     const fs = useFs();
     if (!appService.tauriIsRunning) return null;
 
+    const [loading, setLoading] = useState(false);
+
+    const [updateAvailable, setUpdateAvailable] = useState(false);
+
+    const check = async () => {
+        try {
+            setLoading(true);
+            const { shouldUpdate, manifest } = await checkUpdate();
+            setUpdateAvailable(shouldUpdate);
+        } catch (e) {
+            setUpdateAvailable(false);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const updateApp = async () => {
+        await installUpdate();
+        await relaunch();
+    };
+
+    useEffect(() => {
+        check().then();
+    }, []);
+
     const cacheSize = useEasyState<string>('');
 
     const saveInCache = useEasyState<boolean>(!!storage.get('save_in_cache'));
@@ -29,7 +54,7 @@ function TauriSettings() {
         // });
     }, []);
 
-    return <TauriSettingsView saveInCache={saveInCache} cacheSize={cacheSize.value} />;
+    return <TauriSettingsView saveInCache={saveInCache} cacheSize={cacheSize.value} updateAvailable={updateAvailable} updateApp={updateApp} />;
 }
 
 export default TauriSettings;
