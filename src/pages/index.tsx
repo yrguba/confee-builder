@@ -1,3 +1,4 @@
+import { checkUpdate } from '@tauri-apps/api/updater';
 import { AnimatePresence } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
@@ -8,8 +9,9 @@ import { webView } from 'features/auth';
 import callsPageRouters from './calls';
 import initialFillingProfilePageRouters from './initial-filling-profile';
 import mainRoutes from './main';
+import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
-import { useWindowSize } from '../shared/hooks';
+import { useWindowSize, useEffectOnce } from '../shared/hooks';
 
 function Routing() {
     const location = useLocation();
@@ -24,6 +26,7 @@ function Routing() {
                 {callsPageRouters}
                 {initialFillingProfilePageRouters}
                 {warningPageRouters}
+                {updateAppPageRouters}
                 <Route path="*" element={<Navigate to="/chats" replace />} />
             </Routes>
         </AnimatePresence>
@@ -33,6 +36,14 @@ function Routing() {
         if (width < 450 || height < 470) return navigate('/warning/size');
         location.pathname === '/warning/size' && navigate(-1);
     }, [width, height]);
+
+    useEffectOnce(() => {
+        checkUpdate().then(({ shouldUpdate, manifest }) => {
+            if (shouldUpdate) {
+                navigate('/update');
+            }
+        });
+    });
 
     useEffect(() => {
         if (!isLoading) {

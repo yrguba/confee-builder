@@ -76,7 +76,7 @@ export type DocumentIconsProps = {
 };
 
 export type LogoIconsProps = {
-    variant: 'confee' | 'softworks' | 'tfn' | 'premium';
+    variant: 'confee' | 'confee-white' | 'softworks' | 'tfn' | 'premium';
 };
 export type PictureIconsProps = {
     variant: 'auth-ad' | 'no-found';
