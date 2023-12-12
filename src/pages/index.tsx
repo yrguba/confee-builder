@@ -11,6 +11,7 @@ import initialFillingProfilePageRouters from './initial-filling-profile';
 import mainRoutes from './main';
 import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
+import { appService } from '../entities/app';
 import { useWindowSize, useEffectOnce } from '../shared/hooks';
 
 function Routing() {
@@ -38,11 +39,13 @@ function Routing() {
     }, [width, height]);
 
     useEffectOnce(() => {
-        checkUpdate().then(({ shouldUpdate, manifest }) => {
-            if (shouldUpdate) {
-                navigate('/update');
-            }
-        });
+        if (appService.tauriIsRunning) {
+            checkUpdate().then(({ shouldUpdate, manifest }) => {
+                if (shouldUpdate) {
+                    navigate('/update');
+                }
+            });
+        }
     });
 
     useEffect(() => {
