@@ -48,7 +48,7 @@ function Routing() {
     useEffect(() => {
         if (!isLoading) {
             // @ts-ignore
-            if (viewerError?.response?.status === 500) return navigate('/warning/server');
+            // if (viewerError?.response?.status === 500) return navigate('/warning/server');
             if (!viewerData?.user?.nickname) return navigate('/filling_profile');
             ['/warning/server', '/filling_profile'].includes(location.pathname) && navigate('/chats');
         }
