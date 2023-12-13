@@ -1,10 +1,11 @@
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
+import { useUpdateEffect } from 'react-use';
 
 import { useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { useDebounce } from '../../../../hooks';
+import { useClickAway, useDebounce } from '../../../../hooks';
 import Box from '../../../box';
 import Icons from '../../../icons';
 import { BaseInputProps } from '../../model/types';
@@ -41,7 +42,9 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         debounceDelay || 2000,
         [other.value]
     );
-    const [focused, setFocused] = React.useState(false);
+    const [focused, setFocused] = useState(false);
+    const [focusedClearIcon, setFocusedClearIcon] = useState(false);
+
     const inputRef = useRef<any>(null);
 
     const onFocus = () => {
@@ -49,9 +52,18 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         focus && focus(true);
     };
     const onBlur = () => {
-        setFocused(false);
-        focus && focus(false);
+        // if (!focusedClearIcon) {
+        //     setFocused(false);
+        //     focus && focus(false);
+        // }
     };
+
+    useClickAway(inputRef, () => {
+        if (!focusedClearIcon && focused) {
+            setFocused(false);
+            focus && focus(false);
+        }
+    });
 
     const classes = useStyles(styles, 'inputWrapper', {
         loading,
@@ -60,6 +72,11 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         [`size-${size}`]: size,
         focused,
     });
+
+    const clickClear = () => {
+        setFocusedClearIcon(false);
+        clear && clear();
+    };
 
     return (
         <div className={styles.wrapper} style={{ width, height }}>
@@ -78,7 +95,13 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
                     placeholder={prefixIcon === 'search' ? 'Поиск' : other.placeholder}
                 />
 
-                <Box.Animated onClick={clear} className={styles.clearIcon} visible={!!clearIcon && !!other?.value}>
+                <Box.Animated
+                    onMouseLeave={() => setFocusedClearIcon(false)}
+                    onMouseEnter={() => setFocusedClearIcon(true)}
+                    onClick={clickClear}
+                    className={styles.clearIcon}
+                    visible={!!clearIcon && !!other?.value && focused}
+                >
                     <Icons variant="close" />
                 </Box.Animated>
             </div>

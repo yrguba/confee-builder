@@ -61,7 +61,7 @@ function ProfileSettings() {
     const aboutInput = Input.use({
         initialValue: viewerData?.user?.about,
         onFocus: (value) => {
-            if (!value && !aboutInput.error) {
+            if (!value && !aboutInput.error && aboutInput.value !== viewerData?.user?.about) {
                 handleEditProfile({ about: aboutInput.value });
             }
         },
