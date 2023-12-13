@@ -31,8 +31,8 @@ function ProfileSettings() {
         initialValue: viewerData?.user?.last_name,
         realtimeValidate: true,
         onFocus: (value) => {
-            if (!value && !firstNameInput.error) {
-                firstNameInput.value ? handleEditProfile({ last_name: lastNameInput.value }) : lastNameInput.reload();
+            if (!value && !lastNameInput.error) {
+                handleEditProfile({ last_name: lastNameInput.value });
             }
         },
     });
@@ -62,7 +62,7 @@ function ProfileSettings() {
         initialValue: viewerData?.user?.about,
         onFocus: (value) => {
             if (!value && !aboutInput.error) {
-                aboutInput.value ? handleEditProfile({ about: aboutInput.value }) : aboutInput.reload();
+                handleEditProfile({ about: aboutInput.value });
             }
         },
     });
