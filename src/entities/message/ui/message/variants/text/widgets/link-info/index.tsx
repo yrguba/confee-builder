@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 
+import { useShell } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Image, Title } from 'shared/ui';
 
@@ -14,12 +15,14 @@ type Props = {
 function LinkInfo(props: Props) {
     const { content, children, preview } = props;
 
+    const { openBrowser } = useShell();
+
     return (
         <div className={styles.wrapper}>
             <div
                 className={styles.link}
                 onClick={() => {
-                    window.open(content, '_blank');
+                    openBrowser(content);
                 }}
             >
                 {children}

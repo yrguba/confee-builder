@@ -108,11 +108,17 @@
         "assetScope": []
       },
       "shell": {
-        "all": false,
-        "execute": false,
-        "open": ".*",
-        "scope": [],
-        "sidecar": false
+        "all": true,
+        "execute": true,
+        "sidecar": true,
+        "open": true,
+        "scope": [
+          {
+            "name": "",
+            "cmd": "",
+            "args": true
+          }
+        ]
       },
       "window": {
         "all": false,

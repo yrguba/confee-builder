@@ -43,6 +43,7 @@ import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useSaveMediaContent from './useSaveMediaContent';
 import useScroll from './useScroll';
+import useShell from "./useShell";
 import useSip from './useSip';
 import useSize from './useSize';
 import useStorage from './useStorage';
@@ -60,6 +61,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useShell,
     useWindowMouseClick,
     useSaveMediaContent,
     useUnmount,
