@@ -18,4 +18,4 @@ function dataURLtoFile(url: string) {
     return new File([u8arr], `file.${ext}`, { type: mime });
 }
 
-export default getFormData;
+export { getFormData, dataURLtoFile };

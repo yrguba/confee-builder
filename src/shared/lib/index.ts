@@ -8,7 +8,7 @@ import * as fileConverter from './file-converter';
 import findLastIndex from './find-last-index';
 import generateItems from './generate-items';
 import getEnding from './get-ending';
-import getFormData from './get-form-data';
+import { getFormData, dataURLtoFile } from './get-form-data';
 import getRandomInt from './get-random-int';
 import getRandomString from './get-random-string';
 import getUniqueArr from './get-unique-array';
@@ -22,6 +22,7 @@ import secondsToHms from './seconds-to-hms';
 import sizeConverter from './size-converter';
 
 export {
+    dataURLtoFile,
     returnKeysWithValue,
     chunkString,
     secondsToHms,
