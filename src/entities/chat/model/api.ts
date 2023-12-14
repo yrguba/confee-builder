@@ -3,7 +3,7 @@ import produce from 'immer';
 
 import { axiosClient } from 'shared/configs';
 import { useWebSocket, useStorage, useRouter, useDatabase } from 'shared/hooks';
-import { getFormData, httpHandlers, returnKeysWithValue } from 'shared/lib';
+import { getFormData, httpHandlers, returnKeysWithValue, objectToFormData } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
 import chat from '../../../pages/main/chats/widgets/chat';
@@ -104,9 +104,8 @@ class ChatApi {
         const queryClient = useQueryClient();
         return useMutation(
             (data: { user_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: string }) => {
-                const avatar = data.avatar ? getFormData('avatar', data.avatar) : '';
-                const updData = returnKeysWithValue({ ...data, avatar });
-                return axiosClient.post(`${this.pathPrefix}`, updData);
+                const fd = objectToFormData(data);
+                return axiosClient.post(`${this.pathPrefix}`, fd);
             },
             {
                 onSuccess: (res, data) => {
@@ -163,7 +162,8 @@ class ChatApi {
         const queryClient = useQueryClient();
         return useMutation(
             (data: { body: { employee_ids: number[] | string[] | null; is_group: boolean }; companyId: any }) => {
-                return axiosClient.post(`${this.pathPrefix}/for-company/${data.companyId}`, data.body);
+                const fd = objectToFormData(data.body);
+                return axiosClient.post(`${this.pathPrefix}/for-company/${data.companyId}`, fd);
             },
             {
                 onSuccess: async (res, data) => {
