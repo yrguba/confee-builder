@@ -19,7 +19,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
 
             switch (prop) {
                 case 'is_personal':
-                    return !target.employee_members?.length;
+                    return !target.company_id;
 
                 case 'secondUser':
                     return secondUserProxy;
