@@ -6,6 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Box, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import Notification from '../../../../../../shared/ui/notification';
 
 type Recording = 'start' | 'send' | 'stop' | 'cancel';
 
@@ -28,6 +29,8 @@ function VoiceButton(props: Props) {
         !once.current && event.set('start');
     }, 400);
 
+    const notification = Notification.use();
+
     const readyState = isReady();
     const startRecording = event.value === 'start';
 
@@ -41,7 +44,7 @@ function VoiceButton(props: Props) {
                 }
             })
             .catch((err) => {
-                console.log('no micro');
+                notification.success({ title: 'Доступ к микрофону запрещен', system: true });
             });
     };
 
