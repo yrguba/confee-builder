@@ -67,7 +67,12 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         if (selectedEmployees.array.length) {
             handleCreateCompanyChat(
                 {
-                    body: { employee_ids: selectedEmployees.array.map((i) => i.payload.id), is_group: isGroup.value },
+                    body: {
+                        employee_ids: selectedEmployees.array.map((i) => i.payload.id),
+                        is_group: isGroup.value,
+                        name: chatName.value,
+                        avatar: chatAvatar.value || '',
+                    },
                     companyId: tabsAndLists.activeTab?.payload?.id,
                 },
                 {
