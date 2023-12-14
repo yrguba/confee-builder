@@ -32,10 +32,17 @@ function VoiceButton(props: Props) {
     const startRecording = event.value === 'start';
 
     const onMouseDown = (e: MouseEvent) => {
-        if (e.button === 0) {
-            once.current = false;
-            reset();
-        }
+        navigator.mediaDevices
+            .getUserMedia({ audio: true })
+            .then((stream) => {
+                if (e.button === 0) {
+                    once.current = false;
+                    reset();
+                }
+            })
+            .catch((err) => {
+                console.log('no micro');
+            });
     };
 
     const onMouseUpMicrophone = (e: any) => {
