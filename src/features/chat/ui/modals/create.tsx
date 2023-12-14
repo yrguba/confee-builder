@@ -26,8 +26,6 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     const { mutate: handleCreatePersonalChat, isLoading } = chatApi.handleCreatePersonalChat();
     const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
-    const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
-    const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
@@ -50,28 +48,15 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         if (isGroup.value && !chatName.value) {
             return notifications.error({ title: `Введите название чата` });
         }
-        const updGroupChat = (chat: ChatProxy) => {
-            if (chatName.value && chat.id) {
-                handleUpdateChatName({
-                    chatId: chat.id,
-                    name: chatName.value,
-                    type: chat?.is_personal ? 'personal' : 'company',
-                    companyId: params.company_id,
-                });
-            }
-            if (chatAvatar.value && chat.id) {
-                handleAddAvatar({ chatId: chat.id, img: chatAvatar.value });
-            }
-        };
+
         if (selectedContacts.array.length) {
             handleCreatePersonalChat(
-                { user_ids: selectedContacts.array.map((i) => i.payload.id), is_group: isGroup.value },
+                { user_ids: selectedContacts.array.map((i) => i.payload.id), is_group: isGroup.value, name: chatName.value, avatar: chatAvatar.value || '' },
                 {
                     onSuccess: (res) => {
                         const chat = chatProxy(res.data.data);
                         const chatId = chat?.id;
                         if (chat) {
-                            updGroupChat(chat);
                             modal.close();
                             navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${chatId}`);
                         }
@@ -90,7 +75,6 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
                         const chat = chatProxy(res.data.data);
                         const chatId = chat?.id;
                         if (chat) {
-                            updGroupChat(chat);
                             modal.close();
                             navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.id}/chat/${chatId}`);
                         }

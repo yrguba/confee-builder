@@ -1,4 +1,4 @@
-type FormDataNames = 'images';
+type FormDataNames = 'images' | 'avatar';
 
 function getFormData(name: FormDataNames, file: File | string): FormData {
     const fd = new FormData();
@@ -17,4 +17,5 @@ function dataURLtoFile(url: string) {
     }
     return new File([u8arr], `file.${ext}`, { type: mime });
 }
+
 export default getFormData;

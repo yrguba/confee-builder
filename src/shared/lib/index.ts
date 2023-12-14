@@ -17,10 +17,12 @@ import * as httpHandlers from './http-handlers';
 import momentLocalZone from './moment-local-zone';
 import reactionConverter from './reaction-converter';
 import * as regex from './regex';
+import returnKeysWithValue from './return-keys-with-value';
 import secondsToHms from './seconds-to-hms';
 import sizeConverter from './size-converter';
 
 export {
+    returnKeysWithValue,
     chunkString,
     secondsToHms,
     getRandomInt,

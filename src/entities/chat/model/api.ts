@@ -3,7 +3,7 @@ import produce from 'immer';
 
 import { axiosClient } from 'shared/configs';
 import { useWebSocket, useStorage, useRouter, useDatabase } from 'shared/hooks';
-import { getFormData, httpHandlers } from 'shared/lib';
+import { getFormData, httpHandlers, returnKeysWithValue } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
 import chat from '../../../pages/main/chats/widgets/chat';
@@ -102,22 +102,29 @@ class ChatApi {
 
     handleCreatePersonalChat() {
         const queryClient = useQueryClient();
-        return useMutation((data: { user_ids: number[] | string[] | null; is_group: boolean }) => axiosClient.post(`${this.pathPrefix}`, data), {
-            onSuccess: (res, data) => {
-                const updRes = httpHandlers.response<{ data: Chat }>(res);
-                ['all', 'personal'].forEach((i) =>
-                    queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                        if (!cacheData?.pages?.length) return cacheData;
-                        return produce(cacheData, (draft: any) => {
-                            draft?.pages.forEach((page: any) => {
-                                page?.data?.data.unshift(updRes.data?.data);
-                            });
-                        });
-                    })
-                );
-                return updRes;
+        return useMutation(
+            (data: { user_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: string }) => {
+                const avatar = data.avatar ? getFormData('avatar', data.avatar) : '';
+                const updData = returnKeysWithValue({ ...data, avatar });
+                return axiosClient.post(`${this.pathPrefix}`, updData);
             },
-        });
+            {
+                onSuccess: (res, data) => {
+                    const updRes = httpHandlers.response<{ data: Chat }>(res);
+                    ['all', 'personal'].forEach((i) =>
+                        queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                            if (!cacheData?.pages?.length) return cacheData;
+                            return produce(cacheData, (draft: any) => {
+                                draft?.pages.forEach((page: any) => {
+                                    page?.data?.data.unshift(updRes.data?.data);
+                                });
+                            });
+                        })
+                    );
+                    return updRes;
+                },
+            }
+        );
     }
 
     handleAddMembersPersonalChat() {
