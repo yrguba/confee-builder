@@ -58,7 +58,7 @@ function ProfilePage() {
                             </div>
 
                             {!m && (
-                                <Title variant="caption1M" active={active} primary={false} textWrap>
+                                <Title variant="caption1M" active={active} color="inactive" textWrap>
                                     {i.title}
                                 </Title>
                             )}

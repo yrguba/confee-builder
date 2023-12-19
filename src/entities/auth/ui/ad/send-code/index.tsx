@@ -20,7 +20,7 @@ function SendCode(props: Props) {
                     Введите свою корпоративную почту, чтобы добавить рабочее пространство
                 </Title>
                 <Input {...emailInput} placeholder="Почта" />
-                <Button disabled={emailInput.error} onClick={sendCode}>
+                <Button disabled={!emailInput.value || emailInput.error} onClick={sendCode}>
                     Добавить
                 </Button>
             </div>

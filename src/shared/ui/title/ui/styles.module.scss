@@ -33,6 +33,10 @@
   color: var(--text-negative) !important;
 }
 
+.inactive{
+  color: var(--text-inactive) !important;
+}
+
 .showInput {
   padding-right: 24px !important;
 
@@ -67,6 +71,7 @@
 .active {
   color: var(--text-action) !important;
 }
+
 
 .H1 {
   font-size: 24px;

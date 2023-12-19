@@ -38,7 +38,7 @@ function AuthAd() {
                 },
                 {
                     onSuccess: () => steps.set('success'),
-                    onError: () => codeInput.setError('неверный код'),
+                    onError: () => codeInput.setError('Неверный код'),
                 }
             );
         }

@@ -28,7 +28,7 @@ function UserInfoView(props: Props) {
                 .filter((i) => !i.hidden)
                 .map((i) => (
                     <div key={i.id} className={styles.item}>
-                        <Title variant="H4M" primary={false}>
+                        <Title variant="H4R" primary={false}>
                             {i.title}
                         </Title>
                         <Title textWrap={i.id === 4} variant="H3M">

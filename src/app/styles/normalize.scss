@@ -51,25 +51,27 @@ html {
   }
 }
 
-.react-switch-bg {
+.yourClass:not(:root:root){
+  .react-switch-bg {
 
-  div {
-    display: flex;
-    align-items: center;
+    div {
+      display: flex;
+      align-items: center;
 
-    &:nth-child(1) {
-      justify-content: flex-start;
+      &:nth-child(1) {
+        justify-content: flex-start;
+      }
+
+      &:nth-child(2) {
+        justify-content: flex-end;
+      }
+
+      .styles_wrapper__x-ey7{
+        position: relative;
+        top: 1px;
+      }
     }
 
-    &:nth-child(2) {
-      justify-content: flex-end;
-    }
 
-    .styles_wrapper__x-ey7{
-      position: relative;
-      top: 1px;
-    }
   }
-
-
 }

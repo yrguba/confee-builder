@@ -31,15 +31,15 @@ function Registration(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.form}>
-                <Title textAlign="center" textWrap variant="H2">
+                <Title textAlign="center" textWrap variant="H1">
                     Введите код
                 </Title>
-                <Title textAlign="center" textWrap variant="H2">
+                <Title textAlign="center" textWrap variant="H3S">
                     {`Мы отправили код подтверждения  на ${inputs.email.value}`}
                 </Title>
                 <Input type="number" maxLength={5} style={{ textAlign: 'center' }} {...inputs.code} placeholder="00000" />
                 <Button disabled={time[2] !== 0} onClick={getCode}>
-                    {isRunning ? `Получить новый код через ${time[2]}` : 'Получить новый код'}
+                    {isRunning ? `Получить новый код через 00:${time[2]}` : 'Получить новый код'}
                 </Button>
                 <Button disabled={inputs.email.error} onClick={() => steps.set('sendCode')}>
                     Назад
