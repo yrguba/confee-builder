@@ -307,6 +307,10 @@ class ChatApi {
         });
     }
 
+    handleChatMute() {
+        return useMutation((data: { value: boolean; chatId: number }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/mute`, { mute: data.value }), {});
+    }
+
     handleRemoveMemberFromCompany() {
         const queryClient = useQueryClient();
         return useMutation(

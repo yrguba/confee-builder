@@ -25,7 +25,7 @@ function messageGateway() {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
-                if (!socketData.data.extra_info.is_read && socketData.data.message) {
+                if (!socketData.data.extra_info.is_read && socketData.data.message && !socketData.data.extra_info.muted) {
                     const proxy: MessageProxy = messageProxy({ message: socketData.data.message });
                     throttlePushNotification(() =>
                         messageService.notification(`Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}` || '', proxy.action)
@@ -105,7 +105,7 @@ function messageGateway() {
                         draft.pages.forEach((page: any) => {
                             page.data.data = page?.data?.data.map((chat: Chat) => {
                                 if (socketData.data.chat_id === chat.id && chat.last_message.id === socketData.data.message_id)
-                                    return { ...chat, last_message: { ...chat.last_message, ...socketData.data.updated_values } };
+                                    return { ...chat, last_message: { ...chat.last_message, ...socketData.data.extra_info.updated_values } };
                                 return chat;
                             });
                         });
