@@ -28,10 +28,10 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                     return secondEmployeeProxy;
 
                 case 'checkIsMyLastMessage':
-                    return target.last_message.author?.id === viewerId;
+                    return target.last_message?.author?.id === viewerId;
 
                 case 'authorLastMessage':
-                    return receiver.checkIsMyLastMessage ? 'Вы' : target.last_message.author.first_name || target.last_message.author.last_name;
+                    return receiver.checkIsMyLastMessage ? 'Вы' : target.last_message?.author.first_name || target.last_message?.author.last_name;
 
                 case 'lastMessageTitle':
                     if (target.typing) return target.typing;
@@ -45,7 +45,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                     return text;
 
                 case 'date':
-                    return dateConverter(target.last_message.created_at);
+                    return dateConverter(target?.last_message?.created_at);
 
                 case 'subtitle':
                     if (target.typing) return target.typing;

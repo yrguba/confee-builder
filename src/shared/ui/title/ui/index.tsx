@@ -9,7 +9,19 @@ import Icons from '../../icons';
 import { TitleProps } from '../types';
 
 function Title(props: TitleProps) {
-    const { maxLength, children, isError, textWrap, primary = true, variant, textAlign = 'left', updCallback, animateTrigger, active = false } = props;
+    const {
+        color = '',
+        maxLength,
+        children,
+        isError,
+        textWrap,
+        primary = true,
+        variant,
+        textAlign = 'left',
+        updCallback,
+        animateTrigger,
+        active = false,
+    } = props;
 
     const cx = cnBind.bind(styles);
     const isEdit = useEasyState(false);
@@ -25,6 +37,7 @@ function Title(props: TitleProps) {
             active,
             showInput: isEdit.value,
             edited: updCallback,
+            [color]: color,
         })
     );
     useClickAway(ref, () => {

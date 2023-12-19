@@ -8,6 +8,7 @@ import CompanyCardView from './ui/card';
 import EmployeeProfileModalView from './ui/employee/modals/profile';
 import EmployeeProfileView from './ui/employee/profile';
 import EmployeeStatusView from './ui/employee/status';
+import ConfirmDeleteCorpAccModalView from './ui/modals/confirm-delete';
 import CompanyTagView from './ui/tag';
 
 export {
@@ -22,4 +23,5 @@ export {
     BindCompanyView,
     CompanyTagView,
     EmployeeProfileModalView,
+    ConfirmDeleteCorpAccModalView,
 };

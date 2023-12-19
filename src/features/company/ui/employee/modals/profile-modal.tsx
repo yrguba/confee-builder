@@ -3,15 +3,32 @@ import React from 'react';
 import { viewerApi } from 'entities/viewer';
 import { Modal, ModalTypes } from 'shared/ui';
 
-import { EmployeeProfileModalView, employeeProxy } from '../../../../../entities/company';
+import { EmployeeProfileModalView, employeeProxy, ConfirmDeleteCorpAccModalView, companyApi } from '../../../../../entities/company';
 
 function EmployeeProfileModal(modal: ModalTypes.UseReturnedType) {
     const { data: viewerData } = viewerApi.handleGetViewer();
-    console.log(viewerData);
+    const { mutate: handleUnbind } = companyApi.handleUnbind();
 
     const employeeData = viewerData?.companies?.length ? viewerData?.companies[0]?.departments[0]?.employees[0] : null;
 
-    return <EmployeeProfileModalView employeeData={employeeProxy(employeeData)} />;
+    const confirmDeleteModal = Modal.use();
+
+    const confirmDelete = (value: boolean) => {
+        if (value && employeeData?.companies[0]) {
+            handleUnbind({ company_id: employeeData?.companies[0]?.id }, { onSuccess: confirmDeleteModal.close });
+        } else {
+            confirmDeleteModal.close();
+        }
+    };
+
+    return (
+        <>
+            <Modal {...confirmDeleteModal} closeIcon={false}>
+                <ConfirmDeleteCorpAccModalView confirmDelete={confirmDelete} />
+            </Modal>
+            <EmployeeProfileModalView openDeleteAccModal={confirmDeleteModal.open} employeeData={employeeProxy(employeeData)} />
+        </>
+    );
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {

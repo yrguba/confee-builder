@@ -41,6 +41,13 @@ class CompanyApi {
         );
     }
 
+    handleUnbind() {
+        const queryClient = useQueryClient();
+        return useMutation((data: { company_id: string | number }) => {
+            return axiosClient.post(`/api/v2/user/unbind-from-company`, data);
+        });
+    }
+
     handleSearchEmployeesAndContacts(data: { name: string }) {
         return useQuery(['search-employees-and-contacts', data.name], () => axiosClient.get(`api/v2/search/employees-contacts/${data.name}`), {
             enabled: !!data.name,

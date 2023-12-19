@@ -29,6 +29,10 @@
   }
 }
 
+.red{
+  color: var(--text-negative) !important;
+}
+
 .showInput {
   padding-right: 24px !important;
 
@@ -68,7 +72,7 @@
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
-  line-height: 40px;
+  line-height: 32px;
 }
 
 .H2 {
@@ -114,6 +118,14 @@
 }
 
 .H4M {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+
+.H4R {
   font-size: 14px;
   font-style: normal;
   font-weight: 400;

@@ -9,6 +9,7 @@ export type TitleVariants =
     | 'H3R'
     | 'H4S'
     | 'H4M'
+    | 'H4R'
     | 'Body16'
     | 'Body14'
     | 'caption1S'
@@ -26,4 +27,5 @@ export type TitleProps = {
     animateTrigger?: string;
     updCallback?: ((value: string | number | undefined) => void) | null;
     maxLength?: number;
+    color?: 'red' | 'inactive';
 } & BaseTypes.Statuses;
