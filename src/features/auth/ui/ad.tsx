@@ -18,7 +18,9 @@ function AuthAd() {
         yupSchema: yup.checkEmail,
     });
 
-    const codeInput = Input.use({});
+    const codeInput = Input.use({
+        yupSchema: yup.checkNumber,
+    });
 
     const sendCode = async () => {
         const emailError = await emailInput.asyncValidate();

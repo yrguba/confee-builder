@@ -19,12 +19,15 @@ function useYup(errorText?: string) {
         );
     const checkBirthDate = yup.string().matches(/^[0-9]{2}.[0-9]{2}.[0-9]{4}$/, 'Неверный формат');
 
+    const checkNumber = yup.number();
+
     const checkPhone = yup
         .string()
         .min(1, 'Поле обязательно для заполнения')
         .matches(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/, 'Неверный формат номера');
 
     return {
+        checkNumber,
         checkNickname,
         checkName,
         checkPhone,

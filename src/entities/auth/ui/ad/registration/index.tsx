@@ -37,7 +37,7 @@ function Registration(props: Props) {
                 <Title textAlign="center" textWrap variant="H2">
                     {`Мы отправили код подтверждения  на ${inputs.email.value}`}
                 </Title>
-                <Input maxLength={5} style={{ textAlign: 'center' }} {...inputs.code} placeholder="00000" />
+                <Input type="number" maxLength={5} style={{ textAlign: 'center' }} {...inputs.code} placeholder="00000" />
                 <Button disabled={time[2] !== 0} onClick={getCode}>
                     {isRunning ? `Получить новый код через ${time[2]}` : 'Получить новый код'}
                 </Button>

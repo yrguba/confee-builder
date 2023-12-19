@@ -44,7 +44,7 @@ class CompanyApi {
     handleUnbind() {
         const queryClient = useQueryClient();
         return useMutation((data: { company_id: string | number }) => {
-            return axiosClient.post(`/api/v2/user/unbind-from-company`, data);
+            return axiosClient.delete(`/api/v2/user/unbind-from-company`, { data });
         });
     }
 
