@@ -14,13 +14,15 @@ function ConfirmDeleteCorpAccModalView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <Title textAlign="center" textWrap variant="H2">
-                Удалить корпоративный аккаунт
-            </Title>
-            <Title textAlign="center" textWrap variant="H4R">
+            <div className={styles.header}>
+                <Title textAlign="center" textWrap variant="H2">
+                    Удалить корпоративный аккаунт
+                </Title>
+            </div>
+            <Title textAlign="center" textWrap variant="H4M">
                 Вы действительно хотите удалить копоративный аккаунт?
             </Title>
-            <Title textAlign="center" textWrap variant="H4R">
+            <Title textAlign="center" textWrap variant="H4M">
                 Обратите внимание, что все ваши рабочие контакты и чаты также будут удалены. При этом ваш личный аккаунт и связанные с ним чаты и контакты
                 сохранятся.
             </Title>

@@ -169,8 +169,8 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "https://prod.api.confee.ru/api/v2/release",
-        "https://dev.api.confee.ru/api/v2/release",
+        "https://prod.api.confee.ru/api/v2/release/{{target}}/v{{current_version}}",
+        "https://dev.api.confee.ru/api/v2/release/{{target}}/v{{current_version}}",
         "https://dev.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}",
         "https://prod.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}"
       ],
