@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
@@ -24,7 +25,6 @@ type Props = {
 
 function SettingsProfileView(props: Props) {
     const { inputs, back } = props;
-
     return (
         <div className={styles.wrapper}>
             <div className={styles.back} onClick={back}>
@@ -77,7 +77,7 @@ function SettingsProfileView(props: Props) {
                 <Title textWrap variant="H2">
                     Укажите дату рождения
                 </Title>
-                <Input placeholder="ДД.ММ.ГГГГ" type="date" {...inputs.birth} size="m" />
+                <Input min="1900-01-01" max={moment().format('YYYY-MM-DD')} placeholder="ДД.ММ.ГГГГ" type="date" {...inputs.birth} size="m" />
             </div>
         </div>
     );

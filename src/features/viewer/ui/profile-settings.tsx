@@ -1,3 +1,4 @@
+import moment from 'moment/moment';
 import React from 'react';
 import useFileUploader from 'react-use-file-uploader';
 
@@ -39,8 +40,21 @@ function ProfileSettings() {
 
     const birthInput = Input.use({
         initialValue: viewerData?.user?.birth?.split(' ')[0] || '',
+        callback: (value) => {
+            const currentDateTs = moment().unix();
+            const selectDateTs = moment(String(value)).unix();
+            const selectYear = Number(String(value).split('-')[0]);
+            const currentDate = moment().format('DD.MM.YYYY');
+            if (selectDateTs > currentDateTs) {
+                return birthInput.setError(`Значение должно быть ${currentDate} или раньше`);
+            }
+            if (selectYear < 1990) {
+                return birthInput.setError(`Значение должно быть 01.01.1990 или позже`);
+            }
+            birthInput.setError(``);
+        },
         onFocus: (value) => {
-            if (!value && !firstNameInput.error) {
+            if (!value && !birthInput.error) {
                 const birthDate: any = Math.floor(new Date(birthInput.value).getTime() / 1000);
                 firstNameInput.value ? handleEditProfile({ birth: birthDate }) : birthInput.reload();
             }
