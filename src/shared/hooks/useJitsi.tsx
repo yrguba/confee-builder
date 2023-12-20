@@ -18,7 +18,7 @@ const INTERFACE_CONFIG_OVERWRITE = {
 };
 
 type Props = {
-    meetId: string;
+    meetId?: string;
 };
 
 function useJitsi(props: Props) {
@@ -38,7 +38,7 @@ function useJitsi(props: Props) {
         const userName = viewer?.full_name;
         const avatarUrl = viewer?.full_avatar_url;
 
-        return conferenceName && userName ? (
+        return conferenceName && userName && meetId ? (
             <JitsiMeeting
                 domain={DOMAIN}
                 roomName={conferenceName as string}

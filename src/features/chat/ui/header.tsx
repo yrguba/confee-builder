@@ -3,9 +3,9 @@ import React from 'react';
 import { appService } from 'entities/app';
 import { ChatHeaderView, chatApi } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
-import { meetTypes } from 'entities/meet';
+import { meetTypes, useMeetStore } from 'entities/meet';
 import { useMessageStore, messageApi } from 'entities/message';
-import { useRouter, useWebView } from 'shared/hooks';
+import { useRouter, useStorage, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 import { TabBarTypes, Notification, Modal } from 'shared/ui';
 
@@ -24,17 +24,20 @@ function ChatHeader() {
     const forwardMessages = useMessageStore.use.forwardMessages();
     const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
 
+    const { set: setLocalStorage } = useStorage();
+
     const notification = Notification.use();
 
-    const meetPath = `/meet/${getRandomString(20)}`;
+    const meetPath = `/meet/${getRandomString(30)}`;
 
-    const webView = useWebView(meetPath, 'audioCall', 'аудио звонок');
+    const webView = useWebView(meetPath, 'meet', 'Конференция');
 
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
     const clickChatAudioCall = async () => {
+        setLocalStorage('active-meeting', proxyChat);
         if (appService.tauriIsRunning) {
             webView?.open();
         } else {

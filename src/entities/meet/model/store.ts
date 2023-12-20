@@ -2,14 +2,19 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { useStore, useCreateSelectors } from 'shared/hooks';
+import { useStore, useCreateSelectors, UseStoreTypes } from 'shared/hooks';
 
-type Store = {};
+import { ChatProxy, ChatsTypes } from '../../chat/model/types';
+
+type Store = {
+    activeMeeting: UseStoreTypes.SelectorWithObj<ChatProxy | null>;
+};
+
 const { createSelectors, generateSelectorWithObj } = useStore<Store>();
 const meetStore = create<Store>()(
     devtools(
         immer((set) => ({
-            ...generateSelectorWithObj([], set),
+            ...generateSelectorWithObj(['activeMeeting'], set),
         }))
     )
 );
