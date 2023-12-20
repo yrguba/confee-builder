@@ -6,7 +6,7 @@ import { useStore, useCreateSelectors } from 'shared/hooks';
 
 type Store = {};
 const { createSelectors, generateSelectorWithObj } = useStore<Store>();
-const callsStore = create<Store>()(
+const meetStore = create<Store>()(
     devtools(
         immer((set) => ({
             ...generateSelectorWithObj([], set),
@@ -14,6 +14,6 @@ const callsStore = create<Store>()(
     )
 );
 
-const useCallsStore = useCreateSelectors(callsStore);
+const useMeetStore = useCreateSelectors(meetStore);
 
-export default useCallsStore;
+export default useMeetStore;

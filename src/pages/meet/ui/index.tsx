@@ -1,20 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Outlet } from 'react-router-dom';
+
+import { Meet } from 'features/meet';
 
 import styles from './styles.module.scss';
 
-function CallsPage() {
+function MeetPage() {
     const calls_root = document.querySelector('#calls-root');
 
     return calls_root
         ? ReactDOM.createPortal(
               <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
-                  <Outlet />
+                  <Meet />
               </div>,
               calls_root
           )
         : null;
 }
 
-export default CallsPage;
+export default MeetPage;

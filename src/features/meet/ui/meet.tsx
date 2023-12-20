@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { PrivateCallView } from 'entities/calls';
+import { M } from 'entities/meet';
 import { useEasyState, useRouter, useJitsi } from 'shared/hooks';
 
-function PrivateCall() {
+function Meet() {
     const { ConferenceWebView } = useJitsi();
     console.log('start confa');
     return <ConferenceWebView />;
 }
 
-export default PrivateCall;
+export default Meet;

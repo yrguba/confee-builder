@@ -6,9 +6,9 @@ import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-
 import { viewerApi, tokensService } from 'entities/viewer';
 import { webView } from 'features/auth';
 
-import callsPageRouters from './calls';
 import initialFillingProfilePageRouters from './initial-filling-profile';
 import mainRoutes from './main';
+import meetPageRouters from './meet';
 import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
 import { appService } from '../entities/app';
@@ -24,7 +24,7 @@ function Routing() {
         <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname.split('/')[1]}>
                 {mainRoutes}
-                {callsPageRouters}
+                {meetPageRouters}
                 {initialFillingProfilePageRouters}
                 {warningPageRouters}
                 {updateAppPageRouters}

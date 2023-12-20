@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { appService } from 'entities/app';
-import { callsTypes } from 'entities/calls';
 import { ChatHeaderView, chatApi } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
+import { callsTypes } from 'entities/meet';
 import { useMessageStore, messageApi } from 'entities/message';
 import { useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
@@ -26,9 +26,9 @@ function ChatHeader() {
 
     const notification = Notification.use();
 
-    const callPath = `${chatData?.is_group ? callsTypes.Paths.GROUP : callsTypes.Paths.PRIVATE}/${getRandomString(20)}`;
+    const meetPath = `/meet/${getRandomString(20)}`;
 
-    const webView = useWebView(callPath, 'audioCall', 'аудио звонок');
+    const webView = useWebView(meetPath, 'audioCall', 'аудио звонок');
 
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
@@ -38,7 +38,7 @@ function ChatHeader() {
         if (appService.tauriIsRunning) {
             webView?.open();
         } else {
-            navigate(callPath);
+            navigate(meetPath);
         }
     };
 
