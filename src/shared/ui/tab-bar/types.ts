@@ -8,6 +8,7 @@ export type TabBarItem<T = any> = {
     icon?: IconsTypes.BaseIconsVariants;
     callback: () => void;
     payload?: T;
+    hidden?: boolean;
 };
 
 export type BaseTabBarProps = {

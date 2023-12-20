@@ -38,13 +38,13 @@ import useDatabase from './useDatabase';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
+import useJitsi from './useJitsi';
 import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
 import useRouter from './useRouter';
 import useSaveMediaContent from './useSaveMediaContent';
 import useScroll from './useScroll';
-import useShell from "./useShell";
-import useSip from './useSip';
+import useShell from './useShell';
 import useSize from './useSize';
 import useStorage from './useStorage';
 import useStore, * as UseStoreTypes from './useStore';
@@ -61,6 +61,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useJitsi,
     useShell,
     useWindowMouseClick,
     useSaveMediaContent,
@@ -86,7 +87,6 @@ export {
     useDimensionsObserver,
     useElementDimensions,
     useWindowDimensions,
-    useSip,
     useStorage,
     useEasyState,
     useWebView,

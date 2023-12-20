@@ -20,33 +20,36 @@ function BaseTabBar(props: BaseTabBarProps) {
     return (
         <div className={styles.wrapper}>
             <div className={classes} {...events} style={bodyStyle} ref={ref}>
-                {items.map((i) => (
-                    <Fragment key={i.id}>
-                        {variant === 'icons' ? (
-                            <Button.Circle
-                                variant="secondary"
-                                onClick={() => {
-                                    i.callback();
-                                    clickTab && clickTab(i);
-                                }}
-                            >
-                                <Icons variant={i.icon} />
-                            </Button.Circle>
-                        ) : (
-                            <Button
-                                onClick={() => {
-                                    i.callback();
-                                    clickTab && clickTab(i);
-                                }}
-                                key={i.id}
-                                variant={i.id === activeItemId ? 'primary' : 'secondary'}
-                                chips
-                            >
-                                {i.title}
-                            </Button>
-                        )}
-                    </Fragment>
-                ))}
+                {items.map(
+                    (i) =>
+                        !i.hidden && (
+                            <Fragment key={i.id}>
+                                {variant === 'icons' ? (
+                                    <Button.Circle
+                                        variant="secondary"
+                                        onClick={() => {
+                                            i.callback();
+                                            clickTab && clickTab(i);
+                                        }}
+                                    >
+                                        <Icons variant={i.icon} />
+                                    </Button.Circle>
+                                ) : (
+                                    <Button
+                                        onClick={() => {
+                                            i.callback();
+                                            clickTab && clickTab(i);
+                                        }}
+                                        key={i.id}
+                                        variant={i.id === activeItemId ? 'primary' : 'secondary'}
+                                        chips
+                                    >
+                                        {i.title}
+                                    </Button>
+                                )}
+                            </Fragment>
+                        )
+                )}
             </div>
         </div>
     );
