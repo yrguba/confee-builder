@@ -16,7 +16,14 @@ const GENERAL_SETTINGS = {
 const INTERFACE_CONFIG_OVERWRITE = {
     DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
 };
-function useJitsi() {
+
+type Props = {
+    meetId: string;
+};
+
+function useJitsi(props: Props) {
+    const { meetId } = props;
+
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
 
     const viewer = viewerProxy(viewerData?.user);
@@ -27,7 +34,7 @@ function useJitsi() {
     };
 
     function ConferenceWebView() {
-        const conferenceName = 'NAME';
+        const conferenceName = meetId;
         const userName = viewer?.full_name;
         const avatarUrl = viewer?.full_avatar_url;
 
