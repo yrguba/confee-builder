@@ -11,7 +11,7 @@ function BaseTabBar(props: BaseTabBarProps) {
     const { items, activeItemId, variant = '', clickTab, bodyStyle } = props;
 
     const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
-    const { events } = useDraggableScroll(ref);
+    // const { events } = useDraggableScroll(ref);
 
     const classes = useStyles(styles, 'body', {
         [variant]: variant,
@@ -19,7 +19,7 @@ function BaseTabBar(props: BaseTabBarProps) {
 
     return (
         <div className={styles.wrapper}>
-            <div className={classes} {...events} style={bodyStyle} ref={ref}>
+            <div className={classes} style={bodyStyle}>
                 {items.map(
                     (i) =>
                         !i.hidden && (

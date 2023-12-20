@@ -6,5 +6,6 @@ export type Viewer = {
 
 export type ViewerProxy = {
     full_name: string;
+    full_avatar_url: string;
     formatted_birth: string | null;
 } & Viewer;

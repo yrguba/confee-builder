@@ -1,6 +1,7 @@
 import { JitsiMeeting } from '@jitsi/react-sdk';
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+
+import { viewerApi, viewerProxy } from '../../entities/viewer';
 
 const DOMAIN = 'video.confee.ru';
 const GENERAL_SETTINGS = {
@@ -16,6 +17,10 @@ const INTERFACE_CONFIG_OVERWRITE = {
     DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
 };
 function useJitsi() {
+    const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
+
+    const viewer = viewerProxy(viewerData?.user);
+
     const getIframeRef = (parentNode: HTMLDivElement) => {
         parentNode.style.height = '100vh';
         parentNode.style.width = '100%';
@@ -23,8 +28,8 @@ function useJitsi() {
 
     function ConferenceWebView() {
         const conferenceName = 'NAME';
-        const userName = 'USER_NAME';
-        const avatarUrl = 'AVATAR_URL';
+        const userName = viewer?.full_name;
+        const avatarUrl = viewer?.full_avatar_url;
 
         return conferenceName && userName ? (
             <JitsiMeeting
@@ -36,6 +41,7 @@ function useJitsi() {
                     displayName: userName,
                     email: '',
                 }}
+                key={viewer.id}
                 onApiReady={(externalApi) => {
                     externalApi.executeCommand('avatarUrl', avatarUrl || '');
 
