@@ -3,7 +3,7 @@ import React from 'react';
 import { appService } from 'entities/app';
 import { ChatHeaderView, chatApi } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
-import { callsTypes } from 'entities/meet';
+import { meetTypes } from 'entities/meet';
 import { useMessageStore, messageApi } from 'entities/message';
 import { useRouter, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';

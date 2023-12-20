@@ -1,12 +1,6 @@
 import { WebviewWindow } from '@tauri-apps/api/window';
 import { useEffect, useState } from 'react';
 
-import { callsTypes } from 'entities/calls';
-
-import { getRandomString } from '../lib';
-
-type Paths = callsTypes.Paths;
-
 function useWebView(path: string, id: string, title?: string): { open: () => void; close: () => void } | null {
     if (!window.__TAURI__) return null;
 
