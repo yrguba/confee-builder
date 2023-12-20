@@ -7,10 +7,10 @@ import { getRandomString } from '../lib';
 
 type Paths = callsTypes.Paths;
 
-function useWebView(path: string, title?: string): { open: () => void; close: () => void } | null {
+function useWebView(path: string, id: string, title?: string): { open: () => void; close: () => void } | null {
     if (!window.__TAURI__) return null;
-    const [id, setId] = useState('wda');
-    const webview: any = new WebviewWindow(id, {
+
+    const webview = new WebviewWindow(id, {
         url: `${window.location.origin}${path}`,
         title: title || '',
         center: true,
@@ -18,13 +18,10 @@ function useWebView(path: string, title?: string): { open: () => void; close: ()
     });
 
     const close = () => {
-        setId(getRandomString(20));
         webview.close();
     };
     useEffect(() => {
-        webview.onCloseRequested(() => {
-            setId(getRandomString(20));
-        });
+        webview.onCloseRequested(() => {});
     }, []);
 
     const open = () => {

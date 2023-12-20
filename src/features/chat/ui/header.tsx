@@ -28,7 +28,7 @@ function ChatHeader() {
 
     const callPath = `${chatData?.is_group ? callsTypes.Paths.GROUP : callsTypes.Paths.PRIVATE}/${getRandomString(20)}`;
 
-    const webView = useWebView(callPath, 'аудио звонок');
+    const webView = useWebView(callPath, 'audioCall', 'аудио звонок');
 
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();

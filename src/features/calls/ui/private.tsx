@@ -4,8 +4,6 @@ import { PrivateCallView } from 'entities/calls';
 import { useEasyState, useRouter, useJitsi } from 'shared/hooks';
 
 function PrivateCall() {
-    const { params } = useRouter();
-
     const { ConferenceWebView } = useJitsi();
     console.log('start confa');
     return <ConferenceWebView />;
