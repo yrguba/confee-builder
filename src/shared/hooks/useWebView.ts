@@ -27,6 +27,7 @@ function useWebView(path: string, id: string, title?: string): { open: () => voi
     const open = () => {
         webview.show();
     };
+
     return { close, open };
 }
 

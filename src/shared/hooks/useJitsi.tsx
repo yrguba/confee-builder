@@ -10,7 +10,7 @@ const GENERAL_SETTINGS = {
     disableModeratorIndicator: false,
     startScreenSharing: false,
     enableEmailInStats: false,
-    toolbarButtons: ['chat', 'tileview', 'camera', 'microphone', 'desktop', 'recording', 'select-background', 'noisesuppression', '__end'],
+    toolbarButtons: ['chat', 'tileview', 'camera', 'microphone', 'desktop', 'recording', 'select-background', 'noisesuppression', 'livestreaming'],
 };
 
 const INTERFACE_CONFIG_OVERWRITE = {

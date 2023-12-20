@@ -71,13 +71,13 @@ fn main() {
             _ => {}
         })
 //--------------------------------------------------------------------
-        .on_window_event(|event| match event.event() {
-            tauri::WindowEvent::CloseRequested { api, .. } => {
-                event.window().hide().unwrap();
-                api.prevent_close();
-            }
-            _ => {}
-        })
+//         .on_window_event(|event| match event.event() {
+//             tauri::WindowEvent::CloseRequested { api, .. } => {
+//                 event.window().hide().unwrap();
+//                 api.prevent_close();
+//             }
+//             _ => {}
+//         })
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             let window = app.get_window("main").unwrap();
             window.show().unwrap();
