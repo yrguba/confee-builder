@@ -23,6 +23,7 @@ export type BaseIconsVariants =
     | 'phone'
     | 'videocam'
     | 'videocam-outlined'
+    | 'videocam-pulse'
     | 'block'
     | 'volume-off'
     | 'add-photo'

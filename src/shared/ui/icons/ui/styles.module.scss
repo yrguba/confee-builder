@@ -1,0 +1,32 @@
+@import "src/app/styles";
+
+.pulse{
+  @include flex;
+}
+.pulse {
+  display: block;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 var(--control-primary);
+  animation: pulse 2s infinite;
+}
+
+.pulse:hover {
+  animation: none;
+}
+
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 var(--control-primary);
+    box-shadow: 0 0 0 0 var(--control-primary);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 10px var(--control-primary);
+    box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+

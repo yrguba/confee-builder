@@ -24,7 +24,7 @@ function ChatHeaderView(props: Props) {
     const tabs: TabBarTypes.TabBarItem[] = [
         { id: 0, icon: 'search', callback: () => tabsActions('search') },
         // { id: 1, icon: 'phone', callback: clickChatAudioCall },
-        { id: 2, icon: 'videocam-outlined', callback: () => tabsActions('goMeet') },
+        { id: 2, icon: chat?.meetId ? 'videocam-pulse' : 'videocam-outlined', callback: () => tabsActions('goMeet') },
     ];
     return (
         <Box.Replace
