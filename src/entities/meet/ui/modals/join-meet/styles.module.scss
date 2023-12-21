@@ -1,62 +1,14 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(416px, 100%);
-  @include flex-column(flex-start, center);
-  max-height: 90vh;
+  @include box-size(416px, auto);
+  @include flex-column();
+padding: 18px;
 
-  .header {
-    @include flex-column();
-    width: calc(100% - 48px);
-    gap: 4px;
-    margin: 24px 24px 0 24px;
-    color: var(--text-primary);
-
-    .groupSettings{
-      @include flex;
-      margin-top: 12px;
-      width: 100%;
-      gap: 12px;
-    }
-
-    .search {
-      width: 100%;
-    }
-
-    .border {
-      @include box-size(100%, 1px);
-      margin: 14px 0 8px 0;
-      background-color: var(--border-secondary);
-    }
-
-    .switch {
-      width: 100%;
-      margin-bottom: 8px;
-      @include flex(flex-start);
-
-      svg {
-        stroke: var(--text-action) !important;
-      }
-    }
-  }
-
-  .list {
-    @include scrollBarVertical;
-    margin-top: 8px;
-    width: 94%;
-    padding: 12px;
-    overflow-y: auto;
-    min-height: 100%;
-  }
-
-  .footer {
-    width: 90%;
-    margin-top: 16px;
-    margin-bottom: 28px;
-
-
-    svg {
-      fill: var(--text-action) !important;
-    }
+  .btns{
+    @include flex;
+    margin-top: 20px;
+    gap: 8px;
+    width: 80%;
   }
 }

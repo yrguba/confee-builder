@@ -8,9 +8,9 @@ import { useStorage } from './index';
 
 function useWebView(path: string, id: string, title?: string, clearStorage?: ValuesInStorage): { open: () => void; close: () => void } | null {
     if (!window.__TAURI__) return null;
-    const existedWindow = WebviewWindow.getByLabel('google-window');
-    const { remove } = useStorage();
 
+    const { remove } = useStorage();
+    console.log(path);
     const webview = new WebviewWindow(id, {
         url: `${window.location.origin}${path}`,
         title: title || '',

@@ -1,20 +1,36 @@
 import React from 'react';
 
-import { UseEasyStateReturnType, UseArrayReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse, Avatar, AvatarTypes, Box, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { employeeProxy } from '../../../../company';
-import contactProxy from '../../../../contact/lib/proxy';
-import { ContactProxy, UseContactsTabsAndListsReturnType } from '../../../../contact/model/types';
+import { Avatar, Button, Title } from '../../../../../shared/ui';
 
-type Props = {} & BaseTypes.Statuses;
+type Props = {
+    joining: (value: boolean) => void;
+    avatar: string;
+    name: string;
+} & BaseTypes.Statuses;
 
 function JoinMeetModalView(props: Props) {
-    // const {  } = props;
+    const { joining, avatar, name } = props;
 
-    return <div>join</div>;
+    return (
+        <div className={styles.wrapper}>
+            <Avatar size={170} img={avatar} />
+            <Title textAlign="center" variant="H2">
+                {name}
+            </Title>
+            <Title textAlign="center" variant="H3R">
+                приглашает присоединиться к конференции
+            </Title>
+            <div className={styles.btns}>
+                <Button onClick={() => joining(false)} variant="secondary">
+                    Может позже
+                </Button>
+                <Button onClick={() => joining(true)}>Присоединиться</Button>
+            </div>
+        </div>
+    );
 }
 
 export default JoinMeetModalView;

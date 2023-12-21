@@ -3,9 +3,9 @@ import React from 'react';
 import { appService } from 'entities/app';
 import { ChatHeaderView, chatApi } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
-import { meetTypes, useMeetStore } from 'entities/meet';
+import { meetApi, meetTypes, useMeetStore } from 'entities/meet';
 import { useMessageStore, messageApi } from 'entities/message';
-import { useRouter, useStorage, useWebView } from 'shared/hooks';
+import { useEasyState, useRouter, useStorage, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 import { TabBarTypes, Notification, Modal } from 'shared/ui';
 
@@ -23,26 +23,36 @@ function ChatHeader() {
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const forwardMessages = useMessageStore.use.forwardMessages();
     const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
+    const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
 
-    const { set: setLocalStorage } = useStorage();
+    const { set: setLocalStorage, get: getLocalStorage } = useStorage();
 
     const notification = Notification.use();
 
-    const meetPath = `/meet/${getRandomString(30)}:${proxyChat?.secondUser?.id}:${proxyChat?.id}`;
+    const meetPath = useEasyState('');
 
-    const webView = useWebView(meetPath, 'meet', 'Конференция', 'active-meeting');
+    const webView = useWebView(meetPath.value, 'meet', 'Конференция', 'active-meeting');
 
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
     const clickChatAudioCall = async () => {
+        const id = getRandomString(30);
+        meetPath.set(`/meet/${id}`);
+        // if (getLocalStorage('active-meeting')) {
+        //     notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
+        // } else {
         setLocalStorage('active-meeting', true);
+        if (id && proxyChat?.secondUser?.id) {
+            handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: id, target_user_id: proxyChat?.secondUser?.id });
+        }
         if (appService.tauriIsRunning) {
             webView?.open();
         } else {
-            navigate(meetPath);
+            navigate(`/meet/${id}`);
         }
+        // }
     };
 
     const clickDeleteMessages = async () => {
