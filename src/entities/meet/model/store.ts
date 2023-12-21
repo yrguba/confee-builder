@@ -7,14 +7,18 @@ import { useStore, useCreateSelectors, UseStoreTypes } from 'shared/hooks';
 import { ChatProxy, ChatsTypes } from '../../chat/model/types';
 
 type Store = {
-    activeMeeting: UseStoreTypes.SelectorWithObj<ChatProxy | null>;
+    joinRequest: UseStoreTypes.SelectorWithObj<{
+        avatar: string;
+        id: string;
+        name: string;
+    }>;
 };
 
-const { createSelectors, generateSelectorWithObj } = useStore<Store>();
+const { createSelectors, generateSelectorWithObj, generateSelectorWithArr } = useStore<Store>();
 const meetStore = create<Store>()(
     devtools(
         immer((set) => ({
-            ...generateSelectorWithObj(['activeMeeting'], set),
+            ...generateSelectorWithObj(['joinRequest'], set),
         }))
     )
 );
