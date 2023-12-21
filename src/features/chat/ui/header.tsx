@@ -1,4 +1,5 @@
-import React from 'react';
+import { invoke } from '@tauri-apps/api/tauri';
+import React, { useEffect } from 'react';
 
 import { appService } from 'entities/app';
 import { ChatHeaderView, chatApi } from 'entities/chat';
@@ -26,7 +27,7 @@ function ChatHeader() {
     const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
     const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
 
-    const { set: setLocalStorage, get: getLocalStorage } = useStorage();
+    const { set: setLocalStorage, get: getLocalStorage, remove: removeLocalStorage } = useStorage();
 
     const notification = Notification.use();
 
@@ -34,23 +35,24 @@ function ChatHeader() {
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
+    const webView = useWebView({
+        id: 'meet',
+        title: 'Конференция',
+        onClose: () => {
+            removeLocalStorage('active-meeting');
+            console.log('eeee');
+        },
+    });
+
     const clickChatAudioCall = async () => {
-        const meetId = `wadawd3132312${chatData?.id}`;
-
-        const webView = useWebView({
-            path: `/meet/${meetId}`,
-            id: 'meet',
-            title: 'Конференция',
-            clearStorage: 'active-meeting',
-        });
-
+        const meetId = getRandomString(30);
         if (getLocalStorage('active-meeting') || params.meet_id) {
             notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
         } else if (meetId && proxyChat?.secondUser?.id) {
-            // handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: meetId, target_user_id: proxyChat?.secondUser?.id });
+            handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: meetId, target_user_id: proxyChat?.secondUser?.id });
             if (appService.tauriIsRunning) {
                 // setLocalStorage('active-meeting', true);
-                webView?.show();
+                webView?.open(`/meet/${meetId}`);
             } else {
                 navigate(`/meet/${meetId}`);
             }

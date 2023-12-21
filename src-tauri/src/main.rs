@@ -12,6 +12,14 @@ struct Payload {
     cwd: String,
 }
 
+#[tauri::command]
+async fn open_meet(handle: tauri::AppHandle, url: String, id: String) {
+    let docs_window = tauri::WindowBuilder::new(
+        &handle,
+        id,
+        tauri::WindowUrl::External(url.parse().unwrap())
+    ).build().unwrap();
+}
 
 fn main() {
     let open = CustomMenuItem::new("open".to_string(), "Открыть");
@@ -26,8 +34,9 @@ fn main() {
     let system_tray = SystemTray::new()
         .with_menu(tray_menu);
 
-    tauri::Builder::default().system_tray(system_tray)
-
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![open_meet])
+        .system_tray(system_tray)
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {
                 position: _,

@@ -17,10 +17,8 @@ function JoinMeetModal(modal: ModalTypes.UseReturnedType) {
     const { set: setLocalStorage, get: getLocalStorage } = useStorage();
 
     const webView = useWebView({
-        path: meetPath,
         id: 'meet',
         title: 'Конференция',
-        clearStorage: 'active-meeting',
     });
 
     const joining = (value: boolean) => {
@@ -29,7 +27,7 @@ function JoinMeetModal(modal: ModalTypes.UseReturnedType) {
                 return notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
             }
             if (appService.tauriIsRunning) {
-                webView?.show();
+                // webView?.show();
                 setLocalStorage('active-meeting', true);
             } else {
                 navigate(meetPath);
