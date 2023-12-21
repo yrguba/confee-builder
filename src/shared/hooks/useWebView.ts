@@ -25,13 +25,18 @@ function useWebView(props: Props) {
 
         setTimeout(() => {
             const isGet = WebviewWindow.getByLabel(id);
+            isGet?.setTitle(title || '');
             isGet?.once('tauri://close-requested', function () {
                 onClose && onClose();
             });
-        }, 1000);
+        }, 100);
     };
 
-    return { open };
+    const isOpen = () => {
+        return !!WebviewWindow.getByLabel(id);
+    };
+
+    return { open, isOpen };
 }
 
 export default useWebView;

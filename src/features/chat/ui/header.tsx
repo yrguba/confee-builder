@@ -21,13 +21,10 @@ function ChatHeader() {
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const proxyChat = chatProxy(chatData);
 
-    const joinRequest = useMeetStore.use.joinRequest();
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const forwardMessages = useMessageStore.use.forwardMessages();
     const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
     const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
-
-    const { set: setLocalStorage, get: getLocalStorage, remove: removeLocalStorage } = useStorage();
 
     const notification = Notification.use();
 
@@ -37,21 +34,17 @@ function ChatHeader() {
 
     const webView = useWebView({
         id: 'meet',
-        title: 'Конференция',
-        onClose: () => {
-            removeLocalStorage('active-meeting');
-            console.log('eeee');
-        },
+        title: `Конференция`,
+        onClose: () => {},
     });
 
     const clickChatAudioCall = async () => {
         const meetId = getRandomString(30);
-        if (getLocalStorage('active-meeting') || params.meet_id) {
+        if (webView?.isOpen() || params.meet_id) {
             notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
         } else if (meetId && proxyChat?.secondUser?.id) {
             handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: meetId, target_user_id: proxyChat?.secondUser?.id });
             if (appService.tauriIsRunning) {
-                // setLocalStorage('active-meeting', true);
                 webView?.open(`/meet/${meetId}`);
             } else {
                 navigate(`/meet/${meetId}`);

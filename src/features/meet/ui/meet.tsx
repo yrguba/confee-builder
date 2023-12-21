@@ -12,10 +12,10 @@ function Meet() {
 
     const meetStr = clientFullURL.split('/').pop();
     const meetId = meetStr?.split(':')[0];
-    const { set: setLocalStorage, get: getLocalStorage } = useStorage();
+
     const { ConferenceWebView } = useJitsi({ meetId });
-    console.log(clientFullURL);
-    return <div>{meetId}</div>;
+
+    return meetId ? <ConferenceWebView /> : null;
 }
 
 export default Meet;

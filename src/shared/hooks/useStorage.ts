@@ -7,8 +7,7 @@ export type ValuesInStorage =
     | 'viewer_id'
     | 'save_in_cache'
     | 'chat_list_width'
-    | 'active-chats-tab'
-    | 'active-meeting';
+    | 'active-chats-tab';
 
 function useStorage() {
     const set = (name: ValuesInStorage, value: any) => {

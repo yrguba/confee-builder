@@ -29,8 +29,6 @@ function MainLayout() {
     useEffect(() => {
         if (joinRequest.value.id) {
             joinMeetModal.open();
-        } else {
-            joinMeetModal.close();
         }
     }, [joinRequest.value]);
 
