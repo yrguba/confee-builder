@@ -20,6 +20,7 @@ function ChatHeader() {
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const proxyChat = chatProxy(chatData);
 
+    const joinRequest = useMeetStore.use.joinRequest();
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const forwardMessages = useMessageStore.use.forwardMessages();
     const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
@@ -29,9 +30,14 @@ function ChatHeader() {
 
     const notification = Notification.use();
 
-    const meetId = `efsihfiosefheiosfhio${chatData?.id}234243243`;
+    const meetId = `wadawd3132312${chatData?.id}`;
 
-    const webView = useWebView(`/meet/${meetId}`, 'meet', 'Конференция', 'active-meeting');
+    const webView = useWebView({
+        path: `/meet/${meetId}`,
+        id: 'meet',
+        title: 'Конференция',
+        clearStorage: 'active-meeting',
+    });
 
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();

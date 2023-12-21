@@ -16,7 +16,12 @@ function JoinMeetModal(modal: ModalTypes.UseReturnedType) {
 
     const { set: setLocalStorage, get: getLocalStorage } = useStorage();
 
-    const webView = useWebView(meetPath, 'meet', 'Конференция', 'active-meeting');
+    const webView = useWebView({
+        path: meetPath,
+        id: 'meet',
+        title: 'Конференция',
+        clearStorage: 'active-meeting',
+    });
 
     const joining = (value: boolean) => {
         if (value) {

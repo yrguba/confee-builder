@@ -6,8 +6,17 @@ import { ValuesInStorage } from './useStorage';
 
 import { useStorage } from './index';
 
-function useWebView(path: string, id: string, title?: string, clearStorage?: ValuesInStorage) {
-    if (!window.__TAURI__) return null;
+type Props = {
+    path: string;
+    id: string;
+    title?: string;
+    clearStorage?: ValuesInStorage;
+    disabled?: boolean;
+};
+
+function useWebView(props: Props) {
+    const { path, id, title, clearStorage, disabled } = props;
+    if (!window.__TAURI__ || disabled) return null;
 
     const { remove } = useStorage();
     const webview = new WebviewWindow(id, {
