@@ -29,7 +29,7 @@ function JoinMeetModal(modal: ModalTypes.UseReturnedType) {
                 return notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
             }
             if (appService.tauriIsRunning) {
-                webView?.open();
+                webView?.show();
                 setLocalStorage('active-meeting', true);
             } else {
                 navigate(meetPath);

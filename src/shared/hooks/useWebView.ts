@@ -19,6 +19,7 @@ function useWebView(props: Props) {
     if (!window.__TAURI__ || disabled) return null;
 
     const { remove } = useStorage();
+    console.log('tt');
     const webview = new WebviewWindow(id, {
         url: `${window.location.origin}${path}`,
         title: title || '',
@@ -37,7 +38,7 @@ function useWebView(props: Props) {
         webview.show();
     };
 
-    return { close, open, isOpen: webview.isVisible };
+    return webview;
 }
 
 export default useWebView;

@@ -30,29 +30,27 @@ function ChatHeader() {
 
     const notification = Notification.use();
 
-    const meetId = `wadawd3132312${chatData?.id}`;
-
-    const webView = useWebView({
-        path: `/meet/${meetId}`,
-        id: 'meet',
-        title: 'Конференция',
-        clearStorage: 'active-meeting',
-    });
-
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
     const clickChatAudioCall = async () => {
+        const meetId = `wadawd3132312${chatData?.id}`;
+
+        const webView = useWebView({
+            path: `/meet/${meetId}`,
+            id: 'meet',
+            title: 'Конференция',
+            clearStorage: 'active-meeting',
+        });
+
         if (getLocalStorage('active-meeting') || params.meet_id) {
             notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
-        } else {
-            if (meetId && proxyChat?.secondUser?.id) {
-                handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: meetId, target_user_id: proxyChat?.secondUser?.id });
-            }
+        } else if (meetId && proxyChat?.secondUser?.id) {
+            // handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: meetId, target_user_id: proxyChat?.secondUser?.id });
             if (appService.tauriIsRunning) {
-                setLocalStorage('active-meeting', true);
-                webView?.open();
+                // setLocalStorage('active-meeting', true);
+                webView?.show();
             } else {
                 navigate(`/meet/${meetId}`);
             }
