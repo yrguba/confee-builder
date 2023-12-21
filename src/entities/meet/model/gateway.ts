@@ -1,0 +1,44 @@
+import { useQueryClient } from '@tanstack/react-query';
+import produce from 'immer';
+import { useEffect } from 'react';
+
+import { useRouter, useWebSocket } from 'shared/hooks';
+
+import { SocketOut, SocketIn } from './types';
+import { viewerService } from '../../viewer';
+import ChatService from '../lib/service';
+
+function meetGateway() {
+    const { navigate } = useRouter();
+    const queryClient = useQueryClient();
+    const viewerId = viewerService.getId();
+    useEffect(() => {
+        const { onMessage } = useWebSocket<SocketIn, SocketOut>();
+        onMessage('CallCreated', (socketData) => {
+            if (viewerId && String(viewerId) in socketData?.data.extra_info) {
+                const extraInfo = socketData.data.extra_info[viewerId];
+                // ['all', 'personal', `for-company/17`].forEach((i) =>
+                //     queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                //         if (!cacheData?.pages?.length) return cacheData;
+                //         return produce(cacheData, (draft: any) => {
+                //             draft?.pages.forEach((page: any) => {
+                //                 page.data.data = page?.data?.data.map((chat: any) => {
+                //                     if (socketData.data.chat.id === chat.id) return { ...chat, meetId: extraInfo.confee_video_room };
+                //                     return chat;
+                //                 });
+                //             });
+                //         });
+                //     })
+                // );
+                queryClient.setQueryData(['get-chat', socketData.data.chat.id], (cacheData: any) => {
+                    if (!cacheData?.data?.data) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft.data.data = { ...draft.data.data, meetId: extraInfo.confee_video_room };
+                    });
+                });
+            }
+        });
+    }, []);
+}
+
+export default meetGateway;

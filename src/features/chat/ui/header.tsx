@@ -28,7 +28,7 @@ function ChatHeader() {
 
     const notification = Notification.use();
 
-    const meetPath = `/meet/${getRandomString(30)}`;
+    const meetPath = `/meet/${getRandomString(30)}:${proxyChat?.secondUser?.id}:${proxyChat?.id}`;
 
     const webView = useWebView(meetPath, 'meet', 'Конференция', 'active-meeting');
 
@@ -37,7 +37,7 @@ function ChatHeader() {
     const forwardMessagesModal = Modal.use();
 
     const clickChatAudioCall = async () => {
-        setLocalStorage('active-meeting', proxyChat);
+        setLocalStorage('active-meeting', true);
         if (appService.tauriIsRunning) {
             webView?.open();
         } else {

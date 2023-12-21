@@ -20,7 +20,7 @@ type Props = {
 
 function ChatHeaderView(props: Props) {
     const { chat, back, tabs, clickCard, highlightedMessages, clickDeleteMessages, clickForwardMessages, loading } = props;
-
+    console.log(chat?.meetId);
     return (
         <Box.Replace
             className={styles.wrapper}

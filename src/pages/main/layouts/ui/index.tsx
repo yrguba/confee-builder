@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './styles.module.scss';
 import { chatApi, chatGateway, useChatStore } from '../../../../entities/chat';
+import { meetGateway } from '../../../../entities/meet';
 import { messageGateway } from '../../../../entities/message';
 import { userGateway } from '../../../../entities/user';
 import { useRouter, useWebSocket } from '../../../../shared/hooks';
@@ -19,7 +20,7 @@ function MainLayout() {
     chatGateway();
     userGateway();
     messageGateway();
-
+    meetGateway();
     useEffect(() => {
         if (!params.chat_id) {
             chatSubscription.value && handleUnsubscribeFromChat(chatSubscription.value);

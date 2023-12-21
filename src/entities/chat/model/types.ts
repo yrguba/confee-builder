@@ -36,6 +36,7 @@ export type ChatProxy = {
     checkIsMyLastMessage: boolean;
     subtitle: string;
     authorLastMessage: string;
+    meetId: string;
 } & Chat;
 
 export type ChatsTypes = 'all' | 'personal' | 'company';
