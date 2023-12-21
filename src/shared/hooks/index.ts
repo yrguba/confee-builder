@@ -46,7 +46,7 @@ import useSaveMediaContent from './useSaveMediaContent';
 import useScroll from './useScroll';
 import useShell from './useShell';
 import useSize from './useSize';
-import useStorage from './useStorage';
+import useStorage, * as UseStorageTypes from './useStorage';
 import useStore, * as UseStoreTypes from './useStore';
 import useStyles from './useStyles';
 import useTextToSpeech from './useTextToSpeech';
@@ -123,4 +123,4 @@ export {
     useWebSocket,
 };
 
-export type { UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes };
+export type { UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };

@@ -30,7 +30,7 @@ function ChatHeader() {
 
     const meetPath = `/meet/${getRandomString(30)}`;
 
-    const webView = useWebView(meetPath, 'meet', 'Конференция');
+    const webView = useWebView(meetPath, 'meet', 'Конференция', 'active-meeting');
 
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
