@@ -41,6 +41,8 @@ export type ChatProxy = {
 
 export type ChatsTypes = 'all' | 'personal' | 'company';
 
+export type ChatTabsActions = 'goMeet' | 'search';
+
 export type UseChatsTabsAndListsReturnType = {
     tabs: TabBarTypes.TabBarItem[];
     activeTab: TabBarTypes.TabBarItem | null;

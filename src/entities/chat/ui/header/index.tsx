@@ -6,21 +6,26 @@ import { Icons, Card, Button, TabBarTypes, TabBar, Box, Title } from 'shared/ui'
 
 import styles from './styles.module.scss';
 import { MessageProxy } from '../../../message/model/types';
-import { ChatProxy } from '../../model/types';
+import { ChatProxy, ChatTabsActions } from '../../model/types';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
     back: () => void;
-    tabs: TabBarTypes.TabBarItem[];
     clickCard: () => void;
     highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     clickDeleteMessages: () => void;
     clickForwardMessages: () => void;
+    tabsActions: (action: ChatTabsActions) => void;
 } & BaseTypes.Statuses;
 
 function ChatHeaderView(props: Props) {
-    const { chat, back, tabs, clickCard, highlightedMessages, clickDeleteMessages, clickForwardMessages, loading } = props;
-    console.log(chat?.meetId);
+    const { tabsActions, chat, back, clickCard, highlightedMessages, clickDeleteMessages, clickForwardMessages, loading } = props;
+
+    const tabs: TabBarTypes.TabBarItem[] = [
+        { id: 0, icon: 'search', callback: () => tabsActions('search') },
+        // { id: 1, icon: 'phone', callback: clickChatAudioCall },
+        { id: 2, icon: 'videocam-outlined', callback: () => tabsActions('goMeet') },
+    ];
     return (
         <Box.Replace
             className={styles.wrapper}

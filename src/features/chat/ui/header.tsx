@@ -12,6 +12,7 @@ import { TabBarTypes, Notification, Modal } from 'shared/ui';
 
 import GroupChatProfileModal from './modals/profile/group';
 import PrivateChatProfileModal from './modals/profile/private';
+import { ChatTabsActions } from '../../../entities/chat/model/types';
 import { ForwardMessagesModal } from '../../message';
 
 function ChatHeader() {
@@ -38,7 +39,7 @@ function ChatHeader() {
         onClose: () => {},
     });
 
-    const clickChatAudioCall = async () => {
+    const goMeet = async () => {
         const meetId = getRandomString(30);
         if (webView?.isOpen() || params.meet_id) {
             notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
@@ -69,18 +70,21 @@ function ChatHeader() {
         forwardMessagesModal.open();
     };
 
-    const tabs: TabBarTypes.TabBarItem[] = [
-        { id: 0, icon: 'search', callback: () => visibleSearchMessages.set(!visibleSearchMessages.value) },
-        // { id: 1, icon: 'phone', callback: clickChatAudioCall },
-        { id: 2, icon: 'videocam-outlined', callback: clickChatAudioCall, hidden: chatData?.is_group },
-    ];
-
     const clickCard = () => {
         if (proxyChat?.is_group) {
             groupChatProfileModal.open({ chatId: proxyChat.id });
         } else {
             if (proxyChat?.is_personal) return privateChatProfileModal.open({ user: proxyChat.secondUser });
             privateChatProfileModal.open({ employee: proxyChat?.secondEmployee });
+        }
+    };
+
+    const tabsActions = (action: ChatTabsActions) => {
+        switch (action) {
+            case 'search':
+                return visibleSearchMessages.set(!visibleSearchMessages.value);
+            case 'goMeet':
+                return goMeet();
         }
     };
 
@@ -92,7 +96,7 @@ function ChatHeader() {
             <ChatHeaderView
                 back={() => navigate('/chats')}
                 chat={chatProxy(chatData)}
-                tabs={tabs}
+                tabsActions={tabsActions}
                 clickCard={clickCard}
                 highlightedMessages={highlightedMessages}
                 clickDeleteMessages={clickDeleteMessages}
