@@ -23,7 +23,7 @@ function UpdateAppPage() {
                         Доступно обновление
                     </Title>
                     <Title textAlign="center" textWrap primary={false} variant="H3S">
-                        Чтобы воспользваться всеми возможностями приложения, обновите его до последней версии
+                        Чтобы воспользоваться всеми возможностями приложения, обновите его до последней версии
                     </Title>
                 </div>
                 <Button width="120px" height="40px" onClick={updateApp}>
