@@ -29,30 +29,28 @@ function ChatHeader() {
 
     const notification = Notification.use();
 
-    const meetPath = useEasyState('');
+    const meetId = `efsihfiosefheiosfhio${chatData?.id}234243243`;
 
-    const webView = useWebView(meetPath.value, 'meet', 'Конференция', 'active-meeting');
+    const webView = useWebView(`/meet/${meetId}`, 'meet', 'Конференция', 'active-meeting');
 
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
     const clickChatAudioCall = async () => {
-        const id = getRandomString(30);
-        meetPath.set(`/meet/${id}`);
-        // if (getLocalStorage('active-meeting')) {
-        //     notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
-        // } else {
-        setLocalStorage('active-meeting', true);
-        if (id && proxyChat?.secondUser?.id) {
-            handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: id, target_user_id: proxyChat?.secondUser?.id });
-        }
-        if (appService.tauriIsRunning) {
-            webView?.open();
+        if (getLocalStorage('active-meeting') || params.meet_id) {
+            notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
         } else {
-            navigate(`/meet/${id}`);
+            if (meetId && proxyChat?.secondUser?.id) {
+                handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: meetId, target_user_id: proxyChat?.secondUser?.id });
+            }
+            if (appService.tauriIsRunning) {
+                setLocalStorage('active-meeting', true);
+                webView?.open();
+            } else {
+                navigate(`/meet/${meetId}`);
+            }
         }
-        // }
     };
 
     const clickDeleteMessages = async () => {

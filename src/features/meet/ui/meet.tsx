@@ -11,7 +11,7 @@ function Meet() {
     const { clientFullURL } = appService.getUrls();
     const meetStr = clientFullURL.split('/').pop();
     const meetId = meetStr?.split(':')[0];
-    console.log(clientFullURL);
+
     const { ConferenceWebView } = useJitsi({ meetId });
 
     return meetId ? <ConferenceWebView /> : null;

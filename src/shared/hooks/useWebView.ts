@@ -6,11 +6,10 @@ import { ValuesInStorage } from './useStorage';
 
 import { useStorage } from './index';
 
-function useWebView(path: string, id: string, title?: string, clearStorage?: ValuesInStorage): { open: () => void; close: () => void } | null {
+function useWebView(path: string, id: string, title?: string, clearStorage?: ValuesInStorage) {
     if (!window.__TAURI__) return null;
 
     const { remove } = useStorage();
-    console.log(path);
     const webview = new WebviewWindow(id, {
         url: `${window.location.origin}${path}`,
         title: title || '',
@@ -29,7 +28,7 @@ function useWebView(path: string, id: string, title?: string, clearStorage?: Val
         webview.show();
     };
 
-    return { close, open };
+    return { close, open, isOpen: webview.isVisible };
 }
 
 export default useWebView;
