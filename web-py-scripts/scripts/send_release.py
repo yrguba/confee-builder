@@ -8,11 +8,14 @@ if __name__ == '__main__':
     server_endpoint_name = "http://localhost:5000/api/v1/files/upload_desktop_release"
 
     project_dir = Path(__file__).parents[2]
+    tauri_dir = Path(project_dir, "src-tauri")
 
     version = ''
     signature = ''
     app = ''
     app_os = ''
+
+    # delete_dir(Path(tauri_dir, "target"))
 
     if platform == 'Windows':
         path = Path(project_dir, "src-tauri", "target", "release", "bundle", "msi")
@@ -25,7 +28,7 @@ if __name__ == '__main__':
 
             if file.split('.').pop() == 'zip':
                 app = ('file', open(Path(path, file), 'rb'))
-
+ 
     try:
         data = {"version": version, "signature": signature, "os": app_os}
         res = requests.post(server_endpoint_name, data=data, files=[app],
