@@ -1,7 +1,7 @@
 import os, requests
 from pathlib import Path
 import platform
-
+import json
 import os, stat, shutil
 
 
@@ -28,15 +28,18 @@ if __name__ == '__main__':
     project_dir = Path(__file__).parents[2]
     tauri_dir = Path(project_dir, "src-tauri")
 
-    delete_dir(Path(tauri_dir, "target"))
+    project_json = json.load(open(Path(project_dir, 'package.json'), 'r'))
+    print(project_json)
 
-    os.system("npm run tauri:local-build")
+    # delete_dir(Path(tauri_dir, "target"))
+    #
+    # os.system("npm run tauri:local-build")
 
-    version = ''
+    version = project_json["version"]
     signature = ''
     app = ''
     app_os = ''
-
+    
     if platform == 'Windows':
         path = Path(project_dir, "src-tauri", "target", "release", "bundle", "msi")
         if os.path.isdir(path):
@@ -45,7 +48,6 @@ if __name__ == '__main__':
 
             for file in files:
                 if file.split('.').pop() == 'sig':
-                    version = file.split('_')[1]
                     signature = open(Path(path, file), 'r').read()
 
                 if file.split('.').pop() == 'zip':
@@ -60,6 +62,5 @@ if __name__ == '__main__':
                             verify=False)
         print(res)
         print('success')
-        delete_dir(Path(tauri_dir, "target"))
     except:
         print('send error')
