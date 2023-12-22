@@ -31,9 +31,8 @@ function GroupChatProfileModalView(props: Props) {
     const visibleMenu = useEasyState(false);
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
-        { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
-        { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
-        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
+        { id: 0, title: 'Конференция', icon: 'videocam', payload: '', callback: () => actions('goMeet') },
+        { id: 1, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
     ];
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
@@ -82,7 +81,7 @@ function GroupChatProfileModalView(props: Props) {
             />
             <div className={styles.btns}>
                 {btns.map((i) => (
-                    <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} key={i.id} onClick={i.callback}>
+                    <Button redText={i.isRed} direction="vertical" prefixIcon={<Icons variant={i.icon} />} key={i.id} onClick={i.callback}>
                         {i.title}
                     </Button>
                 ))}

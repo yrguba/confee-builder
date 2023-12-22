@@ -31,10 +31,9 @@ function PrivateChatProfileModalView(props: Props) {
     const visibleMenu = useEasyState(false);
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
-        { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: () => actions('audioCall') },
-        { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: () => actions('videoCall') },
-        { id: 2, title: 'Написать', icon: 'messages', payload: '', callback: () => actions('message'), hidden: !visibleChatBtn },
-        { id: 3, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
+        { id: 0, title: 'Конференция', icon: 'videocam', payload: '', callback: () => actions('goMeet') },
+        { id: 1, title: 'Написать', icon: 'messages', payload: '', callback: () => actions('message'), hidden: !visibleChatBtn },
+        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
     ];
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [

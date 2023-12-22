@@ -96,12 +96,12 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
     const visibleMenu = useEasyState(false);
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
-        {
-            id: 0,
-            icon: <Icons variant="call-end" />,
-            callback: () => actions({ action: 'audioCall', contact: contact || null, employee: employee || null }),
-            title: 'позвонить',
-        },
+        // {
+        //     id: 0,
+        //     icon: <Icons variant="videocam-outlined" />,
+        //     callback: () => actions({ action: 'goMeet', contact: contact || null, employee: employee || null }),
+        //     title: 'конференция',
+        // },
         {
             id: 1,
             icon: <Icons variant="messages" />,

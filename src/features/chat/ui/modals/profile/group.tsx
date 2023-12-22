@@ -5,12 +5,15 @@ import useFileUploader from 'react-use-file-uploader';
 import { chatApi, chatProxy, GroupChatProfileModalView, chatTypes } from 'entities/chat';
 import { messageTypes } from 'entities/message';
 import { viewerService } from 'entities/viewer';
-import { useRouter, useEasyState, UseFileUploaderTypes } from 'shared/hooks';
+import { useRouter, useEasyState, UseFileUploaderTypes, useWebView } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
 import PrivateChatProfileModal from './private';
+import { appService } from '../../../../../entities/app';
 import { EmployeeProxy } from '../../../../../entities/company/model/types';
+import { meetApi } from '../../../../../entities/meet';
 import { UserProxy } from '../../../../../entities/user/model/types';
+import { getRandomString } from '../../../../../shared/lib';
 import ChatAvatarsSwiper from '../../avatars-swiper';
 import AddMembersInChatModal from '../add-members';
 
@@ -25,6 +28,12 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const proxyChat = chatProxy(chatData);
 
+    const webView = useWebView({
+        id: 'meet',
+        title: `Конференция`,
+        onClose: () => {},
+    });
+
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
 
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
@@ -32,6 +41,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const { mutate: handleRemoveMemberFromCompany } = chatApi.handleRemoveMemberFromCompany();
     const { mutate: handleRemoveMemberFromPersonal } = chatApi.handleRemoveMemberFromPersonal();
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
+    const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(null);
 
@@ -86,10 +96,9 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
 
     const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
-            case 'audioCall':
-                return notification.inDev();
-            case 'videoCall':
-                return notification.inDev();
+            case 'goMeet':
+                return notification.info({ title: 'Звонки пока недоступны в групповых чатах' });
+
             case 'leave':
                 return confirmLeaveChat.open(null, {
                     okText: proxyChat?.is_group ? 'Покинуть' : 'Удалить',

@@ -39,6 +39,6 @@ export type UseContactsTabsAndListsReturnType = {
     searchLoading: boolean;
 };
 
-export type Actions = 'delete' | 'mute' | 'audioCall' | 'videoCall' | 'message' | 'editName';
+export type Actions = 'delete' | 'mute' | 'goMeet' | 'message' | 'editName';
 export type SocketIn = '';
 export type SocketOut = '';

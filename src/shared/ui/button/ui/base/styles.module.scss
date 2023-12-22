@@ -19,6 +19,10 @@
   }
 }
 
+.redText{
+  color: var(--text-negative) !important;
+}
+
 .vertical {
   @include flex-column;
 }

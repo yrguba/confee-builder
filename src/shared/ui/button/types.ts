@@ -8,6 +8,7 @@ type SharedProps = {
     prefixIcon?: ReactNode;
     suffixIcon?: ReactNode;
     animateTrigger?: string;
+    redText?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement> &
     BaseTypes.Statuses;
 

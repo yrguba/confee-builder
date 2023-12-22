@@ -8,7 +8,7 @@ function use() {
         setNotifications({ ...props, status, id: new Date().valueOf() });
     };
 
-    const info = (props: UseProps) => set(props, 'info');
+    const info = (props: UseProps) => set({ ...props, system: true }, 'info');
     const success = (props: UseProps) => set(props, 'success');
     const warning = (props: UseProps) => set(props, 'warning');
     const error = (props: UseProps) => set({ ...props, system: true }, 'error');

@@ -53,7 +53,7 @@ export type UseChatsTabsAndListsReturnType = {
     foundChats: ChatProxy[] | BaseTypes.Empty;
 };
 
-export type PrivateChatActions = 'delete' | 'audioCall' | 'videoCall' | 'message';
-export type GroupChatActions = 'leave' | 'audioCall' | 'videoCall' | 'add-members';
+export type PrivateChatActions = 'delete' | 'goMeet' | 'message';
+export type GroupChatActions = 'leave' | 'goMeet' | 'add-members';
 export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated';
 export type SocketOut = 'ChatListenersUpdated';

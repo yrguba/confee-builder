@@ -14,4 +14,5 @@ export type Item<I = any, P = any, C = any> = {
     payload: P;
     callback?: (data?: C) => void;
     hidden?: boolean;
+    isRed?: boolean;
 };

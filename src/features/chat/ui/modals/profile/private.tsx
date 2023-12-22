@@ -5,8 +5,12 @@ import { EmployeeProxy } from 'entities/company/model/types';
 import { messageTypes } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
 import { viewerService } from 'entities/viewer';
-import { useRouter, useEasyState } from 'shared/hooks';
+import { useRouter, useEasyState, useWebView } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
+
+import { appService } from '../../../../../entities/app';
+import { meetApi } from '../../../../../entities/meet';
+import { getRandomString } from '../../../../../shared/lib';
 
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
     const { navigate, pathname, params } = useRouter();
@@ -26,6 +30,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
     const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
+    const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
 
     const notification = Notification.use();
 
@@ -43,12 +48,30 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
         }
     });
 
+    const webView = useWebView({
+        id: 'meet',
+        title: `Конференция`,
+        onClose: () => {},
+    });
+
+    const goMeet = async () => {
+        const meetId = getRandomString(30);
+        if (webView?.isOpen() || params.meet_id) {
+            notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
+        } else if (meetId && proxyChat?.secondUser?.id) {
+            handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: meetId, target_user_id: proxyChat?.secondUser?.id });
+            if (appService.tauriIsRunning) {
+                webView?.open(`/meet/${meetId}`);
+            } else {
+                navigate(`/meet/${meetId}`);
+            }
+        }
+    };
+
     const actions = (action: chatTypes.PrivateChatActions) => {
         switch (action) {
-            case 'audioCall':
-                return notification.inDev();
-            case 'videoCall':
-                return notification.inDev();
+            case 'goMeet':
+                return goMeet();
             case 'message':
                 const redirect = (chatId?: number) => navigate(`/chats/${user ? 'personal' : `company/${params.company_id}`}/chat/${chatId}`);
                 if (!proxyChat) {

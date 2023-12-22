@@ -77,7 +77,7 @@ function ContactsList() {
                 return notification.inDev();
             case 'message':
                 return createMessage(data.contact, data.employee);
-            case 'audioCall':
+            case 'goMeet':
                 return notification.inDev();
         }
     };

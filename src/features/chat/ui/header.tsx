@@ -84,7 +84,7 @@ function ChatHeader() {
             case 'search':
                 return visibleSearchMessages.set(!visibleSearchMessages.value);
             case 'goMeet':
-                return goMeet();
+                return proxyChat?.is_group ? notification.info({ title: 'Звонки пока недоступны в групповых чатах' }) : goMeet();
         }
     };
 

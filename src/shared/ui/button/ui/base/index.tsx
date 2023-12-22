@@ -22,6 +22,7 @@ function BaseButton(props: BaseButtonProps) {
         height,
         active,
         direction = 'horizontal',
+        redText,
         ...other
     } = props;
 
@@ -33,6 +34,7 @@ function BaseButton(props: BaseButtonProps) {
         chips,
         [direction]: direction,
         [`size-${size}`]: size,
+        redText,
     });
 
     return (
