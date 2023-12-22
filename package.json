@@ -25,7 +25,9 @@
         "lint:fix": "npx eslint ./src --fix",
         "release": "npm version patch && git push origin main && git push origin --tags",
         "web-py-scripts": "python ./web-py-scripts/root.py",
-        "bundle-analyze": "webpack-bundle-analyzer build/bundle-stats.json"
+        "bundle-analyze": "webpack-bundle-analyzer build/bundle-stats.json",
+        "release-build-send": "npm run tauri:local-build && python ./web-py-scripts/scripts/buil_and_send.py",
+        "test": "python ./web-py-scripts/scripts/buil_and_send.py"
     },
     "dependencies": {
         "@hookform/resolvers": "^2.9.11",
