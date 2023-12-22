@@ -17,7 +17,7 @@ async fn open_meet(handle: tauri::AppHandle, url: String, id: String) {
     let docs_window = tauri::WindowBuilder::new(
         &handle,
         id,
-        tauri::WindowUrl::External(url.parse().unwrap())
+        tauri::WindowUrl::External(url.parse().unwrap()),
     ).build().unwrap();
 }
 
@@ -80,13 +80,16 @@ fn main() {
             _ => {}
         })
 //--------------------------------------------------------------------
-//         .on_window_event(|event| match event.event() {
-//             tauri::WindowEvent::CloseRequested { api, .. } => {
-//                 event.window().hide().unwrap();
-//                 api.prevent_close();
-//             }
-//             _ => {}
-//         })
+        .on_window_event(|event| match event.event() {
+            tauri::WindowEvent::CloseRequested { api, .. } => {
+                let label = event.window().label();
+                if label == "main" {
+                    event.window().hide().unwrap();
+                    api.prevent_close();
+                }
+            }
+            _ => {}
+        })
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             let window = app.get_window("main").unwrap();
             window.show().unwrap();
