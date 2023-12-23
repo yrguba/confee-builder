@@ -4,13 +4,27 @@ import React, { useEffect, useState } from 'react';
 import { viewerApi, viewerProxy } from '../../entities/viewer';
 
 const DOMAIN = 'video.confee.ru';
+
+const customParticipantMenuButtons = [
+    {
+        id: 'custom-button',
+        text: 'Custom Button',
+    },
+];
+const customToolbarButtons = [
+    {
+        id: 'custom-toolbar-button',
+        text: 'Custom Toolbar Button',
+    },
+];
 const GENERAL_SETTINGS = {
     startWithAudioMuted: true,
     startWithVideoMuted: true,
     disableModeratorIndicator: false,
     startScreenSharing: false,
     enableEmailInStats: false,
-    toolbarButtons: ['chat', 'tileview', 'camera', 'microphone', 'desktop', 'recording', 'select-background', 'noisesuppression', 'livestreaming'],
+    customParticipantMenuButtons,
+    customToolbarButtons,
 };
 
 const INTERFACE_CONFIG_OVERWRITE = {
@@ -50,9 +64,12 @@ function useJitsi(props: Props) {
                 }}
                 key={viewer.id}
                 onApiReady={(externalApi) => {
+                    console.log(externalApi);
                     externalApi.executeCommand('avatarUrl', avatarUrl || '');
-
                     externalApi.addListener('readyToClose', () => {});
+                }}
+                onReadyToClose={() => {
+                    console.log('wdad');
                 }}
                 getIFrameRef={getIframeRef}
             />
@@ -61,7 +78,7 @@ function useJitsi(props: Props) {
         );
     }
 
-    return { getIframeRef, ConferenceWebView };
+    return { ConferenceWebView };
 }
 
 export default useJitsi;
