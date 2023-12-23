@@ -13,7 +13,9 @@ function useMeet() {
     const webView = useWebView({
         id: 'meet',
         title: `Конференция`,
-        onClose: () => {},
+        onClose: () => {
+            console.log('close');
+        },
     });
 
     const createMeet = async (chatId?: number, user?: number) => {
