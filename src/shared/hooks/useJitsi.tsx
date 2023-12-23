@@ -1,4 +1,5 @@
 import { JitsiMeeting } from '@jitsi/react-sdk';
+import { WebviewWindow } from '@tauri-apps/api/window';
 import React, { useEffect, useState } from 'react';
 
 import { viewerApi, viewerProxy } from '../../entities/viewer';
@@ -51,7 +52,7 @@ function useJitsi(props: Props) {
         const conferenceName = meetId;
         const userName = viewer?.full_name;
         const avatarUrl = viewer?.full_avatar_url;
-
+        console.log('avatarUrl', 'https://postimg.cc/tssSxLNh');
         return conferenceName && userName && meetId ? (
             <JitsiMeeting
                 domain={DOMAIN}
@@ -64,12 +65,11 @@ function useJitsi(props: Props) {
                 }}
                 key={viewer.id}
                 onApiReady={(externalApi) => {
-                    console.log(externalApi);
                     externalApi.executeCommand('avatarUrl', avatarUrl || '');
-                    externalApi.addListener('readyToClose', () => {});
                 }}
                 onReadyToClose={() => {
-                    console.log('wdad');
+                    const meetWindow = WebviewWindow.getByLabel('meet');
+                    meetWindow?.close();
                 }}
                 getIFrameRef={getIframeRef}
             />
