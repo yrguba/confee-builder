@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { appService } from 'entities/app';
 import { ChatHeaderView, chatApi } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
-import { meetApi, meetTypes, useMeetStore } from 'entities/meet';
+import { meetApi, meetTypes, useMeet, useMeetStore } from 'entities/meet';
 import { useMessageStore, messageApi } from 'entities/message';
 import { useEasyState, useRouter, useStorage, useWebView } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
@@ -25,7 +25,6 @@ function ChatHeader() {
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const forwardMessages = useMessageStore.use.forwardMessages();
     const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
-    const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
 
     const notification = Notification.use();
 
@@ -33,25 +32,7 @@ function ChatHeader() {
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
-    const webView = useWebView({
-        id: 'meet',
-        title: `Конференция`,
-        onClose: () => {},
-    });
-
-    const goMeet = async () => {
-        const meetId = getRandomString(30);
-        if (webView?.isOpen() || params.meet_id) {
-            notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
-        } else if (meetId && proxyChat?.secondUser?.id) {
-            handleCreateMeeting({ chatId: proxyChat?.id, confee_video_room: meetId, target_user_id: proxyChat?.secondUser?.id });
-            if (appService.tauriIsRunning) {
-                webView?.open(`/meet/${meetId}`);
-            } else {
-                navigate(`/meet/${meetId}`);
-            }
-        }
-    };
+    const { createMeet } = useMeet();
 
     const clickDeleteMessages = async () => {
         if (chatData) {
@@ -84,7 +65,9 @@ function ChatHeader() {
             case 'search':
                 return visibleSearchMessages.set(!visibleSearchMessages.value);
             case 'goMeet':
-                return proxyChat?.is_group ? notification.info({ title: 'Звонки пока недоступны в групповых чатах' }) : goMeet();
+                return proxyChat?.is_group
+                    ? notification.info({ title: 'Звонки пока недоступны в групповых чатах' })
+                    : createMeet(proxyChat?.id, proxyChat?.secondUser?.id);
         }
     };
 
