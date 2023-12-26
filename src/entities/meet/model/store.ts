@@ -7,7 +7,7 @@ import { useStore, useCreateSelectors, UseStoreTypes } from 'shared/hooks';
 import { ChatProxy, ChatsTypes } from '../../chat/model/types';
 
 type Store = {
-    invitationsToConference: UseStoreTypes.SelectorWithArr<{
+    invitationToConference: UseStoreTypes.SelectorWithObj<{
         avatar: string;
         id: string;
         name: string;
@@ -17,8 +17,8 @@ type Store = {
 const { createSelectors, generateSelectorWithObj, generateSelectorWithArr } = useStore<Store>();
 const meetStore = create<Store>()(
     devtools(
-        immer((set) => ({
-            ...generateSelectorWithArr(['invitationsToConference'], set),
+        immer((set, getState) => ({
+            ...generateSelectorWithObj(['invitationToConference'], set),
         }))
     )
 );

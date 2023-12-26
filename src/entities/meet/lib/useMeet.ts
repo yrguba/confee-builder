@@ -17,6 +17,7 @@ function useMeet() {
         title: `Конференция`,
         onClose: () => {
             ls.remove('by_meet');
+            ls.remove('join_meet_data');
         },
     });
 

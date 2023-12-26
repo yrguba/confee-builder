@@ -23,7 +23,7 @@ const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, gener
 
 const messageStore = create<Store>()(
     devtools(
-        immer((set) => ({
+        immer((set, getState) => ({
             ...generateSelectorWithPrimitive(['voiceRecordingInProgress', 'visibleSearchMessages', 'initialPage', 'goDownList', 'isFileDrag'], set),
             ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages', 'foundMessage'], set),
             ...generateSelectorWithArr(['highlightedMessages'], set),

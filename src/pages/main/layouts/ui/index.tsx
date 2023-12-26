@@ -18,7 +18,7 @@ function MainLayout() {
     const { params, pathname } = useRouter();
     const chatSubscription = useChatStore.use.chatSubscription();
 
-    const invitationsToConference = useMeetStore.use.invitationsToConference();
+    const invitationToConference = useMeetStore.use.invitationToConference();
 
     const ls = useStorage();
 
@@ -32,12 +32,13 @@ function MainLayout() {
     const { inCall } = useMeet();
 
     useEffect(() => {
-        if (invitationsToConference.value.length && !ls.get('by_meet')) {
+        if (invitationToConference.value.id && !ls.get('by_meet') && !ls.get('join_meet_data')) {
             if (appService.tauriIsRunning) {
-                inCall(invitationsToConference.value[0]);
+                inCall(invitationToConference.value);
+                invitationToConference.clear();
             }
         }
-    }, [invitationsToConference.value.length]);
+    }, [invitationToConference.value.id]);
 
     useEffect(() => {
         if (!params.chat_id) {

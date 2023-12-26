@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 
 import { viewerApi, viewerProxy } from '../../entities/viewer';
 
+import { useStorage } from './index';
+
 const DOMAIN = 'video.confee.ru';
 
 const customParticipantMenuButtons = [
@@ -40,7 +42,7 @@ function useJitsi(props: Props) {
     const { meetId } = props;
 
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
-
+    const ls = useStorage();
     const viewer = viewerProxy(viewerData?.user);
 
     const getIframeRef = (parentNode: HTMLDivElement) => {
@@ -68,6 +70,7 @@ function useJitsi(props: Props) {
                     externalApi.executeCommand('avatarUrl', avatarUrl || '');
                 }}
                 onReadyToClose={() => {
+                    ls.remove('by_meet');
                     const meetWindow = WebviewWindow.getByLabel('meet');
                     meetWindow?.close();
                 }}

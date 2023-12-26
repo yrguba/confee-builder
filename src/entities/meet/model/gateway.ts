@@ -13,13 +13,13 @@ function meetGateway() {
     const { navigate } = useRouter();
     const queryClient = useQueryClient();
 
-    const invitationsToConference = useMeetStore.use.invitationsToConference();
+    const invitationToConference = useMeetStore.use.invitationToConference();
 
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('CallCreated', (socketData) => {
             const extraInfo = socketData.data.extra_info;
-            invitationsToConference.push({ id: extraInfo.confee_video_room, avatar: socketData.data.chat.avatar, name: socketData.data.chat.name });
+            invitationToConference.set({ id: extraInfo.confee_video_room, avatar: socketData.data.chat.avatar, name: socketData.data.chat.name });
             // ['all', 'personal', `for-company/17`].forEach((i) =>
             //     queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
             //         if (!cacheData?.pages?.length) return cacheData;
