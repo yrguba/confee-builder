@@ -21,13 +21,19 @@
     z-index: 10;
     @include flex-column;
     gap: 20px;
-    @include box-size(450px, 220px);
+    padding: 12px;
+    @include box-size(450px, auto);
     background-color: #FFF;
     border-radius: 44px;
 
     .titles {
       @include flex-column;
       gap: 8px;
+    }
+
+    .btns{
+      @include flex;
+      gap: 12px;
     }
 
   }

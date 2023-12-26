@@ -5,8 +5,10 @@ import React from 'react';
 import { Box, Button, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { useRouter } from '../../../shared/hooks';
 
 function UpdateAppPage() {
+    const { navigate } = useRouter();
     const updateApp = async () => {
         await installUpdate();
         await relaunch();
@@ -23,12 +25,20 @@ function UpdateAppPage() {
                         Доступно обновление
                     </Title>
                     <Title textAlign="center" textWrap primary={false} variant="H3S">
-                        Чтобы воспользоваться всеми возможностями приложения, обновите его до последней версии
+                        Чтобы воспользоваться всеми возможностями приложения, обновите его до последней версии.
+                    </Title>
+                    <Title textAlign="center" textWrap variant="H3S">
+                        Если вы используете портативную версию - то перезапустите приложение.
                     </Title>
                 </div>
-                <Button width="120px" height="40px" onClick={updateApp}>
-                    Обновить
-                </Button>
+                <div className={styles.btns}>
+                    <Button width="120px" height="40px" onClick={() => navigate(-1)}>
+                        позже
+                    </Button>
+                    <Button width="120px" height="40px" onClick={updateApp}>
+                        Обновить
+                    </Button>
+                </div>
             </div>
             <div className={styles.icon}>
                 <Icon />
