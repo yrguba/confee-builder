@@ -9,7 +9,8 @@ export type ValuesInStorage =
     | 'chat_list_width'
     | 'active_chats_tab'
     | 'join_meet_data'
-    | 'by_meet';
+    | 'by_meet'
+    | 'meet_chat_id';
 function useStorage() {
     const set = (name: ValuesInStorage, value: any) => {
         ls.setItem(name, typeof value === 'string' ? value : JSON.stringify(value));

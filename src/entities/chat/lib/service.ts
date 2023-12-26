@@ -24,6 +24,12 @@ class ChatService {
         return Number(splitPath[findIndexChat + 1]) || null;
     }
 
+    getMembersWithoutMe(chat?: ChatProxy | null) {
+        const viewerId = viewerService.getId();
+        const users: any = chat?.is_personal ? chat.members : chat?.employee_members.map((i) => i.user);
+        return users?.filter((i: any) => i.id !== viewerId).map((i: any) => i);
+    }
+
     getMembersIdsWithoutMe(chat?: ChatProxy | null) {
         const viewerId = viewerService.getId();
         const users: any = chat?.is_personal ? chat.members : chat?.employee_members.map((i) => i.user);

@@ -18,13 +18,15 @@ function useMeet() {
         onClose: () => {
             ls.remove('by_meet');
             ls.remove('join_meet_data');
+            ls.remove('meet_chat_id');
         },
     });
 
     const createMeet = async (chatId?: number, users?: number[]) => {
         ls.set('by_meet', true);
+        ls.set('meet_chat_id', chatId);
         const meetId = getRandomString(30);
-        if (webView?.isOpen() || params.meet_id) {
+        if (webView?.isOpen() || params.meet_id || ls.get('join_meet_data' || ls.get('by_meet'))) {
             notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
         } else if (chatId && users?.length) {
             handleCreateMeeting({ chatId, confee_video_room: meetId, targets_user_id: users });
