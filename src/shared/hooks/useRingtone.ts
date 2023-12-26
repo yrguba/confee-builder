@@ -1,4 +1,4 @@
-const pokemon = require('assets/ringtone/ring1.mp3');
+const pokemon = require('assets/ringtone/Impress.ogg');
 
 function useRingtone() {
     const play = () => {

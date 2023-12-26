@@ -26,7 +26,7 @@ class ChatService {
 
     getMembersIdsWithoutMe(chat?: ChatProxy | null) {
         const viewerId = viewerService.getId();
-        const users: any = chat?.is_personal ? chat.members : chat?.employee_members;
+        const users: any = chat?.is_personal ? chat.members : chat?.employee_members.map((i) => i.user);
         return users?.filter((i: any) => i.id !== viewerId).map((i: any) => i.id);
     }
 }
