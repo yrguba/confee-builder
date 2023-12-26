@@ -3,7 +3,7 @@ import React from 'react';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
-import { Avatar, Button, Title } from '../../../../../shared/ui';
+import { Avatar, Button, Title } from '../../../../shared/ui';
 
 type Props = {
     joining: (value: boolean) => void;
@@ -11,7 +11,7 @@ type Props = {
     name: string;
 } & BaseTypes.Statuses;
 
-function JoinMeetModalView(props: Props) {
+function JoinMeetView(props: Props) {
     const { joining, avatar, name } = props;
 
     return (
@@ -33,4 +33,4 @@ function JoinMeetModalView(props: Props) {
     );
 }
 
-export default JoinMeetModalView;
+export default JoinMeetView;

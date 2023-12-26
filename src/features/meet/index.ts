@@ -1,4 +1,4 @@
+import JoinMeet from './ui/join-meet';
 import Meet from './ui/meet';
-import JoinMeetModal from './ui/modals/join-meet';
 
-export { Meet, JoinMeetModal };
+export { Meet, JoinMeet };

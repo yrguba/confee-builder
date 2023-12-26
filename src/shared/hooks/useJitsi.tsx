@@ -52,7 +52,7 @@ function useJitsi(props: Props) {
         const conferenceName = meetId;
         const userName = viewer?.full_name;
         const avatarUrl = viewer?.full_avatar_url;
-        console.log('avatarUrl', 'https://postimg.cc/tssSxLNh');
+
         return conferenceName && userName && meetId ? (
             <JitsiMeeting
                 domain={DOMAIN}

@@ -7,8 +7,8 @@ import { chatApi, chatGateway, useChatStore } from '../../../../entities/chat';
 import { meetGateway, useMeetStore } from '../../../../entities/meet';
 import { messageGateway } from '../../../../entities/message';
 import { userGateway } from '../../../../entities/user';
-import { JoinMeetModal } from '../../../../features/meet';
-import { useRouter, useWebSocket, useWebView } from '../../../../shared/hooks';
+import { JoinMeet } from '../../../../features/meet';
+import { useRouter, useStorage, useWebSocket, useWebView } from '../../../../shared/hooks';
 import useRecognizeSpeech from '../../../../shared/hooks/useRecognizeSpeech';
 import { Modal, Notification } from '../../../../shared/ui';
 import Navbar from '../widgets/navbar';
@@ -18,6 +18,9 @@ function MainLayout() {
     const { params, pathname } = useRouter();
     const chatSubscription = useChatStore.use.chatSubscription();
     const joinRequest = useMeetStore.use.joinRequest();
+
+    const ls = useStorage();
+
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
     useRecognizeSpeech();
     chatGateway();
@@ -29,18 +32,16 @@ function MainLayout() {
         id: 'join_meet',
         title: `приглашение в конференцию`,
         onClose: () => {
-            console.log('close');
+            ls.remove('req-to-join-room');
         },
     });
-
-    const joinMeetModal = Modal.use();
 
     useEffect(() => {
         if (joinRequest.value.id) {
             if (appService.tauriIsRunning) {
-                webView?.open(`/join_meet`);
-            } else {
-                joinMeetModal.open();
+                ls.set('req-to-join-room', joinRequest.value);
+                webView?.open(`/meet/join`);
+                setTimeout(() => joinRequest.clear(), 500);
             }
         }
     }, [joinRequest.value]);
@@ -60,7 +61,6 @@ function MainLayout() {
 
     return (
         <>
-            <JoinMeetModal {...joinMeetModal} />
             <div className={styles.wrapper}>
                 <div className={styles.navbar}>
                     <Navbar />

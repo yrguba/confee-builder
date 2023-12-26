@@ -7,8 +7,8 @@ export type ValuesInStorage =
     | 'viewer_id'
     | 'save_in_cache'
     | 'chat_list_width'
-    | 'active-chats-tab';
-
+    | 'active-chats-tab'
+    | 'req-to-join-room';
 function useStorage() {
     const set = (name: ValuesInStorage, value: any) => {
         ls.setItem(name, typeof value === 'string' ? value : JSON.stringify(value));

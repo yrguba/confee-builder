@@ -25,9 +25,9 @@ function useMeet() {
         } else if (chatId && users?.length) {
             handleCreateMeeting({ chatId, confee_video_room: meetId, targets_user_id: users });
             if (appService.tauriIsRunning) {
-                webView?.open(`/meet/${meetId}`);
+                webView?.open(`/meet/room/${meetId}`);
             } else {
-                navigate(`/meet/${meetId}`);
+                navigate(`/meet/room/${meetId}`);
             }
         }
     };
