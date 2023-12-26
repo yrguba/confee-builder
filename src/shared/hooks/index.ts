@@ -41,6 +41,7 @@ import useFs from './useFS';
 import useJitsi from './useJitsi';
 import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
+import useRingtone from './useRingtone';
 import useRouter from './useRouter';
 import useSaveMediaContent from './useSaveMediaContent';
 import useScroll from './useScroll';
@@ -61,6 +62,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useRingtone,
     useJitsi,
     useShell,
     useWindowMouseClick,

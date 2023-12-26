@@ -2,14 +2,17 @@ import { WebviewWindow } from '@tauri-apps/api/window';
 import React from 'react';
 
 import { JoinMeetView, useMeet, useMeetStore } from 'entities/meet';
-import { Modal, Notification, ModalTypes, CardTypes, Input } from 'shared/ui';
-
-import { appService } from '../../../entities/app';
-import { useRouter, useStorage, useWebView } from '../../../shared/hooks';
+import { useStorage, useRingtone, useEffectOnce } from 'shared/hooks';
 
 function JoinMeet() {
     const ls = useStorage();
     const data = ls.get('req-to-join-room');
+
+    const { play } = useRingtone();
+
+    useEffectOnce(() => {
+        play();
+    });
 
     const meetPath = data?.id ? `/meet/room/${data.id}` : '';
 
