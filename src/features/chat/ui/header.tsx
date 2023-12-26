@@ -2,7 +2,7 @@ import { invoke } from '@tauri-apps/api/tauri';
 import React, { useEffect } from 'react';
 
 import { appService } from 'entities/app';
-import { ChatHeaderView, chatApi } from 'entities/chat';
+import { ChatHeaderView, chatApi, chatService } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
 import { meetApi, meetTypes, useMeet, useMeetStore } from 'entities/meet';
 import { useMessageStore, messageApi } from 'entities/message';
@@ -13,6 +13,7 @@ import { TabBarTypes, Notification, Modal } from 'shared/ui';
 import GroupChatProfileModal from './modals/profile/group';
 import PrivateChatProfileModal from './modals/profile/private';
 import { ChatTabsActions } from '../../../entities/chat/model/types';
+import { viewerService } from '../../../entities/viewer';
 import { ForwardMessagesModal } from '../../message';
 
 function ChatHeader() {
@@ -21,7 +22,7 @@ function ChatHeader() {
     const { data: chatData, isLoading } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const proxyChat = chatProxy(chatData);
-
+    const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const forwardMessages = useMessageStore.use.forwardMessages();
     const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
@@ -65,11 +66,7 @@ function ChatHeader() {
             case 'search':
                 return visibleSearchMessages.set(!visibleSearchMessages.value);
             case 'goMeet':
-                const users = proxyChat?.is_personal ? proxyChat.members : proxyChat?.employee_members;
-                createMeet(
-                    proxyChat?.id,
-                    users?.map((i) => i.id)
-                );
+                createMeet(proxyChat?.id, getMembersIdsWithoutMe);
         }
     };
 

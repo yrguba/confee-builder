@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { chatApi, chatProxy, chatTypes, PrivateChatProfileModalView } from 'entities/chat';
+import { chatApi, chatProxy, chatService, chatTypes, PrivateChatProfileModalView } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
 import { messageTypes } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
@@ -22,6 +22,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const { data: employeeChatData } = chatApi.handleGetChatWithEmployee({ employeeId: employee?.id });
 
     const proxyChat = chatProxy(useChatData || employeeChatData);
+    const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>('images');
 
@@ -50,10 +51,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const actions = (action: chatTypes.PrivateChatActions) => {
         switch (action) {
             case 'goMeet':
-                return createMeet(
-                    proxyChat?.id,
-                    proxyChat?.members.map((i) => i.id)
-                );
+                return createMeet(proxyChat?.id, getMembersIdsWithoutMe);
             case 'message':
                 const redirect = (chatId?: number) => navigate(`/chats/${user ? 'personal' : `company/${params.company_id}`}/chat/${chatId}`);
                 if (!proxyChat) {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useUpdateEffect } from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
 
-import { chatApi, chatProxy, GroupChatProfileModalView, chatTypes } from 'entities/chat';
+import { chatApi, chatProxy, GroupChatProfileModalView, chatTypes, chatService } from 'entities/chat';
 import { messageTypes } from 'entities/message';
 import { viewerService } from 'entities/viewer';
 import { useRouter, useEasyState, UseFileUploaderTypes, useWebView } from 'shared/hooks';
@@ -27,7 +27,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const proxyChat = chatProxy(chatData);
-
+    const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
     const webView = useWebView({
         id: 'meet',
         title: `Конференция`,
@@ -97,10 +97,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
             case 'goMeet':
-                return createMeet(
-                    proxyChat?.id,
-                    proxyChat?.members.map((i) => i.id)
-                );
+                return createMeet(proxyChat?.id, getMembersIdsWithoutMe);
 
             case 'leave':
                 return confirmLeaveChat.open(null, {
