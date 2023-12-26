@@ -11,7 +11,7 @@ import { Modal, ModalTypes, Notification } from 'shared/ui';
 import PrivateChatProfileModal from './private';
 import { appService } from '../../../../../entities/app';
 import { EmployeeProxy } from '../../../../../entities/company/model/types';
-import { meetApi } from '../../../../../entities/meet';
+import { meetApi, useMeet } from '../../../../../entities/meet';
 import { UserProxy } from '../../../../../entities/user/model/types';
 import { getRandomString } from '../../../../../shared/lib';
 import ChatAvatarsSwiper from '../../avatars-swiper';
@@ -22,7 +22,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
 
     const viewerId = viewerService.getId();
     const { chatId } = modal.payload;
-
+    const { createMeet } = useMeet();
     const visibleSwiper = useEasyState(false);
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
@@ -97,7 +97,10 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
             case 'goMeet':
-                return notification.info({ title: 'Звонки пока недоступны в групповых чатах' });
+                return createMeet(
+                    proxyChat?.id,
+                    proxyChat?.members.map((i) => i.id)
+                );
 
             case 'leave':
                 return confirmLeaveChat.open(null, {

@@ -18,12 +18,12 @@ function useMeet() {
         },
     });
 
-    const createMeet = async (chatId?: number, user?: number) => {
+    const createMeet = async (chatId?: number, users?: number[]) => {
         const meetId = getRandomString(30);
         if (webView?.isOpen() || params.meet_id) {
             notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
-        } else if (chatId && user) {
-            handleCreateMeeting({ chatId, confee_video_room: meetId, target_user_id: user });
+        } else if (chatId && users?.length) {
+            handleCreateMeeting({ chatId, confee_video_room: meetId, targets_user_id: users });
             if (appService.tauriIsRunning) {
                 webView?.open(`/meet/${meetId}`);
             } else {

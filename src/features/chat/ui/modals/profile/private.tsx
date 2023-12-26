@@ -50,7 +50,10 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const actions = (action: chatTypes.PrivateChatActions) => {
         switch (action) {
             case 'goMeet':
-                return createMeet(proxyChat?.id, proxyChat?.secondUser?.id);
+                return createMeet(
+                    proxyChat?.id,
+                    proxyChat?.members.map((i) => i.id)
+                );
             case 'message':
                 const redirect = (chatId?: number) => navigate(`/chats/${user ? 'personal' : `company/${params.company_id}`}/chat/${chatId}`);
                 if (!proxyChat) {
