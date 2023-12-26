@@ -85,7 +85,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
 
     const clickTab = (tab: TabBarTypes.TabBarItem<TabPayload>) => {
         activeTab.set(tab);
-        storage.set('active-chats-tab', tab.payload?.companyId ? `${tab.payload?.type}/${tab.payload?.companyId}` : tab.payload?.type);
+        storage.set('active_chats_tab', tab.payload?.companyId ? `${tab.payload?.type}/${tab.payload?.companyId}` : tab.payload?.type);
         if (redirect) {
             if (tab.title === 'Все') return navigate('/chats/all');
             if (tab.title === 'Личные') return navigate('/chats/personal');

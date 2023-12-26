@@ -5,6 +5,6 @@ import meetGateway from './model/gateway';
 import useMeetStore from './model/store';
 import * as meetTypes from './model/types';
 import JoinMeetView from './ui/join-meet';
-import MeetView from './ui/meet';
+import MeetRoomView from './ui/meet-room';
 
-export { meetService, meetApi, useMeetStore, meetTypes, useMeet, MeetView, meetGateway, JoinMeetView };
+export { meetService, meetApi, useMeetStore, meetTypes, useMeet, MeetRoomView, meetGateway, JoinMeetView };

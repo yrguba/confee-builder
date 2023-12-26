@@ -7,8 +7,8 @@ import { Avatar, Button, Title } from '../../../../shared/ui';
 
 type Props = {
     joining: (value: boolean) => void;
-    avatar: string;
-    name: string;
+    avatar?: string;
+    name?: string;
 } & BaseTypes.Statuses;
 
 function JoinMeetView(props: Props) {

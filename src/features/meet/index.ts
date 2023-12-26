@@ -1,4 +1,4 @@
 import JoinMeet from './ui/join-meet';
-import Meet from './ui/meet';
+import MeetRoom from './ui/meet-room';
 
-export { Meet, JoinMeet };
+export { MeetRoom, JoinMeet };

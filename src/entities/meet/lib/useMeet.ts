@@ -1,4 +1,4 @@
-import { useRouter, useWebView } from '../../../shared/hooks';
+import { useRouter, useStorage, useWebView } from '../../../shared/hooks';
 import { getRandomString } from '../../../shared/lib';
 import { Notification } from '../../../shared/ui';
 import { appService } from '../../app';
@@ -8,17 +8,20 @@ function useMeet() {
     const { params, navigate } = useRouter();
     const notification = Notification.use();
 
+    const ls = useStorage();
+
     const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
 
     const webView = useWebView({
         id: 'meet',
         title: `Конференция`,
         onClose: () => {
-            console.log('close');
+            ls.remove('by_meet');
         },
     });
 
     const createMeet = async (chatId?: number, users?: number[]) => {
+        ls.set('by_meet', true);
         const meetId = getRandomString(30);
         if (webView?.isOpen() || params.meet_id) {
             notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
@@ -32,18 +35,21 @@ function useMeet() {
         }
     };
 
-    const joinMeet = (path: string) => {
-        if (webView?.isOpen() || params.meet_id) {
-            return notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
-        }
+    const inCall = (data: { avatar?: string; id?: string; name: string }) => {
+        ls.set('join_meet_data', data);
         if (appService.tauriIsRunning) {
-            webView?.open(path);
+            webView?.open('/meet/join');
         } else {
-            navigate(path);
+            navigate('/meet/join');
         }
     };
 
-    return { createMeet, joinMeet };
+    const joinMeet = (meetId: string) => {
+        ls.set('by_meet', true);
+        navigate(`/meet/room/${meetId}`);
+    };
+
+    return { createMeet, joinMeet, inCall };
 }
 
 export default useMeet;

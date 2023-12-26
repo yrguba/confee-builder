@@ -4,7 +4,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { appService } from '../../../../entities/app';
 import { chatApi, chatGateway, useChatStore } from '../../../../entities/chat';
-import { meetGateway, useMeetStore } from '../../../../entities/meet';
+import { meetGateway, useMeet, useMeetStore } from '../../../../entities/meet';
 import { messageGateway } from '../../../../entities/message';
 import { userGateway } from '../../../../entities/user';
 import { JoinMeet } from '../../../../features/meet';
@@ -17,7 +17,8 @@ function MainLayout() {
     const navigate = useNavigate();
     const { params, pathname } = useRouter();
     const chatSubscription = useChatStore.use.chatSubscription();
-    const joinRequest = useMeetStore.use.joinRequest();
+
+    const invitationsToConference = useMeetStore.use.invitationsToConference();
 
     const ls = useStorage();
 
@@ -28,23 +29,15 @@ function MainLayout() {
     messageGateway();
     meetGateway();
 
-    const webView = useWebView({
-        id: 'join_meet',
-        title: `приглашение в конференцию`,
-        onClose: () => {
-            ls.remove('req-to-join-room');
-        },
-    });
+    const { inCall } = useMeet();
 
     useEffect(() => {
-        if (joinRequest.value.id) {
+        if (invitationsToConference.value.length && !ls.get('by_meet')) {
             if (appService.tauriIsRunning) {
-                ls.set('req-to-join-room', joinRequest.value);
-                webView?.open(`/meet/join`);
-                setTimeout(() => joinRequest.clear(), 500);
+                inCall(invitationsToConference.value[0]);
             }
         }
-    }, [joinRequest.value]);
+    }, [invitationsToConference.value.length]);
 
     useEffect(() => {
         if (!params.chat_id) {

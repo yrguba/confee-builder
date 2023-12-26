@@ -13,7 +13,7 @@ function Navbar() {
     const storage = useStorage();
     const { data: totalPendingMessages } = chatApi.handleGetTotalPendingMessages();
 
-    const activeChatTab = storage.get('active-chats-tab');
+    const activeChatTab = storage.get('active_chats_tab');
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, { path: string; counter: number | undefined }>[] = [
         { id: 0, title: 'Контакты', icon: 'contacts', payload: { path: '/contacts', counter: 0 } },

@@ -6,28 +6,28 @@ import { useStorage, useRingtone, useEffectOnce } from 'shared/hooks';
 
 function JoinMeet() {
     const ls = useStorage();
-    const data = ls.get('req-to-join-room');
 
     const { play } = useRingtone();
+
+    const invitationsToConference = useMeetStore.use.invitationsToConference();
 
     useEffectOnce(() => {
         play();
     });
 
-    const meetPath = data?.id ? `/meet/room/${data.id}` : '';
-
     const { joinMeet } = useMeet();
 
     const joining = (value: boolean) => {
-        const joinWindow = WebviewWindow.getByLabel('join_meet');
-        joinWindow?.close();
-        if (value && meetPath) {
-            joinMeet(meetPath);
+        const joinWindow = WebviewWindow.getByLabel('meet');
+        const data = ls.get('join_meet_data');
+        if (value && data && data) {
+            joinMeet(data.id);
+        } else {
+            joinWindow?.close();
         }
-        ls.remove('req-to-join-room');
     };
 
-    return <JoinMeetView joining={joining} {...data} />;
+    return <JoinMeetView joining={joining} />;
 }
 
 export default JoinMeet;
