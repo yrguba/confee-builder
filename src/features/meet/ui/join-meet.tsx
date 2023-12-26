@@ -19,12 +19,12 @@ function JoinMeet() {
     const { joinMeet } = useMeet();
 
     const joining = (value: boolean) => {
+        const joinWindow = WebviewWindow.getByLabel('join_meet');
+        joinWindow?.close();
         if (value && meetPath) {
             joinMeet(meetPath);
         }
         ls.remove('req-to-join-room');
-        const joinWindow = WebviewWindow.getByLabel('join_meet');
-        joinWindow?.close();
     };
 
     return <JoinMeetView joining={joining} {...data} />;
