@@ -25,15 +25,18 @@ class ChatService {
     }
 
     getMembersWithoutMe(chat?: ChatProxy | null) {
+        if (!chat) return null;
         const viewerId = viewerService.getId();
-        const users: any = chat?.is_personal ? chat.members : chat?.employee_members.map((i) => i.user);
+        const users: any = chat?.is_personal ? chat.members : chat?.employee_members.filter((i) => i.user).map((i) => i.user);
         return users?.filter((i: any) => i.id !== viewerId).map((i: any) => i);
     }
 
     getMembersIdsWithoutMe(chat?: ChatProxy | null) {
+        if (!chat) return null;
         const viewerId = viewerService.getId();
-        const users: any = chat?.is_personal ? chat.members : chat?.employee_members.map((i) => i.user);
-        return users?.filter((i: any) => i.id !== viewerId).map((i: any) => i.id);
+        const users: any = chat?.is_personal ? chat.members : chat?.employee_members.filter((i) => i.user).map((i) => i.user);
+
+        return users?.filter((i: any) => i?.id !== viewerId).map((i: any) => i?.id);
     }
 }
 
