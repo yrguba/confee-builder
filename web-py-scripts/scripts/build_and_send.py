@@ -24,6 +24,7 @@ if __name__ == '__main__':
     platform = platform.system()
     server_endpoint_name = ''
     domain = 'https://dev.chat.softworks.ru/'
+
     project_dir = Path(__file__).parents[2]
     tauri_dir = Path(project_dir, "src-tauri")
 
