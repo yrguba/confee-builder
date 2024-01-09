@@ -48,7 +48,9 @@ function Document(props: BaseDocumentProps) {
     return (
         <div onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu} className={styles.wrapper}>
             <div className={styles.icon}>
-                {isLoading || idOfSavedFile.value === id ? (
+                {!url ? (
+                    <Icons variant="block" />
+                ) : isLoading || idOfSavedFile.value === id ? (
                     <LoadingIndicator.Downloaded primary={false} visible />
                 ) : (
                     <Icons.Document variant={extension as any} />
