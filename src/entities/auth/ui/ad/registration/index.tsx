@@ -34,10 +34,10 @@ function Registration(props: Props) {
                 <Title textAlign="center" textWrap variant="H1">
                     Введите код
                 </Title>
-                <Title textAlign="center" textWrap variant="H3S">
+                <Title textAlign="center" primary={false} textWrap variant="H3S">
                     {`Мы отправили код подтверждения  на ${inputs.email.value}`}
                 </Title>
-                <Input maxLength={5} style={{ textAlign: 'center' }} {...inputs.code} placeholder="00000" pattern="/^\d+$/" />
+                <Input className={styles.input} maxLength={5} {...inputs.code} placeholder="00000" pattern="/^\d+$/" />
                 <Button disabled={time[2] !== 0} onClick={getCode}>
                     {isRunning ? `Получить новый код через 00:${time[2]}` : 'Получить новый код'}
                 </Button>
