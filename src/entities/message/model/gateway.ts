@@ -118,10 +118,10 @@ function messageGateway() {
                     draft.pages.forEach((page: any) => {
                         page.data.data.forEach((msg: MessageProxy, index: number) => {
                             if (msg.id === socketData.data.message_id) {
-                                page.data.data[index] = { ...msg, ...socketData.data.updated_values };
+                                page.data.data[index] = { ...msg, ...socketData.data.extra_info.updated_values };
                             }
                             if (msg.reply_to_message?.id === socketData.data.message_id) {
-                                page.data.data[index] = { ...msg, reply_to_message: { ...msg.reply_to_message, ...socketData.data.updated_values } };
+                                page.data.data[index] = { ...msg, reply_to_message: { ...msg.reply_to_message, ...socketData.data.extra_info.updated_values } };
                             }
                         });
                     });
