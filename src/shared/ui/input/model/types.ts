@@ -29,6 +29,7 @@ export type UseProps = {
     callback?: (arg: InputValue) => void;
     callbackPhone?: (phone: string | number) => void;
     onFocus?: (value: boolean) => void;
+    onlyNumber?: boolean;
 };
 
 export type BaseInputProps = {

@@ -19,6 +19,7 @@ function AuthAd() {
     });
 
     const codeInput = Input.use({
+        onlyNumber: true,
         yupSchema: yup.checkNumber,
     });
 

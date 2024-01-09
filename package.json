@@ -23,10 +23,10 @@
         "tauri": "tauri",
         "lint": "eslint .",
         "lint:fix": "npx eslint ./src --fix",
-        "up-version": "npm version patch && git push origin main && git push origin --tags",
         "web-py-scripts": "python web-py-scripts/root.py",
         "bundle-analyze": "webpack-bundle-analyzer build/bundle-stats.json",
-        "release": "python web-py-scripts/scripts/build_and_send.py"
+        "up-version": "npm version patch && git push origin main && git push origin --tags",
+        "build-and-send": "python web-py-scripts/scripts/build_and_send.py"
     },
     "dependencies": {
         "@hookform/resolvers": "^2.9.11",

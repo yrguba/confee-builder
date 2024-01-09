@@ -3,12 +3,16 @@ import { useState, useCallback, ChangeEvent, useEffect, useRef } from 'react';
 import { UseProps } from './types';
 import { useDebounce } from '../../../hooks';
 
-const use = ({ initialValue = '', yupSchema, realtimeValidate, callback, debounceDelay, callbackPhone, onFocus }: UseProps) => {
+const use = ({ initialValue = '', yupSchema, realtimeValidate, callback, debounceDelay, callbackPhone, onFocus, onlyNumber }: UseProps) => {
     const firstRender = useRef(true);
     const [value, setValue] = useState(initialValue || '');
     const [error, setError] = useState('');
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        if (!e.currentTarget.value.includes('ㅤ')) {
+        if (onlyNumber) {
+            if (/^[0-9]+$|^$/.test(e.currentTarget.value)) {
+                setValue(e.currentTarget.value);
+            }
+        } else if (!e.currentTarget.value.includes('ㅤ')) {
             setValue(e.currentTarget.value);
         }
     }, []);
