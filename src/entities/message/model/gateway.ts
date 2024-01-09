@@ -9,6 +9,7 @@ import { findLastIndex } from 'shared/lib';
 import { MessageProxy, SocketIn, SocketOut } from './types';
 import debounce from '../../../shared/lib/debounce';
 import { Notification } from '../../../shared/ui';
+import { chatService } from '../../chat';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
 import messageProxy from '../lib/proxy';
@@ -61,29 +62,26 @@ function messageGateway() {
                     }
                 });
             });
-            ['all', 'personal', `for-company/17`].forEach((i) =>
-                queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                    if (!cacheData?.pages?.length) return cacheData;
-                    return produce(cacheData, (draft: any) => {
-                        draft?.pages.forEach((page: any) => {
-                            const foundChatIndex = page.data?.data?.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
-                            if (foundChatIndex !== -1) {
-                                const chat = page?.data?.data[foundChatIndex];
-                                page.data.data.splice(foundChatIndex, 1);
-                                page.data.data.unshift({
-                                    ...chat,
-                                    pending_messages_count: socketData.data.extra_info.is_read
-                                        ? chat.pending_messages_count
-                                        : socketData.data.extra_info.chat_pending_messages_count,
-                                    last_message: socketData.data.message,
-                                    typing: '',
-                                });
-                            }
-                        });
+            chatService.forEachChats(queryClient, 17, (cacheData) => {
+                if (!cacheData?.pages?.length) return cacheData;
+                return produce(cacheData, (draft: any) => {
+                    draft?.pages.forEach((page: any) => {
+                        const foundChatIndex = page.data?.data?.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
+                        if (foundChatIndex !== -1) {
+                            const chat = page?.data?.data[foundChatIndex];
+                            page.data.data.splice(foundChatIndex, 1);
+                            page.data.data.unshift({
+                                ...chat,
+                                pending_messages_count: socketData.data.extra_info.is_read
+                                    ? chat.pending_messages_count
+                                    : socketData.data.extra_info.chat_pending_messages_count,
+                                last_message: socketData.data.message,
+                                typing: '',
+                            });
+                        }
                     });
-                })
-            );
-
+                });
+            });
             queryClient.setQueryData(['get-chat', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.data?.data) return cacheData;
                 return produce(cacheData, (draft: any) => {

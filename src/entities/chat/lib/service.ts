@@ -38,6 +38,10 @@ class ChatService {
 
         return users?.filter((i: any) => i?.id !== viewerId).map((i: any) => i?.id);
     }
+
+    forEachChats(queryClient: any, companyId = 17, callback: (cacheData: any) => void) {
+        ['all', 'personal', `for-company/${companyId}`].forEach((i) => queryClient.setQueryData(['get-chats', i], callback));
+    }
 }
 
 export default new ChatService();
