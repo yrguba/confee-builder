@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     if platform == 'Darwin':
         server_endpoint_name = domain + "api/v1/files/upload_debug_mac"
-        path = Path(project_dir, "src-tauri", "target", "debug", "bundle", "macos")
+        path = Path(project_dir, "src-tauri", "target", "debug", "bundle", "dmg")
         if os.path.isdir(path):
             files = os.listdir(path)
             for file in files:
