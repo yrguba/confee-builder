@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useWebSocket, useThrottle, useDebounce } from 'shared/hooks';
 import { findLastIndex } from 'shared/lib';
 
-import { MessageProxy, SocketIn, SocketOut } from './types';
+import { Message, MessageProxy, SocketIn, SocketOut } from './types';
 import debounce from '../../../shared/lib/debounce';
 import { Notification } from '../../../shared/ui';
 import { chatService } from '../../chat';
@@ -92,6 +92,16 @@ function messageGateway() {
                 if (!cacheData?.data?.data || socketData.data.extra_info.is_read) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft.data.data.total_pending_messages_count = socketData.data.extra_info.total_pending_messages_count;
+                });
+            });
+        });
+        onMessage('MessagesDeleted', (socketData) => {
+            console.log(socketData);
+            queryClient.setQueryData(['get-messages', socketData.data.chat_id], (cacheData: any) => {
+                return produce(cacheData, (draft: any) => {
+                    draft.pages.forEach((page: any) => {
+                        page.data.data = page?.data?.data.filter((message: Message) => !socketData.data.message_ids.includes(message.id));
+                    });
                 });
             });
         });

@@ -70,5 +70,5 @@ export type Modals = {
     forwardMessages: null;
 };
 
-export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated' | 'MessageRead' | 'Typing';
+export type SocketIn = 'MessageCreated' | 'MessagesDeleted' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated' | 'MessageRead' | 'Typing';
 export type SocketOut = 'ChatListenersUpdated' | 'Typing' | 'MessageRead';
