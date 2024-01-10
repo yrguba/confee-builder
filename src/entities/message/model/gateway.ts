@@ -62,25 +62,20 @@ function messageGateway() {
                     }
                 });
             });
-            chatService.forEachChats(queryClient, 17, (cacheData) => {
-                if (!cacheData?.pages?.length) return cacheData;
-                return produce(cacheData, (draft: any) => {
-                    draft?.pages.forEach((page: any) => {
-                        const foundChatIndex = page.data?.data?.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
-                        if (foundChatIndex !== -1) {
-                            const chat = page?.data?.data[foundChatIndex];
-                            page.data.data.splice(foundChatIndex, 1);
-                            page.data.data.unshift({
-                                ...chat,
-                                pending_messages_count: socketData.data.extra_info.is_read
-                                    ? chat.pending_messages_count
-                                    : socketData.data.extra_info.chat_pending_messages_count,
-                                last_message: socketData.data.message,
-                                typing: '',
-                            });
-                        }
+            chatService.forEachChats(queryClient, 17, (chats) => {
+                const foundChatIndex = chats?.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
+                if (foundChatIndex !== -1) {
+                    const chat = chats[foundChatIndex];
+                    chats.splice(foundChatIndex, 1);
+                    chats.unshift({
+                        ...chat,
+                        pending_messages_count: socketData.data.extra_info.is_read
+                            ? chat.pending_messages_count
+                            : socketData.data.extra_info.chat_pending_messages_count,
+                        last_message: socketData.data.message,
+                        typing: '',
                     });
-                });
+                }
             });
             queryClient.setQueryData(['get-chat', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.data?.data) return cacheData;
@@ -96,10 +91,9 @@ function messageGateway() {
             });
         });
         onMessage('MessagesDeleted', (socketData) => {
-            console.log(socketData);
             queryClient.setQueryData(['get-messages', socketData.data.chat_id], (cacheData: any) => {
                 return produce(cacheData, (draft: any) => {
-                    draft.pages.forEach((page: any) => {
+                    draft?.pages?.forEach((page: any) => {
                         page.data.data = page?.data?.data.filter((message: Message) => !socketData.data.message_ids.includes(message.id));
                     });
                 });

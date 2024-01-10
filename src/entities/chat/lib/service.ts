@@ -1,3 +1,5 @@
+import produce from 'immer';
+
 import chatProxy from './proxy';
 import { getUniqueArr } from '../../../shared/lib';
 import employeeProxy from '../../company/lib/emloyee-proxy';
@@ -39,8 +41,17 @@ class ChatService {
         return users?.filter((i: any) => i?.id !== viewerId).map((i: any) => i?.id);
     }
 
-    forEachChats(queryClient: any, companyId = 17, callback: (cacheData: any) => void) {
-        ['all', 'personal', `for-company/${companyId}`].forEach((i) => queryClient.setQueryData(['get-chats', i], callback));
+    forEachChats(queryClient: any, companyId = 17, callback: (chats: ChatProxy[]) => void) {
+        ['all', 'personal', `for-company/${companyId}`].forEach((i) =>
+            queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                if (!cacheData?.pages?.length) return cacheData;
+                return produce(cacheData, (draft: any) => {
+                    draft?.pages.forEach((page: any) => {
+                        callback(page.data.data);
+                    });
+                });
+            })
+        );
     }
 }
 
