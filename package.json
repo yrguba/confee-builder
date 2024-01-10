@@ -26,7 +26,8 @@
         "web-py-scripts": "python web-py-scripts/root.py",
         "bundle-analyze": "webpack-bundle-analyzer build/bundle-stats.json",
         "up-version": "npm version patch && git push origin main && git push origin --tags",
-        "build-and-send": "python web-py-scripts/scripts/build_and_send.py"
+        "build-and-send": "python web-py-scripts/scripts/build_and_send.py",
+        "build-and-send-debug": "python web-py-scripts/scripts/build_and_send_debug.py"
     },
     "dependencies": {
         "@hookform/resolvers": "^2.9.11",
