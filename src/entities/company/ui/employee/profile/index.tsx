@@ -57,7 +57,7 @@ function EmployeeProfileView(props: Props) {
                                 </Button>
                             ))
                         ) : (
-                            <Title variant="H2">Не зарегестрирован</Title>
+                            <Title variant="H2">Не зарегистрирован</Title>
                         )}
                     </div>
                 </div>
