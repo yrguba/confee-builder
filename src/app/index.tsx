@@ -31,11 +31,6 @@ function App() {
 
     useEffect(() => {
         console.log('clientBaseURL: ', clientBaseURL);
-        const mainWindow = WebviewWindow.getByLabel('main');
-
-        mainWindow?.listen('tauri://move', (e) => {
-            console.log(e);
-        });
     }, []);
 
     return (
