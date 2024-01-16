@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { WebviewWindow } from '@tauri-apps/api/window';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
@@ -30,6 +31,11 @@ function App() {
 
     useEffect(() => {
         console.log('clientBaseURL: ', clientBaseURL);
+        const mainWindow = WebviewWindow.getByLabel('main');
+
+        mainWindow?.listen('tauri://move', (e) => {
+            console.log(e);
+        });
     }, []);
 
     return (
