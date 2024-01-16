@@ -100,11 +100,13 @@ class MessageApi {
                 },
                 onSuccess: (data) => {
                     const message = data.data.data;
+                    console.log(message);
                     queryClient.setQueryData(['get-messages', message.chat_id], (cacheData: any) => {
                         return produce(cacheData, (draft: any) => {
                             draft.pages[0].data.data.forEach((i: MessageProxy, index: number) => {
-                                if (i.isMock && i.status === 'sending' && message.type === i.type) {
-                                    draft.pages[0].data.data[index] = { ...i, status: 'delivered' };
+                                if (i.isMock && i.sending && message.type === i.type) {
+                                    console.log(i);
+                                    draft.pages[0].data.data[index] = { ...i, sending: false, isRead: true };
                                 }
                             });
                         });

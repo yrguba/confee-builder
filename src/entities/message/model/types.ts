@@ -12,8 +12,6 @@ export type MediaContentType = 'images' | 'videos' | 'audios' | 'documents' | 'v
 
 export type MessageType = 'text' | 'system' | MediaContentType;
 
-export type MessageStatus = 'sending' | 'error' | 'delivered';
-
 export type File = {
     chat_id?: number;
     created_at?: Date;
@@ -62,7 +60,7 @@ export type MessageProxy = {
     lastMessageInBlock: boolean;
     firstMessageInBlock: boolean;
     action: string;
-    status: MessageStatus;
+    sending: boolean;
 } & Message;
 
 export type VoiceEvents = 'start' | 'send' | 'stop' | 'cancel';

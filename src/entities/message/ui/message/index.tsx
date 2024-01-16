@@ -52,7 +52,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         firstMessageInBlock,
         authorName,
         authorAvatar,
-        status,
+        sending,
     } = message;
 
     const avatarSize = useEasyState(52);
@@ -164,7 +164,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             className={styles.icon}
                             items={[
                                 {
-                                    visible: isMy && status !== 'sending',
+                                    visible: isMy && !sending,
                                     item: (
                                         <div className={styles.checkIcon}>
                                             <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />
@@ -172,7 +172,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                                     ),
                                 },
                                 {
-                                    visible: status === 'sending',
+                                    visible: sending,
                                     item: <Icons variant="clock" />,
                                 },
                             ]}
@@ -186,7 +186,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 
 export default memo(MessageView, (prevProps, nextProps): any => {
     if (prevProps.message?.text !== nextProps.message?.text) return false;
-    if (prevProps.message?.text !== nextProps.message?.text) return false;
+    if (prevProps.message?.sending !== nextProps.message?.sending) return false;
     if (prevProps.message?.isMock !== nextProps.message?.isMock) return false;
     if (prevProps.message?.reply_to_message !== nextProps.message?.reply_to_message) return false;
     if (prevProps.message?.is_edited !== nextProps.message?.is_edited) return false;
