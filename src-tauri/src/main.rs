@@ -71,12 +71,7 @@ fn main() {
                     }
                     "hide" => {
                         let window = app.get_window("main").unwrap();
-                        if cfg!(windows) {
-                            window.hide().unwrap();
-                        } else {
                             window.minimize().unwrap();
-                        }
-
                     }
                     _ => {}
                 }
@@ -88,11 +83,14 @@ fn main() {
             tauri::WindowEvent::CloseRequested { api, .. } => {
                 let label = event.window().label();
                 if label == "main" {
-                    if cfg!(windows) {
+                    #[cfg(not(target_os = "macos"))] {
                         event.window().hide().unwrap();
-                    } else {
-                        event.window().minimize().unwrap();
                     }
+
+                    #[cfg(target_os = "macos")] {
+                        tauri::AppHandle::hide(&event.window().app_handle()).unwrap();
+                    }
+
                     api.prevent_close();
                 }
             }
