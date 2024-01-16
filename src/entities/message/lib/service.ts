@@ -1,4 +1,6 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { sendNotification } from '@tauri-apps/api/notification';
+import produce from 'immer';
 
 import { appApi } from 'entities/app';
 import { getUniqueArr } from 'shared/lib';
@@ -6,8 +8,8 @@ import { getUniqueArr } from 'shared/lib';
 import { messages_limit } from './constants';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
-import { messageProxy } from '../index';
-import { File, Message } from '../model/types';
+import { messageProxy, messageService } from '../index';
+import { File, Message, MessageProxy } from '../model/types';
 
 class MessageService {
     getUpdatedList(messageData: any) {
@@ -27,16 +29,23 @@ class MessageService {
         return Math.ceil(chat.pending_messages_count / messages_limit);
     }
 
-    getAuthorName(message: Message | null) {
-        if (!message) return '';
-        const viewerId = viewerService.getId();
-        return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;
-    }
-
     notification(title: string, body: string) {
         if (window.localStorage.getItem('notification')) {
             return sendNotification({ title, body });
         }
+    }
+
+    updateMockMessage(data: any, queryClient: any) {
+        const message = data.data.data;
+        queryClient.setQueryData(['get-messages', message.chat_id], (cacheData: any) => {
+            return produce(cacheData, (draft: any) => {
+                draft.pages[0].data.data.forEach((i: MessageProxy, index: number) => {
+                    if (i.isMock && i.sending && message.type === i.type) {
+                        draft.pages[0].data.data[index] = { ...i, sending: false, isRead: true, isMock: false };
+                    }
+                });
+            });
+        });
     }
 }
 

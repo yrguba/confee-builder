@@ -8,6 +8,7 @@ import { useWebSocket } from 'shared/hooks';
 import { File, Message, MessageProxy, MessageType, SocketOut } from './types';
 import { getRandomString, httpHandlers } from '../../../shared/lib';
 import { Chat } from '../../chat/model/types';
+import { messageService } from '../index';
 import { messages_limit } from '../lib/constants';
 import mockMessage from '../lib/mock';
 
@@ -92,25 +93,14 @@ class MessageApi {
             {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                        const message = mockMessage({ text: data.text, author: viewerData?.data.data, reply: data.replyMessage });
+                        const message = mockMessage({ text: data.text, author: viewerData?.data.data.user, reply: data.replyMessage });
                         return produce(cacheData, (draft: any) => {
                             draft.pages[0].data.data.unshift(message);
                         });
                     });
                 },
                 onSuccess: (data) => {
-                    const message = data.data.data;
-                    console.log(message);
-                    queryClient.setQueryData(['get-messages', message.chat_id], (cacheData: any) => {
-                        return produce(cacheData, (draft: any) => {
-                            draft.pages[0].data.data.forEach((i: MessageProxy, index: number) => {
-                                if (i.isMock && i.sending && message.type === i.type) {
-                                    console.log(i);
-                                    draft.pages[0].data.data[index] = { ...i, sending: false, isRead: true };
-                                }
-                            });
-                        });
-                    });
+                    messageService.updateMockMessage(data, queryClient);
                 },
             }
         );
@@ -134,7 +124,7 @@ class MessageApi {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
                         const message = mockMessage({
                             text: '',
-                            author: viewerData?.data.data,
+                            author: viewerData?.data.data.user,
                             files: data.filesForMock,
                             type: data.filesType,
                             reply: data.replyMessage,
@@ -143,6 +133,9 @@ class MessageApi {
                             draft.pages[0].data.data.unshift(message);
                         });
                     });
+                },
+                onSuccess: (data) => {
+                    messageService.updateMockMessage(data, queryClient);
                 },
             }
         );
