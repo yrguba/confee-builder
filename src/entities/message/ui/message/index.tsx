@@ -52,6 +52,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         firstMessageInBlock,
         authorName,
         authorAvatar,
+        status,
     } = message;
 
     const avatarSize = useEasyState(52);
@@ -163,7 +164,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             className={styles.icon}
                             items={[
                                 {
-                                    visible: isMy && !isMock,
+                                    visible: isMy && status !== 'sending',
                                     item: (
                                         <div className={styles.checkIcon}>
                                             <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />
@@ -171,7 +172,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                                     ),
                                 },
                                 {
-                                    visible: isMock,
+                                    visible: status === 'sending',
                                     item: <Icons variant="clock" />,
                                 },
                             ]}
