@@ -25,7 +25,6 @@ fn main() {
     let open = CustomMenuItem::new("open".to_string(), "Открыть");
     let quit = CustomMenuItem::new("quit".to_string(), "Закрыть");
     let hide = CustomMenuItem::new("hide".to_string(), "Свернуть");
-
     let tray_menu = SystemTrayMenu::new()
         .add_item(open)
         .add_item(quit)
@@ -72,7 +71,12 @@ fn main() {
                     }
                     "hide" => {
                         let window = app.get_window("main").unwrap();
-                        window.hide().unwrap();
+                        if cfg!(windows) {
+                            window.hide().unwrap();
+                        } else {
+                            window.minimize().unwrap();
+                        }
+
                     }
                     _ => {}
                 }
@@ -84,7 +88,11 @@ fn main() {
             tauri::WindowEvent::CloseRequested { api, .. } => {
                 let label = event.window().label();
                 if label == "main" {
-                    event.window().hide().unwrap();
+                    if cfg!(windows) {
+                        event.window().hide().unwrap();
+                    } else {
+                        event.window().minimize().unwrap();
+                    }
                     api.prevent_close();
                 }
             }
