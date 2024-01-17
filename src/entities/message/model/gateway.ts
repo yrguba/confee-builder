@@ -3,7 +3,7 @@ import { sendNotification } from '@tauri-apps/api/notification';
 import produce from 'immer';
 import { useEffect } from 'react';
 
-import { useWebSocket, useThrottle, useDebounce } from 'shared/hooks';
+import { useWebSocket, useThrottle, useDebounce, useStorage } from 'shared/hooks';
 import { findLastIndex } from 'shared/lib';
 
 import { Message, MessageProxy, SocketIn, SocketOut } from './types';
@@ -12,6 +12,7 @@ import { Notification } from '../../../shared/ui';
 import { chatService } from '../../chat';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
+import { Session } from '../../viewer/model/types';
 import messageProxy from '../lib/proxy';
 import messageService from '../lib/service';
 
@@ -22,6 +23,7 @@ const debounceMessageTypingClose = debounce((cl) => cl(), 3000);
 function messageGateway() {
     const viewerId = viewerService.getId();
     const queryClient = useQueryClient();
+    const session = useStorage().get<Session>('session');
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
@@ -34,7 +36,8 @@ function messageGateway() {
                 }
                 if (!cacheData?.pages.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
-                    if (socketData.data.message.author.id === viewerId && socketData.data.message.type !== 'system') {
+                    if (session && socketData.data.extra_info.written_from_session_id !== session.id) {
+                        draft.pages[0].data.data.unshift({ ...socketData.data.message, is_read: socketData.data.extra_info.is_read });
                         // if (socketData.data.message?.files?.length) {
                         //     const foundMockIndex = draft.pages[0].data.data.findIndex((i: MessageProxy) => i.isMock && socketData.data.message.type === i.type);
                         //     if (foundMockIndex === -1) {
@@ -59,7 +62,7 @@ function messageGateway() {
                         //     });
                         // }
                     } else {
-                        draft.pages[0].data.data.unshift({ ...socketData.data.message, is_read: socketData.data.extra_info.is_read });
+                        // draft.pages[0].data.data.unshift({ ...socketData.data.message, is_read: socketData.data.extra_info.is_read });
                     }
                 });
             });

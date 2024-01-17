@@ -34,7 +34,7 @@ function Image(props: BaseImageProps) {
     } = props;
     const storage = useStorage();
 
-    const { src, error, fileBlob, isLoading } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
+    const { src, error, fileBlob, isLoading } = useFetchMediaContent(url || '');
     const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
     const visibleMenu = useEasyState(false);

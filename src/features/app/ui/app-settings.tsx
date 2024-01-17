@@ -20,6 +20,7 @@ function AppSettings() {
             handleLogout(null, {
                 onSuccess: () => {
                     tokensService.remove();
+                    storage.remove('session');
                     window.location.reload();
                 },
             });
@@ -31,6 +32,7 @@ function AppSettings() {
             handleDeleteAccount(null, {
                 onSuccess: () => {
                     tokensService.remove();
+                    storage.remove('session');
                     window.location.reload();
                 },
             });

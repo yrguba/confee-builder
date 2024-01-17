@@ -15,7 +15,7 @@ import waveformStatic from '../wave-form/static';
 function AudioPlayer(props: BaseAudioPlayerProps) {
     const { id, name, clickedFile, disabled, url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
     const storage = useStorage();
-    const { src, fileBlob } = useFetchMediaContent(url || '', storage.get('save_in_cache'));
+    const { src, fileBlob } = useFetchMediaContent(url || '');
 
     const [waveform, waveSurferRef, isPlaying, time, currentTime, isLoading] = waveformStatic({ url: src || ' ' });
 

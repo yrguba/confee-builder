@@ -15,7 +15,7 @@ import { BaseVideoPlayerProps } from '../../types';
 function VideoPlayer(props: BaseVideoPlayerProps) {
     const { disableDownload = true, id, name, clickedFile, visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
     const storage = useStorage();
-    const { src, isLoading, error, videoCover, fileBlob } = useFetchMediaContent(url || '', storage.get('save_in_cache'), visibleCover);
+    const { src, isLoading, error, videoCover, fileBlob } = useFetchMediaContent(url || '', false, visibleCover);
     const notification = Notification.use();
 
     const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();

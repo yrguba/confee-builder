@@ -5,7 +5,7 @@ import { axiosClient, AxiosError } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
-import { Viewer } from './types';
+import { Viewer, Session } from './types';
 
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
@@ -15,7 +15,7 @@ class ViewerApi {
         return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             select: (res) => {
-                const updRes = httpHandlers.response<{ data: { user: Viewer; session: any; companies: companyTypes.Company[] } }>(res);
+                const updRes = httpHandlers.response<{ data: { user: Viewer; session: Session; companies: companyTypes.Company[] } }>(res);
                 storage.set('viewer_id', updRes.data?.data.user.id);
                 return {
                     user: updRes.data?.data.user,

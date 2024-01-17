@@ -5,7 +5,7 @@ export type ValuesInStorage =
     | 'theme'
     | 'notification'
     | 'viewer_id'
-    | 'save_in_cache'
+    | 'session'
     | 'chat_list_width'
     | 'active_chats_tab'
     | 'join_meet_data'
@@ -16,11 +16,11 @@ function useStorage() {
         ls.setItem(name, typeof value === 'string' ? value : JSON.stringify(value));
     };
 
-    const get = (name: ValuesInStorage) => {
+    const get = <T = any>(name: ValuesInStorage): T | null => {
         const valueInLs = ls.getItem(name);
         if (!valueInLs) return null;
         if (valueInLs[0] === '{' && valueInLs[valueInLs.length - 1] === '}') return JSON.parse(valueInLs);
-        return valueInLs;
+        return valueInLs as T;
     };
 
     const remove = (name: ValuesInStorage) => {

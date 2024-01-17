@@ -41,8 +41,6 @@ function TauriSettings() {
 
     const cacheSize = useEasyState<string>('');
 
-    const saveInCache = useEasyState<boolean>(!!storage.get('save_in_cache'));
-
     useEffect(() => {
         // cacheSize.set('загрузка...');
         // fs.getFolderSize({ baseDir: 'Document', folderDir: 'cache' }).then((res) => {
@@ -50,7 +48,7 @@ function TauriSettings() {
         // });
     }, []);
 
-    return <TauriSettingsView saveInCache={saveInCache} cacheSize={cacheSize.value} updateAvailable={updateAvailable} updateApp={updateApp} />;
+    return <TauriSettingsView cacheSize={cacheSize.value} updateAvailable={updateAvailable} updateApp={updateApp} />;
 }
 
 export default TauriSettings;

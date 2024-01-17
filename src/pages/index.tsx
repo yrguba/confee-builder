@@ -2,6 +2,7 @@ import { checkUpdate } from '@tauri-apps/api/updater';
 import { AnimatePresence } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useUpdateEffect } from 'react-use';
 
 import { viewerApi, tokensService } from 'entities/viewer';
 import { webView } from 'features/auth';
@@ -12,13 +13,15 @@ import meetPageRouters from './meet';
 import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
 import { appService } from '../entities/app';
-import { useWindowSize, useEffectOnce } from '../shared/hooks';
+import { useWindowSize, useEffectOnce, useStorage } from '../shared/hooks';
 
 function Routing() {
     const location = useLocation();
     const navigate = useNavigate();
     const { width, height } = useWindowSize();
     const { data: viewerData, isLoading, error: viewerError } = viewerApi.handleGetViewer();
+
+    const storage = useStorage();
 
     const routes = (
         <AnimatePresence mode="wait">
@@ -32,6 +35,12 @@ function Routing() {
             </Routes>
         </AnimatePresence>
     );
+
+    useUpdateEffect(() => {
+        if (viewerData?.session?.id) {
+            storage.set('session', viewerData.session);
+        }
+    }, [viewerData?.session?.id]);
 
     useEffect(() => {
         if (width < 450 || height < 470) return navigate('/warning/size');

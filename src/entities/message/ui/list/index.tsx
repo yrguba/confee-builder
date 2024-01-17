@@ -142,7 +142,7 @@ function MessagesListView(props: Props) {
             executeScrollToElement({ ref: lastMessageRef, enable: true });
         }
     }, [goDownList]);
-    console.log(messages);
+
     return (
         <div
             className={`${styles.wrapper} ${isFileDrag.value ? styles.wrapper_dragOver : ''}`}
