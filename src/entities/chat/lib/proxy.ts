@@ -4,7 +4,7 @@ import { dateConverter, getEnding } from 'shared/lib';
 import { employeeProxy } from '../../company';
 import { userProxy, userService } from '../../user';
 import { UserProxy } from '../../user/model/types';
-import { ChatProxy, Chat } from '../model/types';
+import { ChatProxy, Chat, CurrentShortMember } from '../model/types';
 
 function chatProxy(chat: Chat | undefined): ChatProxy | null {
     const viewerId = viewerService.getId();
@@ -29,6 +29,18 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
 
                 case 'checkIsMyLastMessage':
                     return target.last_message?.author?.id === viewerId;
+
+                case 'currentShortMembers':
+                    const getMembers = (data: any): CurrentShortMember[] => {
+                        return data.map((i: any) => ({
+                            id: i?.user?.id || i.id,
+                            avatar: i.avatar,
+                            first_name: i.first_name,
+                            last_name: i.last_name,
+                            full_name: i?.contact_name || `${i.first_name} ${i.last_name}`,
+                        }));
+                    };
+                    return receiver.is_personal ? getMembers(target.members) : getMembers(target.employee_members);
 
                 case 'authorLastMessage':
                     return receiver?.checkIsMyLastMessage ? 'Вы' : target?.last_message?.author?.first_name || target?.last_message?.author?.last_name;

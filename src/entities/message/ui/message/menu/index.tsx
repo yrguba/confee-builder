@@ -9,6 +9,7 @@ import { Box, IconsTypes, Icons, Title, Emoji, Card } from 'shared/ui';
 import styles from './styles.module.scss';
 import { createMemo } from '../../../../../shared/hooks';
 import { chatTypes } from '../../../../chat';
+import { CurrentShortMember } from '../../../../chat/model/types';
 import { EmployeeProxy } from '../../../../company/model/types';
 import { userProxy } from '../../../../user';
 import { UserProxy, User } from '../../../../user/model/types';
@@ -28,11 +29,11 @@ type Props = {
     clickedFile: { blob: Blob; name: string; id: number | string; type: MediaContentType } | null;
 } & BaseTypes.Statuses;
 
-const memoReadUsers = createMemo((users: User[] | BaseTypes.Empty, users_ids: number[]) => {
-    const arr: UserProxy[] = [];
-    users?.forEach((user) => {
-        if (users_ids.includes(user?.id)) {
-            arr.push(userProxy(user) as any);
+const memoReadUsers = createMemo((members: CurrentShortMember[] | BaseTypes.Empty, users_ids: number[]) => {
+    const arr: CurrentShortMember[] = [];
+    members?.forEach((member) => {
+        if (users_ids.includes(member?.id)) {
+            arr.push(member);
         }
     });
     return arr;
@@ -72,7 +73,7 @@ function MessageMenu(props: Props) {
         initialArr: items,
     });
 
-    const readUsers = memoReadUsers(chat?.is_personal ? chat?.members : chat?.employee_members.map((i) => i.user), message.users_have_read);
+    const readUsers = memoReadUsers(chat?.currentShortMembers, message.users_have_read);
 
     useEffect(() => {
         if (message.type !== 'text') deleteById(7);
@@ -122,7 +123,7 @@ function MessageMenu(props: Props) {
                             id: i.id,
                             img: i.avatar,
                             name: i.full_name,
-                            title: i.contact_name || i.first_name,
+                            title: i.full_name,
                             subtitle: '',
                         }))}
                     />

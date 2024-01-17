@@ -17,7 +17,7 @@ import { viewerService } from '../../../entities/viewer';
 import { ForwardMessagesModal } from '../../message';
 
 function ChatHeader() {
-    const { params, navigate } = useRouter();
+    const { params, navigate, pathname } = useRouter();
 
     const { data: chatData, isLoading } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
@@ -76,7 +76,7 @@ function ChatHeader() {
             <PrivateChatProfileModal {...privateChatProfileModal} />
             <ForwardMessagesModal {...forwardMessagesModal} />
             <ChatHeaderView
-                back={() => navigate('/chats')}
+                back={() => navigate(-1)}
                 chat={chatProxy(chatData)}
                 tabsActions={tabsActions}
                 clickCard={clickCard}

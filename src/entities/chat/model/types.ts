@@ -37,7 +37,16 @@ export type ChatProxy = {
     subtitle: string;
     authorLastMessage: string;
     meetId: string;
+    currentShortMembers: CurrentShortMember[];
 } & Chat;
+
+export type CurrentShortMember = {
+    id: number;
+    avatar: string;
+    first_name: string;
+    last_name: string;
+    full_name: string;
+};
 
 export type ChatsTypes = 'all' | 'personal' | 'company';
 
