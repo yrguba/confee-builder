@@ -70,6 +70,8 @@ function MessageList() {
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const { mutate: handleSendReaction } = messageApi.handleSendReaction();
 
+    const initialOpenChat = useChatStore.use.initialOpenChat();
+
     const messages = memoUpdateMessages(messageData);
 
     const notification = Notification.use();
@@ -174,6 +176,7 @@ function MessageList() {
 
     useLifecycles(
         () => {
+            initialOpenChat.set(true);
             if (forwardMessages.value.toChatId && forwardMessages.value.toChatId !== chatId) {
                 forwardMessages.clear();
             }
@@ -219,6 +222,7 @@ function MessageList() {
                 dropContainerRef={dropContainerRef}
                 goDownList={goDownList.value}
                 isFileDrag={isFileDrag}
+                initialOpenChat={initialOpenChat}
             />
         </>
     );

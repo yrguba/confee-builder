@@ -2,7 +2,7 @@ import React, { useRef, Fragment, useEffect, useState, RefObject } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useUpdateEffect } from 'react-use';
 
-import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Button, Counter, Icons } from 'shared/ui';
 
@@ -38,6 +38,7 @@ type Props = {
     dropContainerRef: RefObject<any>;
     goDownList: boolean;
     isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
+    initialOpenChat: UseStoreTypes.SelectorWithPrimitive<boolean>;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
@@ -61,6 +62,7 @@ function MessagesListView(props: Props) {
         dropContainerRef,
         goDownList,
         isFileDrag,
+        initialOpenChat,
     } = props;
 
     const prevChat = usePrevious(chat);
@@ -112,20 +114,18 @@ function MessagesListView(props: Props) {
                 setTimeout(() => deleteFoundMessage(), 1000);
                 return executeScrollToElement({ ref: foundMessageRef, enable: true, block: 'center' });
             }
-            if (chat?.pending_messages_count && !subCurrentChat) {
-                return executeScrollToElement({ ref: firstUnreadMessageRef });
+            if (initialOpenChat.value) {
+                if (chat.pending_messages_count) {
+                    executeScrollToElement({ ref: firstUnreadMessageRef });
+                } else {
+                    executeScrollToElement({ ref: lastMessageRef, enable: true });
+                }
+                initialOpenChat.set(false);
+            } else if (chatSubscription === chat.id) {
+                return executeScrollToElement({ ref: lastMessageRef, enable: true, smooth: true });
             }
-            // if (((initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef) && chatSubscription === chat.id) {
-            //     console.log();
-            //     return executeScrollToElement({ ref: lastMessageRef, enable: true, smooth: false });
-            //     // return scrollBottom({
-            //     //     ref: wrapperRef,
-            //     //     enable: true,
-            //     //     smooth: inViewLastMessageCheckVisibleRef,
-            //     // });
-            // }
         }
-    }, [messages, chatSubscription]);
+    }, [messages, chatSubscription, initialOpenChat.value]);
 
     useEffect(() => {
         if (inViewPrevPage) getPrevPage();
