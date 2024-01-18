@@ -112,12 +112,16 @@ function MessagesListView(props: Props) {
                 setTimeout(() => deleteFoundMessage(), 1000);
                 return executeScrollToElement({ ref: foundMessageRef, enable: true, block: 'center' });
             }
-            scrollBottom({
-                ref: wrapperRef,
-                enable: (initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef,
-                smooth: inViewLastMessageCheckVisibleRef,
-            });
-            executeScrollToElement({ ref: firstUnreadMessageRef, enable: !!chat?.pending_messages_count && initOnce });
+            if (chat?.pending_messages_count) {
+                return executeScrollToElement({ ref: firstUnreadMessageRef, enable: !!chat?.pending_messages_count && initOnce });
+            }
+            if ((initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef) {
+                return scrollBottom({
+                    ref: wrapperRef,
+                    enable: (initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef,
+                    smooth: inViewLastMessageCheckVisibleRef,
+                });
+            }
             if (prevChat?.id !== chat.id) setInitOnce(true);
             setTimeout(() => setInitOnce(false), 1000);
         }
