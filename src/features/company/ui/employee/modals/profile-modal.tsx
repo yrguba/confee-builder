@@ -12,6 +12,7 @@ function EmployeeProfileModal(modal: ModalTypes.UseReturnedType) {
     const { mutate: handleUnbind } = companyApi.handleUnbind();
 
     const employeeData = viewerData?.companies?.length ? viewerData?.companies[0]?.departments[0]?.employees[0] : null;
+    const companyAvatar = viewerData?.companies?.length ? viewerData?.companies[0]?.avatar : '';
 
     const confirmDeleteModal = Modal.use();
 
@@ -35,7 +36,11 @@ function EmployeeProfileModal(modal: ModalTypes.UseReturnedType) {
             <Modal {...confirmDeleteModal} closeIcon={false}>
                 <ConfirmDeleteCorpAccModalView confirmDelete={confirmDelete} />
             </Modal>
-            <EmployeeProfileModalView openDeleteAccModal={confirmDeleteModal.open} employeeData={employeeProxy(employeeData)} />
+            <EmployeeProfileModalView
+                openDeleteAccModal={confirmDeleteModal.open}
+                employeeData={employeeProxy(employeeData)}
+                companyAvatar={companyAvatar as string}
+            />
         </>
     );
 }

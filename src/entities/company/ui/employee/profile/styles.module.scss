@@ -19,7 +19,7 @@
     }
 
     .btns {
-      @include flex(center, flex-start);
+      @include flex(flex-start, flex-start);
       gap: 12px;
       max-width: 220px;
 

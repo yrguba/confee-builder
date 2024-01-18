@@ -52,6 +52,7 @@ function ViewerProfileView(props: Props) {
                         subtitle={companies[0].departments[0].name || ''}
                         position={companies[0].departments[0].employees[0].position || ''}
                         status={companies[0].departments[0].employees[0].status || ''}
+                        avatar={companies[0].avatar || ''}
                     />
                 ) : (
                     <BindCompanyView addClick={openAuthCompanyModal} />

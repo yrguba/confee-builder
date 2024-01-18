@@ -9,10 +9,11 @@ import { EmployeeProxy } from '../../../../model/types';
 type Props = {
     employeeData: EmployeeProxy | BaseTypes.Empty;
     openDeleteAccModal: () => void;
+    companyAvatar: string;
 } & BaseTypes.Statuses;
 
 function EmployeeProfileModalView(props: Props) {
-    const { openDeleteAccModal, employeeData } = props;
+    const { companyAvatar, openDeleteAccModal, employeeData } = props;
 
     const rows: { id: number; title: string; subtitle: string; icon?: string }[] = [
         { id: 0, title: 'Отдел', subtitle: employeeData?.departments[0].name || '' },
@@ -31,7 +32,7 @@ function EmployeeProfileModalView(props: Props) {
             </div>
             <div className={styles.rows}>
                 <div className={styles.item_company}>
-                    <Icons.Logo variant="softworks" />
+                    <Avatar size={40} img={companyAvatar} />
                     <Title variant="H3B">{employeeData?.companies[0].name || ''}</Title>
                 </div>
                 {rows.map((i) => (

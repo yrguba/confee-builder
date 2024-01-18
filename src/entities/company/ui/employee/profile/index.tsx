@@ -66,6 +66,7 @@ function EmployeeProfileView(props: Props) {
             {employee?.companies?.length
                 ? employee?.companies?.map((i) => (
                       <CompanyCardView
+                          avatar={i.avatar || ''}
                           style={{ backgroundColor: 'var(--bg-secondary)' }}
                           key={i.id}
                           position={employee.position || ''}
