@@ -1,12 +1,13 @@
 import { invoke } from '@tauri-apps/api/tauri';
 import React, { useEffect } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { appService } from 'entities/app';
-import { ChatHeaderView, chatApi, chatService } from 'entities/chat';
+import { ChatHeaderView, chatApi, chatService, useChatStore } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
 import { meetApi, meetTypes, useMeet, useMeetStore } from 'entities/meet';
 import { useMessageStore, messageApi } from 'entities/message';
-import { useEasyState, useRouter, useStorage, useWebView } from 'shared/hooks';
+import { useEasyState, useRouter, useLifecycles } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 import { TabBarTypes, Notification, Modal } from 'shared/ui';
 

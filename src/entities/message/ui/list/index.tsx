@@ -63,11 +63,11 @@ function MessagesListView(props: Props) {
         isFileDrag,
     } = props;
 
-    const [initOnce, setInitOnce] = useState(true);
-
     const prevChat = usePrevious(chat);
 
     const { executeScrollToElement, scrollBottom } = useScroll();
+
+    const subCurrentChat = chatSubscription === chat?.id;
 
     const wrapperRef: any = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -112,20 +112,20 @@ function MessagesListView(props: Props) {
                 setTimeout(() => deleteFoundMessage(), 1000);
                 return executeScrollToElement({ ref: foundMessageRef, enable: true, block: 'center' });
             }
-            if (chat?.pending_messages_count) {
-                return executeScrollToElement({ ref: firstUnreadMessageRef, enable: !!chat?.pending_messages_count && initOnce });
+            if (chat?.pending_messages_count && !subCurrentChat) {
+                return executeScrollToElement({ ref: firstUnreadMessageRef });
             }
-            if ((initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef) {
-                return scrollBottom({
-                    ref: wrapperRef,
-                    enable: (initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef,
-                    smooth: inViewLastMessageCheckVisibleRef,
-                });
-            }
-            if (prevChat?.id !== chat.id) setInitOnce(true);
-            setTimeout(() => setInitOnce(false), 1000);
+            // if (((initOnce && !chat?.pending_messages_count) || inViewLastMessageCheckVisibleRef) && chatSubscription === chat.id) {
+            //     console.log();
+            //     return executeScrollToElement({ ref: lastMessageRef, enable: true, smooth: false });
+            //     // return scrollBottom({
+            //     //     ref: wrapperRef,
+            //     //     enable: true,
+            //     //     smooth: inViewLastMessageCheckVisibleRef,
+            //     // });
+            // }
         }
-    }, [messages, chatSubscription, loading]);
+    }, [messages, chatSubscription]);
 
     useEffect(() => {
         if (inViewPrevPage) getPrevPage();
@@ -155,7 +155,7 @@ function MessagesListView(props: Props) {
             onDragLeave={() => isFileDrag.set(false)}
             onDrop={() => isFileDrag.set(false)}
         >
-            <Box.Animated visible={!inViewLastMessageCheckVisibleRef && !initOnce} className={styles.btnDown}>
+            <Box.Animated visible={!inViewLastMessageCheckVisibleRef} className={styles.btnDown}>
                 <Counter>{chat?.pending_messages_count || 0}</Counter>
                 <Button.Circle radius={34} onClick={clickBtnDown}>
                     <Icons variant="arrow-drop-down" />

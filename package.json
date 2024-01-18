@@ -29,7 +29,7 @@
         "build-and-send-mac": "python3 web-py-scripts/scripts/build_and_send.py",
         "build-and-send-debug-mac": "python3 web-py-scripts/scripts/build_and_send_debug.py",
         "build-and-send-win": "python web-py-scripts/scripts/build_and_send.py",
-        "build-and-send-debug-win": "python web-py-scripts/scripts/build_and_send_debug.py"
+        "build-and-send-debug-win": "cross-env REACT_APP_DEBUG=true python web-py-scripts/scripts/build_and_send_debug.py"
     },
     "dependencies": {
         "@hookform/resolvers": "^2.9.11",

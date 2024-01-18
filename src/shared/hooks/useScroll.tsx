@@ -20,7 +20,7 @@ function useScroll(): {
         }
     };
 
-    const executeScrollToElement = ({ ref, smooth, enable, block = 'end' }: ExecuteScrollToElementProps) => {
+    const executeScrollToElement = ({ ref, smooth, enable = true, block = 'end' }: ExecuteScrollToElementProps) => {
         if (ref?.current && enable) {
             ref.current.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block, inline: 'nearest' });
         }
