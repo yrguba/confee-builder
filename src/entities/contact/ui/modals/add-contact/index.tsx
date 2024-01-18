@@ -14,10 +14,11 @@ type Props = {
         lastName: InputTypes.UseReturnedType;
         phone: InputTypes.UseReturnedType;
     };
+    disabledSendBtn: boolean;
 } & BaseTypes.Statuses;
 
 function AddContactModalView(props: Props) {
-    const { back, addContact, inputs } = props;
+    const { disabledSendBtn, back, addContact, inputs } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -26,8 +27,8 @@ function AddContactModalView(props: Props) {
             </div>
             <div className={styles.body}>
                 <div className={styles.inputsName}>
-                    <Input size="m" {...inputs.firstName} placeholder="Имя" />
-                    <Input size="m" {...inputs.lastName} placeholder="Фамилия (необязательно)" />
+                    <Input maxLength={30} size="m" {...inputs.firstName} placeholder="Имя" />
+                    <Input maxLength={30} size="m" {...inputs.lastName} placeholder="Фамилия (необязательно)" />
                 </div>
                 <div className={styles.inputPhone}>
                     <Input.Phone {...inputs.phone} />
@@ -37,7 +38,7 @@ function AddContactModalView(props: Props) {
                 <Button width="50%" onClick={back} variant="secondary">
                     Назад
                 </Button>
-                <Button width="50%" onClick={addContact} variant="primary">
+                <Button disabled={disabledSendBtn} width="50%" onClick={addContact} variant="primary">
                     Добавить
                 </Button>
             </div>

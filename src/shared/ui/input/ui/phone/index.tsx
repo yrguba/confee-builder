@@ -35,7 +35,7 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
     return (
         <div className={styles.wrapper}>
             <div className={styles.row} onFocus={onFocus} onBlur={onBlur}>
-                <div className={styles.code} onClick={() => setOpenDropdown(true)}>
+                <div className={styles.code} onClick={() => setOpenDropdown(false)}>
                     <Dropdown
                         trigger="mouseup"
                         visible={openDropdown}
@@ -70,7 +70,7 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
                                             {i.payload.code}
                                         </div>
 
-                                        <Icons.ArrowAnimated activeAnimate={openDropdown} initialDeg={0} animateDeg={90} variant="rotate" />
+                                        {/* <Icons.ArrowAnimated activeAnimate={openDropdown} initialDeg={0} animateDeg={90} variant="rotate" /> */}
                                     </div>
                                 )
                         )}
@@ -78,14 +78,15 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
                 </div>
                 <div className={`${styles.input} ${focused ? styles.input_focused : ''}`}>
                     <input
-                        type="number"
                         onFocus={inputFocus}
                         ref={mergeRefs([inputRef, ref])}
                         maxLength={10}
                         placeholder="(999) 000-00-00"
                         value={value}
                         onChange={(e) => {
-                            onChange && String(e.target.value).length < 11 ? onChange(e) : '';
+                            if (/^[0-9]+$|^$/.test(e.currentTarget.value) && onChange) {
+                                String(e.target.value).length < 11 ? onChange(e) : '';
+                            }
                         }}
                     />
                 </div>

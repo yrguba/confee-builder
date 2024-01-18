@@ -21,6 +21,7 @@ function AddContactModal(modal: ModalTypes.UseReturnedType) {
     const lastName = Input.use({});
 
     const phone = Input.use({
+        onlyNumber: true,
         yupSchema: yup.checkPhone('Введите номер телефона'),
         callbackPhone: (value) => {
             if (String(value).length === 6) {
@@ -58,7 +59,14 @@ function AddContactModal(modal: ModalTypes.UseReturnedType) {
         }
     };
 
-    return <AddContactModalView back={modal.close} addContact={addContact} inputs={{ firstName, lastName, phone }} />;
+    return (
+        <AddContactModalView
+            disabledSendBtn={phone.error || !firstName.value || phone.value.length !== 10}
+            back={modal.close}
+            addContact={addContact}
+            inputs={{ firstName, lastName, phone }}
+        />
+    );
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {
