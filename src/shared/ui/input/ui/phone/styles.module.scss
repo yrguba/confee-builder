@@ -3,6 +3,7 @@
 .wrapper {
   @include box-size(100%, 55px);
   @include flex-column(center, flex-end);
+  gap: 8px;
   height: auto;
   padding-top: 6px;
 
@@ -59,8 +60,9 @@
   }
 
   .errorTitle {
-    font-size: 14px;
+    width: 100%;
     text-align: left;
+    font-size: 14px;
     color: var(--text-negative);
   }
 }

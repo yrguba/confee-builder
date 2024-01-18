@@ -15,13 +15,13 @@ function AddContactModal(modal: ModalTypes.UseReturnedType) {
     const yup = useYup();
 
     const firstName = Input.use({
-        yupSchema: yup.required,
+        yupSchema: yup.required('Введите имя контакта'),
     });
 
     const lastName = Input.use({});
 
     const phone = Input.use({
-        yupSchema: yup.checkPhone,
+        yupSchema: yup.checkPhone('Введите номер телефона'),
         callbackPhone: (value) => {
             if (String(value).length === 6) {
                 phone.setError('');

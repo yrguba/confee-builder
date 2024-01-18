@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
-function useYup(errorText?: string) {
-    const required = yup.string().required('Поле обязательно для заполнения');
+function useYup() {
+    const required = (errorText?: string) => yup.string().required(errorText || 'Поле обязательно для заполнения');
     const checkNickname = yup
         .string()
         .required('Поле обязательно для заполнения')
@@ -21,10 +21,11 @@ function useYup(errorText?: string) {
 
     const checkNumber = yup.number();
 
-    const checkPhone = yup
-        .string()
-        .min(1, 'Поле обязательно для заполнения')
-        .matches(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/, 'Неверный формат номера');
+    const checkPhone = (errorText?: string) =>
+        yup
+            .string()
+            .min(1, errorText || 'Поле обязательно для заполнения')
+            .matches(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/, 'Неверный формат номера');
 
     return {
         checkNumber,
