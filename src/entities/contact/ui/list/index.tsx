@@ -126,7 +126,7 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
 
     const id = contact?.id || employee?.id;
     const full_name = contact?.full_name || employee?.full_name;
-    const phone = contact?.phone || '';
+    const subtitle = contact?.phone || employee?.position;
     const avatar = contact?.avatar || employee?.avatar || '';
     const status: any = employee?.status || null;
 
@@ -151,7 +151,7 @@ const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeePro
             <ContextMenu visible={visibleMenu.value} items={menuItems} />
             <div className={styles.body}>
                 <div className={styles.card}>
-                    <Card onClick={clickUser} size="l" name={full_name} img={avatar} title={full_name} subtitle={phone || ''} />
+                    <Card onClick={clickUser} size="l" name={full_name} img={avatar} title={full_name} subtitle={subtitle || ''} />
                 </div>
             </div>
         </div>

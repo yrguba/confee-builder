@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { useEasyState, useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -52,7 +52,7 @@ function EmployeeProfileView(props: Props) {
                             ''
                         ) : employee?.user ? (
                             btns.map((i) => (
-                                <Button variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
+                                <Button key={i.id} variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
                                     {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
                                 </Button>
                             ))
@@ -68,11 +68,11 @@ function EmployeeProfileView(props: Props) {
                       <CompanyCardView
                           avatar={i.avatar || ''}
                           style={{ backgroundColor: 'var(--bg-secondary)' }}
-                          key={i.id}
                           position={employee.position || ''}
                           status="in office"
                           title={i.name || ''}
                           subtitle={employee.departments[0]?.name || ''}
+                          key={i.id}
                       />
                   ))
                 : null}

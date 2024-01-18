@@ -43,7 +43,7 @@ function ContactProfileView(props: Props) {
                 <ContextMenu items={menuItems} visible={visibleMenu.value} />
                 <div className={styles.btns}>
                     {btns.map((i) => (
-                        <Button variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
+                        <Button key={i.id} variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
                             {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
                         </Button>
                     ))}
