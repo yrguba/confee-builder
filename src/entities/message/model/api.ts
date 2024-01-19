@@ -100,7 +100,11 @@ class MessageApi {
                     });
                 },
                 onSuccess: (data) => {
-                    messageService.updateMockMessage(data, queryClient);
+                    const message = data.data.data;
+                    messageService.updateMockMessage({ chatId: message.chat_id, filesType: message.type }, queryClient);
+                },
+                onError: (error, variables, context) => {
+                    messageService.updateMockMessage({ ...variables, filesType: 'text' }, queryClient, true);
                 },
             }
         );
@@ -135,7 +139,11 @@ class MessageApi {
                     });
                 },
                 onSuccess: (data) => {
-                    messageService.updateMockMessage(data, queryClient);
+                    const message = data.data.data;
+                    messageService.updateMockMessage({ chatId: message.chat_id, filesType: message.type }, queryClient);
+                },
+                onError: (error, variables, context) => {
+                    messageService.updateMockMessage(variables, queryClient, true);
                 },
             }
         );

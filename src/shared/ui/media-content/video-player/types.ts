@@ -9,6 +9,7 @@ import { ImagesListItem } from '../image/types';
 
 export type BaseVideoPlayerProps = {
     url: string;
+    previewUrl?: string;
     id?: number | string;
     name?: string;
     width?: string;
@@ -34,7 +35,8 @@ export type VideoListProps = {
 } & BaseTypes.Statuses;
 
 export type VideoCardProps = {
-    url: string;
+    videoUrl?: string;
+    previewUrl?: string;
     name: string;
     size: number;
 } & BaseTypes.Statuses;

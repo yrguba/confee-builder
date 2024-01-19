@@ -19,7 +19,7 @@ function FilesToSendModal(props: Props) {
 
     const isLoading = useEasyState(false);
 
-    const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
+    const { mutate: handleSendFileMessage, error: sendingError } = messageApi.handleSendFileMessage();
 
     const images = useArray<UseFileUploaderTypes.Types.ImageFile>({ initialArr: files.image });
     const audios = useArray<UseFileUploaderTypes.Types.AudioFile>({ initialArr: files.audio });
@@ -103,6 +103,7 @@ function FilesToSendModal(props: Props) {
 
     return (
         <FilesToSendModalView
+            sendingError={!!sendingError}
             sendFiles={sendFiles}
             close={close}
             addFiles={openFilesDownloader}

@@ -53,6 +53,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         authorName,
         authorAvatar,
         sending,
+        sendingError,
     } = message;
 
     const avatarSize = useEasyState(52);
@@ -160,23 +161,11 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                         <Title primary={false} variant={dateTitleVariant.value}>
                             {message.date}
                         </Title>
-                        <Box.Replace
-                            className={styles.icon}
-                            items={[
-                                {
-                                    visible: isMy && !sending,
-                                    item: (
-                                        <div className={styles.checkIcon}>
-                                            <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />
-                                        </div>
-                                    ),
-                                },
-                                {
-                                    visible: sending,
-                                    item: <Icons variant="clock" />,
-                                },
-                            ]}
-                        />
+                        <Box.Animated visible trigger={`${sending}${sendingError}`} className={styles.icon}>
+                            {isMy && !sending && !sendingError && <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />}
+                            {sending && <Icons variant="clock" />}
+                            {sendingError && <Icons variant="error" />}
+                        </Box.Animated>
                     </div>
                 </div>
             </div>

@@ -50,9 +50,6 @@
           width: 24px;
           max-height: 24px;
 
-          .checkIcon {
-            @include flex;
-          }
 
           svg {
             fill: var(--text-action);

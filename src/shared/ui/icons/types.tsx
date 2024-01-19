@@ -59,7 +59,8 @@ export type BaseIconsVariants =
     | 'not-authorized'
     | 'privacy-policy'
     | 'support'
-    | 'save';
+    | 'save'
+    | 'error';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

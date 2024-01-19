@@ -13,7 +13,20 @@ import Image from '../../../image';
 import { BaseVideoPlayerProps } from '../../types';
 
 function VideoPlayer(props: BaseVideoPlayerProps) {
-    const { disableDownload = true, id, name, clickedFile, visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
+    const {
+        previewUrl,
+        disableDownload = true,
+        id,
+        name,
+        clickedFile,
+        visibleCover,
+        url,
+        onClick,
+        borderRadius = true,
+        height,
+        horizontalImgWidth,
+        width,
+    } = props;
     const storage = useStorage();
     const { src, isLoading, error, videoCover, fileBlob } = useFetchMediaContent(url || '', false, visibleCover);
     const notification = Notification.use();
@@ -61,14 +74,14 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
             onContextMenu={clickContextMenu}
             className={styles.wrapper}
             onClick={onClick}
-            style={{ maxWidth: width || '100%', width: width || '100%', height: !state.buffered.length ? 500 : height }}
+            style={{ maxWidth: width || '100%', width: width || '100%', height }}
         >
             {id === idOfSavedFile.value && (
                 <div className={styles.savingFile}>
                     <LoadingIndicator.Downloaded size={50} visible primary={false} />
                 </div>
             )}
-            {videoCover ? <Image url={videoCover} height={height} width={width} onClick={() => ''} /> : video}
+            {videoCover || previewUrl ? <Image url={videoCover || previewUrl || ''} height={height} width={width} onClick={() => ''} /> : video}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>

@@ -26,12 +26,12 @@ function VideoMessage(props: Props) {
 
     return (
         <>
-            <VideoPlayer.Swiper
-                initialSlide={swiperState.value.initial}
-                closeClick={() => swiperState.set({ visible: false, initial: 1 })}
-                visible={swiperState.value.visible}
-                items={updItems}
-            />
+            {/* <VideoPlayer.Swiper */}
+            {/*    initialSlide={swiperState.value.initial} */}
+            {/*    closeClick={() => swiperState.set({ visible: false, initial: 1 })} */}
+            {/*    visible={swiperState.value.visible} */}
+            {/*    items={updItems} */}
+            {/* /> */}
             <div className={styles.wrapper}>
                 <VideoPlayer.List clickedFile={clickedFile} items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
             </div>

@@ -21,6 +21,8 @@ function useFetchMediaContent(url = '', saveInCache = false, returnVideoCover = 
         }
     };
 
+    const updUrl = url.replace('x-matroska', 'mp4');
+
     const isFetch = !!checkFetch();
 
     const { data: fileData, isLoading, error, isFetching } = appApi.handleGetFile(url, isFetch);
@@ -37,23 +39,23 @@ function useFetchMediaContent(url = '', saveInCache = false, returnVideoCover = 
                     videoCover.set(cover);
                 }
             } else {
-                fetch(url)
+                fetch(updUrl)
                     .then((res) => res.blob())
                     .then((res) => setFileBlob(res));
-                setSrc(url);
+                setSrc(updUrl);
             }
         };
         fn()
             .then()
             .finally(() => loading.set(false));
-    }, [url, fileData]);
+    }, [updUrl, fileData]);
 
     return {
         src,
         fileBlob,
         videoCover: videoCover.value,
         error,
-        isLoading: !url || !isFetch ? false : loading.value || isLoading,
+        isLoading: !updUrl || !isFetch ? false : loading.value || isLoading,
     };
 }
 

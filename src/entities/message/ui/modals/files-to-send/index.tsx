@@ -15,15 +15,21 @@ type Props = {
     addFiles: () => void;
     sendFiles: () => void;
     close: () => void;
+    sendingError: boolean;
 } & BaseTypes.Statuses;
 
 function FilesToSendModalView(props: Props) {
-    const { loading, images, documents, audios, videos, addFiles, sendFiles, close } = props;
+    const { sendingError, loading, images, documents, audios, videos, addFiles, sendFiles, close } = props;
 
     const fileLength = images.length + documents.length + audios.length + videos.length;
 
     return (
-        <Box loading={loading} className={styles.wrapper}>
+        <Box loading={!sendingError && loading} className={styles.wrapper}>
+            {sendingError && (
+                <Title color="red" textAlign="center" variant="H2">
+                    Ошибка отправки
+                </Title>
+            )}
             <div className={styles.header}>
                 <Title variant="H2">{!fileLength ? 'Выбирите файлы' : `Отправить ${fileLength} ${getEnding(fileLength, ['файл', 'файла', 'файлов'])}`}</Title>
             </div>
@@ -49,7 +55,7 @@ function FilesToSendModalView(props: Props) {
                 {videos.array.length
                     ? videos.array.map((i) => (
                           <Item key={i.id} remove={() => videos.deleteById(i.id)}>
-                              <VideoPlayer.Card url={i.fileUrl} name={i.name} size={+i.size} />
+                              <VideoPlayer.Card previewUrl={i.previewUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}
