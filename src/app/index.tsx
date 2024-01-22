@@ -28,14 +28,10 @@ function App() {
     }, [isIdle]);
 
     useTheme();
-    const { start, time } = useReverseTimer({ hours: 1 });
+
     useEffect(() => {
         console.log('clientBaseURL: ', clientBaseURL);
     }, []);
-    console.log(time);
-    useEffectOnce(() => {
-        start();
-    });
 
     return (
         <BrowserRouter>
