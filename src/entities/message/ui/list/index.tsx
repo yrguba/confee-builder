@@ -39,6 +39,7 @@ type Props = {
     goDownList: boolean;
     isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
     initialOpenChat: UseStoreTypes.SelectorWithPrimitive<boolean>;
+    isFetching: boolean;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
@@ -63,6 +64,7 @@ function MessagesListView(props: Props) {
         goDownList,
         isFileDrag,
         initialOpenChat,
+        isFetching,
     } = props;
 
     const prevChat = usePrevious(chat);
@@ -117,12 +119,13 @@ function MessagesListView(props: Props) {
             if (initialOpenChat.value) {
                 if (chat.pending_messages_count) {
                     executeScrollToElement({ ref: firstUnreadMessageRef });
-                } else {
-                    executeScrollToElement({ ref: lastMessageRef, enable: true });
                 }
+                // } else {
+                //     executeScrollToElement({ ref: lastMessageRef, enable: true });
+                // }
                 initialOpenChat.set(false);
             } else if (chatSubscription === chat.id) {
-                return executeScrollToElement({ ref: lastMessageRef, enable: true, smooth: true });
+                // return executeScrollToElement({ ref: lastMessageRef, enable: true, smooth: true });
             }
         }
     }, [messages, chatSubscription, initialOpenChat.value]);
@@ -161,16 +164,9 @@ function MessagesListView(props: Props) {
                     <Icons variant="arrow-drop-down" />
                 </Button.Circle>
             </Box.Animated>
-
+            <div ref={mergeRefs([lastMessageRef, lastMessageCheckVisibleRef])} />
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
-                    {message.systemMessages.length
-                        ? message.systemMessages.map((text, ind) => (
-                              <div key={ind} ref={getMessageRefs(message, index)} onMouseEnter={() => !message.is_read && readMessage(message.id)}>
-                                  <SystemMessage text={text} />
-                              </div>
-                          ))
-                        : null}
                     {message.type !== 'system' && (
                         <div
                             onClick={() => rowClick(message)}
@@ -184,7 +180,7 @@ function MessagesListView(props: Props) {
                             }}
                             ref={getMessageRefs(message, index)}
                         >
-                            {index === 5 && <div ref={nextPageRef} />}
+                            {index === 10 && <div ref={prevPageRef} />}
                             <Message
                                 clickMessageReply={clickMessageReply}
                                 openChatProfileModal={openChatProfileModal}
@@ -195,12 +191,18 @@ function MessagesListView(props: Props) {
                                 messageMenuAction={messageMenuAction}
                                 voiceRecordingInProgress={voiceRecordingInProgress}
                             />
-                            {messages?.length - 5 === index && <div ref={prevPageRef} />}
+                            {messages?.length - 10 === index && <div ref={nextPageRef} />}
                         </div>
                     )}
+                    {message.systemMessages.length
+                        ? message.systemMessages.map((text, ind) => (
+                              <div key={ind} ref={getMessageRefs(message, index)} onMouseEnter={() => !message.is_read && readMessage(message.id)}>
+                                  <SystemMessage text={text} />
+                              </div>
+                          ))
+                        : null}
                 </Fragment>
             ))}
-            <div ref={mergeRefs([lastMessageRef, lastMessageCheckVisibleRef])} />
         </div>
     );
 }

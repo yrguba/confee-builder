@@ -223,6 +223,7 @@ function MessageList() {
                 goDownList={goDownList.value}
                 isFileDrag={isFileDrag}
                 initialOpenChat={initialOpenChat}
+                isFetching={isFetching}
             />
         </>
     );

@@ -13,12 +13,12 @@ import { File, Message, MessageProxy, MessageType } from '../model/types';
 
 class MessageService {
     getUpdatedList(messageData: any) {
-        const uniq = getUniqueArr(messageData?.pages?.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []) || [], 'id');
+        const uniq = getUniqueArr(messageData?.pages?.reduce((messages: any, page: any) => [...messages, ...[...page.data.data]], []) || [], 'id');
         return uniq.map((message: any, index: number) => {
             return messageProxy({
-                prevMessage: (uniq[index - 1] as Message) || null,
+                prevMessage: (uniq[index + 1] as Message) || null,
                 message,
-                nextMessage: (uniq[index + 1] as Message) || null,
+                nextMessage: (uniq[index - 1] as Message) || null,
             });
         });
     }
