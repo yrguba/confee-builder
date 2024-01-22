@@ -3,7 +3,8 @@
 .wrapper {
   @include flex-column;
   width: auto;
-  max-width: 800px;
+  max-width: 460px;
+  min-width: 400px;
   flex-wrap: wrap;
   column-gap: 6px;
   justify-content: flex-start;

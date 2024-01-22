@@ -25,7 +25,7 @@
     .description {
       @include flex-column(flex-start, flex-start);
       align-self: flex-start;
-      max-width: 70%;
+      //max-width: 70%;
       flex: 1;
       width: 0;
     }
