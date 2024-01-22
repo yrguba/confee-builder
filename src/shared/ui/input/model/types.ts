@@ -30,6 +30,7 @@ export type UseProps = {
     callbackPhone?: (phone: string | number) => void;
     onFocus?: (value: boolean) => void;
     onlyNumber?: boolean;
+    resetFocusError?: boolean;
 };
 
 export type BaseInputProps = {

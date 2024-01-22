@@ -3,7 +3,17 @@ import { useState, useCallback, ChangeEvent, useEffect, useRef } from 'react';
 import { UseProps } from './types';
 import { useDebounce } from '../../../hooks';
 
-const use = ({ initialValue = '', yupSchema, realtimeValidate, callback, debounceDelay, callbackPhone, onFocus, onlyNumber }: UseProps) => {
+const use = ({
+    initialValue = '',
+    yupSchema,
+    realtimeValidate,
+    callback,
+    debounceDelay,
+    callbackPhone,
+    onFocus,
+    onlyNumber,
+    resetFocusError = true,
+}: UseProps) => {
     const firstRender = useRef(true);
     const [value, setValue] = useState(initialValue || '');
     const [error, setError] = useState('');
@@ -49,7 +59,7 @@ const use = ({ initialValue = '', yupSchema, realtimeValidate, callback, debounc
     }, [realtimeValidate, value]);
 
     const onFocusClearError = () => {
-        !onFocus && setError('');
+        !onFocus && resetFocusError && setError('');
     };
 
     useDebounce(

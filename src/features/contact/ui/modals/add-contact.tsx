@@ -1,4 +1,5 @@
 import React from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { AddContactModalView, contactTypes, contactApi } from 'entities/contact';
 import { userApi } from 'entities/user';
@@ -21,12 +22,10 @@ function AddContactModal(modal: ModalTypes.UseReturnedType) {
     const lastName = Input.use({});
 
     const phone = Input.use({
+        resetFocusError: false,
         onlyNumber: true,
         yupSchema: yup.checkPhone('Введите номер телефона'),
         callbackPhone: (value) => {
-            if (String(value).length === 6) {
-                phone.setError('');
-            }
             if (String(value).length === 12) {
                 handleCheckPhone({ phone: value }).then((res) => {
                     if (!res.exists) {
@@ -36,6 +35,8 @@ function AddContactModal(modal: ModalTypes.UseReturnedType) {
                         phone.setError('');
                     }
                 });
+            } else {
+                phone.setError('');
             }
         },
     });
