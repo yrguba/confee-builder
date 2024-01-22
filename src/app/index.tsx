@@ -28,13 +28,13 @@ function App() {
     }, [isIdle]);
 
     useTheme();
-    // const { start, time } = useReverseTimer({ hours: 1 });
+    const { start, time } = useReverseTimer({ hours: 1 });
     useEffect(() => {
         console.log('clientBaseURL: ', clientBaseURL);
     }, []);
-    // console.log(time);
+    console.log(time);
     useEffectOnce(() => {
-        // start();
+        start();
     });
 
     return (
