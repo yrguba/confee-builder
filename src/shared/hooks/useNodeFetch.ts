@@ -11,9 +11,10 @@ function useNodeFetch() {
         if (url) {
             const client = await getClient();
             const response = await client.get(url, { responseType: ResponseType.Binary });
+            console.log(response);
             const u8a = new Uint8Array(response.data as any);
             const localUrl = await fileConverter.arrayBufferToBlobLocalPath(u8a);
-            content.set(localUrl);
+            return localUrl;
         }
     };
 

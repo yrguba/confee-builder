@@ -1,10 +1,11 @@
 import React, { ReactNode, useEffect } from 'react';
 
-import { useNodeFetch, useShell } from 'shared/hooks';
+import { useEasyState, useNodeFetch, useShell } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Image, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { fileConverter } from '../../../../../../../../shared/lib';
 
 type Props = {
     content: string;
@@ -17,13 +18,21 @@ function LinkInfo(props: Props) {
 
     const { openBrowser } = useShell();
 
-    const { fetchContent, content: favicon } = useNodeFetch();
+    const favicon = useEasyState('');
+    const { fetchContent } = useNodeFetch();
 
     useEffect(() => {
-        if (preview?.favicons.length) {
-            fetchContent(preview?.favicons[3] || preview?.favicons[2] || preview?.favicons[1] || preview?.favicons[0]);
+        if (preview?.faviconBuffer.data) {
+            const u8a = new Uint8Array(preview?.faviconBuffer.data as any);
+            fileConverter.arrayBufferToBlobLocalPath(u8a).then((e) => {
+                favicon.set(e);
+            });
+        } else if (preview?.favicons.length) {
+            fetchContent(preview?.favicons[3] || preview?.favicons[2] || preview?.favicons[1] || preview?.favicons[0]).then((e) => {
+                e && favicon.set(e);
+            });
         }
-    }, [preview?.favicons]);
+    }, [preview]);
 
     return (
         <div className={styles.wrapper}>
@@ -44,7 +53,7 @@ function LinkInfo(props: Props) {
                     <Title variant="Body14">{preview?.description || 'Неопределенно'}</Title>
                 </div>
                 <div className={styles.img}>
-                    <Image width="70px" height="70px" url={favicon} />
+                    <Image width="70px" height="70px" url={favicon.value} />
                 </div>
             </div>
         </div>
