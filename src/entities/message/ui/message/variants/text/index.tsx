@@ -33,9 +33,11 @@ function TextMessage(props: Props) {
             Promise.all(
                 text.split(' ').map(async (word, index) => {
                     if (regex.url.test(word) && !word.includes('localhost')) {
-                        const data = await axios.get(`https://dev.chat.softworks.ru/api/v2/http/link-preview`, {
+                        // const data = await axios.get(`https://dev.chat.softworks.ru/api/v2/http/link-preview`, {
+                        const data = await axios.get(`http://localhost:5000/api/v2/http/link-preview`, {
                             params: {
                                 link: word,
+                                buffer: true,
                             },
                         });
                         if (data) return { fullUrl: word, ...data.data, id: index };
