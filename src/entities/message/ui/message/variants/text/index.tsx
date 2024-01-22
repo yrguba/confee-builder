@@ -1,4 +1,4 @@
-import { getLinkPreview } from 'link-preview-js';
+import axios from 'axios';
 import Linkify from 'linkify-react';
 import React, { useCallback, useEffect, useRef } from 'react';
 
@@ -32,9 +32,13 @@ function TextMessage(props: Props) {
         if (text && once.current) {
             Promise.all(
                 text.split(' ').map(async (word, index) => {
-                    if (!regex.youTubeUrl.test(word) && regex.url.test(word) && !word.includes('localhost')) {
-                        const data = await getLinkPreview(word);
-                        if (data) return { fullUrl: word, ...data, id: index };
+                    if (regex.url.test(word) && !word.includes('localhost')) {
+                        const data = await axios.get(`https://dev.chat.softworks.ru/api/v2/http/link-preview`, {
+                            params: {
+                                link: word,
+                            },
+                        });
+                        if (data) return { fullUrl: word, ...data.data, id: index };
                     }
                 })
             )
