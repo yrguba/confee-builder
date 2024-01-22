@@ -145,6 +145,12 @@ function MessagesListView(props: Props) {
     }, [inViewFirstUnreadCheckVisibleRef]);
 
     useUpdateEffect(() => {
+        if (wrapperRef.current) {
+            wrapperRef.current.style.overflow = isFetching ? 'hidden' : 'auto';
+        }
+    }, [isFetching]);
+
+    useUpdateEffect(() => {
         if (goDownList) {
             executeScrollToElement({ ref: lastMessageRef, enable: true });
         }
