@@ -58,7 +58,7 @@ function ChatHeaderView(props: Props) {
                                 <Card
                                     onClick={clickCard}
                                     avatarNetworkStatus={chat?.secondUser?.networkStatus}
-                                    avatarEmployeeStatuses={chat?.secondEmployee?.status}
+                                    // avatarEmployeeStatuses={chat?.secondEmployee?.status}
                                     img={chat?.avatar}
                                     name={chat?.name}
                                     title={chat?.name}

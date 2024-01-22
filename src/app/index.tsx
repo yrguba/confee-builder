@@ -4,13 +4,13 @@ import { WebviewWindow } from '@tauri-apps/api/window';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { useUpdateEffect } from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 
 import 'moment/locale/ru';
 import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useTheme, useIdle, useRouter, useStorage } from 'shared/hooks';
+import { useTheme, useIdle, useRouter, useStorage, useReverseTimer } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
 const queryClient = new QueryClient();
@@ -28,10 +28,14 @@ function App() {
     }, [isIdle]);
 
     useTheme();
-
+    // const { start, time } = useReverseTimer({ hours: 1 });
     useEffect(() => {
         console.log('clientBaseURL: ', clientBaseURL);
     }, []);
+    // console.log(time);
+    useEffectOnce(() => {
+        // start();
+    });
 
     return (
         <BrowserRouter>

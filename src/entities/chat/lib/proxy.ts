@@ -22,7 +22,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                     return !target.company_id;
 
                 case 'secondUser':
-                    return secondUserProxy;
+                    return secondUserProxy || secondEmployeeProxy?.userProxy || null;
 
                 case 'secondEmployee':
                     return secondEmployeeProxy;
@@ -66,7 +66,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                         const word = getEnding(memberCount, ['участник', 'участника', 'участников']);
                         return `${memberCount} ${word}`;
                     }
-                    return secondUserProxy?.networkStatus || secondEmployeeProxy?.status || secondUserProxy?.formatted_last_active || '';
+                    return secondUserProxy?.networkStatus || secondEmployeeProxy?.userProxy.networkStatus || secondUserProxy?.formatted_last_active || '';
 
                 default:
                     return target[prop];
