@@ -24,6 +24,9 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                 case 'secondUser':
                     return secondUserProxy || secondEmployeeProxy?.userProxy || null;
 
+                case 'isDeleted':
+                    return !!secondEmployeeProxy?.isDeleted || !!secondUserProxy?.isDeleted;
+
                 case 'secondEmployee':
                     return secondEmployeeProxy;
 
@@ -66,6 +69,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                         const word = getEnding(memberCount, ['участник', 'участника', 'участников']);
                         return `${memberCount} ${word}`;
                     }
+                    if (receiver.isDeleted) return 'Удаленный аккаунт';
                     return secondUserProxy?.networkStatus || secondEmployeeProxy?.userProxy.networkStatus || secondUserProxy?.formatted_last_active || '';
 
                 default:

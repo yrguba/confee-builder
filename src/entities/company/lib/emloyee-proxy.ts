@@ -17,6 +17,9 @@ function employeeProxy(employee: Employee | undefined | null): EmployeeProxy | n
                 case 'userProxy':
                     return userProxy(target.user);
 
+                case 'isDeleted':
+                    return !!target.user.deleted_at;
+
                 default:
                     return target[prop];
             }

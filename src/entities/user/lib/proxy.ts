@@ -14,6 +14,9 @@ function userProxy(user: User | undefined): UserProxy | null {
                 case 'viewer':
                     return viewerId === target.id;
 
+                case 'isDeleted':
+                    return !!target.deleted_at;
+
                 case 'full_name':
                     return target.contact_name || `${target.first_name || ''} ${target.last_name || ''}`;
 

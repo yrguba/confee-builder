@@ -38,6 +38,7 @@ export type ChatProxy = {
     authorLastMessage: string;
     meetId: string;
     currentShortMembers: CurrentShortMember[];
+    isDeleted: boolean;
 } & Chat;
 
 export type CurrentShortMember = {

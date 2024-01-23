@@ -192,24 +192,26 @@ function MessageInput() {
     return (
         <>
             <FilesToSendModal onClose={clear} modal={filesToSendModal} files={sortByAccept as any} />
-            <MessageInputView
-                tagUsers={tagUsers}
-                chat={proxyChat}
-                messageTextState={messageTextState}
-                sendMessage={sendMessage}
-                loading={isLoading}
-                clickUploadFiles={openFilesDownloader}
-                replyMessage={replyMessage}
-                editMessage={editMessage}
-                forwardMessages={forwardMessages}
-                highlightedMessages={highlightedMessages}
-                getVoiceEvents={getVoiceEvents}
-                voiceRecord={voiceRecord as any}
-                deleteVoice={deleteVoice}
-                showVoice={voiceEvent.value === 'stop'}
-                dropContainerRef={dropContainerRef}
-                isFileDrag={isFileDrag}
-            />
+            {!proxyChat?.isDeleted && (
+                <MessageInputView
+                    tagUsers={tagUsers}
+                    chat={proxyChat}
+                    messageTextState={messageTextState}
+                    sendMessage={sendMessage}
+                    loading={isLoading}
+                    clickUploadFiles={openFilesDownloader}
+                    replyMessage={replyMessage}
+                    editMessage={editMessage}
+                    forwardMessages={forwardMessages}
+                    highlightedMessages={highlightedMessages}
+                    getVoiceEvents={getVoiceEvents}
+                    voiceRecord={voiceRecord as any}
+                    deleteVoice={deleteVoice}
+                    showVoice={voiceEvent.value === 'stop'}
+                    dropContainerRef={dropContainerRef}
+                    isFileDrag={isFileDrag}
+                />
+            )}
         </>
     );
 }

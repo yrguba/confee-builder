@@ -29,6 +29,7 @@ export type EmployeeProxy = {
     full_name: string;
     userProxy: UserProxy;
     viewer: boolean;
+    isDeleted: boolean;
 } & Employee;
 
 export type Department = {

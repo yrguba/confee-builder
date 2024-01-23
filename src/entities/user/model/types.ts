@@ -20,6 +20,7 @@ export type User = {
     phone: string;
     updated_at: Date;
     about: string;
+    deleted_at: Date | null;
 };
 
 export type UserProxy = {
@@ -28,6 +29,7 @@ export type UserProxy = {
     formatted_birth: string | null;
     formatted_last_active: string;
     viewer: boolean;
+    isDeleted: boolean;
 } & User;
 
 export type UserCardActions = {

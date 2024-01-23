@@ -28,7 +28,7 @@ function InviteToMeetModal(modal: ModalTypes.UseReturnedType) {
 
     const users = chatService.getMembersWithoutMe(proxyChat);
 
-    return <InviteToMeetModalView sendInvites={sendInvites} users={users} selectedUsers={selectedUsers} />;
+    return <InviteToMeetModalView sendInvites={sendInvites} users={users?.filter((i) => !i.deleted_at)} selectedUsers={selectedUsers} />;
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {

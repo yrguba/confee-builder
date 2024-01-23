@@ -125,7 +125,7 @@ function MessagesListView(props: Props) {
                 // }
                 initialOpenChat.set(false);
             } else if (chatSubscription === chat.id) {
-                // return executeScrollToElement({ ref: lastMessageRef, enable: true, smooth: true });
+                return executeScrollToElement({ ref: lastMessageRef, enable: true, smooth: true });
             }
         }
     }, [messages, chatSubscription, initialOpenChat.value]);
