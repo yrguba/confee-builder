@@ -18,7 +18,7 @@ function Document(props: BaseDocumentProps) {
     const visibleMenu = useEasyState(false);
     const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
-    const { src, fileBlob } = useFetchMediaContent(url);
+    const { src, fileBlob } = useFetchMediaContent({ url, name });
     const notification = Notification.use();
 
     const { saveInDownload, isLoading } = useSaveMediaContent();

@@ -1,4 +1,6 @@
 import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, removeDir, readTextFile, writeTextFile } from '@tauri-apps/api/fs';
+import { appDataDir, join, documentDir } from '@tauri-apps/api/path';
+import { convertFileSrc } from '@tauri-apps/api/tauri';
 import { metadata } from 'tauri-plugin-fs-extra-api';
 
 import { fileConverter, sizeConverter } from '../lib';
@@ -64,11 +66,15 @@ const useFS = () => {
         if (!props.fileName) return null;
         const baseDir: any = BaseDirectory[props.baseDir];
         const folderDir: any = `Confee/${props.folderDir}`;
-
-        const checkPath = await exists(`${folderDir}/${props.fileName}`, { dir: baseDir });
+        const fileName = props.fileName.split('/').join('');
+        // const checkPath = await exists(`${folderDir}/${fileName}`, { dir: baseDir });
+        // if (!checkPath) return null;
+        // const contents = await readBinaryFile(`${folderDir}/${fileName}`, { dir: baseDir });
+        const docDir = await documentDir();
+        const filePath = await join(docDir, 'Confee', props.folderDir, fileName);
+        const checkPath = await exists(filePath);
         if (!checkPath) return null;
-        const contents = await readBinaryFile(`${folderDir}/${props.fileName}`, { dir: baseDir });
-        return fileConverter.arrayBufferToBlobLocalPath(contents);
+        return convertFileSrc(filePath);
     };
 
     const getTextFile = async (props: GetFileProps) => {

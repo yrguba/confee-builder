@@ -12,7 +12,7 @@ import { BaseAvatarProps } from '../../types';
 function Avatar(props: BaseAvatarProps) {
     const { size = 80, name, clickAvatar, img, circle = true, employeeStatuses, networkStatus, opacity = 1, loading } = props;
 
-    const { src, error, isLoading } = useFetchMediaContent(img || '');
+    const { src, error, isLoading } = useFetchMediaContent({ url: img || '', name: `${img}.jpg` });
 
     const colors = [
         { id: 0, triggers: ['а', 'б', 'a', 'b'], color1: '#FF8A65', color2: '#EA5A5A' },

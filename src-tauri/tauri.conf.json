@@ -104,9 +104,9 @@
         "relaunchDangerousAllowSymlinkMacos": false
       },
       "protocol": {
-        "all": false,
-        "asset": false,
-        "assetScope": []
+        "all": true,
+        "asset": true,
+        "assetScope": ["**"]
       },
       "shell": {
         "all": true,

@@ -17,10 +17,10 @@ import Title from '../../../../title';
 import { BaseVideoPlayerProps } from '../../types';
 
 function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
-    const { url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset } = props;
+    const { url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
     const storage = useStorage();
     const windowsSize = useSize();
-    const { src, isLoading, error } = useFetchMediaContent(url || '');
+    const { src, isLoading, error } = useFetchMediaContent({ url, name });
     const isFull = useEasyState(false);
     const visibleControl = useEasyState(true);
 

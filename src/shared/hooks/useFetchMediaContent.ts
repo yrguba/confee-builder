@@ -7,55 +7,71 @@ import useEasyState from './useEasyState';
 import useFS from './useFS';
 import { fileConverter, getVideoCover } from '../lib';
 
-function useFetchMediaContent(url = '', saveInCache = false, returnVideoCover = false) {
-    const [src, setSrc] = useState<any>('');
-    const [fileBlob, setFileBlob] = useState<Blob | null>(null);
+type Props = {
+    url: string;
+    name?: string;
+    returnedVideoCover?: boolean;
+};
+
+function useFetchMediaContent(props: Props) {
+    const { url, returnedVideoCover, name } = props;
+
+    const src = useEasyState<any>('');
+    const fileBlob = useEasyState<Blob | null>(null);
     const videoCover = useEasyState<string | null>(null);
     const loading = useEasyState(false);
     const { saveFile, getFile } = useFS();
 
-    const checkFetch = () => {
-        if (!url || typeof url !== 'string') return false;
-        if (url?.split('/')?.length > 2) {
-            return url?.split('/')[1] === 'api';
-        }
-    };
-
     const updUrl = url.replace('x-matroska', 'mp4');
 
-    const isFetch = !!checkFetch();
+    const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url);
 
-    const { data: fileData, isLoading, error, isFetching } = appApi.handleGetFile(url, isFetch);
+    useUpdateEffect(() => {
+        if (fileData) {
+            loading.set(true);
+            const filePath = fileConverter.blobLocalPath(fileData as Blob);
+            src.set(filePath);
+            fileBlob.set(fileData as Blob);
+            saveFile({ fileName: name, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob }).then();
+            loading.set(false);
+        }
+    }, [fileData]);
 
     useEffect(() => {
         const fn = async () => {
             loading.set(true);
-            if (isFetch && fileData) {
-                const filePath = fileConverter.blobLocalPath(fileData);
-                setSrc(filePath);
-                setFileBlob(fileData);
-                if (returnVideoCover) {
-                    const cover = await getVideoCover(filePath, 0.1);
-                    videoCover.set(cover);
+            if (url) {
+                if (url.includes('base64') || url.includes('blob')) {
+                    const res = await fetch(updUrl);
+                    const blob = await res.blob();
+                    return { url, blob };
                 }
-            } else {
-                fetch(updUrl)
-                    .then((res) => res.blob())
-                    .then((res) => setFileBlob(res));
-                setSrc(updUrl);
+                const fileInCache = await getFile({ fileName: name, baseDir: 'Document', folderDir: 'cache' });
+                if (fileInCache) {
+                    const res = await fetch(fileInCache);
+                    const blob = await res.blob();
+                    return { url: fileInCache, blob };
+                }
+                return enable();
             }
         };
+
         fn()
-            .then()
-            .finally(() => loading.set(false));
-    }, [updUrl, fileData]);
+            .then((res) => {
+                res?.url && src.set(res.url);
+                res?.blob && fileBlob.set(res.blob);
+            })
+            .finally(() => {
+                loading.set(false);
+            });
+    }, [url]);
 
     return {
-        src,
-        fileBlob,
+        src: src.value,
+        fileBlob: fileBlob.value,
         videoCover: videoCover.value,
         error,
-        isLoading: !updUrl || !isFetch ? false : loading.value || isLoading,
+        isLoading: loading.value,
     };
 }
 

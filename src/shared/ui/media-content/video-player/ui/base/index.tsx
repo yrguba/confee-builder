@@ -1,4 +1,5 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import styles from './styles.module.scss';
 import { useChatStore } from '../../../../../../entities/chat';
@@ -28,7 +29,9 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
         width,
     } = props;
     const storage = useStorage();
-    const { src, isLoading, error, videoCover, fileBlob } = useFetchMediaContent(url || '', false, visibleCover);
+
+    const { src, isLoading, error, videoCover, fileBlob } = useFetchMediaContent({ url, returnedVideoCover: visibleCover, name });
+
     const notification = Notification.use();
 
     const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();
