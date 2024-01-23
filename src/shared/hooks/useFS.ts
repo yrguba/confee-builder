@@ -61,15 +61,12 @@ const useFS = () => {
         return '';
     };
 
-    const getFile = async (props: GetFileProps) => {
+    const getFileUrl = async (props: GetFileProps) => {
         if (disabled) return null;
         if (!props.fileName) return null;
         const baseDir: any = BaseDirectory[props.baseDir];
         const folderDir: any = `Confee/${props.folderDir}`;
         const fileName = props.fileName.split('/').join('');
-        // const checkPath = await exists(`${folderDir}/${fileName}`, { dir: baseDir });
-        // if (!checkPath) return null;
-        // const contents = await readBinaryFile(`${folderDir}/${fileName}`, { dir: baseDir });
         const docDir = await documentDir();
         const filePath = await join(docDir, 'Confee', props.folderDir, fileName);
         const checkPath = await exists(filePath);
@@ -118,7 +115,7 @@ const useFS = () => {
         await removeDir(folderDir, { dir: baseDir, recursive: true });
     };
 
-    return { saveFile, saveTextFile, getFile, getTextFile, getFolderSize, deleteFolder };
+    return { saveFile, saveTextFile, getFileUrl, getTextFile, getFolderSize, deleteFolder };
 };
 
 export default useFS;

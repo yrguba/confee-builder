@@ -20,7 +20,7 @@ function useFetchMediaContent(props: Props) {
     const fileBlob = useEasyState<Blob | null>(null);
     const videoCover = useEasyState<string | null>(null);
     const loading = useEasyState(false);
-    const { saveFile, getFile } = useFS();
+    const { saveFile, getFileUrl } = useFS();
 
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url);
 
@@ -45,7 +45,7 @@ function useFetchMediaContent(props: Props) {
                     const blob = await res.blob();
                     return { url, blob };
                 }
-                const fileInCache = await getFile({ fileName: name, baseDir: 'Document', folderDir: 'cache' });
+                const fileInCache = await getFileUrl({ fileName: name, baseDir: 'Document', folderDir: 'cache' });
                 if (fileInCache) {
                     const res = await fetch(fileInCache);
                     const blob = await res.blob();
