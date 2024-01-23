@@ -22,8 +22,6 @@ function useFetchMediaContent(props: Props) {
     const loading = useEasyState(false);
     const { saveFile, getFile } = useFS();
 
-    const updUrl = url.replace('x-matroska', 'mp4');
-
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url);
 
     useUpdateEffect(() => {
@@ -42,6 +40,7 @@ function useFetchMediaContent(props: Props) {
             loading.set(true);
             if (url) {
                 if (url.includes('base64') || url.includes('blob')) {
+                    const updUrl = url.replace('x-matroska', 'mp4');
                     const res = await fetch(updUrl);
                     const blob = await res.blob();
                     return { url, blob };
