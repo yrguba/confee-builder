@@ -119,10 +119,9 @@ function MessagesListView(props: Props) {
             if (initialOpenChat.value) {
                 if (chat.pending_messages_count) {
                     executeScrollToElement({ ref: firstUnreadMessageRef });
+                } else {
+                    executeScrollToElement({ ref: lastMessageRef, enable: true });
                 }
-                // } else {
-                //     executeScrollToElement({ ref: lastMessageRef, enable: true });
-                // }
                 initialOpenChat.set(false);
             } else if (chatSubscription === chat.id) {
                 return executeScrollToElement({ ref: lastMessageRef, enable: true, smooth: true });
