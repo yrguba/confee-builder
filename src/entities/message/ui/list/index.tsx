@@ -145,7 +145,7 @@ function MessagesListView(props: Props) {
 
     useUpdateEffect(() => {
         if (wrapperRef.current) {
-            wrapperRef.current.style.overflow = isFetching ? 'hidden' : 'auto';
+            // wrapperRef.current.style.overflow = isFetching ? 'hidden' : 'auto';
         }
     }, [isFetching]);
 
@@ -157,6 +157,12 @@ function MessagesListView(props: Props) {
 
     return (
         <div
+            onWheel={(e) => {
+                const isScrollUp = e.deltaY < 0;
+                const step = 50;
+                const currentY = wrapperRef.current.scrollTop;
+                wrapperRef.current.scrollTop = isScrollUp ? currentY - step : currentY + step;
+            }}
             className={`${styles.wrapper} ${isFileDrag.value ? styles.wrapper_dragOver : ''}`}
             ref={mergeRefs([wrapperRef, dropContainerRef])}
             onDragOver={() => isFileDrag.set(true)}
