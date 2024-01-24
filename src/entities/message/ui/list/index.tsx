@@ -74,13 +74,13 @@ function MessagesListView(props: Props) {
     const subCurrentChat = chatSubscription === chat?.id;
 
     const wrapperRef: any = useRef<HTMLDivElement>(null);
-    const lastMessageRef = useRef<HTMLDivElement>(null);
+    const bottomMessageRef = useRef<HTMLDivElement>(null);
     const firstUnreadMessageRef = useRef<HTMLDivElement>(null);
     const foundMessageRef = useRef<HTMLDivElement>(null);
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
-    const { ref: lastMessageCheckVisibleRef, inView: inViewLastMessageCheckVisibleRef } = useInView({ delay: 200 });
+    const { ref: bottomMessageCheckVisibleRef, inView: inViewLastMessageCheckVisibleRef } = useInView({ delay: 200 });
     const { ref: firstUnreadCheckVisibleRef, inView: inViewFirstUnreadCheckVisibleRef } = useInView({ delay: 200 });
 
     const getMessageRefs = (message: MessageProxy, index: number) => {
@@ -104,7 +104,7 @@ function MessagesListView(props: Props) {
 
     const clickBtnDown = () => {
         // if (!chat?.pending_messages_count) {
-        executeScrollToElement({ ref: lastMessageRef, enable: true });
+        executeScrollToElement({ ref: bottomMessageRef, enable: true });
         // } else {
         //     executeScrollToElement({ ref: firstUnreadMessageRef, enable: true });
         // }
@@ -120,11 +120,11 @@ function MessagesListView(props: Props) {
                 if (chat.pending_messages_count) {
                     executeScrollToElement({ ref: firstUnreadMessageRef });
                 } else {
-                    executeScrollToElement({ ref: lastMessageRef, enable: true });
+                    executeScrollToElement({ ref: bottomMessageRef, enable: true });
                 }
                 initialOpenChat.set(false);
             } else if (chatSubscription === chat.id) {
-                return executeScrollToElement({ ref: lastMessageRef, enable: true, smooth: true });
+                return executeScrollToElement({ ref: bottomMessageRef, enable: true, smooth: true });
             }
         }
     }, [messages, chatSubscription, initialOpenChat.value]);
@@ -151,7 +151,7 @@ function MessagesListView(props: Props) {
 
     useUpdateEffect(() => {
         if (goDownList) {
-            executeScrollToElement({ ref: lastMessageRef, enable: true });
+            executeScrollToElement({ ref: bottomMessageRef, enable: true });
         }
     }, [goDownList]);
 
@@ -169,7 +169,7 @@ function MessagesListView(props: Props) {
                     <Icons variant="arrow-drop-down" />
                 </Button.Circle>
             </Box.Animated>
-            <div ref={mergeRefs([lastMessageRef, lastMessageCheckVisibleRef])} />
+            <div ref={mergeRefs([bottomMessageRef, bottomMessageCheckVisibleRef])} />
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
                     {message.type !== 'system' && (
