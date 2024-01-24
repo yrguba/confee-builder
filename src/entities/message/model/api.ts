@@ -101,7 +101,7 @@ class MessageApi {
                 },
                 onSuccess: (data) => {
                     const message = data.data.data;
-                    messageService.updateMockMessage({ chatId: message.chat_id, filesType: message.type }, queryClient);
+                    messageService.updateMockMessage({ chatId: message.chat_id, filesType: message.type, id: message.id }, queryClient);
                 },
                 onError: (error, variables, context) => {
                     messageService.updateMockMessage({ ...variables, filesType: 'text' }, queryClient, true);
@@ -140,7 +140,7 @@ class MessageApi {
                 },
                 onSuccess: (data) => {
                     const message = data.data.data;
-                    messageService.updateMockMessage({ chatId: message.chat_id, filesType: message.type }, queryClient);
+                    messageService.updateMockMessage({ chatId: message.chat_id, filesType: message.type, id: message.id }, queryClient);
                 },
                 onError: (error, variables, context) => {
                     messageService.updateMockMessage(variables, queryClient, true);
