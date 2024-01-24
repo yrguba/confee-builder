@@ -34,7 +34,7 @@ function Image(props: BaseImageProps) {
     } = props;
     const storage = useStorage();
 
-    const { src, error, fileBlob, isLoading } = useFetchMediaContent({ url, name });
+    const { src, error, getFileBlob, isLoading } = useFetchMediaContent({ url, name, fileType: 'img' });
     const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
     const visibleMenu = useEasyState(false);
@@ -43,9 +43,10 @@ function Image(props: BaseImageProps) {
 
     const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();
 
-    const clickContextMenu = () => {
-        if (clickedFile && fileBlob && name && id) {
-            clickedFile.set({ blob: fileBlob, name, id, type: 'images' });
+    const clickContextMenu = async () => {
+        if (clickedFile && name && id) {
+            const blob = await getFileBlob();
+            clickedFile.set({ blob, name, id, type: 'images' });
         }
         if (!disableDownload) {
             visibleMenu.toggle();
@@ -58,7 +59,8 @@ function Image(props: BaseImageProps) {
             title: 'Скачать фото',
             icon: <Icons variant="save" />,
             callback: async () => {
-                await saveInDownload(fileBlob, name);
+                const blob = await getFileBlob();
+                await saveInDownload(blob, name);
                 notification.success({ title: 'Фото сохранено', system: true });
                 visibleMenu.set(false);
             },

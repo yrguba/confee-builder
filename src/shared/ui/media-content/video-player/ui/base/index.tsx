@@ -30,7 +30,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
     } = props;
     const storage = useStorage();
 
-    const { src, isLoading, error, videoCover, fileBlob } = useFetchMediaContent({ url, returnedVideoCover: visibleCover, name });
+    const { src, isLoading, error, videoCover, getFileBlob } = useFetchMediaContent({ url, returnedVideoCover: visibleCover, name, fileType: 'video' });
 
     const notification = Notification.use();
 
@@ -49,9 +49,10 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
         />
     );
 
-    const clickContextMenu = () => {
-        if (clickedFile && fileBlob && name && id) {
-            clickedFile.set({ blob: fileBlob, name, id, type: 'videos' });
+    const clickContextMenu = async () => {
+        if (clickedFile && name && id) {
+            const blob = await getFileBlob();
+            clickedFile.set({ blob, name, id, type: 'videos' });
         }
         if (!disableDownload) {
             visibleMenu.toggle();
@@ -65,7 +66,8 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
             icon: <Icons variant="save" />,
             callback: async () => {
                 visibleMenu.set(false);
-                await saveInDownload(fileBlob, name);
+                const blob = await getFileBlob();
+                await saveInDownload(blob, name);
                 notification.success({ title: 'Видео сохранено', system: true });
             },
         },

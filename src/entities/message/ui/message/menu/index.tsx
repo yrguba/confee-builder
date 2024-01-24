@@ -44,24 +44,26 @@ function MessageMenu(props: Props) {
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions | 'read'>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
-        { id: 1, title: 'Изменить', icon: 'edit', payload: 'edit' },
+        { id: 1, title: 'Изменить', icon: 'edit', payload: 'edit', hidden: !message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 },
         // { id: 2, title: 'Закрепить', icon: 'pin', payload: 'fixed' },
-        { id: 3, title: 'Копировать текст', icon: 'copy', payload: 'copy' },
+        { id: 3, title: 'Копировать текст', icon: 'copy', payload: 'copy', hidden: message.type !== 'text' },
         { id: 4, title: 'Переслать', icon: 'redirect', payload: 'forward' },
-        { id: 5, title: 'Удалить', icon: 'delete', payload: 'delete' },
+        { id: 5, title: 'Удалить', icon: 'delete', payload: 'delete', hidden: !message.isMy },
         { id: 6, title: 'Выделить', icon: 'check-circle', payload: 'highlight' },
         // { id: 7, title: 'Воспроизвести', icon: 'melody', payload: 'play' },
-        {
-            id: 9,
-            title: clickedFile?.type ? `Скачать ${messageDictionaries.mediaContent[clickedFile?.type]}` : '',
-            icon: 'save',
-            payload: 'save',
-        },
         {
             id: 8,
             title: `${message.users_have_read.length} ${getEnding(message.users_have_read.length, ['просмотр', 'просмотра', 'просмотров'])}`,
             icon: 'double-check',
             payload: 'read',
+            hidden: !message.users_have_read?.length || !chat?.is_group,
+        },
+        {
+            id: 9,
+            title: clickedFile?.type ? `Скачать ${messageDictionaries.mediaContent[clickedFile?.type]}` : '',
+            icon: 'save',
+            payload: 'save',
+            hidden: !clickedFile,
         },
     ];
     const reactions = ['1f4a3', '1f440', '26d4', '1f49c', '1f4a5', '1f34c', '1f44c', '1f44d'];
@@ -75,19 +77,10 @@ function MessageMenu(props: Props) {
 
     const readUsers = memoReadUsers(chat?.currentShortMembers, message.users_have_read);
 
-    useEffect(() => {
-        if (message.type !== 'text') deleteById(7);
-        if (!message.users_have_read?.length || !chat?.is_group) deleteById(8);
-        if (!message.isMy) deleteByIds([1, 5]);
-        if (!message.isMy || moment().unix() - moment(message.created_at).unix() > 86400) deleteById(1);
-        if (message.type !== 'text') deleteById(3);
-        if (!clickedFile) deleteById(9);
-    }, []);
-
     const reactionClick = (emoji: string) => {
         sendReaction(emoji, message.id);
     };
-
+    console.log(clickedFile);
     return (
         <div className={styles.wrapper}>
             {/* <div className={styles.reactions}> */}
@@ -129,17 +122,19 @@ function MessageMenu(props: Props) {
                     />
                 </Box.Animated>
 
-                {array.map((i) => (
-                    <div
-                        key={i.id}
-                        className={styles.item}
-                        onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message, clickedFile)}
-                        onMouseEnter={() => i.payload === 'read' && visibleUsers.set(true)}
-                    >
-                        <Icons variant={i.icon} />
-                        <Title variant="H3M">{i.title}</Title>
-                    </div>
-                ))}
+                {array
+                    .filter((i) => !i.hidden)
+                    .map((i) => (
+                        <div
+                            key={i.id}
+                            className={styles.item}
+                            onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message, clickedFile)}
+                            onMouseEnter={() => i.payload === 'read' && visibleUsers.set(true)}
+                        >
+                            <Icons variant={i.icon} />
+                            <Title variant="H3M">{i.title}</Title>
+                        </div>
+                    ))}
             </div>
         </div>
     );

@@ -5,11 +5,14 @@ import { metadata } from 'tauri-plugin-fs-extra-api';
 
 import { fileConverter, sizeConverter } from '../lib';
 
+export type FileTypes = 'img' | 'video' | 'document' | 'audio' | 'text';
+
 type SaveFileProps = {
     baseDir: 'Download' | 'Document';
     folderDir: 'cache' | 'database' | '';
     fileName: string | undefined;
     fileBlob: Blob;
+    fileType?: FileTypes;
 };
 
 type SaveTextFileProps = {
@@ -20,6 +23,7 @@ type SaveTextFileProps = {
 };
 
 type GetFileProps = {} & Omit<SaveFileProps, 'fileBlob'>;
+type GetTextFileProps = {} & Omit<SaveTextFileProps, 'json'>;
 type GetFolderSizeProps = {} & Omit<GetFileProps, 'fileName'>;
 type DeleteFolderProps = {} & GetFolderSizeProps;
 const useFS = () => {
@@ -28,7 +32,7 @@ const useFS = () => {
         if (disabled) return null;
         if (!props.fileName) return null;
         const baseDir: any = BaseDirectory[props.baseDir];
-        const folderDir: any = `Confee/${props.folderDir}`;
+        const folderDir: any = `Confee/${props.folderDir}${props.fileType ? `/${props.fileType}` : ''}`;
 
         const checkPath = await exists(`${folderDir}`, { dir: baseDir });
         if (!checkPath) await createDir(folderDir, { dir: baseDir, recursive: true });
@@ -47,7 +51,7 @@ const useFS = () => {
         if (disabled) return null;
         if (!props.fileName) return null;
         const baseDir: any = BaseDirectory[props.baseDir];
-        const folderDir: any = `Confee/${props.folderDir}`;
+        const folderDir: any = `Confee/${props.folderDir}/json`;
 
         const checkPath = await exists(`${folderDir}`, { dir: baseDir });
         if (!checkPath) await createDir(folderDir, { dir: baseDir, recursive: true });
@@ -64,21 +68,19 @@ const useFS = () => {
     const getFileUrl = async (props: GetFileProps) => {
         if (disabled) return null;
         if (!props.fileName) return null;
-        const baseDir: any = BaseDirectory[props.baseDir];
-        const folderDir: any = `Confee/${props.folderDir}`;
         const fileName = props.fileName.split('/').join('');
         const docDir = await documentDir();
-        const filePath = await join(docDir, 'Confee', props.folderDir, fileName);
+        const filePath = await join(docDir, 'Confee', props.folderDir, props.fileType ? props.fileType : '', fileName);
         const checkPath = await exists(filePath);
         if (!checkPath) return null;
         return convertFileSrc(filePath);
     };
 
-    const getTextFile = async (props: GetFileProps) => {
+    const getTextFile = async (props: GetTextFileProps) => {
         if (disabled) return null;
         if (!props.fileName) return null;
         const baseDir: any = BaseDirectory[props.baseDir];
-        const folderDir: any = `Confee/${props.folderDir}`;
+        const folderDir: any = `Confee/${props.folderDir}/json`;
 
         const checkPath = await exists(`${folderDir}/${props.fileName}`, { dir: baseDir });
         if (!checkPath) return null;

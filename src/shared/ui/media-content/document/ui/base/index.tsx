@@ -18,15 +18,17 @@ function Document(props: BaseDocumentProps) {
     const visibleMenu = useEasyState(false);
     const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
-    const { src, fileBlob } = useFetchMediaContent({ url, name });
+    const { src, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'document' });
     const notification = Notification.use();
 
     const { saveInDownload, isLoading } = useSaveMediaContent();
 
-    const clickContextMenu = (e: any) => {
+    const clickContextMenu = async (e: any) => {
         e.preventDefault();
-        if (clickedFile && fileBlob && name && id) {
-            clickedFile.set({ blob: fileBlob, name, id, type: 'documents' });
+
+        if (clickedFile && name && id) {
+            const blob = await getFileBlob();
+            clickedFile.set({ blob, name, id, type: 'documents' });
         }
         if (!disableDownload) {
             visibleMenu.toggle();
@@ -39,7 +41,8 @@ function Document(props: BaseDocumentProps) {
             title: 'Скачать файл',
             icon: <Icons variant="save" />,
             callback: async () => {
-                await saveInDownload(fileBlob, name);
+                const blob = await getFileBlob();
+                await saveInDownload(blob, name);
                 notification.success({ title: 'Файл сохранен', system: true });
             },
         },

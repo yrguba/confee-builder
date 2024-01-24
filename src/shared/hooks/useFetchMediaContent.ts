@@ -4,17 +4,18 @@ import { useUpdateEffect } from 'react-use';
 import { appApi, appService } from 'entities/app';
 
 import useEasyState from './useEasyState';
-import useFS from './useFS';
+import useFS, { FileTypes } from './useFS';
 import { fileConverter, getVideoCover } from '../lib';
 
 type Props = {
     url: string;
     name?: string;
     returnedVideoCover?: boolean;
+    fileType: FileTypes;
 };
 
 function useFetchMediaContent(props: Props) {
-    const { url, returnedVideoCover, name } = props;
+    const { url, returnedVideoCover, name, fileType } = props;
 
     const src = useEasyState<any>('');
     const fileBlob = useEasyState<Blob | null>(null);
@@ -24,15 +25,14 @@ function useFetchMediaContent(props: Props) {
 
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url);
 
-    const fileName = `${url?.split('/').join('')}${name?.split('/')?.join('')}`;
+    const fileName = `${url}${name}`.split('/').join('');
 
     useEffect(() => {
         if (fileData) {
             const filePath = fileConverter.blobLocalPath(fileData as Blob);
             src.set(filePath);
-            fileBlob.set(fileData as Blob);
             loading.set(false);
-            saveFile({ fileName, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob }).then();
+            saveFile({ fileName, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob, fileType });
         }
     }, [fileData]);
 
@@ -42,36 +42,28 @@ function useFetchMediaContent(props: Props) {
                 loading.set(true);
                 if (url.includes('base64') || url.includes('blob')) {
                     const updUrl = url.replace('x-matroska', 'mp4');
-                    const res = await fetch(updUrl);
-                    const blob = await res.blob();
-                    return { url, blob };
+                    src.set(updUrl);
+                    return loading.set(false);
                 }
-                const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache' });
+                const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
                 if (fileInCache) {
-                    const res = await fetch(fileInCache);
-                    const blob = await res.blob();
-                    return { url: fileInCache, blob };
+                    src.set(fileInCache);
+                    return loading.set(false);
                 }
-                throw error;
+                enable();
             }
         };
-        fn()
-            .then((res) => {
-                res?.url && src.set(res.url);
-                res?.blob && fileBlob.set(res.blob);
-                loading.set(false);
-            })
-            .catch(() => {
-                enable();
-                if (!appService.tauriIsRunning && fileData) {
-                    loading.set(false);
-                }
-            });
+        fn().then((res) => {});
     }, [url]);
-    console.log(loading.value);
+
+    const getFileBlob = async () => {
+        const res = await fetch(src.value);
+        return res.blob();
+    };
+
     return {
         src: src.value,
-        fileBlob: fileBlob.value,
+        getFileBlob,
         videoCover: videoCover.value,
         error,
         isLoading: loading.value,

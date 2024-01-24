@@ -20,7 +20,7 @@ function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
     const { url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
     const storage = useStorage();
     const windowsSize = useSize();
-    const { src, isLoading, error } = useFetchMediaContent({ url, name });
+    const { src, isLoading, error } = useFetchMediaContent({ url, name, fileType: 'video' });
     const isFull = useEasyState(false);
     const visibleControl = useEasyState(true);
 
