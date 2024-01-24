@@ -18,6 +18,9 @@ const webView = () => {
     const deviceId = appService.getDeviceId();
 
     const getClientId = () => {
+        if (clientBaseURL.includes('https://messenger.confee.ru')) {
+            return '15';
+        }
         if (clientBaseURL.includes('localhost')) {
             if (clientBaseURL.includes('tauri')) {
                 if (clientBaseURL.includes('https')) {
