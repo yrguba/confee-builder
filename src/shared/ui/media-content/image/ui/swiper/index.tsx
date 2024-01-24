@@ -12,7 +12,7 @@ function ImagesSwiper(props: ImagesSwiperProps) {
         <Swiper allowTouchMove visible={visible} initialSlide={initialSlide} closeClick={closeClick}>
             {items.map((i) => (
                 <Swiper.Slide key={i.id}>
-                    <Image objectFit="contain" url={i.url} borderRadius={false} />
+                    <Image objectFit="contain" url={i.url} name={i.name} borderRadius={false} />
                 </Swiper.Slide>
             ))}
         </Swiper>

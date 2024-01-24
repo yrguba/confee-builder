@@ -24,20 +24,19 @@ function useFetchMediaContent(props: Props) {
 
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url);
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         if (fileData) {
-            loading.set(true);
             const filePath = fileConverter.blobLocalPath(fileData as Blob);
             src.set(filePath);
             fileBlob.set(fileData as Blob);
-            saveFile({ fileName: name, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob }).then();
             loading.set(false);
+            saveFile({ fileName: name, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob }).then();
         }
     }, [fileData]);
 
     useEffect(() => {
+        loading.set(true);
         const fn = async () => {
-            loading.set(true);
             if (url) {
                 if (url.includes('base64') || url.includes('blob')) {
                     const updUrl = url.replace('x-matroska', 'mp4');
@@ -51,17 +50,17 @@ function useFetchMediaContent(props: Props) {
                     const blob = await res.blob();
                     return { url: fileInCache, blob };
                 }
-                return enable();
+                throw error;
             }
         };
-
         fn()
             .then((res) => {
                 res?.url && src.set(res.url);
                 res?.blob && fileBlob.set(res.blob);
-            })
-            .finally(() => {
                 loading.set(false);
+            })
+            .catch(() => {
+                enable();
             });
     }, [url]);
 

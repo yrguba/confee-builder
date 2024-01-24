@@ -20,6 +20,7 @@ function ForwardMessage(props: Props) {
                 <Title active variant={nameTitleVariant}>
                     {`Переслано от ${message.authorName}`}
                 </Title>
+                {message.text === 'Сообщение удалено' && <Title variant="H4M">Сообщение удалено</Title>}
             </div>
         </div>
     );

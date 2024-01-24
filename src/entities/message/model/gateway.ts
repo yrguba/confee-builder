@@ -38,31 +38,7 @@ function messageGateway() {
                 return produce(cacheData, (draft: any) => {
                     if (session && socketData.data.extra_info.written_from_session_id !== session.id) {
                         draft.pages[0].data.data.unshift({ ...socketData.data.message, is_read: socketData.data.extra_info.is_read });
-                        // if (socketData.data.message?.files?.length) {
-                        //     const foundMockIndex = draft.pages[0].data.data.findIndex((i: MessageProxy) => i.isMock && socketData.data.message.type === i.type);
-                        //     if (foundMockIndex === -1) {
-                        //         draft.pages[0].data.data.unshift({ ...socketData.data.message, is_read: socketData.data.extra_info.is_read });
-                        //         return;
-                        //     }
-                        //     const { files } = draft.pages[0].data.data[foundMockIndex];
-                        //     draft.pages[0].data.data.splice(foundMockIndex, 1, {
-                        //         ...socketData.data.message,
-                        //         is_read: socketData.data.extra_info.is_read,
-                        //         files,
-                        //     });
-                        // } else {
-                        //     const foundMockIndex = findLastIndex(draft.pages[0].data.data, (i: MessageProxy) => i.isMock);
-                        //     if (foundMockIndex === -1) {
-                        //         draft.pages[0].data.data.unshift({ ...socketData.data.message, is_read: socketData.data.extra_info.is_read });
-                        //         return;
-                        //     }
-                        //     draft.pages[0].data.data.splice(foundMockIndex, 1, {
-                        //         ...socketData.data.message,
-                        //         is_read: socketData.data.extra_info.is_read,
-                        //     });
-                        // }
                     } else {
-                        // draft.pages[0].data.data.unshift({ ...socketData.data.message, is_read: socketData.data.extra_info.is_read });
                     }
                 });
             });

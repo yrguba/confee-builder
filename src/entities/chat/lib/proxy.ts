@@ -69,8 +69,8 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                         const word = getEnding(memberCount, ['участник', 'участника', 'участников']);
                         return `${memberCount} ${word}`;
                     }
-                    if (receiver.isDeleted) return 'Удаленный аккаунт';
-                    return secondUserProxy?.networkStatus || secondEmployeeProxy?.userProxy.networkStatus || secondUserProxy?.formatted_last_active || '';
+                    if (receiver?.isDeleted) return 'Удаленный аккаунт';
+                    return secondUserProxy?.networkStatus || secondEmployeeProxy?.userProxy?.networkStatus || secondUserProxy?.formatted_last_active || '';
 
                 default:
                     return target[prop];
