@@ -98,9 +98,9 @@ function MessageList() {
         if (action === 'sub') {
             chatSubscription.set(chatId);
             handleSubscribeToChat(chatId);
-            const lastMessage = messages[messages?.length - 1];
-            if (lastMessage && !lastMessage?.is_read) {
-                handleReadMessage({ chat_id: chatId, message_id: messages[messages?.length - 1]?.id });
+            const lastMessage = messages[0];
+            if (lastMessage && lastMessage?.is_read) {
+                handleReadMessage({ chat_id: chatId, message_id: lastMessage.id });
             }
         } else {
             if (chatSubscription.value) handleUnsubscribeFromChat(chatSubscription.value);

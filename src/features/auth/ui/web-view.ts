@@ -30,7 +30,6 @@ const webView = () => {
             }
             return '7';
         }
-
         if (clientBaseURL.includes('api.dev')) return '6';
     };
     const redirectUri = `${clientBaseURL}/callback`;
