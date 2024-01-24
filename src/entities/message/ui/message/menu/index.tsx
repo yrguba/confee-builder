@@ -22,11 +22,11 @@ type Props = {
     messageMenuAction: (
         action: MessageMenuActions,
         message: MessageProxy,
-        file: { blob: Blob; name: string; id: number | string; type: MediaContentType } | null
+        file: { url: string; name: string; id: number | string; type: MediaContentType } | null
     ) => void;
     sendReaction: (emoji: string, messageId: number) => void;
     openChatProfileModal: (data: { user: UserProxy; employee: EmployeeProxy }) => void;
-    clickedFile: { blob: Blob; name: string; id: number | string; type: MediaContentType } | null;
+    clickedFile: { url: string; name: string; id: number | string; type: MediaContentType } | null;
 } & BaseTypes.Statuses;
 
 const memoReadUsers = createMemo((members: CurrentShortMember[] | BaseTypes.Empty, users_ids: number[]) => {

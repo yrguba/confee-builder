@@ -49,10 +49,9 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
         />
     );
 
-    const clickContextMenu = async () => {
+    const clickContextMenu = () => {
         if (clickedFile && name && id) {
-            const blob = await getFileBlob();
-            clickedFile.set({ blob, name, id, type: 'videos' });
+            clickedFile.set({ url: src, name, id, type: 'videos' });
         }
         if (!disableDownload) {
             visibleMenu.toggle();
@@ -66,8 +65,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
             icon: <Icons variant="save" />,
             callback: async () => {
                 visibleMenu.set(false);
-                const blob = await getFileBlob();
-                await saveInDownload(blob, name);
+                await saveInDownload(src, name);
                 notification.success({ title: 'Видео сохранено', system: true });
             },
         },

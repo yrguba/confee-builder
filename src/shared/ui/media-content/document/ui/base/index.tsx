@@ -28,7 +28,7 @@ function Document(props: BaseDocumentProps) {
 
         if (clickedFile && name && id) {
             const blob = await getFileBlob();
-            clickedFile.set({ blob, name, id, type: 'documents' });
+            clickedFile.set({ url: src, name, id, type: 'documents' });
         }
         if (!disableDownload) {
             visibleMenu.toggle();
@@ -41,8 +41,7 @@ function Document(props: BaseDocumentProps) {
             title: 'Скачать файл',
             icon: <Icons variant="save" />,
             callback: async () => {
-                const blob = await getFileBlob();
-                await saveInDownload(blob, name);
+                await saveInDownload(src, name);
                 notification.success({ title: 'Файл сохранен', system: true });
             },
         },

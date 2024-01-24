@@ -12,7 +12,7 @@ export type BaseAudioPlayerProps = {
     btnRadius?: number;
     visibleWave?: boolean;
     disabled?: boolean;
-    clickedFile?: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
+    clickedFile?: UseEasyStateReturnType<{ url: string; name: string; id: number | string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 export type AudioListItem = {

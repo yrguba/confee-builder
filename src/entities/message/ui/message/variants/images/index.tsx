@@ -10,7 +10,7 @@ import { useChatStore } from '../../../../../chat';
 import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
-    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
+    clickedFile: UseEasyStateReturnType<{ url: string; name: string; id: number | string; type: MediaContentType } | null>;
     images: File[];
 } & BaseTypes.Statuses;
 

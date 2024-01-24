@@ -25,10 +25,9 @@ function AudioPlayer(props: BaseAudioPlayerProps) {
         }
     };
 
-    const onContextMenu = async () => {
+    const onContextMenu = () => {
         if (name && id) {
-            const blob = await getFileBlob();
-            clickedFile?.set({ blob, name, id, type: 'audios' });
+            clickedFile?.set({ url: src, name, id, type: 'audios' });
         }
     };
 

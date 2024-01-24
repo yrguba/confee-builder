@@ -9,7 +9,7 @@ import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
     documents: File[];
-    clickedFile: UseEasyStateReturnType<{ blob: Blob; name: string; id: number | string; type: MediaContentType } | null>;
+    clickedFile: UseEasyStateReturnType<{ url: string; name: string; id: number | string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 function DocumentsMessage(props: Props) {

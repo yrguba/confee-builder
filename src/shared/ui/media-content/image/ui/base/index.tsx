@@ -43,10 +43,9 @@ function Image(props: BaseImageProps) {
 
     const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();
 
-    const clickContextMenu = async () => {
+    const clickContextMenu = () => {
         if (clickedFile && name && id) {
-            const blob = await getFileBlob();
-            clickedFile.set({ blob, name, id, type: 'images' });
+            clickedFile.set({ url: src, name, id, type: 'images' });
         }
         if (!disableDownload) {
             visibleMenu.toggle();
@@ -59,8 +58,7 @@ function Image(props: BaseImageProps) {
             title: 'Скачать фото',
             icon: <Icons variant="save" />,
             callback: async () => {
-                const blob = await getFileBlob();
-                await saveInDownload(blob, name);
+                await saveInDownload(src, name);
                 notification.success({ title: 'Фото сохранено', system: true });
                 visibleMenu.set(false);
             },

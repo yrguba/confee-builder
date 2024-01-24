@@ -111,7 +111,7 @@ function MessageList() {
     const messageMenuAction = (
         action: messageTypes.MessageMenuActions,
         message: messageTypes.MessageProxy,
-        file: { blob: Blob; name: string; id: number | string; type: MediaContentType } | null
+        file: { url: string; name: string; id: number | string; type: MediaContentType } | null
     ) => {
         switch (action) {
             case 'reply':
@@ -134,7 +134,7 @@ function MessageList() {
             case 'play':
                 return playSpeech(message.text);
             case 'save':
-                saveInDownload(file?.blob, file?.name);
+                saveInDownload(file?.url, file?.name);
                 file?.id && idOfSavedFile.set(file.id);
                 notification.success({
                     title: `${file?.type ? messageDictionaries.mediaContent[file?.type] : ''} ${file?.type === 'documents' ? 'сохранен' : 'сохранено'}`,

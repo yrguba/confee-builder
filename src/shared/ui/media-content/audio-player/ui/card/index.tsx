@@ -28,8 +28,7 @@ function AudioCard(props: AudioCardProps) {
             title: 'Скачать аудио',
             icon: <Icons variant="save" />,
             callback: async () => {
-                const fileBlob = await fetch(url).then((res) => res.blob());
-                await saveInDownload(fileBlob, name);
+                await saveInDownload(url, name);
                 notification.success({ title: 'Аудио сохранен', system: true });
             },
         },
