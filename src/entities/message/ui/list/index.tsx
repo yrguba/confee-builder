@@ -113,7 +113,7 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         if (wrapperRef?.current && chat) {
             if (foundMessageRef.current) {
-                setTimeout(() => deleteFoundMessage(), 1000);
+                setTimeout(() => deleteFoundMessage(), 3000);
                 return executeScrollToElement({ ref: foundMessageRef, enable: true, block: 'center' });
             }
             if (initialOpenChat.value) {
@@ -142,12 +142,6 @@ function MessagesListView(props: Props) {
         const firstUnread = messages.find((i) => i.isFirstUnread);
         inViewFirstUnreadCheckVisibleRef && firstUnread && readMessage(firstUnread.id);
     }, [inViewFirstUnreadCheckVisibleRef]);
-
-    useUpdateEffect(() => {
-        if (wrapperRef.current) {
-            // wrapperRef.current.style.overflow = isFetching ? 'hidden' : 'auto';
-        }
-    }, [isFetching]);
 
     useUpdateEffect(() => {
         if (goDownList) {
