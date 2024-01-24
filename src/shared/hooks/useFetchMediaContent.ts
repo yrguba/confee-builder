@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import { appApi } from 'entities/app';
+import { appApi, appService } from 'entities/app';
 
 import useEasyState from './useEasyState';
 import useFS from './useFS';
@@ -37,9 +37,9 @@ function useFetchMediaContent(props: Props) {
     }, [fileData]);
 
     useEffect(() => {
-        loading.set(true);
         const fn = async () => {
             if (url) {
+                loading.set(true);
                 if (url.includes('base64') || url.includes('blob')) {
                     const updUrl = url.replace('x-matroska', 'mp4');
                     const res = await fetch(updUrl);
@@ -63,9 +63,12 @@ function useFetchMediaContent(props: Props) {
             })
             .catch(() => {
                 enable();
+                if (!appService.tauriIsRunning && fileData) {
+                    loading.set(false);
+                }
             });
     }, [url]);
-
+    console.log(loading.value);
     return {
         src: src.value,
         fileBlob: fileBlob.value,
