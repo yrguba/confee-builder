@@ -6,61 +6,96 @@ import { useUpdateEffect } from 'react-use';
 import { useEasyState } from 'shared/hooks';
 
 function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
-    const thumbRef = useRef<HTMLDivElement>(null);
+    const sliderRef = useRef<HTMLDivElement>(null);
 
+    const realHeight = useEasyState(0);
     const sliderHeight = useEasyState(0);
     const sliderY = useEasyState(0);
     const isSliderCapture = useEasyState(false);
+
+    useEffect(() => {
+        window.addEventListener('mouseup', () => isSliderCapture.set(false));
+        return document.removeEventListener('mouseup', () => null);
+    }, []);
+
+    const handler = (isScrollUp: boolean, disabled?: boolean) => {
+        console.log(disabled);
+        if (wrapperRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = wrapperRef.current;
+            const step = 50;
+            wrapperRef.current.scrollTop = isScrollUp ? scrollTop - step : scrollTop + step;
+            const viewHeightPercent = Math.ceil((clientHeight * 100) / scrollHeight);
+            if (scrollHeight > clientHeight) {
+                if (sliderHeight.value !== viewHeightPercent) {
+                    sliderHeight.set(viewHeightPercent);
+                }
+                if (sliderRef.current) {
+                    realHeight.set(clientHeight - sliderRef.current.clientHeight);
+                }
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (wrapperRef.current) {
+            if (isSliderCapture.value) {
+                wrapperRef.current.onmousemove = (e) => {
+                    handler(e.movementY < 0);
+                };
+            } else {
+                wrapperRef.current.onmousemove = null;
+            }
+        }
+    }, [isSliderCapture.value]);
 
     const onWheel = (e: WheelEvent<HTMLDivElement>) => {
         const wrapper = e.currentTarget;
         if (wrapper) {
             const isScrollUp = e.deltaY < 0;
-            const step = 50;
-            const currentY = wrapper.scrollTop;
-
-            wrapper.scrollTop = isScrollUp ? currentY - step : currentY + step;
-
-            const { scrollTop, scrollHeight, clientHeight } = wrapper;
-            const { height } = wrapper.getBoundingClientRect();
-            const viewHeightPercent = Math.ceil((height * 100) / scrollHeight);
-            const viewYPercent = Math.ceil((scrollTop / (scrollHeight - clientHeight)) * 100);
-            sliderY.set(-viewYPercent);
-            console.log(viewHeightPercent);
-            if (sliderHeight.value !== viewHeightPercent && scrollHeight > height) {
-                sliderHeight.set(viewHeightPercent);
-            }
+            handler(isScrollUp);
         }
     };
-    console.log(sliderY.value);
+
     function Scrollbar() {
         return (
             <div
                 onMouseDown={() => isSliderCapture.set(true)}
                 style={{
                     position: 'absolute',
-                    top: 0,
+                    top: -8,
                     right: 0,
                     height: '100%',
                     width: 12,
-                    overflow: 'hidden',
                     zIndex: 100000,
+                    display: 'flex',
+                    alignItems: 'center',
+                    overflow: 'hidden',
                     // backgroundColor: 'var(--control-tertiary)',
                 }}
             >
                 <div
-                    ref={thumbRef}
                     style={{
-                        cursor: 'pointer',
                         width: '100%',
-                        height: `${sliderHeight.value}%`,
-                        backgroundColor: 'var(--control-primary)',
-                        borderRadius: 22,
-                        position: 'absolute',
-                        bottom: `${sliderY.value || 0}%`,
-                        transform: ' translateY(0%)',
+                        height: realHeight.value,
+                        position: 'relative',
+                        backgroundColor: 'var(--control-tertiary)',
                     }}
-                />
+                >
+                    <div
+                        ref={sliderRef}
+                        style={{
+                            cursor: 'pointer',
+                            width: '100%',
+                            height: `${sliderHeight.value}%`,
+                            backgroundColor: 'var(--control-primary)',
+                            borderRadius: 22,
+                            position: 'absolute',
+                            left: 0,
+                            bottom: `${sliderY.value}%`,
+                            transform: ' translateY(50%)',
+                        }}
+                    />
+                </div>
             </div>
         );
     }
