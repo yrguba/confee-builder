@@ -42,7 +42,9 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
                 const viewHeightPercent = Math.ceil((clientHeight * 100) / scrollHeight);
                 const sliderHeightNum = (clientHeight / 100) * viewHeightPercent;
                 const realHeightNum = clientHeight - (clientHeight / 100) * viewHeightPercent;
-                const wrapperY = ((scrollHeight - clientHeight) / 100) * mouseYPercent;
+                const mp = mouseYPercent > 99.5 ? 100 : mouseYPercent;
+                const wrapperY = ((scrollHeight - clientHeight) / 100) * mp;
+                console.log(mouseYPercent);
                 sliderY.set(mouseYPercent);
                 sliderHeight.set(sliderHeightNum);
                 realHeight.set(realHeightNum);
