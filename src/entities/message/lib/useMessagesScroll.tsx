@@ -34,23 +34,22 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const onMouseMove = (e: globalThis.MouseEvent) => {
         if (wrapperRef.current && realRef.current) {
             visible.set(true);
-            const { offsetTop, clientHeight, scrollHeight } = wrapperRef.current;
+            const { scrollTop, clientHeight, scrollHeight } = wrapperRef.current;
 
-            const mouseY = Math.ceil(clientHeight - e.clientY);
-            const mouseYPercent = Math.floor((mouseY / clientHeight) * 10000) / 100;
-            if (mouseY >= 0 || mouseY <= 100) {
-                const wrapperY = (scrollHeight / 100) * mouseYPercent;
-
+            const mouseY = Math.ceil(clientHeight - e.clientY) + 68;
+            const mouseYPercent = Math.ceil((mouseY / clientHeight) * 10000) / 100;
+            if (mouseYPercent >= 0 || mouseYPercent <= 100) {
                 const viewHeightPercent = Math.ceil((clientHeight * 100) / scrollHeight);
-
                 const sliderHeightNum = (clientHeight / 100) * viewHeightPercent;
-
                 const realHeightNum = clientHeight - (clientHeight / 100) * viewHeightPercent;
+                const viewYPercent = Math.ceil((scrollTop / (scrollHeight - clientHeight)) * 100);
+                const wrapperY = ((scrollHeight - clientHeight) / 100) * mouseYPercent;
+
+                console.log('wrapperY', -wrapperY);
+
                 sliderY.set(mouseYPercent);
                 sliderHeight.set(sliderHeightNum);
                 realHeight.set(realHeightNum);
-                console.log(scrollHeight);
-                console.log('cur', -wrapperY);
                 wrapperRef.current.scrollTop = -wrapperY;
             }
         }
