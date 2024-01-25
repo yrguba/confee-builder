@@ -4,6 +4,7 @@ import { useEasyState, useReverseTimer, useDebounce } from 'shared/hooks';
 
 function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const sliderRef = useRef<HTMLDivElement>(null);
+    const realRef = useRef<HTMLDivElement>(null);
 
     const realHeight = useEasyState(0);
     const sliderHeight = useEasyState(0);
@@ -11,7 +12,7 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const isSliderCapture = useEasyState(false);
     const visible = useEasyState(false);
 
-    // useDebounce(() => visible.set(false), 2000, [sliderY]);
+    useDebounce(() => visible.set(false), 2000, [sliderY]);
 
     const onWheel = (e: WheelEvent<HTMLDivElement>) => {
         const wrapper = e.currentTarget;
@@ -25,19 +26,33 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
         const viewYPercent = Math.ceil((scrollTop / (scrollHeight - clientHeight)) * 100);
         if (scrollHeight > clientHeight) {
             sliderY.set(-viewYPercent);
-            if (sliderHeight.value !== sliderHeightNum) {
-                sliderHeight.set(sliderHeightNum);
-            }
+            sliderHeight.set(sliderHeightNum);
             realHeight.set(realHeightNum);
         }
     };
 
     const onMouseMove = (e: globalThis.MouseEvent) => {
-        if (wrapperRef.current) {
-            const { offsetTop, clientHeight } = wrapperRef.current;
-            const mouseY = Math.floor(clientHeight - (e.clientY - 70));
+        if (wrapperRef.current && realRef.current) {
+            visible.set(true);
+            const { offsetTop, clientHeight, scrollHeight } = wrapperRef.current;
+
+            const mouseY = Math.ceil(clientHeight - e.clientY + 70);
             const mouseYPercent = Math.floor((mouseY / clientHeight) * 10000) / 100;
-            sliderY.set(mouseYPercent);
+            if (mouseY >= 0 || mouseY <= 100) {
+                const wrapperY = (scrollHeight * mouseYPercent) / 100;
+
+                const viewHeightPercent = Math.ceil((clientHeight * 100) / scrollHeight);
+
+                const sliderHeightNum = (clientHeight / 100) * viewHeightPercent;
+
+                const realHeightNum = clientHeight - (clientHeight / 100) * viewHeightPercent;
+                sliderY.set(mouseYPercent);
+                sliderHeight.set(sliderHeightNum);
+                realHeight.set(realHeightNum);
+                console.log(scrollHeight);
+                console.log('cur', -wrapperY);
+                wrapperRef.current.scrollTop = -wrapperY;
+            }
         }
     };
 
@@ -56,6 +71,7 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     function Scrollbar() {
         return (
             <div
+                onMouseMoveCapture={() => visible.set(true)}
                 onMouseDown={() => isSliderCapture.set(true)}
                 style={{
                     position: 'absolute',
@@ -64,7 +80,8 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
                     height: '100%',
                     width: 6,
                     zIndex: 100000,
-                    display: visible.value ? 'flex' : 'none',
+                    display: 'flex',
+                    opacity: visible.value ? 1 : 0,
                     alignItems: 'center',
                     overflow: 'hidden',
 
@@ -72,6 +89,7 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
                 }}
             >
                 <div
+                    ref={realRef}
                     style={{
                         width: '100%',
                         height: realHeight.value,
@@ -89,7 +107,7 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
                             borderRadius: 22,
                             position: 'absolute',
                             left: 0,
-                            bottom: `${sliderY.value || 0}%`,
+                            bottom: `${sliderY.value < 0 ? 0 : sliderY.value > 100 ? 100 : sliderY.value}%`,
                             transform: ' translateY(50%)',
                         }}
                     />
