@@ -1,5 +1,6 @@
 import { delay } from 'framer-motion';
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 import { ChatHeader } from 'features/chat';
 import { MessagesList, MessageInput } from 'features/message';
@@ -17,7 +18,7 @@ function Chat() {
                 <ChatHeader />
             </div>
             <Box.Animated key={params.chat_id} visible animate={{ opacity: 1, transition: { delay: 0.15 } }} className={styles.messageList}>
-                <MessagesList />
+                <Outlet />
             </Box.Animated>
             <div className={styles.input}>
                 <MessageInput />

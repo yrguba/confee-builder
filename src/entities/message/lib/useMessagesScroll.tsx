@@ -33,7 +33,12 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     };
 
     const onMouseMove = (e: globalThis.MouseEvent) => {
-        console.log(e);
+        if (wrapperRef.current) {
+            const { offsetTop, clientHeight } = wrapperRef.current;
+            const mouseY = Math.floor(clientHeight - (e.clientY - 70));
+            const mouseYPercent = Math.floor((mouseY / clientHeight) * 10000) / 100;
+            sliderY.set(mouseYPercent);
+        }
     };
 
     useEffect(() => {
