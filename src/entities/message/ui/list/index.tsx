@@ -2,7 +2,7 @@ import React, { useRef, Fragment, useEffect, useState, RefObject, WheelEvent } f
 import { mergeRefs } from 'react-merge-refs';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
-import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState, UseEasyStateReturnType, useDivScroll } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Button, Counter, Icons } from 'shared/ui';
 
@@ -11,6 +11,7 @@ import { appTypes } from '../../../app';
 import { chatTypes } from '../../../chat';
 import { EmployeeProxy } from '../../../company/model/types';
 import { UserProxy } from '../../../user/model/types';
+import useMessagesScroll from '../../lib/useMessagesScroll';
 import { File, MediaContentType, MessageMenuActions, MessageProxy } from '../../model/types';
 import Message from '../message';
 import SystemMessage from '../message/variants/system';
@@ -78,7 +79,7 @@ function MessagesListView(props: Props) {
     const firstUnreadMessageRef = useRef<HTMLDivElement>(null);
     const foundMessageRef = useRef<HTMLDivElement>(null);
 
-    const { onWheel, Scrollbar } = useDivScroll(wrapperRef);
+    const { onWheel, Scrollbar } = useMessagesScroll(wrapperRef);
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });

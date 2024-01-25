@@ -35,7 +35,6 @@ import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
 import useDatabase from './useDatabase';
-import useDivScroll from './useDivScroll';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
@@ -64,7 +63,6 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
-    useDivScroll,
     useNodeFetch,
     useRingtone,
     useJitsi,

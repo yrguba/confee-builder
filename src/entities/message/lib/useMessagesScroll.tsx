@@ -3,22 +3,14 @@ import { WebviewWindow } from '@tauri-apps/api/window';
 import React, { MouseEvent, RefObject, useEffect, useRef, WheelEvent } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import useEasyState from './useEasyState';
-import Slider from '../ui/slider';
+import { useEasyState } from 'shared/hooks';
 
-function useDivScroll(wrapperRef: RefObject<HTMLDivElement>) {
+function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const thumbRef = useRef<HTMLDivElement>(null);
 
-    const viewHeight = useEasyState(0);
     const sliderHeight = useEasyState(0);
     const sliderY = useEasyState(0);
     const isSliderCapture = useEasyState(false);
-
-    useUpdateEffect(() => {
-        if (wrapperRef.current) {
-            viewHeight.set(wrapperRef.current.clientHeight);
-        }
-    }, [wrapperRef.current]);
 
     const onWheel = (e: WheelEvent<HTMLDivElement>) => {
         const wrapper = e.currentTarget;
@@ -48,55 +40,27 @@ function useDivScroll(wrapperRef: RefObject<HTMLDivElement>) {
                 style={{
                     position: 'absolute',
                     top: 0,
-                    right: 150,
+                    right: 0,
                     height: '100%',
                     width: 12,
                     overflow: 'hidden',
+                    zIndex: 100000,
                     // backgroundColor: 'var(--control-tertiary)',
                 }}
             >
-                <Slider
-                    handleStyle={{
-                        height: `${sliderHeight.value}%`,
-                        width: 12,
-                        borderRadius: 20,
-                        border: 'none',
-                        backgroundColor: 'var(--control-primary)',
-                        opacity: 1,
-                        touchAction: 'none',
-                    }}
-                    max={100}
-                    step={1}
-                    defaultValue={sliderY.value}
-                    vertical
-                    activeDotStyle={{
-                        backgroundColor: 'var(--control-primary)',
-                    }}
-                    // onChange={(value) => typeof value === 'number' && controls.volume(value)}
+                <div
+                    ref={thumbRef}
                     style={{
-                        height: viewHeight.value,
-                        width: 50,
-                        backgroundColor: 'inherit',
-                    }}
-                    trackStyle={{
-                        backgroundColor: 'inherit',
-                    }}
-                    railStyle={{
-                        backgroundColor: 'inherit',
+                        cursor: 'pointer',
+                        width: '100%',
+                        height: `${sliderHeight.value}%`,
+                        backgroundColor: 'var(--control-primary)',
+                        borderRadius: 22,
+                        position: 'absolute',
+                        bottom: `${sliderY.value || 0}%`,
+                        transform: ' translateY(0%)',
                     }}
                 />
-                {/* <div */}
-                {/*    ref={thumbRef} */}
-                {/*    style={{ */}
-                {/*        cursor: 'pointer', */}
-                {/*        width: '100%', */}
-                {/*        height: `${sliderHeight.value}%`, */}
-                {/*        backgroundColor: 'var(--control-primary)', */}
-                {/*        borderRadius: 22, */}
-                {/*        position: 'absolute', */}
-                {/*        bottom: `${sliderY.value}%`, */}
-                {/*    }} */}
-                {/* /> */}
             </div>
         );
     }
@@ -104,4 +68,4 @@ function useDivScroll(wrapperRef: RefObject<HTMLDivElement>) {
     return { onWheel, Scrollbar };
 }
 
-export default useDivScroll;
+export default useMessagesScroll;
