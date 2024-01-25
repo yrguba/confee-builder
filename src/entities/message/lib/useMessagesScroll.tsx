@@ -1,4 +1,4 @@
-import React, { RefObject, useRef, WheelEvent } from 'react';
+import React, { MouseEvent, RefObject, useEffect, useRef, WheelEvent } from 'react';
 
 import { useEasyState, useReverseTimer, useDebounce } from 'shared/hooks';
 
@@ -11,31 +11,42 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const isSliderCapture = useEasyState(false);
     const visible = useEasyState(false);
 
-    useDebounce(() => visible.set(false), 2000, [sliderY]);
+    // useDebounce(() => visible.set(false), 2000, [sliderY]);
 
-    const handler = (isScrollUp: boolean, disabled?: boolean) => {
-        if (wrapperRef.current) {
-            visible.set(true);
-            const { scrollTop, scrollHeight, clientHeight } = wrapperRef.current;
-            const step = 50;
-            wrapperRef.current.scrollTop = isScrollUp ? scrollTop - step : scrollTop + step;
-            const viewHeightPercent = Math.ceil((clientHeight * 100) / scrollHeight);
-            const sliderHeightNum = (clientHeight / 100) * viewHeightPercent;
-            const realHeightNum = clientHeight - (clientHeight / 100) * viewHeightPercent;
-            const viewYPercent = Math.ceil((scrollTop / (scrollHeight - clientHeight)) * 100);
-            if (scrollHeight > clientHeight) {
-                sliderY.set(-viewYPercent);
-                if (sliderHeight.value !== sliderHeightNum) {
-                    sliderHeight.set(sliderHeightNum);
-                }
-                realHeight.set(realHeightNum);
+    const onWheel = (e: WheelEvent<HTMLDivElement>) => {
+        const wrapper = e.currentTarget;
+        visible.set(true);
+        const { scrollTop, scrollHeight, clientHeight } = wrapper;
+        const step = 50;
+        wrapper.scrollTop = e.deltaY < 0 ? scrollTop - step : scrollTop + step;
+        const viewHeightPercent = Math.ceil((clientHeight * 100) / scrollHeight);
+        const sliderHeightNum = (clientHeight / 100) * viewHeightPercent;
+        const realHeightNum = clientHeight - (clientHeight / 100) * viewHeightPercent;
+        const viewYPercent = Math.ceil((scrollTop / (scrollHeight - clientHeight)) * 100);
+        if (scrollHeight > clientHeight) {
+            sliderY.set(-viewYPercent);
+            if (sliderHeight.value !== sliderHeightNum) {
+                sliderHeight.set(sliderHeightNum);
             }
+            realHeight.set(realHeightNum);
         }
     };
 
-    const onWheel = (e: WheelEvent<HTMLDivElement>) => {
-        handler(e.deltaY < 0);
+    const onMouseMove = (e: globalThis.MouseEvent) => {
+        console.log(e);
     };
+
+    useEffect(() => {
+        document.addEventListener('mouseup', () => isSliderCapture.set(false));
+        if (wrapperRef.current) {
+            if (isSliderCapture.value) {
+                wrapperRef.current.onmousemove = onMouseMove;
+            } else {
+                wrapperRef.current.onmousemove = null;
+            }
+        }
+        return document.removeEventListener('mouseup', () => null);
+    }, [isSliderCapture.value]);
 
     function Scrollbar() {
         return (
