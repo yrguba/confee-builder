@@ -1,11 +1,6 @@
-import { JitsiMeeting } from '@jitsi/react-sdk';
-import { WebviewWindow } from '@tauri-apps/api/window';
-import React, { MouseEvent, RefObject, useEffect, useRef, WheelEvent } from 'react';
-import { useUpdateEffect } from 'react-use';
+import React, { RefObject, useRef, WheelEvent } from 'react';
 
-import { useEasyState, useReverseTimer } from 'shared/hooks';
-
-import { Box } from '../../../shared/ui';
+import { useEasyState, useReverseTimer, useDebounce } from 'shared/hooks';
 
 function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const sliderRef = useRef<HTMLDivElement>(null);
@@ -14,17 +9,13 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const sliderHeight = useEasyState(0);
     const sliderY = useEasyState(0);
     const isSliderCapture = useEasyState(false);
+    const visible = useEasyState(false);
 
-    // useEffect(() => {
-    //     window.addEventListener('mouseup', () => isSliderCapture.set(false));
-    //     return document.removeEventListener('mouseup', () => null);
-    // }, []);
-
-    const { isRunning, start } = useReverseTimer({ seconds: 3 });
+    useDebounce(() => visible.set(false), 2000, [sliderY]);
 
     const handler = (isScrollUp: boolean, disabled?: boolean) => {
         if (wrapperRef.current) {
-            start();
+            visible.set(true);
             const { scrollTop, scrollHeight, clientHeight } = wrapperRef.current;
             const step = 50;
             wrapperRef.current.scrollTop = isScrollUp ? scrollTop - step : scrollTop + step;
@@ -57,11 +48,10 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
                     height: '100%',
                     width: 6,
                     zIndex: 100000,
-                    display: 'flex',
+                    display: visible.value ? 'flex' : 'none',
                     alignItems: 'center',
                     overflow: 'hidden',
-                    opacity: isRunning ? 1 : 0,
-                    transition: 'opacity 0.5s',
+
                     // backgroundColor: 'var(--control-tertiary)',
                 }}
             >
@@ -79,7 +69,7 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
                             cursor: 'pointer',
                             width: '100%',
                             height: sliderHeight.value,
-                            backgroundColor: 'var(--control-primary)',
+                            backgroundColor: 'var(--bg-quaternary)',
                             borderRadius: 22,
                             position: 'absolute',
                             left: 0,
