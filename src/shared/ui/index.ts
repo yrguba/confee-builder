@@ -19,7 +19,6 @@ import WebCameraPhoto, { Types as WebCamaraPhotoTypes } from './media-content/we
 import Modal, { Types as ModalTypes } from './modal';
 import Notification, { Types as NotificationTypes } from './notification';
 import Pagination, { Types as PaginationTypes } from './pagination';
-import Scrollbar, { Types as ScrollbarTypes } from './scrollbar';
 import Select, { Types as SelectTypes } from './select';
 import Slider, { Types as SliderTypes } from './slider';
 import Steps, { Types as StepsTypes } from './steps';
@@ -29,7 +28,6 @@ import TabBar, { Types as TabBarTypes } from './tab-bar';
 import Title, { Types as TitleTypes } from './title';
 
 export {
-    Scrollbar,
     ContextMenu,
     Slider,
     Swiper,
@@ -60,7 +58,6 @@ export {
     Notification,
 };
 export type {
-    ScrollbarTypes,
     ContextMenuTypes,
     SliderTypes,
     SwiperTypes,

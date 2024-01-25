@@ -2,9 +2,9 @@ import React, { useRef, Fragment, useEffect, useState, RefObject, WheelEvent } f
 import { mergeRefs } from 'react-merge-refs';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
-import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState, UseEasyStateReturnType } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState, UseEasyStateReturnType, useDivScroll } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Button, Counter, Icons, Scrollbar } from 'shared/ui';
+import { Box, Button, Counter, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appTypes } from '../../../app';
@@ -73,10 +73,12 @@ function MessagesListView(props: Props) {
 
     const subCurrentChat = chatSubscription === chat?.id;
 
-    const wrapperRef: any = useRef<HTMLDivElement>(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
     const bottomMessageRef = useRef<HTMLDivElement>(null);
     const firstUnreadMessageRef = useRef<HTMLDivElement>(null);
     const foundMessageRef = useRef<HTMLDivElement>(null);
+
+    const { onWheel, Scrollbar } = useDivScroll({ wrapperRef });
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
@@ -100,13 +102,6 @@ function MessagesListView(props: Props) {
         if (highlightedMessages.value.length) {
             highlightedMessages.pushOrDelete(message);
         }
-    };
-
-    const onWheel = (e: WheelEvent<HTMLDivElement>) => {
-        const isScrollUp = e.deltaY < 0;
-        const step = 50;
-        const currentY = wrapperRef.current.scrollTop;
-        wrapperRef.current.scrollTop = isScrollUp ? currentY - step : currentY + step;
     };
 
     const clickBtnDown = () => {
@@ -167,7 +162,7 @@ function MessagesListView(props: Props) {
                     <Icons variant="arrow-drop-down" />
                 </Button.Circle>
             </Box.Animated>
-            <Scrollbar wrapper={wrapperRef} />
+            <Scrollbar />
             <div ref={mergeRefs([bottomMessageRef, bottomMessageCheckVisibleRef])} />
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
