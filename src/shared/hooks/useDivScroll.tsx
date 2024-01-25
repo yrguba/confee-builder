@@ -4,10 +4,11 @@ import React, { RefObject, useEffect, useRef, WheelEvent } from 'react';
 
 import useEasyState from './useEasyState';
 
-function useDivScroll() {
+function useDivScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const thumbRef = useRef<HTMLDivElement>(null);
-    const thumbHeight = useEasyState(0);
-    const thumbY = useEasyState(0);
+    const sliderHeight = useEasyState(0);
+    const sliderY = useEasyState(0);
+    const isSliderCapture = useEasyState(false);
 
     const onWheel = (e: WheelEvent<HTMLDivElement>) => {
         const wrapper = e.currentTarget;
@@ -15,24 +16,34 @@ function useDivScroll() {
             const isScrollUp = e.deltaY < 0;
             const step = 50;
             const currentY = wrapper.scrollTop;
-            wrapper.scrollTop = isScrollUp ? currentY - step : currentY + step;
 
+            wrapper.scrollTop = isScrollUp ? currentY - step : currentY + step;
             if (thumbRef.current) {
                 const { scrollTop, scrollHeight, clientHeight } = wrapper;
-                const { width } = wrapper.getBoundingClientRect();
-                const viewHeightPercent = Math.ceil((width * 100) / scrollHeight);
+                const { height } = wrapper.getBoundingClientRect();
+                const viewHeightPercent = Math.ceil((height * 100) / scrollHeight);
                 const viewYPercent = Math.ceil((scrollTop / (scrollHeight - clientHeight)) * 100);
-                thumbY.set(-viewYPercent);
-                if (thumbHeight.value !== viewHeightPercent) {
-                    thumbHeight.set(viewHeightPercent);
+                sliderY.set(-viewYPercent);
+
+                if (sliderHeight.value !== viewHeightPercent && scrollHeight > height) {
+                    sliderHeight.set(viewHeightPercent);
                 }
             }
         }
     };
+    console.log(isSliderCapture.value);
+    useEffect(() => {
+        if (wrapperRef.current) {
+            // wrapperRef.current.addEventListener('')
+        }
+    }, [wrapperRef.current]);
 
     function Scrollbar() {
         return (
             <div
+                // onMouseDown={isSliderCapture.toggle}
+                // onMouseUp={isSliderCapture.toggle}
+
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -44,13 +55,17 @@ function useDivScroll() {
             >
                 <div
                     ref={thumbRef}
+                    onMouseMoveCapture={(e) => {
+                        console.log(e);
+                    }}
                     style={{
+                        cursor: 'pointer',
                         width: '100%',
-                        height: `${thumbHeight.value}%`,
+                        height: `${sliderHeight.value}%`,
                         backgroundColor: 'var(--control-primary)',
                         borderRadius: 22,
                         position: 'absolute',
-                        bottom: `${thumbY.value}%`,
+                        bottom: `${sliderY.value}%`,
                     }}
                 />
             </div>

@@ -78,7 +78,7 @@ function MessagesListView(props: Props) {
     const firstUnreadMessageRef = useRef<HTMLDivElement>(null);
     const foundMessageRef = useRef<HTMLDivElement>(null);
 
-    const { onWheel, Scrollbar } = useDivScroll();
+    const { onWheel, Scrollbar } = useDivScroll(wrapperRef);
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView({ delay: 200 });
     const { ref: nextPageRef, inView: inViewNextPage } = useInView({ delay: 200 });
