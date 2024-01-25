@@ -1,6 +1,7 @@
 import { JitsiMeeting } from '@jitsi/react-sdk';
 import { WebviewWindow } from '@tauri-apps/api/window';
-import React, { RefObject, useEffect, useRef, WheelEvent } from 'react';
+import React, { MouseEvent, RefObject, useEffect, useRef, WheelEvent } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import useEasyState from './useEasyState';
 
@@ -31,19 +32,29 @@ function useDivScroll(wrapperRef: RefObject<HTMLDivElement>) {
             }
         }
     };
-    console.log(isSliderCapture.value);
-    useEffect(() => {
-        if (wrapperRef.current) {
-            // wrapperRef.current.addEventListener('')
-        }
-    }, [wrapperRef.current]);
 
+    useEffect(() => {
+        const mousemove = (e: globalThis.MouseEvent) => {
+            console.log(e);
+        };
+        if (isSliderCapture.value) {
+            window.addEventListener('mousemove', mousemove);
+            window.addEventListener('mouseup', () => isSliderCapture.set(false));
+        } else {
+            window.removeEventListener('mousemove', mousemove);
+            window.removeEventListener('mouseup', () => null);
+        }
+        return () => {
+            window.removeEventListener('mousemove', mousemove);
+            window.removeEventListener('mouseup', () => null);
+        };
+    }, [isSliderCapture.value]);
+
+    console.log(isSliderCapture.value);
     function Scrollbar() {
         return (
             <div
-                // onMouseDown={isSliderCapture.toggle}
-                // onMouseUp={isSliderCapture.toggle}
-
+                onMouseDown={() => isSliderCapture.set(true)}
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -55,9 +66,6 @@ function useDivScroll(wrapperRef: RefObject<HTMLDivElement>) {
             >
                 <div
                     ref={thumbRef}
-                    onMouseMoveCapture={(e) => {
-                        console.log(e);
-                    }}
                     style={{
                         cursor: 'pointer',
                         width: '100%',
