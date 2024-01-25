@@ -19,13 +19,14 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     }, []);
 
     const handler = (isScrollUp: boolean, disabled?: boolean) => {
-        console.log(disabled);
         if (wrapperRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = wrapperRef.current;
             const step = 50;
             wrapperRef.current.scrollTop = isScrollUp ? scrollTop - step : scrollTop + step;
             const viewHeightPercent = Math.ceil((clientHeight * 100) / scrollHeight);
+            const viewYPercent = Math.ceil((scrollTop / (scrollHeight - clientHeight)) * 100);
             if (scrollHeight > clientHeight) {
+                sliderY.set(-viewYPercent);
                 if (sliderHeight.value !== viewHeightPercent) {
                     sliderHeight.set(viewHeightPercent);
                 }
@@ -49,11 +50,7 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     }, [isSliderCapture.value]);
 
     const onWheel = (e: WheelEvent<HTMLDivElement>) => {
-        const wrapper = e.currentTarget;
-        if (wrapper) {
-            const isScrollUp = e.deltaY < 0;
-            handler(isScrollUp);
-        }
+        handler(e.deltaY < 0);
     };
 
     function Scrollbar() {
@@ -78,7 +75,6 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
                         width: '100%',
                         height: realHeight.value,
                         position: 'relative',
-                        backgroundColor: 'var(--control-tertiary)',
                     }}
                 >
                     <div
