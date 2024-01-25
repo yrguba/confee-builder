@@ -4,7 +4,7 @@ import { useLifecycles, useUpdateEffect } from 'react-use';
 
 import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Button, Counter, Icons } from 'shared/ui';
+import { Box, Button, Counter, Icons, Scrollbar } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appTypes } from '../../../app';
@@ -167,6 +167,7 @@ function MessagesListView(props: Props) {
                     <Icons variant="arrow-drop-down" />
                 </Button.Circle>
             </Box.Animated>
+            <Scrollbar wrapper={wrapperRef} />
             <div ref={mergeRefs([bottomMessageRef, bottomMessageCheckVisibleRef])} />
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
