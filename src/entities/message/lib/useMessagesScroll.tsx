@@ -36,10 +36,10 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
             visible.set(true);
             const { offsetTop, clientHeight, scrollHeight } = wrapperRef.current;
 
-            const mouseY = Math.ceil(clientHeight - e.clientY + 70);
+            const mouseY = Math.ceil(clientHeight - e.clientY);
             const mouseYPercent = Math.floor((mouseY / clientHeight) * 10000) / 100;
             if (mouseY >= 0 || mouseY <= 100) {
-                const wrapperY = (scrollHeight * mouseYPercent) / 100;
+                const wrapperY = (scrollHeight / 100) * mouseYPercent;
 
                 const viewHeightPercent = Math.ceil((clientHeight * 100) / scrollHeight);
 
