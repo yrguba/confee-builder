@@ -13,14 +13,7 @@ const chatsPageRouters = ['/chats/all', '/chats/personal', '/chats/company/:comp
     <Fragment key={path}>
         <Route path={path} element={<ChatsPage />}>
             <Route path="chat" element={<Chat />}>
-                <Route
-                    path=":chat_id"
-                    element={
-                        <AnimatePresence>
-                            <MessagesList />
-                        </AnimatePresence>
-                    }
-                />
+                <Route path=":chat_id" element={<MessagesList />} />
             </Route>
         </Route>
         <Route path="/chats" element={<Navigate to="/chats/all" replace />} />
