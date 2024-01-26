@@ -27,9 +27,11 @@ function App() {
         !isIdle && queryClient.refetchQueries();
     }, [isIdle]);
 
+    const { start, time } = useReverseTimer({ hours: 5 });
     useTheme();
 
     useEffect(() => {
+        start();
         console.log('clientBaseURL: ', clientBaseURL);
     }, []);
 

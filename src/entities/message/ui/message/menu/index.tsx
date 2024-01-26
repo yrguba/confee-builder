@@ -80,7 +80,7 @@ function MessageMenu(props: Props) {
     const reactionClick = (emoji: string) => {
         sendReaction(emoji, message.id);
     };
-    console.log(clickedFile);
+
     return (
         <div className={styles.wrapper}>
             {/* <div className={styles.reactions}> */}

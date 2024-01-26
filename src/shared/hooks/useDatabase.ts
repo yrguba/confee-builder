@@ -2,18 +2,15 @@ import { fileConverter } from 'shared/lib';
 
 import useFs from './useFS';
 
-export type Entities = 'chats';
-
 function useDatabase() {
     const { saveTextFile, getTextFile } = useFs();
-    const save = async (data: any, entity: Entities) => {
-        await saveTextFile({ baseDir: 'Document', folderDir: 'database', fileName: entity, json: JSON.stringify(data) });
+    const save = async (data: any, name: string) => {
+        await saveTextFile({ baseDir: 'Document', folderDir: 'database', fileName: name, json: JSON.stringify(data) });
     };
-    const get = async (entity: Entities) => {
-        const file: any = await getTextFile({ baseDir: 'Document', folderDir: 'database', fileName: entity });
+    const get = async (name: string) => {
+        const file: any = await getTextFile({ baseDir: 'Document', folderDir: 'database', fileName: name });
         if (!file) return null;
-
-        return {};
+        return JSON.parse(file);
     };
     return { save, get };
 }

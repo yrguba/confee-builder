@@ -73,36 +73,55 @@ class ChatApi {
 
     handleGetChats = (data: { type?: 'all' | 'personal' | 'company'; companyId?: number }) => {
         const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
-        const cacheId = ['get-chats', type];
-        return useQueryWithLocalDb(cacheId, ({ enabled, save }) =>
-            useInfiniteQuery(
-                cacheId,
-                ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
-                {
-                    enabled: !!type && !(data.type === 'company' && !data.companyId) && enabled,
-                    staleTime: Infinity,
-                    getPreviousPageParam: (lastPage, pages) => {
-                        const { current_page } = lastPage?.data.meta;
-                        return current_page > 1 ? current_page - 1 : undefined;
-                    },
-                    getNextPageParam: (lastPage, pages) => {
-                        const { current_page, last_page } = lastPage?.data.meta;
-                        return current_page < last_page ? current_page + 1 : undefined;
-                    },
-                    initialData: () => {
-                        console.log('init');
-                        return undefined;
-                    },
-                    select: (data) => {
-                        save(data, 'chats');
-                        return {
-                            pages: data.pages,
-                            pageParams: [...data.pageParams],
-                        };
-                    },
-                }
-            )
+        const cacheId = ['get-chats', `${type}`];
+
+        return useInfiniteQuery(
+            cacheId,
+            ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+            {
+                enabled: !!type && !(data.type === 'company' && !data.companyId),
+                staleTime: Infinity,
+                getPreviousPageParam: (lastPage, pages) => {
+                    const { current_page } = lastPage?.data.meta;
+                    return current_page > 1 ? current_page - 1 : undefined;
+                },
+                getNextPageParam: (lastPage, pages) => {
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
+                },
+                select: (data) => {
+                    return {
+                        pages: data.pages,
+                        pageParams: [...data.pageParams],
+                    };
+                },
+            }
         );
+        // return useQueryWithLocalDb(cacheId, ({ save }) =>
+        //     useInfiniteQuery(
+        //         cacheId,
+        //         ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+        //         {
+        //             enabled: !!type && !(data.type === 'company' && !data.companyId),
+        //             staleTime: Infinity,
+        //             getPreviousPageParam: (lastPage, pages) => {
+        //                 const { current_page } = lastPage?.data.meta;
+        //                 return current_page > 1 ? current_page - 1 : undefined;
+        //             },
+        //             getNextPageParam: (lastPage, pages) => {
+        //                 const { current_page, last_page } = lastPage?.data.meta;
+        //                 return current_page < last_page ? current_page + 1 : undefined;
+        //             },
+        //             select: (data) => {
+        //                 save(data, cacheId);
+        //                 return {
+        //                     pages: data.pages,
+        //                     pageParams: [...data.pageParams],
+        //                 };
+        //             },
+        //         }
+        //     )
+        // );
     };
 
     handleCreatePersonalChat() {

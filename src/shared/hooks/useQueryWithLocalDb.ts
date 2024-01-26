@@ -1,32 +1,23 @@
-import { UseInfiniteQueryResult, useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useQueryClient, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { useUpdateEffect } from 'react-use';
 
-import useDatabase, { Entities } from './useDatabase';
-import { Chat } from '../../entities/chat/model/types';
-import { axiosClient } from '../configs';
-import { httpHandlers } from '../lib';
+import useDatabase from './useDatabase';
 
-export type CallbackProps = {
-    enabled: boolean;
-    save: (data: any, entity: Entities) => void;
+export type CallbackProps<T> = {
+    save: (data: any, entity: T) => void;
 };
 
-function useQueryWithLocalDb(cacheId: any[], callback: (props: CallbackProps) => UseInfiniteQueryResult) {
-    const [enabled, setEnabled] = useState(false);
-
+function useQueryWithLocalDb<T extends string[]>(cacheId: T, callback: (props: CallbackProps<T>) => UseInfiniteQueryResult) {
     const { save, get } = useDatabase();
 
-    useEffect(() => {}, [cacheId]);
+    const queryClient = useQueryClient();
 
-    // useQuery(cacheId, () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
-    //     // staleTime: Infinity,
-    //     enabled: !!data.chatId,
-    //     select: (data) => {
-    //         const res = httpHandlers.response<{ data: Chat }>(data);
-    //         return res.data?.data;
-    //     },
-    // });
+    useUpdateEffect(() => {
+        queryClient.prefetchQuery(cacheId, () => get(cacheId.join('').split('/').join('')));
+    }, [cacheId]);
 
-    return callback({ enabled, save });
+    const saveInDb = (data: JSON, cacheId: T) => save(data, cacheId.join('').split('/').join(''));
+
+    return callback({ save: saveInDb });
 }
 export default useQueryWithLocalDb;
