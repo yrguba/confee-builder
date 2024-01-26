@@ -1,0 +1,12 @@
+@import "src/app/styles";
+
+.wrapper {
+  position: fixed;
+  @include flex;
+  @include box-size(100%, auto);
+
+
+
+}
+
+

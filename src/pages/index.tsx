@@ -5,6 +5,7 @@ import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-
 import { useUpdateEffect } from 'react-use';
 
 import { viewerApi, tokensService } from 'entities/viewer';
+import { Network } from 'features/app';
 import { webView } from 'features/auth';
 
 import initialFillingProfilePageRouters from './initial-filling-profile';
@@ -25,6 +26,7 @@ function Routing() {
 
     const routes = (
         <AnimatePresence mode="wait">
+            <Network />
             <Routes location={location} key={location.pathname.split('/')[1]}>
                 {mainRoutes}
                 {meetPageRouters}
