@@ -8,15 +8,20 @@ export type CallbackProps<T> = {
 };
 
 function useQueryWithLocalDb<T extends string[]>(cacheId: T, callback: (props: CallbackProps<T>) => UseInfiniteQueryResult) {
-    const { save, get } = useDatabase();
+    const { save, get, check } = useDatabase();
 
     const queryClient = useQueryClient();
 
     useUpdateEffect(() => {
-        queryClient.prefetchQuery(cacheId, () => get(cacheId.join('').split('/').join('')));
+        check(cacheId.join('')).then((found) => {
+            if (found) {
+                console.log('dw');
+                queryClient.prefetchQuery(cacheId, () => get(cacheId.join('')));
+            }
+        });
     }, [cacheId]);
 
-    const saveInDb = (data: JSON, cacheId: T) => save(data, cacheId.join('').split('/').join(''));
+    const saveInDb = (data: JSON, cacheId: T) => save(data, cacheId.join(''));
 
     return callback({ save: saveInDb });
 }
