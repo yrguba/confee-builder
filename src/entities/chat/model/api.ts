@@ -2,7 +2,7 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tansta
 import produce from 'immer';
 
 import { axiosClient } from 'shared/configs';
-import { useWebSocket, useStorage, useRouter, useDatabase } from 'shared/hooks';
+import { useWebSocket, useStorage, useRouter, useDatabase, useQueryWithLocalDb } from 'shared/hooks';
 import { getFormData, httpHandlers, returnKeysWithValue, objectToFormData } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
@@ -73,30 +73,35 @@ class ChatApi {
 
     handleGetChats = (data: { type?: 'all' | 'personal' | 'company'; companyId?: number }) => {
         const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
-
-        const { save } = useDatabase();
-        return useInfiniteQuery(
-            ['get-chats', type],
-            ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
-            {
-                enabled: !!type && !(data.type === 'company' && !data.companyId),
-                staleTime: Infinity,
-                getPreviousPageParam: (lastPage, pages) => {
-                    const { current_page } = lastPage?.data.meta;
-                    return current_page > 1 ? current_page - 1 : undefined;
-                },
-                getNextPageParam: (lastPage, pages) => {
-                    const { current_page, last_page } = lastPage?.data.meta;
-                    return current_page < last_page ? current_page + 1 : undefined;
-                },
-                select: (data) => {
-                    // save(data, 'chats');
-                    return {
-                        pages: data.pages,
-                        pageParams: [...data.pageParams],
-                    };
-                },
-            }
+        const cacheId = ['get-chats', type];
+        return useQueryWithLocalDb(cacheId, ({ enabled, save }) =>
+            useInfiniteQuery(
+                cacheId,
+                ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+                {
+                    enabled: !!type && !(data.type === 'company' && !data.companyId) && enabled,
+                    staleTime: Infinity,
+                    getPreviousPageParam: (lastPage, pages) => {
+                        const { current_page } = lastPage?.data.meta;
+                        return current_page > 1 ? current_page - 1 : undefined;
+                    },
+                    getNextPageParam: (lastPage, pages) => {
+                        const { current_page, last_page } = lastPage?.data.meta;
+                        return current_page < last_page ? current_page + 1 : undefined;
+                    },
+                    initialData: () => {
+                        console.log('init');
+                        return undefined;
+                    },
+                    select: (data) => {
+                        save(data, 'chats');
+                        return {
+                            pages: data.pages,
+                            pageParams: [...data.pageParams],
+                        };
+                    },
+                }
+            )
         );
     };
 

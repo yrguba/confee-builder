@@ -2,7 +2,7 @@ import { fileConverter } from 'shared/lib';
 
 import useFs from './useFS';
 
-type Entities = 'chats';
+export type Entities = 'chats';
 
 function useDatabase() {
     const { saveTextFile, getTextFile } = useFs();

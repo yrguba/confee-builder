@@ -34,12 +34,13 @@ import useArray, { UseArrayReturnType } from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
-import useDatabase from './useDatabase';
+import useDatabase, * as UseDataBaseTypes from './useDatabase';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
 import useJitsi from './useJitsi';
 import useNodeFetch from './useNodeFetch';
+import useQueryWithLocalDb from './useQueryWithLocalDb';
 import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
 import useRingtone from './useRingtone';
@@ -63,6 +64,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useQueryWithLocalDb,
     useNodeFetch,
     useRingtone,
     useJitsi,
@@ -127,4 +129,4 @@ export {
     useWebSocket,
 };
 
-export type { UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };
+export type { UseDataBaseTypes, UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };
