@@ -15,8 +15,7 @@ function useQueryWithLocalDb<T extends string[]>(cacheId: T, callback: (props: C
     useUpdateEffect(() => {
         check(cacheId.join('')).then((found) => {
             if (found) {
-                console.log('dw');
-                queryClient.prefetchQuery(cacheId, () => get(cacheId.join('')));
+                // queryClient.prefetchQuery(cacheId, () => get(cacheId.join('')));
             }
         });
     }, [cacheId]);
