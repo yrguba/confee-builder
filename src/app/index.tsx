@@ -38,7 +38,7 @@ function App() {
             <QueryClientProvider client={queryClient}>
                 <Notification options={{ disabledDesktop: !notification }} />
                 <Routing />
-                <ReactQueryDevtools position="bottom-left" />
+                <ReactQueryDevtools position="bottom-right" />
             </QueryClientProvider>
         </BrowserRouter>
     );

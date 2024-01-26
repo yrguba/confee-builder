@@ -1,13 +1,24 @@
 import React from 'react';
 
-import styles from './styles.module.scss';
+import { useStyles } from 'shared/hooks';
+import { Box, Dropdown, Icons } from 'shared/ui';
 
-type Props = {};
+import styles from './styles.module.scss';
+import { NetworkState } from '../../model/types';
+
+type Props = {
+    networkState: NetworkState;
+};
 
 function NetworkView(props: Props) {
-    // const { } = props;
+    const { networkState } = props;
 
-    return <div className={styles.wrapper}>wd</div>;
+    return (
+        <Box.Animated visible className={styles.wrapper}>
+            {/* <Dropdown visible content={<div>wd</div>} trigger="click" /> */}
+            <Icons.NetworkIndicator speed={networkState.downlink || 0} />
+        </Box.Animated>
+    );
 }
 
 export default NetworkView;

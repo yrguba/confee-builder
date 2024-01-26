@@ -1,4 +1,7 @@
+import { useNetworkState } from 'react-use';
+
 import pjson from '../../../../package.json';
+import { NetworkState } from '../model/types';
 
 class AppService {
     // @ts-ignore
@@ -32,6 +35,23 @@ class AppService {
                 client_id: process.env.REACT_APP_DEV_CLIENT_ID || '',
             },
             crypto: process.env.REACT_APP_CRYPTO_SECRET || 'jj',
+        };
+    }
+
+    getNetworkState(): NetworkState {
+        const { online, effectiveType, downlink } = useNetworkState();
+
+        const getSpeed = () => {
+            if (!downlink) return 'no';
+            if (downlink < 60) return 'slow';
+            return 'fast';
+        };
+
+        return {
+            online: !!online,
+            effectiveType,
+            speed: getSpeed(),
+            downlink,
         };
     }
 }

@@ -6,6 +6,7 @@ import Base from './ui/base';
 import Countries from './ui/countries';
 import Document from './ui/document';
 import Logo from './ui/logo';
+import NetworkIndicator from './ui/network-indicator';
 import Picture from './ui/picture';
 import Player from './ui/player';
 
@@ -16,10 +17,11 @@ type CompoundedComponent = ForwardRefExoticComponent<Types.BaseIconsProps> & {
     Player: typeof Player;
     Document: typeof Document;
     Picture: typeof Picture;
+    NetworkIndicator: typeof NetworkIndicator;
 };
 
 const Icons = Base as CompoundedComponent;
-
+Icons.NetworkIndicator = NetworkIndicator;
 Icons.Countries = Countries;
 Icons.Logo = Logo;
 Icons.Player = Player;

@@ -73,6 +73,10 @@ export type PlayerIconsProps = {
     variant: PlayerIconsVariants;
 };
 
+export type NetworkIndicatorProps = {
+    speed: number;
+};
+
 export type DocumentIconsProps = {
     variant: 'pptx' | 'doc' | 'xls';
 };

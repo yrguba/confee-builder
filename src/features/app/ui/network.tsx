@@ -1,12 +1,11 @@
 import React from 'react';
-import { useNetworkState } from 'react-use';
 
-import { NetworkView } from 'entities/app';
+import { appService, NetworkView } from 'entities/app';
 
 function Network() {
-    const a = useNetworkState();
-    console.log(a);
-    return <NetworkView />;
+    const networkState = appService.getNetworkState();
+
+    return <NetworkView networkState={networkState} />;
 }
 
 export default Network;
