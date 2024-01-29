@@ -22,6 +22,8 @@ function Routing() {
     const { width, height } = useWindowSize();
     const { data: viewerData, isLoading, error: viewerError } = viewerApi.handleGetViewer();
 
+    const networkState = appService.getNetworkState();
+
     const storage = useStorage();
 
     const routes = (
@@ -50,7 +52,7 @@ function Routing() {
     }, [width, height]);
 
     useEffectOnce(() => {
-        if (appService.tauriIsRunning) {
+        if (appService.tauriIsRunning && networkState.online) {
             checkUpdate().then(({ shouldUpdate, manifest }) => {
                 if (shouldUpdate) {
                     navigate('/update');

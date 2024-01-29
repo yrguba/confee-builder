@@ -1,7 +1,11 @@
-import { useQueryClient, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { useQueryClient, UseInfiniteQueryResult, onlineManager } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import useDatabase from './useDatabase';
+import { appService } from '../../entities/app';
+
+import { useEasyState } from './index';
 
 export type CallbackProps<T> = {
     save: (data: any, entity: T) => void;
@@ -9,8 +13,20 @@ export type CallbackProps<T> = {
 
 function useQueryWithLocalDb<T extends string[]>(cacheId: T, callback: (props: CallbackProps<T>) => UseInfiniteQueryResult) {
     const { save, get, check } = useDatabase();
-
+    const offlineData = useEasyState(null);
     const queryClient = useQueryClient();
+    const networkState = appService.getNetworkState();
+
+    useEffect(() => {
+        if (!networkState.online) {
+            get(cacheId.join('')).then((e) => {
+                offlineData.set(e);
+            });
+        }
+        onlineManager.setEventListener((setOnline: any) => {
+            return setOnline(networkState.online);
+        });
+    }, [networkState.online, cacheId]);
 
     useUpdateEffect(() => {
         check(cacheId.join('')).then((found) => {
@@ -22,6 +38,6 @@ function useQueryWithLocalDb<T extends string[]>(cacheId: T, callback: (props: C
 
     const saveInDb = (data: JSON, cacheId: T) => save(data, cacheId.join(''));
 
-    return callback({ save: saveInDb });
+    return offlineData.value ? { ...callback({ save: saveInDb }), data: offlineData.value } : callback({ save: saveInDb });
 }
 export default useQueryWithLocalDb;
