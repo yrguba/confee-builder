@@ -1,8 +1,10 @@
+import ReconnectingWebSocket from 'reconnecting-websocket';
+
 import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
 const { socketUrl } = appService.getUrls();
-const ws = new WebSocket(socketUrl);
+const ws = new ReconnectingWebSocket(socketUrl);
 
 type Returned<In, Out> = {
     sendMessage: (event: Out, message?: any) => void;
