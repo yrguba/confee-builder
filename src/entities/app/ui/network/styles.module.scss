@@ -7,9 +7,6 @@
   z-index: 100;
 
   @include flex;
-  @include box-size(300px, auto);
-  background-color: #FF4B4B;
-  border-radius: 18px;
 
 }
 

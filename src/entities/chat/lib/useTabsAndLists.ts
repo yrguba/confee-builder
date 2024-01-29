@@ -23,6 +23,7 @@ const memoTabs = createMemo((companies: Company[] | BaseTypes.Empty) => {
         { id: 0, title: 'Все', callback: () => '', payload: { type: 'all' } },
         { id: 1, title: 'Личные', callback: () => '', payload: { type: 'personal' } },
     ];
+
     companies?.forEach((i, index) => {
         tabs.push({ id: index + 2, title: i.name || '', callback: () => '', payload: { type: 'company', companyId: i.id } });
     });

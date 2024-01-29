@@ -14,9 +14,9 @@ function NetworkView(props: Props) {
     const { networkState } = props;
 
     return (
-        <Box.Animated visible className={styles.wrapper}>
+        <Box.Animated visible={!networkState.online} className={styles.wrapper}>
             {/* <Dropdown visible content={<div>wd</div>} trigger="click" /> */}
-            <Icons.NetworkIndicator speed={networkState.downlink || 0} />
+            <Icons.NetworkIndicator speed={networkState.downlink || 0} size={50} online={networkState.online} />
         </Box.Animated>
     );
 }

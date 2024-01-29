@@ -15,7 +15,7 @@ function ViewerProfile() {
     const visibleSwiper = useEasyState(false);
 
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
-
+    console.log(viewerData);
     const viewer = viewerProxy(viewerData?.user);
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 

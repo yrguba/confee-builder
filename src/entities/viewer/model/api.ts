@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { companyApi, companyTypes } from 'entities/company';
 import { axiosClient, AxiosError } from 'shared/configs';
-import { useStorage } from 'shared/hooks';
+import { useQueryWithLocalDb, useStorage } from 'shared/hooks';
 import { httpHandlers } from 'shared/lib';
 
 import { Viewer, Session } from './types';
@@ -12,18 +12,22 @@ class ViewerApi {
 
     handleGetViewer() {
         const storage = useStorage();
-        return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
-            staleTime: Infinity,
-            select: (res) => {
-                const updRes = httpHandlers.response<{ data: { user: Viewer; session: Session; companies: companyTypes.Company[] } }>(res);
-                storage.set('viewer_id', updRes.data?.data.user.id);
-                return {
-                    user: updRes.data?.data.user,
-                    session: updRes.data?.data.session,
-                    companies: updRes.data?.data.companies,
-                };
-            },
-        });
+        const cacheId = ['get-viewer'];
+        return useQueryWithLocalDb(cacheId, ({ save }) =>
+            useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
+                staleTime: Infinity,
+                select: (res) => {
+                    const updRes = httpHandlers.response<{ data: { user: Viewer; session: Session; companies: companyTypes.Company[] } }>(res);
+                    save(res, cacheId);
+                    storage.set('viewer_id', updRes.data?.data.user.id);
+                    return {
+                        user: updRes.data?.data.user,
+                        session: updRes.data?.data.session,
+                        companies: updRes.data?.data.companies,
+                    };
+                },
+            })
+        );
     }
 
     handleEditProfile() {

@@ -75,6 +75,8 @@ export type PlayerIconsProps = {
 
 export type NetworkIndicatorProps = {
     speed: number;
+    size: number;
+    online: boolean;
 };
 
 export type DocumentIconsProps = {
