@@ -3,14 +3,13 @@ import { WebviewWindow } from '@tauri-apps/api/window';
 import React from 'react';
 import { useIdle } from 'react-use';
 
-import { useJitsi, useStorage } from 'shared/hooks';
+import { useStorage } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
 import { Button } from '../../../../shared/ui';
-import { viewerApi, viewerProxy } from '../../../viewer';
 import { ViewerProxy } from '../../../viewer/model/types';
-import { customParticipantMenuButtons, customToolbarButtons, DOMAIN, INTERFACE_CONFIG_OVERWRITE, GENERAL_SETTINGS } from '../../lib/config';
+import { DOMAIN, INTERFACE_CONFIG_OVERWRITE, GENERAL_SETTINGS } from '../../lib/config';
 
 type Props = {
     meetId: string;
@@ -21,7 +20,6 @@ type Props = {
 
 function MeetRoomView(props: Props) {
     const { chatId, viewer, meetId, invite } = props;
-    const { ConferenceWebView } = useJitsi({ meetId });
 
     const ls = useStorage();
 

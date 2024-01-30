@@ -38,7 +38,6 @@ import useDatabase, * as UseDataBaseTypes from './useDatabase';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
-import useJitsi from './useJitsi';
 import useQueryWithLocalDb from './useQueryWithLocalDb';
 import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
@@ -65,7 +64,6 @@ const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
     useQueryWithLocalDb,
     useRingtone,
-    useJitsi,
     useShell,
     useWindowMouseClick,
     useSaveMediaContent,

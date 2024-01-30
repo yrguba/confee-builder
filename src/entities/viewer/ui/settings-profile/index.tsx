@@ -70,17 +70,7 @@ function SettingsProfileView(props: Props) {
                 <Title textWrap variant="H2">
                     Укажите дату рождения
                 </Title>
-                <Input
-                    onReset={(e) => {
-                        console.log('wed');
-                    }}
-                    min="1900-01-01"
-                    max={moment().format('YYYY-MM-DD')}
-                    placeholder="ДД.ММ.ГГГГ"
-                    type="date"
-                    {...inputs.birth}
-                    size="m"
-                />
+                <Input min="1900-01-01" max={moment().format('YYYY-MM-DD')} placeholder="ДД.ММ.ГГГГ" type="date" {...inputs.birth} size="m" />
             </div>
         </div>
     );

@@ -13,7 +13,7 @@ export const customToolbarButtons = [
     },
 ];
 export const GENERAL_SETTINGS = {
-    startWithAudioMuted: true,
+    startWithAudioMuted: false,
     startWithVideoMuted: true,
     disableModeratorIndicator: false,
     startScreenSharing: false,
