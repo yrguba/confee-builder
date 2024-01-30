@@ -1,7 +1,7 @@
 import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, removeDir, readTextFile, writeTextFile } from '@tauri-apps/api/fs';
 import { appDataDir, join, documentDir } from '@tauri-apps/api/path';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
-import { metadata } from 'tauri-plugin-fs-extra-api';
+import { metadata, Metadata } from 'tauri-plugin-fs-extra-api';
 
 import { fileConverter, sizeConverter } from '../lib';
 
@@ -27,6 +27,7 @@ type GetTextFileProps = {} & Omit<SaveTextFileProps, 'json'>;
 type GetFolderSizeProps = {
     folderInDock: 'cache' | 'database';
     folderInCache?: 'audio' | 'img' | 'video';
+    fileName?: string;
 };
 type DeleteFolderProps = {} & GetFolderSizeProps;
 
@@ -92,15 +93,19 @@ const useFS = () => {
         return readTextFile(`${folderDir}/${props.fileName}`, { dir: baseDir });
     };
 
-    const getFolderSize = async (props: GetFolderSizeProps) => {
+    const getMetadata = async (props: GetFolderSizeProps): Promise<Metadata | null> => {
         if (disabled) return null;
         const docDir = await documentDir();
-        const filePath = await join(docDir, 'Confee', props.folderInDock, `${props.folderInCache ? props.folderInCache : ''}`);
+        const filePath = await join(
+            docDir,
+            'Confee',
+            props.folderInDock,
+            `${props.folderInCache ? props.folderInCache : ''}`,
+            `${props.fileName ? props.fileName : ''}`
+        );
         const checkPath = await exists(filePath);
         if (!checkPath) return null;
-        const a = await metadata(filePath);
-        console.log(a);
-        console.log(filePath);
+        return metadata(filePath);
     };
 
     const deleteFolder = async (props: DeleteFolderProps) => {
@@ -112,7 +117,7 @@ const useFS = () => {
         // await removeDir(folderDir, { dir: baseDir, recursive: true });
     };
 
-    return { saveFile, saveTextFile, getFileUrl, getTextFile, getFolderSize, deleteFolder };
+    return { saveFile, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
 };
 
 export default useFS;

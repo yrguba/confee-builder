@@ -7,12 +7,11 @@ import { useEasyState, useFs, useStorage } from 'shared/hooks';
 
 // tauri only
 function TauriSettings() {
-    const storage = useStorage();
     const fs = useFs();
     if (!appService.tauriIsRunning) return null;
 
     useEffect(() => {
-        fs.getFolderSize({ folderInDock: 'cache', folderInCache: 'img' }).then((res) => {
+        fs.getMetadata({ folderInDock: 'cache', folderInCache: 'img' }).then((res) => {
             console.log(res);
         });
     }, []);
