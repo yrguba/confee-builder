@@ -38,6 +38,14 @@ function GroupChatProfileModalView(props: Props) {
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
+            title: chat?.is_muted ? 'Выключить уведомления' : 'Включить уведомления',
+            icon: <Icons variant={chat?.is_muted ? 'unmute' : 'mute'} />,
+            callback: async () => {
+                actions('mute');
+            },
+        },
+        {
+            id: 1,
             title: 'Покинуть чат',
             icon: <Icons variant="delete" />,
             hidden: !chat?.is_group,

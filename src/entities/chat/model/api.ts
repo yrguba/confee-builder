@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import produce from 'immer';
+import { date } from 'yup';
 
 import { axiosClient } from 'shared/configs';
 import { useWebSocket, useStorage, useRouter, useDatabase, useQueryWithLocalDb } from 'shared/hooks';
@@ -12,7 +13,7 @@ import { companyTypes } from '../../company';
 import { Company } from '../../company/model/types';
 import { MessageType, MediaContentType, File } from '../../message/model/types';
 import { Session, Viewer } from '../../viewer/model/types';
-import { chatTypes } from '../index';
+import { chatService, chatTypes } from '../index';
 import { chats_limit } from '../lib/constants';
 
 class ChatApi {
@@ -316,7 +317,26 @@ class ChatApi {
     }
 
     handleChatMute() {
-        return useMutation((data: { value: boolean; chatId: number }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/mute`, { mute: data.value }), {});
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { value: boolean; chatId: number }) =>
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/mute`, {}, { params: { mute: data.value ? 1 : 0 } }),
+            {
+                onMutate: (data) => {
+                    chatService.forEachChats(queryClient, 17, (chats) => {
+                        const foundChatIndex = chats?.findIndex((i: Chat) => data.chatId === i.id);
+                        if (foundChatIndex !== -1) {
+                            chats[foundChatIndex].is_muted = data.value;
+                        }
+                    });
+                    queryClient.setQueryData(['get-chat', data.chatId], (cacheData: any) => {
+                        return produce(cacheData, (draft: any) => {
+                            draft.data.data.is_muted = data.value;
+                        });
+                    });
+                },
+            }
+        );
     }
 
     handleRemoveMemberFromCompany() {

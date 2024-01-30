@@ -10,8 +10,8 @@ function ChatsList() {
     const { navigate, params, pathname } = useRouter();
 
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
-
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
+    const { mutate: handleChatMute } = chatApi.handleChatMute();
 
     const confirmDeleteChat = Modal.useConfirm<ChatProxy>((value, chat) => {
         if (value && chat) {
@@ -43,6 +43,8 @@ function ChatsList() {
                     okText: chat?.is_group ? 'Покинуть' : 'Удалить',
                     title: chat?.is_group ? 'Покинуть чат' : 'Удалить чат',
                 });
+            case 'mute':
+                return handleChatMute({ chatId: chat.id, value: !chat.is_muted });
         }
     };
 

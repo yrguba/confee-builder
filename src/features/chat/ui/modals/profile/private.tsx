@@ -27,10 +27,10 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>('images');
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId: proxyChat?.id, filesType: mediaTypes.value });
-
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
     const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
+    const { mutate: handleChatMute } = chatApi.handleChatMute();
 
     const { createMeet } = useMeet();
 
@@ -70,6 +70,10 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 return modal.close();
             case 'delete':
                 return confirmDeleteChat.open();
+            case 'mute':
+                if (proxyChat) {
+                    return handleChatMute({ chatId: proxyChat?.id, value: !proxyChat?.is_muted });
+                }
         }
     };
 

@@ -39,6 +39,14 @@ function PrivateChatProfileModalView(props: Props) {
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
+            title: chat?.is_muted ? 'Выключить уведомления' : 'Включить уведомления',
+            icon: <Icons variant={chat?.is_muted ? 'unmute' : 'mute'} />,
+            callback: async () => {
+                actions('mute');
+            },
+        },
+        {
+            id: 1,
             title: 'Удалить',
             icon: <Icons variant="delete" />,
             callback: () => {

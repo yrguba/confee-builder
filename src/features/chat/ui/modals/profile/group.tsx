@@ -1,26 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useUpdateEffect } from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
 
 import { chatApi, chatProxy, GroupChatProfileModalView, chatTypes, chatService } from 'entities/chat';
+import { useMeet } from 'entities/meet';
 import { messageTypes } from 'entities/message';
-import { viewerService } from 'entities/viewer';
-import { useRouter, useEasyState, UseFileUploaderTypes, useWebView } from 'shared/hooks';
-import { Modal, ModalTypes, Notification } from 'shared/ui';
+import { useRouter, useEasyState } from 'shared/hooks';
+import { Modal, ModalTypes } from 'shared/ui';
 
 import PrivateChatProfileModal from './private';
-import { appService } from '../../../../../entities/app';
-import { EmployeeProxy } from '../../../../../entities/company/model/types';
-import { meetApi, useMeet } from '../../../../../entities/meet';
-import { UserProxy } from '../../../../../entities/user/model/types';
-import { getRandomString } from '../../../../../shared/lib';
 import ChatAvatarsSwiper from '../../avatars-swiper';
 import AddMembersInChatModal from '../add-members';
 
 function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: number }>) {
     const { params, navigate, pathname } = useRouter();
 
-    const viewerId = viewerService.getId();
     const { chatId } = modal.payload;
     const { createMeet } = useMeet();
     const visibleSwiper = useEasyState(false);
@@ -28,26 +22,17 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const proxyChat = chatProxy(chatData?.data.data);
     const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
-    const webView = useWebView({
-        id: 'meet',
-        title: `Конференция`,
-        onClose: () => {},
-    });
 
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
-
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
     const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
     const { mutate: handleRemoveMemberFromCompany } = chatApi.handleRemoveMemberFromCompany();
     const { mutate: handleRemoveMemberFromPersonal } = chatApi.handleRemoveMemberFromPersonal();
-    const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
-    const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
+    const { mutate: handleChatMute } = chatApi.handleChatMute();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(null);
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
-
-    const notification = Notification.use();
 
     const addMembersModal = Modal.use();
     const privateChatProfileModal = Modal.use();
@@ -105,7 +90,9 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
                     title: proxyChat?.is_group ? 'Покинуть чат' : 'Удалить чат',
                 });
             case 'add-members':
-                addMembersModal.open();
+                return addMembersModal.open();
+            case 'mute':
+                return handleChatMute({ chatId, value: !proxyChat?.is_muted });
         }
     };
 

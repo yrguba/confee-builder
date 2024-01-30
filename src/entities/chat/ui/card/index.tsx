@@ -28,7 +28,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
-            title: chat.is_muted ? 'Выключить уведомления' : 'Выключить уведомления',
+            title: chat?.is_muted ? 'Выключить уведомления' : 'Включить уведомления',
             icon: <Icons variant={chat.is_muted ? 'unmute' : 'mute'} />,
             callback: async () => {
                 chatMenuAction('mute', chat);
