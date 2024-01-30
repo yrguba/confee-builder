@@ -97,6 +97,7 @@ class MessageApi {
             {
                 onMutate: async (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                        console.log(viewerData);
                         const message = mockMessage({ text: data.text, author: viewerData?.data.data.user, reply: data.replyMessage });
                         return produce(cacheData, (draft: any) => {
                             draft.pages[0].data.data.unshift(message);

@@ -12,7 +12,7 @@ class ViewerApi {
 
     handleGetViewer() {
         const storage = useStorage();
-        const cacheId = ['get-viedwer'];
+        const cacheId = ['get-viewer'];
         return useQueryWithLocalDb<Response.QueryResult<{ user: Viewer; session: Session; companies: companyTypes.Company[] }>>(cacheId, ({ save }) =>
             useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
                 staleTime: Infinity,
