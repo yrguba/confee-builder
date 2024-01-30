@@ -1,30 +1,25 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { companyApi, companyTypes } from 'entities/company';
 import { axiosClient, AxiosError } from 'shared/configs';
 import { useQueryWithLocalDb, useStorage } from 'shared/hooks';
-import { httpHandlers } from 'shared/lib';
+import { Response } from 'shared/types';
 
-import { Viewer, Session } from './types';
+import { Session, Viewer } from './types';
+import { companyTypes } from '../../company';
 
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
 
     handleGetViewer() {
         const storage = useStorage();
-        const cacheId = ['get-viewer'];
-        return useQueryWithLocalDb(cacheId, ({ save }) =>
+        const cacheId = ['get-viedwer'];
+        return useQueryWithLocalDb<Response.QueryResult<{ user: Viewer; session: Session; companies: companyTypes.Company[] }>>(cacheId, ({ save }) =>
             useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
                 staleTime: Infinity,
                 select: (res) => {
-                    const updRes = httpHandlers.response<{ data: { user: Viewer; session: Session; companies: companyTypes.Company[] } }>(res);
                     save(res, cacheId);
-                    storage.set('viewer_id', updRes.data?.data.user.id);
-                    return {
-                        user: updRes.data?.data.user,
-                        session: updRes.data?.data.session,
-                        companies: updRes.data?.data.companies,
-                    };
+                    storage.set('viewer_id', res.data?.data.user.id);
+                    return res;
                 },
             })
         );

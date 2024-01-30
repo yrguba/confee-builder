@@ -26,7 +26,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
     const visibleSwiper = useEasyState(false);
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
-    const proxyChat = chatProxy(chatData);
+    const proxyChat = chatProxy(chatData?.data.data);
     const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
     const webView = useWebView({
         id: 'meet',
@@ -127,7 +127,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: numbe
                 clickAvatar={() => visibleSwiper.set(true)}
                 getScreenshot={getScreenshot}
                 selectFile={selectFile}
-                chat={chatProxy(chatData)}
+                chat={proxyChat}
                 actions={actions}
                 mediaTypes={mediaTypes}
                 files={filesData}

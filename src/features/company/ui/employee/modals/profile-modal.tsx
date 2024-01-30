@@ -1,4 +1,3 @@
-import { QueryClient } from '@tanstack/react-query';
 import React from 'react';
 
 import { viewerApi } from 'entities/viewer';
@@ -6,13 +5,14 @@ import { Modal, ModalTypes } from 'shared/ui';
 
 import { EmployeeProfileModalView, employeeProxy, ConfirmDeleteCorpAccModalView, companyApi } from '../../../../../entities/company';
 
-const queryClient = new QueryClient();
 function EmployeeProfileModal(modal: ModalTypes.UseReturnedType) {
     const { data: viewerData } = viewerApi.handleGetViewer();
+    const companies = viewerData?.data.data.companies;
+
     const { mutate: handleUnbind } = companyApi.handleUnbind();
 
-    const employeeData = viewerData?.companies?.length ? viewerData?.companies[0]?.departments[0]?.employees[0] : null;
-    const companyAvatar = viewerData?.companies?.length ? viewerData?.companies[0]?.avatar : '';
+    const employeeData = companies?.length ? companies[0]?.departments[0]?.employees[0] : null;
+    const companyAvatar = companies?.length ? companies[0]?.avatar : '';
 
     const confirmDeleteModal = Modal.use();
 

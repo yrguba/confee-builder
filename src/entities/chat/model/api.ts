@@ -7,8 +7,11 @@ import { getFormData, httpHandlers, returnKeysWithValue, objectToFormData } from
 
 import { Chat, SocketIn, SocketOut } from './types';
 import chat from '../../../pages/main/chats/widgets/chat';
+import { Response } from '../../../shared/types';
+import { companyTypes } from '../../company';
 import { Company } from '../../company/model/types';
 import { MessageType, MediaContentType, File } from '../../message/model/types';
+import { Session, Viewer } from '../../viewer/model/types';
 import { chatTypes } from '../index';
 import { chats_limit } from '../lib/constants';
 
@@ -20,14 +23,17 @@ class ChatApi {
     socket = useWebSocket<SocketIn, SocketOut>();
 
     handleGetChat = (data: { chatId: number | string | undefined }) => {
-        return useQuery(['get-chat', data.chatId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
-            // staleTime: Infinity,
-            enabled: !!data.chatId,
-            select: (data) => {
-                const res = httpHandlers.response<{ data: Chat }>(data);
-                return res.data?.data;
-            },
-        });
+        const cacheId = ['get-chat', data.chatId];
+        return useQueryWithLocalDb<Response.QueryResult<Chat>>(cacheId, ({ save }) =>
+            useQuery(cacheId, () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
+                // staleTime: Infinity,
+                enabled: !!data.chatId,
+                select: (res) => {
+                    save(res, cacheId);
+                    return res;
+                },
+            })
+        );
     };
 
     handleGetChatWithUser = (data: { userId: number | string | undefined }) => {

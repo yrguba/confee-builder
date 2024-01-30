@@ -11,6 +11,8 @@ function ProfileSettings() {
     const { navigate } = useRouter();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
+    const user = viewerData?.data.data.user;
+
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
@@ -18,7 +20,7 @@ function ProfileSettings() {
 
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.user?.first_name,
+        initialValue: user?.first_name,
         realtimeValidate: true,
         onFocus: (value) => {
             if (!value && !firstNameInput.error) {
@@ -29,7 +31,7 @@ function ProfileSettings() {
 
     const lastNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.user?.last_name,
+        initialValue: user?.last_name,
         realtimeValidate: true,
         onFocus: (value) => {
             if (!value && !lastNameInput.error) {
@@ -39,7 +41,7 @@ function ProfileSettings() {
     });
 
     const birthInput = Input.use({
-        initialValue: viewerData?.user?.birth?.split(' ')[0] || '',
+        initialValue: user?.birth?.split(' ')[0] || '',
         callback: (value) => {
             const currentDateTs = moment().unix();
             const selectDateTs = moment(String(value)).unix();
@@ -63,7 +65,7 @@ function ProfileSettings() {
 
     const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,
-        initialValue: viewerData?.user?.nickname,
+        initialValue: user?.nickname,
         realtimeValidate: true,
         onFocus: (value) => {
             if (!value && !firstNameInput.error) {
@@ -73,9 +75,9 @@ function ProfileSettings() {
     });
 
     const aboutInput = Input.use({
-        initialValue: viewerData?.user?.about,
+        initialValue: user?.about,
         onFocus: (value) => {
-            if (!value && !aboutInput.error && aboutInput.value !== viewerData?.user?.about) {
+            if (!value && !aboutInput.error && aboutInput.value !== user?.about) {
                 handleEditProfile({ about: aboutInput.value });
             }
         },
@@ -105,7 +107,7 @@ function ProfileSettings() {
             getScreenshot={getScreenshot}
             deleteFile={() => ''}
             selectFile={selectFile}
-            user={viewerData?.user}
+            user={user}
             back={() => navigate('/profile')}
         />
     );

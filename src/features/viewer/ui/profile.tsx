@@ -15,8 +15,9 @@ function ViewerProfile() {
     const visibleSwiper = useEasyState(false);
 
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
-    console.log(viewerData);
-    const viewer = viewerProxy(viewerData?.user);
+    const user = viewerData?.data.data.user;
+
+    const viewer = viewerProxy(user);
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
     const authCompanyModal = Modal.use();
@@ -48,7 +49,7 @@ function ViewerProfile() {
                 <AuthAd />
             </Modal>
             <EmployeeProfileModal {...employeeProfileModal} />
-            <UserAvatarsSwiper userId={viewerData?.user?.id} onClose={() => visibleSwiper.set(false)} visible={visibleSwiper.value} />
+            <UserAvatarsSwiper userId={user?.id} onClose={() => visibleSwiper.set(false)} visible={visibleSwiper.value} />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
 
             <ViewerProfileView
@@ -61,7 +62,7 @@ function ViewerProfile() {
                 }}
                 viewer={viewer}
                 clickSettings={() => navigate('info_settings')}
-                companies={viewerData?.companies || []}
+                companies={viewerData?.data.data.companies || []}
                 openAuthCompanyModal={authCompanyModal.open}
             />
         </>

@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
-import { useIdle } from 'react-use';
+import React from 'react';
 
 import { MeetRoomView } from 'entities/meet';
 
 import { appService } from '../../../entities/app';
 import { viewerApi, viewerProxy } from '../../../entities/viewer';
-import { useRouter, useStorage } from '../../../shared/hooks';
+import { useStorage } from '../../../shared/hooks';
 import { Modal } from '../../../shared/ui';
 import { InviteToMeetModal } from '../index';
 
@@ -13,7 +12,7 @@ function MeetRoom() {
     const { clientFullURL } = appService.getUrls();
     const ls = useStorage();
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
-    const viewer = viewerProxy(viewerData?.user);
+    const viewer = viewerProxy(viewerData?.data.data.user);
 
     const inviteToMeetModal = Modal.use();
 

@@ -63,7 +63,7 @@ function MessageList() {
         fetchNextPage,
         isFetching,
         isLoading,
-    } = messageApi.handleGetMessages({ chatId, initialPage: initialPage.value || messageService.getInitialPage(chatData) });
+    } = messageApi.handleGetMessages({ chatId, initialPage: initialPage.value || messageService.getInitialPage(chatData?.data.data) });
 
     const { data: messageOrder } = messageApi.handleGetMessageOrder({ chatId, messageId: messageIdToSearchForPage.value });
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
@@ -125,7 +125,7 @@ function MessageList() {
                 copyToClipboard(message.text);
                 return notification.success({ title: 'Текст скопирован в буфер', system: true });
             case 'forward':
-                forwardMessages.set({ fromChatName: chatData?.name || '', toChatId: null, messages: [message], redirect: false });
+                forwardMessages.set({ fromChatName: chatData?.data.data.name || '', toChatId: null, messages: [message], redirect: false });
                 return forwardMessagesModal.open();
             case 'delete':
                 return confirmDeleteMessage.open({ messageId: message.id });
@@ -203,7 +203,7 @@ function MessageList() {
             <ForwardMessagesModal {...forwardMessagesModal} />
             <PrivateChatProfileModal {...privateChatProfileModal} />
             <MessagesListView
-                chat={chatProxy(chatData)}
+                chat={chatProxy(chatData?.data.data)}
                 messages={messages}
                 getNextPage={() => hasNextPage && !isFetching && fetchNextPage().then()}
                 getPrevPage={() => hasPreviousPage && !isFetching && fetchPreviousPage().then()}

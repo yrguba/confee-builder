@@ -39,12 +39,13 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
     const storage = useStorage();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
+    const companies = viewerData?.data.data.companies;
 
     const activeTab = useEasyState<TabBarTypes.TabBarItem<TabPayload> | null>(null);
     const activeList = useEasyState<ChatProxy[] | BaseTypes.Empty>(null);
 
     const activeType = activeTab.value?.payload?.type;
-    const tabs = memoTabs(viewerData?.companies);
+    const tabs = memoTabs(companies);
 
     const searchInput = Input.use({});
 

@@ -24,7 +24,7 @@ function ContactsList() {
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.data.data.companies });
 
     const { data: chatData } = chatApi.handleGetChatWithUser({ userId });
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();

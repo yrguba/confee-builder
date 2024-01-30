@@ -43,7 +43,7 @@ function useJitsi(props: Props) {
 
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
     const ls = useStorage();
-    const viewer = viewerProxy(viewerData?.user);
+    const viewer = viewerProxy(viewerData?.data.data.user);
 
     const getIframeRef = (parentNode: HTMLDivElement) => {
         parentNode.style.height = '100vh';

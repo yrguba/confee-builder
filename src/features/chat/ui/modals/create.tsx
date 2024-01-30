@@ -2,15 +2,11 @@ import React from 'react';
 import { useUpdateEffect } from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
 
-import { chatApi, chatProxy, chatTypes, CreateChatModalView } from 'entities/chat';
-import { contactProxy, contactApi, useContactsTabsAndLists } from 'entities/contact';
+import { chatApi, chatProxy, CreateChatModalView } from 'entities/chat';
+import { useContactsTabsAndLists } from 'entities/contact';
 import { viewerApi } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal, Notification, ModalTypes, CardTypes, Input } from 'shared/ui';
-
-import { ChatProxy } from '../../../../entities/chat/model/types';
-import { companyApi } from '../../../../entities/company';
-import { getFormData } from '../../../../shared/lib';
 
 function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const { navigate, pathname, params } = useRouter();
@@ -29,7 +25,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.data.data.companies, redirect: false });
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',

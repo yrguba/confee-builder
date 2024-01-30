@@ -16,10 +16,11 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
     const { mutate: handleAddMembersCompanyChat } = chatApi.handleAddMembersCompanyChat();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
-    const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
-    const proxyChat = chatProxy(chatData);
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
+    const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
+    const proxyChat = chatProxy(chatData?.data.data);
+
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.data.data.companies, redirect: false });
 
     const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: true });
     const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: true });

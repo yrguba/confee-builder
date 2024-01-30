@@ -21,6 +21,8 @@ function Routing() {
     const navigate = useNavigate();
     const { width, height } = useWindowSize();
     const { data: viewerData, isLoading, error: viewerError } = viewerApi.handleGetViewer();
+    const session = viewerData?.data.data.session;
+    const user = viewerData?.data.data.user;
 
     const networkState = appService.getNetworkState();
 
@@ -41,10 +43,10 @@ function Routing() {
     );
 
     useUpdateEffect(() => {
-        if (viewerData?.session?.id) {
-            storage.set('session', viewerData.session);
+        if (session?.id) {
+            storage.set('session', session);
         }
-    }, [viewerData?.session?.id]);
+    }, [session?.id]);
 
     useEffect(() => {
         if (width < 450 || height < 470) return navigate('/warning/size');
@@ -63,7 +65,7 @@ function Routing() {
 
     useEffect(() => {
         if (!isLoading) {
-            if (!viewerData?.user?.nickname) return navigate('/filling_profile');
+            if (!user?.nickname) return navigate('/filling_profile');
             ['/warning/server', '/filling_profile'].includes(location.pathname) && navigate('/chats');
         }
     }, [isLoading]);

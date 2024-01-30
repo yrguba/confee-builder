@@ -29,7 +29,7 @@ function MessageInput() {
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
-    const proxyChat = chatProxy(chatData);
+    const proxyChat = chatProxy(chatData?.data.data);
 
     const replyMessage = useMessageStore.use.replyMessage();
     const editMessage = useMessageStore.use.editMessage();
@@ -151,7 +151,7 @@ function MessageInput() {
         const text = messageTextState.value;
         const lasWord = text.split(' ').pop();
         if (lasWord && lasWord.includes('@')) {
-            const arr: any = proxyChat?.is_personal ? chatData?.members : chatData?.employee_members;
+            const arr: any = proxyChat?.is_personal ? proxyChat?.members : proxyChat?.employee_members;
             const members = arr?.filter((i: any) => viewerId !== i.id && i.nickname?.includes(lasWord.substring(1))).map((i: any) => userProxy(i)) as any;
             tagUsers.set(members || []);
         } else {
