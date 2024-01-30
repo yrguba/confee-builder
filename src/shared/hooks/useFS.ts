@@ -24,10 +24,15 @@ type SaveTextFileProps = {
 
 type GetFileProps = {} & Omit<SaveFileProps, 'fileBlob'>;
 type GetTextFileProps = {} & Omit<SaveTextFileProps, 'json'>;
-type GetFolderSizeProps = {} & Omit<GetFileProps, 'fileName'>;
+type GetFolderSizeProps = {
+    folderInDock: 'cache' | 'database';
+    folderInCache?: 'audio' | 'img' | 'video';
+};
 type DeleteFolderProps = {} & GetFolderSizeProps;
+
 const useFS = () => {
     const disabled = !window.__TAURI__;
+
     const saveFile = async (props: SaveFileProps) => {
         if (disabled) return null;
         if (!props.fileName) return null;
@@ -89,32 +94,22 @@ const useFS = () => {
 
     const getFolderSize = async (props: GetFolderSizeProps) => {
         if (disabled) return null;
-        const baseDir: any = BaseDirectory[props.baseDir];
-        const folderDir: any = `Confee/${props.folderDir}`;
-        const checkPath = await exists(`${folderDir}`, { dir: baseDir });
+        const docDir = await documentDir();
+        const filePath = await join(docDir, 'Confee', props.folderInDock, `${props.folderInCache ? props.folderInCache : ''}`);
+        const checkPath = await exists(filePath);
         if (!checkPath) return null;
-        const entries = await readDir(folderDir, { dir: baseDir, recursive: true });
-        const sizes = await Promise.all(
-            entries.map(async (file) => {
-                const contents = await readBinaryFile(`${folderDir}/${file.name}`, { dir: baseDir });
-                return contents.byteLength;
-            })
-        );
-        const bytes = sizes.reduce((acc, i) => i + acc, 0);
-
-        return {
-            human: sizeConverter(bytes) || '',
-            bytes,
-        };
+        const a = await metadata(filePath);
+        console.log(a);
+        console.log(filePath);
     };
 
     const deleteFolder = async (props: DeleteFolderProps) => {
         if (disabled) return null;
-        const baseDir: any = BaseDirectory[props.baseDir];
-        const folderDir: any = `Confee/${props.folderDir}`;
-        const checkPath = await exists(`${folderDir}`, { dir: baseDir });
-        if (!checkPath) return null;
-        await removeDir(folderDir, { dir: baseDir, recursive: true });
+        // const baseDir: any = BaseDirectory[props.baseDir];
+        // const folderDir: any = `Confee/${props.folderDir}`;
+        // const checkPath = await exists(`${folderDir}`, { dir: baseDir });
+        // if (!checkPath) return null;
+        // await removeDir(folderDir, { dir: baseDir, recursive: true });
     };
 
     return { saveFile, saveTextFile, getFileUrl, getTextFile, getFolderSize, deleteFolder };

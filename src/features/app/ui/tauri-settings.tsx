@@ -1,18 +1,21 @@
 import { relaunch } from '@tauri-apps/api/process';
 import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
 import React, { useEffect, useState } from 'react';
-import { useUpdateEffect } from 'react-use';
-import { boolean } from 'yup';
 
-import { TauriSettingsView, appService, appTypes } from 'entities/app';
-
-import { useEasyState, useFs, useStorage } from '../../../shared/hooks';
+import { TauriSettingsView, appService } from 'entities/app';
+import { useEasyState, useFs, useStorage } from 'shared/hooks';
 
 // tauri only
 function TauriSettings() {
     const storage = useStorage();
     const fs = useFs();
     if (!appService.tauriIsRunning) return null;
+
+    useEffect(() => {
+        fs.getFolderSize({ folderInDock: 'cache', folderInCache: 'img' }).then((res) => {
+            console.log(res);
+        });
+    }, []);
 
     const [loading, setLoading] = useState(false);
 
