@@ -1,15 +1,12 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { sendNotification } from '@tauri-apps/api/notification';
 import produce from 'immer';
 
-import { appApi } from 'entities/app';
 import { getUniqueArr } from 'shared/lib';
 
 import { messages_limit } from './constants';
 import { Chat } from '../../chat/model/types';
-import { viewerService } from '../../viewer';
-import { messageProxy, messageService } from '../index';
-import { File, Message, MessageProxy, MessageType } from '../model/types';
+import { messageProxy } from '../index';
+import { Message, MessageProxy, MessageType } from '../model/types';
 
 class MessageService {
     getUpdatedList(messageData: any) {
