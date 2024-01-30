@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ChatsList, CreteChatModal } from 'features/chat';
+import { ChatsList, CreateChatModal } from 'features/chat';
 import { useHeightMediaQuery } from 'shared/hooks';
 import { Button, Icons, Modal, Title } from 'shared/ui';
 
@@ -11,7 +11,7 @@ function Sidebar() {
 
     return (
         <>
-            <CreteChatModal {...createChatModal} />
+            <CreateChatModal {...createChatModal} />
             <div className={styles.wrapper}>
                 <div className={styles.header}>
                     <Title variant="H2">Сообщения</Title>

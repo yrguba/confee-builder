@@ -39,7 +39,7 @@ function ChatsListView(props: Props) {
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
             </div>
             <Box.Animated
-                // trigger={String(tabsAndLists.activeTab?.id && tabsAndLists.activeTab.title)}
+                trigger={String(tabsAndLists.activeTab?.id && tabsAndLists.activeTab.title)}
                 visible={!!chats?.length}
                 className={styles.list}
                 ref={wrapperRef}
