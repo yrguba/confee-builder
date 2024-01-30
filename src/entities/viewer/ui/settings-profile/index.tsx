@@ -42,13 +42,6 @@ function SettingsProfileView(props: Props) {
                 <Input placeholder="Имя" {...inputs.firstName} clearIcon />
                 <Input placeholder="Фамилия" {...inputs.lastName} clearIcon />
             </div>
-            {/* <div className={styles.item}> */}
-            {/*    <Title variant="H2">Введите новый номер</Title> */}
-            {/*    <Title primary={false} textWrap variant="H3M"> */}
-            {/*        Мы отправим код подтверждения на ваш новый номер телефона */}
-            {/*    </Title> */}
-            {/*    <Input.Phone /> */}
-            {/* </div> */}
             <div className={styles.item}>
                 <Title variant="H2">Расскажите немного о себе</Title>
                 <Title primary={false} textWrap variant="H3M">
@@ -77,7 +70,17 @@ function SettingsProfileView(props: Props) {
                 <Title textWrap variant="H2">
                     Укажите дату рождения
                 </Title>
-                <Input min="1900-01-01" max={moment().format('YYYY-MM-DD')} placeholder="ДД.ММ.ГГГГ" type="date" {...inputs.birth} size="m" />
+                <Input
+                    onReset={(e) => {
+                        console.log('wed');
+                    }}
+                    min="1900-01-01"
+                    max={moment().format('YYYY-MM-DD')}
+                    placeholder="ДД.ММ.ГГГГ"
+                    type="date"
+                    {...inputs.birth}
+                    size="m"
+                />
             </div>
         </div>
     );

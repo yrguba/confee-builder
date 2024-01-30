@@ -15,6 +15,7 @@ function ProfileSettings() {
 
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
+    const { mutate: handClearBirthday } = viewerApi.handClearBirthday();
 
     const yup = useYup();
 
@@ -47,6 +48,9 @@ function ProfileSettings() {
             const selectDateTs = moment(String(value)).unix();
             const selectYear = Number(String(value).split('-')[0]);
             const currentDate = moment().format('DD.MM.YYYY');
+            if (!value) {
+                return '';
+            }
             if (selectDateTs > currentDateTs) {
                 return birthInput.setError(`Значение должно быть ${currentDate} или раньше`);
             }
@@ -56,6 +60,9 @@ function ProfileSettings() {
             birthInput.setError(``);
         },
         onFocus: (value) => {
+            if (!value && !birthInput.value) {
+                return handClearBirthday();
+            }
             if (!value && !birthInput.error) {
                 const birthDate: any = Math.floor(new Date(birthInput.value).getTime() / 1000);
                 firstNameInput.value ? handleEditProfile({ birth: birthDate }) : birthInput.reload();

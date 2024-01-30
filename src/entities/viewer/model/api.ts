@@ -47,6 +47,15 @@ class ViewerApi {
         });
     }
 
+    handClearBirthday() {
+        const queryClient = useQueryClient();
+        return useMutation(() => axiosClient.post('/api/v2/user/birth'), {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['get-viewer']);
+            },
+        });
+    }
+
     handleLogout() {
         return useMutation((data?: null) => axiosClient.post('/api/v2/logout'));
     }
