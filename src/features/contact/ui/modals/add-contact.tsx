@@ -48,6 +48,7 @@ function AddContactModal(modal: ModalTypes.UseReturnedType) {
             handleCreateContact(
                 {
                     first_name: firstNameInput.value,
+                    last_name: lastName.value,
                     phone: phoneState.value,
                 },
                 {

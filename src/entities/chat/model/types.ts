@@ -24,6 +24,7 @@ export type Chat = {
     company_id: number | null;
     draft: any[];
     pinned: boolean;
+    is_muted: boolean;
 };
 
 export type ChatProxy = {
