@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import { useEasyState, useNodeFetch, useShell } from 'shared/hooks';
+import { useEasyState, useShell } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Image, Title } from 'shared/ui';
 

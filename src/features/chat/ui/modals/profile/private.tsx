@@ -2,15 +2,12 @@ import React from 'react';
 
 import { chatApi, chatProxy, chatService, chatTypes, PrivateChatProfileModalView } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
-import { messageTypes } from 'entities/message';
+import { useMeet } from 'entities/meet';
+import { messageDictionaries, messageTypes } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
 import { viewerService } from 'entities/viewer';
 import { useRouter, useEasyState, useWebView } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
-
-import { appService } from '../../../../../entities/app';
-import { meetApi, useMeet } from '../../../../../entities/meet';
-import { getRandomString } from '../../../../../shared/lib';
 
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
     const { navigate, pathname, params } = useRouter();
@@ -18,11 +15,13 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const viewerId = viewerService.getId();
     const { user, employee } = modal.payload;
 
-    const { data: useChatData } = chatApi.handleGetChatWithUser({ userId: user?.id });
-    const { data: employeeChatData } = chatApi.handleGetChatWithEmployee({ employeeId: employee?.id });
+    const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
 
-    const proxyChat = chatProxy(useChatData || employeeChatData);
+    const proxyChat = chatProxy(chatData?.data.data);
+
     const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
+
+    const notification = Notification.use();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>('images');
 
@@ -51,6 +50,12 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const actions = (action: chatTypes.PrivateChatActions) => {
         switch (action) {
             case 'goMeet':
+                if (proxyChat?.isDeleted) {
+                    return notification.success({
+                        title: `Нельзя создать конфиренцию, пользователь удаден.`,
+                        system: true,
+                    });
+                }
                 return createMeet(proxyChat?.id, getMembersIdsWithoutMe);
             case 'message':
                 const redirect = (chatId?: number) => navigate(`/chats/${user ? 'personal' : `company/${params.company_id}`}/chat/${chatId}`);

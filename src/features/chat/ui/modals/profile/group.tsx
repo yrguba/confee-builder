@@ -12,10 +12,11 @@ import PrivateChatProfileModal from './private';
 import ChatAvatarsSwiper from '../../avatars-swiper';
 import AddMembersInChatModal from '../add-members';
 
-function GroupChatProfileModal(modal: ModalTypes.UseReturnedType<{ chatId: number }>) {
+function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const { params, navigate, pathname } = useRouter();
 
-    const { chatId } = modal.payload;
+    const chatId = Number(params.chat_id);
+
     const { createMeet } = useMeet();
     const visibleSwiper = useEasyState(false);
 
