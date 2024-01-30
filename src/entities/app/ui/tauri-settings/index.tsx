@@ -1,34 +1,30 @@
 import React from 'react';
 
-import { UseEasyStateReturnType } from 'shared/hooks';
-import { Button, Switch, Title } from 'shared/ui';
+import { Button, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appService } from '../../index';
 
 type Props = {
-    cacheSize: string;
-
     updateAvailable: boolean;
     updateApp?: () => void;
+    openCacheModal: () => void;
 };
 
 function TauriSettingsView(props: Props) {
-    const { cacheSize, updateAvailable, updateApp } = props;
+    const { openCacheModal, updateAvailable, updateApp } = props;
     const { version } = appService.getProjectInfo();
     return (
         <div className={styles.wrapper}>
             <div className={styles.body}>
-                <div className={styles.item}>
+                <div className={styles.item} style={{ cursor: 'pointer' }} onClick={openCacheModal}>
                     <div className={styles.titles}>
                         <Title variant="H3M">Кэш</Title>
                         <Title primary={false} variant="H4M">
-                            {/* {cacheSize ? `Занято на диске: ${cacheSize || 0}` : 'Кэш отключен'} */}
-                            Кэш пока недоступен
+                            Управление кэшем
                         </Title>
                     </div>
-                    {/* <Switch onChange={saveInCache.toggle} checked={false} /> */}
-                    {/* <Switch onChange={saveInCache.toggle} checked={saveInCache.value} /> */}
+                    <Icons variant="arrow-drop-right" />
                 </div>
                 <div className={styles.item}>
                     <div className={styles.titles}>

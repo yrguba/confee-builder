@@ -3,18 +3,15 @@ import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
 import React, { useEffect, useState } from 'react';
 
 import { TauriSettingsView, appService } from 'entities/app';
-import { useEasyState, useFs, useStorage } from 'shared/hooks';
+
+import { Modal } from '../../../shared/ui';
+import { CacheModal } from '../index';
 
 // tauri only
 function TauriSettings() {
-    const fs = useFs();
     if (!appService.tauriIsRunning) return null;
 
-    useEffect(() => {
-        fs.getMetadata({ folderInDock: 'cache', folderInCache: 'img' }).then((res) => {
-            console.log(res);
-        });
-    }, []);
+    const cacheModal = Modal.use();
 
     const [loading, setLoading] = useState(false);
 
@@ -41,16 +38,12 @@ function TauriSettings() {
         check().then();
     }, []);
 
-    const cacheSize = useEasyState<string>('');
-
-    useEffect(() => {
-        // cacheSize.set('загрузка...');
-        // fs.getFolderSize({ baseDir: 'Document', folderDir: 'cache' }).then((res) => {
-        //     cacheSize.set(res?.human || '');
-        // });
-    }, []);
-
-    return <TauriSettingsView cacheSize={cacheSize.value} updateAvailable={updateAvailable} updateApp={updateApp} />;
+    return (
+        <>
+            <CacheModal {...cacheModal} />
+            <TauriSettingsView openCacheModal={cacheModal.open} updateAvailable={updateAvailable} updateApp={updateApp} />
+        </>
+    );
 }
 
 export default TauriSettings;

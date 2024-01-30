@@ -14,11 +14,12 @@
 
   .body {
     width: 100%;
+    max-width: 600px;
     @include flex-column(flex-start, flex-start);
     gap: 12px;
 
     .item {
-      width: 380px;
+      width: 100%;
       @include flex(space-between);
 
       &_title{
@@ -31,18 +32,6 @@
         width: 40%;
         @include flex(flex-start);
         font-size: 12px;
-      }
-    }
-
-
-    .item {
-      max-width: 600px;
-      @include box-size(100%, 54px);
-      @include flex(flex-start);
-
-      .titles {
-        width: 90%;
-        @include flex-column(flex-start, flex-start);
       }
     }
   }

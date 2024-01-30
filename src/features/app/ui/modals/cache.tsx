@@ -9,7 +9,7 @@ function CacheModal(modal: ModalTypes.UseReturnedType) {
 
 export default function (modal: ModalTypes.UseReturnedType) {
     return (
-        <Modal centered={false} {...modal}>
+        <Modal {...modal}>
             <CacheModal {...modal} />
         </Modal>
     );
