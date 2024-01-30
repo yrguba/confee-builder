@@ -60,7 +60,9 @@ export type BaseIconsVariants =
     | 'privacy-policy'
     | 'support'
     | 'save'
-    | 'error';
+    | 'error'
+    | 'mute'
+    | 'unmute';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

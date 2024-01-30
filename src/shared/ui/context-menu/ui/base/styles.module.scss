@@ -1,22 +1,24 @@
 @import "src/app/styles";
 
 .wrapper {
-  //@include box-size(150px, 50px);
+  @include flex-column(flex-start,flex-start);
   box-shadow: var(--box-shadow);
-  //position: fixed;
   border-radius: 12px;
   z-index: 100000;
   background-color: var(--bg-secondary);
   padding: 8px 0;
 
   .item {
-    min-width: 200px;
+    padding: 0 8px;
+    //min-width: 200px;
+    width: calc(100% - 16px);
     height: 40px;
-    @include flex();
+    @include flex(flex-start);
     transition: background-color 0.5s;
     cursor: pointer;
+    white-space: nowrap;
 
-    svg{
+    svg {
       fill: var(--text-primary);
     }
 

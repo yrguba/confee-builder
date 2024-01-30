@@ -28,6 +28,14 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
+            title: chat.is_muted ? 'Выключить уведомления' : 'Выключить уведомления',
+            icon: <Icons variant={chat.is_muted ? 'unmute' : 'mute'} />,
+            callback: async () => {
+                chatMenuAction('mute', chat);
+            },
+        },
+        {
+            id: 1,
             title: 'Удалить чат',
             isRed: true,
             icon: <Icons variant="delete" />,
@@ -82,6 +90,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                             </Title>
                         </div>
                         <div className={styles.right}>
+                            {chat.is_muted && <Icons variant="mute" />}
                             {chat.pending_messages_count ? (
                                 <Counter variant="primary" height={18} maxVisibleNumber={99}>
                                     {chat?.pending_messages_count}
