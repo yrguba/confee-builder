@@ -13,7 +13,14 @@ import './index.scss';
 import { useTheme, useIdle, useRouter, useStorage, useReverseTimer } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: 0,
+        },
+    },
+});
+
 moment.locale('ru');
 
 function App() {
