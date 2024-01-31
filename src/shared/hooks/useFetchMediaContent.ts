@@ -26,13 +26,12 @@ function useFetchMediaContent(props: Props) {
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url);
 
     const fileName = `${url}${name}`.split('/').join('');
-
     useEffect(() => {
         if (fileData) {
             const filePath = fileConverter.blobLocalPath(fileData as Blob);
             src.set(filePath);
             loading.set(false);
-            // saveFile({ fileName, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob, fileType });
+            saveFile({ fileName, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob, fileType });
         }
     }, [fileData]);
 
@@ -45,11 +44,11 @@ function useFetchMediaContent(props: Props) {
                     src.set(updUrl);
                     return loading.set(false);
                 }
-                // const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
-                // if (fileInCache) {
-                //     src.set(fileInCache);
-                //     return loading.set(false);
-                // }
+                const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
+                if (fileInCache) {
+                    src.set(fileInCache);
+                    return loading.set(false);
+                }
                 enable();
             }
         };
