@@ -1,7 +1,8 @@
 import React, { MouseEvent, RefObject, useEffect, useRef, WheelEvent } from 'react';
 
-import { useEasyState, useReverseTimer, useDebounce } from 'shared/hooks';
+import { useEasyState, useReverseTimer, useDebounce, useThrottle } from 'shared/hooks';
 
+const [speedUp] = useThrottle((cb) => cb(), 100);
 function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const sliderRef = useRef<HTMLDivElement>(null);
     const realRef = useRef<HTMLDivElement>(null);
@@ -13,19 +14,20 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const visible = useEasyState(false);
     const isTouch = useEasyState(false);
 
-    const initSpeed = 20;
+    const initSpeed = 25;
     const speed = useRef(initSpeed);
 
     useDebounce(() => visible.set(false), 2000, [sliderY]);
     useDebounce(() => (speed.current = initSpeed), 500, [sliderY]);
 
     const onWheel = (e: WheelEvent<HTMLDivElement>) => {
-        console.log(speed.current);
         const wrapper = e.currentTarget;
         visible.set(true);
-        speed.current += 1;
+        speedUp(() => {
+            speed.current += 1;
+        });
         isTouch.set(!!(e.deltaY && !Number.isInteger(e.deltaY)));
-
+        console.log(speed);
         const { scrollTop, scrollHeight, clientHeight } = wrapper;
         const step = speed.current;
         wrapper.scrollTop = e.deltaY < 0 ? scrollTop - step : scrollTop + step;
