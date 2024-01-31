@@ -2,7 +2,7 @@ import React, { MouseEvent, RefObject, useEffect, useRef, WheelEvent } from 'rea
 
 import { useEasyState, useReverseTimer, useDebounce, useThrottle } from 'shared/hooks';
 
-const [speedUp] = useThrottle((cb) => cb(), 100);
+const [speedUp] = useThrottle((cb) => cb(), 200);
 function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const sliderRef = useRef<HTMLDivElement>(null);
     const realRef = useRef<HTMLDivElement>(null);
@@ -12,21 +12,31 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const sliderY = useEasyState(0);
     const isSliderCapture = useEasyState(false);
     const visible = useEasyState(false);
-    const isTouch = useEasyState(false);
 
-    const initSpeed = 25;
-    const speed = useRef(initSpeed);
+    const wheelSpeed = 60;
+    const touchSpeed = 15;
+
+    const tic = useRef(0);
+    const speed = useRef(touchSpeed);
 
     useDebounce(() => visible.set(false), 2000, [sliderY]);
-    useDebounce(() => (speed.current = initSpeed), 300, [sliderY]);
+    useDebounce(() => (speed.current = touchSpeed), 300, [sliderY]);
 
     const onWheel = (e: WheelEvent<HTMLDivElement>) => {
+        tic.current += 1;
         const wrapper = e.currentTarget;
         visible.set(true);
         speedUp(() => {
-            speed.current += 1;
+            if (tic.current > 10) {
+                speed.current = touchSpeed;
+                if (tic.current > 50) {
+                    speed.current = touchSpeed * 2;
+                }
+            } else {
+                speed.current = wheelSpeed;
+            }
+            tic.current = 0;
         });
-        isTouch.set(!!(e.deltaY && !Number.isInteger(e.deltaY)));
         const { scrollTop, scrollHeight, clientHeight } = wrapper;
         const step = speed.current;
         wrapper.scrollTop = e.deltaY < 0 ? scrollTop - step : scrollTop + step;
