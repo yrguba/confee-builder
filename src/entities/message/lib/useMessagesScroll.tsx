@@ -17,10 +17,13 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const touchSpeed = 20;
 
     useDebounce(() => visible.set(false), 2000, [sliderY]);
-
+    console.log(isTouch.value);
     const onWheel = (e: WheelEvent<HTMLDivElement>) => {
         const wrapper = e.currentTarget;
         visible.set(true);
+
+        isTouch.set(!!(e.deltaY && !Number.isInteger(e.deltaY)));
+
         const { scrollTop, scrollHeight, clientHeight } = wrapper;
         const step = isTouch.value ? touchSpeed : wheelSpeed;
         wrapper.scrollTop = e.deltaY < 0 ? scrollTop - step : scrollTop + step;
