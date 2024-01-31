@@ -45,11 +45,11 @@ function useFetchMediaContent(props: Props) {
                     src.set(updUrl);
                     return loading.set(false);
                 }
-                const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
-                if (fileInCache) {
-                    src.set(fileInCache);
-                    return loading.set(false);
-                }
+                // const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
+                // if (fileInCache) {
+                //     src.set(fileInCache);
+                //     return loading.set(false);
+                // }
                 enable();
             }
         };
