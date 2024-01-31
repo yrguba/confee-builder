@@ -32,7 +32,7 @@ function useFetchMediaContent(props: Props) {
             const filePath = fileConverter.blobLocalPath(fileData as Blob);
             src.set(filePath);
             loading.set(false);
-            saveFile({ fileName, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob, fileType });
+            // saveFile({ fileName, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob, fileType });
         }
     }, [fileData]);
 
@@ -66,7 +66,7 @@ function useFetchMediaContent(props: Props) {
         getFileBlob,
         videoCover: videoCover.value,
         error,
-        isLoading: loading.value,
+        isLoading: fileData ? false : loading.value,
     };
 }
 
