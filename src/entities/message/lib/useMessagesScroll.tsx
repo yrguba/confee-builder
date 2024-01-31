@@ -13,19 +13,21 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const visible = useEasyState(false);
     const isTouch = useEasyState(false);
 
-    const wheelSpeed = 50;
-    const touchSpeed = 20;
+    const initSpeed = 20;
+    const speed = useRef(initSpeed);
 
     useDebounce(() => visible.set(false), 2000, [sliderY]);
-    console.log(isTouch.value);
+    useDebounce(() => (speed.current = initSpeed), 500, [sliderY]);
+
     const onWheel = (e: WheelEvent<HTMLDivElement>) => {
+        console.log(speed.current);
         const wrapper = e.currentTarget;
         visible.set(true);
-
+        speed.current += 1;
         isTouch.set(!!(e.deltaY && !Number.isInteger(e.deltaY)));
 
         const { scrollTop, scrollHeight, clientHeight } = wrapper;
-        const step = isTouch.value ? touchSpeed : wheelSpeed;
+        const step = speed.current;
         wrapper.scrollTop = e.deltaY < 0 ? scrollTop - step : scrollTop + step;
         const viewHeightPercent = Math.ceil((clientHeight * 100) / scrollHeight);
         const sliderHeightNum = (clientHeight / 100) * viewHeightPercent;
@@ -74,8 +76,6 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     function Scrollbar() {
         return (
             <div
-                onTouchStart={() => isTouch.set(true)}
-                onTouchEnd={() => isTouch.set(false)}
                 onMouseMoveCapture={() => visible.set(true)}
                 onMouseDown={() => isSliderCapture.set(true)}
                 style={{
