@@ -7,11 +7,11 @@ import { useStorage } from 'shared/hooks';
 class AppApi {
     storage = useStorage();
 
-    handleLazyGetFile(url: string): [() => void, UseQueryResult] {
+    handleLazyGetFile(url: string, type: 'arraybuffer' | 'blob'): [() => void, UseQueryResult] {
         const [enabled, setEnabled] = useState(false);
         return [
             () => setEnabled(true),
-            useQuery(['get-files', url], () => axiosClient.get(url, { responseType: 'blob' }), {
+            useQuery(['get-files', url], () => axiosClient.get(url, { responseType: type }), {
                 staleTime: Infinity,
                 enabled,
                 select: (data) => {

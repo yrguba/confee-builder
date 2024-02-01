@@ -19,16 +19,16 @@ function useFetchMediaContent(props: Props) {
 
     const src = useEasyState<any>('');
     const videoCover = useEasyState<string | null>(null);
-    const { saveFile, getFileUrl } = useFS();
+    const { save, saveFile, getFileUrl } = useFS();
 
-    const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url);
+    const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
 
-    const fileName = `${url}${name}`.split('/').join('');
+    const fileName = `${url}${name}`;
     useEffect(() => {
         if (fileData) {
-            const filePath = fileConverter.blobLocalPath(fileData as Blob);
+            const filePath = fileConverter.arrayBufferToBlobLocalPath(fileData as ArrayBuffer);
             src.set(filePath);
-            // saveFile({ fileName, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob, fileType }).then();
+            save({ fileName, baseDir: 'document', folderDir: 'cache', fileType, arrayBuffer: fileData as ArrayBuffer });
         }
     }, [fileData]);
 
@@ -40,10 +40,10 @@ function useFetchMediaContent(props: Props) {
                     const updUrl = url.replace('x-matroska', 'mp4');
                     return src.set(updUrl);
                 }
-                const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
-                if (fileInCache) {
-                    return src.set(fileInCache);
-                }
+                // const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
+                // if (fileInCache) {
+                //     return src.set(fileInCache);
+                // }
                 enable();
             }
         };

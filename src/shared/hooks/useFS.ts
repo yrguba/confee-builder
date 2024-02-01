@@ -1,11 +1,26 @@
 import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, removeDir, readTextFile, writeTextFile } from '@tauri-apps/api/fs';
-import { appDataDir, join, documentDir } from '@tauri-apps/api/path';
+import { appDataDir, join, documentDir, downloadDir } from '@tauri-apps/api/path';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
 import { metadata, Metadata } from 'tauri-plugin-fs-extra-api';
 
 import { fileConverter, sizeConverter } from '../lib';
 
-export type FileTypes = 'img' | 'video' | 'document' | 'audio' | 'text';
+export type FileTypes = 'img' | 'video' | 'document' | 'audio' | 'json';
+
+export type Folder = 'img' | 'video' | 'document' | 'audio' | 'text';
+
+const baseDirs = {
+    download: downloadDir,
+    document: documentDir,
+};
+
+type SaveProps = {
+    fileName: string;
+    baseDir: keyof typeof baseDirs;
+    folderDir: 'cache';
+    arrayBuffer: ArrayBuffer;
+    fileType?: FileTypes;
+};
 
 type SaveFileProps = {
     baseDir: 'Download' | 'Document';
@@ -33,6 +48,20 @@ type DeleteFolderProps = {} & GetFolderSizeProps;
 
 const useFS = () => {
     const disabled = !window.__TAURI__;
+
+    const save = async (props: SaveProps) => {
+        if (disabled) return null;
+        const root = await join(await baseDirs[props.baseDir](), 'Confee');
+        const getPath = async () => {
+            if (props.baseDir === 'download') return root;
+            return join(root, props.folderDir, `${props.fileType ? props.fileType : ''}`);
+        };
+        const path = await getPath();
+        const checkPath = await exists(path);
+        if (!checkPath) {
+            await createDir(path, { recursive: true });
+        }
+    };
 
     const saveFile = async (props: SaveFileProps) => {
         if (disabled) return null;
@@ -117,7 +146,7 @@ const useFS = () => {
         // await removeDir(folderDir, { dir: baseDir, recursive: true });
     };
 
-    return { saveFile, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
+    return { save, saveFile, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
 };
 
 export default useFS;

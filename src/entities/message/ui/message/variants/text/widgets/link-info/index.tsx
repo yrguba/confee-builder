@@ -24,10 +24,10 @@ function LinkInfo(props: Props) {
 
     useUpdateEffect(() => {
         if (preview.faviconBuffer?.data) {
-            fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(preview.faviconBuffer.data)).then((url) => favicon.set(url));
+            favicon.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(preview.faviconBuffer.data)));
         }
         if (preview.previewBuffer?.data) {
-            fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(preview.previewBuffer.data)).then((url) => previewImg.set(url));
+            previewImg.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(preview.previewBuffer.data)));
         }
     }, [preview]);
 

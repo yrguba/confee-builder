@@ -5,20 +5,12 @@ windows_subsystem = "windows"
 
 use tauri::{plugin::TauriPlugin, AppHandle, Manager, Runtime};
 use tauri::{CustomMenuItem, SystemTray, SystemTrayMenu, SystemTrayEvent};
-
+use std::fs::OpenOptions;
+use std::io::prelude::*;
 #[derive(Clone, serde::Serialize)]
 struct Payload {
     args: Vec<String>,
     cwd: String,
-}
-
-#[tauri::command]
-async fn open_meet(handle: tauri::AppHandle, url: String, id: String) {
-    let docs_window = tauri::WindowBuilder::new(
-        &handle,
-        id,
-        tauri::WindowUrl::External(url.parse().unwrap()),
-    ).build().unwrap();
 }
 
 #[tauri::command]
@@ -33,6 +25,17 @@ fn append_chunk_to_file(path: String, chunk: Vec<u8>) -> Result<(), String> {
 
     Ok(())
 }
+
+#[tauri::command]
+async fn open_meet(handle: tauri::AppHandle, url: String, id: String) {
+    let docs_window = tauri::WindowBuilder::new(
+        &handle,
+        id,
+        tauri::WindowUrl::External(url.parse().unwrap()),
+    ).build().unwrap();
+}
+
+
 fn main() {
     let open = CustomMenuItem::new("open".to_string(), "Открыть");
     let quit = CustomMenuItem::new("quit".to_string(), "Закрыть");
@@ -46,7 +49,7 @@ fn main() {
         .with_menu(tray_menu);
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![open_meet])
+        .invoke_handler(tauri::generate_handler![open_meet, append_chunk_to_file])
         .system_tray(system_tray)
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {

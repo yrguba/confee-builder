@@ -1,4 +1,4 @@
-export const arrayBufferToBlobLocalPath = async (arrayBuffer: ArrayBuffer) => {
+export const arrayBufferToBlobLocalPath = (arrayBuffer: ArrayBuffer) => {
     const blob = new Blob([arrayBuffer]);
     return blobLocalPath(blob);
 };
