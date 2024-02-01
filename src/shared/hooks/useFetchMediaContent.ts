@@ -28,7 +28,7 @@ function useFetchMediaContent(props: Props) {
         if (fileData) {
             const filePath = fileConverter.blobLocalPath(fileData as Blob);
             src.set(filePath);
-            saveFile({ fileName, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob, fileType }).then();
+            // saveFile({ fileName, baseDir: 'Document', folderDir: 'cache', fileBlob: fileData as Blob, fileType }).then();
         }
     }, [fileData]);
 
