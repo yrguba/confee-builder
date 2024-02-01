@@ -32,7 +32,7 @@ function App() {
         if (appService.tauriIsRunning) {
             appWindow.listen('tauri://close-requested', (e) => {
                 appWindow.once('tauri://focus', (e) => {
-                    window.location.reload();
+                    queryClient.refetchQueries().then();
                 });
             });
         }
