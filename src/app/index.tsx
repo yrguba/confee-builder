@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { WebviewWindow } from '@tauri-apps/api/window';
+import { appWindow, WebviewWindow } from '@tauri-apps/api/window';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,7 +10,7 @@ import 'moment/locale/ru';
 import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useTheme, useIdle, useRouter, useStorage, useReverseTimer } from 'shared/hooks';
+import { useTheme, useIdle, useRouter, useStorage, useReverseTimer, useEasyState } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
 const queryClient = new QueryClient({
@@ -28,11 +28,15 @@ function App() {
     const storage = useStorage();
     const notification = storage.get('notification');
 
-    const isIdle = useIdle(1000 * 60 * 20);
-
-    useUpdateEffect(() => {
-        !isIdle && queryClient.refetchQueries();
-    }, [isIdle]);
+    useEffect(() => {
+        if (appService.tauriIsRunning) {
+            appWindow.listen('tauri://close-requested', (e) => {
+                appWindow.once('tauri://focus', (e) => {
+                    window.location.reload();
+                });
+            });
+        }
+    }, []);
 
     useTheme();
 
