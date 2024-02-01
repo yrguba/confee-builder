@@ -21,7 +21,7 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
         if (deltaY >= 100 || deltaY <= -100) {
             speed.current = 60;
         } else {
-            speed.current = e.deltaY < 0 ? -e.deltaY * 5 : e.deltaY * 5;
+            speed.current = e.deltaY < 0 ? -e.deltaY * 4 : e.deltaY * 4;
         }
 
         const wrapper = e.currentTarget;

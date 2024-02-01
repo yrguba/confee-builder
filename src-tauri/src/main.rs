@@ -21,6 +21,18 @@ async fn open_meet(handle: tauri::AppHandle, url: String, id: String) {
     ).build().unwrap();
 }
 
+#[tauri::command]
+fn append_chunk_to_file(path: String, chunk: Vec<u8>) -> Result<(), String> {
+    let mut file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&path)
+        .map_err(|e| e.to_string())?;
+
+    file.write_all(&chunk).map_err(|e| e.to_string())?;
+
+    Ok(())
+}
 fn main() {
     let open = CustomMenuItem::new("open".to_string(), "Открыть");
     let quit = CustomMenuItem::new("quit".to_string(), "Закрыть");
