@@ -97,14 +97,10 @@ const useFS = () => {
     };
 
     const save = (props: SaveProps) => {
-        console.log(props);
-        if (props.url.includes('asset.localhost')) {
-            return null;
+        if (props.url.includes('asset.localhost') || props.url.includes('blob')) {
+        } else {
+            saveFromBack({ ...props, url: `${backBaseURL}${props.url}` });
         }
-        if (props.url.includes('blob')) {
-            return saveFromBack({ ...props, url: props.url.split(':').splice(1).join(':') });
-        }
-        saveFromBack({ ...props, url: `${backBaseURL}${props.url}` });
     };
 
     const saveTextFile = async (props: SaveTextFileProps) => {
