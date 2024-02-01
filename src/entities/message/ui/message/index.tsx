@@ -1,4 +1,4 @@
-import React, { forwardRef, memo } from 'react';
+import React, { forwardRef, memo, ReactElement, ReactNode } from 'react';
 
 import { chatTypes, useChatStore } from 'entities/chat';
 import { BaseTypes } from 'shared/types';
@@ -25,19 +25,14 @@ import { MessageProxy, MessageMenuActions, File, MediaContentType } from '../../
 type Props = {
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
-    messageMenuAction: (
-        action: MessageMenuActions,
-        message: MessageProxy,
-        file: { url: string; name: string; id: number | string; type: MediaContentType } | null
-    ) => void;
-    sendReaction: (emoji: string, messageId: number) => void;
+    MessageMenu: (props: { message: MessageProxy }) => ReactElement;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     voiceRecordingInProgress: boolean;
     clickMessageReply: (message: MessageProxy) => void;
 } & BaseTypes.Statuses;
 
 const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
-    const { clickMessageReply, message, messageMenuAction, chat, sendReaction, openChatProfileModal, voiceRecordingInProgress } = props;
+    const { clickMessageReply, message, MessageMenu, chat, openChatProfileModal, voiceRecordingInProgress } = props;
 
     const {
         text,
@@ -103,16 +98,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 disabled={voiceRecordingInProgress}
                 clickAway={() => visibleMenu.set(false)}
                 onClick={() => visibleMenu.set(false)}
-                content={
-                    <MessageMenu
-                        clickedFile={clickedFile.value}
-                        openChatProfileModal={openChatProfileModal}
-                        sendReaction={sendReaction}
-                        chat={chat}
-                        messageMenuAction={messageMenuAction}
-                        message={message}
-                    />
-                }
+                content={<MessageMenu message={message} />}
             />
             <div className={styles.content}>
                 <div className={classes}>

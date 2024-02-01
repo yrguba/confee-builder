@@ -1,26 +1,15 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useUpdateEffect } from 'react-use';
-import { number } from 'yup';
 
 import { chatApi, chatProxy, useChatStore } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
-import {
-    messageApi,
-    MessagesListView,
-    messageService,
-    messageTypes,
-    useMessageStore,
-    messageProxy,
-    messageConstants,
-    messageDictionaries,
-} from 'entities/message';
-import { File, MediaContentType } from 'entities/message/model/types';
+import { messageApi, MessagesListView, messageService, useMessageStore, messageProxy } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
-import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech, useEasyState, useFileUploader, useFs } from 'shared/hooks';
-import { reactionConverter } from 'shared/lib';
-import { Modal, Notification } from 'shared/ui';
+import { useRouter, useLifecycles, createMemo, useEasyState, useFileUploader, useFs } from 'shared/hooks';
+import { Modal } from 'shared/ui';
 
+import MessageMenu from './menu';
 import PrivateChatProfileModal from '../../chat/ui/modals/profile/private';
 import { FilesToSendModal, ForwardMessagesModal } from '../index';
 
@@ -28,22 +17,18 @@ const memoUpdateMessages = createMemo(messageService.getUpdatedList);
 
 function MessageList() {
     const { params } = useRouter();
-    const [state, copyToClipboard] = useCopyToClipboard();
+
     const chatId = Number(params.chat_id);
 
     const queryClient = useQueryClient();
 
-    const { saveFromBack } = useFs();
     const messageIdToSearchForPage = useEasyState<number | null>(null);
-
-    const { playSpeech } = useTextToSpeech();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const { mutate: handleSubscribeToChat } = chatApi.handleSubscribeToChat();
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
 
     const chatSubscription = useChatStore.use.chatSubscription();
-    const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
     const replyMessage = useMessageStore.use.replyMessage();
     const editMessage = useMessageStore.use.editMessage();
@@ -54,7 +39,6 @@ function MessageList() {
     const foundMessage = useMessageStore.use.foundMessage();
     const goDownList = useMessageStore.use.goDownList();
     const isFileDrag = useMessageStore.use.isFileDrag();
-    const downloadFile = useMessageStore.use.downloadFile();
 
     const {
         data: messageData,
@@ -69,13 +53,10 @@ function MessageList() {
     const { data: messageOrder } = messageApi.handleGetMessageOrder({ chatId, messageId: messageIdToSearchForPage.value });
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
-    const { mutate: handleSendReaction } = messageApi.handleSendReaction();
 
     const initialOpenChat = useChatStore.use.initialOpenChat();
 
     const messages = memoUpdateMessages(messageData);
-
-    const notification = Notification.use();
 
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
@@ -107,54 +88,6 @@ function MessageList() {
             if (chatSubscription.value) handleUnsubscribeFromChat(chatSubscription.value);
             chatSubscription.set(null);
         }
-    };
-
-    const messageMenuAction = (
-        action: messageTypes.MessageMenuActions,
-        message: messageTypes.MessageProxy,
-        file: { url: string; name: string; id: number | string; type: MediaContentType } | null
-    ) => {
-        switch (action) {
-            case 'reply':
-                return replyMessage.set(message);
-            case 'edit':
-                if (message.type !== 'text') return notification.info({ title: 'Пока недоступно для изменения', system: true });
-                return editMessage.set(message);
-            case 'fixed':
-                return notification.inDev();
-            case 'copy':
-                copyToClipboard(message.text);
-                return notification.success({ title: 'Текст скопирован в буфер', system: true });
-            case 'forward':
-                forwardMessages.set({ fromChatName: chatData?.data.data.name || '', toChatId: null, messages: [message], redirect: false });
-                return forwardMessagesModal.open();
-            case 'delete':
-                return confirmDeleteMessage.open({ messageId: message.id });
-            case 'highlight':
-                return highlightedMessages.push(message);
-            case 'play':
-                return playSpeech(message.text);
-            case 'save':
-                console.log(downloadFile.value);
-            // downloadFile?.value?.callback();
-            // if (file?.url && file?.name) {
-            //     console.log(file.url);
-            //     saveFromBack({ baseDir: 'download', url: file.url, fileName: file.name });
-            //     file?.id && idOfSavedFile.set(file.id);
-            //     notification.success({
-            //         title: `${file?.type ? messageDictionaries.mediaContent[file?.type] : ''} ${file?.type === 'documents' ? 'сохранен' : 'сохранено'}`,
-            //         system: true,
-            //     });
-            // }
-        }
-    };
-
-    const clickReaction = (emoji: string, messageId: number) => {
-        handleSendReaction({
-            chatId,
-            messageId,
-            reaction: reactionConverter(emoji, 'html'),
-        });
     };
 
     const openChatProfileModal = (data: { user?: UserProxy; employee?: EmployeeProxy }) => {
@@ -201,6 +134,7 @@ function MessageList() {
             <ForwardMessagesModal {...forwardMessagesModal} />
             <PrivateChatProfileModal {...privateChatProfileModal} />
             <MessagesListView
+                MessageMenu={MessageMenu}
                 chat={chatProxy(chatData?.data.data)}
                 messages={messages}
                 getNextPage={() => hasNextPage && !isFetching && fetchNextPage().then()}
@@ -208,8 +142,6 @@ function MessageList() {
                 readMessage={readMessage}
                 subscribeToChat={subscribeToChat}
                 chatSubscription={chatSubscription.value}
-                messageMenuAction={messageMenuAction}
-                sendReaction={clickReaction}
                 openChatProfileModal={openChatProfileModal}
                 highlightedMessages={highlightedMessages}
                 voiceRecordingInProgress={voiceRecordingInProgress.value}

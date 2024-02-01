@@ -19,14 +19,8 @@ import { File, MediaContentType, MessageMenuActions, MessageProxy } from '../../
 type Props = {
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
-    messageMenuAction: (
-        action: MessageMenuActions,
-        message: MessageProxy,
-        file: { url: string; name: string; id: number | string; type: MediaContentType } | null
-    ) => void;
-    sendReaction: (emoji: string, messageId: number) => void;
-    openChatProfileModal: (data: { user: UserProxy; employee: EmployeeProxy }) => void;
-    clickedFile: { url: string; name: string; id: number | string; type: MediaContentType } | null;
+    messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
+    sendReaction?: (emoji: string, messageId: number) => void;
 } & BaseTypes.Statuses;
 
 const memoReadUsers = createMemo((members: CurrentShortMember[] | BaseTypes.Empty, users_ids: number[]) => {
@@ -39,8 +33,8 @@ const memoReadUsers = createMemo((members: CurrentShortMember[] | BaseTypes.Empt
     return arr;
 });
 
-function MessageMenu(props: Props) {
-    const { clickedFile, messageMenuAction, message, sendReaction, chat, openChatProfileModal } = props;
+function MessageMenuView(props: Props) {
+    const { messageMenuAction, message, sendReaction, chat } = props;
     const downloadFile = useMessageStore.use.downloadFile();
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions | 'read'>[] = [
@@ -77,10 +71,6 @@ function MessageMenu(props: Props) {
     });
 
     const readUsers = memoReadUsers(chat?.currentShortMembers, message.users_have_read);
-
-    const reactionClick = (emoji: string) => {
-        sendReaction(emoji, message.id);
-    };
 
     return (
         <div className={styles.wrapper}>
@@ -129,7 +119,7 @@ function MessageMenu(props: Props) {
                         <div
                             key={i.id}
                             className={styles.item}
-                            onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message, clickedFile)}
+                            onClick={() => i.payload !== 'read' && messageMenuAction(i.payload, message)}
                             onMouseEnter={() => i.payload === 'read' && visibleUsers.set(true)}
                         >
                             <Icons variant={i.icon} />
@@ -141,7 +131,7 @@ function MessageMenu(props: Props) {
     );
 }
 
-export default MessageMenu;
+export default MessageMenuView;
 // <Card.List
 //     items={readUsers.map((i) => ({
 //         onClick: () => openUserModal(i),

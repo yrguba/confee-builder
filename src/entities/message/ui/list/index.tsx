@@ -1,7 +1,8 @@
-import React, { useRef, Fragment, useEffect, useState, RefObject, WheelEvent } from 'react';
+import React, { useRef, Fragment, useEffect, useState, RefObject, ReactElement, ReactNode } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
+import MessageMenu from 'features/message/ui/menu';
 import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Button, Counter, Icons } from 'shared/ui';
@@ -18,18 +19,13 @@ import SystemMessage from '../message/variants/system';
 
 type Props = {
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
+    MessageMenu: (props: { message: MessageProxy }) => ReactElement;
     messages: MessageProxy[];
     getPrevPage: () => void;
     getNextPage: () => void;
     readMessage: (messageId: number) => void;
     subscribeToChat: (action: 'sub' | 'unsub') => void;
     chatSubscription: number | null;
-    messageMenuAction: (
-        action: MessageMenuActions,
-        message: MessageProxy,
-        file: { url: string; name: string; id: number | string; type: MediaContentType } | null
-    ) => void;
-    sendReaction: (emoji: string, messageId: number) => void;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
     voiceRecordingInProgress: boolean;
@@ -45,6 +41,7 @@ type Props = {
 
 function MessagesListView(props: Props) {
     const {
+        MessageMenu,
         clickMessageReply,
         deleteFoundMessage,
         foundMessage,
@@ -55,8 +52,6 @@ function MessagesListView(props: Props) {
         readMessage,
         subscribeToChat,
         chatSubscription,
-        messageMenuAction,
-        sendReaction,
         openChatProfileModal,
         highlightedMessages,
         voiceRecordingInProgress,
@@ -182,13 +177,12 @@ function MessagesListView(props: Props) {
                         >
                             {index === 10 && <div ref={prevPageRef} />}
                             <Message
+                                MessageMenu={MessageMenu}
                                 clickMessageReply={clickMessageReply}
                                 openChatProfileModal={openChatProfileModal}
-                                sendReaction={sendReaction}
                                 chat={chat}
                                 ref={wrapperRef}
                                 message={message}
-                                messageMenuAction={messageMenuAction}
                                 voiceRecordingInProgress={voiceRecordingInProgress}
                             />
                             {messages?.length - 10 === index && <div ref={nextPageRef} />}

@@ -8,6 +8,7 @@ import useMessageStore from './model/store';
 import * as messageTypes from './model/types';
 import MessageInputView from './ui/input';
 import MessagesListView from './ui/list';
+import MessageMenuView from './ui/message/menu';
 import FilesToSendModalView from './ui/modals/files-to-send';
 import ForwardMessagesModalView from './ui/modals/forward';
 import SearchMessagesView from './ui/search';
@@ -18,6 +19,7 @@ export {
     messageTypes,
     messageService,
     messageConstants,
+    messageDictionaries,
     messageGateway,
     messageProxy,
     MessagesListView,
@@ -25,5 +27,5 @@ export {
     ForwardMessagesModalView,
     FilesToSendModalView,
     SearchMessagesView,
-    messageDictionaries,
+    MessageMenuView,
 };
