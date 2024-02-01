@@ -1,13 +1,11 @@
 import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, removeDir, readTextFile, writeTextFile } from '@tauri-apps/api/fs';
 import { appDataDir, join, documentDir, downloadDir } from '@tauri-apps/api/path';
-import { convertFileSrc } from '@tauri-apps/api/tauri';
+import { convertFileSrc, invoke } from '@tauri-apps/api/tauri';
 import { metadata, Metadata } from 'tauri-plugin-fs-extra-api';
 
-import { fileConverter, sizeConverter } from '../lib';
+import useThrottle from './useThrottle';
 
 export type FileTypes = 'img' | 'video' | 'document' | 'audio' | 'json';
-
-export type Folder = 'img' | 'video' | 'document' | 'audio' | 'text';
 
 const baseDirs = {
     download: downloadDir,
@@ -20,6 +18,7 @@ type SaveProps = {
     folderDir: 'cache';
     arrayBuffer: ArrayBuffer;
     fileType?: FileTypes;
+    progressCallback?: (progress: number) => void;
 };
 
 type SaveFileProps = {
@@ -46,6 +45,8 @@ type GetFolderSizeProps = {
 };
 type DeleteFolderProps = {} & GetFolderSizeProps;
 
+const [saveThrottle] = useThrottle((cb) => cb(), 200);
+
 const useFS = () => {
     const disabled = !window.__TAURI__;
 
@@ -57,10 +58,30 @@ const useFS = () => {
             return join(root, props.folderDir, `${props.fileType ? props.fileType : ''}`);
         };
         const path = await getPath();
+        const fullPath = await join(path, props.fileName.split('/').join(''));
         const checkPath = await exists(path);
         if (!checkPath) {
             await createDir(path, { recursive: true });
         }
+        if (await exists(fullPath)) {
+            if (props?.progressCallback) {
+                return props.progressCallback(100);
+            }
+        }
+        const chunkSize = 1024 * 1024 * 10; // 10MB
+        const numChunks = Math.ceil(props.arrayBuffer.byteLength / chunkSize);
+        // saveThrottle(() => {
+        for (let i = 0; i < numChunks; i++) {
+            const start = i * chunkSize;
+            const end = Math.min(start + chunkSize, props.arrayBuffer.byteLength);
+            const chunk = props.arrayBuffer.slice(start, end);
+            if (props?.progressCallback) {
+                const progress = ((i + 1) / numChunks) * 100;
+                props.progressCallback(progress);
+            }
+            invoke('append_chunk_to_file', { path: fullPath, chunk: Array.from(new Uint8Array(chunk)) }).then();
+        }
+        // });
     };
 
     const saveFile = async (props: SaveFileProps) => {

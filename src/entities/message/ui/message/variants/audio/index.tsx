@@ -12,10 +12,10 @@ type Props = {
 
 function AudioMessage(props: Props) {
     const { audios } = props;
-    const voice = audios[0];
+    const audio = audios[0];
     return (
         <div className={styles.wrapper}>
-            <AudioPlayer url={voice.url} isVisibleMeta />
+            <AudioPlayer url={audio.url} name={audio.name} isVisibleMeta />
         </div>
     );
 }

@@ -14,7 +14,7 @@ struct Payload {
 }
 
 #[tauri::command]
-fn append_chunk_to_file(path: String, chunk: Vec<u8>) -> Result<(), String> {
+async  fn append_chunk_to_file(path: String, chunk: Vec<u8>) -> Result<(), String> {
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)

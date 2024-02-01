@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { sizeConverter } from 'shared/lib';
+import { getRandomString, sizeConverter } from 'shared/lib';
 
 import styles from './styles.module.scss';
 import { appTypes } from '../../../../../../entities/app';
@@ -15,6 +15,7 @@ import waveformStatic from '../wave-form/static';
 function AudioPlayer(props: BaseAudioPlayerProps) {
     const { id, name, clickedFile, disabled, url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
     const storage = useStorage();
+    console.log(name);
     const { src, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
     const [waveform, waveSurferRef, isPlaying, time, currentTime, isLoading] = waveformStatic({ url: src || ' ' });

@@ -71,6 +71,7 @@ module.exports = {
                         },
                     },
                 ],
+                'no-unreachable-loop': 0,
                 'prefer-promise-reject-errors': 0,
                 'jsx-a11y/no-autofocus': 0,
                 'jsx-a11y/anchor-is-valid': 0,

@@ -24,11 +24,21 @@ function useFetchMediaContent(props: Props) {
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
 
     const fileName = `${url}${name}`;
+
     useEffect(() => {
         if (fileData) {
             const filePath = fileConverter.arrayBufferToBlobLocalPath(fileData as ArrayBuffer);
             src.set(filePath);
-            save({ fileName, baseDir: 'document', folderDir: 'cache', fileType, arrayBuffer: fileData as ArrayBuffer });
+            if (name) {
+                save({
+                    fileName,
+                    baseDir: 'document',
+                    folderDir: 'cache',
+                    fileType,
+                    arrayBuffer: fileData as ArrayBuffer,
+                    progressCallback: (p) => console.log(p),
+                }).then();
+            }
         }
     }, [fileData]);
 
