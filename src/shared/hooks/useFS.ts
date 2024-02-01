@@ -2,8 +2,10 @@ import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryF
 import { appDataDir, join, documentDir, downloadDir } from '@tauri-apps/api/path';
 import { convertFileSrc, invoke } from '@tauri-apps/api/tauri';
 import { metadata, Metadata } from 'tauri-plugin-fs-extra-api';
+import { download } from 'tauri-plugin-upload-api';
 
 import useThrottle from './useThrottle';
+import { appService } from '../../entities/app';
 
 export type FileTypes = 'img' | 'video' | 'document' | 'audio' | 'json';
 
@@ -13,6 +15,7 @@ const baseDirs = {
 };
 
 type SaveProps = {
+    url: string;
     fileName: string;
     baseDir: keyof typeof baseDirs;
     folderDir: 'cache';
@@ -49,7 +52,7 @@ const [saveThrottle] = useThrottle((cb) => cb(), 200);
 
 const useFS = () => {
     const disabled = !window.__TAURI__;
-
+    const { backBaseURL } = appService.getUrls();
     const save = async (props: SaveProps) => {
         if (disabled) return null;
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
@@ -64,24 +67,10 @@ const useFS = () => {
             await createDir(path, { recursive: true });
         }
         if (await exists(fullPath)) {
-            if (props?.progressCallback) {
-                return props.progressCallback(100);
-            }
+            props.progressCallback && props.progressCallback(100);
+            return;
         }
-        const chunkSize = 1024 * 1024 * 10; // 10MB
-        const numChunks = Math.ceil(props.arrayBuffer.byteLength / chunkSize);
-        // saveThrottle(() => {
-        for (let i = 0; i < numChunks; i++) {
-            const start = i * chunkSize;
-            const end = Math.min(start + chunkSize, props.arrayBuffer.byteLength);
-            const chunk = props.arrayBuffer.slice(start, end);
-            if (props?.progressCallback) {
-                const progress = ((i + 1) / numChunks) * 100;
-                props.progressCallback(progress);
-            }
-            invoke('append_chunk_to_file', { path: fullPath, chunk: Array.from(new Uint8Array(chunk)) }).then();
-        }
-        // });
+        download(`${backBaseURL}/${props.url}`, fullPath, (progress, total) => console.log(`Downloaded ${progress} of ${total} bytes`));
     };
 
     const saveFile = async (props: SaveFileProps) => {

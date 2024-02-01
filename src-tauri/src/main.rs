@@ -116,6 +116,7 @@ fn main() {
             window.show().unwrap();
             app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
         }))
+        .plugin(tauri_plugin_upload::init())
         .plugin(tauri_plugin_fs_extra::init())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

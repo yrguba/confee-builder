@@ -31,6 +31,7 @@ function useFetchMediaContent(props: Props) {
             src.set(filePath);
             if (name) {
                 save({
+                    url,
                     fileName,
                     baseDir: 'document',
                     folderDir: 'cache',

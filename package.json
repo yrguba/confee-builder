@@ -81,6 +81,7 @@
         "swiper": "^9.2.4",
         "tauri-plugin-fs-extra-api": "github:tauri-apps/tauri-plugin-fs-extra#v1",
         "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#9bd993a",
+        "tauri-plugin-upload-api": "github:tauri-apps/tauri-plugin-upload#v1",
         "wavesurfer.js": "^6.6.3",
         "web-vitals": "^2.1.4",
         "yup": "^1.0.0",
