@@ -135,6 +135,7 @@ function MessageList() {
                 return playSpeech(message.text);
             case 'save':
                 if (file?.url && file?.name) {
+                    console.log(file.url);
                     saveFromBack({ baseDir: 'download', url: file.url, fileName: file.name });
                     file?.id && idOfSavedFile.set(file.id);
                     notification.success({

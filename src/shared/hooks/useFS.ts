@@ -69,12 +69,16 @@ const useFS = () => {
             props.progressCallback && props.progressCallback(100);
             return;
         }
-        const serverPath = `${backBaseURL}${props.url}`;
-        const tokens = tokensService.get();
-        if (tokens?.access_token) {
-            const headers = new Map();
-            headers.set('Authorization', `Bearer ${tokens.access_token}`);
-            await download(serverPath, fullPath, (progress, total) => props.progressCallback && props.progressCallback(100), headers);
+        if (props.url.includes('asset.localhost') || props.url.includes('blob')) {
+            console.log('local');
+        } else {
+            const serverPath = `${backBaseURL}${props.url}`;
+            const tokens = tokensService.get();
+            if (tokens?.access_token) {
+                const headers = new Map();
+                headers.set('Authorization', `Bearer ${tokens.access_token}`);
+                await download(serverPath, fullPath, (progress, total) => props.progressCallback && props.progressCallback(100), headers);
+            }
         }
     };
 
