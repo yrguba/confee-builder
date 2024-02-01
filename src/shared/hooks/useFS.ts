@@ -15,7 +15,7 @@ const baseDirs = {
     document: documentDir,
 };
 
-type SaveProps = {
+type SaveFromBackProps = {
     url: string;
     fileName: string;
     baseDir: keyof typeof baseDirs;
@@ -49,13 +49,11 @@ type GetFolderSizeProps = {
 };
 type DeleteFolderProps = {} & GetFolderSizeProps;
 
-const [saveThrottle] = useThrottle((cb) => cb(), 200);
-
 const useFS = () => {
     const disabled = !window.__TAURI__;
     const { backBaseURL } = appService.getUrls();
 
-    const save = async (props: SaveProps) => {
+    const saveFromBack = async (props: SaveFromBackProps) => {
         if (disabled) return null;
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
         const getPath = async () => {
@@ -77,7 +75,7 @@ const useFS = () => {
         if (tokens?.access_token) {
             const headers = new Map();
             headers.set('Authorization', `Bearer ${tokens.access_token}`);
-            await download(serverPath, fullPath, (progress, total) => console.log(`Downloaded ${progress} of ${total} bytes`), headers);
+            await download(serverPath, fullPath, (progress, total) => props.progressCallback && props.progressCallback(100), headers);
         }
     };
 
@@ -164,7 +162,7 @@ const useFS = () => {
         // await removeDir(folderDir, { dir: baseDir, recursive: true });
     };
 
-    return { save, saveFile, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
+    return { saveFromBack, saveFile, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
 };
 
 export default useFS;
