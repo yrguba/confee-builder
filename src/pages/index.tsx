@@ -1,6 +1,6 @@
 import { checkUpdate } from '@tauri-apps/api/updater';
 import { AnimatePresence } from 'framer-motion';
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useUpdateEffect } from 'react-use';
 
@@ -20,12 +20,14 @@ function Routing() {
     const location = useLocation();
     const navigate = useNavigate();
     const { width, height } = useWindowSize();
-    const { data: viewerData, isLoading, error: viewerError } = viewerApi.handleGetViewer();
-    const session = viewerData?.data.data.session;
-    const user = viewerData?.data.data.user;
 
     const networkState = appService.getNetworkState();
 
+    const checkAuth = tokensService.checkAuth();
+    const { data: viewerData, isFetching, error: viewerError } = viewerApi.handleGetViewer(checkAuth);
+
+    const session = viewerData?.data.data.session;
+    const user = viewerData?.data.data.user;
     const storage = useStorage();
 
     const routes = (
@@ -49,12 +51,14 @@ function Routing() {
     }, [session?.id]);
 
     useEffect(() => {
-        if (width < 450 || height < 470) return navigate('/warning/size');
-        location.pathname === '/warning/size' && navigate(-1);
+        if (checkAuth) {
+            if (width < 450 || height < 470) return navigate('/warning/size');
+            location.pathname === '/warning/size' && navigate(-1);
+        }
     }, [width, height]);
 
     useEffectOnce(() => {
-        if (appService.tauriIsRunning && networkState.online) {
+        if (appService.tauriIsRunning && networkState.online && checkAuth) {
             checkUpdate().then(({ shouldUpdate, manifest }) => {
                 if (shouldUpdate) {
                     navigate('/update');
@@ -64,14 +68,14 @@ function Routing() {
     });
 
     useEffect(() => {
-        if (!isLoading) {
+        if (checkAuth && user) {
             if (!user?.nickname) return navigate('/filling_profile');
             ['/warning/server', '/filling_profile'].includes(location.pathname) && navigate('/chats');
         }
-    }, [isLoading]);
+    }, [user]);
 
     const getRouting = () => {
-        if (tokensService.checkAuth()) {
+        if (checkAuth) {
             return routes;
         }
         return webView();

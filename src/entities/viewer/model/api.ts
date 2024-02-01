@@ -10,19 +10,28 @@ import { companyTypes } from '../../company';
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
 
-    handleGetViewer() {
+    handleGetViewer(enabled = true) {
         const storage = useStorage();
         const cacheId = ['get-viewer'];
-        return useQueryWithLocalDb<Response.QueryResult<{ user: Viewer; session: Session; companies: companyTypes.Company[] }>>(cacheId, ({ save }) =>
-            useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
-                staleTime: Infinity,
-                select: (res) => {
-                    save(res, cacheId);
-                    storage.set('viewer_id', res.data?.data.user.id);
-                    return res;
-                },
-            })
-        );
+        // return useQueryWithLocalDb<Response.QueryResult<{ user: Viewer; session: Session; companies: companyTypes.Company[] }>>(cacheId, ({ save }) =>
+        //     useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
+        //         staleTime: Infinity,
+        //         enabled,
+        //         select: (res) => {
+        //             save(res, cacheId);
+        //             storage.set('viewer_id', res.data?.data.user.id);
+        //             return res;
+        //         },
+        //     })
+        // );
+        return useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
+            staleTime: Infinity,
+            enabled,
+            select: (res) => {
+                storage.set('viewer_id', res.data?.data.user.id);
+                return res;
+            },
+        });
     }
 
     handleEditProfile() {

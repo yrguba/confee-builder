@@ -59,7 +59,6 @@ const webView = () => {
             code,
         };
 
-        // axios.post(`${backBaseURL}/${tokenEndpoint}`, body, { headers: { 'X-DEVICE-ID': deviceId } }).then((res) => {
         axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res) => {
             if (res.data.access_token) {
                 tokensService.save({
