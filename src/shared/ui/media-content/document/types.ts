@@ -10,7 +10,6 @@ export type BaseDocumentProps = {
     size?: number;
     extension?: string;
     disableDownload?: boolean;
-    clickedFile?: UseEasyStateReturnType<{ url: string; name: string; id: number | string; type: MediaContentType } | null>;
 };
 
 export type DocumentsListItemProps = {

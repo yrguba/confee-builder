@@ -19,7 +19,7 @@ export type BaseVideoPlayerProps = {
     borderRadius?: boolean;
     reset?: boolean;
     visibleCover?: boolean;
-    clickedFile?: UseEasyStateReturnType<{ url: string; name: string; id: number | string; type: MediaContentType } | null>;
+
     disableDownload?: boolean;
 } & BaseTypes.Statuses;
 
@@ -30,7 +30,7 @@ export type VideoListItem = {
 export type VideoListProps = {
     items: VideoListItem[] | BaseTypes.Empty;
     style?: CSSProperties;
-    clickedFile?: UseEasyStateReturnType<{ url: string; name: string; id: number | string; type: MediaContentType } | null>;
+
     disableDownload?: boolean;
 } & BaseTypes.Statuses;
 

@@ -14,9 +14,8 @@ import Title from '../../../../title';
 import { BaseDocumentProps } from '../../types';
 
 function Document(props: BaseDocumentProps) {
-    const { id, clickedFile, disableDownload = true, url, size, name, extension } = props;
+    const { id, disableDownload = true, url, size, name, extension } = props;
     const visibleMenu = useEasyState(false);
-    const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
     const { src, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'document' });
     const notification = Notification.use();
@@ -26,10 +25,10 @@ function Document(props: BaseDocumentProps) {
     const clickContextMenu = async (e: any) => {
         e.preventDefault();
 
-        if (clickedFile && name && id) {
-            const blob = await getFileBlob();
-            clickedFile.set({ url: src, name, id, type: 'documents' });
-        }
+        // if (clickedFile && name && id) {
+        //     const blob = await getFileBlob();
+        //     clickedFile.set({ url: src, name, id, type: 'documents' });
+        // }
         if (!disableDownload) {
             visibleMenu.toggle();
         }
@@ -52,13 +51,13 @@ function Document(props: BaseDocumentProps) {
     return (
         <div onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu} className={styles.wrapper}>
             <div className={styles.icon}>
-                {!url ? (
-                    <Icons variant="block" />
-                ) : idOfSavedFile.value === id ? (
-                    <LoadingIndicator.Downloaded primary={false} visible />
-                ) : (
-                    <Icons.Document variant={extension as any} />
-                )}
+                {/* {!url ? ( */}
+                {/*    <Icons variant="block" /> */}
+                {/* ) : idOfSavedFile.value === id ? ( */}
+                {/*    <LoadingIndicator.Downloaded primary={false} visible /> */}
+                {/* ) : ( */}
+                {/*    <Icons.Document variant={extension as any} /> */}
+                {/* )} */}
             </div>
 
             {(size || name || extension) && (

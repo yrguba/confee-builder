@@ -9,11 +9,10 @@ import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
     videos: File[];
-    clickedFile: UseEasyStateReturnType<{ url: string; name: string; id: number | string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 function VideoMessage(props: Props) {
-    const { clickedFile, videos } = props;
+    const { videos } = props;
     const swiperState = useEasyState<{ visible: boolean; initial: number }>({ visible: false, initial: 1 });
 
     const updItems = videos?.map((i, index) => ({
@@ -33,7 +32,7 @@ function VideoMessage(props: Props) {
             {/*    items={updItems} */}
             {/* /> */}
             <div className={styles.wrapper}>
-                <VideoPlayer.List clickedFile={clickedFile} items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+                <VideoPlayer.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
             </div>
         </>
     );

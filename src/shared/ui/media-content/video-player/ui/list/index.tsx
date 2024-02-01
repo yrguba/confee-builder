@@ -7,7 +7,7 @@ import VideoPlayer from '../base';
 import Swiper from '../swiper';
 
 function VideoList(props: VideoListProps) {
-    const { disableDownload, clickedFile, items, style } = props;
+    const { disableDownload, items, style } = props;
 
     const visibleSwiper = useEasyState({ visible: false, init: 0 });
 
@@ -21,13 +21,7 @@ function VideoList(props: VideoListProps) {
             />
             <div className={styles.wrapper} style={style}>
                 {items?.map((i, index) => (
-                    <VideoPlayer
-                        disableDownload={disableDownload}
-                        clickedFile={clickedFile}
-                        key={i.id}
-                        {...i}
-                        onClick={() => visibleSwiper.set({ visible: true, init: index })}
-                    />
+                    <VideoPlayer disableDownload={disableDownload} key={i.id} {...i} onClick={() => visibleSwiper.set({ visible: true, init: index })} />
                 ))}
             </div>
         </>

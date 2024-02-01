@@ -7,7 +7,7 @@ import Image from '../base';
 import Swiper from '../swiper';
 
 function ImageList(props: ImagesListProps) {
-    const { disableDownload = true, clickedFile, items, style } = props;
+    const { disableDownload = true, items, style } = props;
 
     const visibleSwiper = useEasyState({ visible: false, init: 0 });
 
@@ -24,7 +24,6 @@ function ImageList(props: ImagesListProps) {
                     <Image
                         disableDownload={disableDownload}
                         name={i.name}
-                        clickedFile={clickedFile}
                         onClick={() => visibleSwiper.set({ visible: true, init: index })}
                         key={i.id}
                         {...i}

@@ -10,12 +10,11 @@ import { useChatStore } from '../../../../../chat';
 import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
-    clickedFile: UseEasyStateReturnType<{ url: string; name: string; id: number | string; type: MediaContentType } | null>;
     images: File[];
 } & BaseTypes.Statuses;
 
 function ImagesMessage(props: Props) {
-    const { clickedFile, images } = props;
+    const { images } = props;
 
     const swiperState = useEasyState<{ visible: boolean; initial: number }>({ visible: false, initial: 1 });
 
@@ -37,7 +36,7 @@ function ImagesMessage(props: Props) {
                 items={updItems}
             />
             <div className={styles.wrapper}>
-                <Image.List clickedFile={clickedFile} items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+                <Image.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
             </div>
         </>
     );

@@ -6,7 +6,6 @@ import { useStore, UseStoreTypes } from 'shared/hooks';
 
 type Store = {
     chatSubscription: UseStoreTypes.SelectorWithPrimitive<number | null>;
-    idOfSavedFile: UseStoreTypes.SelectorWithPrimitive<number | string | null>;
     initialOpenChat: UseStoreTypes.SelectorWithPrimitive<boolean>;
 };
 
@@ -15,7 +14,7 @@ const { createSelectors, generateSelectorWithPrimitive } = useStore<Store>();
 const chatStore = create<Store>()(
     devtools(
         immer((set) => ({
-            ...generateSelectorWithPrimitive(['chatSubscription', 'idOfSavedFile', 'initialOpenChat'], set),
+            ...generateSelectorWithPrimitive(['chatSubscription', 'initialOpenChat'], set),
         }))
     )
 );

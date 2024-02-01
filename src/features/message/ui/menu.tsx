@@ -69,6 +69,7 @@ function MessageMenu(props: MessageMenuProps) {
             case 'save':
                 menuMessageId.set(null);
                 downloadFile.value.callback();
+                downloadFile.clear();
         }
     };
 

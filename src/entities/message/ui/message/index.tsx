@@ -58,8 +58,6 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     const replyAndForwardTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4S');
     const messageWrapperWidth = useEasyState(0);
 
-    const clickedFile = useEasyState<{ url: string; name: string; id: number | string; type: MediaContentType } | null>(null);
-
     const classes = useStyles(styles, 'bubble', {
         isMy,
         my_last: lastMessageInBlock && isMy,
@@ -90,9 +88,6 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={avatarSize.value} img={authorAvatar} />}
             <Dropdown
                 visible={menuMessageId.value === message.id}
-                openCloseTrigger={(value) => {
-                    !value && clickedFile.set(null);
-                }}
                 reverseX={isMy}
                 disabled={voiceRecordingInProgress}
                 clickAway={() => menuMessageId.set(null)}
@@ -121,20 +116,18 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                         {((type === 'text' && !forwarded_from_message) || forwarded_from_message?.type === 'text') && (
                             <TextMessage text={forwarded_from_message?.text || text} openChatProfileModal={openChatProfileModal} chat={chat} />
                         )}
-                        {(type === 'images' || forwarded_from_message?.type === 'images') && (
-                            <ImagesMessage clickedFile={clickedFile} images={forwarded_from_message?.files || files} />
-                        )}
+                        {(type === 'images' || forwarded_from_message?.type === 'images') && <ImagesMessage images={forwarded_from_message?.files || files} />}
                         {(type === 'documents' || forwarded_from_message?.type === 'documents') && (
-                            <DocumentsMessage clickedFile={clickedFile} documents={forwarded_from_message?.files || files} />
+                            <DocumentsMessage documents={forwarded_from_message?.files || files} />
                         )}
                         {(type === 'voices' || forwarded_from_message?.type === 'voices') && (
-                            <VoiceMessage clickedFile={clickedFile} voices={forwarded_from_message?.files || message.files} />
+                            <VoiceMessage voices={forwarded_from_message?.files || message.files} />
                         )}
                         {(type === 'audios' || forwarded_from_message?.type === 'audios') && (
                             <AudioMessage audios={forwarded_from_message?.files || message.files} />
                         )}
                         {(type === 'videos' || forwarded_from_message?.type === 'videos') && (
-                            <VideoMessage clickedFile={clickedFile} videos={forwarded_from_message?.files || message.files} />
+                            <VideoMessage videos={forwarded_from_message?.files || message.files} />
                         )}
                     </div>
                     <div className={styles.info}>

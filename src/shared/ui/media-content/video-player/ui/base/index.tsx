@@ -14,20 +14,7 @@ import Image from '../../../image';
 import { BaseVideoPlayerProps } from '../../types';
 
 function VideoPlayer(props: BaseVideoPlayerProps) {
-    const {
-        previewUrl,
-        disableDownload = true,
-        id,
-        name,
-        clickedFile,
-        visibleCover,
-        url,
-        onClick,
-        borderRadius = true,
-        height,
-        horizontalImgWidth,
-        width,
-    } = props;
+    const { previewUrl, disableDownload = true, id, name, visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
     const storage = useStorage();
 
     const { src, isLoading, error, videoCover, getFileBlob } = useFetchMediaContent({ url, returnedVideoCover: visibleCover, name, fileType: 'video' });
@@ -36,8 +23,6 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
 
     const { saveFromBack } = useFs();
     const visibleMenu = useEasyState(false);
-
-    const idOfSavedFile = useChatStore.use.idOfSavedFile();
 
     const [video, state, controls, ref] = useVideo(
         <video
@@ -50,9 +35,9 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
     );
 
     const clickContextMenu = () => {
-        if (clickedFile && name && id) {
-            clickedFile.set({ url: src, name, id, type: 'videos' });
-        }
+        // if (clickedFile && name && id) {
+        //     clickedFile.set({ url: src, name, id, type: 'videos' });
+        // }
         if (!disableDownload) {
             visibleMenu.toggle();
         }
@@ -81,11 +66,11 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
             onClick={onClick}
             style={{ maxWidth: width || '100%', width: width || '100%', height }}
         >
-            {id === idOfSavedFile.value && (
-                <div className={styles.savingFile}>
-                    <LoadingIndicator.Downloaded size={50} visible primary={false} />
-                </div>
-            )}
+            {/* {id === idOfSavedFile.value && ( */}
+            {/*    <div className={styles.savingFile}> */}
+            {/*        <LoadingIndicator.Downloaded size={50} visible primary={false} /> */}
+            {/*    </div> */}
+            {/* )} */}
             {videoCover || previewUrl ? <Image url={videoCover || previewUrl || ''} height={height} width={width} onClick={() => ''} /> : video}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />

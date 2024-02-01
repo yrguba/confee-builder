@@ -13,7 +13,7 @@ import { BaseAudioPlayerProps } from '../../types';
 import waveformStatic from '../wave-form/static';
 
 function AudioPlayer(props: BaseAudioPlayerProps) {
-    const { id, name, clickedFile, disabled, url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
+    const { id, name, disabled, url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
     const storage = useStorage();
     console.log(name);
     const { src, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'audio' });
@@ -27,9 +27,9 @@ function AudioPlayer(props: BaseAudioPlayerProps) {
     };
 
     const onContextMenu = () => {
-        if (name && id) {
-            clickedFile?.set({ url: src, name, id, type: 'audios' });
-        }
+        // if (name && id) {
+        //     clickedFile?.set({ url: src, name, id, type: 'audios' });
+        // }
     };
 
     return (

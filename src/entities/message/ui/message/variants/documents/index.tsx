@@ -9,17 +9,16 @@ import { File, MediaContentType } from '../../../../model/types';
 
 type Props = {
     documents: File[];
-    clickedFile: UseEasyStateReturnType<{ url: string; name: string; id: number | string; type: MediaContentType } | null>;
 } & BaseTypes.Statuses;
 
 function DocumentsMessage(props: Props) {
-    const { documents, clickedFile } = props;
+    const { documents } = props;
 
     return (
         <div className={styles.wrapper}>
             {documents.map((i, index) => (
                 <div key={i.id} className={styles.item}>
-                    <Document clickedFile={clickedFile} id={i.id} url={i.url} name={i.name} extension={i.extension} />
+                    <Document id={i.id} url={i.url} name={i.name} extension={i.extension} />
                 </div>
             ))}
         </div>

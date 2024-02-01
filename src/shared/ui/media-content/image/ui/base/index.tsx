@@ -19,7 +19,6 @@ import { BaseImageProps } from '../../types';
 function Image(props: BaseImageProps) {
     const {
         name,
-        clickedFile,
         maxWidth,
         objectFit = 'cover',
         url,
@@ -52,9 +51,9 @@ function Image(props: BaseImageProps) {
                 console.log('wdd');
             },
         });
-        if (clickedFile && name && id) {
-            // clickedFile.set({ url: src, name, id, type: 'images' });
-        }
+        // if (clickedFile && name && id) {
+        //     // clickedFile.set({ url: src, name, id, type: 'images' });
+        // }
         if (!disableDownload) {
             visibleMenu.toggle();
         }
