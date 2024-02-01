@@ -132,25 +132,30 @@ class MessageApi {
             }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files, { params: data.params }),
             {
                 onMutate: async (data) => {
-                    queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                        const message = mockMessage({
-                            text: '',
-                            author: viewerData?.data.data.user,
-                            files: data.filesForMock,
-                            type: data.filesType,
-                            reply: data.replyMessage,
-                        });
+                    // queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+                    //     const message = mockMessage({
+                    //         text: '',
+                    //         author: viewerData?.data.data.user,
+                    //         files: data.filesForMock,
+                    //         type: data.filesType,
+                    //         reply: data.replyMessage,
+                    //     });
+                    //     return produce(cacheData, (draft: any) => {
+                    //         // draft.pages[0].data.data.unshift(message);
+                    //     });
+                    // });
+                },
+                onSuccess: (data, variables) => {
+                    const message = data.data.data;
+                    queryClient.setQueryData(['get-messages', variables.chatId], (cacheData: any) => {
                         return produce(cacheData, (draft: any) => {
                             draft.pages[0].data.data.unshift(message);
                         });
                     });
-                },
-                onSuccess: (data) => {
-                    const message = data.data.data;
-                    messageService.updateMockMessage(
-                        { users_have_read: message.users_have_read, chatId: message.chat_id, filesType: message.type, id: message.id },
-                        queryClient
-                    );
+                    // messageService.updateMockMessage(
+                    //     { users_have_read: message.users_have_read, chatId: message.chat_id, filesType: message.type, id: message.id },
+                    //     queryClient
+                    // );
                 },
                 onError: (error, variables, context) => {
                     messageService.updateMockMessage(variables, queryClient, true);
