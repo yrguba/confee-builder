@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { appService } from 'entities/app';
 import { useEasyState, useFetchMediaContent, useFs } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { useChatStore } from '../../../../../../entities/chat';
+import { useMessageStore } from '../../../../../../entities/message';
 import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
 import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../../../index';
@@ -17,18 +18,26 @@ function Document(props: BaseDocumentProps) {
     const { id, disableDownload = true, url, size, name, extension } = props;
     const visibleMenu = useEasyState(false);
 
-    const { src, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'document' });
+    const downloadFile = useMessageStore.use.downloadFile();
+
     const notification = Notification.use();
 
-    // const { saveFromBack } = useFs();
+    const fs = useFs();
+
+    const progress = useEasyState(0);
+
+    const saveFile = () => {
+        if (name && url) {
+            fs.save({ baseDir: 'download', url, fileName: name, progressCallback: (percent) => progress.set(percent) });
+        }
+    };
 
     const clickContextMenu = async (e: any) => {
         e.preventDefault();
-
-        // if (clickedFile && name && id) {
-        //     const blob = await getFileBlob();
-        //     clickedFile.set({ url: src, name, id, type: 'documents' });
-        // }
+        downloadFile.set({
+            fileType: 'documents',
+            callback: saveFile,
+        });
         if (!disableDownload) {
             visibleMenu.toggle();
         }
@@ -40,24 +49,28 @@ function Document(props: BaseDocumentProps) {
             title: 'Скачать файл',
             icon: <Icons variant="save" />,
             callback: async () => {
-                if (name && url) {
-                    // await saveFromBack({ baseDir: 'download', url, fileName: name });
-                    // notification.success({ title: 'Файл сохранен', system: true });
-                }
+                visibleMenu.set(false);
+                saveFile();
             },
         },
     ];
 
+    useEffect(() => {
+        if (progress.value === 100) {
+            notification.success({ title: 'Файл сохранен', system: true });
+        }
+    }, [progress.value]);
+
     return (
         <div onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu} className={styles.wrapper}>
             <div className={styles.icon}>
-                {/* {!url ? ( */}
-                {/*    <Icons variant="block" /> */}
-                {/* ) : idOfSavedFile.value === id ? ( */}
-                {/*    <LoadingIndicator.Downloaded primary={false} visible /> */}
-                {/* ) : ( */}
-                {/*    <Icons.Document variant={extension as any} /> */}
-                {/* )} */}
+                {!url ? (
+                    <Icons variant="block" />
+                ) : progress.value > 0 && progress.value < 100 ? (
+                    <LoadingIndicator.Downloaded primary={false} visible />
+                ) : (
+                    <Icons.Document variant={extension as any} />
+                )}
             </div>
 
             {(size || name || extension) && (

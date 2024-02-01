@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styles from './styles.module.scss';
 import { useEasyState, useFs } from '../../../../../hooks';
@@ -15,7 +15,15 @@ function AudioCard(props: AudioCardProps) {
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
 
-    // const { saveFromBack } = useFs();
+    const fs = useFs();
+
+    const progress = useEasyState(0);
+
+    const saveFile = () => {
+        if (name && url) {
+            fs.save({ baseDir: 'download', url, fileName: name, progressCallback: (percent) => progress.set(percent) });
+        }
+    };
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
@@ -28,11 +36,18 @@ function AudioCard(props: AudioCardProps) {
             title: 'Скачать аудио',
             icon: <Icons variant="save" />,
             callback: async () => {
-                // await saveFromBack({ baseDir: 'download', url, fileName: name });
-                // notification.success({ title: 'Аудио сохранен', system: true });
+                visibleMenu.set(false);
+                saveFile();
+                notification.success({ title: 'Аудио сохранен', system: true });
             },
         },
     ];
+
+    useEffect(() => {
+        if (progress.value === 100) {
+            notification.success({ title: 'Аудио сохранен', system: true });
+        }
+    }, [progress.value]);
 
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
