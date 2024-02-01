@@ -148,7 +148,7 @@ class MessageApi {
                 onSuccess: (data) => {
                     const message = data.data.data;
                     messageService.updateMockMessage(
-                        { users_have_read: message.users_have_read, chatId: message.chat_id, filesType: message.type, id: message.id },
+                        { files: message.files, users_have_read: message.users_have_read, chatId: message.chat_id, filesType: message.type, id: message.id },
                         queryClient
                     );
                 },
