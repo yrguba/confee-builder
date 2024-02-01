@@ -6,6 +6,7 @@ import { download } from 'tauri-plugin-upload-api';
 
 import useThrottle from './useThrottle';
 import { appService } from '../../entities/app';
+import { tokensService } from '../../entities/viewer';
 
 export type FileTypes = 'img' | 'video' | 'document' | 'audio' | 'json';
 
@@ -53,6 +54,7 @@ const [saveThrottle] = useThrottle((cb) => cb(), 200);
 const useFS = () => {
     const disabled = !window.__TAURI__;
     const { backBaseURL } = appService.getUrls();
+
     const save = async (props: SaveProps) => {
         if (disabled) return null;
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
@@ -70,7 +72,13 @@ const useFS = () => {
             props.progressCallback && props.progressCallback(100);
             return;
         }
-        download(`${backBaseURL}/${props.url}`, fullPath, (progress, total) => console.log(`Downloaded ${progress} of ${total} bytes`));
+        const serverPath = `${backBaseURL}${props.url}`;
+        const tokens = tokensService.get();
+        if (tokens?.access_token) {
+            const headers = new Map();
+            headers.set('Authorization', `Bearer ${tokens.access_token}`);
+            await download(serverPath, fullPath, (progress, total) => console.log(`Downloaded ${progress} of ${total} bytes`), headers);
+        }
     };
 
     const saveFile = async (props: SaveFileProps) => {

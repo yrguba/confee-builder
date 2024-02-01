@@ -51,10 +51,10 @@ function useFetchMediaContent(props: Props) {
                     const updUrl = url.replace('x-matroska', 'mp4');
                     return src.set(updUrl);
                 }
-                // const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
-                // if (fileInCache) {
-                //     return src.set(fileInCache);
-                // }
+                const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
+                if (fileInCache) {
+                    return src.set(fileInCache);
+                }
                 enable();
             }
         };
