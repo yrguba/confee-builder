@@ -19,8 +19,7 @@ type SaveFromBackProps = {
     url: string;
     fileName: string;
     baseDir: keyof typeof baseDirs;
-    folderDir: 'cache';
-    arrayBuffer: ArrayBuffer;
+    folderDir?: 'cache';
     fileType?: FileTypes;
     progressCallback?: (progress: number) => void;
 };
@@ -58,7 +57,7 @@ const useFS = () => {
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
         const getPath = async () => {
             if (props.baseDir === 'download') return root;
-            return join(root, props.folderDir, `${props.fileType ? props.fileType : ''}`);
+            return join(root, `${props.folderDir ? props.folderDir : ''}`, `${props.fileType ? props.fileType : ''}`);
         };
         const path = await getPath();
         const fullPath = await join(path, props.fileName.split('/').join(''));

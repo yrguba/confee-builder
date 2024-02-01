@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { appTypes } from 'entities/app';
-import { useEasyState, useFetchMediaContent, useSaveMediaContent, useStorage, useStyles, useWindowMouseClick } from 'shared/hooks';
+import { useEasyState, useFetchMediaContent, useFs, useStorage, useStyles, useWindowMouseClick } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { useChatStore } from '../../../../../../entities/chat';
@@ -41,7 +41,7 @@ function Image(props: BaseImageProps) {
 
     const notification = Notification.use();
 
-    const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();
+    const { saveFromBack } = useFs();
 
     const clickContextMenu = () => {
         if (clickedFile && name && id) {
@@ -58,9 +58,11 @@ function Image(props: BaseImageProps) {
             title: 'Скачать фото',
             icon: <Icons variant="save" />,
             callback: async () => {
-                await saveInDownload(src, name);
-                notification.success({ title: 'Фото сохранено', system: true });
-                visibleMenu.set(false);
+                if (url && name) {
+                    await saveFromBack({ baseDir: 'download', url, fileName: name });
+                    notification.success({ title: 'Фото сохранено', system: true });
+                    visibleMenu.set(false);
+                }
             },
         },
     ];
@@ -84,7 +86,7 @@ function Image(props: BaseImageProps) {
                 cursor: onClick ? 'pointer' : 'default',
             }}
         >
-            {(loadingSaveFile || id === idOfSavedFile.value) && (
+            {id === idOfSavedFile.value && (
                 <div className={styles.savingFile}>
                     <LoadingIndicator.Downloaded size={50} visible primary={false} />
                 </div>

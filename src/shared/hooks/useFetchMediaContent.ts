@@ -36,7 +36,6 @@ function useFetchMediaContent(props: Props) {
                     baseDir: 'document',
                     folderDir: 'cache',
                     fileType,
-                    arrayBuffer: fileData as ArrayBuffer,
                 }).then();
             }
         }

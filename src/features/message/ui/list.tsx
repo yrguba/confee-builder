@@ -17,7 +17,7 @@ import {
 } from 'entities/message';
 import { File, MediaContentType } from 'entities/message/model/types';
 import { UserProxy } from 'entities/user/model/types';
-import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech, useEasyState, useFileUploader, useSaveMediaContent } from 'shared/hooks';
+import { useRouter, useCopyToClipboard, useLifecycles, createMemo, useTextToSpeech, useEasyState, useFileUploader, useFs } from 'shared/hooks';
 import { reactionConverter } from 'shared/lib';
 import { Modal, Notification } from 'shared/ui';
 
@@ -33,7 +33,7 @@ function MessageList() {
 
     const queryClient = useQueryClient();
 
-    const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();
+    const { saveFromBack } = useFs();
     const messageIdToSearchForPage = useEasyState<number | null>(null);
 
     const { playSpeech } = useTextToSpeech();
@@ -134,12 +134,14 @@ function MessageList() {
             case 'play':
                 return playSpeech(message.text);
             case 'save':
-                saveInDownload(file?.url, file?.name);
-                file?.id && idOfSavedFile.set(file.id);
-                notification.success({
-                    title: `${file?.type ? messageDictionaries.mediaContent[file?.type] : ''} ${file?.type === 'documents' ? 'сохранен' : 'сохранено'}`,
-                    system: true,
-                });
+                if (file?.url && file?.name) {
+                    saveFromBack({ baseDir: 'download', url: file.url, fileName: file.name });
+                    file?.id && idOfSavedFile.set(file.id);
+                    notification.success({
+                        title: `${file?.type ? messageDictionaries.mediaContent[file?.type] : ''} ${file?.type === 'documents' ? 'сохранен' : 'сохранено'}`,
+                        system: true,
+                    });
+                }
         }
     };
 
@@ -188,13 +190,13 @@ function MessageList() {
         }
     );
 
-    useUpdateEffect(() => {
-        if (!loadingSaveFile) {
-            setTimeout(() => {
-                idOfSavedFile.set(null);
-            }, 500);
-        }
-    }, [loadingSaveFile]);
+    // useUpdateEffect(() => {
+    //     if (!loadingSaveFile) {
+    //         setTimeout(() => {
+    //             idOfSavedFile.set(null);
+    //         }, 500);
+    //     }
+    // }, [loadingSaveFile]);
 
     return (
         <>

@@ -4,7 +4,7 @@ import { useUpdateEffect } from 'react-use';
 import styles from './styles.module.scss';
 import { useChatStore } from '../../../../../../entities/chat';
 import { MediaContentType } from '../../../../../../entities/message/model/types';
-import { useEasyState, UseEasyStateReturnType, useFetchMediaContent, useSaveMediaContent, useStorage, useVideo } from '../../../../../hooks';
+import { useEasyState, UseEasyStateReturnType, useFetchMediaContent, useFs, useStorage, useVideo } from '../../../../../hooks';
 import Box from '../../../../box';
 import Icons from '../../../../icons';
 import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../../../index';
@@ -34,7 +34,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
 
     const notification = Notification.use();
 
-    const { saveInDownload, isLoading: loadingSaveFile } = useSaveMediaContent();
+    const { saveFromBack } = useFs();
     const visibleMenu = useEasyState(false);
 
     const idOfSavedFile = useChatStore.use.idOfSavedFile();
@@ -65,8 +65,10 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
             icon: <Icons variant="save" />,
             callback: async () => {
                 visibleMenu.set(false);
-                await saveInDownload(src, name);
-                notification.success({ title: 'Видео сохранено', system: true });
+                if (url && name) {
+                    await saveFromBack({ baseDir: 'download', url, fileName: name });
+                    notification.success({ title: 'Видео сохранено', system: true });
+                }
             },
         },
     ];

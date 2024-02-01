@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { appService } from 'entities/app';
-import { useEasyState, useFetchMediaContent, useFs, useSaveMediaContent } from 'shared/hooks';
+import { useEasyState, useFetchMediaContent, useFs } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { useChatStore } from '../../../../../../entities/chat';
@@ -21,7 +21,7 @@ function Document(props: BaseDocumentProps) {
     const { src, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'document' });
     const notification = Notification.use();
 
-    const { saveInDownload, isLoading } = useSaveMediaContent();
+    const { saveFromBack } = useFs();
 
     const clickContextMenu = async (e: any) => {
         e.preventDefault();
@@ -41,8 +41,10 @@ function Document(props: BaseDocumentProps) {
             title: 'Скачать файл',
             icon: <Icons variant="save" />,
             callback: async () => {
-                await saveInDownload(src, name);
-                notification.success({ title: 'Файл сохранен', system: true });
+                if (name && url) {
+                    await saveFromBack({ baseDir: 'download', url, fileName: name });
+                    notification.success({ title: 'Файл сохранен', system: true });
+                }
             },
         },
     ];
@@ -52,7 +54,7 @@ function Document(props: BaseDocumentProps) {
             <div className={styles.icon}>
                 {!url ? (
                     <Icons variant="block" />
-                ) : isLoading || idOfSavedFile.value === id ? (
+                ) : idOfSavedFile.value === id ? (
                     <LoadingIndicator.Downloaded primary={false} visible />
                 ) : (
                     <Icons.Document variant={extension as any} />

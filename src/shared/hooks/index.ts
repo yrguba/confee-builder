@@ -43,7 +43,6 @@ import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
 import useRingtone from './useRingtone';
 import useRouter from './useRouter';
-import useSaveMediaContent from './useSaveMediaContent';
 import useScroll from './useScroll';
 import useShell from './useShell';
 import useSize from './useSize';
@@ -66,7 +65,6 @@ export {
     useRingtone,
     useShell,
     useWindowMouseClick,
-    useSaveMediaContent,
     useUnmount,
     useLongPress,
     useTextToSpeech,

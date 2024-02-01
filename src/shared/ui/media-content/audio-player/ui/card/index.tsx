@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import { useEasyState, useSaveMediaContent } from '../../../../../hooks';
+import { useEasyState, useFs } from '../../../../../hooks';
 import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
 import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../../../index';
@@ -15,7 +15,7 @@ function AudioCard(props: AudioCardProps) {
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
 
-    const { saveInDownload, isLoading } = useSaveMediaContent();
+    const { saveFromBack } = useFs();
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
@@ -28,7 +28,7 @@ function AudioCard(props: AudioCardProps) {
             title: 'Скачать аудио',
             icon: <Icons variant="save" />,
             callback: async () => {
-                await saveInDownload(url, name);
+                await saveFromBack({ baseDir: 'download', url, fileName: name });
                 notification.success({ title: 'Аудио сохранен', system: true });
             },
         },
