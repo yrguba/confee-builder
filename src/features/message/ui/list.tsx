@@ -54,6 +54,7 @@ function MessageList() {
     const foundMessage = useMessageStore.use.foundMessage();
     const goDownList = useMessageStore.use.goDownList();
     const isFileDrag = useMessageStore.use.isFileDrag();
+    const downloadFile = useMessageStore.use.downloadFile();
 
     const {
         data: messageData,
@@ -134,15 +135,17 @@ function MessageList() {
             case 'play':
                 return playSpeech(message.text);
             case 'save':
-                if (file?.url && file?.name) {
-                    console.log(file.url);
-                    saveFromBack({ baseDir: 'download', url: file.url, fileName: file.name });
-                    file?.id && idOfSavedFile.set(file.id);
-                    notification.success({
-                        title: `${file?.type ? messageDictionaries.mediaContent[file?.type] : ''} ${file?.type === 'documents' ? 'сохранен' : 'сохранено'}`,
-                        system: true,
-                    });
-                }
+                console.log(downloadFile.value);
+            // downloadFile?.value?.callback();
+            // if (file?.url && file?.name) {
+            //     console.log(file.url);
+            //     saveFromBack({ baseDir: 'download', url: file.url, fileName: file.name });
+            //     file?.id && idOfSavedFile.set(file.id);
+            //     notification.success({
+            //         title: `${file?.type ? messageDictionaries.mediaContent[file?.type] : ''} ${file?.type === 'documents' ? 'сохранен' : 'сохранено'}`,
+            //         system: true,
+            //     });
+            // }
         }
     };
 
@@ -190,14 +193,6 @@ function MessageList() {
             editMessage.clear();
         }
     );
-
-    // useUpdateEffect(() => {
-    //     if (!loadingSaveFile) {
-    //         setTimeout(() => {
-    //             idOfSavedFile.set(null);
-    //         }, 500);
-    //     }
-    // }, [loadingSaveFile]);
 
     return (
         <>

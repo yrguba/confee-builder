@@ -19,7 +19,7 @@ function useFetchMediaContent(props: Props) {
 
     const src = useEasyState<any>('');
     const videoCover = useEasyState<string | null>(null);
-    const { saveFromBack, saveFile, getFileUrl } = useFS();
+    const { save, saveFromBack, saveFile, getFileUrl } = useFS();
 
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
 
@@ -30,13 +30,20 @@ function useFetchMediaContent(props: Props) {
             const filePath = fileConverter.arrayBufferToBlobLocalPath(fileData as ArrayBuffer);
             src.set(filePath);
             if (name) {
-                saveFromBack({
-                    url,
-                    fileName,
-                    baseDir: 'document',
-                    folderDir: 'cache',
-                    fileType,
-                }).then();
+                // save({
+                //     url,
+                //     fileName,
+                //     baseDir: 'document',
+                //     folderDir: 'cache',
+                //     fileType,
+                // });
+                // saveFromBack({
+                //     url,
+                //     fileName,
+                //     baseDir: 'document',
+                //     folderDir: 'cache',
+                //     fileType,
+                // }).then();
             }
         }
     }, [fileData]);

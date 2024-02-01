@@ -5,6 +5,7 @@ import { useEasyState, useFetchMediaContent, useFs, useStorage, useStyles, useWi
 
 import styles from './styles.module.scss';
 import { useChatStore } from '../../../../../../entities/chat';
+import { useMessageStore } from '../../../../../../entities/message';
 import { sizeConverter } from '../../../../../lib';
 import Box from '../../../../box';
 import Button from '../../../../button';
@@ -35,17 +36,24 @@ function Image(props: BaseImageProps) {
     const storage = useStorage();
 
     const { src, error, getFileBlob, isLoading } = useFetchMediaContent({ url, name, fileType: 'img' });
-    const idOfSavedFile = useChatStore.use.idOfSavedFile();
+    const downloadFile = useMessageStore.use.downloadFile();
 
     const visibleMenu = useEasyState(false);
+    const progress = useEasyState(0);
 
     const notification = Notification.use();
 
-    const { saveFromBack } = useFs();
+    const fs = useFs();
 
     const clickContextMenu = () => {
+        downloadFile.set({
+            fileType: 'images',
+            callback: () => {
+                console.log('wdd');
+            },
+        });
         if (clickedFile && name && id) {
-            clickedFile.set({ url: src, name, id, type: 'images' });
+            // clickedFile.set({ url: src, name, id, type: 'images' });
         }
         if (!disableDownload) {
             visibleMenu.toggle();
@@ -58,10 +66,11 @@ function Image(props: BaseImageProps) {
             title: 'Скачать фото',
             icon: <Icons variant="save" />,
             callback: async () => {
+                visibleMenu.set(false);
                 if (url && name) {
-                    await saveFromBack({ baseDir: 'download', url, fileName: name });
-                    notification.success({ title: 'Фото сохранено', system: true });
-                    visibleMenu.set(false);
+                    // fs.save({ baseDir: 'download', url, fileName: name });
+                    // await saveFromBack({ baseDir: 'download', url, fileName: name });
+                    // notification.success({ title: 'Фото сохранено', system: true });
                 }
             },
         },
@@ -86,11 +95,11 @@ function Image(props: BaseImageProps) {
                 cursor: onClick ? 'pointer' : 'default',
             }}
         >
-            {id === idOfSavedFile.value && (
+            {progress.value ? (
                 <div className={styles.savingFile}>
                     <LoadingIndicator.Downloaded size={50} visible primary={false} />
                 </div>
-            )}
+            ) : null}
             {!error && !isLoading && <img onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />}
             {remove && (
                 <Button.Circle radius={30} className={styles.remove} onClick={id ? () => remove(id) : () => ''} variant="inherit">

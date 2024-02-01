@@ -13,7 +13,7 @@ import { CurrentShortMember } from '../../../../chat/model/types';
 import { EmployeeProxy } from '../../../../company/model/types';
 import { userProxy } from '../../../../user';
 import { UserProxy, User } from '../../../../user/model/types';
-import { messageDictionaries } from '../../../index';
+import { messageDictionaries, useMessageStore } from '../../../index';
 import { File, MediaContentType, MessageMenuActions, MessageProxy } from '../../../model/types';
 
 type Props = {
@@ -41,6 +41,7 @@ const memoReadUsers = createMemo((members: CurrentShortMember[] | BaseTypes.Empt
 
 function MessageMenu(props: Props) {
     const { clickedFile, messageMenuAction, message, sendReaction, chat, openChatProfileModal } = props;
+    const downloadFile = useMessageStore.use.downloadFile();
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions | 'read'>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
@@ -60,10 +61,10 @@ function MessageMenu(props: Props) {
         },
         {
             id: 9,
-            title: clickedFile?.type ? `Скачать ${messageDictionaries.mediaContent[clickedFile?.type]}` : '',
+            title: downloadFile.value.fileType ? `Скачать ${messageDictionaries.mediaContent[downloadFile?.value?.fileType]}` : '',
             icon: 'save',
             payload: 'save',
-            hidden: !clickedFile,
+            hidden: !downloadFile.value.fileType,
         },
     ];
     const reactions = ['1f4a3', '1f440', '26d4', '1f49c', '1f4a5', '1f34c', '1f44c', '1f44d'];

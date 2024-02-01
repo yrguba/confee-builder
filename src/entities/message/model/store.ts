@@ -4,7 +4,7 @@ import { immer } from 'zustand/middleware/immer';
 
 import { useStore, UseStoreTypes } from 'shared/hooks';
 
-import { Message, MessageProxy } from './types';
+import { MediaContentType, Message, MessageProxy } from './types';
 
 type Store = {
     replyMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
@@ -17,6 +17,10 @@ type Store = {
     foundMessage: UseStoreTypes.SelectorWithObj<Message | null>;
     goDownList: UseStoreTypes.SelectorWithPrimitive<boolean>;
     isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
+    downloadFile: UseStoreTypes.SelectorWithObj<{
+        fileType: MediaContentType;
+        callback: () => void;
+    }>;
 };
 
 const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, generateSelectorWithPrimitive } = useStore<Store>();
@@ -25,7 +29,7 @@ const messageStore = create<Store>()(
     devtools(
         immer((set, getState) => ({
             ...generateSelectorWithPrimitive(['voiceRecordingInProgress', 'visibleSearchMessages', 'initialPage', 'goDownList', 'isFileDrag'], set),
-            ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages', 'foundMessage'], set),
+            ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages', 'foundMessage', 'downloadFile'], set),
             ...generateSelectorWithArr(['highlightedMessages'], set),
         }))
     )

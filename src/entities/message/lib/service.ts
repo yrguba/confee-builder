@@ -32,11 +32,7 @@ class MessageService {
         }
     }
 
-    updateMockMessage(
-        data: { files?: any; users_have_read?: number[]; chatId: number; filesType: MessageType; id?: number },
-        queryClient: any,
-        sendingError?: boolean
-    ) {
+    updateMockMessage(data: { users_have_read?: number[]; chatId: number; filesType: MessageType; id?: number }, queryClient: any, sendingError?: boolean) {
         queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
             return produce(cacheData, (draft: any) => {
                 draft.pages[0].data.data.find((i: MessageProxy, index: number) => {
@@ -49,7 +45,6 @@ class MessageService {
                             isMock: false,
                             sendingError,
                             users_have_read: data.users_have_read,
-                            files: data.files,
                         };
                     }
                 });

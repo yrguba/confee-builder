@@ -15,6 +15,15 @@ const baseDirs = {
     document: documentDir,
 };
 
+type SaveProps = {
+    url: string;
+    fileName: string;
+    baseDir: keyof typeof baseDirs;
+    folderDir?: 'cache';
+    fileType?: FileTypes;
+    progressCallback?: (progress: number) => void;
+};
+
 type SaveFromBackProps = {
     url: string;
     fileName: string;
@@ -51,6 +60,10 @@ type DeleteFolderProps = {} & GetFolderSizeProps;
 const useFS = () => {
     const disabled = !window.__TAURI__;
     const { backBaseURL } = appService.getUrls();
+
+    const save = (props: SaveProps) => {
+        console.log(props);
+    };
 
     const saveFromBack = async (props: SaveFromBackProps) => {
         if (disabled) return null;
@@ -165,7 +178,7 @@ const useFS = () => {
         // await removeDir(folderDir, { dir: baseDir, recursive: true });
     };
 
-    return { saveFromBack, saveFile, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
+    return { save, saveFromBack, saveFile, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
 };
 
 export default useFS;
