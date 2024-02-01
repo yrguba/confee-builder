@@ -77,7 +77,6 @@ function ChatHeader() {
                 highlightedMessages={highlightedMessages}
                 clickDeleteMessages={clickDeleteMessages}
                 clickForwardMessages={clickForwardMessages}
-                loading={isLoading}
             />
         </>
     );

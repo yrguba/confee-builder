@@ -21,8 +21,10 @@ function useFetchMediaContent(props: Props) {
     const videoCover = useEasyState<string | null>(null);
     const { save, getFileUrl } = useFS();
 
-    const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
+    const { online } = appService.getNetworkState();
 
+    const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
+    console.log(isFetching);
     const fileName = `${url}${name}`;
 
     useEffect(() => {
@@ -51,11 +53,14 @@ function useFetchMediaContent(props: Props) {
                 if (fileInCache) {
                     return src.set(fileInCache);
                 }
+                if (!online) {
+                    return src.set('');
+                }
                 enable();
             }
         };
         fn().then((res) => {});
-    }, [url]);
+    }, [url, online]);
 
     const getFileBlob = async () => {
         const res = await fetch(src.value);
