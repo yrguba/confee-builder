@@ -78,7 +78,7 @@ const useFS = () => {
             props.progressCallback && props.progressCallback(100);
             return;
         }
-        const serverPath = `${backBaseURL}${props.url}`;
+
         const tokens = tokensService.get();
         if (tokens?.access_token) {
             const getProgress = (progress: number, total: number) => {
@@ -88,7 +88,7 @@ const useFS = () => {
             };
             const headers = new Map();
             headers.set('Authorization', `Bearer ${tokens.access_token}`);
-            await download(serverPath, fullPath, getProgress, headers).then((r) => {
+            await download(props.url, fullPath, getProgress, headers).then((r) => {
                 if (props?.progressCallback) {
                     props.progressCallback(100);
                 }
@@ -97,11 +97,14 @@ const useFS = () => {
     };
 
     const save = (props: SaveProps) => {
-        if (props.url.includes('asset.localhost') || props.url.includes('blob')) {
-            console.log('local');
-        } else {
-            saveFromBack(props);
+        console.log(props);
+        if (props.url.includes('asset.localhost')) {
+            return null;
         }
+        if (props.url.includes('blob')) {
+            return saveFromBack({ ...props, url: props.url.split(':').splice(1).join(':') });
+        }
+        saveFromBack({ ...props, url: `${backBaseURL}${props.url}` });
     };
 
     const saveTextFile = async (props: SaveTextFileProps) => {

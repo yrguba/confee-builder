@@ -30,20 +30,13 @@ function useFetchMediaContent(props: Props) {
             const filePath = fileConverter.arrayBufferToBlobLocalPath(fileData as ArrayBuffer);
             src.set(filePath);
             if (name) {
-                // save({
-                //     url,
-                //     fileName,
-                //     baseDir: 'document',
-                //     folderDir: 'cache',
-                //     fileType,
-                // });
-                // saveFromBack({
-                //     url,
-                //     fileName,
-                //     baseDir: 'document',
-                //     folderDir: 'cache',
-                //     fileType,
-                // }).then();
+                save({
+                    url,
+                    fileName,
+                    baseDir: 'document',
+                    folderDir: 'cache',
+                    fileType,
+                });
             }
         }
     }, [fileData]);
@@ -51,10 +44,8 @@ function useFetchMediaContent(props: Props) {
     useEffect(() => {
         const fn = async () => {
             if (url) {
-                // loading.set(true);
                 if (url.includes('base64') || url.includes('blob')) {
-                    const updUrl = url.replace('x-matroska', 'mp4');
-                    return src.set(updUrl);
+                    return src.set(url);
                 }
                 const fileInCache = await getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType });
                 if (fileInCache) {
