@@ -37,10 +37,12 @@ type Props = {
     isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
     initialOpenChat: UseStoreTypes.SelectorWithPrimitive<boolean>;
     isFetching: boolean;
+    menuMessageId: UseStoreTypes.SelectorWithPrimitive<number | null>;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
     const {
+        menuMessageId,
         MessageMenu,
         clickMessageReply,
         deleteFoundMessage,
@@ -177,6 +179,7 @@ function MessagesListView(props: Props) {
                         >
                             {index === 10 && <div ref={prevPageRef} />}
                             <Message
+                                menuMessageId={menuMessageId}
                                 MessageMenu={MessageMenu}
                                 clickMessageReply={clickMessageReply}
                                 openChatProfileModal={openChatProfileModal}

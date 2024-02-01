@@ -39,6 +39,7 @@ function MessageList() {
     const foundMessage = useMessageStore.use.foundMessage();
     const goDownList = useMessageStore.use.goDownList();
     const isFileDrag = useMessageStore.use.isFileDrag();
+    const menuMessageId = useMessageStore.use.menuMessageId();
 
     const {
         data: messageData,
@@ -154,6 +155,7 @@ function MessageList() {
                 isFileDrag={isFileDrag}
                 initialOpenChat={initialOpenChat}
                 isFetching={isFetching}
+                menuMessageId={menuMessageId}
             />
         </>
     );

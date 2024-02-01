@@ -14,7 +14,7 @@ import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
 import VideoMessage from './variants/video';
 import VoiceMessage from './variants/voice';
-import { useDimensionsObserver, useEasyState, useStyles } from '../../../../shared/hooks';
+import { useDimensionsObserver, useEasyState, UseStoreTypes, useStyles } from '../../../../shared/hooks';
 import { appTypes } from '../../../app';
 import { EmployeeProxy } from '../../../company/model/types';
 import { userProxy } from '../../../user';
@@ -29,10 +29,11 @@ type Props = {
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     voiceRecordingInProgress: boolean;
     clickMessageReply: (message: MessageProxy) => void;
+    menuMessageId: UseStoreTypes.SelectorWithPrimitive<number | null>;
 } & BaseTypes.Statuses;
 
 const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
-    const { clickMessageReply, message, MessageMenu, chat, openChatProfileModal, voiceRecordingInProgress } = props;
+    const { menuMessageId, clickMessageReply, message, MessageMenu, chat, openChatProfileModal, voiceRecordingInProgress } = props;
 
     const {
         text,
@@ -56,8 +57,6 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     const dateTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4M');
     const replyAndForwardTitleVariant = useEasyState<TitleTypes.TitleVariants>('H4S');
     const messageWrapperWidth = useEasyState(0);
-
-    const visibleMenu = useEasyState(false);
 
     const clickedFile = useEasyState<{ url: string; name: string; id: number | string; type: MediaContentType } | null>(null);
 
@@ -83,21 +82,21 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-        visibleMenu.toggle();
+        menuMessageId.set(message.id);
     };
 
     return (
         <Box className={styles.wrapper} onContextMenu={clickContextMenu}>
             {!isMy && chat?.is_group && <Avatar opacity={lastMessageInBlock ? 1 : 0} size={avatarSize.value} img={authorAvatar} />}
             <Dropdown
-                visible={visibleMenu.value}
+                visible={menuMessageId.value === message.id}
                 openCloseTrigger={(value) => {
                     !value && clickedFile.set(null);
                 }}
                 reverseX={isMy}
                 disabled={voiceRecordingInProgress}
-                clickAway={() => visibleMenu.set(false)}
-                onClick={() => visibleMenu.set(false)}
+                clickAway={() => menuMessageId.set(null)}
+                // onClick={() => isVisibleMenu.set(false)}
                 content={<MessageMenu message={message} />}
             />
             <div className={styles.content}>
@@ -160,6 +159,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 });
 
 export default memo(MessageView, (prevProps, nextProps): any => {
+    if (prevProps.menuMessageId !== nextProps.menuMessageId) return false;
     if (prevProps.message?.text !== nextProps.message?.text) return false;
     if (prevProps.message?.sending !== nextProps.message?.sending) return false;
     if (prevProps.message?.isMock !== nextProps.message?.isMock) return false;

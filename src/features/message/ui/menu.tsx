@@ -2,8 +2,8 @@ import React from 'react';
 
 import { chatApi, chatProxy } from 'entities/chat';
 import { messageApi, messageTypes, useMessageStore, MessageMenuView } from 'entities/message';
-import { MediaContentType, MessageProxy } from 'entities/message/model/types';
-import { useRouter, useCopyToClipboard, useTextToSpeech, useFs } from 'shared/hooks';
+import { MessageProxy } from 'entities/message/model/types';
+import { useRouter, useCopyToClipboard, useTextToSpeech, useEasyState } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
 
 import { ForwardMessagesModal } from '../index';
@@ -17,8 +17,6 @@ function MessageMenu(props: MessageMenuProps) {
     const [state, copyToClipboard] = useCopyToClipboard();
     const chatId = Number(params.chat_id);
 
-    const { saveFromBack } = useFs();
-
     const { playSpeech } = useTextToSpeech();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
@@ -29,8 +27,8 @@ function MessageMenu(props: MessageMenuProps) {
     const editMessage = useMessageStore.use.editMessage();
     const forwardMessages = useMessageStore.use.forwardMessages();
     const highlightedMessages = useMessageStore.use.highlightedMessages();
-
     const downloadFile = useMessageStore.use.downloadFile();
+    const menuMessageId = useMessageStore.use.menuMessageId();
 
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const { mutate: handleSendReaction } = messageApi.handleSendReaction();
@@ -46,13 +44,16 @@ function MessageMenu(props: MessageMenuProps) {
     const messageMenuAction = (action: messageTypes.MessageMenuActions, message: messageTypes.MessageProxy) => {
         switch (action) {
             case 'reply':
+                menuMessageId.set(null);
                 return replyMessage.set(message);
             case 'edit':
+                menuMessageId.set(null);
                 if (message.type !== 'text') return notification.info({ title: 'Пока недоступно для изменения', system: true });
                 return editMessage.set(message);
             case 'fixed':
                 return notification.inDev();
             case 'copy':
+                menuMessageId.set(null);
                 copyToClipboard(message.text);
                 return notification.success({ title: 'Текст скопирован в буфер', system: true });
             case 'forward':
@@ -61,21 +62,13 @@ function MessageMenu(props: MessageMenuProps) {
             case 'delete':
                 return confirmDeleteMessage.open({ messageId: message.id });
             case 'highlight':
+                menuMessageId.set(null);
                 return highlightedMessages.push(message);
             case 'play':
                 return playSpeech(message.text);
             case 'save':
-                console.log(downloadFile.value);
-            // downloadFile?.value?.callback();
-            // if (file?.url && file?.name) {
-            //     console.log(file.url);
-            //     saveFromBack({ baseDir: 'download', url: file.url, fileName: file.name });
-            //     file?.id && idOfSavedFile.set(file.id);
-            //     notification.success({
-            //         title: `${file?.type ? messageDictionaries.mediaContent[file?.type] : ''} ${file?.type === 'documents' ? 'сохранен' : 'сохранено'}`,
-            //         system: true,
-            //     });
-            // }
+                menuMessageId.set(null);
+                downloadFile.value.callback();
         }
     };
 
@@ -83,7 +76,7 @@ function MessageMenu(props: MessageMenuProps) {
         <>
             <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
             <ForwardMessagesModal {...forwardMessagesModal} />
-            <MessageMenuView chat={proxyChat} message={props.message} messageMenuAction={messageMenuAction} />
+            <MessageMenuView downloadFileType={downloadFile.value?.fileType} chat={proxyChat} message={props.message} messageMenuAction={messageMenuAction} />
         </>
     );
 }

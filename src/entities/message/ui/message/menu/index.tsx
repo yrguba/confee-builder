@@ -4,23 +4,21 @@ import React, { useEffect } from 'react';
 import { useArray, useEasyState } from 'shared/hooks';
 import { getEnding } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Box, IconsTypes, Icons, Title, Emoji, Card } from 'shared/ui';
+import { Box, IconsTypes, Icons, Title, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { createMemo } from '../../../../../shared/hooks';
 import { chatTypes } from '../../../../chat';
 import { CurrentShortMember } from '../../../../chat/model/types';
-import { EmployeeProxy } from '../../../../company/model/types';
-import { userProxy } from '../../../../user';
-import { UserProxy, User } from '../../../../user/model/types';
-import { messageDictionaries, useMessageStore } from '../../../index';
-import { File, MediaContentType, MessageMenuActions, MessageProxy } from '../../../model/types';
+import { messageDictionaries } from '../../../index';
+import { MediaContentType, MessageMenuActions, MessageProxy } from '../../../model/types';
 
 type Props = {
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
     messageMenuAction: (action: MessageMenuActions, message: MessageProxy) => void;
     sendReaction?: (emoji: string, messageId: number) => void;
+    downloadFileType: MediaContentType;
 } & BaseTypes.Statuses;
 
 const memoReadUsers = createMemo((members: CurrentShortMember[] | BaseTypes.Empty, users_ids: number[]) => {
@@ -34,8 +32,7 @@ const memoReadUsers = createMemo((members: CurrentShortMember[] | BaseTypes.Empt
 });
 
 function MessageMenuView(props: Props) {
-    const { messageMenuAction, message, sendReaction, chat } = props;
-    const downloadFile = useMessageStore.use.downloadFile();
+    const { downloadFileType, messageMenuAction, message, sendReaction, chat } = props;
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions | 'read'>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
@@ -55,10 +52,10 @@ function MessageMenuView(props: Props) {
         },
         {
             id: 9,
-            title: downloadFile.value.fileType ? `Скачать ${messageDictionaries.mediaContent[downloadFile?.value?.fileType]}` : '',
+            title: downloadFileType ? `Скачать ${messageDictionaries.mediaContent[downloadFileType]}` : '',
             icon: 'save',
             payload: 'save',
-            hidden: !downloadFile.value.fileType,
+            hidden: !downloadFileType,
         },
     ];
     const reactions = ['1f4a3', '1f440', '26d4', '1f49c', '1f4a5', '1f34c', '1f44c', '1f44d'];
@@ -132,13 +129,3 @@ function MessageMenuView(props: Props) {
 }
 
 export default MessageMenuView;
-// <Card.List
-//     items={readUsers.map((i) => ({
-//         onClick: () => openUserModal(i),
-//         id: i.id,
-//         img: i.avatar,
-//         name: i.full_name,
-//         title: i.full_name,
-//         subtitle: '',
-//     }))}
-// />
