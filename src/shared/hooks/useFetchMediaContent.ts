@@ -19,7 +19,7 @@ function useFetchMediaContent(props: Props) {
 
     const src = useEasyState<any>('');
     const videoCover = useEasyState<string | null>(null);
-    const { save, saveFromBack, saveFile, getFileUrl } = useFS();
+    const { save, getFileUrl } = useFS();
 
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
 

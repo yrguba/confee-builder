@@ -61,10 +61,6 @@ const useFS = () => {
     const disabled = !window.__TAURI__;
     const { backBaseURL } = appService.getUrls();
 
-    const save = (props: SaveProps) => {
-        console.log(props);
-    };
-
     const saveFromBack = async (props: SaveFromBackProps) => {
         if (disabled) return null;
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
@@ -82,36 +78,30 @@ const useFS = () => {
             props.progressCallback && props.progressCallback(100);
             return;
         }
-        if (props.url.includes('asset.localhost') || props.url.includes('blob')) {
-            console.log('local');
-        } else {
-            const serverPath = `${backBaseURL}${props.url}`;
-            const tokens = tokensService.get();
-            if (tokens?.access_token) {
-                const headers = new Map();
-                headers.set('Authorization', `Bearer ${tokens.access_token}`);
-                await download(serverPath, fullPath, (progress, total) => props.progressCallback && props.progressCallback(100), headers);
-            }
+        const serverPath = `${backBaseURL}${props.url}`;
+        const tokens = tokensService.get();
+        if (tokens?.access_token) {
+            const getProgress = (progress: number, total: number) => {
+                if (props?.progressCallback) {
+                    props.progressCallback(Math.floor((progress * 100) / total));
+                }
+            };
+            const headers = new Map();
+            headers.set('Authorization', `Bearer ${tokens.access_token}`);
+            await download(serverPath, fullPath, getProgress, headers).then((r) => {
+                if (props?.progressCallback) {
+                    props.progressCallback(100);
+                }
+            });
         }
     };
 
-    const saveFile = async (props: SaveFileProps) => {
-        if (disabled) return null;
-        if (!props.fileName) return null;
-        const baseDir: any = BaseDirectory[props.baseDir];
-        const folderDir: any = `Confee/${props.folderDir}${props.fileType ? `/${props.fileType}` : ''}`;
-
-        const checkPath = await exists(`${folderDir}`, { dir: baseDir });
-        if (!checkPath) await createDir(folderDir, { dir: baseDir, recursive: true });
-        const arrayBuffer = await props.fileBlob.arrayBuffer();
-        try {
-            await writeBinaryFile(`${folderDir}/${props.fileName.split('/').join('')}`, arrayBuffer, {
-                dir: baseDir,
-            });
-        } catch (e) {
-            console.log(e);
+    const save = (props: SaveProps) => {
+        if (props.url.includes('asset.localhost') || props.url.includes('blob')) {
+            console.log('local');
+        } else {
+            saveFromBack(props);
         }
-        return '';
     };
 
     const saveTextFile = async (props: SaveTextFileProps) => {
@@ -178,7 +168,7 @@ const useFS = () => {
         // await removeDir(folderDir, { dir: baseDir, recursive: true });
     };
 
-    return { save, saveFromBack, saveFile, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
+    return { save, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
 };
 
 export default useFS;

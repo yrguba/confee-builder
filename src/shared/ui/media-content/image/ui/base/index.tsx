@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { appTypes } from 'entities/app';
 import { useEasyState, useFetchMediaContent, useFs, useStorage, useStyles, useWindowMouseClick } from 'shared/hooks';
@@ -44,16 +44,17 @@ function Image(props: BaseImageProps) {
 
     const fs = useFs();
 
+    const saveFile = () => {
+        if (name && url) {
+            fs.save({ baseDir: 'download', url, fileName: name, progressCallback: (percent) => progress.set(percent) });
+        }
+    };
+
     const clickContextMenu = () => {
         downloadFile.set({
             fileType: 'images',
-            callback: () => {
-                console.log('wdd');
-            },
+            callback: saveFile,
         });
-        // if (clickedFile && name && id) {
-        //     // clickedFile.set({ url: src, name, id, type: 'images' });
-        // }
         if (!disableDownload) {
             visibleMenu.toggle();
         }
@@ -66,14 +67,17 @@ function Image(props: BaseImageProps) {
             icon: <Icons variant="save" />,
             callback: async () => {
                 visibleMenu.set(false);
-                if (url && name) {
-                    // fs.save({ baseDir: 'download', url, fileName: name });
-                    // await saveFromBack({ baseDir: 'download', url, fileName: name });
-                    // notification.success({ title: 'Фото сохранено', system: true });
-                }
+                saveFile();
+                downloadFile.clear();
             },
         },
     ];
+
+    useEffect(() => {
+        if (progress.value === 100) {
+            notification.success({ title: 'Фото сохранено', system: true });
+        }
+    }, [progress.value]);
 
     const classes = useStyles(styles, 'img', {
         [objectFit]: objectFit,
@@ -94,7 +98,7 @@ function Image(props: BaseImageProps) {
                 cursor: onClick ? 'pointer' : 'default',
             }}
         >
-            {progress.value ? (
+            {progress.value > 0 && progress.value < 100 ? (
                 <div className={styles.savingFile}>
                     <LoadingIndicator.Downloaded size={50} visible primary={false} />
                 </div>

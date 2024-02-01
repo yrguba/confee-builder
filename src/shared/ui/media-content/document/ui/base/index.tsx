@@ -20,7 +20,7 @@ function Document(props: BaseDocumentProps) {
     const { src, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'document' });
     const notification = Notification.use();
 
-    const { saveFromBack } = useFs();
+    // const { saveFromBack } = useFs();
 
     const clickContextMenu = async (e: any) => {
         e.preventDefault();
@@ -41,8 +41,8 @@ function Document(props: BaseDocumentProps) {
             icon: <Icons variant="save" />,
             callback: async () => {
                 if (name && url) {
-                    await saveFromBack({ baseDir: 'download', url, fileName: name });
-                    notification.success({ title: 'Файл сохранен', system: true });
+                    // await saveFromBack({ baseDir: 'download', url, fileName: name });
+                    // notification.success({ title: 'Файл сохранен', system: true });
                 }
             },
         },

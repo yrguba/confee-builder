@@ -21,7 +21,7 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
 
     const notification = Notification.use();
 
-    const { saveFromBack } = useFs();
+    // const { saveFromBack } = useFs();
     const visibleMenu = useEasyState(false);
 
     const [video, state, controls, ref] = useVideo(
@@ -51,8 +51,8 @@ function VideoPlayer(props: BaseVideoPlayerProps) {
             callback: async () => {
                 visibleMenu.set(false);
                 if (url && name) {
-                    await saveFromBack({ baseDir: 'download', url, fileName: name });
-                    notification.success({ title: 'Видео сохранено', system: true });
+                    // await saveFromBack({ baseDir: 'download', url, fileName: name });
+                    // notification.success({ title: 'Видео сохранено', system: true });
                 }
             },
         },
