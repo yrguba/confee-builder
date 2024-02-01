@@ -45,17 +45,17 @@ function MessageMenuView(props: Props) {
         // { id: 7, title: 'Воспроизвести', icon: 'melody', payload: 'play' },
         {
             id: 8,
-            title: `${message.users_have_read.length} ${getEnding(message.users_have_read.length, ['просмотр', 'просмотра', 'просмотров'])}`,
-            icon: 'double-check',
-            payload: 'read',
-            hidden: !message.users_have_read?.length || !chat?.is_group,
-        },
-        {
-            id: 9,
             title: downloadFileType ? `Скачать ${messageDictionaries.mediaContent[downloadFileType]}` : '',
             icon: 'save',
             payload: 'save',
             hidden: !downloadFileType,
+        },
+        {
+            id: 9,
+            title: `${message.users_have_read.length} ${getEnding(message.users_have_read.length, ['просмотр', 'просмотра', 'просмотров'])}`,
+            icon: 'double-check',
+            payload: 'read',
+            hidden: !message.users_have_read?.length || !chat?.is_group,
         },
     ];
     const reactions = ['1f4a3', '1f440', '26d4', '1f49c', '1f4a5', '1f34c', '1f44c', '1f44d'];

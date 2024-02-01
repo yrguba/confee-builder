@@ -50,13 +50,15 @@ function Image(props: BaseImageProps) {
         }
     };
 
-    const clickContextMenu = () => {
-        downloadFile.set({
-            fileType: 'images',
-            callback: saveFile,
-        });
+    const clickContextMenu = (e: any) => {
+        e.preventDefault();
         if (!disableDownload) {
             visibleMenu.toggle();
+        } else {
+            downloadFile.set({
+                fileType: 'images',
+                callback: saveFile,
+            });
         }
     };
 

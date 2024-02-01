@@ -34,12 +34,13 @@ function Document(props: BaseDocumentProps) {
 
     const clickContextMenu = async (e: any) => {
         e.preventDefault();
-        downloadFile.set({
-            fileType: 'documents',
-            callback: saveFile,
-        });
         if (!disableDownload) {
             visibleMenu.toggle();
+        } else {
+            downloadFile.set({
+                fileType: 'documents',
+                callback: saveFile,
+            });
         }
     };
 
