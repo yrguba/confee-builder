@@ -10,7 +10,7 @@ import 'moment/locale/ru';
 import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useTheme, useIdle, useRouter, useStorage, useReverseTimer, useEasyState } from 'shared/hooks';
+import { useTheme, useIdle, useRouter, useStorage, useTimeoutFn, useTimer } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
 const queryClient = new QueryClient({
@@ -39,6 +39,8 @@ function App() {
     }, []);
 
     useTheme();
+
+    console.log(useTimer(30));
 
     useEffect(() => {
         console.log('clientBaseURL: ', clientBaseURL);

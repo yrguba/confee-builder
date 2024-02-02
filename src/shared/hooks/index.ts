@@ -52,6 +52,7 @@ import useStyles from './useStyles';
 import useTextToSpeech from './useTextToSpeech';
 import useTheme, * as UseThemeType from './useTheme';
 import useThrottle from './useThrottle';
+import useTimer from './useTimer';
 import useToggle from './useToggle';
 import useWebSocket from './useWebSocket';
 import useWebView from './useWebView';
@@ -61,6 +62,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useTimer,
     useQueryWithLocalDb,
     useRingtone,
     useShell,

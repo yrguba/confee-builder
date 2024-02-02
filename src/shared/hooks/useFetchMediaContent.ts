@@ -24,7 +24,7 @@ function useFetchMediaContent(props: Props) {
     const { online } = appService.getNetworkState();
 
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
-    console.log(isFetching);
+
     const fileName = `${url}${name}`;
 
     useEffect(() => {
