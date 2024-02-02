@@ -40,7 +40,7 @@ function App() {
 
     useTheme();
 
-    console.log(useTimer(30));
+    useTimer(30);
 
     useEffect(() => {
         console.log('clientBaseURL: ', clientBaseURL);
