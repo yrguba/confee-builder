@@ -66,7 +66,6 @@ function useFetchMediaContent(props: Props) {
         const res = await fetch(src.value);
         return res.blob();
     };
-
     return {
         src: src.value,
         getFileBlob,

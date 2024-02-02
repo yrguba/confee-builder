@@ -97,6 +97,9 @@ const useFS = () => {
     };
 
     const save = (props: SaveProps) => {
+        if (disabled) {
+            return null;
+        }
         if (props.url.includes('asset.localhost') || props.url.includes('blob')) {
         } else {
             saveFromBack({ ...props, url: `${backBaseURL}${props.url}` });
