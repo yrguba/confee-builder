@@ -11,7 +11,7 @@ import Emoji, { Types as EmojiTypes } from './emoji';
 import Icons, { Types as IconsTypes } from './icons';
 import Input, { Types as InputTypes } from './input';
 import LoadingIndicator, { Types as LoadingIndicatorTypes } from './loading-indicator';
-import Audio from './media-content/audio';
+import Audio, { Types as AudioTypes } from './media-content/audio';
 import Document, { Types as DocumentTypes } from './media-content/document';
 import Image, { Types as ImageTypes } from './media-content/image';
 import Video, { Types as VideoPlayerTypes } from './media-content/video';

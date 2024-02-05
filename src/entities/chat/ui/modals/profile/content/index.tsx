@@ -149,6 +149,7 @@ function ChatProfileContentView(props: Props) {
                                 <div className={styles.audios}>
                                     {files?.map((i, index) => (
                                         <Audio
+                                            id={i.id}
                                             date={i.created_at}
                                             key={i.id}
                                             url={i.url}

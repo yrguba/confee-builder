@@ -22,7 +22,7 @@ function FilesToSendModalView(props: Props) {
     const { sendingError, loading, images, documents, audios, videos, addFiles, sendFiles, close } = props;
 
     const fileLength = images.length + documents.length + audios.length + videos.length;
-
+    console.log(audios);
     return (
         <Box loading={!sendingError && loading} className={styles.wrapper}>
             {sendingError && (
@@ -48,7 +48,7 @@ function FilesToSendModalView(props: Props) {
                 {audios.array.length
                     ? audios.array.map((i) => (
                           <Item key={i.id} remove={() => audios.deleteById(i.id)}>
-                              <Audio url={i.fileUrl} authorName={i.name} name={i.name} size={+i.size} />
+                              <Audio id={i.id} url={i.fileUrl} authorName={i.name} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}

@@ -9,17 +9,20 @@ import Icons from '../../../../icons';
 import { Box, ContextMenu, ContextMenuTypes } from '../../../../index';
 import Notification from '../../../../notification';
 import Title from '../../../../title';
+import useAudioStore from '../../store';
 import { BaseAudioProps } from '../../types';
 
 function Audio(props: BaseAudioProps) {
-    const { disabledDownloads, url, size, name, date, authorName } = props;
+    const { disabledDownloads, url, size, name, date, authorName, id } = props;
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
     const visibleTiming = useEasyState(false);
 
+    const audioIdCurrentlyPlaying = useAudioStore.use.audioIdCurrentlyPlaying();
+
     const { src } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
-    const [audio, state, controls, ref] = useAudio({
+    const [audio, state, controls, audioRef] = useAudio({
         src,
         autoPlay: false,
     });
@@ -65,11 +68,12 @@ function Audio(props: BaseAudioProps) {
         if (state.playing) {
             controls.pause();
         } else {
+            id && audioIdCurrentlyPlaying.set(Number(id));
             controls.play();
         }
     };
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         if (state.time > 0 && String(state.duration) !== 'Infinity') {
             visibleTiming.set(true);
         }
@@ -77,6 +81,14 @@ function Audio(props: BaseAudioProps) {
             visibleTiming.set(false);
         }
     }, [state.time]);
+
+    useUpdateEffect(() => {
+        if (audioIdCurrentlyPlaying.value !== id) {
+            visibleTiming.set(false);
+            controls.pause();
+            controls.seek(0);
+        }
+    }, [audioIdCurrentlyPlaying.value]);
 
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
