@@ -11,10 +11,10 @@ import Emoji, { Types as EmojiTypes } from './emoji';
 import Icons, { Types as IconsTypes } from './icons';
 import Input, { Types as InputTypes } from './input';
 import LoadingIndicator, { Types as LoadingIndicatorTypes } from './loading-indicator';
-import AudioPlayer from './media-content/audio-player';
+import Audio from './media-content/audio';
 import Document, { Types as DocumentTypes } from './media-content/document';
 import Image, { Types as ImageTypes } from './media-content/image';
-import VideoPlayer, { Types as VideoPlayerTypes } from './media-content/video-player';
+import Video, { Types as VideoPlayerTypes } from './media-content/video';
 import WebCameraPhoto, { Types as WebCamaraPhotoTypes } from './media-content/web-camera-photo';
 import Modal, { Types as ModalTypes } from './modal';
 import Notification, { Types as NotificationTypes } from './notification';
@@ -31,13 +31,13 @@ export {
     ContextMenu,
     Slider,
     Swiper,
-    VideoPlayer,
+    Video,
     TabBar,
     Card,
     WebCameraPhoto,
     Steps,
     Document,
-    AudioPlayer,
+    Audio,
     Avatar,
     Box,
     Button,

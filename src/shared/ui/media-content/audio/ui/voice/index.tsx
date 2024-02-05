@@ -1,20 +1,15 @@
 import React, { useEffect } from 'react';
 
-import { getRandomString, sizeConverter } from 'shared/lib';
+import { useMessageStore } from 'entities/message';
+import { useEasyState, useFetchMediaContent, useFs } from 'shared/hooks';
+import { sizeConverter } from 'shared/lib';
 
 import styles from './styles.module.scss';
-import { appTypes } from '../../../../../../entities/app';
-import { useMessageStore } from '../../../../../../entities/message';
-import { useEasyState, useFetchMediaContent, useFs, useStorage } from '../../../../../hooks';
-import Box from '../../../../box';
-import Button from '../../../../button';
-import Icons from '../../../../icons';
-import LoadingIndicator from '../../../../loading-indicator';
-import Notification from '../../../../notification';
-import { BaseAudioPlayerProps } from '../../types';
+import { Box, Button, Icons, LoadingIndicator, Notification } from '../../../..';
+import { VoicePlayerProps } from '../../types';
 import waveformStatic from '../wave-form/static';
 
-function AudioPlayer(props: BaseAudioPlayerProps) {
+function Voice(props: VoicePlayerProps) {
     const { id, name, disabled, url, size, isVisibleMeta, btnRadius = 40, visibleWave = true } = props;
 
     const fs = useFs();
@@ -80,4 +75,4 @@ function AudioPlayer(props: BaseAudioPlayerProps) {
     );
 }
 
-export default AudioPlayer;
+export default Voice;

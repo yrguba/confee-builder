@@ -4,7 +4,7 @@ import { useUpdateEffect } from 'react-use';
 import { useEasyState, UseEasyStateReturnType, UseStoreTypes } from 'shared/hooks';
 import { getEnding, getUniqueArr } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Input, Emoji, Box, Icons, Title, Button, AudioPlayer, IconsTypes, Dropdown, Card } from 'shared/ui';
+import { Input, Emoji, Box, Icons, Title, Button, Audio, IconsTypes, Dropdown, Card } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import SpeechButton from './widgets/speech-button';
@@ -174,7 +174,7 @@ function MessageInputView(props: Props) {
                             <div className={styles.deleteIcon} onClick={deleteVoice}>
                                 <Icons variant="delete" />
                             </div>
-                            <AudioPlayer size={400} url={audio} />
+                            <Audio.Voice size={400} url={audio} />
                         </div>
                     ) : (
                         <Input.Textarea

@@ -4,22 +4,17 @@ import { useUpdateEffect } from 'react-use';
 import { VideoSeekSlider } from 'react-video-seek-slider';
 
 import 'react-video-seek-slider/styles.css';
-import { appTypes } from 'entities/app';
+
+import { useEasyState, useFetchMediaContent, useVideo, useIdle } from 'shared/hooks';
+import { secondsToHms } from 'shared/lib';
 
 import styles from './styles.module.scss';
-import { useEasyState, useFetchMediaContent, useStorage, useVideo, useSize, useIdle } from '../../../../../hooks';
-import { secondsToHms } from '../../../../../lib';
-import Box from '../../../../box';
-import Button from '../../../../button';
-import Icons from '../../../../icons';
-import Slider from '../../../../slider';
-import Title from '../../../../title';
-import { BaseVideoPlayerProps } from '../../types';
+import { Box, Button, Icons, Slider, Title } from '../../../..';
+import { BaseVideoProps } from '../../types';
 
-function VideoPlayerWithControls(props: BaseVideoPlayerProps) {
+function VideoPlayerWithControls(props: BaseVideoProps) {
     const { url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
-    const storage = useStorage();
-    const windowsSize = useSize();
+
     const { src, isLoading, error } = useFetchMediaContent({ url, name, fileType: 'video' });
     const isFull = useEasyState(false);
     const visibleControl = useEasyState(true);

@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Image, VideoPlayer } from 'shared/ui';
+import { Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useEasyState, UseEasyStateReturnType } from '../../../../../../shared/hooks';
-import { File, MediaContentType } from '../../../../model/types';
+import { useEasyState } from '../../../../../../shared/hooks';
+import { File } from '../../../../model/types';
 
 type Props = {
     videos: File[];
@@ -32,7 +32,7 @@ function VideoMessage(props: Props) {
             {/*    items={updItems} */}
             {/* /> */}
             <div className={styles.wrapper}>
-                <VideoPlayer.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+                <Video.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
             </div>
         </>
     );

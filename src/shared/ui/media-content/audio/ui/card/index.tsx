@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import styles from './styles.module.scss';
+import Audio from '../..';
 import { useEasyState, useFs } from '../../../../../hooks';
 import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
@@ -8,7 +9,6 @@ import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../..
 import Notification from '../../../../notification';
 import Title from '../../../../title';
 import { AudioCardProps } from '../../types';
-import AudioPlayer from '../base';
 
 function AudioCard(props: AudioCardProps) {
     const { disabled, url, size, name } = props;
@@ -52,7 +52,7 @@ function AudioCard(props: AudioCardProps) {
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
             <div className={styles.icon}>
-                <AudioPlayer disabled={disabled} url={url} btnRadius={34} visibleWave={false} />
+                <Audio.Voice disabled={disabled} url={url} btnRadius={34} visibleWave={false} />
             </div>
             <div className={styles.caption}>
                 <Title variant="H3M">{name}</Title>

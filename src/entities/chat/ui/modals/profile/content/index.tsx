@@ -3,7 +3,7 @@ import React from 'react';
 import { messageTypes } from 'entities/message';
 import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Icons, Button, TabBar, Card, Image, Document, AudioPlayer, VideoPlayer } from 'shared/ui';
+import { Box, Icons, Button, TabBar, Card, Image, Document, Audio, Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { employeeProxy } from '../../../../../company';
@@ -116,7 +116,7 @@ function ChatProfileContentView(props: Props) {
                         {
                             visible: mediaTypes.value === 'videos',
                             item: (
-                                <VideoPlayer.List
+                                <Video.List
                                     disableDownload={false}
                                     items={files?.map((i, index) => ({
                                         id: index,
@@ -150,7 +150,7 @@ function ChatProfileContentView(props: Props) {
                             item: (
                                 <div className={styles.audios}>
                                     {files?.map((i, index) => (
-                                        <AudioPlayer.Card key={i.id} url={i.url} name={i.name || ''} size={i.size ? +i.size : 0} />
+                                        <Audio.Card key={i.id} url={i.url} name={i.name || ''} size={i.size ? +i.size : 0} />
                                     ))}
                                 </div>
                             ),

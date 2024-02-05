@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { UseArrayReturnType, UseFileUploaderTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { AudioPlayer, Box, Button, Document, Icons, Image, Title, VideoPlayer } from 'shared/ui';
+import { Audio, Box, Button, Document, Icons, Image, Title, Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { getEnding } from '../../../../../shared/lib';
@@ -48,14 +48,14 @@ function FilesToSendModalView(props: Props) {
                 {audios.array.length
                     ? audios.array.map((i) => (
                           <Item key={i.id} remove={() => audios.deleteById(i.id)}>
-                              <AudioPlayer.Card url={i.fileUrl} name={i.name} size={+i.size} />
+                              <Audio.Card url={i.fileUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}
                 {videos.array.length
                     ? videos.array.map((i) => (
                           <Item key={i.id} remove={() => videos.deleteById(i.id)}>
-                              <VideoPlayer.Card previewUrl={i.previewUrl} name={i.name} size={+i.size} />
+                              <Video.Card previewUrl={i.previewUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}

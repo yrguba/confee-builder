@@ -1,9 +1,13 @@
 import { BaseTypes } from 'shared/types';
 
-import { MediaContentType } from '../../../../entities/message/model/types';
-import { UseEasyStateReturnType } from '../../../hooks';
+export type BaseAudioProps = {
+    url: string;
+    id?: number | string;
+    author: string;
+    songName: string;
+} & BaseTypes.Statuses;
 
-export type BaseAudioPlayerProps = {
+export type VoicePlayerProps = {
     url: string;
     id?: number | string;
     name?: string;
@@ -16,7 +20,7 @@ export type BaseAudioPlayerProps = {
 
 export type AudioListItem = {
     id: number | string;
-} & BaseAudioPlayerProps;
+} & BaseAudioProps;
 
 export type AudioCardProps = {
     url: string;
