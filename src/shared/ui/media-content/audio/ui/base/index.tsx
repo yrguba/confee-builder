@@ -17,6 +17,7 @@ function Audio(props: BaseAudioProps) {
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
     const visibleTiming = useEasyState(false);
+    const duration = useEasyState(10);
 
     const audioIdCurrentlyPlaying = useAudioStore.use.audioIdCurrentlyPlaying();
 
@@ -61,7 +62,7 @@ function Audio(props: BaseAudioProps) {
         }
     }, [progress.value]);
 
-    const totalTime = timeConverter(Math.ceil(state.duration));
+    const totalTime = timeConverter(Math.ceil(duration.value));
     const currentTime = timeConverter(Math.ceil(state.time));
 
     const onPlay = () => {
@@ -74,7 +75,13 @@ function Audio(props: BaseAudioProps) {
     };
 
     useEffect(() => {
-        if (state.time > 0 && String(state.duration) !== 'Infinity') {
+        if (String(state.duration) !== 'Infinity' && state.duration > 0) {
+            duration.set(state.duration);
+        }
+    }, [state.duration]);
+
+    useEffect(() => {
+        if (state.time > 0) {
             visibleTiming.set(true);
         }
         if (state.duration === state.time) {
