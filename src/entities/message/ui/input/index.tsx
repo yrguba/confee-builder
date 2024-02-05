@@ -174,7 +174,7 @@ function MessageInputView(props: Props) {
                             <div className={styles.deleteIcon} onClick={deleteVoice}>
                                 <Icons variant="delete" />
                             </div>
-                            <Audio.Voice size={400} url={audio} />
+                            <Audio.Voice url={audio} />
                         </div>
                     ) : (
                         <Input.Textarea

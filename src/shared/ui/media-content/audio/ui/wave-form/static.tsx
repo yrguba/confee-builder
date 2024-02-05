@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
+import { timeConverter } from 'shared/lib';
+
 function waveformStatic({ url }: { url: string }) {
     const containerRef: any = useRef();
     const waveSurferRef: any = useRef({
@@ -14,15 +16,6 @@ function waveformStatic({ url }: { url: string }) {
 
     const [time, setTime] = useState<InitialTime>(initTime);
     const [currentTime, setCurrentTime] = useState<InitialTime>(initTime);
-
-    const timeConvert = (sec: number) => {
-        const h = Math.round(sec / 3600);
-        const m = Math.round(sec / 60);
-        const checkS = sec - (h * 3600 + m * 60);
-        const s = checkS < 0 ? -checkS : checkS;
-
-        return { h: h ? String(h) : '', m: String(String(m < 10 ? `0${m}` : m)), s: String(s < 10 ? `0${s}` : s) };
-    };
 
     useEffect(() => {
         toggleIsLoading(true);
@@ -46,7 +39,7 @@ function waveformStatic({ url }: { url: string }) {
         waveSurfer.on('ready', () => {
             toggleIsLoading(false);
             waveSurferRef.current = waveSurfer;
-            setTime(timeConvert(Math.ceil(waveSurfer.getDuration())));
+            setTime(timeConverter(Math.ceil(waveSurfer.getDuration())));
             waveSurfer.on('play', () => {
                 toggleIsPlaying(true);
                 waveSurferRef.current = waveSurfer;
@@ -55,16 +48,16 @@ function waveformStatic({ url }: { url: string }) {
             waveSurfer.on('stop', () => {
                 toggleIsPlaying(false);
 
-                setCurrentTime(timeConvert(Math.ceil(waveSurfer.getCurrentTime())));
+                setCurrentTime(timeConverter(Math.ceil(waveSurfer.getCurrentTime())));
             });
 
             waveSurfer.on('pause', () => {
                 toggleIsPlaying(false);
-                setCurrentTime(timeConvert(Math.ceil(waveSurfer.getCurrentTime())));
+                setCurrentTime(timeConverter(Math.ceil(waveSurfer.getCurrentTime())));
             });
             waveSurfer.on('audioprocess', (currentTime) => {
                 setTime((prev) => ({ ...prev, currentSec: currentTime }));
-                setCurrentTime(timeConvert(Math.ceil(currentTime)));
+                setCurrentTime(timeConverter(Math.ceil(currentTime)));
             });
             waveSurfer.on('finish', () => {
                 setTime((prev) => ({ ...prev, currentSec: '' }));

@@ -4,6 +4,7 @@ import chatProxy from './proxy';
 import { getUniqueArr } from '../../../shared/lib';
 import employeeProxy from '../../company/lib/emloyee-proxy';
 import { messageConstants } from '../../message';
+import { userProxy } from '../../user';
 import { User, UserProxy } from '../../user/model/types';
 import { viewerService } from '../../viewer';
 import { Chat, ChatProxy } from '../model/types';
@@ -32,6 +33,23 @@ class ChatService {
         const viewerId = viewerService.getId();
         const users: any = chat?.is_personal ? chat.members : chat?.employee_members.filter((i) => i.user).map((i) => i.user);
         return users?.filter((i: any) => i.id !== viewerId).map((i: any) => i);
+    }
+
+    getMemberNameByUserId(chat?: ChatProxy | null, id?: number): string {
+        if (!chat) return '';
+        const viewerId = viewerService.getId();
+        if (chat.is_personal) {
+            const found = chat.members.find((i) => i.id === id);
+            if (found) {
+                return userProxy(found)?.full_name || '';
+            }
+        } else {
+            const found = chat.employee_members.find((i) => i.user.id === id);
+            if (found) {
+                return employeeProxy(found)?.full_name || '';
+            }
+        }
+        return '';
     }
 
     getMembersIdsWithoutMe(chat?: ChatProxy | null) {

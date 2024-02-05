@@ -1,57 +1,43 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(100%, 100%);
-  @include flex;
-  gap: 6px;
-  position: relative;
+  @include flex(flex-start);
+  gap: 8px;
+  cursor: pointer;
+  min-height: 56px;
 
+  .icon {
+    @include flex;
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    background-color: var(--control-primary);
 
-  .controls{
-
-    button{
-      svg{
-        fill: var(--text-fixed);
-      }
+    svg {
+      fill: white;
     }
   }
 
-  .time{
-    @include flex(flex-start);
-    gap: 6px;
-    position: absolute;
-    bottom: -10px;
-    left: 44px;
-    color: var(--text-primary);
-    font-size: 12px;
+  .caption {
+    max-width: 290px;
+    width: calc(100% - 45px);
+    @include flex-column(flex-start, flex-start);
 
-    .currentTime{
+    &_bottom {
+      width: auto;
 
-      width: 36px;
-      div{
-        &:nth-child(1){
-          @include flex(flex-end);
-        }
-        &:nth-child(2){
-          @include flex(flex-start);
-        }
-        width: 50%;
+      .timer {
+        @include flex(flex-start);
+        font-size: 14px;
+        line-height: 20px;
       }
     }
 
   }
 
-  .size{
-    position: absolute;
-    bottom: -10px;
-    right: 0;
-    color: var(--text-1);
-    font-size: 12px;
+  svg {
+    fill: var(--text-primary);
   }
 
-  .waveform{
-    @include box-size(100%, 100%);
-    @include flex(flex-start);
-    overflow: hidden;
-  }
 }
+

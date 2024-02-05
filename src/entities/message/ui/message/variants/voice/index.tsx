@@ -15,7 +15,7 @@ function VoiceMessage(props: Props) {
     const voice = voices[0];
     return (
         <div className={styles.wrapper}>
-            <Audio.Voice url={voice.url} name={voice.name} id={voice.id} isVisibleMeta />
+            <Audio.Voice url={voice.url} name={voice.name} id={voice.id} />
         </div>
     );
 }
