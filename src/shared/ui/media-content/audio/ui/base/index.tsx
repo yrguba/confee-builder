@@ -3,7 +3,7 @@ import { useUpdateEffect } from 'react-use';
 
 import styles from './styles.module.scss';
 import { useEasyState, useFs, useAudio, useFetchMediaContent } from '../../../../../hooks';
-import { timeConverter } from '../../../../../lib';
+import { sizeConverter, timeConverter } from '../../../../../lib';
 import momentLocalZone from '../../../../../lib/moment-local-zone';
 import Icons from '../../../../icons';
 import { Box, ContextMenu, ContextMenuTypes } from '../../../../index';
@@ -100,7 +100,7 @@ function Audio(props: BaseAudioProps) {
                         },
                         {
                             visible: !visibleTiming.value,
-                            item: <Title variant="H4R">{momentLocalZone(date).format('Do MMMM, h:mm')}</Title>,
+                            item: <Title variant="H4R">{date ? momentLocalZone(date).format('Do MMMM, h:mm') : sizeConverter(size || 0)}</Title>,
                         },
                     ]}
                 />
