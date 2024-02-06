@@ -19,6 +19,10 @@ export type AudioForPlayer = {
     currentSec?: number;
 };
 
+export type PlayerProps = {
+    sliderPosition?: 'top' | 'bottom';
+};
+
 export type BaseAudioProps = {
     disabledDownloads?: boolean;
     description?: string;

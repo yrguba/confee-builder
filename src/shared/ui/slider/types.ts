@@ -1,3 +1,5 @@
 import { SliderProps } from 'rc-slider';
 
-export type BaseSliderProps = {} & SliderProps;
+export type BaseSliderProps = {
+    borderRadius?: number;
+} & SliderProps;

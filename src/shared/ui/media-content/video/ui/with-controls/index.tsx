@@ -56,7 +56,6 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
                         <Button.Circle variant="inherit" radius={30} onClick={state.muted ? controls.unmute : controls.mute}>
                             <Icons.Player variant={!state.muted ? 'unmute' : 'mute'} />
                         </Button.Circle>
-
                         <Slider max={1} step={0.01} defaultValue={state.volume} onChange={(value) => typeof value === 'number' && controls.volume(value)} />
                     </div>
                     <Button.Circle variant="inherit" onClick={!state.playing ? controls.play : controls.pause}>

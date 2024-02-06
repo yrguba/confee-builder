@@ -1,16 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useEasyState, useGlobalAudioPlayer } from 'shared/hooks';
+import { useEasyState, useGlobalAudioPlayer, useUpdateEffect } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { timeConverter } from '../../../../../lib';
-import { Box, Icons, Title } from '../../../../index';
+import { Box, Icons, Slider, Title } from '../../../../index';
 import useAudioStore from '../../store';
+import { PlayerProps } from '../../types';
 
-function Player(props: any) {
+function Player(props: PlayerProps) {
+    const { sliderPosition = 'bottom' } = props;
+
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
 
-    const { stop, load, play, pause, playing, isReady, src: playerSrc, togglePlayPause } = useGlobalAudioPlayer();
+    const handleSlider = useEasyState(false);
+    const sliderValue = useEasyState<any>(null);
+
+    const { stop, load, play, pause, playing, isReady, src: playerSrc, togglePlayPause, duration: durationNum, seek } = useGlobalAudioPlayer();
 
     const { currentTime, duration, currentSec } = useAudioTime(playing);
 
@@ -35,14 +41,14 @@ function Player(props: any) {
         },
     ];
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         currentlyPlaying.set({
             ...currentlyPlaying.value,
-            currentSec,
+            currentSec: sliderValue.value ? sliderValue.value : currentSec,
             duration,
             currentTime,
         });
-    }, [currentSec]);
+    }, [currentSec, sliderValue.value]);
 
     return (
         <Box.Animated visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
@@ -69,6 +75,33 @@ function Player(props: any) {
                     ))}
                 </div>
             </div>
+            <div className={styles.slider} style={{ [sliderPosition]: 0 }}>
+                <Slider
+                    borderRadius={0}
+                    max={durationNum}
+                    step={0.001}
+                    value={sliderValue.value || currentlyPlaying.value.currentSec}
+                    // defaultValue={currentlyPlaying.value.currentSec}
+                    onChange={(value) => {
+                        if (typeof value === 'number') {
+                            sliderValue.set(value);
+                            seek(sliderValue.value);
+                        }
+                    }}
+                    onAfterChange={(value) => {
+                        if (typeof value === 'number') {
+                            // seek(sliderValue.value);
+
+                            sliderValue.set(null);
+
+                            // play();
+                        }
+                    }}
+                    onBeforeChange={() => {
+                        // pause();
+                    }}
+                />
+            </div>
         </Box.Animated>
     );
 }
@@ -78,7 +111,7 @@ function useAudioTime(enabled: boolean) {
     const frameRef = useRef<number>();
     const currentTime = useEasyState('');
     const currentSec = useEasyState(0);
-    const { getPosition, duration } = useGlobalAudioPlayer();
+    const { getPosition, duration, playing } = useGlobalAudioPlayer();
 
     useEffect(() => {
         if (enabled) {
@@ -97,7 +130,7 @@ function useAudioTime(enabled: boolean) {
                 }
             };
         }
-    }, [enabled]);
+    }, [enabled, playing]);
 
     return { currentTime: currentTime.value, currentSec: currentSec.value, duration: timeConverter(duration) };
 }

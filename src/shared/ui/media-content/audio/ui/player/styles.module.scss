@@ -1,10 +1,11 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include flex;
+  @include flex-column();
   @include box-size(100%, 60px);
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-secondary);
+  position: relative;
 
   .container {
     @include flex(space-between);
@@ -16,7 +17,7 @@
       @include flex;
       gap: 20px;
 
-      .time{
+      .time {
         @include flex
       }
 
@@ -28,7 +29,14 @@
         fill: var(--control-primary);
       }
     }
-
   }
+
+  .slider {
+    @include box-size(100%, 7px);
+    z-index: 100;
+    position: absolute;
+    left:0;
+  }
+
 }
 

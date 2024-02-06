@@ -42,6 +42,12 @@ function Voice(props: VoiceProps) {
         }
     }, [isCurrent, surf, pathname]);
 
+    useUpdateEffect(() => {
+        if (!playing && isCurrent) {
+            surf?.setCurrentTime(currentlyPlaying.value.currentSec);
+        }
+    }, [currentlyPlaying.value.currentSec]);
+
     useEffect(() => {
         if (!isCurrent) {
             surf?.stop();
