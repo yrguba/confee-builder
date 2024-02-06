@@ -16,6 +16,10 @@
       @include flex;
       gap: 20px;
 
+      .time{
+        @include flex
+      }
+
       .item {
         cursor: pointer;
       }

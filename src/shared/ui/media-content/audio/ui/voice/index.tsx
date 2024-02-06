@@ -36,14 +36,14 @@ function Voice(props: VoiceProps) {
     //         surf?.setCurrentTime(getPosition());
     //     }
     // });
-
-    useEffect(() => {
-        if (currentlyPlaying.value.apiUrl !== url) {
-            surf?.stop();
-        } else {
-            playing ? surf?.play() : surf?.pause();
-        }
-    }, [playing, url]);
+    //
+    // useEffect(() => {
+    //     if (currentlyPlaying.value.apiUrl !== url) {
+    //         surf?.stop();
+    //     } else {
+    //         playing ? surf?.play() : surf?.pause();
+    //     }
+    // }, [playing, url]);
 
     const playPauseClick = () => {
         if (currentlyPlaying.value.apiUrl === url) {
@@ -112,28 +112,3 @@ function Voice(props: VoiceProps) {
 }
 
 export default Voice;
-
-function useAudioTime(enabled: boolean) {
-    const frameRef = useRef<number>();
-    const [pos, setPos] = useState(0);
-    const { getPosition } = useGlobalAudioPlayer();
-
-    useEffect(() => {
-        if (enabled) {
-            const animate = () => {
-                setPos(getPosition());
-                frameRef.current = requestAnimationFrame(animate);
-            };
-
-            frameRef.current = window.requestAnimationFrame(animate);
-
-            return () => {
-                if (frameRef.current) {
-                    cancelAnimationFrame(frameRef.current);
-                }
-            };
-        }
-    }, [enabled]);
-
-    return pos;
-}

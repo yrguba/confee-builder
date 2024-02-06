@@ -94,8 +94,8 @@ function AudioBase(props: BaseAudioProps) {
                             visible: visibleTiming.value,
                             item: (
                                 <div className={styles.timer}>
-                                    <div>{`${currentTime.h ? `${currentTime.h}:` : ''}${currentTime.m}:${currentTime.s}`}</div>/
-                                    <div>{`${totalTime.h ? `${totalTime.h}:` : ''}${totalTime.m}:${totalTime.s}`}</div>
+                                    {/* <div>{`${currentTime.h ? `${currentTime.h}:` : ''}${currentTime.m}:${currentTime.s}`}</div>/ */}
+                                    {/* <div>{`${totalTime.h ? `${totalTime.h}:` : ''}${totalTime.m}:${totalTime.s}`}</div> */}
                                 </div>
                             ),
                         },
