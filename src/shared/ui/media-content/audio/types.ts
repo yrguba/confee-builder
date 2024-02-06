@@ -16,17 +16,11 @@ export type AudioForPlayer = {
     src: string;
 };
 
-export type PlayerProps = {
-    id?: number | string;
-    url: string;
-    name?: string;
-    authorName?: string;
-};
-
 export type BaseAudioProps = {
     size?: number;
     date?: Date;
     disabledDownloads?: boolean;
+    description?: string;
 } & SharedProps;
 
 export type VoiceProps = {

@@ -13,7 +13,7 @@ import useAudioStore from '../../store';
 import { BaseAudioProps } from '../../types';
 
 function AudioBase(props: BaseAudioProps) {
-    const { disabledDownloads, url, size, name, date, authorName, id } = props;
+    const { description, disabledDownloads, url, size, name, date, authorName, id } = props;
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
     const visibleTiming = useEasyState(false);
@@ -38,7 +38,7 @@ function AudioBase(props: BaseAudioProps) {
                 src,
                 name,
                 authorName,
-                description: date ? momentLocalZone(date).format('Do MMMM, HH:mm') : '',
+                description,
             });
             load(src, {
                 format: 'mp3',
