@@ -121,10 +121,10 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             <DocumentsMessage documents={forwarded_from_message?.files || files} />
                         )}
                         {(type === 'voices' || forwarded_from_message?.type === 'voices') && (
-                            <VoiceMessage voices={forwarded_from_message?.files || message.files} />
+                            <VoiceMessage chat={chat} voices={forwarded_from_message?.files || message.files} />
                         )}
                         {(type === 'audios' || forwarded_from_message?.type === 'audios') && (
-                            <AudioMessage audios={forwarded_from_message?.files || message.files} />
+                            <AudioMessage chat={chat} audios={forwarded_from_message?.files || message.files} />
                         )}
                         {(type === 'videos' || forwarded_from_message?.type === 'videos') && (
                             <VideoMessage videos={forwarded_from_message?.files || message.files} />

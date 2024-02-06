@@ -10,8 +10,10 @@ type SharedProps = {
 export type AudioForPlayer = {
     id: number | string;
     apiUrl: string;
-    src: string;
     name?: string;
+    authorName?: string;
+    description?: string;
+    src: string;
 };
 
 export type PlayerProps = {
@@ -29,6 +31,7 @@ export type BaseAudioProps = {
 
 export type VoiceProps = {
     disabled?: boolean;
+    date?: Date;
 } & SharedProps;
 
 export type TimingProps = {

@@ -80,7 +80,7 @@ function AudioBase(props: BaseAudioProps) {
                         },
                         {
                             visible: !visibleTiming.value,
-                            item: <Title variant="H4R">{date ? momentLocalZone(date).format('Do MMMM, h:mm') : sizeConverter(size || 0)}</Title>,
+                            item: <Title variant="H4R">{date ? momentLocalZone(date).format('Do MMMM, HH:mm') : sizeConverter(size || 0)}</Title>,
                         },
                     ]}
                 />

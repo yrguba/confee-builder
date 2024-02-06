@@ -7,12 +7,13 @@ import { useEasyState, useFetchMediaContent, useFs, useGlobalAudioPlayer, useRou
 import styles from './styles.module.scss';
 import { Audio, Box, Button, Icons, LoadingIndicator, Notification } from '../../../..';
 import { getRandomString } from '../../../../../lib';
+import momentLocalZone from '../../../../../lib/moment-local-zone';
 import useAudioStore from '../../store';
 import { VoiceProps } from '../../types';
 import waveformStatic from '../wave-form/static';
 
 function Voice(props: VoiceProps) {
-    const { id, name, disabled, url } = props;
+    const { date, id, name, disabled, url, authorName } = props;
 
     const fs = useFs();
 
@@ -38,6 +39,8 @@ function Voice(props: VoiceProps) {
                 apiUrl: url,
                 src,
                 name,
+                authorName,
+                description: date ? momentLocalZone(date).format('Do MMMM, HH:mm') : '',
             });
             load(src, {
                 format: 'mp3',

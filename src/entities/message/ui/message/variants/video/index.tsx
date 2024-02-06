@@ -5,6 +5,7 @@ import { Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useEasyState } from '../../../../../../shared/hooks';
+import { ChatProxy } from '../../../../../chat/model/types';
 import { File } from '../../../../model/types';
 
 type Props = {
