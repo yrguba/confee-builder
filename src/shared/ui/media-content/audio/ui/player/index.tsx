@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useGlobalAudioPlayer } from 'shared/hooks';
+import { useEasyState, useGlobalAudioPlayer } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { timeConverter } from '../../../../../lib';
@@ -12,7 +12,7 @@ function Player(props: any) {
 
     const { stop, load, play, pause, playing, isReady, src: playerSrc, togglePlayPause } = useGlobalAudioPlayer();
 
-    const [currentTime, duration] = useAudioTime(playing);
+    const { currentTime, duration, currentSec } = useAudioTime(playing);
 
     const leftControls = [
         {
@@ -34,6 +34,15 @@ function Player(props: any) {
             },
         },
     ];
+
+    useEffect(() => {
+        currentlyPlaying.set({
+            ...currentlyPlaying.value,
+            currentSec,
+            duration,
+            currentTime,
+        });
+    }, [currentSec]);
 
     return (
         <Box.Animated visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
@@ -67,13 +76,16 @@ function Player(props: any) {
 export default Player;
 function useAudioTime(enabled: boolean) {
     const frameRef = useRef<number>();
-    const [pos, setPos] = useState('');
+    const currentTime = useEasyState('');
+    const currentSec = useEasyState(0);
     const { getPosition, duration } = useGlobalAudioPlayer();
 
     useEffect(() => {
         if (enabled) {
             const animate = () => {
-                setPos(timeConverter(getPosition()));
+                const pos = getPosition();
+                currentTime.set(timeConverter(pos));
+                currentSec.set(pos);
                 frameRef.current = requestAnimationFrame(animate);
             };
 
@@ -87,5 +99,5 @@ function useAudioTime(enabled: boolean) {
         }
     }, [enabled]);
 
-    return [pos, timeConverter(duration)];
+    return { currentTime: currentTime.value, currentSec: currentSec.value, duration: timeConverter(duration) };
 }

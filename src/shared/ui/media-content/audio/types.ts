@@ -14,6 +14,9 @@ export type AudioForPlayer = {
     authorName?: string;
     description?: string;
     src: string;
+    currentTime?: string;
+    duration?: string;
+    currentSec?: number;
 };
 
 export type BaseAudioProps = {

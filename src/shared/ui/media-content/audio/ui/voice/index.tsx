@@ -27,7 +27,7 @@ function Voice(props: VoiceProps) {
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
 
-    const { load, play, pause, playing, isReady, src: playerSrc, togglePlayPause, getPosition, duration, seek } = useGlobalAudioPlayer();
+    const { load, playing, isReady, src: playerSrc, togglePlayPause, seek } = useGlobalAudioPlayer();
 
     const { waveform, waveDuration, surf } = waveformStatic({ url: src || ' ', seek });
 
@@ -83,29 +83,23 @@ function Voice(props: VoiceProps) {
         }
     }, [progress.value]);
 
+    const isCurrent = currentlyPlaying.value.apiUrl === url;
+
     return (
-        <div
-            onContextMenu={onContextMenu}
-            className={styles.wrapper}
-            // style={{ overflow: isLoading ? 'hidden' : 'visible' }}
-        >
-            {/* <LoadingIndicator.Glare visible={isLoading} /> */}
+        <div onContextMenu={onContextMenu} className={styles.wrapper}>
             <div className={styles.controls}>
                 <Button.Circle radius={50} onClick={playPauseClick}>
-                    <Icons.Player variant={playing && currentlyPlaying.value.apiUrl === url ? 'pause' : 'play'} />
+                    <Icons.Player variant={playing && isCurrent ? 'pause' : 'play'} />
                 </Button.Circle>
             </div>
-            {/* {!isLoading && ( */}
-            {/*    <> */}
-            {/*        <div className={styles.time}> */}
-            {/*            <Box.Animated visible={!!time.currentSec} animationVariant="autoWidth"> */}
-            {/*                /!* <div className={styles.currentTime}>{`${currentTime.h ? `${currentTime.h}:` : ''}${currentTime.m}:${currentTime.s}`}</div> *!/ */}
-            {/*            </Box.Animated> */}
-            {/*            {time.currentSec && <div>/</div>} */}
-            {/*            <div className={styles.totalTime}>{`${time.h ? `${time.h}:` : ''}${time.m}:${time.s}`}</div> */}
-            {/*        </div> */}
-            {/*    </> */}
-            {/* )} */}
+
+            <div className={styles.time}>
+                <Box.Animated visible={!!currentlyPlaying.value.currentTime && isCurrent} animationVariant="autoWidth">
+                    {currentlyPlaying.value.currentTime}/
+                </Box.Animated>
+                <div>{waveDuration}</div>
+            </div>
+
             <div className={styles.waveform}>{waveform}</div>
         </div>
     );

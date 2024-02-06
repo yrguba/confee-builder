@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
 import { useEasyState } from '../../../../../hooks';
+import { timeConverter } from '../../../../../lib';
 
 type Props = {
     url: string;
@@ -10,7 +11,7 @@ type Props = {
 
 function waveformStatic({ url, seek }: Props) {
     const containerRef: any = useRef();
-    const duration = useEasyState<number>(0);
+    const duration = useEasyState('');
     const surf = useEasyState<any>(null);
     const surfRef = useRef<any>(null);
 
@@ -34,7 +35,7 @@ function waveformStatic({ url, seek }: Props) {
 
         waveSurfer.on('ready', () => {
             surf.set(waveSurfer);
-            duration.set(waveSurfer.getDuration());
+            duration.set(timeConverter(waveSurfer.getDuration()));
             waveSurfer.on('interaction', () => {
                 seek(waveSurfer.getCurrentTime());
             });
