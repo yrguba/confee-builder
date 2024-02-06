@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { useMessageStore } from 'entities/message';
-import { useEasyState, useFetchMediaContent, useFs, useGlobalAudioPlayer } from 'shared/hooks';
+import { useEasyState, useFetchMediaContent, useFs, useGlobalAudioPlayer, useRouter } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { Box, Button, Icons, LoadingIndicator, Notification } from '../../../..';
+import { Audio, Box, Button, Icons, LoadingIndicator, Notification } from '../../../..';
 import { getRandomString } from '../../../../../lib';
 import useAudioStore from '../../store';
 import { VoiceProps } from '../../types';

@@ -11,7 +11,7 @@ import { JoinMeet } from '../../../../features/meet';
 import { useRouter, useStorage, useWebSocket, useWebView } from '../../../../shared/hooks';
 import useRecognizeSpeech from '../../../../shared/hooks/useRecognizeSpeech';
 import { Modal, Notification } from '../../../../shared/ui';
-import AudioPlayer from '../widgets/audio-player';
+import useAudioStore from '../../../../shared/ui/media-content/audio/store';
 import Navbar from '../widgets/navbar';
 
 function MainLayout() {
@@ -20,6 +20,8 @@ function MainLayout() {
     const chatSubscription = useChatStore.use.chatSubscription();
 
     const invitationToConference = useMeetStore.use.invitationToConference();
+
+    const currentlyPlaying = useAudioStore.use.currentlyPlaying();
 
     const ls = useStorage();
 
@@ -56,8 +58,14 @@ function MainLayout() {
 
     return (
         <>
-            <div className={styles.wrapper}>
-                <AudioPlayer />
+            <div
+                className={styles.wrapper}
+                style={
+                    {
+                        // height: !currentlyPlaying.value.src ? '100vh' : params.chat_id ? '100vh' : 'calc(100vh - 60px)',
+                    }
+                }
+            >
                 <div className={styles.navbar}>
                     <Navbar />
                 </div>

@@ -1,19 +1,17 @@
-import React, { useRef, Fragment, useEffect, useState, RefObject, ReactElement, ReactNode } from 'react';
+import React, { useRef, Fragment, useEffect, RefObject, ReactElement } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import { useLifecycles, useUpdateEffect } from 'react-use';
+import { useUpdateEffect } from 'react-use';
 
-import MessageMenu from 'features/message/ui/menu';
-import { useInView, usePrevious, useScroll, UseStoreTypes, useDimensionsObserver, useEasyState, UseEasyStateReturnType } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseStoreTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Button, Counter, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { appTypes } from '../../../app';
 import { chatTypes } from '../../../chat';
 import { EmployeeProxy } from '../../../company/model/types';
 import { UserProxy } from '../../../user/model/types';
 import useMessagesScroll from '../../lib/useMessagesScroll';
-import { File, MediaContentType, MessageMenuActions, MessageProxy } from '../../model/types';
+import { MessageProxy } from '../../model/types';
 import Message from '../message';
 import SystemMessage from '../message/variants/system';
 

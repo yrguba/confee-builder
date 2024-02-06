@@ -1,15 +1,13 @@
-import { delay } from 'framer-motion';
 import React, { useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { useMessageStore } from 'entities/message';
 import { ChatHeader } from 'features/chat';
-import { MessagesList, MessageInput } from 'features/message';
-import { useRouter } from 'shared/hooks';
-import { Box } from 'shared/ui';
+import { MessageInput } from 'features/message';
+import { useRouter, useDimensionsObserver } from 'shared/hooks';
+import { Audio, Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useMessageStore } from '../../../../../entities/message';
-import { useDimensionsObserver } from '../../../../../shared/hooks';
 
 function Chat() {
     const { params } = useRouter();
@@ -31,6 +29,7 @@ function Chat() {
             <div className={styles.header} ref={headerRef}>
                 <ChatHeader />
             </div>
+            <Audio.Player />
             <Box.Animated key={params.chat_id} visible animate={{ opacity: 1, transition: { delay: 0.15 } }} className={styles.messageList}>
                 <Outlet />
             </Box.Animated>
