@@ -39,8 +39,11 @@ function waveformStatic({ url, seek, enableSeek }: Props) {
             duration.set(timeConverter(waveSurfer.getDuration()));
             waveSurfer.on('interaction', () => {
                 setTimeout(() => {
-                    seek(waveSurfer.getCurrentTime());
-                }, 10);
+                    const curTime = waveSurfer.getCurrentTime();
+                    if (curTime > 0) {
+                        seek(curTime);
+                    }
+                }, 100);
             });
             waveSurfer.on('finish', () => {
                 waveSurfer.stop();

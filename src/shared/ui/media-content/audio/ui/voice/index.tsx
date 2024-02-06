@@ -33,7 +33,7 @@ function Voice(props: VoiceProps) {
 
     const { waveform, waveDuration, surf } = waveformStatic({ url: src || ' ', seek, enableSeek: isCurrent });
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         if (isCurrent && currentlyPlaying.value.currentSec) {
             surf?.setCurrentTime(currentlyPlaying.value.currentSec);
         }
@@ -101,7 +101,8 @@ function Voice(props: VoiceProps) {
             </div>
 
             <div className={styles.waveform}>
-                {!isCurrent && <div className={styles.cover} onClick={playPauseClick} />} {waveform}
+                {!isCurrent && <div className={styles.cover} onClick={playPauseClick} />}
+                {waveform}
             </div>
         </div>
     );
