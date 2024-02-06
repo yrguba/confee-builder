@@ -17,6 +17,8 @@ function Voice(props: VoiceProps) {
 
     const fs = useFs();
 
+    const { pathname } = useRouter();
+
     const { src, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
     const downloadFile = useMessageStore.use.downloadFile();
@@ -36,8 +38,9 @@ function Voice(props: VoiceProps) {
     useEffect(() => {
         if (isCurrent && currentlyPlaying.value.currentSec) {
             surf?.setCurrentTime(currentlyPlaying.value.currentSec);
+            playing && surf?.play();
         }
-    }, [isCurrent, surf]);
+    }, [isCurrent, surf, pathname]);
 
     useEffect(() => {
         if (!isCurrent) {
