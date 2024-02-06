@@ -7,6 +7,7 @@ import { BaseTypes } from 'shared/types';
 import { Box, Icons, Button, TabBar, Card, Image, Document, Audio, Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import momentLocalZone from '../../../../../../shared/lib/moment-local-zone';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import { userProxy } from '../../../../../user';
 import { UserProxy } from '../../../../../user/model/types';
@@ -150,12 +151,11 @@ function ChatProfileContentView(props: Props) {
                                     {files?.map((i, index) => (
                                         <Audio
                                             id={i.id}
-                                            date={i.created_at}
+                                            description={momentLocalZone(i.created_at).format('Do MMMM, HH:mm')}
                                             key={i.id}
                                             url={i.url}
                                             name={i.name}
                                             authorName={chatService.getMemberNameByUserId(chat, i.user_id)}
-                                            size={i.size ? +i.size : 0}
                                         />
                                     ))}
                                 </div>

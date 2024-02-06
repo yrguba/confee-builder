@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { useMessageStore } from 'entities/message';
-import { useEasyState, useFetchMediaContent, useFs, useGlobalAudioPlayer, useRouter } from 'shared/hooks';
+import { useEasyState, useFetchMediaContent, useFs, useGlobalAudioPlayer, useReverseTimer, useRouter, useTimer } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { Audio, Box, Button, Icons, LoadingIndicator, Notification } from '../../../..';
@@ -22,13 +22,17 @@ function Voice(props: VoiceProps) {
     const downloadFile = useMessageStore.use.downloadFile();
 
     const notification = Notification.use();
-    const [waveform, waveSurferRef, isPlaying, time, currentTime, isLoading] = waveformStatic({ url: src || ' ' });
 
     const progress = useEasyState(0);
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
 
-    const { load, play, pause, playing, isReady, src: playerSrc, togglePlayPause } = useGlobalAudioPlayer();
+    const { load, play, pause, playing, isReady, src: playerSrc, togglePlayPause, getPosition, duration, seek } = useGlobalAudioPlayer();
+
+    const { waveform, waveDuration, surf } = waveformStatic({ url: src || ' ', seek });
+    const frameRef = useRef<number>();
+
+    useAudioTime(surf, currentlyPlaying.value.apiUrl === url && playing);
 
     const playPauseClick = () => {
         if (currentlyPlaying.value.apiUrl === url) {
@@ -69,27 +73,57 @@ function Voice(props: VoiceProps) {
     }, [progress.value]);
 
     return (
-        <div onContextMenu={onContextMenu} className={styles.wrapper} style={{ overflow: isLoading ? 'hidden' : 'visible' }}>
-            <LoadingIndicator.Glare visible={isLoading} />
+        <div
+            onContextMenu={onContextMenu}
+            className={styles.wrapper}
+            // style={{ overflow: isLoading ? 'hidden' : 'visible' }}
+        >
+            {/* <LoadingIndicator.Glare visible={isLoading} /> */}
             <div className={styles.controls}>
                 <Button.Circle radius={50} onClick={playPauseClick}>
                     <Icons.Player variant={playing && currentlyPlaying.value.apiUrl === url ? 'pause' : 'play'} />
                 </Button.Circle>
             </div>
-            {!isLoading && (
-                <>
-                    <div className={styles.time}>
-                        <Box.Animated visible={!!time.currentSec} animationVariant="autoWidth">
-                            <div className={styles.currentTime}>{`${currentTime.h ? `${currentTime.h}:` : ''}${currentTime.m}:${currentTime.s}`}</div>
-                        </Box.Animated>
-                        {time.currentSec && <div>/</div>}
-                        <div className={styles.totalTime}>{`${time.h ? `${time.h}:` : ''}${time.m}:${time.s}`}</div>
-                    </div>
-                </>
-            )}
+            {/* {!isLoading && ( */}
+            {/*    <> */}
+            {/*        <div className={styles.time}> */}
+            {/*            <Box.Animated visible={!!time.currentSec} animationVariant="autoWidth"> */}
+            {/*                /!* <div className={styles.currentTime}>{`${currentTime.h ? `${currentTime.h}:` : ''}${currentTime.m}:${currentTime.s}`}</div> *!/ */}
+            {/*            </Box.Animated> */}
+            {/*            {time.currentSec && <div>/</div>} */}
+            {/*            <div className={styles.totalTime}>{`${time.h ? `${time.h}:` : ''}${time.m}:${time.s}`}</div> */}
+            {/*        </div> */}
+            {/*    </> */}
+            {/* )} */}
             <div className={styles.waveform}>{waveform}</div>
         </div>
     );
 }
 
 export default Voice;
+
+function useAudioTime(surf: any, enabled: boolean) {
+    const frameRef = useRef<number>();
+    const [pos, setPos] = useState(0);
+    const { getPosition } = useGlobalAudioPlayer();
+
+    useEffect(() => {
+        if (enabled) {
+            const animate = () => {
+                console.log(surf);
+                surf && surf.setCurrentTime(getPosition());
+                frameRef.current = requestAnimationFrame(animate);
+            };
+
+            frameRef.current = window.requestAnimationFrame(animate);
+
+            return () => {
+                if (frameRef.current) {
+                    cancelAnimationFrame(frameRef.current);
+                }
+            };
+        }
+    }, [enabled]);
+
+    return pos;
+}

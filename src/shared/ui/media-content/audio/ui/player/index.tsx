@@ -38,7 +38,7 @@ function Player(props: any) {
                 <div className={styles.left}>
                     <div>
                         {leftControls.map((i) => (
-                            <div onClick={i.callback} className={styles.item}>
+                            <div key={i.id} onClick={i.callback} className={styles.item}>
                                 {i.icon}
                             </div>
                         ))}
@@ -50,7 +50,7 @@ function Player(props: any) {
                 </div>
                 <div className={styles.right}>
                     {rightControls.map((i) => (
-                        <div onClick={i.callback} className={styles.item}>
+                        <div key={i.id} onClick={i.callback} className={styles.item}>
                             {i.icon}
                         </div>
                     ))}

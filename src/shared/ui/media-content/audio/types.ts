@@ -17,10 +17,9 @@ export type AudioForPlayer = {
 };
 
 export type BaseAudioProps = {
-    size?: number;
-    date?: Date;
     disabledDownloads?: boolean;
     description?: string;
+    cover?: string;
 } & SharedProps;
 
 export type VoiceProps = {
