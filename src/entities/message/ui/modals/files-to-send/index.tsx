@@ -48,7 +48,7 @@ function FilesToSendModalView(props: Props) {
                 {audios.array.length
                     ? audios.array.map((i) => (
                           <Item key={i.id} remove={() => audios.deleteById(i.id)}>
-                              <Audio id={i.id} url={i.fileUrl} authorName={i.name} name={i.name} size={+i.size} />
+                              <Audio url={i.fileUrl} authorName={i.name} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}

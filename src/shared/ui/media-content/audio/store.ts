@@ -27,11 +27,9 @@ const AudioStore = create<Store>()(
             },
             togglePlay: (newRef) =>
                 set((state) => {
-                    const checkPlaying = () => {};
-
                     const { isPlaying, ref } = state;
                     if (state.ref) {
-                        if (ref?.current?.currentSrc === newRef.current?.currentSrc) {
+                        if (ref?.current?.currentSrc === newRef?.current?.currentSrc) {
                             if (isPlaying) {
                                 ref?.current?.pause();
                                 return { isPlaying: false, observer: Date.now() };
@@ -40,10 +38,10 @@ const AudioStore = create<Store>()(
                             return { isPlaying: true, observer: Date.now() };
                         }
                         ref?.current?.pause();
-                        newRef.current?.play();
+                        newRef?.current?.play();
                         return { ref: newRef, isPlaying: true, observer: Date.now() };
                     }
-                    newRef.current?.play();
+                    newRef?.current?.play();
                     return { ref: newRef, isPlaying: true, observer: Date.now() };
                 }),
         }))

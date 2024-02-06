@@ -20,16 +20,8 @@ function AudioBase(props: BaseAudioProps) {
 
     const { src } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
-    const audioRef: any = useRef(null);
-
-    useUpdateEffect(() => {
-        if (src) {
-            audioRef.current = new Audio(src);
-        }
-    }, [src]);
-
     useAudioStore.use.observer();
-    const togglePlay = useAudioStore.use.togglePlay();
+
     const checkIsPlaying = useAudioStore.use.checkIsPlaying();
 
     const fs = useFs();
@@ -69,13 +61,10 @@ function AudioBase(props: BaseAudioProps) {
     const totalTime = timeConverter(Math.ceil(0));
     const currentTime = timeConverter(Math.ceil(0));
 
-    const onPlay = () => {
-        togglePlay(audioRef);
-    };
+    const onPlay = () => {};
 
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
-            <audio ref={audioRef} autoPlay />
             <div className={styles.icon} onClick={onPlay}>
                 <Icons.Player variant={checkIsPlaying(src) ? 'pause' : 'play'} />
             </div>

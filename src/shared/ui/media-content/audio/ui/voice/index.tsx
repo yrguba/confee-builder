@@ -5,6 +5,7 @@ import { useEasyState, useFetchMediaContent, useFs } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { Box, Button, Icons, LoadingIndicator, Notification } from '../../../..';
+import useAudioStore from '../../store';
 import { VoiceProps } from '../../types';
 import waveformStatic from '../wave-form/static';
 
