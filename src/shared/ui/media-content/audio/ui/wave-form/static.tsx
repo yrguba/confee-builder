@@ -38,7 +38,10 @@ function waveformStatic({ url, seek }: Props) {
             waveSurfer.on('interaction', () => {
                 seek(waveSurfer.getCurrentTime());
             });
-            //
+            waveSurfer.on('finish', () => {
+                waveSurfer.stop();
+            });
+            waveSurfer.setVolume(0);
         });
 
         return () => {

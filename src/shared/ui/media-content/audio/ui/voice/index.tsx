@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useUpdateEffect } from 'react-use';
+import { useLifecycles, useUpdateEffect } from 'react-use';
 
 import { useMessageStore } from 'entities/message';
 import { useEasyState, useFetchMediaContent, useFs, useGlobalAudioPlayer, useReverseTimer, useRouter, useTimer } from 'shared/hooks';
@@ -30,9 +30,20 @@ function Voice(props: VoiceProps) {
     const { load, play, pause, playing, isReady, src: playerSrc, togglePlayPause, getPosition, duration, seek } = useGlobalAudioPlayer();
 
     const { waveform, waveDuration, surf } = waveformStatic({ url: src || ' ', seek });
-    const frameRef = useRef<number>();
 
-    useAudioTime(surf, currentlyPlaying.value.apiUrl === url && playing);
+    // useLifecycles(() => {
+    //     if (currentlyPlaying.value.apiUrl === url && time > 0) {
+    //         surf?.setCurrentTime(getPosition());
+    //     }
+    // });
+
+    useEffect(() => {
+        if (currentlyPlaying.value.apiUrl !== url) {
+            surf?.stop();
+        } else {
+            playing ? surf?.play() : surf?.pause();
+        }
+    }, [playing, url]);
 
     const playPauseClick = () => {
         if (currentlyPlaying.value.apiUrl === url) {
@@ -102,7 +113,7 @@ function Voice(props: VoiceProps) {
 
 export default Voice;
 
-function useAudioTime(surf: any, enabled: boolean) {
+function useAudioTime(enabled: boolean) {
     const frameRef = useRef<number>();
     const [pos, setPos] = useState(0);
     const { getPosition } = useGlobalAudioPlayer();
@@ -110,8 +121,7 @@ function useAudioTime(surf: any, enabled: boolean) {
     useEffect(() => {
         if (enabled) {
             const animate = () => {
-                console.log(surf);
-                surf && surf.setCurrentTime(getPosition());
+                setPos(getPosition());
                 frameRef.current = requestAnimationFrame(animate);
             };
 
