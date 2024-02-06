@@ -21,17 +21,17 @@ function Voice(props: VoiceProps) {
 
     const downloadFile = useMessageStore.use.downloadFile();
 
-    const currentlyPlaying = useAudioStore.use.currentlyPlaying();
-
     const notification = Notification.use();
     const [waveform, waveSurferRef, isPlaying, time, currentTime, isLoading] = waveformStatic({ url: src || ' ' });
 
     const progress = useEasyState(0);
 
+    const currentlyPlaying = useAudioStore.use.currentlyPlaying();
+
     const { load, play, pause, playing, isReady, src: playerSrc, togglePlayPause } = useGlobalAudioPlayer();
 
     const playPauseClick = () => {
-        if (currentlyPlaying.value.src === src) {
+        if (currentlyPlaying.value.apiUrl === url) {
             togglePlayPause();
         } else {
             currentlyPlaying.set({

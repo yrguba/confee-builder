@@ -2,7 +2,7 @@ import React, { RefObject, useEffect, useRef } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import styles from './styles.module.scss';
-import { useEasyState, useFs, useAudio, useFetchMediaContent } from '../../../../../hooks';
+import { useEasyState, useFs, useAudio, useFetchMediaContent, useGlobalAudioPlayer } from '../../../../../hooks';
 import { sizeConverter, timeConverter } from '../../../../../lib';
 import momentLocalZone from '../../../../../lib/moment-local-zone';
 import Icons from '../../../../icons';
@@ -23,6 +23,29 @@ function AudioBase(props: BaseAudioProps) {
     const fs = useFs();
 
     const progress = useEasyState(0);
+
+    const currentlyPlaying = useAudioStore.use.currentlyPlaying();
+
+    const { load, play, pause, playing, isReady, src: playerSrc, togglePlayPause } = useGlobalAudioPlayer();
+
+    const playPauseClick = () => {
+        if (currentlyPlaying.value.apiUrl === url) {
+            togglePlayPause();
+        } else {
+            currentlyPlaying.set({
+                id: url,
+                apiUrl: url,
+                src,
+                name,
+                authorName,
+                description: date ? momentLocalZone(date).format('Do MMMM, HH:mm') : '',
+            });
+            load(src, {
+                format: 'mp3',
+                autoplay: true,
+            });
+        }
+    };
 
     const saveFile = () => {
         if (name && url) {
@@ -57,12 +80,10 @@ function AudioBase(props: BaseAudioProps) {
     const totalTime = timeConverter(Math.ceil(0));
     const currentTime = timeConverter(Math.ceil(0));
 
-    const onPlay = () => {};
-
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
-            <div className={styles.icon} onClick={onPlay}>
-                {/* <Icons.Player variant={checkIsPlaying(src) ? 'pause' : 'play'} /> */}
+            <div className={styles.icon} onClick={playPauseClick}>
+                <Icons.Player variant={playing && currentlyPlaying.value.apiUrl === url ? 'pause' : 'play'} />
             </div>
             <div className={styles.caption}>
                 <Title variant="H3M">{authorName}</Title>
