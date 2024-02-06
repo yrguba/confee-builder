@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { useMessageStore } from 'entities/message';
-import { useEasyState, useFetchMediaContent, useFs } from 'shared/hooks';
+import { useEasyState, useFetchMediaContent, useFs, useGlobalAudioPlayer } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { Box, Button, Icons, LoadingIndicator, Notification } from '../../../..';
+import { getRandomString } from '../../../../../lib';
 import useAudioStore from '../../store';
 import { VoiceProps } from '../../types';
 import waveformStatic from '../wave-form/static';
@@ -18,14 +20,29 @@ function Voice(props: VoiceProps) {
 
     const downloadFile = useMessageStore.use.downloadFile();
 
+    const currentlyPlaying = useAudioStore.use.currentlyPlaying();
+
     const notification = Notification.use();
     const [waveform, waveSurferRef, isPlaying, time, currentTime, isLoading] = waveformStatic({ url: src || ' ' });
 
     const progress = useEasyState(0);
 
+    const { load, play, pause, playing, isReady, src: playerSrc, togglePlayPause } = useGlobalAudioPlayer();
+
     const playPauseClick = () => {
-        if (!disabled && typeof waveSurferRef.current.playPause === 'function') {
-            waveSurferRef.current.playPause();
+        if (currentlyPlaying.value.src === src) {
+            togglePlayPause();
+        } else {
+            currentlyPlaying.set({
+                id: url,
+                apiUrl: url,
+                src,
+                name,
+            });
+            load(src, {
+                format: 'mp3',
+                autoplay: true,
+            });
         }
     };
 
@@ -53,7 +70,7 @@ function Voice(props: VoiceProps) {
             <LoadingIndicator.Glare visible={isLoading} />
             <div className={styles.controls}>
                 <Button.Circle radius={50} onClick={playPauseClick}>
-                    <Icons.Player variant={isPlaying ? 'pause' : 'play'} />
+                    <Icons.Player variant={playing && currentlyPlaying.value.apiUrl === url ? 'pause' : 'play'} />
                 </Button.Circle>
             </div>
             {!isLoading && (

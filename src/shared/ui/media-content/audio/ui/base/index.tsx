@@ -20,10 +20,6 @@ function AudioBase(props: BaseAudioProps) {
 
     const { src } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
-    useAudioStore.use.observer();
-
-    const checkIsPlaying = useAudioStore.use.checkIsPlaying();
-
     const fs = useFs();
 
     const progress = useEasyState(0);
@@ -66,7 +62,7 @@ function AudioBase(props: BaseAudioProps) {
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
             <div className={styles.icon} onClick={onPlay}>
-                <Icons.Player variant={checkIsPlaying(src) ? 'pause' : 'play'} />
+                {/* <Icons.Player variant={checkIsPlaying(src) ? 'pause' : 'play'} /> */}
             </div>
             <div className={styles.caption}>
                 <Title variant="H3M">{authorName}</Title>
