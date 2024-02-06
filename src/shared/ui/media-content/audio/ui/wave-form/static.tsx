@@ -7,9 +7,10 @@ import { timeConverter } from '../../../../../lib';
 type Props = {
     url: string;
     seek: (value: number) => void;
+    enableSeek: boolean;
 };
 
-function waveformStatic({ url, seek }: Props) {
+function waveformStatic({ url, seek, enableSeek }: Props) {
     const containerRef: any = useRef();
     const duration = useEasyState('');
     const surf = useEasyState<any>(null);
@@ -37,7 +38,9 @@ function waveformStatic({ url, seek }: Props) {
             surf.set(waveSurfer);
             duration.set(timeConverter(waveSurfer.getDuration()));
             waveSurfer.on('interaction', () => {
-                seek(waveSurfer.getCurrentTime());
+                setTimeout(() => {
+                    seek(waveSurfer.getCurrentTime());
+                }, 10);
             });
             waveSurfer.on('finish', () => {
                 waveSurfer.stop();

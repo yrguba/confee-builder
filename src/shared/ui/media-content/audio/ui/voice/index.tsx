@@ -27,26 +27,28 @@ function Voice(props: VoiceProps) {
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
 
+    const isCurrent = currentlyPlaying.value.apiUrl === url;
+
     const { load, playing, isReady, src: playerSrc, togglePlayPause, seek } = useGlobalAudioPlayer();
 
-    const { waveform, waveDuration, surf } = waveformStatic({ url: src || ' ', seek });
+    const { waveform, waveDuration, surf } = waveformStatic({ url: src || ' ', seek, enableSeek: isCurrent });
 
-    // useLifecycles(() => {
-    //     if (currentlyPlaying.value.apiUrl === url && time > 0) {
-    //         surf?.setCurrentTime(getPosition());
-    //     }
-    // });
-    //
-    // useEffect(() => {
-    //     if (currentlyPlaying.value.apiUrl !== url) {
-    //         surf?.stop();
-    //     } else {
-    //         playing ? surf?.play() : surf?.pause();
-    //     }
-    // }, [playing, url]);
+    useUpdateEffect(() => {
+        if (isCurrent && currentlyPlaying.value.currentSec) {
+            surf?.setCurrentTime(currentlyPlaying.value.currentSec);
+        }
+    }, [isCurrent, surf]);
+
+    useEffect(() => {
+        if (!isCurrent) {
+            surf?.stop();
+        } else {
+            playing ? surf?.play() : surf?.pause();
+        }
+    }, [playing, url]);
 
     const playPauseClick = () => {
-        if (currentlyPlaying.value.apiUrl === url) {
+        if (isCurrent) {
             togglePlayPause();
         } else {
             currentlyPlaying.set({
@@ -83,8 +85,6 @@ function Voice(props: VoiceProps) {
         }
     }, [progress.value]);
 
-    const isCurrent = currentlyPlaying.value.apiUrl === url;
-
     return (
         <div onContextMenu={onContextMenu} className={styles.wrapper}>
             <div className={styles.controls}>
@@ -100,7 +100,9 @@ function Voice(props: VoiceProps) {
                 <div>{waveDuration}</div>
             </div>
 
-            <div className={styles.waveform}>{waveform}</div>
+            <div className={styles.waveform}>
+                {!isCurrent && <div className={styles.cover} onClick={playPauseClick} />} {waveform}
+            </div>
         </div>
     );
 }
