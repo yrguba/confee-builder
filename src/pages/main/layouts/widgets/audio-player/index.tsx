@@ -3,7 +3,7 @@ import React, { useTransition } from 'react';
 import { chatApi } from 'entities/chat';
 import { useRouter, useStorage } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Counter, Icons, IconsTypes, Title } from 'shared/ui';
+import { Audio } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useMessageStore } from '../../../../../entities/message';
@@ -26,7 +26,7 @@ function AudioPlayer() {
                 }}
                 className={styles.wrapper}
             >
-                AudioPlayer
+                <Audio.Player />
             </div>
         </>
     );
