@@ -18,6 +18,7 @@ type Store = {
     goDownList: UseStoreTypes.SelectorWithPrimitive<boolean>;
     isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
     menuMessageId: UseStoreTypes.SelectorWithPrimitive<number | null>;
+    messagesListWidth: UseStoreTypes.SelectorWithPrimitive<number | null>;
     downloadFile: UseStoreTypes.SelectorWithObj<{
         fileType: MediaContentType;
         callback: () => void;
@@ -30,7 +31,7 @@ const messageStore = create<Store>()(
     devtools(
         immer((set, getState) => ({
             ...generateSelectorWithPrimitive(
-                ['voiceRecordingInProgress', 'visibleSearchMessages', 'initialPage', 'goDownList', 'isFileDrag', 'menuMessageId'],
+                ['voiceRecordingInProgress', 'visibleSearchMessages', 'initialPage', 'goDownList', 'isFileDrag', 'menuMessageId', 'messagesListWidth'],
                 set
             ),
             ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages', 'foundMessage', 'downloadFile'], set),

@@ -1,0 +1,44 @@
+@import "src/app/styles/index";
+
+.wrapper {
+  @include flex(flex-start);
+  gap: 8px;
+  cursor: pointer;
+  min-height: 56px;
+
+  .icon {
+    @include flex;
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    background-color: var(--control-primary);
+
+    svg {
+      fill: white;
+    }
+  }
+
+  .caption {
+    max-width: 290px;
+    width: calc(100% - 45px);
+    @include flex-column(flex-start, flex-start);
+
+    &_bottom {
+      width: auto;
+
+      .timer {
+        @include flex(flex-start);
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--text-secondary);
+      }
+    }
+
+  }
+
+  svg {
+    fill: var(--text-primary);
+  }
+
+}
+

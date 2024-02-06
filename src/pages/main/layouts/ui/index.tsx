@@ -11,6 +11,7 @@ import { JoinMeet } from '../../../../features/meet';
 import { useRouter, useStorage, useWebSocket, useWebView } from '../../../../shared/hooks';
 import useRecognizeSpeech from '../../../../shared/hooks/useRecognizeSpeech';
 import { Modal, Notification } from '../../../../shared/ui';
+import AudioPlayer from '../widgets/audio-player';
 import Navbar from '../widgets/navbar';
 
 function MainLayout() {
@@ -56,6 +57,7 @@ function MainLayout() {
     return (
         <>
             <div className={styles.wrapper}>
+                <AudioPlayer />
                 <div className={styles.navbar}>
                     <Navbar />
                 </div>

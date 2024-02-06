@@ -7,6 +7,13 @@ type SharedProps = {
     authorName?: string;
 } & BaseTypes.Statuses;
 
+export type PlayerProps = {
+    id?: number | string;
+    url: string;
+    name?: string;
+    authorName?: string;
+};
+
 export type BaseAudioProps = {
     size?: number;
     date?: Date;
