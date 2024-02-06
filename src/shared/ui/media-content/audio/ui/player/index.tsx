@@ -18,7 +18,7 @@ function Player(props: PlayerProps) {
 
     const { stop, load, play, pause, playing, isReady, src: playerSrc, togglePlayPause, duration: durationNum, seek } = useGlobalAudioPlayer();
 
-    const { currentTime, duration, currentSec } = useAudioTime(playing);
+    const { currentTime, duration, currentSec } = useAudioTime(true);
 
     const leftControls = [
         {
@@ -94,11 +94,11 @@ function Player(props: PlayerProps) {
 
                             sliderValue.set(null);
 
-                            // play();
+                            play();
                         }
                     }}
                     onBeforeChange={() => {
-                        // pause();
+                        pause();
                     }}
                 />
             </div>
