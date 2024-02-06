@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { RefObject, useEffect, useRef } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import styles from './styles.module.scss';
@@ -12,18 +12,28 @@ import Title from '../../../../title';
 import useAudioStore from '../../store';
 import { BaseAudioProps } from '../../types';
 
-function Audio(props: BaseAudioProps) {
+function AudioBase(props: BaseAudioProps) {
     const { disabledDownloads, url, size, name, date, authorName, id } = props;
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
     const visibleTiming = useEasyState(false);
     const duration = useEasyState(10);
 
-    const audioIdCurrentlyPlaying = useAudioStore.use.audioIdCurrentlyPlaying();
-
     const { src } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
-    const [audio, state, controls, audioRef] = useAudio({
+    const audioRef: any = useRef(null);
+
+    useUpdateEffect(() => {
+        if (src) {
+            audioRef.current = new Audio(src);
+        }
+    }, [src]);
+
+    useAudioStore.use.observer();
+    const togglePlay = useAudioStore.use.togglePlay();
+    const checkIsPlaying = useAudioStore.use.checkIsPlaying();
+
+    const [audio, state, controls, ref] = useAudio({
         src,
         autoPlay: false,
     });
@@ -66,12 +76,7 @@ function Audio(props: BaseAudioProps) {
     const currentTime = timeConverter(Math.ceil(state.time));
 
     const onPlay = () => {
-        if (state.playing) {
-            controls.pause();
-        } else {
-            id && audioIdCurrentlyPlaying.set(Number(id));
-            controls.play();
-        }
+        togglePlay(audioRef);
     };
 
     useEffect(() => {
@@ -89,19 +94,20 @@ function Audio(props: BaseAudioProps) {
         }
     }, [state.time]);
 
-    useUpdateEffect(() => {
-        if (audioIdCurrentlyPlaying.value !== id) {
-            visibleTiming.set(false);
-            controls.pause();
-            controls.seek(0);
-        }
-    }, [audioIdCurrentlyPlaying.value]);
-
+    // useUpdateEffect(() => {
+    //     if (audioIdCurrentlyPlaying.value !== id) {
+    //         visibleTiming.set(false);
+    //         controls.pause();
+    //         controls.seek(0);
+    //     }
+    // }, [audioIdCurrentlyPlaying.value]);
+    console.log(checkIsPlaying(src));
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
             {audio}
+            <audio ref={audioRef} autoPlay />
             <div className={styles.icon} onClick={onPlay}>
-                <Icons.Player variant={state.playing ? 'pause' : 'play'} />
+                <Icons.Player variant={checkIsPlaying(src) ? 'pause' : 'play'} />
             </div>
             <div className={styles.caption}>
                 <Title variant="H3M">{authorName}</Title>
@@ -129,4 +135,4 @@ function Audio(props: BaseAudioProps) {
     );
 }
 
-export default Audio;
+export default AudioBase;
