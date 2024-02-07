@@ -25,7 +25,7 @@ export type Chat = {
     draft: any[];
     pinned: boolean;
     is_muted: boolean;
-    current_user_role: 'Chat member';
+    current_user_role: 'Chat member' | 'Owner';
 };
 
 export type ChatProxy = {
@@ -41,6 +41,7 @@ export type ChatProxy = {
     meetId: string;
     currentShortMembers: CurrentShortMember[];
     isDeleted: boolean;
+    isOwner: boolean;
 } & Chat;
 
 export type CurrentShortMember = {

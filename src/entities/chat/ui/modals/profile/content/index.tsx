@@ -38,7 +38,7 @@ function ChatProfileContentView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            {chat?.is_group && !mediaTypes.value && (
+            {chat?.is_group && !mediaTypes.value && chat.isOwner && (
                 <div className={styles.addMembers}>
                     <Button.Circle variant="inherit" onClick={addMemberClick}>
                         <Icons variant="add-contact" />
@@ -77,7 +77,7 @@ function ChatProfileContentView(props: Props) {
                                                           title: user?.full_name || '',
                                                           subtitle: user?.networkStatus || '',
                                                           onClick: () => clickUser && !user?.viewer && clickUser({ user: user || undefined }),
-                                                          remove: !user?.viewer ? removeMember : null,
+                                                          remove: !user?.viewer && chat.isOwner ? removeMember : null,
                                                       };
                                                   })
                                                 : chat?.employee_members.map((i) => {
@@ -90,7 +90,7 @@ function ChatProfileContentView(props: Props) {
                                                           subtitle: employee?.status || '',
                                                           companyNames: ['TFN'],
                                                           onClick: () => clickUser && !employee?.viewer && clickUser({ employee: employee || undefined }),
-                                                          remove: !employee?.viewer ? removeMember : null,
+                                                          remove: !employee?.viewer && chat.isOwner ? removeMember : null,
                                                       };
                                                   })
                                         }
