@@ -1,10 +1,7 @@
-import React, { RefObject, useEffect, useRef } from 'react';
-import { useUpdateEffect } from 'react-use';
+import React, { useEffect } from 'react';
 
 import styles from './styles.module.scss';
-import { useEasyState, useFs, useAudio, useFetchMediaContent, useGlobalAudioPlayer } from '../../../../../hooks';
-import { sizeConverter, timeConverter } from '../../../../../lib';
-import momentLocalZone from '../../../../../lib/moment-local-zone';
+import { useEasyState, useFs, useFetchMediaContent, useGlobalAudioPlayer } from '../../../../../hooks';
 import Icons from '../../../../icons';
 import { Box, ContextMenu, ContextMenuTypes } from '../../../../index';
 import Notification from '../../../../notification';
@@ -77,9 +74,6 @@ function AudioBase(props: BaseAudioProps) {
         }
     }, [progress.value]);
 
-    const totalTime = timeConverter(Math.ceil(0));
-    const currentTime = timeConverter(Math.ceil(0));
-
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
             <div className={styles.icon} onClick={playPauseClick}>
@@ -91,16 +85,15 @@ function AudioBase(props: BaseAudioProps) {
                     className={styles.caption_bottom}
                     items={[
                         {
-                            visible: visibleTiming.value,
+                            visible: playing,
                             item: (
                                 <div className={styles.timer}>
-                                    {/* <div>{`${currentTime.h ? `${currentTime.h}:` : ''}${currentTime.m}:${currentTime.s}`}</div>/ */}
-                                    {/* <div>{`${totalTime.h ? `${totalTime.h}:` : ''}${totalTime.m}:${totalTime.s}`}</div> */}
+                                    <div>{currentlyPlaying.value.currentTime}</div>/<div>{currentlyPlaying.value.duration}</div>
                                 </div>
                             ),
                         },
                         {
-                            visible: !visibleTiming.value,
+                            visible: !playing,
                             item: <Title variant="H4R">{description}</Title>,
                         },
                     ]}

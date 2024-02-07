@@ -104,7 +104,7 @@ function Voice(props: VoiceProps) {
     return (
         <div onContextMenu={onContextMenu} className={styles.wrapper}>
             <div className={styles.controls}>
-                <Button.Circle radius={50} onClick={playPauseClick}>
+                <Button.Circle radius={37} onClick={playPauseClick}>
                     <Icons.Player variant={playing && isCurrent ? 'pause' : 'play'} />
                 </Button.Circle>
             </div>

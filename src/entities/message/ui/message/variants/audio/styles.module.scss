@@ -1,7 +1,7 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(250px, auto);
+  //@include box-size(250px, auto);
   @include flex;
   gap: 2px;
   flex-wrap: wrap;

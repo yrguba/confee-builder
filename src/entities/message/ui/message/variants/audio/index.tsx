@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
+import { Audio } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { chatTypes } from '../../../../../chat';
@@ -16,8 +17,7 @@ function AudioMessage(props: Props) {
     const audio = audios[0];
     return (
         <div className={styles.wrapper}>
-            audio
-            {/* <AudioPlayer url={audio.url} name={audio.name} isVisibleMeta /> */}
+            <Audio url={audio.url} name={audio.name} authorName="неизвестно" description="неизвестно" />
         </div>
     );
 }
