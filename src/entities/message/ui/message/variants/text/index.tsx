@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useArray } from 'shared/hooks';
 import { regex } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Box } from 'shared/ui';
+import { Box, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import LinkInfo from './widgets/link-info';
@@ -16,17 +16,19 @@ import { employeeProxy } from '../../../../../company';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import { userProxy } from '../../../../../user';
 import { User, UserProxy } from '../../../../../user/model/types';
+import { MessageProxy } from '../../../../model/types';
 
 type Props = {
-    text: string;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
+    message: MessageProxy;
 } & BaseTypes.Statuses;
 
 function TextMessage(props: Props) {
-    const { text, openChatProfileModal, chat } = props;
+    const { message, openChatProfileModal, chat } = props;
     const once = useRef(true);
     const linksInfo = useArray({});
+    const { text, isMy, sending, sendingError } = message;
 
     useEffect(() => {
         if (text && once.current) {
@@ -86,6 +88,23 @@ function TextMessage(props: Props) {
     return (
         <Box className={styles.wrapper}>
             <Linkify options={options}>{text}</Linkify>
+            <div className={styles.info}>
+                {message.is_edited && (
+                    <div className={styles.edited}>
+                        <Title variant="Body14">Изменено</Title>
+                    </div>
+                )}
+                <div>
+                    <Title primary={false} variant="H4R">
+                        {message.date}
+                    </Title>
+                </div>
+                <Box.Animated visible trigger={`${sending}${sendingError}`} className={styles.icon}>
+                    {isMy && !sending && !sendingError && <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />}
+                    {sending && <Icons variant="clock" />}
+                    {sendingError && <Icons variant="error" />}
+                </Box.Animated>
+            </div>
         </Box>
     );
 }

@@ -3,7 +3,6 @@
 .wrapper {
   //@include box-size(250px, auto);
   @include flex;
-  gap: 2px;
   flex-wrap: wrap;
   color: var(--text-primary);
   max-width: 200px;

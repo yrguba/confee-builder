@@ -3,15 +3,50 @@ import React from 'react';
 import { PlayerIconsProps } from '../types';
 
 function Player(props: PlayerIconsProps) {
-    const { variant } = props;
+    const { variant, size = 24 } = props;
 
     switch (variant) {
+        case 'play-outline': {
+            return (
+                <svg
+                    width={size}
+                    height={size}
+                    viewBox="0 0 28.0869 28.0869"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                >
+                    <desc>Created with Pixso.</desc>
+                    <defs />
+                    <path
+                        id="Vector"
+                        d="M14.0435 0C6.28442 0 0 6.28418 0 14.0439C0 21.8027 6.28442 28.0869 14.0435 28.0869C21.8025 28.0869 28.0869 21.8027 28.0869 14.0439C28.0869 6.28418 21.8025 0 14.0435 0ZM10.5327 18.5898L10.5327 9.49707C10.5327 8.8125 11.3049 8.39062 11.8843 8.75977L19.0288 13.3066C19.573 13.6572 19.573 14.4473 19.0288 14.7803L11.8843 19.3271C11.3049 19.6963 10.5327 19.2744 10.5327 18.5898Z"
+                        fillOpacity="1.000000"
+                        fillRule="nonzero"
+                    />
+                </svg>
+            );
+        }
+        case 'pause-outline': {
+            return (
+                <svg width={size} height={size} viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+                    <desc>Created with Pixso.</desc>
+                    <defs />
+                    <path
+                        id="Vector"
+                        d="M19 0C8.50244 0 0 8.5025 0 19C0 29.4975 8.50244 38 19 38C29.4976 38 38 29.4975 38 19C38 8.5025 29.4976 0 19 0ZM14.8438 26.125C13.8701 26.125 13.0625 25.3175 13.0625 24.3438L13.0625 13.6562C13.0625 12.6825 13.8701 11.875 14.8438 11.875C15.8174 11.875 16.625 12.6825 16.625 13.6562L16.625 24.3438C16.625 25.3175 15.8174 26.125 14.8438 26.125ZM23.1562 26.125C22.1826 26.125 21.375 25.3175 21.375 24.3438L21.375 13.6562C21.375 12.6825 22.1826 11.875 23.1562 11.875C24.1299 11.875 24.9375 12.6825 24.9375 13.6562L24.9375 24.3438C24.9375 25.3175 24.1299 26.125 23.1562 26.125Z"
+                        fillOpacity="1.000000"
+                        fillRule="nonzero"
+                    />
+                </svg>
+            );
+        }
         case 'play': {
             return (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
+                    width={size}
+                    height={size}
                     enableBackground="new 0 0 512 512"
                     version="1.1"
                     viewBox="0 0 512 512"
@@ -64,7 +99,7 @@ function Player(props: PlayerIconsProps) {
         }
         case 'pause': {
             return (
-                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                <svg width={size} height={size} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                     <path d="M272 63.1h-32c-26.51 0-48 21.49-48 47.1v288c0 26.51 21.49 48 48 48l32 1.8c26.51 0 48-21.49 48-48V112c0-26.51-21.5-48.9-48-48.9zm-192 0H48c-26.51 0-48 21.49-48 48v288C0 426.5 21.49 448 48 448h32c26.51 0 48-21.49 48-48V112c0-26.51-21.5-48.9-48-48.9z" />
                 </svg>
             );

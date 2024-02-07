@@ -24,13 +24,10 @@ function useFetchMediaContent(props: Props) {
 
     const fileName = `${url}${name}`;
 
-    const { online } = appService.getNetworkState();
-
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
 
     useEffect(() => {
         if (url) {
-            console.log(url);
             if (url.includes('base64') || url.includes('blob')) {
                 return src.set(url);
             }

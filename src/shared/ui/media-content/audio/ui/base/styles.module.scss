@@ -4,13 +4,14 @@
   @include flex(flex-start);
   gap: 8px;
   cursor: pointer;
-  min-height: 56px;
+  //min-height: 56px;
+  width: 100%;
 
-  .icon {
+  .playPauseIcon {
     @include flex;
     width: 37px;
     height: 37px;
-    border-radius: 50%;
+    border-radius: 8px;
     background-color: var(--control-primary);
 
     svg {

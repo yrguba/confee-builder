@@ -17,7 +17,7 @@ function AudioMessage(props: Props) {
     const audio = audios[0];
     return (
         <div className={styles.wrapper}>
-            <Audio url={audio.url} name={audio.name} authorName="неизвестно" description="неизвестно" />
+            <Audio url={audio.url} name={audio.name} authorName={audio.name} description="неизвестно" />
         </div>
     );
 }

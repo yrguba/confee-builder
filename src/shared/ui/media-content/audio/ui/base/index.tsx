@@ -13,7 +13,6 @@ function AudioBase(props: BaseAudioProps) {
     const { description, disabledDownloads, url, authorName, id, name } = props;
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
-    const visibleTiming = useEasyState(false);
 
     const { src } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
@@ -76,11 +75,13 @@ function AudioBase(props: BaseAudioProps) {
 
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
-            <div className={styles.icon} onClick={playPauseClick}>
-                <Icons.Player variant={playing && currentlyPlaying.value.apiUrl === url ? 'pause' : 'play'} />
+            <div className={styles.playPauseIcon} onClick={playPauseClick}>
+                <Icons.Player variant={playing && currentlyPlaying.value.apiUrl === url ? 'pause-outline' : 'play-outline'} />
             </div>
             <div className={styles.caption}>
-                <Title variant="H3M">{authorName}</Title>
+                <Title active variant="H3M">
+                    {authorName}
+                </Title>
                 <Box.Replace
                     className={styles.caption_bottom}
                     items={[
