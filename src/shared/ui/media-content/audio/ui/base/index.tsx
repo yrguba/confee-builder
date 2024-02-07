@@ -22,10 +22,12 @@ function AudioBase(props: BaseAudioProps) {
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
 
+    const isCurrent = currentlyPlaying.value.apiUrl === url;
+
     const { load, play, pause, playing, isReady, src: playerSrc, togglePlayPause } = useGlobalAudioPlayer();
 
     const playPauseClick = () => {
-        if (currentlyPlaying.value.apiUrl === url) {
+        if (isCurrent) {
             togglePlayPause();
         } else {
             currentlyPlaying.set({
@@ -76,7 +78,7 @@ function AudioBase(props: BaseAudioProps) {
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onContextMenu={clickContextMenu}>
             <div className={styles.playPauseIcon} onClick={playPauseClick}>
-                <Icons.Player variant={playing && currentlyPlaying.value.apiUrl === url ? 'pause-outline' : 'play-outline'} />
+                <Icons.Player variant={playing && isCurrent ? 'pause-outline' : 'play-outline'} />
             </div>
             <div className={styles.caption}>
                 <Title active variant="H3M">
@@ -86,7 +88,7 @@ function AudioBase(props: BaseAudioProps) {
                     className={styles.caption_bottom}
                     items={[
                         {
-                            visible: playing,
+                            visible: playing && isCurrent,
                             item: (
                                 <div className={styles.timer}>
                                     <div>{currentlyPlaying.value.currentTime}</div>/<div>{currentlyPlaying.value.duration}</div>
@@ -94,7 +96,7 @@ function AudioBase(props: BaseAudioProps) {
                             ),
                         },
                         {
-                            visible: !playing,
+                            visible: !isCurrent ? true : !!(!playing && isCurrent),
                             item: <Title variant="H4R">{description}</Title>,
                         },
                     ]}
