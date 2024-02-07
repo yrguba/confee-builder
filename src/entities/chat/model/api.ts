@@ -112,7 +112,7 @@ class ChatApi {
     handleCreatePersonalChat() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { user_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: string }) => {
+            (data: { user_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: File | null }) => {
                 const fd = objectToFormData(data);
                 return axiosClient.post(`${this.pathPrefix}`, fd);
             },

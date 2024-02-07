@@ -61,6 +61,7 @@ function GroupChatProfileModalView(props: Props) {
         <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
                 <Avatar.Change
+                    disabled={!chat?.isOwner}
                     clickAvatar={clickAvatar}
                     dropdownLeft={90}
                     size={200}
@@ -71,7 +72,13 @@ function GroupChatProfileModalView(props: Props) {
                     getScreenshot={getScreenshot}
                 />
                 <div className={styles.name}>
-                    <Title maxLength={22} animateTrigger={chat?.name} updCallback={(name) => updateChatName(String(name))} textAlign="center" variant="H1">
+                    <Title
+                        maxLength={22}
+                        animateTrigger={chat?.name}
+                        updCallback={chat?.isOwner ? (name) => updateChatName(String(name)) : undefined}
+                        textAlign="center"
+                        variant="H1"
+                    >
                         {chat?.name}
                     </Title>
                     {!chat?.is_personal && <CompanyTagView name="TFN" />}

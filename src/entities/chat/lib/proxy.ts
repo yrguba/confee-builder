@@ -21,6 +21,9 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                 case 'is_personal':
                     return !target.company_id;
 
+                case 'isOwner':
+                    return target.current_user_role === 'Owner';
+
                 case 'secondUser':
                     return secondUserProxy || secondEmployeeProxy?.userProxy || null;
 

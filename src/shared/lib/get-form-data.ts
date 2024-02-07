@@ -13,8 +13,8 @@ function objectToFormData(obj: any) {
     const fd = new FormData();
 
     Object.entries(updObj).forEach(([key, value]) => {
-        if (key === 'avatar' && value && typeof value === 'string') {
-            return fd.append(key, dataURLtoFile(value));
+        if (key === 'avatar') {
+            return fd.append(key, value as any);
         }
         if (Array.isArray(value)) {
             return value.forEach((i) => fd.append(`${key}[]`, i));
@@ -28,16 +28,17 @@ function objectToFormData(obj: any) {
 }
 
 function dataURLtoFile(url: string) {
-    const arr: any = url.split(',');
-    const ext = arr[0]?.split('/')[1]?.split(';')[0];
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[arr.length - 1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], `file.${ext}`, { type: mime });
+    // const arr: any = url.split(',');
+    // const ext = arr[0]?.split('/')[1]?.split(';')[0];
+    // const mime = arr[0].match(/:(.*?);/)[1];
+    // const bstr = atob(arr[arr.length - 1]);
+    // let n = bstr.length;
+    // const u8arr = new Uint8Array(n);
+    // while (n--) {
+    //     u8arr[n] = bstr.charCodeAt(n);
+    // }
+
+    return new File([url], `file.jpg`);
 }
 
 export { getFormData, objectToFormData };

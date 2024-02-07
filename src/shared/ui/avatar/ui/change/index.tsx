@@ -8,7 +8,7 @@ import { useEasyState } from '../../../../hooks';
 import { AvatarChangeProps } from '../../types';
 
 function AvatarChange(props: AvatarChangeProps) {
-    const { img, name, clickAvatar, dropdownLeft, dropdownTop, selectFile, circle = true, size = 80, deleteFile, getScreenshot } = props;
+    const { img, name, clickAvatar, dropdownLeft, dropdownTop, selectFile, circle = true, size = 80, deleteFile, getScreenshot, disabled } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
 
@@ -27,7 +27,9 @@ function AvatarChange(props: AvatarChangeProps) {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-        visibleMenu.toggle();
+        if (!disabled) {
+            visibleMenu.toggle();
+        }
     };
 
     return (

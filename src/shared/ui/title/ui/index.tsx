@@ -21,6 +21,7 @@ function Title(props: TitleProps) {
         updCallback,
         animateTrigger,
         active = false,
+        disabled,
     } = props;
 
     const cx = cnBind.bind(styles);
@@ -51,6 +52,7 @@ function Title(props: TitleProps) {
 
     const clickIconUpdate = (e: any) => {
         e.stopPropagation();
+
         isEdit.set(false);
         isEdit.value && updCallback && updCallback(newValue.value);
     };
