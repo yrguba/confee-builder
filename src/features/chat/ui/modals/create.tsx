@@ -15,6 +15,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     const isGroup = useEasyState(false);
     const chatAvatar = useEasyState<string | null>(null);
+    const chatAvatarFile = useEasyState<any>(null);
     const chatName = Input.use({});
 
     const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
@@ -31,6 +32,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         accept: 'image',
         onAfterUploading: (data) => {
             chatAvatar.set(data.files[0].fileUrl);
+            chatAvatarFile.set(data.files[0].file);
         },
     });
 
@@ -47,7 +49,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
         if (selectedContacts.array.length) {
             handleCreatePersonalChat(
-                { user_ids: selectedContacts.array.map((i) => i.payload.id), is_group: isGroup.value, name: chatName.value, avatar: chatAvatar.value || '' },
+                { user_ids: selectedContacts.array.map((i) => i.payload.id), is_group: isGroup.value, name: chatName.value, avatar: chatAvatarFile.value },
                 {
                     onSuccess: (res) => {
                         const chat = chatProxy(res.data.data);
