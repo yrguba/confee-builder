@@ -28,24 +28,19 @@ function useFetchMediaContent(props: Props) {
 
     const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
 
-    const { data: dataFromCache } = useQuery(['get-files-in-cache', url], () => getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType }), {
-        staleTime: Infinity,
-    });
-
     useEffect(() => {
         if (url) {
             if (url.includes('base64') || url.includes('blob')) {
                 return src.set(url);
             }
-            if (dataFromCache) {
-                return src.set(dataFromCache);
-            }
-            if (!online) {
-                return src.set('');
-            }
-            enable();
+            getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType }).then((res) => {
+                if (res) {
+                    return src.set(res);
+                }
+                enable();
+            });
         }
-    }, [url, dataFromCache]);
+    }, [url]);
 
     useEffect(() => {
         if (fileData) {

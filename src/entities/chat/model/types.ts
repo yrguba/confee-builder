@@ -25,6 +25,7 @@ export type Chat = {
     draft: any[];
     pinned: boolean;
     is_muted: boolean;
+    current_user_role: 'Chat member';
 };
 
 export type ChatProxy = {

@@ -26,6 +26,7 @@ function ChatHeaderView(props: Props) {
         // { id: 1, icon: 'phone', callback: clickChatAudioCall },
         { id: 2, icon: chat?.meetId ? 'videocam-pulse' : 'videocam-outlined', callback: () => tabsActions('goMeet'), hidden: chat?.isDeleted },
     ];
+
     return (
         <Box.Replace
             className={styles.wrapper}
