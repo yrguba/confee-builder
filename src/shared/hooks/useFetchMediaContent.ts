@@ -30,6 +30,7 @@ function useFetchMediaContent(props: Props) {
 
     useEffect(() => {
         if (url) {
+            console.log(url);
             if (url.includes('base64') || url.includes('blob')) {
                 return src.set(url);
             }

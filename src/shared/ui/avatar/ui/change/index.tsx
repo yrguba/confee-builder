@@ -14,9 +14,9 @@ function AvatarChange(props: AvatarChangeProps) {
 
     const visibleMenu = useEasyState(false);
 
-    const action = (data: string) => {
+    const action = (preview: string, file: File) => {
         setVisibleCamera(false);
-        getScreenshot(data);
+        getScreenshot(preview, file);
     };
 
     const items: ContextMenuTypes.ContextMenuItem[] = [

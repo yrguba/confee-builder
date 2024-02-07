@@ -16,7 +16,7 @@ export type BaseAvatarProps = {
 
 export type AvatarChangeProps = {
     selectFile: () => void;
-    getScreenshot: (data: string) => void;
+    getScreenshot: (preview: string, file: File) => void;
     deleteFile: () => void;
     dropdownTop?: number;
     dropdownLeft?: number;
