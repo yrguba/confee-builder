@@ -33,7 +33,7 @@ function Voice(props: VoiceProps) {
 
     const { load, playing, isReady, src: playerSrc, togglePlayPause, seek, stop } = useGlobalAudioPlayer();
 
-    const { waveform, waveDuration, surf } = waveformStatic({ url: src || ' ', seek, enableSeek: isCurrent });
+    const { containerRef, waveDuration, surf } = waveformStatic({ url: src || ' ', seek, enableSeek: isCurrent });
 
     useEffect(() => {
         if (isCurrent && currentlyPlaying.value?.currentSec && surf) {
@@ -109,16 +109,15 @@ function Voice(props: VoiceProps) {
                 </Button.Circle>
             </div>
 
+            <div className={styles.waveform}>
+                <div ref={containerRef} style={{ width: '100%', overflow: 'hidden' }} />
+                {/* {!isCurrent && <div className={styles.cover} onClick={playPauseClick} />} */}
+            </div>
             <div className={styles.time}>
                 <Box.Animated visible={!!currentlyPlaying.value.currentTime && isCurrent} animationVariant="autoWidth">
                     {currentlyPlaying.value.currentTime}/
                 </Box.Animated>
                 <div>{waveDuration}</div>
-            </div>
-
-            <div className={styles.waveform}>
-                {!isCurrent && <div className={styles.cover} onClick={playPauseClick} />}
-                {waveform}
             </div>
         </div>
     );

@@ -9,14 +9,16 @@ import { File, MessageProxy } from '../../../../model/types';
 import Info from '../../info';
 
 type Props = {
-    audios: File[];
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
 } & BaseTypes.Statuses;
 
 function AudioMessage(props: Props) {
-    const { message, audios, chat } = props;
+    const { message, chat } = props;
+
+    const audios = message.forwarded_from_message?.files || message.files;
     const audio = audios[0];
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.audio}>

@@ -56,9 +56,7 @@ function waveformStatic({ url, seek, enableSeek }: Props) {
         };
     }, [url]);
 
-    const waveform = <div ref={containerRef} style={{ width: '100%', height: '100%', overflow: 'hidden' }} />;
-
-    return { waveform, waveDuration: duration.value, surf: surf.value };
+    return { waveDuration: duration.value, surf: surf.value, containerRef };
 }
 
 export default waveformStatic;

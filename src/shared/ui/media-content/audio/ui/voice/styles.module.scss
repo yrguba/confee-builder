@@ -1,63 +1,44 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(100%, 100%);
+  @include box-size(100%, 60px);
   @include flex;
   gap: 6px;
   position: relative;
 
 
-  .controls{
+  .controls {
 
-    button{
-      svg{
+    button {
+      svg {
         fill: var(--text-fixed);
       }
     }
   }
 
-  .time{
+
+  .time {
     @include flex(flex-start);
     //gap: 6px;
-    position: absolute;
-    bottom: -10px;
-    left: 44px;
     color: var(--text-primary);
     font-size: 12px;
-
-    .currentTime{
-
-      width: 36px;
-      div{
-        &:nth-child(1){
-          @include flex(flex-end);
-        }
-        &:nth-child(2){
-          @include flex(flex-start);
-        }
-        width: 50%;
-      }
-    }
-
-  }
-
-  .size{
     position: absolute;
-    bottom: -10px;
-    right: 0;
-    color: var(--text-1);
-    font-size: 12px;
+    bottom: 0;
+    left: 40px;
   }
 
-  .waveform{
+
+  .waveform {
     @include box-size(100%, 100%);
-    @include flex(flex-start);
+    @include flex;
     overflow: hidden;
 
-    .cover{
+    .cover {
       position: absolute;
       @include box-size(80%, 100%);
       z-index: 10;
     }
   }
+
+
 }
