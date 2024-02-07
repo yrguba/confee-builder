@@ -80,6 +80,10 @@ function Player(props: PlayerProps) {
                     borderRadius={0}
                     max={durationNum}
                     step={0.001}
+                    dotStyle={{
+                        width: 0,
+                        height: 0,
+                    }}
                     value={sliderValue.value || currentlyPlaying.value.currentSec}
                     onChange={(value) => {
                         if (typeof value === 'number') {

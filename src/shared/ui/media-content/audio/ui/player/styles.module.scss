@@ -6,7 +6,7 @@
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-secondary);
   position: relative;
-
+overflow: hidden;
   .container {
     @include flex(space-between);
     @include box-size(calc(100% - 64px), 60px);

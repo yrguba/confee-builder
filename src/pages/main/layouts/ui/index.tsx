@@ -70,11 +70,6 @@ function MainLayout() {
                 <div className={styles.outlet}>
                     <Outlet />
                 </div>
-                {/* {currentlyPlaying.value.src && !params.chat_id && ( */}
-                {/*    <div className={styles.player}> */}
-                {/*        <Audio.Player sliderPosition="top" /> */}
-                {/*    </div> */}
-                {/* )} */}
             </div>
         </>
     );
