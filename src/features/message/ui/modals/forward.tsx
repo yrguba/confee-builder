@@ -12,16 +12,19 @@ function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
     const tabsAndLists = useChatsTabsAndLists({ redirect: false });
 
     const forwardMessages = useMessageStore.use.forwardMessages();
+    const openForwardMessageModal = useMessageStore.use.openForwardMessageModal();
 
     const clickOnChat = (chat: ChatProxy) => {
         forwardMessages.set({ ...forwardMessages.value, toChatId: chat.id, redirect: true });
         modal.close();
+        openForwardMessageModal.set(false);
         navigate(`/chats/${pathname.includes('all') ? 'all' : chat.is_personal ? 'personal' : `company/${params.company_id}`}/chat/${chat.id}`);
     };
 
     const back = () => {
         modal.close();
         forwardMessages.clear();
+        openForwardMessageModal.set(false);
     };
 
     return <ForwardMessagesModalView clickOnChat={clickOnChat} tabsAndLists={tabsAndLists} back={back} />;

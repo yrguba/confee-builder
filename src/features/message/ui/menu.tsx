@@ -56,6 +56,7 @@ function MessageMenu(props: MessageMenuProps) {
                 copyToClipboard(message.text);
                 return notification.success({ title: 'Текст скопирован в буфер', system: true });
             case 'forward':
+                menuMessageId.set(null);
                 forwardMessages.set({ fromChatName: chatData?.data.data.name || '', toChatId: null, messages: [message], redirect: false });
                 return openForwardMessageModal.set(true);
             case 'delete':
