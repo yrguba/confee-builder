@@ -23,6 +23,7 @@ function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
         modal.close();
         forwardMessages.clear();
     };
+
     return <ForwardMessagesModalView clickOnChat={clickOnChat} tabsAndLists={tabsAndLists} back={back} />;
 }
 

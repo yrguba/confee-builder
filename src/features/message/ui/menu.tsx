@@ -29,13 +29,12 @@ function MessageMenu(props: MessageMenuProps) {
     const highlightedMessages = useMessageStore.use.highlightedMessages();
     const downloadFile = useMessageStore.use.downloadFile();
     const menuMessageId = useMessageStore.use.menuMessageId();
+    const openForwardMessageModal = useMessageStore.use.openForwardMessageModal();
 
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const { mutate: handleSendReaction } = messageApi.handleSendReaction();
 
     const notification = Notification.use();
-
-    const forwardMessagesModal = Modal.use();
 
     const confirmDeleteMessage = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
         value && callbackData && handleDeleteMessage({ chatId, messageIds: [callbackData.messageId], fromAll: true });
@@ -58,7 +57,7 @@ function MessageMenu(props: MessageMenuProps) {
                 return notification.success({ title: 'Текст скопирован в буфер', system: true });
             case 'forward':
                 forwardMessages.set({ fromChatName: chatData?.data.data.name || '', toChatId: null, messages: [message], redirect: false });
-                return forwardMessagesModal.open();
+                return openForwardMessageModal.set(true);
             case 'delete':
                 return confirmDeleteMessage.open({ messageId: message.id });
             case 'highlight':
@@ -76,7 +75,6 @@ function MessageMenu(props: MessageMenuProps) {
     return (
         <>
             <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
-            <ForwardMessagesModal {...forwardMessagesModal} />
             <MessageMenuView downloadFileType={downloadFile.value?.fileType} chat={proxyChat} message={props.message} messageMenuAction={messageMenuAction} />
         </>
     );

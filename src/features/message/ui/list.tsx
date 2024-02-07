@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy, useChatStore } from 'entities/chat';
@@ -54,6 +54,7 @@ function MessageList() {
     const { data: messageOrder } = messageApi.handleGetMessageOrder({ chatId, messageId: messageIdToSearchForPage.value });
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
+    const openForwardMessageModal = useMessageStore.use.openForwardMessageModal();
 
     const initialOpenChat = useChatStore.use.initialOpenChat();
 
@@ -127,6 +128,14 @@ function MessageList() {
             editMessage.clear();
         }
     );
+
+    useEffect(() => {
+        if (openForwardMessageModal.value) {
+            forwardMessagesModal.open();
+        } else {
+            forwardMessagesModal.close();
+        }
+    }, [openForwardMessageModal.value]);
 
     return (
         <>
