@@ -2,18 +2,12 @@
 
 .wrapper {
   @include box-size(100%, 100%);
-  //@include flex-column(flex-start);
   display: flex;
   flex-direction: column-reverse;
-  //justify-content: flex-start;
-  align-items: center;align-items: center;
-  //background-color: var(--bg-dialogue);
-  gap: 4px;
-  //padding: 12px 0;
-  //overflow-y: auto;
-  //overflow-x: hidden;
+  align-items: center;
   overflow: hidden;
   transition: background-color 0.5s;
+  gap: 6px;
 
   &_dragOver {
     background-color: var(--bg-dialogue);

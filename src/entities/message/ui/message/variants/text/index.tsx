@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Linkify from 'linkify-react';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useArray, useEasyState } from 'shared/hooks';
 import { regex } from 'shared/lib';
@@ -11,12 +11,12 @@ import styles from './styles.module.scss';
 import LinkInfo from './widgets/link-info';
 import 'linkify-plugin-mention';
 import { chatTypes } from '../../../../../chat';
-import { ChatProxy } from '../../../../../chat/model/types';
 import { employeeProxy } from '../../../../../company';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import { userProxy } from '../../../../../user';
-import { User, UserProxy } from '../../../../../user/model/types';
+import { UserProxy } from '../../../../../user/model/types';
 import { MessageProxy } from '../../../../model/types';
+import Info from '../../info';
 
 type Props = {
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
@@ -95,23 +95,14 @@ function TextMessage(props: Props) {
             }}
         >
             <Linkify options={options}>{text}</Linkify>
-            <div className={styles.info}>
-                {message.is_edited && (
-                    <div className={styles.edited}>
-                        <Title variant="Body14">Изменено</Title>
-                    </div>
-                )}
-                <div>
-                    <Title primary={false} variant="H4R">
-                        {message.date}
-                    </Title>
-                </div>
-                <Box.Animated visible trigger={`${sending}${sendingError}`} className={styles.icon}>
-                    {isMy && !sending && !sendingError && <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />}
-                    {sending && <Icons variant="clock" />}
-                    {sendingError && <Icons variant="error" />}
-                </Box.Animated>
-            </div>
+            <Info
+                date={message.date}
+                is_edited={message.is_edited}
+                sendingError={message.sendingError}
+                sending={message.sending}
+                isMy={message.isMy}
+                checked={!!message.users_have_read}
+            />
         </Box>
     );
 }
