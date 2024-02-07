@@ -247,7 +247,6 @@ class ChatApi {
 
     handleAddAvatar() {
         return useMutation((data: { chatId: number; img: File }) => {
-            console.log(data);
             return axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img));
         });
     }
