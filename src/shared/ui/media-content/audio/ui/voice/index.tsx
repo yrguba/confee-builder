@@ -31,7 +31,7 @@ function Voice(props: VoiceProps) {
 
     const isCurrent = currentlyPlaying.value.apiUrl === url;
 
-    const { load, playing, isReady, src: playerSrc, togglePlayPause, seek } = useGlobalAudioPlayer();
+    const { load, playing, isReady, src: playerSrc, togglePlayPause, seek, stop } = useGlobalAudioPlayer();
 
     const { waveform, waveDuration, surf } = waveformStatic({ url: src || ' ', seek, enableSeek: isCurrent });
 
@@ -47,6 +47,13 @@ function Voice(props: VoiceProps) {
             surf?.setCurrentTime(currentlyPlaying.value.currentSec);
         }
     }, [currentlyPlaying.value?.currentSec]);
+
+    useEffect(() => {
+        if (!currentlyPlaying.value?.apiUrl && surf) {
+            stop();
+            surf.stop();
+        }
+    }, [currentlyPlaying.value?.apiUrl]);
 
     useEffect(() => {
         if (!isCurrent) {

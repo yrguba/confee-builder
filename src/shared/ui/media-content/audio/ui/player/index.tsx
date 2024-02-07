@@ -51,7 +51,12 @@ function Player(props: PlayerProps) {
     }, [currentSec, sliderValue.value]);
 
     return (
-        <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
+        <Box.Animated
+            initial={autoHeight}
+            animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'}
+            visible={!!currentlyPlaying.value.src}
+            className={styles.wrapper}
+        >
             <div className={styles.container}>
                 <div className={styles.left}>
                     <div>
@@ -75,7 +80,7 @@ function Player(props: PlayerProps) {
                     ))}
                 </div>
             </div>
-            <div className={styles.slider} style={{ [sliderPosition]: 0 }}>
+            <div className={styles.slider} style={{ [sliderPosition]: sliderPosition === 'top' ? -5 : 0 }}>
                 <Slider
                     borderRadius={0}
                     max={durationNum}

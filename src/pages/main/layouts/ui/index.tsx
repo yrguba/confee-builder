@@ -10,7 +10,7 @@ import { userGateway } from '../../../../entities/user';
 import { JoinMeet } from '../../../../features/meet';
 import { useRouter, useStorage, useWebSocket, useWebView } from '../../../../shared/hooks';
 import useRecognizeSpeech from '../../../../shared/hooks/useRecognizeSpeech';
-import { Modal, Notification } from '../../../../shared/ui';
+import { Audio, Modal, Notification } from '../../../../shared/ui';
 import useAudioStore from '../../../../shared/ui/media-content/audio/store';
 import Navbar from '../widgets/navbar';
 
@@ -60,11 +60,9 @@ function MainLayout() {
         <>
             <div
                 className={styles.wrapper}
-                style={
-                    {
-                        // height: !currentlyPlaying.value.src ? '100vh' : params.chat_id ? '100vh' : 'calc(100vh - 60px)',
-                    }
-                }
+                style={{
+                    height: !currentlyPlaying.value.src ? '100vh' : params.chat_id ? '100vh' : 'calc(100vh - 60px)',
+                }}
             >
                 <div className={styles.navbar}>
                     <Navbar />
@@ -72,6 +70,11 @@ function MainLayout() {
                 <div className={styles.outlet}>
                     <Outlet />
                 </div>
+                {currentlyPlaying.value.src && !params.chat_id && (
+                    <div className={styles.player}>
+                        <Audio.Player sliderPosition="top" />
+                    </div>
+                )}
             </div>
         </>
     );
