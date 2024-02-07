@@ -86,7 +86,12 @@ function TextMessage(props: Props) {
     };
 
     return (
-        <Box className={styles.wrapper}>
+        <Box
+            className={styles.wrapper}
+            style={{
+                flexDirection: linksInfo.length ? 'column' : 'row',
+            }}
+        >
             <Linkify options={options}>{text}</Linkify>
             <div className={styles.info}>
                 {message.is_edited && (

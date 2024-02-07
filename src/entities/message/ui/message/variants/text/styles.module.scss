@@ -1,14 +1,14 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex(start,);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
   width: auto;
   max-width: 460px;
   //min-width: 400px;
   flex-wrap: wrap;
   //column-gap: 6px;
-  justify-content: flex-start;
-  align-items: flex-start;
   word-wrap: break-word;
   color: var(--text-primary);
   font-size: 16px;
@@ -19,7 +19,7 @@
 
 
   //min-width: 120px;
-  padding: 2px 8px;
+  padding: 4px 8px;
   border-radius:12px;
   background-color: var(--bg-secondary);
 
@@ -50,9 +50,9 @@
   .info {
     flex: 1;
     margin-left: 7px;
-    @include flex(flex-end);
+    @include flex(flex-end,flex-end);
     gap: 4px;
-
+    height: 100%;
     .edited{
       width: 70px;
     }

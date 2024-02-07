@@ -3,7 +3,7 @@
 .wrapper {
   @include flex-column(flex-start, flex-start);
   gap: 4px;
-  width: 100%;
+  //width: 100%;
   margin-bottom: 12px;
   cursor: pointer;
 
@@ -15,9 +15,9 @@
 
   .info {
     @include flex(space-between);
-    width: 100%;
+    width: calc(100% - 8px);
     flex-wrap: wrap;
-    gap: 12px;
+    //gap: 12px;
     padding-left: 8px;
     border-left: 2px solid var(--border-primary);
 
@@ -31,6 +31,8 @@
     }
 
     .img {
+      max-width: 100px;
+      max-height: 100px;
       border-radius: 12px;
       overflow: hidden;
     }
