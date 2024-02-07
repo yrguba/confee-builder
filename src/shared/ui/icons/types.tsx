@@ -69,11 +69,12 @@ export type BaseIconsProps = {
     size?: 24 | 48 | number;
 };
 
-export type PlayerIconsVariants = 'stop' | 'pause' | 'play-outline' | 'pause-outline' | 'play' | 'mute' | 'unmute' | 'full';
+export type PlayerIconsVariants = 'stop' | 'pause' | 'play-outline' | 'pause-outline' | 'play' | 'mute' | 'unmute' | 'full' | 'repeat';
 
 export type PlayerIconsProps = {
     variant: PlayerIconsVariants;
     size?: number;
+    active?: boolean;
 };
 
 export type NetworkIndicatorProps = {

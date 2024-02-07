@@ -16,7 +16,7 @@ function Player(props: PlayerProps) {
     const handleSlider = useEasyState(false);
     const sliderValue = useEasyState<any>(null);
 
-    const { stop, play, pause, playing, togglePlayPause, duration: durationNum, seek } = useGlobalAudioPlayer();
+    const { stop, play, pause, playing, togglePlayPause, duration: durationNum, seek, loop, looping, setRate, rate } = useGlobalAudioPlayer();
 
     const { currentTime, duration, currentSec } = useAudioTime(true);
 
@@ -33,7 +33,33 @@ function Player(props: PlayerProps) {
     const rightControls = [
         {
             id: 0,
-            icon: <Icons variant="close" />,
+            element: <Title color="inactive" variant="H3S">{`${rate > 1 ? rate.toFixed(1) : 1}x`}</Title>,
+            callback: () => {
+                setRate(rate > 5 ? 1 : rate + 0.1);
+            },
+        },
+        {
+            id: 1,
+            element: <Icons.Player variant="mute" active={looping} />,
+            callback: () => {
+                // loop(!looping);
+            },
+        },
+        {
+            id: 2,
+            element: <Title variant="H4R">{`${currentTime}/${duration}`}</Title>,
+            callback: () => {},
+        },
+        {
+            id: 3,
+            element: <Icons.Player variant="repeat" active={looping} />,
+            callback: () => {
+                loop(!looping);
+            },
+        },
+        {
+            id: 4,
+            element: <Icons variant="close" />,
             callback: () => {
                 stop();
                 currentlyPlaying.clear();
@@ -54,23 +80,22 @@ function Player(props: PlayerProps) {
         <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
             <div className={styles.container}>
                 <div className={styles.left}>
-                    <div>
+                    <div className={styles.controls}>
                         {leftControls.map((i) => (
                             <div key={i.id} onClick={i.callback} className={styles.item}>
                                 {i.icon}
                             </div>
                         ))}
                     </div>
-                    <div>
+                    <div className={styles.descriptions}>
                         <Title variant="H3M">{currentlyPlaying.value.authorName}</Title>
                         <Title variant="H4R">{currentlyPlaying.value.description}</Title>
                     </div>
                 </div>
                 <div className={styles.right}>
-                    <div className={styles.time}>{`${currentTime}/${duration}`}</div>
                     {rightControls.map((i) => (
                         <div key={i.id} onClick={i.callback} className={styles.item}>
-                            {i.icon}
+                            {i.element}
                         </div>
                     ))}
                 </div>
@@ -107,6 +132,7 @@ function Player(props: PlayerProps) {
 }
 
 export default Player;
+
 function useAudioTime(enabled: boolean) {
     const frameRef = useRef<number>();
     const currentTime = useEasyState('');
