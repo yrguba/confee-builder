@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useEasyState, useGlobalAudioPlayer, useUpdateEffect } from 'shared/hooks';
 
@@ -9,14 +9,14 @@ import useAudioStore from '../../store';
 import { PlayerProps } from '../../types';
 
 function Player(props: PlayerProps) {
-    const { sliderPosition = 'bottom' } = props;
+    const { sliderPosition = 'bottom', autoHeight } = props;
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
 
     const handleSlider = useEasyState(false);
     const sliderValue = useEasyState<any>(null);
 
-    const { stop, load, play, pause, playing, isReady, src: playerSrc, togglePlayPause, duration: durationNum, seek } = useGlobalAudioPlayer();
+    const { stop, play, pause, playing, togglePlayPause, duration: durationNum, seek } = useGlobalAudioPlayer();
 
     const { currentTime, duration, currentSec } = useAudioTime(true);
 
@@ -51,7 +51,7 @@ function Player(props: PlayerProps) {
     }, [currentSec, sliderValue.value]);
 
     return (
-        <Box.Animated visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
+        <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
             <div className={styles.container}>
                 <div className={styles.left}>
                     <div>
@@ -81,7 +81,6 @@ function Player(props: PlayerProps) {
                     max={durationNum}
                     step={0.001}
                     value={sliderValue.value || currentlyPlaying.value.currentSec}
-                    // defaultValue={currentlyPlaying.value.currentSec}
                     onChange={(value) => {
                         if (typeof value === 'number') {
                             sliderValue.set(value);
@@ -90,10 +89,7 @@ function Player(props: PlayerProps) {
                     }}
                     onAfterChange={(value) => {
                         if (typeof value === 'number') {
-                            // seek(sliderValue.value);
-
                             sliderValue.set(null);
-
                             play();
                         }
                     }}

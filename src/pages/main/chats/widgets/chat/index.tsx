@@ -29,7 +29,7 @@ function Chat() {
             <div className={styles.header} ref={headerRef}>
                 <ChatHeader />
             </div>
-            <Audio.Player />
+            <Audio.Player autoHeight />
             <Box.Animated key={params.chat_id} visible animate={{ opacity: 1, transition: { delay: 0.15 } }} className={styles.messageList}>
                 <Outlet />
             </Box.Animated>

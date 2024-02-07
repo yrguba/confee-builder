@@ -21,6 +21,7 @@ export type AudioForPlayer = {
 
 export type PlayerProps = {
     sliderPosition?: 'top' | 'bottom';
+    autoHeight?: boolean;
 };
 
 export type BaseAudioProps = {

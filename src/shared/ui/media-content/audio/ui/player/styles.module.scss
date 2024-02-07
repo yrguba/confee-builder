@@ -9,7 +9,7 @@
 
   .container {
     @include flex(space-between);
-    @include box-size(calc(100% - 64px), 100%);
+    @include box-size(calc(100% - 64px), 60px);
     padding: 0 32px;
     max-width: 1440px;
 

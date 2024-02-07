@@ -36,17 +36,17 @@ function Voice(props: VoiceProps) {
     const { waveform, waveDuration, surf } = waveformStatic({ url: src || ' ', seek, enableSeek: isCurrent });
 
     useEffect(() => {
-        if (isCurrent && currentlyPlaying.value.currentSec) {
-            surf?.setCurrentTime(currentlyPlaying.value.currentSec);
-            playing && surf?.play();
+        if (isCurrent && currentlyPlaying.value?.currentSec && surf) {
+            surf.setCurrentTime(currentlyPlaying.value.currentSec);
+            playing && surf.play();
         }
     }, [isCurrent, surf, pathname]);
 
     useUpdateEffect(() => {
-        if (!playing && isCurrent) {
+        if (!playing && isCurrent && currentlyPlaying.value?.currentSec) {
             surf?.setCurrentTime(currentlyPlaying.value.currentSec);
         }
-    }, [currentlyPlaying.value.currentSec]);
+    }, [currentlyPlaying.value?.currentSec]);
 
     useEffect(() => {
         if (!isCurrent) {
