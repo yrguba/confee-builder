@@ -62,7 +62,8 @@ export type BaseIconsVariants =
     | 'save'
     | 'error'
     | 'mute'
-    | 'unmute';
+    | 'unmute'
+    | 'reload';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

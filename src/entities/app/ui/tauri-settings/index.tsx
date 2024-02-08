@@ -17,15 +17,15 @@ function TauriSettingsView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.body}>
-                <div className={styles.item} style={{ cursor: 'pointer' }} onClick={openCacheModal}>
-                    <div className={styles.titles}>
-                        <Title variant="H3M">Кэш</Title>
-                        <Title primary={false} variant="H4M">
-                            Управление кэшем
-                        </Title>
-                    </div>
-                    <Icons variant="arrow-drop-right" />
-                </div>
+                {/* <div className={styles.item} style={{ cursor: 'pointer' }} onClick={openCacheModal}> */}
+                {/*    <div className={styles.titles}> */}
+                {/*        <Title variant="H3M">Кэш</Title> */}
+                {/*        <Title primary={false} variant="H4M"> */}
+                {/*            Управление кэшем */}
+                {/*        </Title> */}
+                {/*    </div> */}
+                {/*    <Icons variant="arrow-drop-right" /> */}
+                {/* </div> */}
                 <div className={styles.item}>
                     <div className={styles.titles}>
                         <Title variant="H3M">Приложение</Title>

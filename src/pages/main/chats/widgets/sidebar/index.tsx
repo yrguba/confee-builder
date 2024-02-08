@@ -14,7 +14,13 @@ function Sidebar() {
             <CreateChatModal {...createChatModal} />
             <div className={styles.wrapper}>
                 <div className={styles.header}>
-                    <Title variant="H2">Сообщения</Title>
+                    <div className={styles.title}>
+                        <Title variant="H2">Сообщения</Title>
+                        <Button.Circle variant="inherit" radius={24} onClick={() => window.location.reload()}>
+                            <Icons variant="reload" />
+                        </Button.Circle>
+                    </div>
+
                     <div className={styles.icons}>
                         <Button.Circle variant="secondary" onClick={() => createChatModal.open()}>
                             <Icons variant="new-message" />

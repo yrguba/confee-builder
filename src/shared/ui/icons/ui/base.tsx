@@ -7,6 +7,13 @@ function BaseIcons(props: BaseIconsProps) {
     const { variant, size = 24 } = props;
 
     switch (variant) {
+        case 'reload': {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 512 512">
+                    <path d="M64 256H34a222 222 0 01396-137.85V85h30v105H355v-30h67.27A192.21 192.21 0 00256 64C150.13 64 64 150.13 64 256zm384 0c0 105.87-86.13 192-192 192a192.21 192.21 0 01-166.27-96H157v-30H52v105h30v-33.15A222 222 0 00478 256z" />
+                </svg>
+            );
+        }
         case 'mute': {
             return (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
