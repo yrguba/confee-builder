@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { AudioPlayer, Avatar, Document, Image, Title, TitleTypes, VideoPlayer } from 'shared/ui';
+import { Document, Image, Title, TitleTypes, Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { getEnding, getVideoCover } from '../../../../../../shared/lib';
+import { getEnding } from '../../../../../../shared/lib';
 import { MessageProxy } from '../../../../model/types';
 
 type Props = {
@@ -35,7 +35,7 @@ function ReplyMessage(props: Props) {
     return (
         <div className={styles.wrapper} onClick={() => clickMessageReply(message)}>
             {message?.type === 'images' && <Image maxWidth="40px" height="40px" url={firstFile?.url} />}
-            {message.type === 'videos' && <VideoPlayer width="40px" height="40px" visibleCover url={firstFile?.url} />}
+            {message.type === 'videos' && <Video width="40px" height="40px" visibleCover url={firstFile?.url} />}
             {message.type === 'documents' && <Document url={firstFile?.url} disableDownload />}
             <div className={styles.description}>
                 <Title active variant={nameTitleVariant}>

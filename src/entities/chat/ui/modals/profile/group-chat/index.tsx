@@ -18,7 +18,7 @@ type Props = {
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
     files: messageTypes.File[] | BaseTypes.Empty;
     selectFile: () => void;
-    getScreenshot: (data: string) => void;
+    getScreenshot: (preview: string, file: File) => void;
     clickAvatar: () => void;
     updateChatName: (name: string) => void;
     clickUser: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;

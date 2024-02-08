@@ -23,7 +23,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const proxyChat = chatProxy(chatData?.data.data);
     const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
-    console.log(chatData);
+
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
     const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
@@ -56,23 +56,23 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
         }
     });
 
-    const confirmAddAvatar = Modal.useConfirm<{ img: string }>((value, callbackData) => {
+    const confirmAddAvatar = Modal.useConfirm<{ img: string; file: File }>((value, callbackData) => {
         value &&
             callbackData?.img &&
             handleAddAvatar({
                 chatId,
-                img: callbackData.img,
+                img: callbackData.file,
             });
     });
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',
         onAfterUploading: (data) => {
-            confirmAddAvatar.open({ img: data.files[0].fileUrl });
+            confirmAddAvatar.open({ img: data.files[0].fileUrl, file: data.files[0].file });
         },
     });
 
-    const getScreenshot = (data: string) => handleAddAvatar({ chatId, img: data });
+    const getScreenshot = (preview: string, file: File) => handleAddAvatar({ chatId, img: file });
     const updateChatName = (name: string) =>
         handleUpdateChatName({ chatId, name, type: proxyChat?.is_personal ? 'personal' : 'company', companyId: params.company_id });
 

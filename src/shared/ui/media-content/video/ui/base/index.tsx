@@ -12,9 +12,9 @@ import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../..
 import LoadingIndicator from '../../../../loading-indicator';
 import Notification from '../../../../notification';
 import Image from '../../../image';
-import { BaseVideoPlayerProps } from '../../types';
+import { BaseVideoProps } from '../../types';
 
-function VideoPlayer(props: BaseVideoPlayerProps) {
+function VideoPlayer(props: BaseVideoProps) {
     const { previewUrl, disableDownload = true, id, name, visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
 
     const fs = useFs();

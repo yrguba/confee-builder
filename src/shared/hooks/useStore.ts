@@ -20,7 +20,7 @@ type SelectorWithArr<T extends { id: number | string; [key: string]: any }> = {
     clear: () => void;
 };
 
-function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWithObj<any> | SelectorWithArr<any>>>() {
+function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWithObj<any> | SelectorWithArr<any> | any>>() {
     const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(_store: S) => {
         const store = _store as WithSelectors<typeof _store>;
         store.use = {};

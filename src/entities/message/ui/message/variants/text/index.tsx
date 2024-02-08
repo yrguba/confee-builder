@@ -1,38 +1,42 @@
 import axios from 'axios';
 import Linkify from 'linkify-react';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-import { useArray } from 'shared/hooks';
+import { useArray, useEasyState } from 'shared/hooks';
 import { regex } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Box } from 'shared/ui';
+import { Box, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import LinkInfo from './widgets/link-info';
 import 'linkify-plugin-mention';
 import { chatTypes } from '../../../../../chat';
-import { ChatProxy } from '../../../../../chat/model/types';
 import { employeeProxy } from '../../../../../company';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import { userProxy } from '../../../../../user';
-import { User, UserProxy } from '../../../../../user/model/types';
+import { UserProxy } from '../../../../../user/model/types';
+import { MessageProxy } from '../../../../model/types';
+import Info from '../../info';
 
 type Props = {
-    text: string;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
+    message: MessageProxy;
 } & BaseTypes.Statuses;
 
 function TextMessage(props: Props) {
-    const { text, openChatProfileModal, chat } = props;
+    const { message, openChatProfileModal, chat } = props;
     const once = useRef(true);
     const linksInfo = useArray({});
+    const { text, isMy, sending, sendingError } = message;
+    const withLink = useEasyState(false);
 
     useEffect(() => {
         if (text && once.current) {
             Promise.all(
                 text.split(' ').map(async (word, index) => {
                     if (regex.url.test(word) && !word.includes('localhost')) {
+                        withLink.set(true);
                         const data = await axios.get(`https://dev.chat.softworks.ru/api/v2/http/link-preview`, {
                             params: {
                                 link: word,
@@ -84,8 +88,21 @@ function TextMessage(props: Props) {
     };
 
     return (
-        <Box className={styles.wrapper}>
+        <Box
+            className={styles.wrapper}
+            style={{
+                flexDirection: withLink.value ? 'column' : 'row',
+            }}
+        >
             <Linkify options={options}>{text}</Linkify>
+            <Info
+                date={message.date}
+                is_edited={message.is_edited}
+                sendingError={message.sendingError}
+                sending={message.sending}
+                isMy={message.isMy}
+                checked={!!message.users_have_read}
+            />
         </Box>
     );
 }

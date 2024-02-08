@@ -3,11 +3,7 @@ import { CSSProperties } from 'react';
 import { BaseTypes } from 'shared/types';
 import { SwiperTypes } from 'shared/ui';
 
-import { MediaContentType } from '../../../../entities/message/model/types';
-import { UseEasyStateReturnType } from '../../../hooks';
-import { ImagesListItem } from '../image/types';
-
-export type BaseVideoPlayerProps = {
+export type BaseVideoProps = {
     url: string;
     previewUrl?: string;
     id?: number | string;
@@ -25,7 +21,7 @@ export type BaseVideoPlayerProps = {
 
 export type VideoListItem = {
     id: number | string;
-} & BaseVideoPlayerProps;
+} & BaseVideoProps;
 
 export type VideoListProps = {
     items: VideoListItem[] | BaseTypes.Empty;

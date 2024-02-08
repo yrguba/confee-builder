@@ -1,16 +1,17 @@
 import React from 'react';
 
+import { employeeProxy } from 'entities/company';
 import { messageTypes } from 'entities/message';
 import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Icons, Button, TabBar, Card, Image, Document, AudioPlayer, VideoPlayer } from 'shared/ui';
+import { Box, Icons, Button, TabBar, Card, Image, Document, Audio, Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { employeeProxy } from '../../../../../company';
+import momentLocalZone from '../../../../../../shared/lib/moment-local-zone';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import { userProxy } from '../../../../../user';
 import { UserProxy } from '../../../../../user/model/types';
-import { viewerService } from '../../../../../viewer';
+import { chatService } from '../../../../index';
 import { ChatProxy } from '../../../../model/types';
 
 type Props = {
@@ -24,8 +25,6 @@ type Props = {
 
 function ChatProfileContentView(props: Props) {
     const { removeMember, clickUser, chat, addMemberClick, mediaTypes, files } = props;
-
-    const viewerId = viewerService.getId();
 
     const tabs: { id: number; type: messageTypes.MediaContentType | null; title: string; hidden?: boolean }[] = [
         { id: 0, type: null, title: 'Участники', hidden: !chat?.is_group },
@@ -116,7 +115,7 @@ function ChatProfileContentView(props: Props) {
                         {
                             visible: mediaTypes.value === 'videos',
                             item: (
-                                <VideoPlayer.List
+                                <Video.List
                                     disableDownload={false}
                                     items={files?.map((i, index) => ({
                                         id: index,
@@ -146,11 +145,18 @@ function ChatProfileContentView(props: Props) {
                             ),
                         },
                         {
-                            visible: mediaTypes.value === 'voices' || mediaTypes.value === 'audios',
+                            visible: mediaTypes.value === 'voices',
                             item: (
                                 <div className={styles.audios}>
                                     {files?.map((i, index) => (
-                                        <AudioPlayer.Card key={i.id} url={i.url} name={i.name || ''} size={i.size ? +i.size : 0} />
+                                        <Audio
+                                            id={i.id}
+                                            description={momentLocalZone(i.created_at).format('Do MMMM, HH:mm')}
+                                            key={i.id}
+                                            url={i.url}
+                                            name={i.name}
+                                            authorName={chatService.getMemberNameByUserId(chat, i.user_id)}
+                                        />
                                     ))}
                                 </div>
                             ),

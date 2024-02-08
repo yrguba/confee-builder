@@ -1,13 +1,17 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(250px, auto);
-  @include flex;
-  gap: 2px;
-  flex-wrap: wrap;
+  @include flex(flex-end, flex-end);
   color: var(--text-primary);
-  max-width: 200px;
+  max-width: 290px;
+  background-color: var(--bg-secondary);
+  padding: 4px 8px;
+  border-radius: 12px;
 
+  .audio{
+    @include flex;
+    max-width: 200px;
+  }
 }
 
 

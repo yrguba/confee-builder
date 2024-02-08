@@ -11,7 +11,7 @@ import chat from '../../../pages/main/chats/widgets/chat';
 import { Response } from '../../../shared/types';
 import { companyTypes } from '../../company';
 import { Company } from '../../company/model/types';
-import { MessageType, MediaContentType, File } from '../../message/model/types';
+import * as MessageTypes from '../../message/model/types';
 import { Session, Viewer } from '../../viewer/model/types';
 import { chatService, chatTypes } from '../index';
 import { chats_limit } from '../lib/constants';
@@ -224,11 +224,11 @@ class ChatApi {
         });
     };
 
-    handleGetChatFiles = (data: { chatId: number | undefined; filesType: MediaContentType | null }) => {
+    handleGetChatFiles = (data: { chatId: number | undefined; filesType: MessageTypes.MediaContentType | null }) => {
         return useQuery(['get-chat-files', data.chatId, data?.filesType], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/files/${data.filesType}`), {
             enabled: !!data.filesType && !!data.chatId,
             select: (data) => {
-                const res = httpHandlers.response<{ data: File[] }>(data);
+                const res = httpHandlers.response<{ data: MessageTypes.File[] }>(data);
                 return res.data?.data;
             },
         });
@@ -246,9 +246,9 @@ class ChatApi {
     };
 
     handleAddAvatar() {
-        return useMutation((data: { chatId: number; img: string }) =>
-            axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img))
-        );
+        return useMutation((data: { chatId: number; img: File }) => {
+            return axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img));
+        });
     }
 
     handleUpdateChatName() {

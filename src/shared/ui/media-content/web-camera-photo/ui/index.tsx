@@ -14,9 +14,16 @@ function WebCameraPhoto(props: WebCameraProps) {
     const webcamRef = React.useRef<any>(null);
 
     const [photoPreview, setPhotoPreview] = useState(null);
+    const [photoFile, setPhotoFile] = useState<any>(null);
 
     const capture = React.useCallback(() => {
         const imageSrc = webcamRef.current.getScreenshot();
+        fetch(imageSrc)
+            .then((res) => res.blob())
+            .then((blob) => {
+                setPhotoFile(new File([blob], 'photo.jpg', { type: blob.type }));
+            });
+
         setPhotoPreview(imageSrc);
     }, [webcamRef]);
 
@@ -50,7 +57,7 @@ function WebCameraPhoto(props: WebCameraProps) {
                             <Button size="s" width="50%" variant="primary" onClick={() => setPhotoPreview(null)}>
                                 Сделать ещё раз
                             </Button>
-                            <Button size="s" width="50%" onClick={() => getScreenshot(photoPreview)}>
+                            <Button size="s" width="50%" onClick={() => getScreenshot(photoPreview, photoFile)}>
                                 Установить снимок
                             </Button>
                         </div>
