@@ -6,6 +6,7 @@ import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Icons, Button, TabBar, Card, Image, Document, Audio, Video } from 'shared/ui';
 
+import Members from './members';
 import styles from './styles.module.scss';
 import momentLocalZone from '../../../../../../shared/lib/moment-local-zone';
 import { EmployeeProxy } from '../../../../../company/model/types';
@@ -37,13 +38,6 @@ function ChatProfileContentView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            {chat?.is_group && !mediaTypes.value && chat.isOwner && (
-                <div className={styles.addMembers}>
-                    <Button.Circle variant="inherit" onClick={addMemberClick}>
-                        <Icons variant="add-contact" />
-                    </Button.Circle>
-                </div>
-            )}
             <div className={styles.tabBar}>
                 <TabBar.WithLine
                     wrapperStyle={{ justifyContent: 'space-around' }}
@@ -63,38 +57,15 @@ function ChatProfileContentView(props: Props) {
                         {
                             visible: !mediaTypes.value,
                             item: (
-                                <div className={styles.members}>
-                                    <Card.List
-                                        items={
-                                            chat?.is_personal
-                                                ? chat?.members.map((i) => {
-                                                      const user = userProxy(i);
-                                                      return {
-                                                          id: user?.id || '',
-                                                          img: user?.avatar || '',
-                                                          name: user?.full_name || '',
-                                                          title: user?.full_name || '',
-                                                          subtitle: user?.networkStatus || '',
-                                                          onClick: () => clickUser && !user?.viewer && clickUser({ user: user || undefined }),
-                                                          remove: !user?.viewer && chat.isOwner ? removeMember : null,
-                                                      };
-                                                  })
-                                                : chat?.employee_members.map((i) => {
-                                                      const employee = employeeProxy(i);
-                                                      return {
-                                                          id: employee?.id || '',
-                                                          img: employee?.avatar || '',
-                                                          name: employee?.full_name || '',
-                                                          title: employee?.full_name || '',
-                                                          subtitle: employee?.status || '',
-                                                          companyNames: ['TFN'],
-                                                          onClick: () => clickUser && !employee?.viewer && clickUser({ employee: employee || undefined }),
-                                                          remove: !employee?.viewer && chat.isOwner ? removeMember : null,
-                                                      };
-                                                  })
-                                        }
-                                    />
-                                </div>
+                                <Members
+                                    isOwner={!!chat?.isOwner}
+                                    addMemberClick={addMemberClick}
+                                    removeMember={removeMember}
+                                    clickUser={clickUser}
+                                    visibleAddContact={!!(chat?.is_group && chat?.isOwner)}
+                                    members={chat?.members?.map((i) => userProxy(i)) as any}
+                                    employeeMembers={chat?.employee_members?.map((i) => employeeProxy(i)) as any}
+                                />
                             ),
                         },
                         {

@@ -1,0 +1,29 @@
+@import "src/app/styles/index";
+
+.wrapper {
+  @include flex-column(flex-start, flex-start);
+  @include box-size(100%, auto);
+  padding-bottom: 10px;
+
+  .addMembers{
+    @include flex;
+    @include box-size(96%, auto);
+    margin-left: 12px;
+    cursor: pointer;
+    svg{
+      fill: var(--text-action);
+    }
+  }
+
+  .list{
+    @include flex-column(flex-start, flex-start);
+    @include box-size(90%, auto);
+    margin-left: 24px;
+    gap: 12px;
+
+    .item{
+      @include flex(space-between);
+      @include box-size(100%, auto);
+    }
+  }
+}

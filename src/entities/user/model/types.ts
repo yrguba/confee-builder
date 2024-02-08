@@ -21,6 +21,7 @@ export type User = {
     updated_at: Date;
     about: string;
     deleted_at: Date | null;
+    role: 'Chat member' | 'Owner';
 };
 
 export type UserProxy = {

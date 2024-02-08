@@ -23,6 +23,7 @@ export type Employee = {
     updated_at: Date;
     user: User;
     nickname: string | null;
+    role: 'Chat member' | 'Owner';
 };
 
 export type EmployeeProxy = {
