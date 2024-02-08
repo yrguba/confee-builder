@@ -113,7 +113,9 @@ function Player(props: PlayerProps) {
                     </div>
                     <div className={styles.descriptions}>
                         <Title variant="H3M">{currentlyPlaying.value.authorName}</Title>
-                        <Title variant="H4R">{currentlyPlaying.value.description}</Title>
+                        <Title primary={false} variant="H4R">
+                            {currentlyPlaying.value.description}
+                        </Title>
                     </div>
                 </div>
                 <div className={styles.right}>

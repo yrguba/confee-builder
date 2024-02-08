@@ -25,7 +25,6 @@ function Volume(props: Props) {
             <Box.Animated visible={visibleVolume.value} className={styles.volume} style={{ transform: sliderPosition === 'top' ? 'translateY(-130%)' : '' }}>
                 <Slider
                     vertical
-                    reverse
                     className={styles.sliderVolume}
                     max={1}
                     step={0.01}
