@@ -28,6 +28,7 @@ function Voice(props: VoiceProps) {
     const progress = useEasyState(0);
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
+    const type = useAudioStore.use.type();
 
     const isCurrent = currentlyPlaying.value.apiUrl === url;
 
@@ -67,6 +68,7 @@ function Voice(props: VoiceProps) {
         if (isCurrent) {
             togglePlayPause();
         } else {
+            type.set('voices');
             currentlyPlaying.set({
                 id: url,
                 apiUrl: url,

@@ -18,6 +18,7 @@ type SelectorWithArr<T extends { id: number | string; [key: string]: any }> = {
     pushOrDelete: (arg: T) => void;
     push: (arg: T) => void;
     clear: () => void;
+    addStart: (arr: T[]) => void;
 };
 
 function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWithObj<any> | SelectorWithArr<any> | any>>() {
@@ -74,6 +75,10 @@ function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWit
             // @ts-ignore
             obj[key] = {
                 value: [],
+                addStart: (arr: any) =>
+                    set((state: any) => {
+                        state[key].value = [...arr, ...state[key].value];
+                    }),
                 clear: () =>
                     set((state: any) => {
                         state[key].value = [];

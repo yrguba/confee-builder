@@ -24,6 +24,7 @@ function AudioBase(props: BaseAudioProps) {
     const progress = useEasyState(0);
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
+    const type = useAudioStore.use.type();
 
     const isCurrent = currentlyPlaying.value.apiUrl === url;
 
@@ -33,6 +34,7 @@ function AudioBase(props: BaseAudioProps) {
         if (isCurrent) {
             togglePlayPause();
         } else {
+            type.set('audios');
             currentlyPlaying.set({
                 id: url,
                 apiUrl: url,

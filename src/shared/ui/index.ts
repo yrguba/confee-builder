@@ -85,4 +85,5 @@ export type {
     PaginationTypes,
     ImageTypes,
     NotificationTypes,
+    AudioTypes,
 };

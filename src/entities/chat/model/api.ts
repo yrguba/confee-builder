@@ -224,7 +224,7 @@ class ChatApi {
         });
     };
 
-    handleGetChatFiles = (data: { chatId: number | undefined; filesType: MessageTypes.MediaContentType | null }) => {
+    handleGetChatFiles = (data: { chatId?: number | undefined; filesType?: MessageTypes.MediaContentType | null }) => {
         return useQuery(['get-chat-files', data.chatId, data?.filesType], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/files/${data.filesType}`), {
             enabled: !!data.filesType && !!data.chatId,
             select: (data) => {

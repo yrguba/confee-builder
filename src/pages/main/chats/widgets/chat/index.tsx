@@ -1,19 +1,40 @@
 import React, { useRef } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useUpdateEffect } from 'react-use';
 
 import { useMessageStore } from 'entities/message';
 import { ChatHeader } from 'features/chat';
 import { MessageInput } from 'features/message';
 import { useRouter, useDimensionsObserver, useEasyState } from 'shared/hooks';
-import { Audio, Box } from 'shared/ui';
+import { Audio, Box, AudioTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { chatApi } from '../../../../../entities/chat';
 
 function Chat() {
     const { params } = useRouter();
 
     const headerRef = useRef(null);
     const messagesListWidth = useEasyState(0);
+
+    const audioType = Audio.store.use.type();
+    const audioList = Audio.store.use?.list();
+
+    const { data: files } = chatApi.handleGetChatFiles({ chatId: Number(params.chat_id), filesType: audioType.value as any });
+
+    useUpdateEffect(() => {
+        if (files?.length) {
+            // const updFiles = files.map(
+            //     (i): AudioTypes.AudioForPlayer => ({
+            //         id: i.id,
+            //         apiUrl: i.url,
+            //         authorName: i.name,
+            //         name: i.name,
+            //     })
+            // );
+            // audioList?.addStart(files);
+        }
+    }, [files?.length]);
 
     useDimensionsObserver({
         refs: { wrapper: headerRef },
