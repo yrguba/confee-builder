@@ -159,6 +159,16 @@ function ChatProfileContentView(props: Props) {
                                 </div>
                             ),
                         },
+                        {
+                            visible: mediaTypes.value === 'audios',
+                            item: (
+                                <div className={styles.audios}>
+                                    {files?.map((i, index) => (
+                                        <Audio id={i.id} description="неизвестно" key={i.id} url={i.url} name={i.name} authorName={i.name} />
+                                    ))}
+                                </div>
+                            ),
+                        },
                     ]}
                 />
             </div>

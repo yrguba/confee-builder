@@ -69,7 +69,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
                         employee_ids: selectedEmployees.array.map((i) => i.payload.id),
                         is_group: isGroup.value,
                         name: chatName.value,
-                        avatar: chatAvatar.value || '',
+                        avatar: chatAvatarFile.value,
                     },
                     companyId: tabsAndLists.activeTab?.payload?.id,
                 },

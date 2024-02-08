@@ -170,7 +170,7 @@ class ChatApi {
     handleCreateCompanyChat() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { body: { employee_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: string }; companyId: any }) => {
+            (data: { body: { employee_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: File | null }; companyId: any }) => {
                 const fd = objectToFormData(data.body);
                 return axiosClient.post(`${this.pathPrefix}/for-company/${data.companyId}`, fd);
             },

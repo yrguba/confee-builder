@@ -1,0 +1,20 @@
+@import "src/app/styles/index";
+
+.wrapper {
+  position: relative;
+
+  .volume {
+    @include box-size(44px, 118px);
+    @include flex;
+    background-color: var(--bg-secondary);
+    box-shadow: var(--box-shadow);
+    border-radius: 22px;
+    position: fixed;
+    z-index: 200;
+
+    .sliderVolume {
+      height: 90px;
+
+    }
+  }
+}

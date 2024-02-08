@@ -7,6 +7,7 @@ import { timeConverter } from '../../../../../lib';
 import { Box, Dropdown, Icons, Slider, Title } from '../../../../index';
 import useAudioStore from '../../store';
 import { PlayerProps } from '../../types';
+import Volume from '../volume';
 
 function Player(props: PlayerProps) {
     const { sliderPosition = 'bottom', autoHeight, width } = props;
@@ -57,10 +58,8 @@ function Player(props: PlayerProps) {
         },
         {
             id: 1,
-            element: <Icons.Player variant={volume === 0 ? 'mute' : 'unmute'} active={looping} />,
-            callback: () => {
-                visibleVolume.set(true);
-            },
+            element: <Volume volume={volume} setVolume={setVolume} sliderPosition={sliderPosition} />,
+            callback: () => {},
         },
         {
             id: 2,
@@ -102,36 +101,7 @@ function Player(props: PlayerProps) {
     }, [width]);
 
     return (
-        <Box.Animated
-            onResize={(e) => {
-                console.log('dw');
-            }}
-            animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'}
-            visible={!!currentlyPlaying.value.src}
-            className={styles.wrapper}
-        >
-            <Dropdown
-                clickAway={() => visibleVolume.set(false)}
-                trigger="click"
-                visible={visibleVolume.value}
-                content={
-                    <div className={styles.volume}>
-                        <Slider
-                            vertical
-                            reverse
-                            className={styles.sliderVolume}
-                            max={1}
-                            step={0.01}
-                            defaultValue={volume}
-                            onChange={(value) => {
-                                if (typeof value === 'number') {
-                                    setVolume(value);
-                                }
-                            }}
-                        />
-                    </div>
-                }
-            />
+        <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
             <div className={styles.container} ref={wrapperRef}>
                 <div className={styles.left}>
                     <div className={styles.controls}>
