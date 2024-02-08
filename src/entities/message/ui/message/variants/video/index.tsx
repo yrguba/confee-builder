@@ -1,41 +1,45 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Video } from 'shared/ui';
+import { Box, Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useEasyState } from '../../../../../../shared/hooks';
-import { ChatProxy } from '../../../../../chat/model/types';
-import { File } from '../../../../model/types';
+import { MessageProxy } from '../../../../model/types';
+import Info from '../../info';
 
 type Props = {
-    videos: File[];
+    message: MessageProxy;
 } & BaseTypes.Statuses;
 
 function VideoMessage(props: Props) {
-    const { videos } = props;
-    const swiperState = useEasyState<{ visible: boolean; initial: number }>({ visible: false, initial: 1 });
+    const { message } = props;
+
+    const visibleInfo = useEasyState(false);
+
+    const videos = message.files || message.forwarded_from_message?.files;
 
     const updItems = videos?.map((i, index) => ({
         id: i.id,
         name: i.name,
         url: i.url || '',
         height: 'auto',
-        onClick: () => swiperState.set({ visible: true, initial: index }),
     }));
 
     return (
-        <>
-            {/* <VideoPlayer.Swiper */}
-            {/*    initialSlide={swiperState.value.initial} */}
-            {/*    closeClick={() => swiperState.set({ visible: false, initial: 1 })} */}
-            {/*    visible={swiperState.value.visible} */}
-            {/*    items={updItems} */}
-            {/* /> */}
-            <div className={styles.wrapper}>
-                <Video.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
-            </div>
-        </>
+        <div className={styles.wrapper} onMouseEnter={() => visibleInfo.set(true)} onMouseLeave={() => visibleInfo.set(false)}>
+            <Video.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+            <Box.Animated visible={visibleInfo.value} className={styles.info}>
+                <Info
+                    date={message.date}
+                    is_edited={message.is_edited}
+                    sendingError={message.sendingError}
+                    sending={message.sending}
+                    isMy={message.isMy}
+                    checked={!!message.users_have_read}
+                />
+            </Box.Animated>
+        </div>
     );
 }
 

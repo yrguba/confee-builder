@@ -1,22 +1,23 @@
 import React from 'react';
 
-import { useEasyState, UseEasyStateReturnType } from 'shared/hooks';
+import { useEasyState } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Image } from 'shared/ui';
+import { Box, Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { appTypes } from '../../../../../app';
-import { useChatStore } from '../../../../../chat';
-import { File, MediaContentType } from '../../../../model/types';
+import { MessageProxy } from '../../../../model/types';
+import Info from '../../info';
 
 type Props = {
-    images: File[];
+    message: MessageProxy;
 } & BaseTypes.Statuses;
 
 function ImagesMessage(props: Props) {
-    const { images } = props;
+    const { message } = props;
 
-    const swiperState = useEasyState<{ visible: boolean; initial: number }>({ visible: false, initial: 1 });
+    const visibleInfo = useEasyState(false);
+
+    const images = message.files || message.forwarded_from_message?.files;
 
     const updItems = images?.map((i, index) => ({
         id: i.id,
@@ -24,21 +25,22 @@ function ImagesMessage(props: Props) {
         url: i.url || '',
         width: 'auto',
         height: '220px',
-        onClick: () => swiperState.set({ visible: true, initial: index }),
     }));
-
+    console.log(visibleInfo);
     return (
-        <>
-            <Image.Swiper
-                initialSlide={swiperState.value.initial}
-                closeClick={() => swiperState.set({ visible: false, initial: 1 })}
-                visible={swiperState.value.visible}
-                items={updItems}
-            />
-            <div className={styles.wrapper}>
-                <Image.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
-            </div>
-        </>
+        <div className={styles.wrapper} onMouseEnter={() => visibleInfo.set(true)} onMouseLeave={() => visibleInfo.set(false)}>
+            <Image.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+            <Box.Animated visible={visibleInfo.value} className={styles.info}>
+                <Info
+                    date={message.date}
+                    is_edited={message.is_edited}
+                    sendingError={message.sendingError}
+                    sending={message.sending}
+                    isMy={message.isMy}
+                    checked={!!message.users_have_read}
+                />
+            </Box.Animated>
+        </div>
     );
 }
 

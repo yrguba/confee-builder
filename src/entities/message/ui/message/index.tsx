@@ -116,15 +116,13 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                         {((type === 'text' && !forwarded_from_message) || forwarded_from_message?.type === 'text') && (
                             <TextMessage message={message} openChatProfileModal={openChatProfileModal} chat={chat} />
                         )}
-                        {(type === 'images' || forwarded_from_message?.type === 'images') && <ImagesMessage images={forwarded_from_message?.files || files} />}
+                        {(type === 'images' || forwarded_from_message?.type === 'images') && <ImagesMessage message={message} />}
                         {(type === 'documents' || forwarded_from_message?.type === 'documents') && (
                             <DocumentsMessage documents={forwarded_from_message?.files || files} />
                         )}
                         {(type === 'voices' || forwarded_from_message?.type === 'voices') && <VoiceMessage message={message} chat={chat} />}
                         {(type === 'audios' || forwarded_from_message?.type === 'audios') && <AudioMessage message={message} chat={chat} />}
-                        {(type === 'videos' || forwarded_from_message?.type === 'videos') && (
-                            <VideoMessage videos={forwarded_from_message?.files || message.files} />
-                        )}
+                        {(type === 'videos' || forwarded_from_message?.type === 'videos') && <VideoMessage message={message} />}
                     </div>
                 </div>
             </div>
