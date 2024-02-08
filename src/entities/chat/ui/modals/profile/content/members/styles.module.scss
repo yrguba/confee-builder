@@ -19,7 +19,7 @@
     @include flex-column(flex-start, flex-start);
     @include box-size(90%, auto);
     margin-left: 24px;
-    gap: 12px;
+    gap: 8px;
 
     .item{
       @include flex(space-between);
