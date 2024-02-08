@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useLifecycles, useUpdateEffect } from 'react-use';
+import React, { useRef } from 'react';
 
-import { useMessageStore } from 'entities/message';
-import { useEasyState, useFetchMediaContent, useFs, useGlobalAudioPlayer, useReverseTimer, useRouter, useTimer } from 'shared/hooks';
+import { useEasyState } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { Box, Icons, Slider } from '../../../..';
