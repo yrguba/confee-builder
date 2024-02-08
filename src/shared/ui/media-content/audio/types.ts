@@ -20,6 +20,7 @@ export type AudioForPlayer = {
 };
 
 export type PlayerProps = {
+    width: number;
     sliderPosition?: 'top' | 'bottom';
     autoHeight?: boolean;
 };

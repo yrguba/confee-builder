@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { useMessageStore } from 'entities/message';
 import { ChatHeader } from 'features/chat';
 import { MessageInput } from 'features/message';
-import { useRouter, useDimensionsObserver } from 'shared/hooks';
+import { useRouter, useDimensionsObserver, useEasyState } from 'shared/hooks';
 import { Audio, Box } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -12,8 +12,8 @@ import styles from './styles.module.scss';
 function Chat() {
     const { params } = useRouter();
 
-    const messagesListWidth = useMessageStore.use.messagesListWidth();
     const headerRef = useRef(null);
+    const messagesListWidth = useEasyState(0);
 
     useDimensionsObserver({
         refs: { wrapper: headerRef },
@@ -29,7 +29,7 @@ function Chat() {
             <div className={styles.header} ref={headerRef}>
                 <ChatHeader />
             </div>
-            <Audio.Player autoHeight />
+            <Audio.Player autoHeight width={messagesListWidth.value} />
             <Box.Animated key={params.chat_id} visible animate={{ opacity: 1, transition: { delay: 0.15 } }} className={styles.messageList}>
                 <Outlet />
             </Box.Animated>

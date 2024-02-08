@@ -46,7 +46,7 @@ function Routing() {
                     <Route path="*" element={<Navigate to="/chats" replace />} />
                 </Routes>
             </AnimatePresence>
-            {!params.chat_id && <Audio.Player sliderPosition="top" />}
+            {/* {!params.chat_id && <Audio.Player sliderPosition="top" width={window.innerWidth} />} */}
         </>
     );
 

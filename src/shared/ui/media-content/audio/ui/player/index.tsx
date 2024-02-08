@@ -1,3 +1,4 @@
+import { q } from '@tauri-apps/api/path-c062430b';
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
 
 import { useEasyState, useGlobalAudioPlayer, useUpdateEffect } from 'shared/hooks';
@@ -10,7 +11,7 @@ import useAudioStore from '../../store';
 import { PlayerProps } from '../../types';
 
 function Player(props: PlayerProps) {
-    const { sliderPosition = 'bottom', autoHeight } = props;
+    const { sliderPosition = 'bottom', autoHeight, width } = props;
 
     const wrapperRef = useRef<any>(null);
 
@@ -19,7 +20,7 @@ function Player(props: PlayerProps) {
     const sliderValue = useEasyState<any>(null);
     const visibleVolume = useEasyState<any>(false);
     const visibleElements = useEasyState<any>([0, 1, 2, 3, 4]);
-
+    console.log(width);
     const {
         stop,
         play,
@@ -94,12 +95,22 @@ function Player(props: PlayerProps) {
         });
     }, [currentSec, sliderValue.value]);
 
+    useUpdateEffect(() => {
+        if (width < 350) return visibleElements.set([4]);
+        if (width < 370) return visibleElements.set([1, 4]);
+        if (width < 390) return visibleElements.set([1, 3, 4]);
+        if (width < 410) return visibleElements.set([0, 1, 3, 4]);
+        return visibleElements.set([0, 1, 2, 3, 4]);
+    }, [width]);
+
     return (
         <Box.Animated
+            onResize={(e) => {
+                console.log('dw');
+            }}
             animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'}
             visible={!!currentlyPlaying.value.src}
             className={styles.wrapper}
-            ref={wrapperRef}
         >
             <Dropdown
                 clickAway={() => visibleVolume.set(false)}
@@ -123,7 +134,7 @@ function Player(props: PlayerProps) {
                     </div>
                 }
             />
-            <div className={styles.container}>
+            <div className={styles.container} ref={wrapperRef}>
                 <div className={styles.left}>
                     <div className={styles.controls}>
                         {leftControls.map((i) => (
