@@ -37,7 +37,7 @@ function Members(props: Props) {
         const current = members?.length ? members : employeeMembers;
         const initAdmins: Member[] = [];
         const initMembers: Member[] = [];
-
+        console.log(current);
         current?.map((i: any) => {
             const obj = {
                 id: i.id,
@@ -66,7 +66,7 @@ function Members(props: Props) {
                     </Title>
                 </div>
             )}
-            {members?.length ? (
+            {admins.value?.length ? (
                 <div className={styles.list}>
                     <Title textAlign="right" color="inactive" variant="H4M">
                         владелец

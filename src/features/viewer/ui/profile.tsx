@@ -23,18 +23,18 @@ function ViewerProfile() {
     const authCompanyModal = Modal.use();
     const employeeProfileModal = Modal.use();
 
-    const confirmAddAvatar = Modal.useConfirm<{ img: string }>((value, callbackData) => {
+    const confirmAddAvatar = Modal.useConfirm<{ img: string; file: File }>((value, callbackData) => {
         value &&
             callbackData?.img &&
             handleAddAvatar({
-                file: getFormData('images', callbackData.img),
+                file: getFormData('images', callbackData.file),
             });
     });
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',
         onAfterUploading: (data) => {
-            confirmAddAvatar.open({ img: data.files[0].fileUrl });
+            confirmAddAvatar.open({ img: data.files[0].fileUrl, file: data.files[0].file });
         },
     });
 
