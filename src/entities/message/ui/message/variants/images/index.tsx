@@ -26,10 +26,10 @@ function ImagesMessage(props: Props) {
         width: 'auto',
         height: '220px',
     }));
-    console.log(visibleInfo);
+
     return (
         <div className={styles.wrapper} onMouseEnter={() => visibleInfo.set(true)} onMouseLeave={() => visibleInfo.set(false)}>
-            <Image.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+            <Image.List visibleDropdown={false} items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
             <Box.Animated visible={visibleInfo.value} className={styles.info}>
                 <Info
                     date={message.date}

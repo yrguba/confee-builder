@@ -22,7 +22,7 @@ function AudioMessage(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.audio}>
-                <Audio url={audio.url} name={audio.name} authorName={audio.name} description="неизвестно" />
+                <Audio visibleDropdown={false} url={audio.url} name={audio.name} authorName={audio.name} description="неизвестно" />
             </div>
             <Info
                 date={message.date}

@@ -15,7 +15,7 @@ import Image from '../../../image';
 import { BaseVideoProps } from '../../types';
 
 function VideoPlayer(props: BaseVideoProps) {
-    const { previewUrl, disableDownload = true, id, name, visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
+    const { previewUrl, visibleDropdown = true, id, name, visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
 
     const fs = useFs();
 
@@ -46,8 +46,9 @@ function VideoPlayer(props: BaseVideoProps) {
         />
     );
 
-    const clickContextMenu = () => {
-        if (!disableDownload) {
+    const clickContextMenu = (e: any) => {
+        e.preventDefault();
+        if (visibleDropdown) {
             visibleMenu.toggle();
         } else {
             downloadFile.set({

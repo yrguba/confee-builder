@@ -7,7 +7,7 @@ import Image from '../base';
 import Swiper from '../swiper';
 
 function ImageList(props: ImagesListProps) {
-    const { disableDownload = true, items, style } = props;
+    const { visibleDropdown = true, items, style } = props;
 
     const visibleSwiper = useEasyState({ visible: false, init: 0 });
 
@@ -22,7 +22,7 @@ function ImageList(props: ImagesListProps) {
             <div className={styles.wrapper} style={style}>
                 {items?.map((i, index) => (
                     <Image
-                        disableDownload={disableDownload}
+                        visibleDropdown={visibleDropdown}
                         name={i.name}
                         onClick={() => visibleSwiper.set({ visible: true, init: index })}
                         key={i.id}

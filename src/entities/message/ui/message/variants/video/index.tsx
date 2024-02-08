@@ -28,7 +28,7 @@ function VideoMessage(props: Props) {
 
     return (
         <div className={styles.wrapper} onMouseEnter={() => visibleInfo.set(true)} onMouseLeave={() => visibleInfo.set(false)}>
-            <Video.List items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+            <Video.List visibleDropdown={false} items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
             <Box.Animated visible={visibleInfo.value} className={styles.info}>
                 <Info
                     date={message.date}

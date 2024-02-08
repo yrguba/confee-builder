@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import styles from './styles.module.scss';
+import { useMessageStore } from '../../../../../../entities/message';
 import { useEasyState, useFs, useFetchMediaContent, useGlobalAudioPlayer } from '../../../../../hooks';
 import Icons from '../../../../icons';
 import { Box, ContextMenu, ContextMenuTypes } from '../../../../index';
@@ -10,9 +11,11 @@ import useAudioStore from '../../store';
 import { BaseAudioProps } from '../../types';
 
 function AudioBase(props: BaseAudioProps) {
-    const { description, disabledDownloads, url, authorName, id, name } = props;
+    const { visibleDropdown = true, description, disabledDownloads, url, authorName, id, name } = props;
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
+
+    const downloadFile = useMessageStore.use.downloadFile();
 
     const { src } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
@@ -53,7 +56,14 @@ function AudioBase(props: BaseAudioProps) {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-        visibleMenu.toggle();
+        if (visibleDropdown) {
+            visibleMenu.toggle();
+        } else {
+            downloadFile.set({
+                fileType: 'audios',
+                callback: saveFile,
+            });
+        }
     };
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [

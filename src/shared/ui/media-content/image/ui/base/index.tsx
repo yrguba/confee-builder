@@ -29,7 +29,7 @@ function Image(props: BaseImageProps) {
         borderRadius = true,
         id,
         remove,
-        disableDownload = true,
+        visibleDropdown = true,
         ...other
     } = props;
     const storage = useStorage();
@@ -52,7 +52,7 @@ function Image(props: BaseImageProps) {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-        if (!disableDownload) {
+        if (visibleDropdown) {
             visibleMenu.toggle();
         } else {
             downloadFile.set({

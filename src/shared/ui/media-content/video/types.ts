@@ -16,7 +16,7 @@ export type BaseVideoProps = {
     reset?: boolean;
     visibleCover?: boolean;
 
-    disableDownload?: boolean;
+    visibleDropdown?: boolean;
 } & BaseTypes.Statuses;
 
 export type VideoListItem = {
@@ -27,7 +27,7 @@ export type VideoListProps = {
     items: VideoListItem[] | BaseTypes.Empty;
     style?: CSSProperties;
 
-    disableDownload?: boolean;
+    visibleDropdown?: boolean;
 } & BaseTypes.Statuses;
 
 export type VideoCardProps = {

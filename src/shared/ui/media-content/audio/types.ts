@@ -29,6 +29,7 @@ export type BaseAudioProps = {
     disabledDownloads?: boolean;
     description?: string;
     cover?: string;
+    visibleDropdown?: boolean;
 } & SharedProps;
 
 export type VoiceProps = {

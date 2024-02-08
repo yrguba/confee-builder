@@ -18,7 +18,7 @@ export type BaseImageProps = {
     remove?: (id: number | string) => void;
     objectFit?: 'cover' | 'contain';
 
-    disableDownload?: boolean;
+    visibleDropdown?: boolean;
 } & BaseTypes.Statuses;
 
 export type ImagesListItem = {
@@ -29,7 +29,7 @@ export type ImagesListProps = {
     items: ImagesListItem[] | BaseTypes.Empty;
     style?: CSSProperties;
 
-    disableDownload?: boolean;
+    visibleDropdown?: boolean;
 } & BaseTypes.Statuses;
 
 export type ImageCardProps = {
