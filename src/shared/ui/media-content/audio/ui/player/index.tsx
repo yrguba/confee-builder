@@ -1,10 +1,8 @@
-import { q } from '@tauri-apps/api/path-c062430b';
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useEasyState, useGlobalAudioPlayer, useUpdateEffect } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { useDimensionsObserver } from '../../../../../hooks';
 import { timeConverter } from '../../../../../lib';
 import { Box, Dropdown, Icons, Slider, Title } from '../../../../index';
 import useAudioStore from '../../store';
@@ -20,7 +18,7 @@ function Player(props: PlayerProps) {
     const sliderValue = useEasyState<any>(null);
     const visibleVolume = useEasyState<any>(false);
     const visibleElements = useEasyState<any>([0, 1, 2, 3, 4]);
-    console.log(width);
+
     const {
         stop,
         play,
