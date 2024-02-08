@@ -1,22 +1,43 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { AudioPlayer, Image } from 'shared/ui';
+import { Audio } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { UseEasyStateReturnType } from '../../../../../../shared/hooks';
-import { File, MediaContentType } from '../../../../model/types';
+import { chatService, chatTypes } from '../../../../../chat';
+import { File, MessageProxy } from '../../../../model/types';
+import Info from '../../info';
 
 type Props = {
-    voices: File[];
+    chat: chatTypes.ChatProxy | BaseTypes.Empty;
+    message: MessageProxy;
 } & BaseTypes.Statuses;
 
 function VoiceMessage(props: Props) {
-    const { voices } = props;
+    const { message, chat } = props;
+
+    const voices = message.forwarded_from_message?.files || message.files;
     const voice = voices[0];
+
     return (
         <div className={styles.wrapper}>
-            <AudioPlayer url={voice.url} name={voice.name} id={voice.id} isVisibleMeta />
+            <div className={styles.audio}>
+                <Audio.Voice
+                    date={voice.created_at}
+                    url={voice.url}
+                    authorName={chatService.getMemberNameByUserId(chat, voice.user_id)}
+                    name={voice.name}
+                    id={voice.id}
+                />
+            </div>
+            <Info
+                date={message.date}
+                is_edited={message.is_edited}
+                sendingError={message.sendingError}
+                sending={message.sending}
+                isMy={message.isMy}
+                checked={!!message.users_have_read}
+            />
         </div>
     );
 }

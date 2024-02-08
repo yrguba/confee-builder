@@ -7,7 +7,7 @@ import List from './ui/list';
 import Swiper from './ui/swiper';
 import WithControls from './ui/with-controls';
 
-type CompoundedComponent = ForwardRefExoticComponent<Types.BaseVideoPlayerProps> & {
+type CompoundedComponent = ForwardRefExoticComponent<Types.BaseVideoProps> & {
     WithControls: typeof WithControls;
     List: typeof List;
     Card: typeof Card;

@@ -23,12 +23,6 @@
     }
 
     .bubble {
-      @include flex(flex-start);
-      //min-width: 120px;
-      gap: 12px;
-      padding: 8px;
-      border-radius:12px;
-      background-color: var(--bg-secondary);
 
       .body {
         margin-bottom: 8px;
@@ -38,24 +32,6 @@
         }
       }
 
-      .info {
-        @include flex(flex-end);
-        align-self: flex-end;
-        gap: 4px;
-
-        .edited{
-          width: 70px;
-        }
-        .icon {
-          width: 24px;
-          max-height: 24px;
-
-
-          svg {
-            fill: var(--text-action);
-          }
-        }
-      }
     }
   }
 }

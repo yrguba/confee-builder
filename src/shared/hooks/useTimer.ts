@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-export default function useTimer(step: number) {
+export default function useTimer(step: number, active = true) {
     const [seconds, setSeconds] = useState(0);
-    const [isActive, setIsActive] = useState(true);
+    const [isActive, setIsActive] = useState(active);
 
     useEffect(() => {
         let interval: any = null;

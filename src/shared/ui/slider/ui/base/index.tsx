@@ -7,7 +7,7 @@ import { useEasyState } from '../../../../hooks';
 import { BaseSliderProps } from '../../types';
 
 function BaseSlider(props: BaseSliderProps) {
-    const { ...other } = props;
+    const { borderRadius = 22, ...other } = props;
 
     const focus = useEasyState(false);
 
@@ -15,10 +15,12 @@ function BaseSlider(props: BaseSliderProps) {
         <div className={styles.wrapper} onMouseEnter={() => focus.set(true)} onMouseLeave={() => focus.set(false)}>
             <Slider
                 railStyle={{
-                    backgroundColor: 'var(--text-primary)',
+                    backgroundColor: 'var(--control-secondary)',
+                    borderRadius,
                 }}
                 trackStyle={{
                     backgroundColor: 'var(--text-action)',
+                    borderRadius,
                 }}
                 handleStyle={{
                     transition: 'opacity .5s',

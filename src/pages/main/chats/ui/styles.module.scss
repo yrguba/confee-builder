@@ -9,6 +9,7 @@
     width: 375px;
     min-width: 375px;
     position: relative;
+
     @include width-to('md') {
       width: 100%;
       max-width: 100%;

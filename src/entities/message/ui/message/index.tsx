@@ -114,36 +114,17 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             <ForwardMessage nameTitleVariant={replyAndForwardTitleVariant.value} message={messageProxy({ message: forwarded_from_message })} />
                         )}
                         {((type === 'text' && !forwarded_from_message) || forwarded_from_message?.type === 'text') && (
-                            <TextMessage text={forwarded_from_message?.text || text} openChatProfileModal={openChatProfileModal} chat={chat} />
+                            <TextMessage message={message} openChatProfileModal={openChatProfileModal} chat={chat} />
                         )}
                         {(type === 'images' || forwarded_from_message?.type === 'images') && <ImagesMessage images={forwarded_from_message?.files || files} />}
                         {(type === 'documents' || forwarded_from_message?.type === 'documents') && (
                             <DocumentsMessage documents={forwarded_from_message?.files || files} />
                         )}
-                        {(type === 'voices' || forwarded_from_message?.type === 'voices') && (
-                            <VoiceMessage voices={forwarded_from_message?.files || message.files} />
-                        )}
-                        {(type === 'audios' || forwarded_from_message?.type === 'audios') && (
-                            <AudioMessage audios={forwarded_from_message?.files || message.files} />
-                        )}
+                        {(type === 'voices' || forwarded_from_message?.type === 'voices') && <VoiceMessage message={message} chat={chat} />}
+                        {(type === 'audios' || forwarded_from_message?.type === 'audios') && <AudioMessage message={message} chat={chat} />}
                         {(type === 'videos' || forwarded_from_message?.type === 'videos') && (
                             <VideoMessage videos={forwarded_from_message?.files || message.files} />
                         )}
-                    </div>
-                    <div className={styles.info}>
-                        {message.is_edited && (
-                            <div className={styles.edited}>
-                                <Title variant="Body14">Изменено</Title>
-                            </div>
-                        )}
-                        <Title primary={false} variant={dateTitleVariant.value}>
-                            {message.date}
-                        </Title>
-                        <Box.Animated visible trigger={`${sending}${sendingError}`} className={styles.icon}>
-                            {isMy && !sending && !sendingError && <Icons variant={message.users_have_read.length ? 'double-check' : 'check'} />}
-                            {sending && <Icons variant="clock" />}
-                            {sendingError && <Icons variant="error" />}
-                        </Box.Animated>
                     </div>
                 </div>
             </div>

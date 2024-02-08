@@ -1,6 +1,7 @@
 import { checkUpdate } from '@tauri-apps/api/updater';
 import { AnimatePresence } from 'framer-motion';
 import React, { Suspense, useEffect } from 'react';
+import { useParams } from 'react-router';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useUpdateEffect } from 'react-use';
 
@@ -15,10 +16,12 @@ import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
 import { appService } from '../entities/app';
 import { useWindowSize, useEffectOnce, useStorage } from '../shared/hooks';
+import { Audio } from '../shared/ui';
 
 function Routing() {
     const location = useLocation();
     const navigate = useNavigate();
+    const params = useParams();
     const { width, height } = useWindowSize();
 
     const networkState = appService.getNetworkState();
@@ -31,17 +34,20 @@ function Routing() {
     const storage = useStorage();
 
     const routes = (
-        <AnimatePresence mode="wait">
-            <Network />
-            <Routes location={location} key={location.pathname.split('/')[1]}>
-                {mainRoutes}
-                {meetPageRouters}
-                {initialFillingProfilePageRouters}
-                {warningPageRouters}
-                {updateAppPageRouters}
-                <Route path="*" element={<Navigate to="/chats" replace />} />
-            </Routes>
-        </AnimatePresence>
+        <>
+            <AnimatePresence mode="wait">
+                <Network />
+                <Routes location={location} key={location.pathname.split('/')[1]}>
+                    {mainRoutes}
+                    {meetPageRouters}
+                    {initialFillingProfilePageRouters}
+                    {warningPageRouters}
+                    {updateAppPageRouters}
+                    <Route path="*" element={<Navigate to="/chats" replace />} />
+                </Routes>
+            </AnimatePresence>
+            {!params.chat_id && <Audio.Player sliderPosition="top" width={window.innerWidth} />}
+        </>
     );
 
     useUpdateEffect(() => {

@@ -20,8 +20,10 @@ import * as regex from './regex';
 import returnKeysWithValue from './return-keys-with-value';
 import secondsToHms from './seconds-to-hms';
 import sizeConverter from './size-converter';
+import timeConverter from './time-converter';
 
 export {
+    timeConverter,
     objectToFormData,
     returnKeysWithValue,
     chunkString,
