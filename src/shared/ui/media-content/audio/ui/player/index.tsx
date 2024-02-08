@@ -1,22 +1,40 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 
 import { useEasyState, useGlobalAudioPlayer, useUpdateEffect } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import { useDimensionsObserver } from '../../../../../hooks';
 import { timeConverter } from '../../../../../lib';
-import { Box, Icons, Slider, Title } from '../../../../index';
+import { Box, Dropdown, Icons, Slider, Title } from '../../../../index';
 import useAudioStore from '../../store';
 import { PlayerProps } from '../../types';
 
 function Player(props: PlayerProps) {
     const { sliderPosition = 'bottom', autoHeight } = props;
 
+    const wrapperRef = useRef<any>(null);
+
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
 
-    const handleSlider = useEasyState(false);
     const sliderValue = useEasyState<any>(null);
+    const visibleVolume = useEasyState<any>(false);
+    const visibleElements = useEasyState<any>([0, 1, 2, 3, 4]);
 
-    const { stop, play, pause, playing, togglePlayPause, duration: durationNum, seek, loop, looping, setRate, rate } = useGlobalAudioPlayer();
+    const {
+        stop,
+        play,
+        pause,
+        playing,
+        togglePlayPause,
+        duration: durationNum,
+        seek,
+        loop,
+        looping,
+        setRate,
+        rate,
+        volume,
+        setVolume,
+    } = useGlobalAudioPlayer();
 
     const { currentTime, duration, currentSec } = useAudioTime(true);
 
@@ -33,21 +51,21 @@ function Player(props: PlayerProps) {
     const rightControls = [
         {
             id: 0,
-            element: <Title color="inactive" variant="H3S">{`${rate > 1 ? rate.toFixed(1) : 1}x`}</Title>,
+            element: <Title active={rate > 1} color="inactive" variant="H3S">{`${rate > 1 ? rate.toFixed(1) : 1}x`}</Title>,
             callback: () => {
-                setRate(rate > 5 ? 1 : rate + 0.1);
+                setRate(rate > 1.9 ? 1 : rate + 0.1);
             },
         },
         {
             id: 1,
-            element: <Icons.Player variant="mute" active={looping} />,
+            element: <Icons.Player variant={volume === 0 ? 'mute' : 'unmute'} active={looping} />,
             callback: () => {
-                // loop(!looping);
+                visibleVolume.set(true);
             },
         },
         {
             id: 2,
-            element: <Title variant="H4R">{`${currentTime}/${duration}`}</Title>,
+            element: <div className={styles.timing}>{`${currentTime}/${duration}`}</div>,
             callback: () => {},
         },
         {
@@ -77,7 +95,34 @@ function Player(props: PlayerProps) {
     }, [currentSec, sliderValue.value]);
 
     return (
-        <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
+        <Box.Animated
+            animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'}
+            visible={!!currentlyPlaying.value.src}
+            className={styles.wrapper}
+            ref={wrapperRef}
+        >
+            <Dropdown
+                clickAway={() => visibleVolume.set(false)}
+                trigger="click"
+                visible={visibleVolume.value}
+                content={
+                    <div className={styles.volume}>
+                        <Slider
+                            vertical
+                            reverse
+                            className={styles.sliderVolume}
+                            max={1}
+                            step={0.01}
+                            defaultValue={volume}
+                            onChange={(value) => {
+                                if (typeof value === 'number') {
+                                    setVolume(value);
+                                }
+                            }}
+                        />
+                    </div>
+                }
+            />
             <div className={styles.container}>
                 <div className={styles.left}>
                     <div className={styles.controls}>
@@ -93,11 +138,13 @@ function Player(props: PlayerProps) {
                     </div>
                 </div>
                 <div className={styles.right}>
-                    {rightControls.map((i) => (
-                        <div key={i.id} onClick={i.callback} className={styles.item}>
-                            {i.element}
-                        </div>
-                    ))}
+                    {rightControls
+                        .filter((i) => visibleElements.value.includes(i.id))
+                        .map((i) => (
+                            <div key={i.id} onClick={i.callback} className={styles.item}>
+                                {i.element}
+                            </div>
+                        ))}
                 </div>
             </div>
             <div className={styles.slider} style={{ [sliderPosition]: sliderPosition === 'top' ? -5 : 0 }}>
@@ -105,10 +152,6 @@ function Player(props: PlayerProps) {
                     borderRadius={0}
                     max={durationNum}
                     step={0.001}
-                    dotStyle={{
-                        width: 0,
-                        height: 0,
-                    }}
                     value={sliderValue.value || currentlyPlaying.value.currentSec}
                     onChange={(value) => {
                         if (typeof value === 'number') {

@@ -59,5 +59,28 @@
     left: 0;
   }
 
+  .volume {
+    @include box-size(28px, 110px);
+
+    @include flex;
+    background-color: var(--bg-secondary);
+    box-shadow: var(--box-shadow);
+    border-radius: 22px;
+
+    .sliderVolume {
+      height: 90px;
+
+    }
+  }
+
+  .timing{
+    @include flex;
+    width: 90px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: var(--text-secondary);
+  }
+
 }
 
