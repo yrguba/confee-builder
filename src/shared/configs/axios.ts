@@ -44,17 +44,17 @@ axiosClient.interceptors.response.use(
                 const res: any = await axiosClient.post('api/v2/authorization/refresh', currentTokens);
                 if (res.data.data) {
                     const { access_token, refresh_token } = res.data.data;
-                    await tokensService.save({ access_token, refresh_token });
+                    tokensService.save({ access_token, refresh_token });
                     sendMessage('Auth', {
                         token: access_token,
                     });
                     return await axiosClient.request(originalRequest);
                 }
-                await tokensService.remove();
+                tokensService.remove();
                 window.location.reload();
                 return null;
             } catch (err) {
-                await tokensService.remove();
+                tokensService.remove();
                 window.location.reload();
                 return null;
             }
