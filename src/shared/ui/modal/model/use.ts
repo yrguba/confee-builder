@@ -23,9 +23,9 @@ function use<T = any>() {
 function useConfirm<T = null | undefined>(cl: (value: boolean, callbackData: T | null | undefined) => void) {
     const openModal = useEasyState(false);
     const callbackData = useEasyState<T | null | undefined>(null);
-    const btnText = useEasyState<{ okText?: string; closeText?: string; title?: string } | null | undefined>(null);
+    const btnText = useEasyState<{ okText?: string; closeText?: string; title?: string; subtitle?: string } | null | undefined>(null);
 
-    const open = (payload?: T, text?: { okText?: string; closeText?: string; title?: string }) => {
+    const open = (payload?: T, text?: { okText?: string; closeText?: string; title?: string; subtitle?: string }) => {
         callbackData.set(payload);
         openModal.set(true);
         btnText.set(text);

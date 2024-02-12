@@ -9,7 +9,7 @@ class ViewerApi {
     private pathPrefix = '/api/v2/profile';
 
     handleGetAllSessions(enabled = true) {
-        const cacheId = ['sessions/all'];
+        const cacheId = ['get-sessions'];
         return useQuery(cacheId, () => axiosClient.get('/api/v2/sessions/all'), {
             staleTime: Infinity,
             enabled,
@@ -65,6 +65,15 @@ class ViewerApi {
 
     handleLogout() {
         return useMutation((data?: null) => axiosClient.post('/api/v2/logout'));
+    }
+
+    handleDeleteSessions() {
+        const queryClient = useQueryClient();
+        return useMutation((data?: { session_ids: string[] }) => axiosClient.delete('/api/v2/sessions/by-ids', { data }), {
+            onSuccess: (res) => {
+                queryClient.invalidateQueries(['get-sessions']);
+            },
+        });
     }
 
     handleDeleteAccount() {

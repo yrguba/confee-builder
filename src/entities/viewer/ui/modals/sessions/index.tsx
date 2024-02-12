@@ -1,21 +1,23 @@
 import React from 'react';
 
+import { momentLocalZone } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
+import { Button, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { momentLocalZone } from '../../../../../shared/lib';
-import { Avatar, Button, Card, Icons, Title } from '../../../../../shared/ui';
 import { Session } from '../../../model/types';
 
 type Props = {
     sessions?: Session[];
+    deleteSessions: (ids: string[]) => void;
 } & BaseTypes.Statuses;
 
 function SessionsModalView(props: Props) {
-    const { sessions } = props;
+    const { sessions, deleteSessions } = props;
 
     const currentSession = sessions?.find((i) => i.is_current);
-
+    const otherSessions = sessions?.filter((i) => !i.is_current);
+    const otherSessionsIds = otherSessions?.map((i) => i.id);
     return (
         <div className={styles.wrapper}>
             <Title textAlign="center" variant="H2">
@@ -33,22 +35,24 @@ function SessionsModalView(props: Props) {
                     updated_at={currentSession?.updated_at}
                 />
             </div>
-            <Button>Завершить другие сеансы</Button>
-            <div className={styles.otherSessions}>
-                <Title color="inactive" variant="H4R">
-                    Активные сеансы
-                </Title>
-                {sessions
-                    ?.filter((i) => !i.is_current)
-                    .map((i) => (
+            <Button disabled={!otherSessionsIds?.length} onClick={() => otherSessionsIds?.length && deleteSessions(otherSessionsIds)}>
+                Завершить другие сеансы
+            </Button>
+            {otherSessions?.length ? (
+                <div className={styles.otherSessions}>
+                    <Title color="inactive" variant="H4R">
+                        Активные сеансы
+                    </Title>
+                    {otherSessions?.map((i) => (
                         <div key={i.id} className={styles.item}>
                             <SessionCard os={i?.os_name} browser={i?.browser} location={i?.location} updated_at={i?.updated_at} />
-                            <div>
+                            <div onClick={() => deleteSessions([i.id])}>
                                 <Icons variant="close" />
                             </div>
                         </div>
                     ))}
-            </div>
+                </div>
+            ) : null}
         </div>
     );
 }

@@ -30,7 +30,11 @@ function ConfirmModal(props: ConfirmModalProps) {
                         {title}
                     </Title>
                     {callbackData?.value?.img && <Image url={callbackData?.value?.img} />}
-                    {subtitle && <Title variant="H2">{subtitle}</Title>}
+                    {subtitle && (
+                        <Title textAlign="center" textWrap variant="H4M" primary={false}>
+                            {subtitle}
+                        </Title>
+                    )}
                 </div>
                 <div className={styles.footer}>
                     <Button onClick={() => click(false)}>{closeText || 'Отмена'}</Button>

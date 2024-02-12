@@ -15,6 +15,7 @@
 
   .otherSessions {
     @include flex-column;
+    overflow-y: auto;
     //gap: 12px;
 
     .item {
