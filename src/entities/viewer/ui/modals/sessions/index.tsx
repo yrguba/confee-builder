@@ -41,7 +41,7 @@ function SessionsModalView(props: Props) {
                 {sessions
                     ?.filter((i) => !i.is_current)
                     .map((i) => (
-                        <div className={styles.item}>
+                        <div key={i.id} className={styles.item}>
                             <SessionCard os={i?.os_name} browser={i?.browser} location={i?.location} updated_at={i?.updated_at} />
                             <div>
                                 <Icons variant="close" />
