@@ -85,11 +85,13 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 
     return (
         <Box className={styles.wrapper} onContextMenu={clickContextMenu}>
-            {!isMy && chat?.is_group && lastMessageInBlock ? (
-                <Avatar opacity={lastMessageInBlock ? 1 : 0} size={avatarSize.value} img={authorAvatar} />
-            ) : (
-                <div className={styles.noAvatar} style={{ width: avatarSize.value }} />
-            )}
+            {!isMy && chat?.is_group ? (
+                lastMessageInBlock ? (
+                    <Avatar opacity={lastMessageInBlock ? 1 : 0} size={avatarSize.value} img={authorAvatar} />
+                ) : (
+                    <div className={styles.noAvatar} style={{ width: avatarSize.value }} />
+                )
+            ) : null}
             <Dropdown
                 visible={menuMessageId.value === message.id}
                 reverseX={isMy}
