@@ -24,6 +24,7 @@ export type Employee = {
     user: User;
     nickname: string | null;
     role: 'Chat member' | 'Owner';
+    deleted_at: Date;
 };
 
 export type EmployeeProxy = {
