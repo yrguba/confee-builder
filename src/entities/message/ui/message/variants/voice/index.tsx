@@ -16,7 +16,7 @@ type Props = {
 function VoiceMessage(props: Props) {
     const { message, chat } = props;
 
-    const voices = message.forwarded_from_message?.files || message.files;
+    const voices = message.files.length ? message.files : message.forwarded_from_message?.files || [];
     const voice = voices[0];
 
     return (

@@ -17,7 +17,7 @@ function VideoMessage(props: Props) {
 
     const visibleInfo = useEasyState(false);
 
-    const videos = message.files || message.forwarded_from_message?.files;
+    const videos = message.files.length ? message.files : message.forwarded_from_message?.files;
 
     const updItems = videos?.map((i, index) => ({
         id: i.id,

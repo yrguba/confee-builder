@@ -16,7 +16,7 @@ type Props = {
 function AudioMessage(props: Props) {
     const { message, chat } = props;
 
-    const audios = message.forwarded_from_message?.files || message.files;
+    const audios = message.files.length ? message.files : message.forwarded_from_message?.files || [];
     const audio = audios[0];
 
     return (

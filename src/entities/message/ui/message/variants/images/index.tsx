@@ -17,7 +17,7 @@ function ImagesMessage(props: Props) {
 
     const visibleInfo = useEasyState(false);
 
-    const images = message.files || message.forwarded_from_message?.files;
+    const images = message.files.length ? message.files : message.forwarded_from_message?.files;
 
     const updItems = images?.map((i, index) => ({
         id: i.id,
