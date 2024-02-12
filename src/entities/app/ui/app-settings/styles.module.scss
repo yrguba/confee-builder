@@ -7,27 +7,19 @@
   gap: 12px;
 
   .top {
-    @include box-size(100%, 230px);
+    @include box-size(100%, auto);
     @include flex-column(flex-start, flex-start);
     gap: 24px;
-    border-bottom: 1px solid var(--border-secondary);
 
     .switchItem {
       @include box-size(100%, 54px);
-      @include flex;
-
+      @include flex(space-between);
+      &:nth-child(4){
+        cursor: pointer;
+      }
       .titles {
         width: 90%;
         @include flex-column(flex-start, flex-start);
-      }
-    }
-
-    .selectThemes {
-      @include box-size(100%, 54px);
-      @include flex;
-
-      .select {
-        width: 100px;
       }
     }
 
@@ -37,7 +29,9 @@
   .bottom {
     @include box-size(100%, auto);
     @include flex-column(flex-start, flex-start);
+    border-top: 1px solid var(--border-secondary);
     gap: 12px;
+
 
     .item {
       @include box-size(100%, 44px);

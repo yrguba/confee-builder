@@ -42,6 +42,12 @@ function AppSettingsView(props: Props) {
                 />
             ),
         },
+        {
+            id: 3,
+            title: 'Устройства',
+            subtitle: 'Активность на других устройствах: контроль для безопасности',
+            switch: <Icons variant="arrow-drop-right" />,
+        },
     ];
 
     const btns = [
