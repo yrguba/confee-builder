@@ -131,20 +131,7 @@ class MessageApi {
                 filesType: MessageType;
             }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/file_message`, data.files, { params: data.params }),
             {
-                onMutate: async (data) => {
-                    // queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
-                    //     const message = mockMessage({
-                    //         text: '',
-                    //         author: viewerData?.data.data.user,
-                    //         files: data.filesForMock,
-                    //         type: data.filesType,
-                    //         reply: data.replyMessage,
-                    //     });
-                    //     return produce(cacheData, (draft: any) => {
-                    //         // draft.pages[0].data.data.unshift(message);
-                    //     });
-                    // });
-                },
+                onMutate: async (data) => {},
                 onSuccess: (data, variables) => {
                     const message = data.data.data;
                     queryClient.setQueryData(['get-messages', variables.chatId], (cacheData: any) => {
@@ -152,10 +139,6 @@ class MessageApi {
                             draft.pages[0].data.data.unshift(message);
                         });
                     });
-                    // messageService.updateMockMessage(
-                    //     { users_have_read: message.users_have_read, chatId: message.chat_id, filesType: message.type, id: message.id },
-                    //     queryClient
-                    // );
                 },
                 onError: (error, variables, context) => {
                     messageService.updateMockMessage(variables, queryClient, true);
@@ -281,6 +264,16 @@ class MessageApi {
             },
         };
     }
+
+    handleAddDraft = () => {
+        return useMutation(
+            (data: { text: string; chatId: number; reply_to_message_id?: number }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/draft`, data),
+            {
+                onMutate: async (data) => {},
+                onSuccess: (data, variables) => {},
+            }
+        );
+    };
 
     handleMessageTyping = () => {
         return {

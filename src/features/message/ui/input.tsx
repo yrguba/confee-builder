@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { useUpdateEffect } from 'react-use';
+import { useLifecycles, useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy } from 'entities/chat';
 import { companyTypes } from 'entities/company';
@@ -26,6 +26,7 @@ function MessageInput() {
     const { mutate: handleEditTextMessage } = messageApi.handleEditTextMessage();
     const { mutate: handleMessageTyping } = messageApi.handleMessageTyping();
     const { mutate: handleForwardMessages } = messageApi.handleForwardMessages();
+    const { mutate: handleAddDraft } = messageApi.handleAddDraft();
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
 
@@ -175,6 +176,13 @@ function MessageInput() {
     }, [messageTextState.value]);
 
     useEffect(() => {
+        if (messageTextState.value) {
+            // handleAddDraft({
+            //     text: messageTextState.value,
+            //     chatId,
+            // });
+        }
+
         messageTextState.set('');
         if (chatId !== recordForChatId.value) {
             deleteVoice();
@@ -188,6 +196,11 @@ function MessageInput() {
     useEffect(() => {
         copyFromClipboard();
     }, []);
+
+    useLifecycles(
+        () => {},
+        () => {}
+    );
 
     return (
         <>
