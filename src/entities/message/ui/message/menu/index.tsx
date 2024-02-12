@@ -70,7 +70,7 @@ function MessageMenuView(props: Props) {
     const readUsers = memoReadUsers(chat?.currentShortMembers, message.users_have_read);
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onWheel={(e) => e.stopPropagation()}>
             {/* <div className={styles.reactions}> */}
             {/*    <div className={styles.baseList}> */}
             {/*        <div className={styles.list}> */}
