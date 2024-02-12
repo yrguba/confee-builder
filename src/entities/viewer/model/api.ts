@@ -1,29 +1,27 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { axiosClient, AxiosError } from 'shared/configs';
-import { useQueryWithLocalDb, useStorage } from 'shared/hooks';
-import { Response } from 'shared/types';
+import { axiosClient } from 'shared/configs';
+import { useStorage } from 'shared/hooks';
 
-import { Session, Viewer } from './types';
-import { companyTypes } from '../../company';
+import { Session } from './types';
 
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
 
+    handleGetAllSessions(enabled = true) {
+        const cacheId = ['sessions/all'];
+        return useQuery(cacheId, () => axiosClient.get('/api/v2/sessions/all'), {
+            staleTime: Infinity,
+            enabled,
+            select: (res) => {
+                return res.data.data as Session[];
+            },
+        });
+    }
+
     handleGetViewer(enabled = true) {
         const storage = useStorage();
         const cacheId = ['get-viewer'];
-        // return useQueryWithLocalDb<Response.QueryResult<{ user: Viewer; session: Session; companies: companyTypes.Company[] }>>(cacheId, ({ save }) =>
-        //     useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
-        //         staleTime: Infinity,
-        //         enabled,
-        //         select: (res) => {
-        //             save(res, cacheId);
-        //             storage.set('viewer_id', res.data?.data.user.id);
-        //             return res;
-        //         },
-        //     })
-        // );
         return useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             enabled,

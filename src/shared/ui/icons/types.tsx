@@ -88,6 +88,10 @@ export type DocumentIconsProps = {
     variant: 'pptx' | 'doc' | 'xls';
 };
 
+export type DevicesIconsProps = {
+    variant: 'phone' | 'desktop' | 'unknown';
+};
+
 export type LogoIconsProps = {
     variant: 'confee' | 'confee-white' | 'softworks' | 'tfn' | 'premium';
 };

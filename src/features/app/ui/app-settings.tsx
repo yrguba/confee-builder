@@ -6,6 +6,7 @@ import { useTheme, useStorage, useEasyState } from 'shared/hooks';
 
 import { useUnmount } from '../../../shared/hooks';
 import { Modal } from '../../../shared/ui';
+import { SessionModal } from '../../viewer';
 
 function AppSettings() {
     const storage = useStorage();
@@ -38,6 +39,9 @@ function AppSettings() {
             });
         }
     });
+
+    const sessionModal = Modal.use();
+
     const not_scope = storage.get('notification');
 
     const notificationActive = useEasyState(!!not_scope, (value) => {
@@ -56,12 +60,14 @@ function AppSettings() {
         <>
             <Modal.Confirm {...confirmLogout} title="Выйти из аккаунта" closeText="Отмена" okText="Выйти" />
             <Modal.Confirm {...confirmDeleteAccount} title="Удалить аккаунт" closeText="Отмена" okText="Удалить" />
+            <SessionModal {...sessionModal} />
             <AppSettingsView
                 theme={theme}
                 visibleLastActive={visibleLastActive}
                 notificationActive={notificationActive}
                 logout={confirmLogout.open}
                 deleteAccount={confirmDeleteAccount.open}
+                openSessionModal={sessionModal.open}
             />
         </>
     );

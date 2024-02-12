@@ -12,10 +12,11 @@ type Props = {
     theme: UseThemeType.UseThemeReturned;
     logout: () => void;
     deleteAccount: () => void;
+    openSessionModal: () => void;
 };
 
 function AppSettingsView(props: Props) {
-    const { notificationActive, logout, deleteAccount, visibleLastActive, theme } = props;
+    const { openSessionModal, notificationActive, logout, deleteAccount, visibleLastActive, theme } = props;
 
     const switches = [
         {
@@ -47,6 +48,7 @@ function AppSettingsView(props: Props) {
             title: 'Устройства',
             subtitle: 'Активность на других устройствах: контроль для безопасности',
             switch: <Icons variant="arrow-drop-right" />,
+            onClick: openSessionModal,
         },
     ];
 
@@ -59,7 +61,7 @@ function AppSettingsView(props: Props) {
         <div className={styles.wrapper}>
             <div className={styles.top}>
                 {switches.map((i) => (
-                    <div key={i.id} className={styles.switchItem}>
+                    <div key={i.id} className={styles.switchItem} onClick={i.onClick && i.onClick}>
                         <div className={styles.titles}>
                             <Title textWrap variant="H3M">
                                 {i.title}

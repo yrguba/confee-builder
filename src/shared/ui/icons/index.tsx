@@ -4,6 +4,7 @@ import * as Types from './types';
 import { ArrowAnimated } from './ui/animated';
 import Base from './ui/base';
 import Countries from './ui/countries';
+import Devices from './ui/devices';
 import Document from './ui/document';
 import Logo from './ui/logo';
 import NetworkIndicator from './ui/network-indicator';
@@ -18,6 +19,7 @@ type CompoundedComponent = ForwardRefExoticComponent<Types.BaseIconsProps> & {
     Document: typeof Document;
     Picture: typeof Picture;
     NetworkIndicator: typeof NetworkIndicator;
+    Devices: typeof Devices;
 };
 
 const Icons = Base as CompoundedComponent;
@@ -28,6 +30,7 @@ Icons.Player = Player;
 Icons.Document = Document;
 Icons.Picture = Picture;
 Icons.ArrowAnimated = ArrowAnimated;
+Icons.Devices = Devices;
 
 export { Types };
 export default Icons;

@@ -15,6 +15,7 @@ export type Session = {
     location: string;
     os_name: string;
     user_id: number;
+    updated_at: Date;
 };
 
 export type ViewerProxy = {
