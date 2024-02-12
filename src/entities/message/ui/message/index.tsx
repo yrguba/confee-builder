@@ -100,39 +100,38 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 // onClick={() => isVisibleMenu.set(false)}
                 content={<MessageMenu message={message} />}
             />
-            <div className={styles.content}>
-                <div className={classes}>
-                    <div className={styles.body}>
-                        {!isMy && chat?.is_group && firstMessageInBlock && (
-                            <div className={styles.authorName}>
-                                <Title variant={nameTitleVariant.value}>{authorName}</Title>
-                            </div>
-                        )}
-                        {reply_to_message?.id && (
-                            <ReplyMessage
-                                clickMessageReply={clickMessageReply}
-                                messageWrapperWidth={messageWrapperWidth.value}
-                                nameTitleVariant={replyAndForwardTitleVariant.value}
-                                message={messageProxy({ message: reply_to_message })}
-                            />
-                        )}
-                        {forwarded_from_message?.id && (
-                            <ForwardMessage
-                                chat={chat}
-                                openChatProfileModal={openChatProfileModal}
-                                nameTitleVariant={replyAndForwardTitleVariant.value}
-                                message={messageProxy({ message })}
-                            />
-                        )}
-                        {type === 'text' && !forwarded_from_message && (
-                            <TextMessage visibleInfoBlock message={message} openChatProfileModal={openChatProfileModal} chat={chat} />
-                        )}
-                        {type === 'images' && !forwarded_from_message && <ImagesMessage visibleInfoBlock message={message} />}
-                        {type === 'documents' && !forwarded_from_message && <DocumentsMessage visibleInfoBlock message={message} />}
-                        {type === 'voices' && !forwarded_from_message && <VoiceMessage visibleInfoBlock message={message} chat={chat} />}
-                        {type === 'audios' && !forwarded_from_message && <AudioMessage visibleInfoBlock message={message} chat={chat} />}
-                        {type === 'videos' && !forwarded_from_message && <VideoMessage visibleInfoBlock message={message} />}
+
+            <div className={styles.content} style={{ marginTop: firstMessageInBlock ? 30 : 0 }}>
+                {!isMy && chat?.is_group && firstMessageInBlock && (
+                    <div className={styles.authorName}>
+                        <Title variant={nameTitleVariant.value}>{authorName}</Title>
                     </div>
+                )}
+                <div className={classes}>
+                    {reply_to_message?.id && (
+                        <ReplyMessage
+                            clickMessageReply={clickMessageReply}
+                            messageWrapperWidth={messageWrapperWidth.value}
+                            nameTitleVariant={replyAndForwardTitleVariant.value}
+                            message={messageProxy({ message: reply_to_message })}
+                        />
+                    )}
+                    {forwarded_from_message?.id && (
+                        <ForwardMessage
+                            chat={chat}
+                            openChatProfileModal={openChatProfileModal}
+                            nameTitleVariant={replyAndForwardTitleVariant.value}
+                            message={messageProxy({ message })}
+                        />
+                    )}
+                    {type === 'text' && !forwarded_from_message && (
+                        <TextMessage visibleInfoBlock message={message} openChatProfileModal={openChatProfileModal} chat={chat} />
+                    )}
+                    {type === 'images' && !forwarded_from_message && <ImagesMessage visibleInfoBlock message={message} />}
+                    {type === 'documents' && !forwarded_from_message && <DocumentsMessage visibleInfoBlock message={message} />}
+                    {type === 'voices' && !forwarded_from_message && <VoiceMessage visibleInfoBlock message={message} chat={chat} />}
+                    {type === 'audios' && !forwarded_from_message && <AudioMessage visibleInfoBlock message={message} chat={chat} />}
+                    {type === 'videos' && !forwarded_from_message && <VideoMessage visibleInfoBlock message={message} />}
                 </div>
             </div>
         </Box>

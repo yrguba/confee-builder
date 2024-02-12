@@ -2,15 +2,16 @@
 
 .wrapper {
   @include flex-column;
-  width: 100%;
+  width: calc(100% - 16px);
   min-width: 170px;
   max-width: 400px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
+  padding: 2px 8px;
 
   .description{
-    margin: 0 8px;
-    width: calc(100% - 16px);
+
+    width: 100%;
     //@include flex-column;
     //flex: 1;
     //width: 0;

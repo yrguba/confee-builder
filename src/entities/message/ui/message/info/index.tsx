@@ -29,7 +29,7 @@ function Info(props: Props) {
                     {date}
                 </Title>
             </div>
-            <Box.Animated visible trigger={`${sending}${sendingError}`} className={styles.icon}>
+            <Box.Animated visible={sendingError || sending || isMy} trigger={`${sending}${sendingError}`} className={styles.icon}>
                 {isMy && !sending && !sendingError && <Icons variant={checked ? 'double-check' : 'check'} />}
                 {sending && <Icons variant="clock" />}
                 {sendingError && <Icons variant="error" />}

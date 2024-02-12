@@ -7,12 +7,13 @@
   max-width: 90%;
 
   .noAvatar{
-    height: 0;
+
   }
 
   .content {
     @include box-size(100%, auto);
     flex: 1;
+    position: relative;
 
     .isMy {
       background-color: var(--bg-primary);
@@ -26,17 +27,12 @@
       border-radius: 12px 12px 12px 0!important;
     }
 
-    .bubble {
-
-      .body {
-        margin-bottom: 8px;
-
-        .authorName{
-          margin-bottom: 8px;
-        }
-      }
-
+    .authorName{
+      position: absolute;
+      top: -24px;
+      left: 0;
     }
+
   }
 }
 
