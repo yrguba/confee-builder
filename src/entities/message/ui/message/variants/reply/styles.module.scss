@@ -32,7 +32,8 @@
   }
 
   .info {
-    width: 100%;
+    width: calc(100% - 7px);
+    margin-right: 7px;
   }
 }
 
