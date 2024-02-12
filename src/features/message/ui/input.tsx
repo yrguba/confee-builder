@@ -176,12 +176,12 @@ function MessageInput() {
     }, [messageTextState.value]);
 
     useEffect(() => {
-        if (messageTextState.value) {
-            // handleAddDraft({
-            //     text: messageTextState.value,
-            //     chatId,
-            // });
-        }
+        // if (messageTextState.value) {
+        //     // handleAddDraft({
+        //     //     text: messageTextState.value,
+        //     //     chatId,
+        //     // });
+        // }
 
         messageTextState.set('');
         if (chatId !== recordForChatId.value) {

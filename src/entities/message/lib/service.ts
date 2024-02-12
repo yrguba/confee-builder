@@ -35,6 +35,7 @@ class MessageService {
     updateMockMessage(data: { users_have_read?: number[]; chatId: number; filesType: MessageType; id?: number }, queryClient: any, sendingError?: boolean) {
         queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
             return produce(cacheData, (draft: any) => {
+                console.log(draft);
                 draft.pages[0].data.data.find((i: MessageProxy, index: number) => {
                     if (i.isMock && i.sending && data.filesType === i.type) {
                         draft.pages[0].data.data[index] = {

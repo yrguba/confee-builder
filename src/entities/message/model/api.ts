@@ -105,6 +105,7 @@ class MessageApi {
                 },
                 onSuccess: (data) => {
                     const message = data.data.data;
+
                     messageService.updateMockMessage(
                         { users_have_read: message.users_have_read, chatId: message.chat_id, filesType: message.type, id: message.id },
                         queryClient
@@ -184,6 +185,9 @@ class MessageApi {
                             draft.pages[0].data.data = [...messages, ...draft.pages[0].data.data];
                         });
                     });
+                },
+                onSuccess: (data, variables) => {
+                    queryClient.invalidateQueries(['get-messages', variables.chatId]);
                 },
             }
         );

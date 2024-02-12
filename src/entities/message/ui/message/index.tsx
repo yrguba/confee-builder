@@ -126,14 +126,18 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             message={messageProxy({ message })}
                         />
                     )}
-                    {type === 'text' && !forwarded_from_message && !reply_to_message && (
+                    {type === 'text' && !forwarded_from_message?.id && !reply_to_message?.id && (
                         <TextMessage visibleInfoBlock message={message} openChatProfileModal={openChatProfileModal} chat={chat} />
                     )}
-                    {type === 'images' && !forwarded_from_message && !reply_to_message && <ImagesMessage visibleInfoBlock message={message} />}
-                    {type === 'documents' && !forwarded_from_message && !reply_to_message && <DocumentsMessage visibleInfoBlock message={message} />}
-                    {type === 'voices' && !forwarded_from_message && !reply_to_message && <VoiceMessage visibleInfoBlock message={message} chat={chat} />}
-                    {type === 'audios' && !forwarded_from_message && !reply_to_message && <AudioMessage visibleInfoBlock message={message} chat={chat} />}
-                    {type === 'videos' && !forwarded_from_message && !reply_to_message && <VideoMessage visibleInfoBlock message={message} />}
+                    {type === 'images' && !forwarded_from_message?.id && !reply_to_message?.id && <ImagesMessage visibleInfoBlock message={message} />}
+                    {type === 'documents' && !forwarded_from_message?.id && !reply_to_message?.id && <DocumentsMessage visibleInfoBlock message={message} />}
+                    {type === 'voices' && !forwarded_from_message?.id && !reply_to_message?.id && (
+                        <VoiceMessage visibleInfoBlock message={message} chat={chat} />
+                    )}
+                    {type === 'audios' && !forwarded_from_message?.id && !reply_to_message?.id && (
+                        <AudioMessage visibleInfoBlock message={message} chat={chat} />
+                    )}
+                    {type === 'videos' && !forwarded_from_message?.id && !reply_to_message?.id && <VideoMessage visibleInfoBlock message={message} />}
                 </div>
             </div>
         </Box>
