@@ -1,6 +1,6 @@
 import React, { MouseEvent, RefObject, useEffect, useRef, WheelEvent } from 'react';
 
-import { useEasyState, useReverseTimer, useDebounce, useThrottle } from 'shared/hooks';
+import { useEasyState, useReverseTimer, useDebounce, useScrolling } from 'shared/hooks';
 
 function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
     const sliderRef = useRef<HTMLDivElement>(null);
@@ -25,7 +25,10 @@ function useMessagesScroll(wrapperRef: RefObject<HTMLDivElement>) {
         }
 
         const wrapper = e.currentTarget;
-        visible.set(true);
+
+        if (wrapperRef.current) {
+            visible.set(wrapperRef.current.scrollHeight > wrapperRef.current.clientHeight);
+        }
 
         const { scrollTop, scrollHeight, clientHeight } = wrapper;
         const step = speed.current;
