@@ -5,18 +5,19 @@ import { Document } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { UseEasyStateReturnType } from '../../../../../../shared/hooks';
-import { File, MediaContentType } from '../../../../model/types';
+import { File, MediaContentType, MessageProxy } from '../../../../model/types';
 
 type Props = {
-    documents: File[];
+    message: MessageProxy;
+    visibleInfoBlock?: boolean;
 } & BaseTypes.Statuses;
 
 function DocumentsMessage(props: Props) {
-    const { documents } = props;
+    const { visibleInfoBlock, message } = props;
 
     return (
         <div className={styles.wrapper}>
-            {documents.map((i, index) => (
+            {message.files.map((i, index) => (
                 <div key={i.id} className={styles.item}>
                     <Document id={i.id} url={i.url} name={i.name} extension={i.extension} />
                 </div>

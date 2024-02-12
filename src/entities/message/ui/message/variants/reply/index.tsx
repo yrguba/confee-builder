@@ -17,18 +17,6 @@ type Props = {
 function ReplyMessage(props: Props) {
     const { clickMessageReply, messageWrapperWidth, nameTitleVariant, message } = props;
 
-    const getMinWidth = () => {
-        if (message) {
-            const str = message.authorName.length > message?.text.length ? message.authorName.length : message?.text.length;
-            const width = str * 9;
-            if (width < messageWrapperWidth - 180) {
-                return width - 30;
-            }
-            return messageWrapperWidth - 200;
-        }
-        return 140;
-    };
-
     const fileLength = message.files.length;
     const firstFile = message.files[0];
 

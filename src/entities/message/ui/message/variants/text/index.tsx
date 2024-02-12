@@ -22,10 +22,11 @@ type Props = {
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
+    visibleInfoBlock?: boolean;
 } & BaseTypes.Statuses;
 
 function TextMessage(props: Props) {
-    const { message, openChatProfileModal, chat } = props;
+    const { visibleInfoBlock, message, openChatProfileModal, chat } = props;
     const once = useRef(true);
     const linksInfo = useArray({});
     const { text, isMy, sending, sendingError } = message;
@@ -95,14 +96,16 @@ function TextMessage(props: Props) {
             }}
         >
             <Linkify options={options}>{text}</Linkify>
-            <Info
-                date={message.date}
-                is_edited={message.is_edited}
-                sendingError={message.sendingError}
-                sending={message.sending}
-                isMy={message.isMy}
-                checked={!!message.users_have_read}
-            />
+            {visibleInfoBlock && (
+                <Info
+                    date={message.date}
+                    is_edited={message.is_edited}
+                    sendingError={message.sendingError}
+                    sending={message.sending}
+                    isMy={message.isMy}
+                    checked={!!message.users_have_read}
+                />
+            )}
         </Box>
     );
 }

@@ -117,18 +117,21 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                             />
                         )}
                         {forwarded_from_message?.id && (
-                            <ForwardMessage nameTitleVariant={replyAndForwardTitleVariant.value} message={messageProxy({ message: forwarded_from_message })} />
+                            <ForwardMessage
+                                chat={chat}
+                                openChatProfileModal={openChatProfileModal}
+                                nameTitleVariant={replyAndForwardTitleVariant.value}
+                                message={messageProxy({ message })}
+                            />
                         )}
-                        {((type === 'text' && !forwarded_from_message) || forwarded_from_message?.type === 'text') && (
-                            <TextMessage message={message} openChatProfileModal={openChatProfileModal} chat={chat} />
+                        {type === 'text' && !forwarded_from_message && (
+                            <TextMessage visibleInfoBlock message={message} openChatProfileModal={openChatProfileModal} chat={chat} />
                         )}
-                        {(type === 'images' || forwarded_from_message?.type === 'images') && <ImagesMessage message={message} />}
-                        {(type === 'documents' || forwarded_from_message?.type === 'documents') && (
-                            <DocumentsMessage documents={forwarded_from_message?.files || files} />
-                        )}
-                        {(type === 'voices' || forwarded_from_message?.type === 'voices') && <VoiceMessage message={message} chat={chat} />}
-                        {(type === 'audios' || forwarded_from_message?.type === 'audios') && <AudioMessage message={message} chat={chat} />}
-                        {(type === 'videos' || forwarded_from_message?.type === 'videos') && <VideoMessage message={message} />}
+                        {type === 'images' && !forwarded_from_message && <ImagesMessage visibleInfoBlock message={message} />}
+                        {type === 'documents' && !forwarded_from_message && <DocumentsMessage visibleInfoBlock message={message} />}
+                        {type === 'voices' && !forwarded_from_message && <VoiceMessage visibleInfoBlock message={message} chat={chat} />}
+                        {type === 'audios' && !forwarded_from_message && <AudioMessage visibleInfoBlock message={message} chat={chat} />}
+                        {type === 'videos' && !forwarded_from_message && <VideoMessage visibleInfoBlock message={message} />}
                     </div>
                 </div>
             </div>
