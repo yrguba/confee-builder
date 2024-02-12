@@ -1,20 +1,38 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex;
-  border-left: 2px solid var(--border-primary);
+  @include flex-column;
   width: 100%;
+  min-width: 170px;
   max-width: 400px;
-  min-width: 160px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  padding-left: 8px;
-  gap: 8px;
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
 
-  .description{
-    @include flex-column;
-    flex: 1;
-    width: 0;
+
+  .description {
+    margin-left: 8px;
+    margin-top: 8px;
+    width: calc(100% - 16px);
+    border-left: 2px solid var(--border-primary);
+
+    .content {
+      cursor: pointer;
+      margin-left: 6px;
+    }
+  }
+
+  .body {
+    @include flex(flex-start);
+    width: 100%;
+
+    .deleted {
+      margin: 0 8px;
+      width: calc(100% - 16px);
+    }
+  }
+
+  .info {
+    width: 100%;
   }
 }
 

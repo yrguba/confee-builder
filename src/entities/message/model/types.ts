@@ -62,6 +62,7 @@ export type MessageProxy = {
     action: string;
     sending: boolean;
     sendingError: boolean;
+    replyProxy: MessageProxy;
 } & Message;
 
 export type VoiceEvents = 'start' | 'send' | 'stop' | 'cancel';

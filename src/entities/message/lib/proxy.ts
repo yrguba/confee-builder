@@ -27,6 +27,10 @@ function messageProxy(data: { prevMessage?: Message | null; message: Message; ne
                     if (target.isMock) return false;
                     return target?.author?.id !== data.nextMessage?.author?.id;
 
+                case 'replyProxy':
+                    if (target.reply_to_message) return messageProxy({ message: target.reply_to_message });
+                    return null;
+
                 case 'action':
                     if (target.type === 'images') return 'Отправил фото';
                     if (target.type === 'audios') return 'Отправил аудио';
