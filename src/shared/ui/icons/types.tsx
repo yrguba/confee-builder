@@ -109,3 +109,7 @@ export type ArrowAnimatedProps = {
     animateDeg?: number;
     activeAnimate?: boolean;
 };
+
+export type BroomAnimatedProps = {
+    activeAnimate?: boolean;
+};

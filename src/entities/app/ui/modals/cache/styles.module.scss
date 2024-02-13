@@ -7,33 +7,35 @@
   max-height: 90vh;
   padding: 32px 24px;
 
-  .sizeLimit{
+  .sizeLimit {
 
   }
 
-  .categories{
+  .categories {
     @include flex-column(flex-start);
     width: 100%;
     gap: 8px;
     overflow-y: auto;
 
-    .item{
+    .item {
       @include box-size(100%, 48px);
       @include flex(space-between);
-      .description{
+
+      .description {
 
       }
 
-      .icon{
-
+      .icon {
+        cursor: pointer;
       }
     }
   }
-  .clearAll{
+
+  .clearAll {
     width: 100%;
   }
 
-  .info{
+  .info {
     overflow-y: auto;
   }
 }

@@ -1,21 +1,24 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import { Button, Title } from '../../../../../shared/ui';
+import { Button, Icons, Title } from '../../../../../shared/ui';
+
+type Categories = 'img' | 'video' | 'audio' | 'system' | 'all';
 
 type Props = {
     sizes: { img: string; video: string; audio: string; system: string; all: string };
-    clear: (category: 'img' | 'video' | 'audio' | 'system' | 'all') => void;
+    clear: (category: Categories) => void;
+    clearing: { id: Categories }[];
 };
 
 function CacheView(props: Props) {
-    const { sizes, clear } = props;
+    const { sizes, clear, clearing } = props;
 
     const categories = [
-        { id: 0, title: 'Изображения', size: sizes.img, onClick: () => clear('img') },
-        { id: 1, title: 'Видео', size: sizes.video, onClick: () => clear('video') },
-        { id: 2, title: 'Аудио', size: sizes.audio, onClick: () => clear('audio') },
-        { id: 3, title: 'Системный кэш', size: sizes.system, onClick: () => clear('system') },
+        { id: 0, title: 'Изображения', size: sizes.img, category: 'img' },
+        { id: 1, title: 'Видео', size: sizes.video, category: 'video' },
+        { id: 2, title: 'Аудио', size: sizes.audio, category: 'audio' },
+        { id: 3, title: 'Системный кэш', size: sizes.system, category: 'system' },
     ];
 
     return (
@@ -29,19 +32,22 @@ function CacheView(props: Props) {
             <div className={styles.categories}>
                 {categories
                     .filter((i) => i.size)
-                    .map((i) => (
-                        <div key={i.id} className={styles.item}>
-                            <div className={styles.description}>
-                                <Title variant="H3M">{i.title}</Title>
-                                <Title primary={false} variant="H4R">
-                                    {i.size}
-                                </Title>
+                    .map((i) => {
+                        const isClearing = !!clearing.find((c) => c.id === i.category);
+                        return (
+                            <div key={i.id} className={styles.item}>
+                                <div className={styles.description}>
+                                    <Title variant="H3M">{i.title}</Title>
+                                    <Title primary={false} variant="H4R">
+                                        {i.size}
+                                    </Title>
+                                </div>
+                                <Button.Circle disabled={isClearing} variant="inherit" className={styles.icon} onClick={() => clear(i.category as Categories)}>
+                                    <Icons.BroomAnimated activeAnimate={isClearing} />
+                                </Button.Circle>
                             </div>
-                            <div className={styles.icon} onClick={i.onClick}>
-                                w
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
             </div>
             <div className={styles.clearAll}>
                 <Button onClick={() => clear('all')}>{`Очистить все  ${sizes.all}`}</Button>

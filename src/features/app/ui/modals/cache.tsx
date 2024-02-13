@@ -3,13 +3,16 @@ import React, { useEffect } from 'react';
 import { CacheView } from 'entities/app';
 import { Modal, ModalTypes } from 'shared/ui';
 
-import { useEasyState, useFs } from '../../../../shared/hooks';
+import { useArray, useEasyState, useFs } from '../../../../shared/hooks';
 import { sizeConverter } from '../../../../shared/lib';
+
+type Categories = 'img' | 'video' | 'audio' | 'system' | 'all';
 
 function CacheModal(modal: ModalTypes.UseReturnedType) {
     const { getMetadata } = useFs();
 
     const sizes = useEasyState({ img: '', video: '', audio: '', system: '', all: '' });
+    const clearing = useArray({});
 
     useEffect(() => {
         Promise.all(
@@ -24,11 +27,11 @@ function CacheModal(modal: ModalTypes.UseReturnedType) {
         });
     }, []);
 
-    const clear = (category: 'img' | 'video' | 'audio' | 'system' | 'all') => {
-        console.log(category);
+    const clear = (category: Categories) => {
+        clearing.push({ id: category });
     };
 
-    return <CacheView sizes={sizes.value} clear={clear} />;
+    return <CacheView sizes={sizes.value} clear={clear} clearing={clearing.array as any} />;
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {
