@@ -1,7 +1,9 @@
+import { getClient, ResponseType } from '@tauri-apps/api/http';
 import React, { ReactNode, useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { useEasyState, useShell } from 'shared/hooks';
+import { regex } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
 import { Image, Title } from 'shared/ui';
 
@@ -19,17 +21,23 @@ function LinkInfo(props: Props) {
 
     const { openBrowser } = useShell();
 
-    const favicon = useEasyState('');
     const previewImg = useEasyState('');
 
     useUpdateEffect(() => {
-        if (preview.faviconBuffer?.data) {
-            favicon.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(preview.faviconBuffer.data)));
-        }
-        if (preview.previewBuffer?.data) {
-            previewImg.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(preview.previewBuffer.data)));
+        if (preview?.images?.length) {
+            getClient().then((client) => {
+                client
+                    .get(preview.images[0], {
+                        responseType: ResponseType.Binary,
+                    })
+                    .then((res) => {
+                        previewImg.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(res.data as any)));
+                    });
+            });
         }
     }, [preview]);
+
+    const isYoutube = regex.youTubeUrl.test(preview?.fullUrl);
 
     return (
         <div
@@ -48,11 +56,11 @@ function LinkInfo(props: Props) {
                         {preview?.title || 'Неопределенно'}
                     </Title>
                     <Title variant="Body14">{preview?.description || 'Неопределенно'}</Title>
-                    {previewImg.value && <Image maxWidth="100%" height="auto" url={previewImg.value} />}
+                    {isYoutube && <Image maxWidth="100%" height="auto" url={previewImg.value} />}
                 </div>
-                {!previewImg.value && (
+                {!isYoutube && (
                     <div className={styles.img}>
-                        <Image width="70px" height="70px" url={favicon.value} />
+                        <Image width="70px" height="70px" url={previewImg.value} />
                     </div>
                 )}
             </div>
