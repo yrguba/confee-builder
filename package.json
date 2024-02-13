@@ -19,7 +19,7 @@
         "tauri:start": "npm run tauri dev",
         "build": "cross-env CI=false react-scripts build --stats",
         "tauri:local-build": "npm run tauri build",
-        "tauri:local-build-debbuger": "npm run tauri build -- --debug",
+        "tauri:local-build-debbuger": "cross-env REACT_APP_DEBUG=true npm run tauri build -- --debug",
         "tauri": "tauri",
         "lint": "eslint .",
         "lint:fix": "npx eslint ./src --fix",
@@ -27,8 +27,8 @@
         "bundle-analyze": "webpack-bundle-analyzer build/bundle-stats.json",
         "up-version": "npm version patch && git push origin main && git push origin --tags",
         "build-and-send-mac": "python3 web-py-scripts/scripts/build_and_send.py",
-        "build-and-send-debug-mac": "python3 web-py-scripts/scripts/build_and_send_debug.py",
         "build-and-send-win": "python web-py-scripts/scripts/build_and_send.py",
+        "build-and-send-debug-mac": "cross-env REACT_APP_DEBUG=true python3 web-py-scripts/scripts/build_and_send_debug.py",
         "build-and-send-debug-win": "cross-env REACT_APP_DEBUG=true python web-py-scripts/scripts/build_and_send_debug.py"
     },
     "dependencies": {

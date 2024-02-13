@@ -13,7 +13,7 @@ class AppService {
         return {
             clientBaseURL: window.location.origin,
             clientFullURL: window.location.href,
-            backBaseURL: 'https://dev.api.confee.ru',
+            backBaseURL: this.isDev ? 'https://api-develop.confee.ru' : 'https://api.confee.ru',
             socketUrl: 'wss://dev.ws.confee.ru:9003/ws',
             localSocketUrl: 'ws://localhost:3001',
         };
