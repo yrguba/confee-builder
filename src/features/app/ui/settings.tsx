@@ -1,20 +1,30 @@
-import React from 'react';
+import { relaunch } from '@tauri-apps/api/process';
+import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
+import React, { useEffect, useState } from 'react';
 
 import { AppSettingsView } from 'entities/app';
 import { tokensService, viewerApi } from 'entities/viewer';
-import { useTheme, useStorage, useEasyState } from 'shared/hooks';
+import { useTheme, useStorage, useEasyState, useUnmount } from 'shared/hooks';
+import { Modal } from 'shared/ui';
 
-import { useUnmount } from '../../../shared/hooks';
-import { Modal } from '../../../shared/ui';
-import { SessionModal } from '../../viewer';
+import CacheModal from './modals/cache';
+import SessionModal from './modals/session';
 
 function AppSettings() {
     const storage = useStorage();
+    const theme = useTheme();
 
-    const isUpdate = useEasyState(false);
+    const not_scope = storage.get('notification');
 
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
+
+    const sessionModal = Modal.use();
+    const cacheModal = Modal.use();
+
+    const notificationToggle = useEasyState(!!not_scope, (value) => {
+        value ? storage.set('notification', true) : storage.remove('notification');
+    });
 
     const confirmLogout = Modal.useConfirm((value, callbackData) => {
         if (value && callbackData) {
@@ -40,31 +50,38 @@ function AppSettings() {
         }
     });
 
-    const sessionModal = Modal.use();
+    const [updateAvailable, setUpdateAvailable] = useState(false);
 
-    const not_scope = storage.get('notification');
+    const check = async () => {
+        try {
+            const { shouldUpdate, manifest } = await checkUpdate();
+            setUpdateAvailable(shouldUpdate);
+        } catch (e) {
+            setUpdateAvailable(false);
+        }
+    };
 
-    const notificationActive = useEasyState(!!not_scope, (value) => {
-        value ? storage.set('notification', true) : storage.remove('notification');
-        isUpdate.set(true);
-    });
+    const updateApp = async () => {
+        await installUpdate();
+        await relaunch();
+    };
 
-    const visibleLastActive = useEasyState(!!not_scope, (value) => {});
-    const theme = useTheme();
-
-    useUnmount(() => {
-        isUpdate.value && window.location.reload();
-    });
+    useEffect(() => {
+        check().then();
+    }, []);
 
     return (
         <>
             <Modal.Confirm {...confirmLogout} title="Выйти из аккаунта" closeText="Отмена" okText="Выйти" />
             <Modal.Confirm {...confirmDeleteAccount} title="Удалить аккаунт" closeText="Отмена" okText="Удалить" />
             <SessionModal {...sessionModal} />
+            <CacheModal {...cacheModal} />
             <AppSettingsView
+                openCacheModal={cacheModal.open}
+                updateAvailable={updateAvailable}
+                updateApp={updateApp}
                 theme={theme}
-                visibleLastActive={visibleLastActive}
-                notificationActive={notificationActive}
+                notificationToggle={notificationToggle}
                 logout={confirmLogout.open}
                 deleteAccount={confirmDeleteAccount.open}
                 openSessionModal={sessionModal.open}

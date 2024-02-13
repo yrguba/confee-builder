@@ -27,5 +27,5 @@ export type TitleProps = {
     animateTrigger?: string;
     updCallback?: ((value: string | number | undefined) => void) | null;
     maxLength?: number;
-    color?: 'red' | 'inactive';
+    color?: 'red' | 'inactive' | '';
 } & BaseTypes.Statuses;

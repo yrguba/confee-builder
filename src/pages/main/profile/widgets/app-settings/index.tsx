@@ -10,8 +10,6 @@ import styles from './styles.module.scss';
 function AppSettings() {
     return (
         <Box.Animated visible className={styles.wrapper}>
-            {appService.tauriIsRunning && <AppFeatures.TauriSettings />}
-
             <AppFeatures.AppSettings />
         </Box.Animated>
     );
