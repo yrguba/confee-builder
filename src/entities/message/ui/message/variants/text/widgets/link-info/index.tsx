@@ -24,6 +24,7 @@ function LinkInfo(props: Props) {
     const previewImg = useEasyState('');
 
     useUpdateEffect(() => {
+        console.log(preview);
         if (preview?.images?.length) {
             getClient().then((client) => {
                 client
@@ -31,6 +32,7 @@ function LinkInfo(props: Props) {
                         responseType: ResponseType.Binary,
                     })
                     .then((res) => {
+                        console.log(res);
                         previewImg.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(res.data as any)));
                     });
             });
@@ -47,23 +49,25 @@ function LinkInfo(props: Props) {
             }}
         >
             <div className={styles.link}>{children}</div>
-            <div className={styles.info}>
-                <div className={styles.description}>
-                    <Title textWrap variant="H2">
-                        {preview?.siteName || 'Неопределенно'}
-                    </Title>
-                    <Title textWrap variant="H3S">
-                        {preview?.title || 'Неопределенно'}
-                    </Title>
-                    <Title variant="Body14">{preview?.description || 'Неопределенно'}</Title>
-                    {isYoutube && <Image maxWidth="100%" height="auto" url={previewImg.value} />}
-                </div>
-                {!isYoutube && (
-                    <div className={styles.img}>
-                        <Image width="70px" height="70px" url={previewImg.value} />
+            {preview?.siteName && (
+                <div className={styles.info}>
+                    <div className={styles.description}>
+                        <Title textWrap variant="H2">
+                            {preview?.siteName || 'Неопределенно'}
+                        </Title>
+                        <Title textWrap variant="H3S">
+                            {preview?.title || 'Неопределенно'}
+                        </Title>
+                        <Title variant="Body14">{preview?.description || 'Неопределенно'}</Title>
+                        {isYoutube && <Image maxWidth="100%" height="auto" url={previewImg.value} />}
                     </div>
-                )}
-            </div>
+                    {!isYoutube && (
+                        <div className={styles.img}>
+                            <Image width="70px" height="70px" url={previewImg.value} />
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
