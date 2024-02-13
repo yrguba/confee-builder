@@ -24,7 +24,6 @@ function LinkInfo(props: Props) {
     const previewImg = useEasyState('');
 
     useUpdateEffect(() => {
-        console.log(preview);
         if (preview?.images?.length) {
             getClient().then((client) => {
                 client
@@ -32,7 +31,6 @@ function LinkInfo(props: Props) {
                         responseType: ResponseType.Binary,
                     })
                     .then((res) => {
-                        console.log(res);
                         previewImg.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(res.data as any)));
                     });
             });

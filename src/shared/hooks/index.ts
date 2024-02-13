@@ -35,7 +35,6 @@ import useArray, { UseArrayReturnType } from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
-import useDatabase, * as UseDataBaseTypes from './useDatabase';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs from './useFS';
@@ -74,7 +73,6 @@ export {
     useTextToSpeech,
     useMount,
     useRecognizeSpeech,
-    useDatabase,
     useMountedState,
     useAudio,
     useHoverDirty,
@@ -127,4 +125,4 @@ export {
     useWebSocket,
 };
 
-export type { UseDataBaseTypes, UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };
+export type { UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };

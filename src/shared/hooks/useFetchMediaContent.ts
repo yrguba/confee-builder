@@ -20,7 +20,7 @@ function useFetchMediaContent(props: Props) {
 
     const src = useEasyState<any>('');
     const videoCover = useEasyState<string | null>(null);
-    const { save, getFileUrl } = useFS();
+    const { downLoadAndSave, getFileUrl } = useFS();
 
     const fileName = `${url}${name}`;
 
@@ -31,7 +31,7 @@ function useFetchMediaContent(props: Props) {
             if (url.includes('base64') || url.includes('blob')) {
                 return src.set(url);
             }
-            getFileUrl({ fileName, baseDir: 'Document', folderDir: 'cache', fileType }).then((res) => {
+            getFileUrl({ fileName, baseDir: 'document', folder: 'cache', fileType }).then((res) => {
                 if (res) {
                     return src.set(res);
                 }
@@ -45,11 +45,11 @@ function useFetchMediaContent(props: Props) {
             const filePath = fileConverter.arrayBufferToBlobLocalPath(fileData as ArrayBuffer);
             src.set(filePath);
             if (name) {
-                save({
+                downLoadAndSave({
                     url,
                     fileName,
                     baseDir: 'document',
-                    folderDir: 'cache',
+                    folder: 'cache',
                     fileType,
                 });
             }

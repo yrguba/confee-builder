@@ -15,58 +15,39 @@ const baseDirs = {
     document: documentDir,
 };
 
-type SaveProps = {
-    url: string;
+type SharedProps = {
     fileName: string;
+    fileType?: FileTypes;
     baseDir: keyof typeof baseDirs;
-    folderDir?: 'cache';
+    folder?: 'cache';
+};
+
+type DownLoadAndSave = {
+    url: string;
     fileType?: FileTypes;
     progressCallback?: (progress: number) => void;
-};
+} & SharedProps;
 
-type SaveFromBackProps = {
-    url: string;
-    fileName: string;
-    baseDir: keyof typeof baseDirs;
-    folderDir?: 'cache';
-    fileType?: FileTypes;
-    progressCallback?: (progress: number) => void;
-};
+type SaveAsJsonProps = {
+    obj: any;
+} & SharedProps;
 
-type SaveFileProps = {
-    baseDir: 'Download' | 'Document';
-    folderDir: 'cache' | 'database' | '';
-    fileName: string | undefined;
-    fileBlob: Blob;
-    fileType?: FileTypes;
-};
-
-type SaveTextFileProps = {
-    baseDir: 'Download' | 'Document';
-    folderDir: 'cache' | 'database' | '';
-    fileName: string | undefined;
-    json: string;
-};
-
-type GetFileProps = {} & Omit<SaveFileProps, 'fileBlob'>;
-type GetTextFileProps = {} & Omit<SaveTextFileProps, 'json'>;
-type GetFolderSizeProps = {
-    folderInDock: 'cache' | 'database';
-    folderInCache?: 'audio' | 'img' | 'video';
-    fileName?: string;
-};
-type DeleteFolderProps = {} & GetFolderSizeProps;
+type GetFileUrlProps = {} & SharedProps;
+type GetTextFileProps = {} & SharedProps;
+type GetMetadataProps = {} & SharedProps;
+type DeleteFolderProps = {};
 
 const useFS = () => {
     const disabled = !window.__TAURI__;
     const { backBaseURL } = appService.getUrls();
 
-    const saveFromBack = async (props: SaveFromBackProps) => {
-        if (disabled) return null;
+    const downLoadAndSave = async (props: DownLoadAndSave) => {
+        if (disabled || props.url.includes('asset.localhost') || props.url.includes('blob') || !props.fileName) return null;
+        const url = `${backBaseURL}${props.url}`;
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
         const getPath = async () => {
             if (props.baseDir === 'download') return root;
-            return join(root, `${props.folderDir ? props.folderDir : ''}`, `${props.fileType ? props.fileType : ''}`);
+            return join(root, `${props.folder ? props.folder : ''}`, `${props.fileType ? props.fileType : ''}`);
         };
         const path = await getPath();
         const fullPath = await join(path, props.fileName.split('/').join(''));
@@ -88,7 +69,7 @@ const useFS = () => {
             };
             const headers = new Map();
             headers.set('Authorization', `Bearer ${tokens.access_token}`);
-            await download(props.url, fullPath, getProgress, headers).then((r) => {
+            await download(url, fullPath, getProgress, headers).then((r) => {
                 if (props?.progressCallback) {
                     props.progressCallback(100);
                 }
@@ -96,66 +77,53 @@ const useFS = () => {
         }
     };
 
-    const save = (props: SaveProps) => {
-        if (disabled) {
-            return null;
-        }
-        if (props.url.includes('asset.localhost') || props.url.includes('blob')) {
-        } else {
-            saveFromBack({ ...props, url: `${backBaseURL}${props.url}` });
-        }
-    };
-
-    const saveTextFile = async (props: SaveTextFileProps) => {
+    const saveAsJson = async (props: SaveAsJsonProps) => {
         if (disabled) return null;
         if (!props.fileName) return null;
-        const baseDir: any = BaseDirectory[props.baseDir];
-        const folderDir: any = `Confee/${props.folderDir}/json`;
-
-        const checkPath = await exists(`${folderDir}`, { dir: baseDir });
-        if (!checkPath) await createDir(folderDir, { dir: baseDir, recursive: true });
+        const root = await join(await baseDirs[props.baseDir](), 'Confee');
+        const folderPath = await join(root, props.folder || '', props.fileType || '');
+        const checkPath = await exists(folderPath);
+        if (!checkPath) await createDir(folderPath, { recursive: true });
         try {
-            await writeTextFile(`${folderDir}/${props.fileName.split('/').join('')}`, props.json, {
-                dir: baseDir,
-            });
+            const filePath = await join(folderPath, props.fileName);
+            await writeTextFile(filePath, JSON.stringify(props.obj));
         } catch (e) {
             console.log(e);
         }
         return '';
     };
 
-    const getFileUrl = async (props: GetFileProps) => {
+    const getFileUrl = async (props: GetFileUrlProps) => {
         if (disabled) return null;
         if (!props.fileName) return null;
         const fileName = props.fileName.split('/').join('');
-        const docDir = await documentDir();
-        const filePath = await join(docDir, 'Confee', props.folderDir, props.fileType ? props.fileType : '', fileName);
+        const root = await join(await baseDirs[props.baseDir](), 'Confee');
+        const filePath = await join(root, props.folder || '', props.fileType || '', fileName);
         const checkPath = await exists(filePath);
         if (!checkPath) return null;
         return convertFileSrc(filePath);
     };
 
-    const getTextFile = async (props: GetTextFileProps) => {
+    const getJson = async (props: GetTextFileProps) => {
         if (disabled) return null;
         if (!props.fileName) return null;
-        const baseDir: any = BaseDirectory[props.baseDir];
-        const folderDir: any = `Confee/${props.folderDir}/json`;
+        const root = await join(await baseDirs[props.baseDir](), 'Confee');
+        const folderPath = await join(root, props.folder || '', props.fileType || '');
 
-        const checkPath = await exists(`${folderDir}/${props.fileName}`, { dir: baseDir });
+        const checkPath = await exists(folderPath);
         if (!checkPath) return null;
-        return readTextFile(`${folderDir}/${props.fileName}`, { dir: baseDir });
+        try {
+            const filePath = await join(folderPath, props.fileName);
+            return await readTextFile(filePath);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
-    const getMetadata = async (props: GetFolderSizeProps): Promise<Metadata | null> => {
+    const getMetadata = async (props: GetMetadataProps): Promise<Metadata | null> => {
         if (disabled) return null;
-        const docDir = await documentDir();
-        const filePath = await join(
-            docDir,
-            'Confee',
-            props.folderInDock,
-            `${props.folderInCache ? props.folderInCache : ''}`,
-            `${props.fileName ? props.fileName : ''}`
-        );
+        const root = await join(await baseDirs[props.baseDir](), 'Confee');
+        const filePath = await join(root, props.folder || '', props.fileType || '', props.fileName || '');
         const checkPath = await exists(filePath);
         if (!checkPath) return null;
         return metadata(filePath);
@@ -170,7 +138,7 @@ const useFS = () => {
         // await removeDir(folderDir, { dir: baseDir, recursive: true });
     };
 
-    return { save, saveTextFile, getFileUrl, getTextFile, getMetadata, deleteFolder };
+    return { downLoadAndSave, saveAsJson, getFileUrl, getJson, getMetadata, deleteFolder };
 };
 
 export default useFS;

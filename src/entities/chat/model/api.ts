@@ -3,7 +3,7 @@ import produce from 'immer';
 import { date } from 'yup';
 
 import { axiosClient } from 'shared/configs';
-import { useWebSocket, useStorage, useRouter, useDatabase, useQueryWithLocalDb } from 'shared/hooks';
+import { useWebSocket, useStorage, useRouter, useQueryWithLocalDb } from 'shared/hooks';
 import { getFormData, httpHandlers, returnKeysWithValue, objectToFormData } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';

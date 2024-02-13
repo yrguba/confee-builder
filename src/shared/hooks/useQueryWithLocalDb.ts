@@ -2,7 +2,6 @@ import { useQueryClient, UseInfiniteQueryResult, onlineManager, UseQueryResult }
 import { useEffect, useRef } from 'react';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 
-import useDatabase from './useDatabase';
 import { appService } from '../../entities/app';
 
 import { useEasyState } from './index';
@@ -12,7 +11,7 @@ export type CallbackProps<T> = {
 };
 
 function useQueryWithLocalDb<D, T extends string[] = any>(cacheId: T, callback: (props: CallbackProps<T>) => D) {
-    const { save, get, check } = useDatabase();
+    // const { save, get, check } = useDatabase();
 
     const queryClient = useQueryClient();
 

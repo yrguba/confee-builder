@@ -46,7 +46,7 @@ function Image(props: BaseImageProps) {
 
     const saveFile = () => {
         if (name && url) {
-            fs.save({ baseDir: 'download', url, fileName: name, progressCallback: (percent) => progress.set(percent) });
+            fs.downLoadAndSave({ baseDir: 'download', url, fileName: name, progressCallback: (percent) => progress.set(percent) });
         }
     };
 
