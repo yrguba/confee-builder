@@ -3,16 +3,32 @@ import React, { useEffect } from 'react';
 import { CacheView } from 'entities/app';
 import { Modal, ModalTypes } from 'shared/ui';
 
-import { useFs } from '../../../../shared/hooks';
+import { useEasyState, useFs } from '../../../../shared/hooks';
+import { sizeConverter } from '../../../../shared/lib';
 
 function CacheModal(modal: ModalTypes.UseReturnedType) {
     const { getMetadata } = useFs();
 
+    const sizes = useEasyState({ img: '', video: '', audio: '', system: '', all: '' });
+
     useEffect(() => {
-        // getMetadata({});
+        Promise.all(
+            ['img', 'video', 'audio', 'json'].map((i) => {
+                getMetadata({ baseDir: 'document', folder: 'cache', fileType: i as any }).then((res) => {
+                    res?.size && sizes.set((prev) => ({ ...prev, [i]: sizeConverter(res.size) }));
+                });
+            })
+        ).then();
+        getMetadata({ baseDir: 'document', folder: 'cache' }).then((res) => {
+            res?.size && sizes.set((prev) => ({ ...prev, all: sizeConverter(res.size) }));
+        });
     }, []);
 
-    return <CacheView />;
+    const clear = (category: 'img' | 'video' | 'audio' | 'system' | 'all') => {
+        console.log(category);
+    };
+
+    return <CacheView sizes={sizes.value} clear={clear} />;
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {

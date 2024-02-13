@@ -1,4 +1,4 @@
-function sizeConverter(bytes: number, si = true, dp = 1) {
+function sizeConverter(bytes = 0, si = true, dp = 1) {
     const thresh = si ? 1000 : 1024;
 
     if (Math.abs(bytes) < thresh) {

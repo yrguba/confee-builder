@@ -16,7 +16,7 @@ const baseDirs = {
 };
 
 type SharedProps = {
-    fileName: string;
+    fileName?: string;
     fileType?: FileTypes;
     baseDir: keyof typeof baseDirs;
     folder?: 'cache';
@@ -125,8 +125,9 @@ const useFS = () => {
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
         const filePath = await join(root, props.folder || '', props.fileType || '', props.fileName || '');
         const checkPath = await exists(filePath);
+        const folderSize = await invoke('get_folder_size', { path: filePath });
         if (!checkPath) return null;
-        return metadata(filePath);
+        return { ...metadata(filePath), size: folderSize };
     };
 
     const deleteFolder = async (props: DeleteFolderProps) => {

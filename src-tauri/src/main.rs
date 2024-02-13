@@ -2,29 +2,20 @@
 all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
+extern crate fs_extra;
 
+use fs_extra::dir::get_size;
 use tauri::{plugin::TauriPlugin, AppHandle, Manager, Runtime};
 use tauri::{CustomMenuItem, SystemTray, SystemTrayMenu, SystemTrayEvent};
 use std::fs::OpenOptions;
 use std::io::prelude::*;
+
 #[derive(Clone, serde::Serialize)]
 struct Payload {
     args: Vec<String>,
     cwd: String,
 }
 
-#[tauri::command]
-async  fn append_chunk_to_file(path: String, chunk: Vec<u8>) -> Result<(), String> {
-    let mut file = OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(&path)
-        .map_err(|e| e.to_string())?;
-
-    file.write_all(&chunk).map_err(|e| e.to_string())?;
-
-    Ok(())
-}
 
 #[tauri::command]
 async fn open_meet(handle: tauri::AppHandle, url: String, id: String) {
@@ -33,6 +24,12 @@ async fn open_meet(handle: tauri::AppHandle, url: String, id: String) {
         id,
         tauri::WindowUrl::External(url.parse().unwrap()),
     ).build().unwrap();
+}
+
+#[tauri::command]
+async fn get_folder_size(path: String) -> i32 {
+    let folder_size = get_size(path).unwrap();
+    return folder_size.try_into().unwrap();
 }
 
 
@@ -49,7 +46,7 @@ fn main() {
         .with_menu(tray_menu);
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![open_meet, append_chunk_to_file])
+        .invoke_handler(tauri::generate_handler![open_meet,get_folder_size])
         .system_tray(system_tray)
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {
@@ -86,7 +83,7 @@ fn main() {
                     }
                     "hide" => {
                         let window = app.get_window("main").unwrap();
-                            window.minimize().unwrap();
+                        window.minimize().unwrap();
                     }
                     _ => {}
                 }

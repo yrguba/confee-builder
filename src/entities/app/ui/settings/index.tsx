@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { boolean } from 'yup';
 
 import { Button, Emoji, Icons, Switch, Title } from 'shared/ui';
@@ -93,9 +93,9 @@ function AppSettingsView(props: Props) {
                 {items
                     .filter((i) => !i.hidden)
                     .map((i) => (
-                        <>
+                        <Fragment key={i.id}>
                             {i.id === 6 && <div className={styles.border} />}
-                            <div key={i.id} className={styles.item} style={{ cursor: 'pointer' }} onClick={i.onClick && i.onClick}>
+                            <div className={styles.item} style={{ cursor: 'pointer' }} onClick={i.onClick && i.onClick}>
                                 <div className={styles.titles}>
                                     <Title textWrap color={i.red ? 'red' : ''} variant="H3M">
                                         {i.title}
@@ -106,7 +106,7 @@ function AppSettingsView(props: Props) {
                                 </div>
                                 <div>{i.element}</div>
                             </div>
-                        </>
+                        </Fragment>
                     ))}
             </div>
         </div>
