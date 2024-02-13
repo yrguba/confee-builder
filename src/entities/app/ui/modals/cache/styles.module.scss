@@ -1,59 +1,40 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex-column(flex-start, flex-start);
-  @include box-size(100%, auto);
-  max-width: 600px;
-  gap: 12px;
+  @include box-size(calc(416px - 48px), 100%);
+  @include flex-column;
+  gap: 24px;
+  max-height: 90vh;
+  padding: 32px 24px;
 
-  .top {
-    @include box-size(100%, 230px);
-    @include flex-column(flex-start, flex-start);
-    gap: 24px;
-    border-bottom: 1px solid var(--border-secondary);
-
-    .switchItem {
-      @include box-size(100%, 54px);
-      @include flex;
-
-      .titles {
-        width: 90%;
-        @include flex-column(flex-start, flex-start);
-      }
-    }
-
-    .selectThemes {
-      @include box-size(100%, 54px);
-      @include flex;
-
-      .select {
-        width: 100px;
-      }
-    }
-
+  .sizeLimit{
 
   }
 
-  .bottom {
-    @include box-size(100%, auto);
-    @include flex-column(flex-start, flex-start);
-    gap: 12px;
+  .categories{
+    @include flex-column(flex-start);
+    width: 100%;
+    gap: 8px;
+    overflow-y: auto;
 
-    .item {
-      @include box-size(100%, 44px);
+    .item{
+      @include box-size(100%, 48px);
       @include flex(space-between);
-      cursor: pointer;
+      .description{
 
-      svg {
-        fill: var(--text-primary);
       }
 
-      &:last-child {
-        div {
-          color: var(--text-negative) !important;
-        }
+      .icon{
+
       }
     }
+  }
+  .clearAll{
+    width: 100%;
+  }
+
+  .info{
+    overflow-y: auto;
   }
 }
 

@@ -20,9 +20,11 @@ function SessionsModalView(props: Props) {
     const otherSessionsIds = otherSessions?.map((i) => i.id);
     return (
         <div className={styles.wrapper}>
-            <Title textAlign="center" variant="H2">
-                Устройства
-            </Title>
+            <div>
+                <Title textAlign="center" variant="H2">
+                    Устройства
+                </Title>
+            </div>
             <div className={styles.currentSession}>
                 <Title color="inactive" variant="H4R">
                     Это устройство
@@ -35,9 +37,11 @@ function SessionsModalView(props: Props) {
                     updated_at={currentSession?.updated_at}
                 />
             </div>
-            <Button disabled={!otherSessionsIds?.length} onClick={() => otherSessionsIds?.length && deleteSessions(otherSessionsIds)}>
-                Завершить другие сеансы
-            </Button>
+            <div className={styles.clearOther}>
+                <Button disabled={!otherSessionsIds?.length} onClick={() => otherSessionsIds?.length && deleteSessions(otherSessionsIds)}>
+                    Завершить другие сеансы
+                </Button>
+            </div>
             {otherSessions?.length ? (
                 <div className={styles.otherSessions}>
                     <Title color="inactive" variant="H4R">

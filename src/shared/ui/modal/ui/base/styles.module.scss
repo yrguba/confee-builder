@@ -11,8 +11,11 @@
   overflow: hidden;
 
   &_top {
-    padding-top: 40px;
+
     align-items: flex-start !important;
+    @include height-from(sm){
+      padding-top: 40px;
+    }
   }
 
   .modal {
@@ -51,7 +54,7 @@
       }
 
       @include height-to('sm'){
-        top: 0;
+        top: 12px;
         right: -52px;
       }
 

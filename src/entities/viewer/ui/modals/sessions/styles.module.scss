@@ -13,8 +13,12 @@
     gap: 12px;
   }
 
+  .clearOther{
+    width: 100%;
+  }
+
   .otherSessions {
-    @include flex-column;
+    @include flex-column(flex-start);
     overflow-y: auto;
     //gap: 12px;
 
