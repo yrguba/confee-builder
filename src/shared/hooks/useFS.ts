@@ -35,7 +35,7 @@ type SaveAsJsonProps = {
 type GetFileUrlProps = {} & SharedProps;
 type GetTextFileProps = {} & SharedProps;
 type GetMetadataProps = {} & SharedProps;
-type DeleteFolderProps = {};
+type RemoveProps = {} & SharedProps;
 
 const useFS = () => {
     const disabled = !window.__TAURI__;
@@ -120,26 +120,28 @@ const useFS = () => {
         }
     };
 
-    const getMetadata = async (props: GetMetadataProps): Promise<Metadata | null> => {
+    const getMetadata = async (props: GetMetadataProps): Promise<Metadata | null | undefined> => {
         if (disabled) return null;
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
-        const filePath = await join(root, props.folder || '', props.fileType || '', props.fileName || '');
-        const checkPath = await exists(filePath);
-        const folderSize = await invoke('get_folder_size', { path: filePath });
+        const path = await join(root, props.folder || '', props.fileType || '', props.fileName || '');
+        const checkPath = await exists(path);
         if (!checkPath) return null;
-        return { ...metadata(filePath), size: folderSize };
+        console.log(path);
+        const folderSize = await invoke('get_folder_size', { path });
+        return { ...metadata(path), size: folderSize };
     };
 
-    const deleteFolder = async (props: DeleteFolderProps) => {
+    const remove = async (props: RemoveProps) => {
         if (disabled) return null;
-        // const baseDir: any = BaseDirectory[props.baseDir];
-        // const folderDir: any = `Confee/${props.folderDir}`;
-        // const checkPath = await exists(`${folderDir}`, { dir: baseDir });
-        // if (!checkPath) return null;
-        // await removeDir(folderDir, { dir: baseDir, recursive: true });
+        const root = await join(await baseDirs[props.baseDir](), 'Confee');
+        const path = await join(root, props.folder || '', props.fileType || '', props.fileName || '');
+        const checkPath = await exists(path);
+        if (!checkPath) return null;
+        await removeDir(path, { recursive: true });
+        return '';
     };
 
-    return { downLoadAndSave, saveAsJson, getFileUrl, getJson, getMetadata, deleteFolder };
+    return { downLoadAndSave, saveAsJson, getFileUrl, getJson, getMetadata, remove };
 };
 
 export default useFS;

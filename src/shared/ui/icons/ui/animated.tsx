@@ -32,8 +32,8 @@ export function BroomAnimated(props: BroomAnimatedProps) {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
-            transition={{ type: 'tween', ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse', repeatDelay: 0, duration: 0.3 }}
-            // initial={{ rotate: 0 }}
+            transition={activeAnimate ? { type: 'tween', ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse', repeatDelay: 0, duration: 0.3 } : {}}
+            initial={{ rotate: 0 }}
             animate={activeAnimate ? { rotate: [-30, 30] } : {}}
         >
             <desc>Created with Pixso.</desc>

@@ -37,7 +37,7 @@ import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
-import useFs from './useFS';
+import useFs, * as UseFsTypes from './useFS';
 import useQueryWithLocalDb from './useQueryWithLocalDb';
 import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
@@ -125,4 +125,4 @@ export {
     useWebSocket,
 };
 
-export type { UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };
+export type { UseFsTypes, UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };

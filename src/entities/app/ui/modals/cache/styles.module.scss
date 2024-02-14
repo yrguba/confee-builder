@@ -8,7 +8,12 @@
   padding: 32px 24px;
 
   .sizeLimit {
+    @include box-size(100%, 70px);
 
+    .slider {
+      width: 100%;
+      height: 20px;
+    }
   }
 
   .categories {
