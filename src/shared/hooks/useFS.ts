@@ -9,6 +9,7 @@ import {
     readTextFile,
     writeTextFile,
     FileEntry,
+    removeFile,
 } from '@tauri-apps/api/fs';
 import { appDataDir, join, documentDir, downloadDir } from '@tauri-apps/api/path';
 import { convertFileSrc, invoke } from '@tauri-apps/api/tauri';
@@ -71,14 +72,37 @@ const useFS = () => {
         const storage = useStorage();
         const maxSize = Number(storage.get('max_cache_size'));
         if (!maxSize) return;
-        const cacheMeta = await getMetadata({ baseDir: 'document', folder: 'cache' });
-        const cacheSize = cacheMeta?.size;
-        if (!cacheSize) return;
-        const maxBytes = 0.001 * 1073741824;
+        const cachePath = await join(await documentDir(), 'Confee', 'cache');
+        const cacheSize = Number(await invoke('get_folder_size', { path: cachePath }));
 
-        const memoryToClear = Math.ceil(cacheSize - maxBytes) + 20000;
+        if (!cacheSize) return;
+        const maxBytes = maxSize * 1073741824;
+
+        const memoryToClear = Math.ceil(cacheSize - maxBytes);
+
         if (memoryToClear > 0) {
-            debounceClear(async () => {});
+            const indexingPath = await join(cachePath, 'indexing');
+            if (await exists(indexingPath)) {
+                const file = await readTextFile(indexingPath);
+
+                const cleaning = async (remainsToCleaned: number, files: { size: number; fullPath: string }[]) => {
+                    if (files.length) {
+                        if (await exists(files[0].fullPath)) {
+                            await removeFile(files[0].fullPath);
+                            files.splice(0, 1);
+                            if (remainsToCleaned - files[0].size > 0) {
+                                await cleaning(remainsToCleaned - files[0].size, files);
+                            }
+                        } else {
+                            files.splice(0, 1);
+                            await cleaning(remainsToCleaned, files);
+                        }
+                        await writeTextFile(indexingPath, JSON.stringify(files));
+                    }
+                };
+
+                await cleaning(memoryToClear, JSON.parse(file));
+            }
         }
     };
 
@@ -129,11 +153,15 @@ const useFS = () => {
                     const file = await readTextFile(indexingPath);
                     if (file) {
                         const indexing = JSON.parse(file);
-                        indexing.push(obj);
-                        await writeTextFile(indexingPath, JSON.stringify(indexing));
+                        if (Array.isArray(indexing)) {
+                            indexing.push(obj);
+                            await writeTextFile(indexingPath, JSON.stringify(indexing));
+                        }
                     }
                 }
-                await checkMemoryCacheAndClear();
+                debounceClear(async () => {
+                    await checkMemoryCacheAndClear();
+                });
             }
         }
     };
