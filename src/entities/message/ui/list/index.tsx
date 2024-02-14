@@ -112,14 +112,14 @@ function MessagesListView(props: Props) {
             }
             if (initialOpenChat.value) {
                 if (chat.pending_messages_count) {
-                    executeScrollToElement({ ref: firstUnreadMessageRef });
+                    executeScrollToElement({ ref: firstUnreadMessageRef, block: 'end' });
                 } else {
-                    executeScrollToElement({ ref: bottomMessageRef, enable: true });
+                    scrollBottom({ ref: wrapperRef, enable: true });
                 }
                 initialOpenChat.set(false);
-            } else if (chatSubscription === chat.id) {
-                return executeScrollToElement({ ref: bottomMessageRef, enable: true, smooth: true });
             }
+        } else if (chat && chatSubscription === chat.id) {
+            return executeScrollToElement({ ref: bottomMessageRef, enable: true, smooth: true });
         }
     }, [messages, chatSubscription, initialOpenChat.value]);
 
@@ -129,7 +129,9 @@ function MessagesListView(props: Props) {
     }, [inViewPrevPage, inViewNextPage]);
 
     useEffect(() => {
-        subscribeToChat(inViewLastMessageCheckVisibleRef ? 'sub' : 'unsub');
+        if (!initialOpenChat.value) {
+            subscribeToChat(inViewLastMessageCheckVisibleRef ? 'sub' : 'unsub');
+        }
     }, [inViewLastMessageCheckVisibleRef, chat?.pending_messages_count]);
 
     useEffect(() => {

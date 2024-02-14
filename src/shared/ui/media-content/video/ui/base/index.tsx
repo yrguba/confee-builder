@@ -91,7 +91,7 @@ function VideoPlayer(props: BaseVideoProps) {
                 </div>
             )}
             {videoCover || previewUrl ? <Image url={videoCover || previewUrl || ''} height={height} width={width} onClick={() => ''} /> : video}
-            <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
+            <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0, height }}>
                 <LoadingIndicator visible />
             </Box.Animated>
             <ContextMenu visible={visibleMenu.value} items={menuItems} />

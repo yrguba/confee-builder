@@ -81,6 +81,7 @@ const useFS = () => {
         const memoryToClear = Math.ceil(cacheSize - maxBytes);
 
         if (memoryToClear > 0) {
+            console.log('clearing old cache');
             const indexingPath = await join(cachePath, 'indexing');
             if (await exists(indexingPath)) {
                 const file = await readTextFile(indexingPath);
