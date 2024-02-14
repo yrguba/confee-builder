@@ -127,10 +127,10 @@ function MessageInput() {
 
             if (replyMessage.value.id) replyMessage.clear();
             messageTextState.set('');
-            handleAddDraft({
-                text: '',
-                chatId,
-            });
+            // handleAddDraft({
+            //     text: '',
+            //     chatId,
+            // });
         }
         goDownList.set(true);
         setTimeout(() => goDownList.set(false), 1000);
@@ -153,13 +153,21 @@ function MessageInput() {
     };
 
     const sendDraft = () => {
-        if (!replyMessage.value.id && messageTextState.value !== proxyChat?.draft[0].message_text) {
-            handleAddDraft({
-                text: messageTextState.value,
-                chatId,
-            });
-        }
+        // if (!replyMessage.value.id && messageTextState.value !== proxyChat?.draft[0].message_text) {
+        //     handleAddDraft({
+        //         text: messageTextState.value,
+        //         chatId,
+        //     });
+        // }
     };
+
+    useEffect(() => {
+        if (proxyChat?.draft[0]?.message_text) {
+            messageTextState.set(proxyChat?.draft[0]?.message_text);
+        } else {
+            messageTextState.set('');
+        }
+    }, [proxyChat?.id]);
 
     useUpdateEffect(() => {
         const text = messageTextState.value;
@@ -202,14 +210,6 @@ function MessageInput() {
     useEffect(() => {
         copyFromClipboard();
     }, []);
-
-    useEffect(() => {
-        if (proxyChat?.draft[0]?.message_text) {
-            messageTextState.set(proxyChat?.draft[0]?.message_text);
-        } else {
-            messageTextState.set('');
-        }
-    }, [proxyChat?.id]);
 
     return (
         <>
