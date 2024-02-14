@@ -63,12 +63,11 @@ const useFS = () => {
         const cacheSize = cacheMeta?.size;
         if (!cacheSize) return;
         const maxBytes = 0.01 * 1073741824;
-        console.log('maxBytes', maxBytes);
-        console.log('cacheSize', cacheSize);
-        if (cacheSize > maxBytes) {
+
+        const memoryToClear = Math.ceil(cacheSize - maxBytes) + 20000;
+        if (memoryToClear > 0) {
             debounceClear(() => {
-                console.log('limit');
-                console.log('clear');
+                console.log('clear', memoryToClear);
             });
         }
     };
