@@ -43,6 +43,7 @@ import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
 import useRingtone from './useRingtone';
 import useRouter from './useRouter';
+import useRustServer from './useRustServer';
 import useScroll from './useScroll';
 import useShell from './useShell';
 import useSize from './useSize';
@@ -62,6 +63,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useRustServer,
     useGlobalAudioPlayer,
     useTimer,
     useQueryWithLocalDb,

@@ -10,7 +10,7 @@ import 'moment/locale/ru';
 import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useTheme, useIdle, useRouter, useStorage, useTimeoutFn, useTimer } from 'shared/hooks';
+import { useTheme, useIdle, useRouter, useStorage, useTimeoutFn, useTimer, useRustServer } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
 const queryClient = new QueryClient({
@@ -28,10 +28,13 @@ function App() {
     const storage = useStorage();
     const notification = storage.get('notification');
 
+    const rustServer = useRustServer();
+
     useEffect(() => {
         if (appService.tauriIsRunning) {
             appWindow.listen('tauri://close-requested', (e) => {
                 appWindow.once('tauri://focus', (e) => {
+                    console.log('fockus');
                     queryClient.refetchQueries().then();
                 });
             });
