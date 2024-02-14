@@ -9,6 +9,7 @@ import { Image, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { fileConverter } from '../../../../../../../../shared/lib';
+import { appService } from '../../../../../../../app';
 
 type Props = {
     content: string;
@@ -24,7 +25,7 @@ function LinkInfo(props: Props) {
     const previewImg = useEasyState('');
 
     useUpdateEffect(() => {
-        if (preview?.images?.length) {
+        if (preview?.images?.length && appService.tauriIsRunning) {
             getClient().then((client) => {
                 client
                     .get(preview.images[0], {
