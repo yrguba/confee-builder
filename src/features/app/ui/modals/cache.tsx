@@ -33,7 +33,6 @@ function CacheModal(modal: ModalTypes.UseReturnedType) {
                         }
                         return acc;
                     }, 0);
-                    console.log(allSize);
                     sizes.set((prev) => ({ ...prev, [category]: 0, all: allSize }));
                 });
             }

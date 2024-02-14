@@ -34,7 +34,20 @@ function CacheView(props: Props) {
                     Память устройства
                 </Title>
             </div>
-            <div className={styles.sizeLimit}>sizeLimit</div>
+            <div className={styles.sizeLimit}>
+                <div className={styles.slider}>
+                    <Slider
+                        borderRadius={0}
+                        max={5}
+                        step={1}
+                        defaultValue={[2, 5]}
+                        onChange={(value) => {
+                            if (typeof value === 'number') {
+                            }
+                        }}
+                    />
+                </div>
+            </div>
             <div className={styles.categories}>
                 {categories
                     .filter((i) => i.size)

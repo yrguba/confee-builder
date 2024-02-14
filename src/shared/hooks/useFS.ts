@@ -126,7 +126,6 @@ const useFS = () => {
         const path = await join(root, props.folder || '', props.fileType || '', props.fileName || '');
         const checkPath = await exists(path);
         if (!checkPath) return null;
-        console.log(path);
         const folderSize = await invoke('get_folder_size', { path });
         return { ...metadata(path), size: folderSize };
     };
