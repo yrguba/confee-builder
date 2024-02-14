@@ -22,7 +22,9 @@ export type Chat = {
     updated_at: Date;
     permittedReactions: any[];
     company_id: number | null;
-    draft: any[];
+    draft: {
+        message_text: string;
+    }[];
     pinned: boolean;
     is_muted: boolean;
     current_user_role: 'Chat member' | 'Owner';

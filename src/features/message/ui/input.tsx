@@ -10,7 +10,7 @@ import { userProxy, userTypes } from 'entities/user';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
 
 import { viewerService } from '../../../entities/viewer';
-import { chunkString, getRandomString } from '../../../shared/lib';
+import { chunkString, debounce, getRandomString } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
 import { FilesToSendModal } from '../index';
 
@@ -127,6 +127,10 @@ function MessageInput() {
 
             if (replyMessage.value.id) replyMessage.clear();
             messageTextState.set('');
+            handleAddDraft({
+                text: '',
+                chatId,
+            });
         }
         goDownList.set(true);
         setTimeout(() => goDownList.set(false), 1000);
@@ -145,6 +149,15 @@ function MessageInput() {
                 return voiceRecord.saveRecording('stop');
             case 'cancel':
                 deleteVoice();
+        }
+    };
+
+    const sendDraft = () => {
+        if (!replyMessage.value.id && messageTextState.value !== proxyChat?.draft[0].message_text) {
+            handleAddDraft({
+                text: messageTextState.value,
+                chatId,
+            });
         }
     };
 
@@ -176,13 +189,6 @@ function MessageInput() {
     }, [messageTextState.value]);
 
     useEffect(() => {
-        // if (messageTextState.value) {
-        //     // handleAddDraft({
-        //     //     text: messageTextState.value,
-        //     //     chatId,
-        //     // });
-        // }
-
         messageTextState.set('');
         if (chatId !== recordForChatId.value) {
             deleteVoice();
@@ -197,10 +203,13 @@ function MessageInput() {
         copyFromClipboard();
     }, []);
 
-    useLifecycles(
-        () => {},
-        () => {}
-    );
+    useEffect(() => {
+        if (proxyChat?.draft[0]?.message_text) {
+            messageTextState.set(proxyChat?.draft[0]?.message_text);
+        } else {
+            messageTextState.set('');
+        }
+    }, [proxyChat?.id]);
 
     return (
         <>
@@ -223,6 +232,7 @@ function MessageInput() {
                     showVoice={voiceEvent.value === 'stop'}
                     dropContainerRef={dropContainerRef}
                     isFileDrag={isFileDrag}
+                    sendDraft={sendDraft}
                 />
             )}
         </>

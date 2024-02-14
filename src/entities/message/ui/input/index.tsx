@@ -30,6 +30,7 @@ type Props = {
     tagUsers: UseEasyStateReturnType<UserProxy[]>;
     dropContainerRef: RefObject<any>;
     isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
+    sendDraft: () => void;
     voiceRecord: {
         recorderState: {
             audio: string;
@@ -57,6 +58,7 @@ function MessageInputView(props: Props) {
         tagUsers,
         dropContainerRef,
         isFileDrag,
+        sendDraft,
     } = props;
 
     const speechListener = useEasyState(false);
@@ -132,6 +134,7 @@ function MessageInputView(props: Props) {
             onDragOver={() => isFileDrag.set(true)}
             onDragLeave={() => isFileDrag.set(false)}
             onDrop={() => isFileDrag.set(false)}
+            onMouseLeave={sendDraft}
         >
             <Box.Animated visible={!!tagUsers.value.length} className={styles.tagUsers}>
                 {tagUsers.value.map((i) => (

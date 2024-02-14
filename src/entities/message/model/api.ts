@@ -270,11 +270,14 @@ class MessageApi {
     }
 
     handleAddDraft = () => {
+        const queryClient = useQueryClient();
         return useMutation(
             (data: { text: string; chatId: number; reply_to_message_id?: number }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/draft`, data),
             {
                 onMutate: async (data) => {},
-                onSuccess: (data, variables) => {},
+                onSuccess: (data, variables) => {
+                    queryClient.invalidateQueries(['get-chat', variables.chatId]);
+                },
             }
         );
     };
