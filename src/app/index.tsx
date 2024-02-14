@@ -48,9 +48,9 @@ function App() {
 
     useEffectOnce(() => {
         if (appService.tauriIsRunning) {
-            if (!storage.get('max_cache_size')) {
-                storage.set('max_cache_size', 1);
-            }
+            // if (!storage.get('max_cache_size')) {
+            //     storage.set('max_cache_size', 1);
+            // }
         } else {
             document.body.style.maxWidth = '1200px';
             document.body.style.margin = '0 auto';

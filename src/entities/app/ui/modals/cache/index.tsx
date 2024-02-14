@@ -28,6 +28,14 @@ function CacheView(props: Props) {
 
     const notEmpty = !!Object.values(sizes).find((i) => i);
 
+    const sizeDictionary: any = {
+        1: 1,
+        2: 5,
+        3: 10,
+        4: 20,
+        5: 0,
+    };
+
     return (
         <div className={styles.wrapper}>
             <div>
@@ -71,14 +79,10 @@ function CacheView(props: Props) {
                         max={5}
                         min={1}
                         step={1}
-                        defaultValue={1}
+                        defaultValue={Object.keys(sizeDictionary).find((key) => sizeDictionary[key] === maxSize.value) as any}
                         onChange={(value) => {
                             if (typeof value === 'number') {
-                                if (value === 1) maxSize.set(1);
-                                if (value === 2) maxSize.set(5);
-                                if (value === 3) maxSize.set(10);
-                                if (value === 4) maxSize.set(20);
-                                if (value === 5) maxSize.set(0);
+                                maxSize.set(sizeDictionary[value]);
                             }
                         }}
                     />

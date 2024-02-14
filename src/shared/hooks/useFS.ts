@@ -4,9 +4,11 @@ import { convertFileSrc, invoke } from '@tauri-apps/api/tauri';
 import { metadata, Metadata } from 'tauri-plugin-fs-extra-api';
 import { download } from 'tauri-plugin-upload-api';
 
-import useThrottle from './useThrottle';
-import { appService } from '../../entities/app';
-import { tokensService } from '../../entities/viewer';
+import { appService } from 'entities/app';
+import { tokensService } from 'entities/viewer';
+import { debounce } from 'shared/lib';
+
+import { useStorage } from '.';
 
 export type FileTypes = 'img' | 'video' | 'document' | 'audio' | 'json';
 
@@ -37,9 +39,39 @@ type GetTextFileProps = {} & SharedProps;
 type GetMetadataProps = {} & SharedProps;
 type RemoveProps = {} & SharedProps;
 
+const debounceClear = debounce((callback: () => void) => callback(), 2000);
+
 const useFS = () => {
     const disabled = !window.__TAURI__;
     const { backBaseURL } = appService.getUrls();
+
+    const getMetadata = async (props: GetMetadataProps): Promise<Metadata | null | undefined> => {
+        if (disabled) return null;
+        const root = await join(await baseDirs[props.baseDir](), 'Confee');
+        const path = await join(root, props.folder || '', props.fileType || '', props.fileName || '');
+        const checkPath = await exists(path);
+        if (!checkPath) return null;
+        const folderSize = await invoke('get_folder_size', { path });
+        return { ...metadata(path), size: folderSize };
+    };
+
+    const checkMemoryCacheAndClear = async () => {
+        const storage = useStorage();
+        const maxSize = Number(storage.get('max_cache_size'));
+        if (!maxSize) return;
+        const cacheMeta = await getMetadata({ baseDir: 'document', folder: 'cache' });
+        const cacheSize = cacheMeta?.size;
+        if (!cacheSize) return;
+        const maxBytes = 0.01 * 1073741824;
+        console.log('maxBytes', maxBytes);
+        console.log('cacheSize', cacheSize);
+        if (cacheSize > maxBytes) {
+            debounceClear(() => {
+                console.log('limit');
+                console.log('clear');
+            });
+        }
+    };
 
     const downLoadAndSave = async (props: DownLoadAndSave) => {
         if (disabled || props.url.includes('asset.localhost') || props.url.includes('blob') || !props.fileName) return null;
@@ -75,6 +107,7 @@ const useFS = () => {
                 }
             });
         }
+        await checkMemoryCacheAndClear();
     };
 
     const saveAsJson = async (props: SaveAsJsonProps) => {
@@ -118,16 +151,6 @@ const useFS = () => {
         } catch (e) {
             console.log(e);
         }
-    };
-
-    const getMetadata = async (props: GetMetadataProps): Promise<Metadata | null | undefined> => {
-        if (disabled) return null;
-        const root = await join(await baseDirs[props.baseDir](), 'Confee');
-        const path = await join(root, props.folder || '', props.fileType || '', props.fileName || '');
-        const checkPath = await exists(path);
-        if (!checkPath) return null;
-        const folderSize = await invoke('get_folder_size', { path });
-        return { ...metadata(path), size: folderSize };
     };
 
     const remove = async (props: RemoveProps) => {

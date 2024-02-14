@@ -16,7 +16,7 @@ function CacheModal(modal: ModalTypes.UseReturnedType) {
     const storage = useStorage();
 
     const sizes = useEasyState(defaultSizes);
-    const maxSize = useEasyState(Number(storage.get('max_cache_size')) || 1);
+    const maxSize = useEasyState<number>(Number(storage.get('max_cache_size')));
     const clearing = useArray({});
 
     const confirmClearing = Modal.useConfirm<Categories>((value, category) => {
