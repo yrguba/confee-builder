@@ -78,34 +78,7 @@ const useFS = () => {
 
         const memoryToClear = Math.ceil(cacheSize - maxBytes) + 20000;
         if (memoryToClear > 0) {
-            debounceClear(async () => {
-                const currentMemoryToClear = memoryToClear;
-                const all: FileEntry[] = [];
-
-                Promise.all(
-                    ['img', 'video', 'audio'].map(async (folder) => {
-                        const path = await join(await documentDir(), 'Confee', 'cache', folder);
-                        if (await exists(path)) {
-                            const files = await readDir(path);
-                            all.push(...files);
-                        }
-                    })
-                ).then(() => {});
-
-                console.log('fefesf', all);
-                all.forEach((i) => {
-                    console.log(i);
-                });
-
-                //  const clearing = async (remainsToClear: number) => {
-                //      if(remainsToClear > 0){
-                //
-                //      }else{
-                //         return
-                //      }
-                //  };
-                // await clearing(currentMemoryToClear)
-            });
+            debounceClear(async () => {});
         }
     };
 
