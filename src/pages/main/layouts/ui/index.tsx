@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
+import { appService } from 'entities/app';
+import { chatApi, chatGateway, useChatStore } from 'entities/chat';
+import { meetGateway, useMeet, useMeetStore } from 'entities/meet';
+import { messageGateway } from 'entities/message';
+import { userGateway } from 'entities/user';
+import { useRouter, useStorage, useRecognizeSpeech } from 'shared/hooks';
+import { Audio } from 'shared/ui';
+
 import styles from './styles.module.scss';
-import { appService } from '../../../../entities/app';
-import { chatApi, chatGateway, useChatStore } from '../../../../entities/chat';
-import { meetGateway, useMeet, useMeetStore } from '../../../../entities/meet';
-import { messageGateway } from '../../../../entities/message';
-import { userGateway } from '../../../../entities/user';
-import { JoinMeet } from '../../../../features/meet';
-import { useRouter, useStorage, useWebSocket, useWebView } from '../../../../shared/hooks';
-import useRecognizeSpeech from '../../../../shared/hooks/useRecognizeSpeech';
-import { Audio, Modal, Notification } from '../../../../shared/ui';
-import useAudioStore from '../../../../shared/ui/media-content/audio/store';
 import Navbar from '../widgets/navbar';
 
 function MainLayout() {
@@ -21,7 +19,7 @@ function MainLayout() {
 
     const invitationToConference = useMeetStore.use.invitationToConference();
 
-    const currentlyPlaying = useAudioStore.use.currentlyPlaying();
+    const currentlyPlaying = Audio.store.use.currentlyPlaying();
 
     const ls = useStorage();
 

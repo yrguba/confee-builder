@@ -2,7 +2,7 @@ import { relaunch } from '@tauri-apps/api/process';
 import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
 import React, { useEffect, useState } from 'react';
 
-import { AppSettingsView } from 'entities/app';
+import { appService, AppSettingsView } from 'entities/app';
 import { tokensService, viewerApi } from 'entities/viewer';
 import { useTheme, useStorage, useEasyState, useUnmount } from 'shared/hooks';
 import { Modal } from 'shared/ui';
@@ -67,7 +67,9 @@ function AppSettings() {
     };
 
     useEffect(() => {
-        check().then();
+        if (appService.tauriIsRunning) {
+            check().then();
+        }
     }, []);
 
     return (

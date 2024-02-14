@@ -5,6 +5,7 @@ html {
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
+  background: var(--bg-primary);
 
   a, button {
     all: unset;
@@ -39,6 +40,10 @@ html {
     list-style-type: none;
   }
 
+}
+
+body{
+  border-right: 2px solid var(--bg-secondary);
 }
 
 .inner-seek-block, .connect, .buffered {

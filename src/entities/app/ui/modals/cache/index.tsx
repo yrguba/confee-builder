@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UseFsTypes } from 'shared/hooks';
-import { Button, Icons, Slider, Title } from 'shared/ui';
+import { Button, Icons, Slider, Steps, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 
@@ -35,19 +35,7 @@ function CacheView(props: Props) {
             </div>
             <div className={styles.sizeLimit}>
                 <div className={styles.slider}>
-                    <Slider
-                        range
-                        draggableTrack={false}
-                        defaultValue={[20, 50]}
-                        // handleStyle={{
-                        //     pointerEvents: 'none',
-                        //     cursor: 'pointer',
-                        // }}
-                        onChange={(value) => {
-                            if (typeof value === 'number') {
-                            }
-                        }}
-                    />
+                    <Steps stepsCount={3} activeStep={1} />
                 </div>
             </div>
             <div className={styles.categories}>

@@ -35,6 +35,9 @@ function App() {
                     queryClient.refetchQueries().then();
                 });
             });
+        } else {
+            document.body.style.maxWidth = '1200px';
+            document.body.style.margin = '0 auto';
         }
     }, []);
 

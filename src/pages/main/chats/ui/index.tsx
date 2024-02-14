@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useWindowSize } from 'react-use';
 
 import { useWidthMediaQuery, useRouter, useEasyState, useStorage } from 'shared/hooks';
 import { Box, Title } from 'shared/ui';
@@ -13,7 +14,10 @@ import { Sidebar } from '../widgets';
 function ChatsPage() {
     const { params } = useRouter();
     const storage = useStorage();
+    const { width: windowsWidth } = useWindowSize();
     const widthInStorage = storage.get('chat_list_width');
+
+    const wrapperRef = useRef<HTMLDivElement>(null);
 
     const md = useWidthMediaQuery().to('md');
     const xl = useWidthMediaQuery().from('xl');
@@ -40,10 +44,13 @@ function ChatsPage() {
     // useDebounce(() => storage.set('chat_list_width', sidebarWidth.value), 500, [sidebarWidth]);
 
     const resize = (e: any) => {
-        if (isResize.value && e.clientX - 88 >= 375) {
-            const size = `${e.clientX - 88}px`;
-            sidebarWidth.set(size);
-            storage.set('chat_list_width', size);
+        if (wrapperRef.current) {
+            const rect = wrapperRef.current.getBoundingClientRect();
+            if (isResize.value && e.pageX - rect.left >= 375) {
+                const size = `${e.pageX - rect.left}px`;
+                sidebarWidth.set(size);
+                storage.set('chat_list_width', size);
+            }
         }
     };
 
@@ -61,7 +68,7 @@ function ChatsPage() {
     }, []);
 
     return (
-        <Box.Animated transition={{ duration: 0.1 }} presence={false} visible className={styles.wrapper}>
+        <Box.Animated transition={{ duration: 0.1 }} presence={false} visible className={styles.wrapper} ref={wrapperRef}>
             {isVisibleSidebar() && (
                 <div className={styles.sidebar} style={{ width: sidebarWidth.value }} onMouseMove={resize}>
                     <Sidebar />
