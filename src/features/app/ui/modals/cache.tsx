@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { CacheView } from 'entities/app';
 import { Modal, ModalTypes } from 'shared/ui';
 
-import { useArray, useEasyState, useFs, UseFsTypes } from '../../../../shared/hooks';
+import { useArray, useEasyState, useFs, UseFsTypes, useStorage } from '../../../../shared/hooks';
 import { sizeConverter } from '../../../../shared/lib';
 
 type Categories = UseFsTypes.FileTypes | 'all';
@@ -12,9 +13,10 @@ const defaultSizes = { img: 0, video: 0, audio: 0, document: 0, system: 0, all: 
 
 function CacheModal(modal: ModalTypes.UseReturnedType) {
     const { getMetadata, remove } = useFs();
+    const storage = useStorage();
 
     const sizes = useEasyState(defaultSizes);
-    const maxSize = useEasyState(1);
+    const maxSize = useEasyState(Number(storage.get('max_cache_size')) || 1);
     const clearing = useArray({});
 
     const confirmClearing = Modal.useConfirm<Categories>((value, category) => {
@@ -68,6 +70,10 @@ function CacheModal(modal: ModalTypes.UseReturnedType) {
             res?.size && sizes.set((prev) => ({ ...prev, all: res.size }));
         });
     }, []);
+
+    useUpdateEffect(() => {
+        storage.set('max_cache_size', maxSize.value);
+    }, [maxSize.value]);
 
     return (
         <>

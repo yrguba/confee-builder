@@ -35,9 +35,6 @@ function App() {
                     queryClient.refetchQueries().then();
                 });
             });
-        } else {
-            document.body.style.maxWidth = '1200px';
-            document.body.style.margin = '0 auto';
         }
     }, []);
 
@@ -48,6 +45,17 @@ function App() {
     useEffect(() => {
         console.log('clientBaseURL: ', clientBaseURL);
     }, []);
+
+    useEffectOnce(() => {
+        if (appService.tauriIsRunning) {
+            if (!storage.get('max_cache_size')) {
+                storage.set('max_cache_size', 1);
+            }
+        } else {
+            document.body.style.maxWidth = '1200px';
+            document.body.style.margin = '0 auto';
+        }
+    });
 
     return (
         <BrowserRouter>

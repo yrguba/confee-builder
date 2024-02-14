@@ -7,6 +7,7 @@ export type ValuesInStorage =
     | 'viewer_id'
     | 'session'
     | 'chat_list_width'
+    | 'max_cache_size'
     | 'active_chats_tab'
     | 'join_meet_data'
     | 'by_meet'
