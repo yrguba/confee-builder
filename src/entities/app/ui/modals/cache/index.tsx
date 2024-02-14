@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UseFsTypes } from 'shared/hooks';
+import { UseEasyStateReturnType, UseFsTypes } from 'shared/hooks';
 import { Button, Icons, Slider, Steps, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
@@ -12,10 +12,11 @@ type Props = {
     sizes: { img: number; video: number; audio: number; document: number; system: number; all: number };
     clear: (category: Categories) => void;
     clearing: { id: Categories }[];
+    maxSize: UseEasyStateReturnType<number>;
 };
 
 function CacheView(props: Props) {
-    const { sizes, clear, clearing } = props;
+    const { sizes, clear, clearing, maxSize } = props;
 
     const categories = [
         { id: 0, title: 'Изображения', size: sizes.img, category: 'img' },
@@ -39,7 +40,7 @@ function CacheView(props: Props) {
                     <Title variant="H3M">Общее ограничение по размеру</Title>
                     <div>
                         <Title textAlign="right" active variant="H3M">
-                            5gb
+                            {maxSize.value === 0 ? 'НЕТ' : `${maxSize.value}GB`}
                         </Title>
                     </div>
                 </div>
@@ -73,6 +74,11 @@ function CacheView(props: Props) {
                         defaultValue={1}
                         onChange={(value) => {
                             if (typeof value === 'number') {
+                                if (value === 1) maxSize.set(1);
+                                if (value === 2) maxSize.set(5);
+                                if (value === 3) maxSize.set(10);
+                                if (value === 4) maxSize.set(20);
+                                if (value === 5) maxSize.set(0);
                             }
                         }}
                     />

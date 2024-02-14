@@ -14,6 +14,7 @@ function CacheModal(modal: ModalTypes.UseReturnedType) {
     const { getMetadata, remove } = useFs();
 
     const sizes = useEasyState(defaultSizes);
+    const maxSize = useEasyState(1);
     const clearing = useArray({});
 
     const confirmClearing = Modal.useConfirm<Categories>((value, category) => {
@@ -71,7 +72,7 @@ function CacheModal(modal: ModalTypes.UseReturnedType) {
     return (
         <>
             <Modal.Confirm {...confirmClearing} okText="Да, очистить" />
-            <CacheView sizes={sizes.value} clear={clear} clearing={clearing.array as any} />
+            <CacheView sizes={sizes.value} clear={clear} clearing={clearing.array as any} maxSize={maxSize} />
         </>
     );
 }
