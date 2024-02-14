@@ -35,12 +35,42 @@ function CacheView(props: Props) {
                 </Title>
             </div>
             <div className={styles.sizeLimit}>
+                <div className={styles.size}>
+                    <Title variant="H3M">Общее ограничение по размеру</Title>
+                    <div>
+                        <Title textAlign="right" active variant="H3M">
+                            5gb
+                        </Title>
+                    </div>
+                </div>
                 <div className={styles.slider}>
                     <Slider
+                        dots
+                        dotStyle={{
+                            width: 3,
+                            height: 12,
+                            marginBottom: -2,
+                            border: '2px solid var(--control-secondary)',
+                            borderRadius: 0,
+                        }}
+                        activeDotStyle={{
+                            border: '2px solid var(--control-primary)',
+                            width: 3,
+                            height: 12,
+                        }}
+                        handleStyle={{
+                            opacity: 1,
+                            width: 24,
+                            height: 24,
+                            backgroundColor: 'var(--control-primary)',
+                            marginTop: -9,
+                            border: 'none',
+                        }}
                         borderRadius={0}
                         max={5}
+                        min={1}
                         step={1}
-                        defaultValue={[2, 5]}
+                        defaultValue={1}
                         onChange={(value) => {
                             if (typeof value === 'number') {
                             }

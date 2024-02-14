@@ -23,6 +23,7 @@ function BaseSlider(props: BaseSliderProps) {
                     borderRadius,
                 }}
                 handleStyle={{
+                    cursor: 'pointer',
                     transition: 'opacity .5s',
                     opacity: focus.value ? 1 : 0,
                     backgroundColor: 'var(--text-action)',
