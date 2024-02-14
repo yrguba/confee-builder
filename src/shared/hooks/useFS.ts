@@ -1,6 +1,18 @@
-import { writeBinaryFile, BaseDirectory, readDir, createDir, exists, readBinaryFile, removeDir, readTextFile, writeTextFile } from '@tauri-apps/api/fs';
+import {
+    writeBinaryFile,
+    BaseDirectory,
+    readDir,
+    createDir,
+    exists,
+    readBinaryFile,
+    removeDir,
+    readTextFile,
+    writeTextFile,
+    FileEntry,
+} from '@tauri-apps/api/fs';
 import { appDataDir, join, documentDir, downloadDir } from '@tauri-apps/api/path';
 import { convertFileSrc, invoke } from '@tauri-apps/api/tauri';
+import moment from 'moment';
 import { metadata, Metadata } from 'tauri-plugin-fs-extra-api';
 import { download } from 'tauri-plugin-upload-api';
 
@@ -62,12 +74,37 @@ const useFS = () => {
         const cacheMeta = await getMetadata({ baseDir: 'document', folder: 'cache' });
         const cacheSize = cacheMeta?.size;
         if (!cacheSize) return;
-        const maxBytes = 0.01 * 1073741824;
+        const maxBytes = 0.001 * 1073741824;
 
         const memoryToClear = Math.ceil(cacheSize - maxBytes) + 20000;
         if (memoryToClear > 0) {
-            debounceClear(() => {
-                console.log('clear', memoryToClear);
+            debounceClear(async () => {
+                const currentMemoryToClear = memoryToClear;
+                const all: FileEntry[] = [];
+
+                Promise.all(
+                    ['img', 'video', 'audio'].map(async (folder) => {
+                        const path = await join(await documentDir(), 'Confee', 'cache', folder);
+                        if (await exists(path)) {
+                            const files = await readDir(path);
+                            all.push(...files);
+                        }
+                    })
+                ).then(() => {});
+
+                console.log('fefesf', all);
+                all.forEach((i) => {
+                    console.log(i);
+                });
+
+                //  const clearing = async (remainsToClear: number) => {
+                //      if(remainsToClear > 0){
+                //
+                //      }else{
+                //         return
+                //      }
+                //  };
+                // await clearing(currentMemoryToClear)
             });
         }
     };
@@ -105,8 +142,27 @@ const useFS = () => {
                     props.progressCallback(100);
                 }
             });
+            if (props.folder === 'cache') {
+                const currentFile = await metadata(fullPath);
+                const indexingPath = await join(root, 'cache', 'indexing');
+                const obj = {
+                    size: currentFile.size,
+                    fullPath,
+                    date: moment().format('DD.MM.YYYY, HH:mm:ss'),
+                };
+                if (!(await exists(indexingPath))) {
+                    await writeTextFile(indexingPath, JSON.stringify([obj]));
+                } else {
+                    const file = await readTextFile(indexingPath);
+                    if (file) {
+                        const indexing = JSON.parse(file);
+                        indexing.push(obj);
+                        await writeTextFile(indexingPath, JSON.stringify(indexing));
+                    }
+                }
+                await checkMemoryCacheAndClear();
+            }
         }
-        await checkMemoryCacheAndClear();
     };
 
     const saveAsJson = async (props: SaveAsJsonProps) => {
