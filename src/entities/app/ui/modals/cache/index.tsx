@@ -4,11 +4,12 @@ import { UseFsTypes } from 'shared/hooks';
 import { Button, Icons, Slider, Steps, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { sizeConverter } from '../../../../../shared/lib';
 
 type Categories = UseFsTypes.FileTypes | 'all';
 
 type Props = {
-    sizes: { img: string; video: string; audio: string; document: string; system: string; all: string };
+    sizes: { img: number; video: number; audio: number; document: number; system: number; all: number };
     clear: (category: Categories) => void;
     clearing: { id: Categories }[];
 };
@@ -33,11 +34,7 @@ function CacheView(props: Props) {
                     Память устройства
                 </Title>
             </div>
-            <div className={styles.sizeLimit}>
-                <div className={styles.slider}>
-                    <Steps stepsCount={3} activeStep={1} />
-                </div>
-            </div>
+            <div className={styles.sizeLimit}>sizeLimit</div>
             <div className={styles.categories}>
                 {categories
                     .filter((i) => i.size)
@@ -48,7 +45,7 @@ function CacheView(props: Props) {
                                 <div className={styles.description}>
                                     <Title variant="H3M">{i.title}</Title>
                                     <Title primary={false} variant="H4R">
-                                        {i.size}
+                                        {isClearing ? 'Очищаем...' : sizeConverter(i.size)}
                                     </Title>
                                 </div>
                                 <Button.Circle disabled={isClearing} variant="inherit" className={styles.icon} onClick={() => clear(i.category as Categories)}>
@@ -60,7 +57,7 @@ function CacheView(props: Props) {
             </div>
             <div className={styles.clearAll}>
                 <Button disabled={!notEmpty} onClick={() => clear('all')}>
-                    {!notEmpty ? 'Нет кэшированных файлов' : `Очистить все  ${sizes.all}`}
+                    {!notEmpty ? 'Нет кэшированных файлов' : `Очистить все  ${sizeConverter(sizes.all)}`}
                 </Button>
             </div>
             <div className={styles.info}>

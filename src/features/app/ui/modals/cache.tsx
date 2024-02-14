@@ -8,10 +8,12 @@ import { sizeConverter } from '../../../../shared/lib';
 
 type Categories = UseFsTypes.FileTypes | 'all';
 
+const defaultSizes = { img: 0, video: 0, audio: 0, document: 0, system: 0, all: 0 };
+
 function CacheModal(modal: ModalTypes.UseReturnedType) {
     const { getMetadata, remove } = useFs();
 
-    const sizes = useEasyState({ img: '', video: '', audio: '', document: '', system: '', all: '' });
+    const sizes = useEasyState(defaultSizes);
     const clearing = useArray({});
 
     const confirmClearing = Modal.useConfirm<Categories>((value, category) => {
@@ -20,12 +22,19 @@ function CacheModal(modal: ModalTypes.UseReturnedType) {
             if (category === 'all') {
                 remove({ baseDir: 'document', folder: 'cache' }).then(() => {
                     clearing.deleteById('all');
-                    sizes.set((prev) => ({ ...prev, all: '' }));
+                    sizes.set(defaultSizes);
                 });
             } else {
                 remove({ baseDir: 'document', folder: 'cache', fileType: category }).then(() => {
                     clearing.deleteById(category);
-                    sizes.set((prev) => ({ ...prev, [category]: '' }));
+                    const allSize = Object.entries(sizes.value).reduce((acc: number, [key, value]) => {
+                        if (key !== 'all' && key !== category) {
+                            return acc + value;
+                        }
+                        return acc;
+                    }, 0);
+                    console.log(allSize);
+                    sizes.set((prev) => ({ ...prev, [category]: 0, all: allSize }));
                 });
             }
         }
@@ -51,12 +60,12 @@ function CacheModal(modal: ModalTypes.UseReturnedType) {
         Promise.all(
             arr.map((i) => {
                 getMetadata({ baseDir: 'document', folder: 'cache', fileType: i }).then((res) => {
-                    res?.size && sizes.set((prev) => ({ ...prev, [i]: sizeConverter(res.size) }));
+                    res?.size && sizes.set((prev) => ({ ...prev, [i]: res.size }));
                 });
             })
         ).then();
         getMetadata({ baseDir: 'document', folder: 'cache' }).then((res) => {
-            res?.size && sizes.set((prev) => ({ ...prev, all: sizeConverter(res.size) }));
+            res?.size && sizes.set((prev) => ({ ...prev, all: res.size }));
         });
     }, []);
 
