@@ -19,10 +19,10 @@ struct Payload {
 
 
 #[tauri::command]
-async fn open_meet(handle: tauri::AppHandle, url: String, id: String) {
+async fn open_meet(handle: tauri::AppHandle, url: String, label: String) {
     let docs_window = tauri::WindowBuilder::new(
         &handle,
-        id,
+        label,
         tauri::WindowUrl::External(url.parse().unwrap()),
     ).build().unwrap();
 }

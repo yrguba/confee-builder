@@ -56,7 +56,6 @@ import useThrottle from './useThrottle';
 import useTimer from './useTimer';
 import useToggle from './useToggle';
 import useWebSocket from './useWebSocket';
-import useWebView from './useWebView';
 import { useWindowMouseClick } from './useWindowMouseClick';
 import useYup from './useYup';
 import mediaQuery from '../configs/media-query';
@@ -93,7 +92,6 @@ export {
     useWindowDimensions,
     useStorage,
     useEasyState,
-    useWebView,
     useFetchMediaContent,
     useTimeout,
     useRouter,

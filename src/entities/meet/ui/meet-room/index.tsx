@@ -3,7 +3,7 @@ import { WebviewWindow } from '@tauri-apps/api/window';
 import React from 'react';
 import { useIdle } from 'react-use';
 
-import { useStorage } from 'shared/hooks';
+import { useRustServer, useStorage } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
@@ -22,6 +22,8 @@ function MeetRoomView(props: Props) {
     const { chatId, viewer, meetId, invite } = props;
 
     const ls = useStorage();
+    const { useWebview } = useRustServer();
+    const { close } = useWebview('meet');
 
     const conferenceName = meetId;
     const userName = viewer?.full_name;
@@ -57,8 +59,7 @@ function MeetRoomView(props: Props) {
                     ls.remove('by_meet');
                     ls.remove('join_meet_data');
                     ls.remove('meet_chat_id');
-                    const meetWindow = WebviewWindow.getByLabel('meet');
-                    meetWindow?.close();
+                    close();
                 }}
                 getIFrameRef={getIframeRef}
             />

@@ -1,4 +1,4 @@
-import { useRouter, useStorage, useWebView } from '../../../shared/hooks';
+import { useRouter, useRustServer, useStorage } from '../../../shared/hooks';
 import { getRandomString } from '../../../shared/lib';
 import { Notification } from '../../../shared/ui';
 import { appService } from '../../app';
@@ -12,13 +12,18 @@ function useMeet() {
 
     const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
 
-    const webView = useWebView({
-        id: 'meet',
+    const { useWebview } = useRustServer();
+
+    const webview = useWebview('meet', {
         title: `Конференция`,
-        onClose: () => {
-            ls.remove('by_meet');
-            ls.remove('join_meet_data');
-            ls.remove('meet_chat_id');
+        events: {
+            onClose: () => {
+                console.log('close');
+                ls.remove('by_meet');
+                ls.remove('join_meet_data');
+                ls.remove('meet_chat_id');
+                webview.close();
+            },
         },
     });
 
@@ -26,12 +31,12 @@ function useMeet() {
         ls.set('by_meet', true);
         ls.set('meet_chat_id', chatId);
         const meetId = getRandomString(30);
-        if (webView?.isOpen() || params.meet_id || ls.get('join_meet_data' || ls.get('by_meet'))) {
+        if (webview?.isOpen() || params.meet_id || ls.get('join_meet_data' || ls.get('by_meet'))) {
             notification.info({ title: 'Сначала покиньте текущую конференцию', system: true });
         } else if (chatId && users?.length) {
             handleCreateMeeting({ chatId, confee_video_room: meetId, targets_user_id: users });
             if (appService.tauriIsRunning) {
-                webView?.open(`/meet/room/${meetId}`);
+                webview?.open({ path: `/meet/room/${meetId}` });
             } else {
                 navigate(`/meet/room/${meetId}`);
             }
@@ -41,7 +46,7 @@ function useMeet() {
     const inCall = (data: { avatar?: string; id?: string; name: string }) => {
         ls.set('join_meet_data', data);
         if (appService.tauriIsRunning) {
-            webView?.open('/meet/join');
+            webview?.open({ path: '/meet/join' });
         } else {
             navigate('/meet/join');
         }

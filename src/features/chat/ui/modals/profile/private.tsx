@@ -6,7 +6,7 @@ import { useMeet } from 'entities/meet';
 import { messageDictionaries, messageTypes } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
 import { viewerService } from 'entities/viewer';
-import { useRouter, useEasyState, useWebView } from 'shared/hooks';
+import { useRouter, useEasyState } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
