@@ -53,6 +53,8 @@ function CacheView(props: Props) {
         return obj;
     };
 
+    const maxSizeBytes = maxSize.value * 1000000000;
+
     return (
         <div className={styles.wrapper}>
             {appService.isDev && (
@@ -139,7 +141,9 @@ function CacheView(props: Props) {
             </div>
             <div className={styles.clearAll}>
                 <Button disabled={!notEmpty} onClick={() => clear('all')}>
-                    {!notEmpty ? 'Нет кэшированных файлов' : `Очистить все  ${sizeConverter(sizes.all)}`}
+                    {!notEmpty
+                        ? 'Нет кэшированных файлов'
+                        : `Очистить все  ${sizes.all < maxSizeBytes || maxSize.value === 0 ? sizeConverter(sizes.all) : sizeConverter(maxSizeBytes)}`}
                 </Button>
             </div>
             <div className={styles.info}>

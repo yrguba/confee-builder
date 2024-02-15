@@ -76,9 +76,9 @@ const useFS = () => {
         const cacheSize = Number(await invoke('get_folder_size', { path: cachePath }));
 
         if (!cacheSize) return;
-        const maxBytes = maxSize * 1073741824;
-
-        const memoryToClear = Math.ceil(cacheSize - maxBytes);
+        const maxMB = maxSize * 1000;
+        const currentMB = Math.round(cacheSize / 1024 / 1024);
+        const memoryToClear = Math.round(currentMB - maxMB);
 
         if (memoryToClear > 0) {
             console.log('clearing old cache');
@@ -147,7 +147,7 @@ const useFS = () => {
                 const currentFile = await metadata(fullPath);
                 const indexingPath = await join(root, 'cache', 'indexing');
                 const obj = {
-                    size: currentFile.size,
+                    size: currentFile.size / 1024 / 1024,
                     fullPath,
                     date: moment().unix(),
                 };

@@ -28,7 +28,7 @@ class ChatApi {
         return useQueryWithLocalDb<Response.QueryResult<Chat>>(cacheId, ({ save }) =>
             useQuery(cacheId, () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
                 // staleTime: Infinity,
-                enabled: !!data.chatId,
+                enabled: !!Number(data.chatId),
                 select: (res) => {
                     save(res, cacheId);
                     return res;
