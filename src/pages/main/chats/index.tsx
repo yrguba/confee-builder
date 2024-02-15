@@ -1,10 +1,10 @@
 import React, { lazy, Fragment } from 'react';
 import { Route, Navigate } from 'react-router-dom';
 
+import { ChatGpt } from 'features/chat';
 import { MessagesList } from 'features/message';
 
 import Chat from './widgets/chat';
-import { ChatGpt } from '../../../features/chat';
 
 const ChatsPage = lazy(() => import('./ui'));
 

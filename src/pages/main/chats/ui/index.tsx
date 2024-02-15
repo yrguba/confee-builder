@@ -12,7 +12,7 @@ import { useDebounce } from '../../../../shared/hooks';
 import { Sidebar } from '../widgets';
 
 function ChatsPage() {
-    const { params } = useRouter();
+    const { params, lastPath } = useRouter();
     const storage = useStorage();
     const { width: windowsWidth } = useWindowSize();
     const widthInStorage = storage.get('chat_list_width');
@@ -81,7 +81,7 @@ function ChatsPage() {
                     onMouseMove={resize}
                     items={[
                         {
-                            visible: !params.chat_id,
+                            visible: !params.chat_id && lastPath !== 'chat_gpt',
                             item: (
                                 <Title textWrap primary={false} textAlign="center" variant="H2">
                                     Выберите чат, для начала диалога
@@ -89,7 +89,10 @@ function ChatsPage() {
                             ),
                         },
                         {
-                            visible: (!!params.chat_id && !visibleSearchMessages.value) || (!!params.chat_id && visibleSearchMessages.value && xl),
+                            visible:
+                                (!!params.chat_id && !visibleSearchMessages.value) ||
+                                (!!params.chat_id && visibleSearchMessages.value && xl) ||
+                                lastPath === 'chat_gpt',
                             item: <Outlet />,
                         },
                         {

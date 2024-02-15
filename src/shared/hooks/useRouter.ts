@@ -11,12 +11,14 @@ export type UrlParams = {
     meet_id: string | undefined;
 };
 
-function useRouter(): { navigate: ReturnType<typeof useNavigate>; params: UrlParams; pathname: string } {
+function useRouter(): { navigate: ReturnType<typeof useNavigate>; params: UrlParams; pathname: string; lastPath?: string } {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const params = useParams<keyof UrlParams>();
 
-    return { navigate, params, pathname };
+    const lastPath = pathname.split('/').pop();
+
+    return { navigate, params, pathname, lastPath };
 }
 
 export default useRouter;

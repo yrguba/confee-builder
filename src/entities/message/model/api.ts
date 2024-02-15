@@ -2,8 +2,8 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tansta
 import produce from 'immer';
 
 import { appApi } from 'entities/app';
-import { axiosClient } from 'shared/configs';
-import { useQueryWithLocalDb, useWebSocket } from 'shared/hooks';
+import { axiosClient, axios } from 'shared/configs';
+import { useQueryWithLocalDb, useStorage, useWebSocket } from 'shared/hooks';
 
 import { File, Message, MessageProxy, MessageType, SocketOut } from './types';
 import { getRandomString, httpHandlers } from '../../../shared/lib';
@@ -16,6 +16,29 @@ class MessageApi {
     private pathPrefix = '/api/v2/chats';
 
     socket = useWebSocket<any, SocketOut>();
+
+    handleGetMessagesWithChatGpt() {
+        const storage = useStorage();
+        return useQuery(['get-messages', 'with-chat-gpt'], () => axios.get(`http://109.172.91.75/api/history/${storage.get('viewer_id')}`), {
+            select: (data) => {
+                console.log(data);
+            },
+        });
+    }
+
+    handleSendTextMessageWithChatGpt() {
+        return useMutation(
+            (data: { text: string }) => {
+                const storage = useStorage();
+                return axios.post(`http://109.172.91.75/api`, { ...data, id: storage.get('viewer_id') });
+            },
+            {
+                onSuccess: (data) => {
+                    console.log(data);
+                },
+            }
+        );
+    }
 
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined | null; chatId: number }) {
         const cacheId = ['get-messages', String(chatId)];

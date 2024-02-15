@@ -10,12 +10,14 @@ import { Modal } from 'shared/ui';
 
 import GroupChatProfileModal from './modals/profile/group';
 import PrivateChatProfileModal from './modals/profile/private';
+import ChatGptView from '../../../entities/chat/ui/chat-gpt';
 import { ForwardMessagesModal } from '../../message';
 
 function ChatGpt() {
-    const { params, navigate, pathname } = useRouter();
+    const { data: handleGetMessagesWithChatGpt } = messageApi.handleGetMessagesWithChatGpt();
+    const { mutate: handleSendTextMessageWithChatGpt } = messageApi.handleSendTextMessageWithChatGpt();
 
-    return <div>ChatGpt</div>;
+    return <ChatGptView />;
 }
 //
 export default ChatGpt;

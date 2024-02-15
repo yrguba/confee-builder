@@ -5,6 +5,7 @@ import chatApi from './model/api';
 import chatGateway from './model/gateway';
 import useChatStore from './model/store';
 import * as chatTypes from './model/types';
+import ChatGpt from './ui/chat-gpt';
 import ChatHeaderView from './ui/header';
 import ChatsListView from './ui/list';
 import AddMembersInChatModalView from './ui/modals/add-members';
@@ -26,4 +27,5 @@ export {
     useChatsTabsAndLists,
     AddMembersInChatModalView,
     PrivateChatProfileModalView,
+    ChatGpt,
 };

@@ -1,4 +1,6 @@
+import axios from 'axios';
+
 import axiosClient, { AxiosError } from './axios';
 
 export type { AxiosError };
-export { axiosClient };
+export { axiosClient, axios };
