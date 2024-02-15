@@ -30,12 +30,16 @@ type WebviewEvents =
     | 'update-download-progress';
 
 function useRustServer() {
+    const rustIsRunning = !!window.__TAURI__;
+
     const useWebview = (label: 'main' | 'meet', webviewProps?: WebviewProps) => {
         const isOpen = () => {
+            if (!rustIsRunning) return null;
             return !!WebviewWindow.getByLabel(label);
         };
 
         const listen = (event: WebviewEvents, callback: () => void) => {
+            if (!rustIsRunning) return null;
             const view = WebviewWindow.getByLabel(label);
             if (view) {
                 appWindow.listen(`tauri://${event}`, callback);
@@ -43,6 +47,7 @@ function useRustServer() {
         };
 
         const listenOnce = (event: WebviewEvents, callback: () => void) => {
+            if (!rustIsRunning) return null;
             const view = WebviewWindow.getByLabel(label);
             if (view) {
                 appWindow.once(`tauri://${event}`, callback);
@@ -50,6 +55,7 @@ function useRustServer() {
         };
 
         const open = async (props: { path: string; title?: string }) => {
+            if (!rustIsRunning) return null;
             await invoke('open_meet', { url: `${window.location.origin}${props.path}`, label });
             const view = WebviewWindow.getByLabel(label);
             setTimeout(() => {
@@ -61,6 +67,7 @@ function useRustServer() {
         };
 
         const close = async () => {
+            if (!rustIsRunning) return null;
             const view = WebviewWindow.getByLabel(label);
             if (view) {
                 await view.close();
@@ -70,7 +77,7 @@ function useRustServer() {
         return { isOpen, open, close, listen, listenOnce };
     };
 
-    return { rustIsRunning: !!window.__TAURI__, useWebview };
+    return { rustIsRunning, useWebview };
 }
 
 export default useRustServer;

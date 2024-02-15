@@ -7,6 +7,9 @@ import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, InputTypes }
 
 import styles from './styles.module.scss';
 import { UseArrayReturnType, UseEasyStateReturnType, useHeightMediaQuery, useInView } from '../../../../shared/hooks';
+import { chatProxy } from '../../index';
+import { chat_gtp_id } from '../../lib/constants';
+import mockChat from '../../lib/mock';
 import { PrivateChatActions, GroupChatActions, ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
 import ChatCardView from '../card';
 
@@ -44,6 +47,17 @@ function ChatsListView(props: Props) {
                 className={styles.list}
                 ref={wrapperRef}
             >
+                <ChatCardView
+                    chatMenuAction={chatMenuAction}
+                    chat={chatProxy(mockChat({ name: 'ChatGpt', id: chat_gtp_id })) as any}
+                    clickOnChat={clickOnChat}
+                    active={window.location.pathname.split('/').pop() === 'chat_gpt'}
+                    ref={{
+                        // @ts-ignore
+                        lastChat: null,
+                        wrapper: wrapperRef,
+                    }}
+                />
                 {chats?.map((chat, index: number) => (
                     <ChatCardView
                         chatMenuAction={chatMenuAction}

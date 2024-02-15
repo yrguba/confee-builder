@@ -86,7 +86,7 @@ function messageGateway() {
                     return produce(cacheData, (draft: any) => {
                         draft.pages.forEach((page: any) => {
                             page.data.data = page?.data?.data.map((chat: Chat) => {
-                                if (socketData.data.chat_id === chat.id && chat.last_message.id === socketData.data.message_id)
+                                if (socketData.data.chat_id === chat.id && chat?.last_message?.id === socketData.data.message_id)
                                     return { ...chat, last_message: { ...chat.last_message, ...socketData.data.extra_info.updated_values } };
                                 return chat;
                             });
@@ -119,7 +119,7 @@ function messageGateway() {
                             page.data.data = page?.data?.data.map((chat: Chat) => {
                                 if (socketData.data.chat_id === chat.id) {
                                     chat.pending_messages_count = socketData?.data?.extra_info?.chat_pending_messages_count;
-                                    if (chat.last_message.id === socketData.data.message_id) {
+                                    if (chat?.last_message && chat?.last_message?.id === socketData.data.message_id) {
                                         chat.last_message.users_have_read = [...chat.last_message.users_have_read, socketData.data.read_user_id];
                                     }
                                 }

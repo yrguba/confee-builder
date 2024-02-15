@@ -12,7 +12,7 @@ export type Chat = {
     created_at: Date;
     id: number;
     is_group: boolean;
-    last_message: Message;
+    last_message: Message | null;
     members: User[];
     employee_members: Employee[];
     members_count: number | null;
@@ -22,9 +22,11 @@ export type Chat = {
     updated_at: Date;
     permittedReactions: any[];
     company_id: number | null;
-    draft: {
-        message_text: string;
-    }[];
+    draft:
+        | {
+              message_text: string;
+          }[]
+        | null;
     pinned: boolean;
     is_muted: boolean;
     current_user_role: 'Chat member' | 'Owner';

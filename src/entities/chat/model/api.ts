@@ -15,6 +15,7 @@ import * as MessageTypes from '../../message/model/types';
 import { Session, Viewer } from '../../viewer/model/types';
 import { chatService, chatTypes } from '../index';
 import { chats_limit } from '../lib/constants';
+import mockChat from '../lib/mock';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
@@ -98,7 +99,6 @@ class ChatApi {
                         return current_page < last_page ? current_page + 1 : undefined;
                     },
                     select: (data) => {
-                        save(data, cacheId);
                         return {
                             pages: data.pages,
                             pageParams: [...data.pageParams],

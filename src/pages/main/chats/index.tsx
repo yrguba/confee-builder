@@ -1,11 +1,10 @@
-import { AnimatePresence } from 'framer-motion';
 import React, { lazy, Fragment } from 'react';
-import { Route, useRoutes, Navigate } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 
-import { MessagesList, MessageInput } from 'features/message';
+import { MessagesList } from 'features/message';
 
 import Chat from './widgets/chat';
-import { Box } from '../../../shared/ui';
+import { ChatGpt } from '../../../features/chat';
 
 const ChatsPage = lazy(() => import('./ui'));
 
@@ -15,6 +14,7 @@ const chatsPageRouters = ['/chats/all', '/chats/personal', '/chats/company/:comp
             <Route path="chat" element={<Chat />}>
                 <Route path=":chat_id" element={<MessagesList />} />
             </Route>
+            <Route path="chat_gpt" element={<ChatGpt />} />
         </Route>
         <Route path="/chats" element={<Navigate to="/chats/all" replace />} />
     </Fragment>

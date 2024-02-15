@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { chatApi, ChatsListView, chatTypes, useChatsTabsAndLists } from 'entities/chat';
+import { chatApi, chatProxy, ChatsListView, chatTypes, useChatsTabsAndLists } from 'entities/chat';
 import { PrivateChatActions, GroupChatActions, ChatProxy } from 'entities/chat/model/types';
 import { useRouter } from 'shared/hooks';
 
+import { chat_gtp_id } from '../../../entities/chat/lib/constants';
+import mockChat from '../../../entities/chat/lib/mock';
 import { Input, Modal } from '../../../shared/ui';
 
 function ChatsList() {
@@ -31,7 +33,11 @@ function ChatsList() {
     });
 
     const clickOnChatCard = (chat: chatTypes.Chat) => {
-        navigate(`chat/${chat?.id}`);
+        if (chat.id === chat_gtp_id) {
+            navigate(`chat_gpt`);
+        } else {
+            navigate(`chat/${chat?.id}`);
+        }
     };
 
     const tabsAndLists = useChatsTabsAndLists({});

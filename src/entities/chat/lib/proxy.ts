@@ -49,7 +49,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                     return receiver.is_personal ? getMembers(target.members) : getMembers(target.employee_members);
 
                 case 'authorLastMessage':
-                    return receiver?.checkIsMyLastMessage ? 'Вы' : target?.last_message?.author?.first_name || target?.last_message?.author?.last_name;
+                    return receiver?.checkIsMyLastMessage ? 'Вы' : target?.last_message?.author?.first_name || target?.last_message?.author?.last_name || '';
 
                 case 'lastMessageTitle':
                     if (target.typing) return target.typing;
@@ -63,7 +63,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                     return text;
 
                 case 'date':
-                    return dateConverter(target?.last_message?.created_at);
+                    return target?.last_message ? dateConverter(target?.last_message?.created_at) : '';
 
                 case 'subtitle':
                     if (target.typing) return target.typing;

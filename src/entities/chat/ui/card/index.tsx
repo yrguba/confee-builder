@@ -84,7 +84,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.left}>
-                            {chat.is_group && chat.last_message.type !== 'system' && <div className={styles.authorName}>{chat.authorLastMessage}: </div>}
+                            {chat.is_group && chat?.last_message?.type !== 'system' && <div className={styles.authorName}>{chat.authorLastMessage}: </div>}
                             <Title primary={false} variant="H3R">
                                 {chat?.lastMessageTitle}
                             </Title>
@@ -96,7 +96,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                                     {chat?.pending_messages_count}
                                 </Counter>
                             ) : (
-                                chat?.checkIsMyLastMessage && <Icons variant={chat?.last_message.users_have_read.length ? 'double-check' : 'check'} />
+                                chat?.checkIsMyLastMessage && <Icons variant={chat?.last_message?.users_have_read.length ? 'double-check' : 'check'} />
                             )}
                         </div>
                     </div>
