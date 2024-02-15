@@ -91,18 +91,21 @@ const useFS = () => {
                         if (await exists(files[0].fullPath)) {
                             await removeFile(files[0].fullPath);
                             files.splice(0, 1);
-                            if (remainsToCleaned - files[0].size > 0) {
+                            if (remainsToCleaned - files[0]?.size > 0) {
                                 await cleaning(remainsToCleaned - files[0].size, files);
                             }
                         } else {
-                            files.splice(0, 1);
+                            // files.splice(0, 1);
                             await cleaning(remainsToCleaned, files);
                         }
                         await writeTextFile(indexingPath, JSON.stringify(files));
                     }
                 };
-
-                await cleaning(memoryToClear, JSON.parse(file));
+                const files = JSON.parse(file);
+                await cleaning(
+                    memoryToClear,
+                    files.sort((a: any, b: any) => a.date - b.date)
+                );
             }
         }
     };
@@ -146,7 +149,7 @@ const useFS = () => {
                 const obj = {
                     size: currentFile.size,
                     fullPath,
-                    date: moment().format('DD.MM.YYYY, HH:mm:ss'),
+                    date: moment().unix(),
                 };
                 if (!(await exists(indexingPath))) {
                     await writeTextFile(indexingPath, JSON.stringify([obj]));
