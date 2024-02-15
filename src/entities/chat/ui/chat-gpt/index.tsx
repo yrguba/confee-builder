@@ -1,41 +1,56 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Box, Input } from 'shared/ui';
+import { Box, Button, Icons, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { UseEasyStateReturnType } from '../../../../shared/hooks';
+import { MessageWithChatGpt } from '../../../message/model/types';
 
-type Props = {} & BaseTypes.Statuses;
+type Props = {
+    sendMessage: () => void;
+    message: UseEasyStateReturnType<string>;
+    messages: MessageWithChatGpt[];
+} & BaseTypes.Statuses;
 
 function ChatGptView(props: Props) {
-    // const {  } = props;
+    const { sendMessage, message, messages } = props;
 
     const onKeyDown = (event: any) => {
         if (event.keyCode === 13) {
             event.preventDefault();
             if (event.shiftKey || event.ctrlKey) {
-                // messageTextState.set((prev) => `${prev}\n`);
+                message.set((prev) => `${prev}\n`);
             } else {
-                // sendMessage();
+                sendMessage();
             }
         }
     };
 
     return (
-        <Box className={styles.wrapper}>
-            <div />
-            <div />
-            <div>
-                {/* <Input.Textarea */}
-                {/*    focusTrigger={['s']} */}
-                {/*    placeholder="Написать сообщение..." */}
-                {/*    focus */}
-                {/*    value="" */}
-                {/*    onChange={(e) => console.log(e.target.value)} */}
-                {/*    onKeyDown={onKeyDown} */}
-                {/* /> */}
+        <Box.Animated visible className={styles.wrapper}>
+            <div className={styles.header}>dwd</div>
+            <div className={styles.list}>
+                {messages.map((i) => (
+                    <div key={i.id}>{i.content}</div>
+                ))}
             </div>
-        </Box>
+            <div className={styles.input}>
+                <Input.Textarea
+                    focusTrigger={['s']}
+                    placeholder="Написать сообщение..."
+                    focus
+                    value={message.value}
+                    onChange={(e) => message.set(e.target.value)}
+                    onKeyDown={onKeyDown}
+                />
+                <div className={styles.sendBtn}>
+                    <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
+                        <Icons variant="send" />
+                    </Button.Circle>
+                </div>
+            </div>
+        </Box.Animated>
     );
 }
 

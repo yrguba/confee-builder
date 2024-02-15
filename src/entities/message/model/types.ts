@@ -29,6 +29,12 @@ export type File = {
     user_id?: number;
 };
 
+export type MessageWithChatGpt = {
+    id?: string;
+    role: 'user' | 'assistant';
+    content: string;
+};
+
 export type Message = {
     author: userTypes.User;
     author_employee: companyTypes.Employee | null;

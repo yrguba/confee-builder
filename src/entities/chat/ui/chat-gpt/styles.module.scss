@@ -3,5 +3,36 @@
 .wrapper {
   @include box-size(100%, 100%);
   @include flex-column(flex-start);
-background-color: black;
+
+
+  .header {
+    @include box-size(100%, 70px);
+    @include flex;
+    background-color: var(--bg-secondary);
+  }
+
+  .list {
+    @include box-size(100%, 100%);
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    overflow: hidden;
+    transition: background-color 0.5s;
+    gap: 4px;
+  }
+
+  .input {
+    @include box-size(calc(100% - 24px), auto);
+    @include flex;
+    min-height: 46px;
+    padding: 12px 12px 0 12px;
+    background-color: var(--bg-secondary);
+
+    .sendBtn {
+      @include flex(center, flex-end);
+      height: calc(100% - 12px);
+      padding-bottom: 12px;
+    }
+  }
 }

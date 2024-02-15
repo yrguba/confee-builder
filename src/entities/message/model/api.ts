@@ -5,7 +5,7 @@ import { appApi } from 'entities/app';
 import { axiosClient, axios } from 'shared/configs';
 import { useQueryWithLocalDb, useStorage, useWebSocket } from 'shared/hooks';
 
-import { File, Message, MessageProxy, MessageType, SocketOut } from './types';
+import { File, Message, MessageProxy, MessageType, MessageWithChatGpt, SocketOut } from './types';
 import { getRandomString, httpHandlers } from '../../../shared/lib';
 import { Chat } from '../../chat/model/types';
 import { messageService } from '../index';
@@ -21,23 +21,16 @@ class MessageApi {
         const storage = useStorage();
         return useQuery(['get-messages', 'with-chat-gpt'], () => axios.get(`http://109.172.91.75/api/history/${storage.get('viewer_id')}`), {
             select: (data) => {
-                console.log(data);
+                return data.data.history as MessageWithChatGpt[];
             },
         });
     }
 
     handleSendTextMessageWithChatGpt() {
-        return useMutation(
-            (data: { text: string }) => {
-                const storage = useStorage();
-                return axios.post(`http://109.172.91.75/api`, { ...data, id: storage.get('viewer_id') });
-            },
-            {
-                onSuccess: (data) => {
-                    console.log(data);
-                },
-            }
-        );
+        return useMutation((data: { text: string }) => {
+            const storage = useStorage();
+            return axios.post(`http://109.172.91.75/api/send-text`, { ...data, id: storage.get('viewer_id') });
+        });
     }
 
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined | null; chatId: number }) {
