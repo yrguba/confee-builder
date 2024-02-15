@@ -36,6 +36,22 @@ function CacheView(props: Props) {
         5: 0,
     };
 
+    const marks = () => {
+        const obj: any = {};
+        Object.entries(sizeDictionary).forEach(([key, value]) => {
+            obj[key] = {
+                style: {
+                    marginLeft: value === 1 ? 9 : value === 0 ? -9 : 0,
+                    marginTop: 6,
+                    color: 'var(--text-inactive)',
+                    fontWeight: 500,
+                },
+                label: value === 0 ? 'НЕТ' : `${value} GB`,
+            };
+        });
+        return obj;
+    };
+
     return (
         <div className={styles.wrapper}>
             <div>
@@ -54,6 +70,7 @@ function CacheView(props: Props) {
                 </div>
                 <div className={styles.slider}>
                     <Slider
+                        marks={marks()}
                         dots
                         dotStyle={{
                             width: 3,
@@ -114,7 +131,7 @@ function CacheView(props: Props) {
                 </Button>
             </div>
             <div className={styles.info}>
-                <Title textWrap textAlign="center" variant="H4M" primary={false}>
+                <Title textWrap variant="H4M" primary={false}>
                     При достижении максимального выбранного объема памяти, система автоматически освобождает пространство, удаляя наименее актуальные данные из
                     кэша и заменяя их новой информацией.
                 </Title>

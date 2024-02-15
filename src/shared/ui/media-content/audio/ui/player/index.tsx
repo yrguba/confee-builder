@@ -50,7 +50,7 @@ function Player(props: PlayerProps) {
             },
         },
     ];
-    // console.log('render');
+
     const rightControls = [
         {
             id: 0,
@@ -177,9 +177,8 @@ function useAudioTime(enabled: boolean) {
     useEffect(() => {
         if (playing) {
             const animate = () => {
-                const pos = getPosition();
+                const pos = Math.ceil(getPosition());
                 currentTime.set(timeConverter(pos));
-                console.log(timeConverter(pos));
                 currentSec.set(pos);
                 frameRef.current = requestAnimationFrame(animate);
                 throttle(() => {});

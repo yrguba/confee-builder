@@ -30,6 +30,7 @@
     width: 100%;
     gap: 8px;
     overflow-y: auto;
+    font-weight: 500;
 
     .item {
       @include box-size(100%, 48px);
