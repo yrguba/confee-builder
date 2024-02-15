@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useEasyState, useGlobalAudioPlayer, useRustServer, useUpdateEffect } from 'shared/hooks';
+import { useEasyState, useGlobalAudioPlayer, useRustServer, useThrottle, useUpdateEffect } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { timeConverter } from '../../../../../lib';
@@ -50,7 +50,7 @@ function Player(props: PlayerProps) {
             },
         },
     ];
-
+    // console.log('render');
     const rightControls = [
         {
             id: 0,
@@ -66,15 +66,15 @@ function Player(props: PlayerProps) {
         },
         {
             id: 2,
-            element: <div className={styles.timing}>{`${currentTime}/${duration}`}</div>,
-            callback: () => {},
-        },
-        {
-            id: 3,
             element: <Icons.Player variant="repeat" active={looping} />,
             callback: () => {
                 loop(!looping);
             },
+        },
+        {
+            id: 3,
+            element: <div className={styles.timing}>{`${currentTime}/${duration}`}</div>,
+            callback: () => {},
         },
         {
             id: 4,
@@ -131,7 +131,7 @@ function Player(props: PlayerProps) {
                     {rightControls
                         .filter((i) => visibleElements.value.includes(i.id))
                         .map((i) => (
-                            <div key={i.id} onClick={i.callback} className={styles.item}>
+                            <div key={i.id} onClick={i.callback} className={styles.item} style={{ pointerEvents: i.id === 3 ? 'none' : 'auto' }}>
                                 {i.element}
                             </div>
                         ))}
@@ -166,6 +166,8 @@ function Player(props: PlayerProps) {
 
 export default Player;
 
+const [throttle] = useThrottle((cl) => cl(), 1000);
+
 function useAudioTime(enabled: boolean) {
     const frameRef = useRef<number>();
     const currentTime = useEasyState('');
@@ -173,12 +175,14 @@ function useAudioTime(enabled: boolean) {
     const { getPosition, duration, playing } = useGlobalAudioPlayer();
 
     useEffect(() => {
-        if (enabled) {
+        if (playing) {
             const animate = () => {
                 const pos = getPosition();
                 currentTime.set(timeConverter(pos));
+                console.log(timeConverter(pos));
                 currentSec.set(pos);
                 frameRef.current = requestAnimationFrame(animate);
+                throttle(() => {});
             };
 
             frameRef.current = window.requestAnimationFrame(animate);
@@ -189,7 +193,7 @@ function useAudioTime(enabled: boolean) {
                 }
             };
         }
-    }, [enabled, playing]);
+    }, [getPosition(), playing]);
 
     return { currentTime: currentTime.value, currentSec: currentSec.value, duration: timeConverter(duration) };
 }
