@@ -13,10 +13,11 @@ type Props = {
     chat: ChatProxy;
     active: boolean;
     chatMenuAction: (action: PrivateChatActions | GroupChatActions, chat: ChatProxy) => void;
+    description?: string;
 } & BaseTypes.Statuses;
 
 const ChatCardView = forwardRef((props: Props, refs: any) => {
-    const { clickOnChat, chat, active, chatMenuAction } = props;
+    const { description, clickOnChat, chat, active, chatMenuAction } = props;
 
     const visibleMenu = useEasyState(false);
 
@@ -86,7 +87,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                         <div className={styles.left}>
                             {chat.is_group && chat?.last_message?.type !== 'system' && <div className={styles.authorName}>{chat.authorLastMessage}: </div>}
                             <Title primary={false} variant="H3R">
-                                {chat?.lastMessageTitle}
+                                {description || chat?.lastMessageTitle}
                             </Title>
                         </div>
                         <div className={styles.right}>

@@ -52,6 +52,7 @@ function ChatsListView(props: Props) {
                     chat={chatProxy(mockChat({ name: 'ChatGpt', id: chat_gtp_id })) as any}
                     clickOnChat={clickOnChat}
                     active={window.location.pathname.split('/').pop() === 'chat_gpt'}
+                    description="Чат с ботом"
                     ref={{
                         // @ts-ignore
                         lastChat: null,
