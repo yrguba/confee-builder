@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 moment.locale('ru');
 
 function App() {
-    const { clientBaseURL } = appService.getUrls();
+    const { clientBaseURL, backBaseURL } = appService.getUrls();
     const storage = useStorage();
     const notification = storage.get('notification');
 
@@ -47,6 +47,7 @@ function App() {
 
     useEffect(() => {
         console.log('clientBaseURL: ', clientBaseURL);
+        console.log('backBaseURL: ', backBaseURL);
     }, []);
 
     useEffectOnce(() => {

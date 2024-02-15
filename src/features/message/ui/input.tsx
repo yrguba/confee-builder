@@ -161,13 +161,13 @@ function MessageInput() {
         // }
     };
 
-    useEffect(() => {
-        if (proxyChat?.draft[0]?.message_text) {
-            messageTextState.set(proxyChat?.draft[0]?.message_text);
-        } else {
-            messageTextState.set('');
-        }
-    }, [proxyChat?.id]);
+    // useEffect(() => {
+    //     if (proxyChat?.draft[0]?.message_text) {
+    //         messageTextState.set(proxyChat?.draft[0]?.message_text);
+    //     } else {
+    //         messageTextState.set('');
+    //     }
+    // }, [proxyChat?.id]);
 
     useUpdateEffect(() => {
         const text = messageTextState.value;

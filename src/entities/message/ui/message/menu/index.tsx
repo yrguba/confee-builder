@@ -33,7 +33,7 @@ const memoReadUsers = createMemo((members: CurrentShortMember[] | BaseTypes.Empt
 
 function MessageMenuView(props: Props) {
     const { downloadFileType, messageMenuAction, message, sendReaction, chat } = props;
-
+    console.log(message);
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, MessageMenuActions | 'read'>[] = [
         { id: 0, title: 'Ответить', icon: 'reply', payload: 'reply' },
         { id: 1, title: 'Изменить', icon: 'edit', payload: 'edit', hidden: !message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 },
