@@ -7,7 +7,7 @@ class AppService {
     // @ts-ignore
     tauriIsRunning = !!window.__TAURI__;
 
-    isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+    isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' || process.env.REACT_APP_DEBUG === 'true';
 
     getUrls(): { clientBaseURL: string; clientFullURL: string; socketUrl: string; backBaseURL: string; localSocketUrl: string } {
         return {
