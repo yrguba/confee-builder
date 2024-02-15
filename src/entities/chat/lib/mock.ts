@@ -2,6 +2,8 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { viewerTypes } from 'entities/viewer';
 
+import chatGptAvatar from '../../../assets/images/1-15-10.jpeg';
+import { appService } from '../../app';
 import { Employee } from '../../company/model/types';
 import { Message } from '../../message/model/types';
 import { User } from '../../user/model/types';
@@ -15,7 +17,7 @@ type Props = {
 function mockChat(data: Props): Chat {
     return {
         name: data.name,
-        avatar: '',
+        avatar: `${appService.getUrls().clientBaseURL}${chatGptAvatar}`,
         created_at: new Date(),
         id: data.id,
         is_group: false,

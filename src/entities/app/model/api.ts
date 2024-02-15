@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { axiosClient } from 'shared/configs';
+import { axiosClient, axios } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
 
 class AppApi {

@@ -28,7 +28,7 @@ function useFetchMediaContent(props: Props) {
 
     useEffect(() => {
         if (url) {
-            if (url.includes('base64') || url.includes('blob')) {
+            if (url.includes('base64') || url.includes('blob') || url.includes('localhost')) {
                 return src.set(url);
             }
             getFileUrl({ fileName, baseDir: 'document', folder: 'cache', fileType }).then((res) => {

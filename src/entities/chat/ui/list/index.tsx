@@ -1,12 +1,10 @@
-import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useRef } from 'react';
-import { mergeRefs } from 'react-merge-refs';
 
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button, Input, TabBar, InputTypes } from 'shared/ui';
+import { Box, Input, TabBar } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { UseArrayReturnType, UseEasyStateReturnType, useHeightMediaQuery, useInView } from '../../../../shared/hooks';
+import { useHeightMediaQuery, useInView } from '../../../../shared/hooks';
 import { chatProxy } from '../../index';
 import { chat_gtp_id } from '../../lib/constants';
 import mockChat from '../../lib/mock';

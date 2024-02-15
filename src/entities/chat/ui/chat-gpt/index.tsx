@@ -1,10 +1,12 @@
 import React from 'react';
 
+import chatGptAvatar from 'assets/images/1-15-10.jpeg';
 import { BaseTypes } from 'shared/types';
-import { Box, Button, Icons, Input } from 'shared/ui';
+import { Box, Button, Card, Icons, Image, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { UseEasyStateReturnType } from '../../../../shared/hooks';
+import { appService } from '../../../app';
 import { MessageWithChatGpt } from '../../../message/model/types';
 
 type Props = {
@@ -29,10 +31,16 @@ function ChatGptView(props: Props) {
 
     return (
         <Box.Animated visible className={styles.wrapper}>
-            <div className={styles.header}>dwd</div>
+            <div className={styles.header}>
+                <Card img={`${appService.getUrls().clientBaseURL}${chatGptAvatar}`} title="ChatGpt" subtitle="Бот" />
+            </div>
             <div className={styles.list}>
                 {messages.map((i) => (
-                    <div key={i.id}>{i.content}</div>
+                    <div key={i.id} className={styles.row} style={{ justifyContent: i.role === 'user' ? 'flex-end' : 'flex-start' }}>
+                        <div key={i.id} className={`${styles.message} ${i.role === 'user' ? styles.message_my : ''}`}>
+                            {i.content}
+                        </div>
+                    </div>
                 ))}
             </div>
             <div className={styles.input}>

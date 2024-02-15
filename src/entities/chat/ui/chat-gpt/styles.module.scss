@@ -6,20 +6,40 @@
 
 
   .header {
-    @include box-size(100%, 70px);
+    @include box-size(calc(100% - 24px), 70px);
     @include flex;
+    padding: 0 12px;
     background-color: var(--bg-secondary);
   }
 
   .list {
-    @include box-size(100%, 100%);
+    @include box-size(calc(100% - 24px), auto);
+    padding: 12px;
     flex: 1;
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    overflow: hidden;
+    overflow: auto;
     transition: background-color 0.5s;
     gap: 4px;
+
+    .row {
+      @include box-size(100%, auto);
+      display: flex;
+      align-items: center;
+
+      .message {
+        padding: 4px 12px;
+        background-color: var(--bg-secondary);
+        border-radius: 12px 12px 12px 0;
+        max-width: 90%;
+
+        &_my{
+          border-radius: 12px  12px 0 12px;
+        }
+      }
+    }
+
   }
 
   .input {
