@@ -27,14 +27,13 @@ function App() {
     const { clientBaseURL, backBaseURL } = appService.getUrls();
     const storage = useStorage();
     const notification = storage.get('notification');
-
-    const rustServer = useRustServer();
+    const { useWebview, rustIsRunning } = useRustServer();
+    const webview = useWebview('main');
 
     useEffect(() => {
-        if (appService.tauriIsRunning) {
-            appWindow.listen('tauri://close-requested', (e) => {
-                appWindow.once('tauri://focus', (e) => {
-                    console.log('fockus');
+        if (rustIsRunning) {
+            webview.listen('close-requested', () => {
+                webview.listenOnce('focus', () => {
                     queryClient.refetchQueries().then();
                 });
             });

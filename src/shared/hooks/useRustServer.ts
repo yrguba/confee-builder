@@ -1,17 +1,52 @@
 import { invoke } from '@tauri-apps/api';
-import { WebviewWindow } from '@tauri-apps/api/window';
+import { Event, EventName } from '@tauri-apps/api/event';
+import { appWindow, WebviewWindow } from '@tauri-apps/api/window';
 
 type WebviewProps = {
     title?: string;
     events?: {
-        onClose: () => void;
+        onClose?: () => void;
     };
 };
+
+type WebviewEvents =
+    | 'resize'
+    | 'move'
+    | 'close-requested'
+    | 'window-created'
+    | 'destroyed'
+    | 'focus'
+    | 'blur'
+    | 'scale-change'
+    | 'theme-changed'
+    | 'file-drop'
+    | 'file-drop-hover'
+    | 'file-drop-cancelled'
+    | 'menu'
+    | 'update'
+    | 'update-available'
+    | 'update-install'
+    | 'update-status'
+    | 'update-download-progress';
 
 function useRustServer() {
     const useWebview = (label: 'main' | 'meet', webviewProps?: WebviewProps) => {
         const isOpen = () => {
             return !!WebviewWindow.getByLabel(label);
+        };
+
+        const listen = (event: WebviewEvents, callback: () => void) => {
+            const view = WebviewWindow.getByLabel(label);
+            if (view) {
+                appWindow.listen(`tauri://${event}`, callback);
+            }
+        };
+
+        const listenOnce = (event: WebviewEvents, callback: () => void) => {
+            const view = WebviewWindow.getByLabel(label);
+            if (view) {
+                appWindow.once(`tauri://${event}`, callback);
+            }
         };
 
         const open = async (props: { path: string; title?: string }) => {
@@ -32,10 +67,10 @@ function useRustServer() {
             }
         };
 
-        return { isOpen, open, close };
+        return { isOpen, open, close, listen, listenOnce };
     };
 
-    return { isRunning: !!window.__TAURI__, useWebview };
+    return { rustIsRunning: !!window.__TAURI__, useWebview };
 }
 
 export default useRustServer;

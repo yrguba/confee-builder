@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useEasyState, useGlobalAudioPlayer, useUpdateEffect } from 'shared/hooks';
+import { useEasyState, useGlobalAudioPlayer, useRustServer, useUpdateEffect } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { timeConverter } from '../../../../../lib';
@@ -15,6 +15,9 @@ function Player(props: PlayerProps) {
     const wrapperRef = useRef<any>(null);
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
+
+    const { rustIsRunning, useWebview } = useRustServer();
+    const webview = useWebview('main');
 
     const sliderValue = useEasyState<any>(null);
     const visibleVolume = useEasyState<any>(false);
@@ -99,6 +102,12 @@ function Player(props: PlayerProps) {
         if (width < 410) return visibleElements.set([0, 1, 3, 4]);
         return visibleElements.set([0, 1, 2, 3, 4]);
     }, [width]);
+
+    useEffect(() => {
+        webview.listen('close-requested', () => {
+            currentlyPlaying.clear();
+        });
+    }, []);
 
     return (
         <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
