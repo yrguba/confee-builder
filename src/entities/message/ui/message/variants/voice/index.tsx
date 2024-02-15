@@ -38,7 +38,7 @@ function VoiceMessage(props: Props) {
                     sendingError={message.sendingError}
                     sending={message.sending}
                     isMy={message.isMy}
-                    checked={!!message.users_have_read}
+                    checked={!!message.users_have_read.length}
                 />
             )}
         </div>
