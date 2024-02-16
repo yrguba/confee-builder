@@ -78,7 +78,6 @@ function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWit
                     set((state: any) => {
                         if (props?.forStorage.length) {
                             localStorage.setItem(props.id, JSON.stringify({ [key]: value }));
-                            window.dispatchEvent(new Event('storage'));
                         }
                         state[key].value = value;
                     }),

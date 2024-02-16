@@ -17,7 +17,6 @@ export type ValuesInStorage =
 function useStorage() {
     const set = (name: ValuesInStorage, value: any) => {
         ls.setItem(name, typeof value === 'string' ? value : JSON.stringify(value));
-        window.dispatchEvent(new Event('storage'));
     };
 
     const get = <T = any>(name: ValuesInStorage): T | null => {
@@ -29,21 +28,13 @@ function useStorage() {
 
     const remove = (name: ValuesInStorage) => {
         ls.removeItem(name);
-        window.dispatchEvent(new Event('storage'));
     };
 
     const clear = () => {
         ls.clear();
-        window.dispatchEvent(new Event('storage'));
     };
 
-    const listener = <T = any>(name: ValuesInStorage, callback: (value: T | null) => void) => {
-        window.addEventListener('storage', () => {
-            callback(get<T>(name));
-        });
-    };
-
-    return { set, get, remove, clear, listener };
+    return { set, get, remove, clear };
 }
 
 export default useStorage;
