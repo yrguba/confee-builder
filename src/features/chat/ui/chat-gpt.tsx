@@ -13,6 +13,8 @@ function ChatGpt() {
     const { mutate: handleSendTextMessageWithChatGpt } = messageApi.handleSendTextMessageWithChatGpt();
     const { mutate: handleClearHistoryWithChatGpt } = messageApi.handleClearHistoryWithChatGpt();
 
+    const botTyping = useEasyState(false);
+
     const lastMessageWithChatGpt = useMessageStore.use.lastMessageWithChatGpt();
 
     const message = useEasyState('');
@@ -24,10 +26,12 @@ function ChatGpt() {
         if (value) {
             lastMessageWithChatGpt.clear();
             handleClearHistoryWithChatGpt();
+            messages.clear();
         }
     });
 
     const sendMessage = () => {
+        botTyping.set(true);
         const myMsg = { id: getRandomString(10), content: message.value, role: 'user' } as any;
         lastMessageWithChatGpt.set(myMsg);
         messages.unshift(myMsg);
@@ -39,6 +43,7 @@ function ChatGpt() {
                     const botMsg = { id: getRandomString(10), content: data.data.message.content, role: 'assistant' } as any;
                     messages.unshift(botMsg);
                     lastMessageWithChatGpt.set(botMsg);
+                    botTyping.set(false);
                 },
             }
         );
@@ -48,7 +53,13 @@ function ChatGpt() {
     return (
         <>
             <Modal.Confirm {...confirmClearHistory} title="Очистить историю" okText="очистить" />
-            <ChatGptView sendMessage={sendMessage} message={message} messages={messages.array} clearHistory={confirmClearHistory.open} />
+            <ChatGptView
+                sendMessage={sendMessage}
+                message={message}
+                messages={messages.array}
+                clearHistory={confirmClearHistory.open}
+                botTyping={botTyping.value}
+            />
         </>
     );
 }

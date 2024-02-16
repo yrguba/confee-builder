@@ -147,7 +147,7 @@ function CacheView(props: Props) {
                 </Button>
             </div>
             <div className={styles.info}>
-                <Title textWrap variant="H4M" primary={false}>
+                <Title textWrap textAlign="center" variant="H4M" primary={false}>
                     При достижении максимального выбранного объема памяти, система автоматически освобождает пространство, удаляя наименее актуальные данные из
                     кэша и заменяя их новой информацией.
                 </Title>

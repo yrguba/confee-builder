@@ -14,10 +14,11 @@ type Props = {
     message: UseEasyStateReturnType<string>;
     messages: MessageWithChatGpt[];
     clearHistory: () => void;
+    botTyping: boolean;
 } & BaseTypes.Statuses;
 
 function ChatGptView(props: Props) {
-    const { clearHistory, sendMessage, message, messages } = props;
+    const { clearHistory, sendMessage, message, messages, botTyping } = props;
 
     const onKeyDown = (event: any) => {
         if (event.keyCode === 13) {
@@ -33,12 +34,15 @@ function ChatGptView(props: Props) {
     return (
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.header}>
-                <Card img={`${appService.getUrls().clientBaseURL}${chatGptAvatar}`} title="ChatGpt" subtitle="Бот" />
+                <Card img={`${appService.getUrls().clientBaseURL}${chatGptAvatar}`} title="ChatGpt" subtitle={botTyping ? 'Печатает...' : 'Бот'} />
                 <Button.Circle variant="inherit" onClick={clearHistory}>
                     <Icons.BroomAnimated activeAnimate={false} />
                 </Button.Circle>
             </div>
             <div className={styles.list}>
+                <Box.Animated visible={!messages.length} className={styles.noMessages}>
+                    Напишите первым
+                </Box.Animated>
                 {messages.map((i) => (
                     <div key={i.id} className={styles.row} style={{ justifyContent: i.role === 'user' ? 'flex-end' : 'flex-start' }}>
                         <div key={i.id} className={`${styles.message} ${i.role === 'user' ? styles.message_my : ''}`}>
