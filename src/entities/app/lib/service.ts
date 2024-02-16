@@ -14,7 +14,7 @@ class AppService {
             clientBaseURL: window.location.origin,
             clientFullURL: window.location.href,
             backBaseURL: this.isDev ? 'https://api-develop.confee.ru' : 'https://api.confee.ru',
-            socketUrl: 'wss://dev.ws.confee.ru:9003/ws',
+            socketUrl: 'wss://ws-develop.confee.ru',
             localSocketUrl: 'ws://localhost:3001',
         };
     }
