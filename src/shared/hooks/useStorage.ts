@@ -11,10 +11,13 @@ export type ValuesInStorage =
     | 'active_chats_tab'
     | 'join_meet_data'
     | 'by_meet'
-    | 'meet_chat_id';
+    | 'meet_chat_id'
+    | 'last_message_with_chat_gpt';
+
 function useStorage() {
     const set = (name: ValuesInStorage, value: any) => {
         ls.setItem(name, typeof value === 'string' ? value : JSON.stringify(value));
+        window.dispatchEvent(new Event('storage'));
     };
 
     const get = <T = any>(name: ValuesInStorage): T | null => {
@@ -26,13 +29,21 @@ function useStorage() {
 
     const remove = (name: ValuesInStorage) => {
         ls.removeItem(name);
+        window.dispatchEvent(new Event('storage'));
     };
 
     const clear = () => {
         ls.clear();
+        window.dispatchEvent(new Event('storage'));
     };
 
-    return { set, get, remove, clear };
+    const listener = <T = any>(name: ValuesInStorage, callback: (value: T | null) => void) => {
+        window.addEventListener('storage', () => {
+            callback(get<T>(name));
+        });
+    };
+
+    return { set, get, remove, clear, listener };
 }
 
 export default useStorage;

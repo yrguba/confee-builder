@@ -1,4 +1,5 @@
 import { StoreApi, UseBoundStore } from 'zustand';
+import { createJSONStorage } from 'zustand/esm/middleware';
 
 type WithSelectors<S> = S extends { getState: () => infer T } ? S & { use: { [K in keyof T]: () => T[K] } } : never;
 

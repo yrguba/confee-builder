@@ -1,10 +1,10 @@
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import { useStore, UseStoreTypes } from 'shared/hooks';
 
-import { MediaContentType, Message, MessageProxy } from './types';
+import { MediaContentType, Message, MessageProxy, MessageWithChatGpt } from './types';
 
 type Store = {
     replyMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
@@ -23,6 +23,7 @@ type Store = {
         fileType: MediaContentType;
         callback: () => void;
     }>;
+    lastMessageWithChatGpt: UseStoreTypes.SelectorWithObj<MessageWithChatGpt>;
 };
 
 const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, generateSelectorWithPrimitive } = useStore<Store>();
@@ -34,7 +35,7 @@ const messageStore = create<Store>()(
                 ['voiceRecordingInProgress', 'visibleSearchMessages', 'initialPage', 'goDownList', 'isFileDrag', 'menuMessageId', 'openForwardMessageModal'],
                 set
             ),
-            ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages', 'foundMessage', 'downloadFile'], set),
+            ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages', 'foundMessage', 'downloadFile', 'lastMessageWithChatGpt'], set),
             ...generateSelectorWithArr(['highlightedMessages'], set),
         }))
     )

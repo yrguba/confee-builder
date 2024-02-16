@@ -6,6 +6,7 @@ import { useRouter } from 'shared/hooks';
 
 import { chat_gtp_id } from '../../../entities/chat/lib/constants';
 import mockChat from '../../../entities/chat/lib/mock';
+import { useMessageStore } from '../../../entities/message';
 import { Input, Modal } from '../../../shared/ui';
 
 function ChatsList() {
@@ -14,6 +15,8 @@ function ChatsList() {
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
     const { mutate: handleChatMute } = chatApi.handleChatMute();
+
+    const lastMessageWithChatGpt = useMessageStore.use.lastMessageWithChatGpt();
 
     const confirmDeleteChat = Modal.useConfirm<ChatProxy>((value, chat) => {
         if (value && chat) {
@@ -58,6 +61,7 @@ function ChatsList() {
         <>
             <Modal.Confirm {...confirmDeleteChat} />
             <ChatsListView
+                lastMessageWithChatGpt={lastMessageWithChatGpt}
                 chatMenuAction={chatMenuAction}
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
