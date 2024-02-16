@@ -19,14 +19,17 @@ type Store = {
     isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
     openForwardMessageModal: UseStoreTypes.SelectorWithPrimitive<boolean>;
     menuMessageId: UseStoreTypes.SelectorWithPrimitive<number | null>;
+    lastMessageWithChatGpt: UseStoreTypes.SelectorWithObj<MessageWithChatGpt>;
     downloadFile: UseStoreTypes.SelectorWithObj<{
         fileType: MediaContentType;
         callback: () => void;
     }>;
-    lastMessageWithChatGpt: UseStoreTypes.SelectorWithObj<MessageWithChatGpt>;
 };
 
-const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, generateSelectorWithPrimitive } = useStore<Store>();
+const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, generateSelectorWithPrimitive } = useStore<Store>({
+    id: 'messages',
+    forStorage: ['lastMessageWithChatGpt'],
+});
 
 const messageStore = create<Store>()(
     devtools(

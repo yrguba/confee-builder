@@ -1,6 +1,8 @@
 import { StoreApi, UseBoundStore } from 'zustand';
 import { createJSONStorage } from 'zustand/esm/middleware';
 
+import { useStorage } from './index';
+
 type WithSelectors<S> = S extends { getState: () => infer T } ? S & { use: { [K in keyof T]: () => T[K] } } : never;
 
 type SelectorWithPrimitive<T extends number | string | boolean | null> = {
@@ -22,7 +24,12 @@ type SelectorWithArr<T extends { id: number | string; [key: string]: any }> = {
     addStart: (arr: T[]) => void;
 };
 
-function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWithObj<any> | SelectorWithArr<any> | any>>() {
+type Props<T> = {
+    id: string;
+    forStorage: [keyof T];
+};
+
+function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWithObj<any> | SelectorWithArr<any> | any>>(props?: Props<T>) {
     const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(_store: S) => {
         const store = _store as WithSelectors<typeof _store>;
         store.use = {};
@@ -52,12 +59,27 @@ function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWit
     const generateSelectorWithObj = (keys: Array<keyof T>, set: any): T => {
         const obj = {};
 
+        const getValueInStorage = (key: keyof T) => {
+            const valueInLs = localStorage.getItem(`${props?.id}`);
+            if (valueInLs) {
+                const parse = JSON.parse(valueInLs);
+                if (parse[key]) {
+                    return parse[key];
+                }
+                return null;
+            }
+        };
+
         keys.forEach((key) => {
             // @ts-ignore
             obj[key] = {
-                value: {},
+                value: getValueInStorage(key) || {},
                 set: (value: any) =>
                     set((state: any) => {
+                        if (props?.forStorage.length) {
+                            localStorage.setItem(props.id, JSON.stringify({ [key]: value }));
+                            window.dispatchEvent(new Event('storage'));
+                        }
                         state[key].value = value;
                     }),
                 clear: () =>
