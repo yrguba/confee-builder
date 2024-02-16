@@ -13,10 +13,11 @@ type Props = {
     sendMessage: () => void;
     message: UseEasyStateReturnType<string>;
     messages: MessageWithChatGpt[];
+    clearHistory: () => void;
 } & BaseTypes.Statuses;
 
 function ChatGptView(props: Props) {
-    const { sendMessage, message, messages } = props;
+    const { clearHistory, sendMessage, message, messages } = props;
 
     const onKeyDown = (event: any) => {
         if (event.keyCode === 13) {
@@ -33,6 +34,9 @@ function ChatGptView(props: Props) {
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.header}>
                 <Card img={`${appService.getUrls().clientBaseURL}${chatGptAvatar}`} title="ChatGpt" subtitle="Бот" />
+                <Button.Circle variant="inherit" onClick={clearHistory}>
+                    <Icons.BroomAnimated activeAnimate={false} />
+                </Button.Circle>
             </div>
             <div className={styles.list}>
                 {messages.map((i) => (

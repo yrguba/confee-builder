@@ -5,15 +5,26 @@ import { messageApi, useMessageStore } from 'entities/message';
 import { useArray, useEasyState, useStorage } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 
+import { ChatProxy } from '../../../entities/chat/model/types';
+import { Modal } from '../../../shared/ui';
+
 function ChatGpt() {
     const { data: history } = messageApi.handleGetMessagesWithChatGpt();
     const { mutate: handleSendTextMessageWithChatGpt } = messageApi.handleSendTextMessageWithChatGpt();
+    const { mutate: handleClearHistoryWithChatGpt } = messageApi.handleClearHistoryWithChatGpt();
 
     const lastMessageWithChatGpt = useMessageStore.use.lastMessageWithChatGpt();
 
     const message = useEasyState('');
     const messages = useArray({
         initialArr: history?.map((i) => ({ id: getRandomString(10), ...i })).reverse(),
+    });
+
+    const confirmClearHistory = Modal.useConfirm((value) => {
+        if (value) {
+            lastMessageWithChatGpt.clear();
+            handleClearHistoryWithChatGpt();
+        }
     });
 
     const sendMessage = () => {
@@ -34,7 +45,12 @@ function ChatGpt() {
         message.set('');
     };
 
-    return <ChatGptView sendMessage={sendMessage} message={message} messages={messages.array} />;
+    return (
+        <>
+            <Modal.Confirm {...confirmClearHistory} title="Очистить историю" okText="очистить" />
+            <ChatGptView sendMessage={sendMessage} message={message} messages={messages.array} clearHistory={confirmClearHistory.open} />
+        </>
+    );
 }
-//
+
 export default ChatGpt;

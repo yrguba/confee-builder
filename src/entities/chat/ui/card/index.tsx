@@ -6,6 +6,7 @@ import { Title, Counter, Icons, Avatar, Dropdown, ContextMenuTypes, ContextMenu 
 
 import styles from './styles.module.scss';
 import { useEasyState } from '../../../../shared/hooks';
+import { chat_gtp_id } from '../../lib/constants';
 import { PrivateChatActions, GroupChatActions, ChatProxy } from '../../model/types';
 
 type Props = {
@@ -23,7 +24,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-        visibleMenu.toggle();
+        chat.id !== chat_gtp_id && visibleMenu.toggle();
     };
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [

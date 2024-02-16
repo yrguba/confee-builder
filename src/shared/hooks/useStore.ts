@@ -40,6 +40,17 @@ function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWit
         return store;
     };
 
+    const getValueInStorage = (key: keyof T) => {
+        const valueInLs = localStorage.getItem(`${props?.id}`);
+        if (valueInLs) {
+            const parse = JSON.parse(valueInLs);
+            if (parse[key]) {
+                return parse[key];
+            }
+            return null;
+        }
+    };
+
     const generateSelectorWithPrimitive = (keys: Array<keyof T>, set: any): T => {
         const obj = {};
 
@@ -59,17 +70,6 @@ function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWit
     const generateSelectorWithObj = (keys: Array<keyof T>, set: any): T => {
         const obj = {};
 
-        const getValueInStorage = (key: keyof T) => {
-            const valueInLs = localStorage.getItem(`${props?.id}`);
-            if (valueInLs) {
-                const parse = JSON.parse(valueInLs);
-                if (parse[key]) {
-                    return parse[key];
-                }
-                return null;
-            }
-        };
-
         keys.forEach((key) => {
             // @ts-ignore
             obj[key] = {
@@ -84,6 +84,14 @@ function useStore<T extends Record<any, SelectorWithPrimitive<any> | SelectorWit
                 clear: () =>
                     set((state: any) => {
                         state[key].value = {};
+                        if (props?.forStorage.length) {
+                            const valueInLs = localStorage.getItem(`${props?.id}`);
+                            if (valueInLs) {
+                                const parse = JSON.parse(valueInLs);
+                                parse[key] = {};
+                                localStorage.setItem(props.id, JSON.stringify(parse));
+                            }
+                        }
                     }),
             };
         });

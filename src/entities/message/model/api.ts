@@ -33,6 +33,13 @@ class MessageApi {
         });
     }
 
+    handleClearHistoryWithChatGpt() {
+        return useMutation(() => {
+            const storage = useStorage();
+            return axios.post(`http://109.172.91.75/api/clear-history/${storage.get('viewer_id')}`);
+        });
+    }
+
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined | null; chatId: number }) {
         const cacheId = ['get-messages', String(chatId)];
         return useQueryWithLocalDb(cacheId, ({ save }) =>
