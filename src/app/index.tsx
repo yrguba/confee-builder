@@ -57,6 +57,8 @@ function App() {
         } else {
             document.body.style.maxWidth = '1200px';
             document.body.style.margin = '0 auto';
+            document.body.style.borderRight = '2px solid var(--bg-secondary)';
+            document.body.style.borderLeft = '2px solid var(--bg-secondary)';
         }
     });
 
