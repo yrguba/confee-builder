@@ -210,7 +210,7 @@ const useFS = () => {
         if (disabled) return null;
         if (!props.fileName) return null;
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
-        const folderPath = await join(root, props.folder || '', props.fileType || '');
+        const folderPath = await join(root, props.folder || '', 'json');
 
         const checkPath = await exists(folderPath);
         if (!checkPath) return null;
