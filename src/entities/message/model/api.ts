@@ -19,7 +19,7 @@ class MessageApi {
 
     handleGetMessagesWithChatGpt() {
         const storage = useStorage();
-        return useQuery(['get-messages', 'with-chat-gpt'], () => axios.get(`http://109.172.91.75/api/history/${storage.get('viewer_id')}`), {
+        return useQuery(['get-messages', 'with-chat-gpt'], () => axios.get(`https://gpt.confee.ru/api/history/${storage.get('viewer_id')}`), {
             select: (data) => {
                 return data.data.history as MessageWithChatGpt[];
             },
@@ -29,14 +29,14 @@ class MessageApi {
     handleSendTextMessageWithChatGpt() {
         return useMutation((data: { text: string }) => {
             const storage = useStorage();
-            return axios.post(`http://109.172.91.75/api/send-text`, { ...data, id: storage.get('viewer_id') });
+            return axios.post(`https://gpt.confee.ru/api/send-text`, { ...data, id: storage.get('viewer_id') });
         });
     }
 
     handleClearHistoryWithChatGpt() {
         return useMutation(() => {
             const storage = useStorage();
-            return axios.post(`http://109.172.91.75/api/clear-history/${storage.get('viewer_id')}`);
+            return axios.post(`https://gpt.confee.ru/api/clear-history/${storage.get('viewer_id')}`);
         });
     }
 
