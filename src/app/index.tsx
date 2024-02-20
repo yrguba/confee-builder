@@ -16,6 +16,7 @@ import { Notification } from 'shared/ui';
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
+            refetchOnReconnect: true,
             retry: 0,
         },
     },

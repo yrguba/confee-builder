@@ -42,37 +42,35 @@ class MessageApi {
 
     handleGetMessages({ initialPage, chatId }: { initialPage: number | undefined | null; chatId: number }) {
         const cacheId = ['get-messages', String(chatId)];
-        return useQueryWithLocalDb(cacheId, ({ save }) =>
-            useInfiniteQuery(
-                ['get-messages', chatId],
-                ({ pageParam }) => {
-                    return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
-                        params: {
-                            page: pageParam || initialPage,
-                            per_page: messages_limit,
-                        },
-                    });
+
+        return useInfiniteQuery(
+            ['get-messages', chatId],
+            ({ pageParam }) => {
+                return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
+                    params: {
+                        page: pageParam || initialPage,
+                        per_page: messages_limit,
+                    },
+                });
+            },
+            {
+                getPreviousPageParam: (lastPage, pages) => {
+                    const { current_page } = lastPage?.data.meta;
+                    return current_page > 1 ? current_page - 1 : undefined;
                 },
-                {
-                    getPreviousPageParam: (lastPage, pages) => {
-                        const { current_page } = lastPage?.data.meta;
-                        return current_page > 1 ? current_page - 1 : undefined;
-                    },
-                    getNextPageParam: (lastPage, pages) => {
-                        const { current_page, last_page } = lastPage?.data.meta;
-                        return current_page < last_page ? current_page + 1 : undefined;
-                    },
-                    select: (data) => {
-                        save(data, cacheId);
-                        return {
-                            pages: data.pages,
-                            pageParams: [...data.pageParams].reverse(),
-                        };
-                    },
-                    enabled: !!chatId && !!initialPage,
-                    staleTime: Infinity,
-                }
-            )
+                getNextPageParam: (lastPage, pages) => {
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
+                },
+                select: (data) => {
+                    return {
+                        pages: data.pages,
+                        pageParams: [...data.pageParams].reverse(),
+                    };
+                },
+                enabled: !!chatId && !!initialPage,
+                staleTime: Infinity,
+            }
         );
     }
 

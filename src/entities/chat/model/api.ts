@@ -3,7 +3,7 @@ import produce from 'immer';
 import { date } from 'yup';
 
 import { axiosClient } from 'shared/configs';
-import { useWebSocket, useStorage, useRouter, useQueryWithLocalDb } from 'shared/hooks';
+import { useWebSocket, useStorage, useRouter, useQueryWithLocalDb, useFs } from 'shared/hooks';
 import { getFormData, httpHandlers, returnKeysWithValue, objectToFormData } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
@@ -26,16 +26,14 @@ class ChatApi {
 
     handleGetChat = (data: { chatId: number | string | undefined }) => {
         const cacheId = ['get-chat', data.chatId];
-        return useQueryWithLocalDb<Response.QueryResult<Chat>>(cacheId, ({ save }) =>
-            useQuery(cacheId, () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
-                // staleTime: Infinity,
-                enabled: !!Number(data.chatId),
-                select: (res) => {
-                    save(res, cacheId);
-                    return res;
-                },
-            })
-        );
+
+        return useQuery(cacheId, () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
+            // staleTime: Infinity,
+            enabled: !!Number(data.chatId),
+            select: (res) => {
+                return res;
+            },
+        });
     };
 
     handleGetChatWithUser = (data: { userId: number | string | undefined }) => {
@@ -82,13 +80,17 @@ class ChatApi {
     handleGetChats = (data: { type?: 'all' | 'personal' | 'company'; companyId?: number }) => {
         const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
         const cacheId = ['get-chats', `${type}`];
-
-        return useQueryWithLocalDb(cacheId, ({ save }) =>
+        const enabled = !!type && !(data.type === 'company' && !data.companyId);
+        const fs = useFs();
+        const queryClient = useQueryClient();
+        const path = { baseDir: 'document', folder: 'cache', fileType: 'json', fileName: cacheId.join('-') } as any;
+        queryClient.prefetchInfiniteQuery(cacheId, () => fs.getJson(path), { networkMode: 'always' });
+        return useQueryWithLocalDb(cacheId, enabled, ({ save }) =>
             useInfiniteQuery(
                 cacheId,
-                ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+                async ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
                 {
-                    enabled: !!type && !(data.type === 'company' && !data.companyId),
+                    enabled,
                     staleTime: Infinity,
                     getPreviousPageParam: (lastPage, pages) => {
                         const { current_page } = lastPage?.data.meta;

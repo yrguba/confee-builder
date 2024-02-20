@@ -6,22 +6,11 @@ import { immer } from 'zustand/middleware/immer';
 import { useStore, useCreateSelectors, useFs } from 'shared/hooks';
 
 type Store = {
-    viewer: {
-        user: any;
-    };
+    viewer: any;
 };
-
-const fs = useFs();
 
 const viewerStore = useZustand<Store>({
     keys: ['viewer'],
-    asyncDefault: {
-        viewer: async (updater) => {
-            return {
-                user: await fs.getJson({ baseDir: 'document', folder: 'cache', fileName: 'viewer' }),
-            };
-        },
-    },
 });
 
 export default viewerStore;
