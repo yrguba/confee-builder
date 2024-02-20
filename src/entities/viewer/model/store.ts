@@ -18,7 +18,7 @@ const viewerStore = useZustand<Store>({
     asyncDefault: {
         viewer: async (updater) => {
             return {
-                user: fs.getJson({ baseDir: 'document', folder: 'cache', fileName: 'viewer' }),
+                user: await fs.getJson({ baseDir: 'document', folder: 'cache', fileName: 'viewer' }),
             };
         },
     },

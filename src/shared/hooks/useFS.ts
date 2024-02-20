@@ -216,7 +216,8 @@ const useFS = () => {
         if (!checkPath) return null;
         try {
             const filePath = await join(folderPath, props.fileName);
-            return await readTextFile(filePath);
+            const file = await readTextFile(filePath);
+            return JSON.parse(file);
         } catch (e) {
             console.log(e);
         }
