@@ -174,7 +174,7 @@ const useFS = () => {
         if (disabled) return null;
         if (!props.fileName) return null;
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
-        const folderPath = await join(root, props.folder || '', props.fileType || '');
+        const folderPath = await join(root, props.folder || '', 'json');
         const checkPath = await exists(folderPath);
         if (!checkPath) await createDir(folderPath, { recursive: true });
         try {
@@ -191,10 +191,19 @@ const useFS = () => {
         if (!props.fileName) return null;
         const fileName = props.fileName.split('/').join('');
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
-        const filePath = await join(root, props.folder || '', props.fileType || '', fileName);
+        const filePath = await join(root, props.folder || '', 'json', fileName);
         const checkPath = await exists(filePath);
         if (!checkPath) return null;
         return convertFileSrc(filePath);
+    };
+
+    const checkPath = async (props: SharedProps) => {
+        if (disabled) return null;
+        if (!props.fileName) return null;
+        const fileName = props.fileName.split('/').join('');
+        const root = await join(await baseDirs[props.baseDir](), 'Confee');
+        const path = await join(root, props.folder || '', props.fileType || '', fileName || '');
+        return exists(path);
     };
 
     const getJson = async (props: GetTextFileProps) => {
@@ -223,7 +232,7 @@ const useFS = () => {
         return '';
     };
 
-    return { downLoadAndSave, saveAsJson, getFileUrl, getJson, getMetadata, remove };
+    return { downLoadAndSave, saveAsJson, getFileUrl, getJson, getMetadata, checkPath, remove };
 };
 
 export default useFS;
