@@ -15,11 +15,11 @@ import Image from '../../../image';
 import { BaseVideoProps } from '../../types';
 
 function VideoPlayer(props: BaseVideoProps) {
-    const { previewUrl, visibleDropdown = true, id, name, visibleCover, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
+    const { previewUrl, visibleDropdown = true, id, name, url, onClick, borderRadius = true, height, horizontalImgWidth, width } = props;
 
     const fs = useFs();
 
-    const { src, isLoading, error, videoCover, getFileBlob } = useFetchMediaContent({ url, returnedVideoCover: visibleCover, name, fileType: 'video' });
+    const { src, isLoading, error, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'video' });
 
     const downloadFile = useMessageStore.use.downloadFile();
 
@@ -90,7 +90,7 @@ function VideoPlayer(props: BaseVideoProps) {
                     <LoadingIndicator.Downloaded size={50} visible primary={false} />
                 </div>
             )}
-            {videoCover || previewUrl ? <Image url={videoCover || previewUrl || ''} height={height} width={width} onClick={() => ''} /> : video}
+            {video}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0, height }}>
                 <LoadingIndicator visible />
             </Box.Animated>

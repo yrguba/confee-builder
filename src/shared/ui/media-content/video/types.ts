@@ -14,8 +14,6 @@ export type BaseVideoProps = {
     onClick?: () => void;
     borderRadius?: boolean;
     reset?: boolean;
-    visibleCover?: boolean;
-
     visibleDropdown?: boolean;
 } & BaseTypes.Statuses;
 
