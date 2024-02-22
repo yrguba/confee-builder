@@ -1,21 +1,14 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import produce from 'immer';
-import { date } from 'yup';
 
 import { axiosClient } from 'shared/configs';
-import { useWebSocket, useStorage, useRouter, useQueryWithLocalDb, useFs } from 'shared/hooks';
-import { getFormData, httpHandlers, returnKeysWithValue, objectToFormData } from 'shared/lib';
+import { useWebSocket, useStorage } from 'shared/hooks';
+import { getFormData, httpHandlers, objectToFormData } from 'shared/lib';
 
 import { Chat, SocketIn, SocketOut } from './types';
-import chat from '../../../pages/main/chats/widgets/chat';
-import { Response } from '../../../shared/types';
-import { companyTypes } from '../../company';
-import { Company } from '../../company/model/types';
 import * as MessageTypes from '../../message/model/types';
-import { Session, Viewer } from '../../viewer/model/types';
 import { chatService, chatTypes } from '../index';
 import { chats_limit } from '../lib/constants';
-import mockChat from '../lib/mock';
 
 class ChatApi {
     pathPrefix = '/api/v2/chats';
@@ -82,33 +75,27 @@ class ChatApi {
         const cacheId = ['get-chats', `${type}`];
         const enabled = !!type && !(data.type === 'company' && !data.companyId);
 
-        return useQueryWithLocalDb(cacheId, enabled, ({ save }) =>
-            useInfiniteQuery(
-                cacheId,
-                async ({ pageParam }) => {
-                    const res = axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } });
-                    save(res);
-                    return res;
+        return useInfiniteQuery(
+            cacheId,
+            async ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+            {
+                enabled,
+                staleTime: Infinity,
+                getPreviousPageParam: (lastPage, pages) => {
+                    const { current_page } = lastPage?.data?.meta;
+                    return current_page > 1 ? current_page - 1 : undefined;
                 },
-                {
-                    enabled,
-                    staleTime: Infinity,
-                    getPreviousPageParam: (lastPage, pages) => {
-                        const { current_page } = lastPage?.data?.meta;
-                        return current_page > 1 ? current_page - 1 : undefined;
-                    },
-                    getNextPageParam: (lastPage, pages) => {
-                        const { current_page, last_page } = lastPage?.data?.meta;
-                        return current_page < last_page ? current_page + 1 : undefined;
-                    },
-                    select: (data) => {
-                        return {
-                            pages: data.pages,
-                            pageParams: [...data.pageParams],
-                        };
-                    },
-                }
-            )
+                getNextPageParam: (lastPage, pages) => {
+                    const { current_page, last_page } = lastPage?.data?.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
+                },
+                select: (data) => {
+                    return {
+                        pages: data.pages,
+                        pageParams: [...data.pageParams],
+                    };
+                },
+            }
         );
     };
 

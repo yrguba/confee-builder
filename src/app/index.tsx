@@ -1,5 +1,7 @@
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { appWindow, WebviewWindow } from '@tauri-apps/api/window';
 import moment from 'moment';
 import React, { useEffect } from 'react';
@@ -18,6 +20,7 @@ const queryClient = new QueryClient({
         queries: {
             refetchOnReconnect: true,
             retry: 0,
+            cacheTime: 1000 * 60 * 60 * 24, // 24 hours
         },
     },
 });
@@ -62,14 +65,17 @@ function App() {
             document.body.style.borderLeft = '2px solid var(--bg-secondary)';
         }
     });
-
+    const persister = createSyncStoragePersister({
+        storage: window.localStorage,
+        key: 'cacheId',
+    }) as any;
     return (
         <BrowserRouter>
-            <QueryClientProvider client={queryClient}>
+            <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
                 <Notification options={{ disabledDesktop: !notification }} />
                 <Routing />
                 <ReactQueryDevtools position="bottom-left" />
-            </QueryClientProvider>
+            </PersistQueryClientProvider>
         </BrowserRouter>
     );
 }

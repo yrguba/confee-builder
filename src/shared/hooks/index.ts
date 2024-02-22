@@ -38,7 +38,6 @@ import useCreateSelectors from './useCreateSelectors';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs, * as UseFsTypes from './useFS';
-import useQueryWithLocalDb from './useQueryWithLocalDb';
 import useRecognizeSpeech from './useRecognizeSpeech';
 import useReverseTimer from './useReverseTimer';
 import useRingtone from './useRingtone';
@@ -65,7 +64,6 @@ export {
     useRustServer,
     useGlobalAudioPlayer,
     useTimer,
-    useQueryWithLocalDb,
     useRingtone,
     useShell,
     useWindowMouseClick,

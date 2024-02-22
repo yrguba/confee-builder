@@ -3,7 +3,7 @@ import produce from 'immer';
 
 import { appApi } from 'entities/app';
 import { axiosClient, axios } from 'shared/configs';
-import { useQueryWithLocalDb, useStorage, useWebSocket } from 'shared/hooks';
+import { useStorage, useWebSocket } from 'shared/hooks';
 
 import { File, Message, MessageProxy, MessageType, MessageWithChatGpt, SocketOut } from './types';
 import { getRandomString, httpHandlers } from '../../../shared/lib';
