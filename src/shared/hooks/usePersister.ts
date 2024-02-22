@@ -12,6 +12,8 @@ function usePersister() {
     const cachePath = { baseDir: 'document', folder: 'cache', fileName: 'state' } as any;
     return {
         persistClient: async (client: PersistedClient) => {
+            client.clientState.queries = client.clientState.queries.filter((i) => !i.queryHash.includes('files'));
+            console.log(client);
             if (rustIsRunning) {
                 fs.saveAsJson({ ...cachePath, data: client });
             } else {
