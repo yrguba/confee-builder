@@ -115,7 +115,7 @@ class ChatApi {
     handleCreatePersonalChat() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { user_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: File | null }) => {
+            (data: { user_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: File | null; description?: string }) => {
                 const fd = objectToFormData(data);
                 return axiosClient.post(`${this.pathPrefix}`, fd);
             },
@@ -173,7 +173,10 @@ class ChatApi {
     handleCreateCompanyChat() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { body: { employee_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: File | null }; companyId: any }) => {
+            (data: {
+                body: { employee_ids: number[] | string[] | null; is_group: boolean; name?: string; avatar?: File | null; description?: string };
+                companyId: any;
+            }) => {
                 const fd = objectToFormData(data.body);
                 return axiosClient.post(`${this.pathPrefix}/for-company/${data.companyId}`, fd);
             },

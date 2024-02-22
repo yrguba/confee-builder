@@ -23,6 +23,15 @@
       width: 100%;
     }
 
+    .description{
+      margin-top: 12px;
+      border: 1px solid var(--control-secondary);
+      border-radius: 12px;
+      width: calc(100% - 24px);
+      padding: 12px;
+      height: 50px;
+    }
+
     .border {
       @include box-size(100%, 1px);
       margin: 14px 0 8px 0;

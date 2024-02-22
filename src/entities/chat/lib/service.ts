@@ -3,11 +3,10 @@ import produce from 'immer';
 import chatProxy from './proxy';
 import { getUniqueArr } from '../../../shared/lib';
 import employeeProxy from '../../company/lib/emloyee-proxy';
-import { messageConstants } from '../../message';
 import { userProxy } from '../../user';
-import { User, UserProxy } from '../../user/model/types';
+import { User } from '../../user/model/types';
 import { viewerService } from '../../viewer';
-import { Chat, ChatProxy } from '../model/types';
+import { ChatProxy } from '../model/types';
 
 class ChatService {
     getUpdatedChatsList(chats: any) {
@@ -44,7 +43,7 @@ class ChatService {
                 return userProxy(found)?.full_name || '';
             }
         } else {
-            const found = chat.employee_members.find((i) => i.user.id === id);
+            const found = chat.employee_members.find((i) => i.user?.id === id);
             if (found) {
                 return employeeProxy(found)?.full_name || '';
             }

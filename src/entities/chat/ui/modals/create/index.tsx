@@ -18,10 +18,11 @@ type Props = {
     avatarActions: AvatarTypes.AvatarChangeActions;
     chatName: InputTypes.UseReturnedType;
     avatar: string | null;
+    chatDescription: UseEasyStateReturnType<string>;
 } & BaseTypes.Statuses;
 
 function CreateChatModalView(props: Props) {
-    const { avatar, chatName, avatarActions, selectedContacts, selectedEmployees, isGroup, createChat, tabsAndLists, loading } = props;
+    const { chatDescription, avatar, chatName, avatarActions, selectedContacts, selectedEmployees, isGroup, createChat, tabsAndLists, loading } = props;
 
     const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
 
@@ -40,6 +41,16 @@ function CreateChatModalView(props: Props) {
                     <Avatar.Change dropdownLeft={20} {...avatarActions} img={avatar} />
                     <Input {...chatName} placeholder="Введите название" clearIcon maxLength={22} />
                 </Box.Animated>
+                {isGroup.value && (
+                    <div className={styles.description}>
+                        <Input.Textarea
+                            value={chatDescription.value}
+                            onChange={(e) => chatDescription.set(e.target.value)}
+                            focusTrigger={[]}
+                            placeholder="Описание"
+                        />
+                    </div>
+                )}
                 <div className={styles.search}>
                     <Input {...tabsAndLists.searchInput} width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
