@@ -21,6 +21,7 @@ const queryClient = new QueryClient({
             refetchOnReconnect: true,
             retry: 0,
             cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+            refetchOnWindowFocus: false,
         },
     },
 });
