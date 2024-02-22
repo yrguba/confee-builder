@@ -12,7 +12,7 @@ import 'moment/locale/ru';
 import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useTheme, useIdle, useRouter, useStorage, useTimeoutFn, useTimer, useRustServer } from 'shared/hooks';
+import { useTheme, useIdle, useRouter, useStorage, useTimeoutFn, useTimer, useRustServer, usePersister } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
 const queryClient = new QueryClient({
@@ -33,6 +33,7 @@ function App() {
     const notification = storage.get('notification');
     const { useWebview, rustIsRunning } = useRustServer();
     const webview = useWebview('main');
+    const persister = usePersister();
 
     useEffect(() => {
         if (rustIsRunning) {
@@ -65,10 +66,7 @@ function App() {
             document.body.style.borderLeft = '2px solid var(--bg-secondary)';
         }
     });
-    const persister = createSyncStoragePersister({
-        storage: window.localStorage,
-        key: 'cacheId',
-    }) as any;
+
     return (
         <BrowserRouter>
             <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
