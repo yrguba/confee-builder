@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import chatGptAvatar from 'assets/images/1-15-10.jpeg';
 import { BaseTypes } from 'shared/types';
-import { Box, Button, Card, Icons, Image, Input } from 'shared/ui';
+import { Box, Button, Card, Icons, Image, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { UseEasyStateReturnType, useWidthMediaQuery } from '../../../../shared/hooks';
@@ -55,7 +55,9 @@ function ChatGptView(props: Props) {
             </div>
             <div className={styles.list}>
                 <Box.Animated visible={!messages.length} className={styles.noMessages}>
-                    Напишите первым
+                    <Title textWrap primary={false} textAlign="center" variant="H2">
+                        Напишите, чтобы получить ответ на ваш вопрос
+                    </Title>
                 </Box.Animated>
                 {messages.map((i) => (
                     <div key={i.id} className={styles.row} style={{ justifyContent: i.role === 'user' ? 'flex-end' : 'flex-start' }}>

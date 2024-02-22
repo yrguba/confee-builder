@@ -191,7 +191,7 @@ const useFS = () => {
         if (!props.fileName) return null;
         const fileName = props.fileName.split('/').join('');
         const root = await join(await baseDirs[props.baseDir](), 'Confee');
-        const filePath = await join(root, props.folder || '', 'json', fileName);
+        const filePath = await join(root, props.folder || '', props.fileType || '', fileName);
         const checkPath = await exists(filePath);
         if (!checkPath) return null;
         return convertFileSrc(filePath);
