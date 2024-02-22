@@ -26,7 +26,7 @@ function ChatGptView(props: Props) {
             if (event.shiftKey || event.ctrlKey) {
                 message.set((prev) => `${prev}\n`);
             } else {
-                sendMessage();
+                message.value.length && sendMessage();
             }
         }
     };
@@ -60,11 +60,11 @@ function ChatGptView(props: Props) {
                     onChange={(e) => message.set(e.target.value)}
                     onKeyDown={onKeyDown}
                 />
-                <div className={styles.sendBtn}>
+                <Box.Animated visible={!!message.value.length} className={styles.sendBtn}>
                     <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>
                         <Icons variant="send" />
                     </Button.Circle>
-                </div>
+                </Box.Animated>
             </div>
         </Box.Animated>
     );
