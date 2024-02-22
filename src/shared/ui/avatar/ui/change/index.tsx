@@ -22,7 +22,7 @@ function AvatarChange(props: AvatarChangeProps) {
     const items: ContextMenuTypes.ContextMenuItem[] = [
         { id: 0, icon: <Icons variant="select" />, title: 'Выбрать файл', callback: selectFile },
         { id: 1, icon: <Icons variant="makePhoto" />, title: 'Сделать фото', callback: () => setVisibleCamera(!visibleCamera) },
-        { id: 2, icon: <Icons variant="delete" />, isRed: true, title: 'Удалить фото', callback: deleteFile, hidden: !img },
+        // { id: 2, icon: <Icons variant="delete" />, isRed: true, title: 'Удалить фото', callback: deleteFile, hidden: !img },
     ];
 
     const clickContextMenu = (e: any) => {

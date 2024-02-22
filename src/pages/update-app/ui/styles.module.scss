@@ -6,12 +6,19 @@
   gap: 18px;
   background-color: #6C5896;
 
-  .logo{
+  .logo {
     z-index: 10;
+    position: relative;
+
+    .star{
+      z-index: -1;
+      position: absolute;
+      bottom: -84px;
+      right: -210px;
+    }
   }
 
-
-  .icon{
+  .icon {
     position: fixed;
     bottom: 20px;
     right: 0;
@@ -23,15 +30,16 @@
     gap: 20px;
     padding: 12px;
     @include box-size(450px, auto);
-    background-color: #FFF;
+
     border-radius: 44px;
+    background-color: var(--bg-secondary);
 
     .titles {
       @include flex-column;
       gap: 8px;
     }
 
-    .btns{
+    .btns {
       @include flex;
       gap: 12px;
     }

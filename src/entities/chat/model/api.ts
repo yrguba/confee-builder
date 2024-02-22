@@ -266,9 +266,17 @@ class ChatApi {
     };
 
     handleAddAvatar() {
-        return useMutation((data: { chatId: number; img: File }) => {
-            return axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img));
-        });
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { chatId: number; img: File }) => {
+                return axiosClient.post(`${this.pathPrefix}/${data.chatId}/avatar`, getFormData('images', data.img));
+            },
+            {
+                onSuccess: (data, variables, context) => {
+                    queryClient.invalidateQueries(['get-chat', variables.chatId]);
+                },
+            }
+        );
     }
 
     handleUpdateChatName() {

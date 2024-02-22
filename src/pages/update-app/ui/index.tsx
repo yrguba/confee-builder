@@ -18,6 +18,9 @@ function UpdateAppPage() {
         <Box.Animated transition={{ duration: 0.1 }} presence={false} visible className={styles.wrapper}>
             <div className={styles.logo}>
                 <Icons.Logo variant="confee-white" />
+                <div className={styles.star}>
+                    <Star />
+                </div>
             </div>
             <div className={styles.modal}>
                 <div className={styles.titles}>
@@ -44,6 +47,24 @@ function UpdateAppPage() {
                 <Icon />
             </div>
         </Box.Animated>
+    );
+}
+
+function Star() {
+    return (
+        <svg width="312" height="312" viewBox="0 0 312 312" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M156 0L106.213 104L153.839 171.832L155.541 172.39L156 171.721V0Z" fill="#FFC045" />
+            <path d="M0 121.333L68.4038 197.6L155.541 172.39L154.894 173.333L153.839 171.832L0 121.333Z" fill="#FFC045" />
+            <path d="M59.7447 312L156 260V172.541L155.541 172.39L59.7447 312Z" fill="#FFC045" />
+            <path d="M252.255 312L232.34 197.6L156 172.541L154.894 173.333L252.255 312Z" fill="#FFC045" />
+            <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M106.213 104L0 121.333L153.839 171.832L154.894 173.333L155.541 172.39L68.4038 197.6L59.7447 312L155.541 172.39L156 172.541V260L252.255 312L154.894 173.333L156 172.541L232.34 197.6L312 121.333L156 172.541V171.721L202.468 104L156 0V171.721L155.541 172.39L153.839 171.832L106.213 104Z"
+                fill="#E49F17"
+            />
+            <path d="M312 121.333L202.468 104L156 171.721V172.541L312 121.333Z" fill="#FFC045" />
+        </svg>
     );
 }
 
