@@ -33,6 +33,13 @@
     }
   }
 
+  .description {
+    @include box-size(calc(84% - 40px), auto);
+    padding: 20px;
+    background-color: var(--bg-primary);
+    border-radius: 12px;
+  }
+
   .companyCard {
     @include flex;
     @include box-size(84%, auto);

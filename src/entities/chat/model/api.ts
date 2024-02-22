@@ -142,7 +142,7 @@ class ChatApi {
         const queryClient = useQueryClient();
         return useMutation(
             (data: { chatId: number | string; user_ids: number[] | string[] | null }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/add-members `, data),
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/add-members`, data),
             {
                 onSuccess: async (res, data) => {
                     const updRes = httpHandlers.response<{ data: Chat }>(res);
@@ -158,12 +158,26 @@ class ChatApi {
         const queryClient = useQueryClient();
         return useMutation(
             (data: { chatId: number | string; employee_ids: number[] | string[] | null }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/for-company/add-members `, data),
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/for-company/add-members`, data),
             {
                 onSuccess: async (res, data) => {
                     const updRes = httpHandlers.response<{ data: Chat }>(res);
                     queryClient.setQueryData(['get-chat', updRes.data?.data.id], (cacheData: any) => {
                         cacheData.data.data = updRes.data?.data;
+                    });
+                },
+            }
+        );
+    }
+
+    handleUpdateChatDescription() {
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { chatId: number | string; description: string }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/description `, data),
+            {
+                onSuccess: async (res, data) => {
+                    queryClient.setQueryData(['get-chat', data.chatId], (cacheData: any) => {
+                        cacheData.data.data.description = data.description;
                     });
                 },
             }

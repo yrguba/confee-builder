@@ -52,6 +52,7 @@ export type PhoneInputProps = {
 export type TextareaInputProps = {
     focus?: boolean;
     focusTrigger: any[];
+    textVariant?: 'H3M';
 } & TextareaHTMLAttributes<HTMLTextAreaElement> &
     Shared;
 

@@ -30,6 +30,7 @@ export type Chat = {
     pinned: boolean;
     is_muted: boolean;
     current_user_role: 'Chat member' | 'Owner';
+    description?: string;
 };
 
 export type ChatProxy = {

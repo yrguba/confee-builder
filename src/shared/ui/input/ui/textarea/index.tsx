@@ -1,3 +1,5 @@
+import cn from 'classnames';
+import cnBind from 'classnames/bind';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 
@@ -5,7 +7,7 @@ import styles from './styles.module.scss';
 import { TextareaInputProps } from '../../model/types';
 
 const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, ref: any) => {
-    const { active, width, height, loading, error, disabled, defaultValue, focus, focusTrigger, ...other } = props;
+    const { textVariant = '', active, width, height, loading, error, disabled, defaultValue, focus, focusTrigger, ...other } = props;
 
     const textAreaRef = useRef<HTMLInputElement>(null);
 
@@ -28,8 +30,14 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
             }
         }
     }, [other?.value]);
+    const cx = cnBind.bind(styles);
+    const classes = cn(
+        cx('wrapper', {
+            [textVariant]: textVariant,
+        })
+    );
 
-    return <textarea ref={mergeRefs([ref, textAreaRef])} className={styles.wrapper} {...other} />;
+    return <textarea defaultValue={defaultValue} ref={mergeRefs([ref, textAreaRef])} className={classes} {...other} />;
 });
 
 export default InputTextarea;

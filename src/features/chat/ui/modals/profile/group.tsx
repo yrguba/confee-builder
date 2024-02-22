@@ -9,6 +9,7 @@ import { useRouter, useEasyState } from 'shared/hooks';
 import { Modal, ModalTypes } from 'shared/ui';
 
 import PrivateChatProfileModal from './private';
+import { debounce } from '../../../../../shared/lib';
 import ChatAvatarsSwiper from '../../avatars-swiper';
 import AddMembersInChatModal from '../add-members';
 
@@ -30,6 +31,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const { mutate: handleRemoveMemberFromCompany } = chatApi.handleRemoveMemberFromCompany();
     const { mutate: handleRemoveMemberFromPersonal } = chatApi.handleRemoveMemberFromPersonal();
     const { mutate: handleChatMute } = chatApi.handleChatMute();
+    const { mutate: handleUpdateChatDescription } = chatApi.handleUpdateChatDescription();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(null);
 
@@ -80,6 +82,14 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
         confirmRemoveMember.open(id, { title: `Удалить ${name} из чата` });
     };
 
+    const descriptionDebounce = debounce((callback) => callback(), 1000);
+
+    const setDescription = (value: string) => {
+        descriptionDebounce(() => {
+            handleUpdateChatDescription({ chatId, description: value });
+        });
+    };
+
     const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
             case 'goMeet':
@@ -121,6 +131,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
                 files={filesData}
                 updateChatName={updateChatName}
                 clickUser={privateChatProfileModal.open}
+                setDescription={setDescription}
             />
         </>
     );

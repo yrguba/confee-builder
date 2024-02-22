@@ -3,7 +3,7 @@ import React from 'react';
 import { messageTypes } from 'entities/message';
 import { useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, Icons, Avatar, Button, IconsTypes, ContextMenu, ContextMenuTypes } from 'shared/ui';
+import { Title, Icons, Avatar, Button, IconsTypes, ContextMenu, ContextMenuTypes, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { CompanyTagView } from '../../../../../company';
@@ -23,12 +23,14 @@ type Props = {
     updateChatName: (name: string) => void;
     clickUser: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     removeMember: (id: number, name: string) => void;
+    setDescription: (value: string) => void;
 } & BaseTypes.Statuses;
 
 function GroupChatProfileModalView(props: Props) {
-    const { removeMember, clickUser, clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
+    const { setDescription, removeMember, clickUser, clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
 
     const visibleMenu = useEasyState(false);
+    const visibleDescriptionMenu = useEasyState(false);
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Конференция', icon: 'videocam', payload: '', callback: () => actions('goMeet') },
@@ -101,6 +103,20 @@ function GroupChatProfileModalView(props: Props) {
                     </Button>
                 ))}
             </div>
+            {chat?.description && (
+                <div className={styles.description}>
+                    <Title primary={false} variant="H4R">
+                        Описание
+                    </Title>
+                    <Input.Textarea
+                        textVariant="H3M"
+                        defaultValue={chat.description}
+                        // value={chatDescription.value}
+                        onChange={(e) => setDescription(e.target.value)}
+                        focusTrigger={[]}
+                    />
+                </div>
+            )}
             <ChatProfileContentView
                 removeMember={removeMember}
                 files={files}
