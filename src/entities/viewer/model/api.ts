@@ -3,7 +3,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { axiosClient } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
 
-import { Session } from './types';
+import { Session, Viewer } from './types';
+import { Company } from '../../company/model/types';
 
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
@@ -27,7 +28,7 @@ class ViewerApi {
             enabled,
             select: (res) => {
                 storage.set('viewer_id', res.data?.data.user.id);
-                return res;
+                return res.data?.data as { user: Viewer; session: Session; companies: Company[] };
             },
         });
     }

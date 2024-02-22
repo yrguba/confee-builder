@@ -19,10 +19,11 @@ type Props = {
     tabsAndLists: UseChatsTabsAndListsReturnType;
     chatMenuAction: (action: PrivateChatActions | GroupChatActions, chat: ChatProxy) => void;
     lastMessageWithChatGpt: UseStoreTypes.SelectorWithObj<MessageWithChatGpt>;
+    visibleChatGpt: boolean;
 } & BaseTypes.Statuses;
 
 function ChatsListView(props: Props) {
-    const { lastMessageWithChatGpt, clickOnChat, loading, activeChatId, tabsAndLists, chatMenuAction } = props;
+    const { visibleChatGpt, lastMessageWithChatGpt, clickOnChat, loading, activeChatId, tabsAndLists, chatMenuAction } = props;
     const miniSearch = useHeightMediaQuery().to('sm');
 
     const wrapperRef = useRef(null);
@@ -53,22 +54,24 @@ function ChatsListView(props: Props) {
                 className={styles.list}
                 ref={wrapperRef}
             >
-                <ChatCardView
-                    chatMenuAction={chatMenuAction}
-                    chat={chatProxy(mockChat({ name: 'ChatGpt', id: chat_gtp_id })) as any}
-                    clickOnChat={clickOnChat}
-                    active={window.location.pathname.split('/').pop() === 'chat_gpt'}
-                    description={
-                        lastMessageWithChatGpt.value.id
-                            ? `${chatGtpRole[lastMessageWithChatGpt.value.role]}: ${lastMessageWithChatGpt.value.content}`
-                            : 'Чат с ботом'
-                    }
-                    ref={{
-                        // @ts-ignore
-                        lastChat: null,
-                        wrapper: wrapperRef,
-                    }}
-                />
+                {visibleChatGpt && tabsAndLists.activeTab?.title !== 'Личные' && (
+                    <ChatCardView
+                        chatMenuAction={chatMenuAction}
+                        chat={chatProxy(mockChat({ name: 'ChatGpt', id: chat_gtp_id })) as any}
+                        clickOnChat={clickOnChat}
+                        active={window.location.pathname.split('/').pop() === 'chat_gpt'}
+                        description={
+                            lastMessageWithChatGpt.value.id
+                                ? `${chatGtpRole[lastMessageWithChatGpt.value.role]}: ${lastMessageWithChatGpt.value.content}`
+                                : 'Чат с ботом'
+                        }
+                        ref={{
+                            // @ts-ignore
+                            lastChat: null,
+                            wrapper: wrapperRef,
+                        }}
+                    />
+                )}
                 {chats?.map((chat, index: number) => (
                     <ChatCardView
                         chatMenuAction={chatMenuAction}

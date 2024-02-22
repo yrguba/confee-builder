@@ -9,7 +9,7 @@ function InitialFillingProfileStep2() {
     const navigate = useNavigate();
     const yup = useYup();
     const { data: viewerData } = viewerApi.handleGetViewer();
-    const user = viewerData?.data.data.user;
+    const user = viewerData?.user;
 
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 

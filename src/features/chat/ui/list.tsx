@@ -7,10 +7,13 @@ import { useRouter } from 'shared/hooks';
 import { chat_gtp_id } from '../../../entities/chat/lib/constants';
 import mockChat from '../../../entities/chat/lib/mock';
 import { useMessageStore } from '../../../entities/message';
+import { viewerApi } from '../../../entities/viewer';
 import { Input, Modal } from '../../../shared/ui';
 
 function ChatsList() {
     const { navigate, params, pathname } = useRouter();
+
+    const { data: viewerData } = viewerApi.handleGetViewer();
 
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
@@ -66,6 +69,7 @@ function ChatsList() {
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
                 tabsAndLists={tabsAndLists}
+                visibleChatGpt={!!viewerData?.companies.length}
             />
         </>
     );

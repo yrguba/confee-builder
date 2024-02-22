@@ -44,7 +44,7 @@ type DownLoadAndSave = {
 } & SharedProps;
 
 type SaveAsJsonProps = {
-    obj: any;
+    data: any;
 } & SharedProps;
 
 type GetFileUrlProps = {} & SharedProps;
@@ -179,7 +179,7 @@ const useFS = () => {
         if (!checkPath) await createDir(folderPath, { recursive: true });
         try {
             const filePath = await join(folderPath, props.fileName);
-            await writeTextFile(filePath, JSON.stringify(props.obj));
+            await writeTextFile(filePath, JSON.stringify(props.data));
         } catch (e) {
             console.log(e);
         }

@@ -29,8 +29,8 @@ function Routing() {
     const checkAuth = tokensService.checkAuth();
     const { data: viewerData, isFetching, error: viewerError } = viewerApi.handleGetViewer(checkAuth);
 
-    const session = viewerData?.data.data.session;
-    const user = viewerData?.data.data.user;
+    const session = viewerData?.session;
+    const user = viewerData?.user;
     const storage = useStorage();
 
     const routes = (

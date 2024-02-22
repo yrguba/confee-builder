@@ -11,7 +11,7 @@ function ProfileSettings() {
     const { navigate } = useRouter();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
-    const user = viewerData?.data.data.user;
+    const user = viewerData?.user;
 
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();

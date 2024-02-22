@@ -81,23 +81,24 @@ class ChatApi {
         const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
         const cacheId = ['get-chats', `${type}`];
         const enabled = !!type && !(data.type === 'company' && !data.companyId);
-        const fs = useFs();
-        const queryClient = useQueryClient();
-        const path = { baseDir: 'document', folder: 'cache', fileType: 'json', fileName: cacheId.join('-') } as any;
-        queryClient.prefetchInfiniteQuery(cacheId, () => fs.getJson(path), { networkMode: 'always' });
+
         return useQueryWithLocalDb(cacheId, enabled, ({ save }) =>
             useInfiniteQuery(
                 cacheId,
-                async ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+                async ({ pageParam }) => {
+                    const res = axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } });
+                    save(res);
+                    return res;
+                },
                 {
                     enabled,
                     staleTime: Infinity,
                     getPreviousPageParam: (lastPage, pages) => {
-                        const { current_page } = lastPage?.data.meta;
+                        const { current_page } = lastPage?.data?.meta;
                         return current_page > 1 ? current_page - 1 : undefined;
                     },
                     getNextPageParam: (lastPage, pages) => {
-                        const { current_page, last_page } = lastPage?.data.meta;
+                        const { current_page, last_page } = lastPage?.data?.meta;
                         return current_page < last_page ? current_page + 1 : undefined;
                     },
                     select: (data) => {

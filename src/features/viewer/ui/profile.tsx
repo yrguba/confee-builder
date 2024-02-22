@@ -15,7 +15,7 @@ function ViewerProfile() {
     const visibleSwiper = useEasyState(false);
 
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
-    const user = viewerData?.data.data.user;
+    const user = viewerData?.user;
 
     const viewer = viewerProxy(user);
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
@@ -62,7 +62,7 @@ function ViewerProfile() {
                 }}
                 viewer={viewer}
                 clickSettings={() => navigate('info_settings')}
-                companies={viewerData?.data.data.companies || []}
+                companies={viewerData?.companies || []}
                 openAuthCompanyModal={authCompanyModal.open}
             />
         </>

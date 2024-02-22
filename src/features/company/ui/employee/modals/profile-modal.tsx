@@ -7,7 +7,7 @@ import { EmployeeProfileModalView, employeeProxy, ConfirmDeleteCorpAccModalView,
 
 function EmployeeProfileModal(modal: ModalTypes.UseReturnedType) {
     const { data: viewerData } = viewerApi.handleGetViewer();
-    const companies = viewerData?.data.data.companies;
+    const companies = viewerData?.companies;
 
     const { mutate: handleUnbind } = companyApi.handleUnbind();
 

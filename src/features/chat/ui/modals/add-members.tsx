@@ -20,7 +20,7 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
     const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
     const proxyChat = chatProxy(chatData?.data.data);
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.data.data.companies, redirect: false });
+    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
 
     const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: true });
     const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: true });

@@ -15,7 +15,7 @@ function InitialFillingProfileStep3() {
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
     const { data: viewerData } = viewerApi.handleGetViewer();
-    const user = viewerData?.data.data.user;
+    const user = viewerData?.user;
 
     const handleCheckEmail = userApi.handleCheckEmail();
     const yup = useYup();

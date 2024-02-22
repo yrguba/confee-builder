@@ -10,7 +10,7 @@ function InitialFillingProfileStep1() {
     const navigate = useNavigate();
 
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
-    const user = viewerData?.data.data.user;
+    const user = viewerData?.user;
 
     const handleCheckNickname = userApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();

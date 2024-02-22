@@ -12,7 +12,7 @@ function MeetRoom() {
     const { clientFullURL } = appService.getUrls();
     const ls = useStorage();
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
-    const viewer = viewerProxy(viewerData?.data.data.user);
+    const viewer = viewerProxy(viewerData?.user);
 
     const inviteToMeetModal = Modal.use();
 
