@@ -10,6 +10,7 @@ import ChatHeaderView from './ui/header';
 import ChatsListView from './ui/list';
 import AddMembersInChatModalView from './ui/modals/add-members';
 import CreateChatModalView from './ui/modals/create';
+import ChatGptProfileModalView from './ui/modals/profile/chat-gpt';
 import GroupChatProfileModalView from './ui/modals/profile/group-chat';
 import PrivateChatProfileModalView from './ui/modals/profile/private-chat';
 
@@ -28,4 +29,5 @@ export {
     AddMembersInChatModalView,
     PrivateChatProfileModalView,
     ChatGpt,
+    ChatGptProfileModalView,
 };

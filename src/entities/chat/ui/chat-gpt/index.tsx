@@ -15,10 +15,11 @@ type Props = {
     messages: MessageWithChatGpt[];
     clearHistory: () => void;
     botTyping: boolean;
+    openProfileModal: () => void;
 } & BaseTypes.Statuses;
 
 function ChatGptView(props: Props) {
-    const { clearHistory, sendMessage, message, messages, botTyping } = props;
+    const { openProfileModal, clearHistory, sendMessage, message, messages, botTyping } = props;
 
     const onKeyDown = (event: any) => {
         if (event.keyCode === 13) {
@@ -34,7 +35,12 @@ function ChatGptView(props: Props) {
     return (
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.header}>
-                <Card img={`${appService.getUrls().clientBaseURL}${chatGptAvatar}`} title="ChatGpt" subtitle={botTyping ? 'Печатает...' : 'Бот'} />
+                <Card
+                    onClick={openProfileModal}
+                    img={`${appService.getUrls().clientBaseURL}${chatGptAvatar}`}
+                    title="ChatGpt"
+                    subtitle={botTyping ? 'Печатает...' : 'Бот'}
+                />
                 <Button.Circle variant="inherit" onClick={clearHistory}>
                     <Icons.BroomAnimated activeAnimate={false} />
                 </Button.Circle>

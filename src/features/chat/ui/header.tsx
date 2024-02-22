@@ -26,7 +26,7 @@ function ChatHeader() {
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
-    console.log(chatData);
+
     const { createMeet } = useMeet();
 
     const clickDeleteMessages = async () => {

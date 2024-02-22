@@ -7,6 +7,7 @@ import { getRandomString } from 'shared/lib';
 
 import { ChatProxy } from '../../../entities/chat/model/types';
 import { Modal } from '../../../shared/ui';
+import { ChatGptModal } from '../index';
 
 function ChatGpt() {
     const { data: history } = messageApi.handleGetMessagesWithChatGpt();
@@ -30,6 +31,8 @@ function ChatGpt() {
         }
     });
 
+    const chatGptModal = Modal.use();
+
     const sendMessage = () => {
         botTyping.set(true);
         const myMsg = { id: getRandomString(10), content: message.value, role: 'user' } as any;
@@ -52,6 +55,7 @@ function ChatGpt() {
 
     return (
         <>
+            <ChatGptModal {...chatGptModal} />
             <Modal.Confirm {...confirmClearHistory} title="Очистить историю" okText="очистить" />
             <ChatGptView
                 sendMessage={sendMessage}
@@ -59,6 +63,7 @@ function ChatGpt() {
                 messages={messages.array}
                 clearHistory={confirmClearHistory.open}
                 botTyping={botTyping.value}
+                openProfileModal={chatGptModal.open}
             />
         </>
     );
