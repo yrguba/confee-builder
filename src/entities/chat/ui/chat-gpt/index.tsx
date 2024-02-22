@@ -1,11 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import chatGptAvatar from 'assets/images/1-15-10.jpeg';
 import { BaseTypes } from 'shared/types';
 import { Box, Button, Card, Icons, Image, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { UseEasyStateReturnType } from '../../../../shared/hooks';
+import { UseEasyStateReturnType, useWidthMediaQuery } from '../../../../shared/hooks';
 import { appService } from '../../../app';
 import { MessageWithChatGpt } from '../../../message/model/types';
 
@@ -21,6 +22,8 @@ type Props = {
 function ChatGptView(props: Props) {
     const { openProfileModal, clearHistory, sendMessage, message, messages, botTyping } = props;
 
+    const navigate = useNavigate();
+
     const onKeyDown = (event: any) => {
         if (event.keyCode === 13) {
             event.preventDefault();
@@ -35,6 +38,11 @@ function ChatGptView(props: Props) {
     return (
         <Box.Animated visible className={styles.wrapper}>
             <div className={styles.header}>
+                {useWidthMediaQuery().to('md') && (
+                    <Button.Circle onClick={() => navigate(-1)} variant="secondary">
+                        <Icons variant="arrow-left" />
+                    </Button.Circle>
+                )}
                 <Card
                     onClick={openProfileModal}
                     img={`${appService.getUrls().clientBaseURL}${chatGptAvatar}`}

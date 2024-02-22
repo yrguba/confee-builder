@@ -29,14 +29,14 @@ function ChatsPage() {
 
     const isVisibleSidebar = () => {
         if (md) {
-            return !params.chat_id;
+            return !params.chat_id && lastPath !== 'chat_gpt';
         }
         return true;
     };
 
     const isVisibleOutlet = () => {
         if (md) {
-            return !!params.chat_id;
+            return !!params.chat_id || lastPath === 'chat_gpt';
         }
         return true;
     };
