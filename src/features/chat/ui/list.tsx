@@ -69,7 +69,7 @@ function ChatsList() {
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
                 tabsAndLists={tabsAndLists}
-                visibleChatGpt={!!viewerData?.companies.length}
+                visibleChatGpt={!!viewerData?.companies?.length}
             />
         </>
     );
