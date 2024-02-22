@@ -13,26 +13,25 @@ function usePersister() {
     return {
         persistClient: async (client: PersistedClient) => {
             client.clientState.queries = client.clientState.queries.filter((i) => !i.queryHash.includes('files'));
-            console.log(client);
-            if (rustIsRunning) {
-                fs.saveAsJson({ ...cachePath, data: client });
-            } else {
-                await set(key, JSON.stringify(client));
-            }
+            // if (rustIsRunning) {
+            //     // fs.saveAsJson({ ...cachePath, data: client });
+            // } else {
+            await set(key, JSON.stringify(client));
+            // }
         },
         restoreClient: async () => {
-            if (rustIsRunning) {
-                return fs.getJson(cachePath) || undefined;
-            }
+            // if (rustIsRunning) {
+            //     // return fs.getJson(cachePath) || undefined;
+            // }
             const data = await get(key);
             return data ? JSON.parse(data) : undefined;
         },
         removeClient: async () => {
-            if (rustIsRunning) {
-                await fs.remove(cachePath);
-            } else {
-                await del(key);
-            }
+            // if (rustIsRunning) {
+            //     await fs.remove(cachePath);
+            // } else {
+            await del(key);
+            // }
         },
     } as Persister;
 }

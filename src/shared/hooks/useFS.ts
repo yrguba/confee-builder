@@ -156,11 +156,14 @@ const useFS = () => {
                 } else {
                     const file = await readTextFile(indexingPath);
                     if (file) {
-                        const indexing = JSON.parse(file);
-                        if (Array.isArray(indexing)) {
-                            indexing.push(obj);
-                            await writeTextFile(indexingPath, JSON.stringify(indexing));
-                        }
+                        try {
+                            const indexing = JSON.parse(file);
+
+                            if (Array.isArray(indexing)) {
+                                indexing.push(obj);
+                                await writeTextFile(indexingPath, JSON.stringify(indexing));
+                            }
+                        } catch (err) {}
                     }
                 }
                 debounceClear(async () => {
