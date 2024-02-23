@@ -21,6 +21,8 @@ import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 import { debounce } from 'shared/lib';
 
+import useRustServer from './useRustServer';
+
 import { useStorage } from '.';
 
 export type FileTypes = 'img' | 'video' | 'document' | 'audio' | 'json';
@@ -181,8 +183,9 @@ const useFS = () => {
         const checkPath = await exists(folderPath);
         if (!checkPath) await createDir(folderPath, { recursive: true });
         try {
+            const { invoker } = useRustServer();
             const filePath = await join(folderPath, props.fileName);
-            await writeTextFile(filePath, JSON.stringify(props.data));
+            await invoker().saveStringFile(filePath, JSON.stringify(props.data));
         } catch (e) {
             console.log(e);
         }

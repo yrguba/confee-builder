@@ -77,7 +77,15 @@ function useRustServer() {
         return { isOpen, open, close, listen, listenOnce };
     };
 
-    return { rustIsRunning, useWebview };
+    const invoker = () => {
+        const saveStringFile = async (path: string, data: any) => {
+            await invoke('write_data_to_file', { path, data });
+        };
+
+        return { saveStringFile };
+    };
+
+    return { rustIsRunning, useWebview, invoker };
 }
 
 export default useRustServer;
