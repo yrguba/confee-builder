@@ -157,6 +157,19 @@ class ChatApi {
         );
     }
 
+    handlePin() {
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { chatId: number | string; action: 'pin' | 'unpin'; all: boolean }) =>
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/${data.action}`, data),
+            {
+                onSuccess: async (res, data) => {
+                    ['personal', 'all', `for-company/${17}`].forEach((path) => queryClient.invalidateQueries(['get-chats', path]));
+                },
+            }
+        );
+    }
+
     handleUpdateChatDescription() {
         const queryClient = useQueryClient();
         return useMutation(

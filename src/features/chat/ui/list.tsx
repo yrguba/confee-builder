@@ -18,6 +18,7 @@ function ChatsList() {
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
     const { mutate: handleChatMute } = chatApi.handleChatMute();
+    const { mutate: handlePin } = chatApi.handlePin();
 
     const lastMessageWithChatGpt = useMessageStore.use.lastMessageWithChatGpt();
 
@@ -57,6 +58,8 @@ function ChatsList() {
                 });
             case 'mute':
                 return handleChatMute({ chatId: chat.id, value: !chat.is_muted });
+            case 'pin':
+                return handlePin({ chatId: chat.id, action: chat.pinned ? 'unpin' : 'pin', all: tabsAndLists.activeTab?.id === 0 });
         }
     };
 

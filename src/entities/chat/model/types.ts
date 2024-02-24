@@ -22,6 +22,7 @@ export type Chat = {
     updated_at: Date;
     permittedReactions: any[];
     company_id: number | null;
+    chat_pinned?: boolean;
     draft:
         | {
               message_text: string;
@@ -71,7 +72,7 @@ export type UseChatsTabsAndListsReturnType = {
     foundChats: ChatProxy[] | BaseTypes.Empty;
 };
 
-export type PrivateChatActions = 'delete' | 'goMeet' | 'message' | 'mute';
-export type GroupChatActions = 'leave' | 'goMeet' | 'add-members' | 'mute';
+export type PrivateChatActions = 'pin' | 'delete' | 'goMeet' | 'message' | 'mute';
+export type GroupChatActions = 'pin' | 'leave' | 'goMeet' | 'add-members' | 'mute';
 export type SocketIn = 'ChatCreated' | 'ChatDeleted' | ' ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated';
 export type SocketOut = 'ChatListenersUpdated';

@@ -26,10 +26,18 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
         e.preventDefault();
         chat.id !== chat_gtp_id && visibleMenu.toggle();
     };
-
+    console.log(chat);
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
+        // {
+        //     id: 0,
+        //     title: chat?.chat_pinned ? 'Открепить' : 'Закрепить',
+        //     icon: <Icons variant="pin" />,
+        //     callback: async () => {
+        //         chatMenuAction('pin', chat);
+        //     },
+        // },
         {
-            id: 0,
+            id: 1,
             title: chat?.is_muted ? 'Выключить уведомления' : 'Включить уведомления',
             icon: <Icons variant={chat.is_muted ? 'unmute' : 'mute'} />,
             callback: async () => {
@@ -37,7 +45,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
             },
         },
         {
-            id: 1,
+            id: 2,
             title: 'Удалить чат',
             isRed: true,
             icon: <Icons variant="delete" />,
@@ -92,7 +100,8 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                             </Title>
                         </div>
                         <div className={styles.right}>
-                            {chat.is_muted && <Icons variant="mute" />}
+                            {chat.is_muted && <Icons.Player size={14} variant="mute" />}
+                            {chat.chat_pinned && <Icons variant="pin" />}
                             {chat.pending_messages_count ? (
                                 <Counter variant="primary" height={18} maxVisibleNumber={99}>
                                     {chat?.pending_messages_count}

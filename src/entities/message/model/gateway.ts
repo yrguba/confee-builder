@@ -44,10 +44,11 @@ function messageGateway() {
             });
             chatService.forEachChats(queryClient, 17, (chats) => {
                 const foundChatIndex = chats?.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
+                const lastPinnedChatIndex = chats?.reverse().findIndex((i: Chat) => i.pinned);
                 if (foundChatIndex !== -1) {
                     const chat = chats[foundChatIndex];
                     chats.splice(foundChatIndex, 1);
-                    chats.unshift({
+                    chats.splice(lastPinnedChatIndex, 0, {
                         ...chat,
                         pending_messages_count: socketData.data.extra_info.is_read
                             ? chat.pending_messages_count
