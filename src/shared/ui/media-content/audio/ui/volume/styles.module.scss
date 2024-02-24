@@ -11,6 +11,11 @@
     border-radius: 22px;
     position: fixed;
     z-index: 200;
+    transform: translate(-12px, -147px);
+
+    &_bottom{
+      transform: translate(-12px, 2px) !important;
+    }
 
     .sliderVolume {
       height: 90px;

@@ -24,23 +24,25 @@ function Volume(props: Props) {
     return (
         <div className={styles.wrapper} onMouseLeave={() => visibleVolume.set(false)} onMouseEnter={() => visibleVolume.set(true)}>
             <div ref={iconRef} onClick={clickIcon}>
-                <Icons.Player variant={volume === 0 ? 'mute' : 'unmute'} />
+                <Icons.Player size={20} variant={volume === 0 ? 'mute' : 'unmute'} />
             </div>
-            <Box.Animated visible={visibleVolume.value} className={styles.volume} style={{ transform: sliderPosition === 'top' ? 'translateY(-130%)' : '' }}>
+            <Box.Animated visible={visibleVolume.value} className={`${styles.volume} ${sliderPosition === 'bottom' ? styles.volume_bottom : ''}`}>
                 <Slider
                     vertical
                     className={styles.sliderVolume}
                     max={1}
                     step={0.01}
                     defaultValue={volume}
+                    value={volume}
                     handleStyle={{
                         width: 20,
                         height: 20,
                         marginLeft: -8,
                         backgroundColor: 'white',
-                        border: '4px solid var(--control-primary)',
+                        border: '3px solid var(--control-primary)',
                         cursor: 'pointer',
                         opacity: 1,
+                        boxShadow: 'none',
                     }}
                     onChange={(value) => {
                         if (typeof value === 'number') {
