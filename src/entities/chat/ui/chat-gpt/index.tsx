@@ -1,12 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCopyToClipboard } from 'react-use';
+import { CopyToClipboardState } from 'react-use/lib/useCopyToClipboard';
 
 import chatGptAvatar from 'assets/images/1-15-10.jpeg';
 import { BaseTypes } from 'shared/types';
-import { Box, Button, Card, Icons, Image, Input, Title } from 'shared/ui';
+import { Box, Button, Card, ContextMenu, Icons, Image, Input, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { UseEasyStateReturnType, useWidthMediaQuery } from '../../../../shared/hooks';
+import { useEasyState, UseEasyStateReturnType, useWidthMediaQuery } from '../../../../shared/hooks';
 import { appService } from '../../../app';
 import { MessageWithChatGpt } from '../../../message/model/types';
 
@@ -22,6 +24,10 @@ type Props = {
 function ChatGptView(props: Props) {
     const { openProfileModal, clearHistory, sendMessage, message, messages, botTyping } = props;
 
+    const visibleMenu = useEasyState(false);
+    const messageText = useEasyState('');
+    const [CopyToClipboardState, copyText] = useCopyToClipboard();
+
     const navigate = useNavigate();
 
     const onKeyDown = (event: any) => {
@@ -35,8 +41,29 @@ function ChatGptView(props: Props) {
         }
     };
 
+    const menuItems = [
+        {
+            id: 0,
+            title: 'Копировать текст',
+            icon: <Icons variant="copy" />,
+            payload: 'reply',
+            callback: () => {
+                copyText(messageText.value);
+                messageText.set('');
+                visibleMenu.set(false);
+            },
+        },
+    ];
+
+    const onContextMenu = (e: any, i: any) => {
+        e.preventDefault();
+        visibleMenu.toggle();
+        messageText.set(i.content);
+    };
+
     return (
         <Box.Animated visible className={styles.wrapper}>
+            <ContextMenu trigger="contextmenu" clickAway={() => visibleMenu.set(false)} visible={visibleMenu.value} items={menuItems} />
             <div className={styles.header}>
                 {useWidthMediaQuery().to('md') && (
                     <Button.Circle onClick={() => navigate(-1)} variant="secondary">
@@ -61,7 +88,11 @@ function ChatGptView(props: Props) {
                 </Box.Animated>
                 {messages.map((i) => (
                     <div key={i.id} className={styles.row} style={{ justifyContent: i.role === 'user' ? 'flex-end' : 'flex-start' }}>
-                        <div key={i.id} className={`${styles.message} ${i.role === 'user' ? styles.message_my : ''}`}>
+                        <div
+                            onContextMenu={(e) => onContextMenu(e, i)}
+                            key={i.id}
+                            className={`${styles.message} ${i.role === 'user' ? styles.message_my : ''}`}
+                        >
                             {i.content}
                         </div>
                     </div>

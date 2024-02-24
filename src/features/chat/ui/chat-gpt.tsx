@@ -48,6 +48,9 @@ function ChatGpt() {
                     lastMessageWithChatGpt.set(botMsg);
                     botTyping.set(false);
                 },
+                onError: () => {
+                    botTyping.set(false);
+                },
             }
         );
         message.set('');

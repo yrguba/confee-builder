@@ -27,7 +27,7 @@ function ContextMenu(props: BaseContextMenuProps) {
                         >
                             <div className={`${styles.content} ${i.isRed && styles.content_red}`}>
                                 <div>{i.icon}</div>
-                                <div>{i.title}</div>
+                                <div className={styles.title}>{i.title}</div>
                             </div>
                         </div>
                     ))}

@@ -38,6 +38,13 @@
       &_red {
         color: var(--text-negative) !important;
       }
+
+      .title {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+      }
     }
   }
 }
