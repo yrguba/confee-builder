@@ -11,15 +11,14 @@ import { fileConverter, getVideoCover } from '../lib';
 type Props = {
     url: string;
     name?: string;
-    returnedVideoCover?: boolean;
     fileType: FileTypes;
 };
 
 function useFetchMediaContent(props: Props) {
-    const { url, returnedVideoCover, name, fileType } = props;
+    const { url, name, fileType } = props;
 
-    const src = useEasyState<any>('');
-    const videoCover = useEasyState<string | null>(null);
+    const src = useEasyState('');
+
     const { downLoadAndSave, getFileUrl } = useFS();
 
     const fileName = `${url}${name}`;
@@ -60,10 +59,10 @@ function useFetchMediaContent(props: Props) {
         const res = await fetch(src.value);
         return res.blob();
     };
+
     return {
         src: src.value,
         getFileBlob,
-        videoCover: videoCover.value,
         error,
         isLoading: isFetching,
     };
