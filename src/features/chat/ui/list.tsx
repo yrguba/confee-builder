@@ -59,7 +59,7 @@ function ChatsList() {
             case 'mute':
                 return handleChatMute({ chatId: chat.id, value: !chat.is_muted });
             case 'pin':
-                return handlePin({ chatId: chat.id, action: chat.pinned ? 'unpin' : 'pin', all: tabsAndLists.activeTab?.id === 0 });
+                return handlePin({ chatId: chat.id, action: chat.chat_pinned ? 'unpin' : 'pin', all: tabsAndLists.activeTab?.id === 0 });
         }
     };
 

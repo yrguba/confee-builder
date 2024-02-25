@@ -28,7 +28,6 @@ export type Chat = {
               message_text: string;
           }[]
         | null;
-    pinned: boolean;
     is_muted: boolean;
     current_user_role: 'Chat member' | 'Owner';
     description?: string;

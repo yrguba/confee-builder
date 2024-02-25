@@ -32,7 +32,6 @@ function mockChat(data: Props): Chat {
         permittedReactions: [],
         company_id: null,
         draft: null,
-        pinned: false,
         is_muted: false,
         current_user_role: 'Owner',
     };
