@@ -38,7 +38,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
         },
         {
             id: 1,
-            title: chat?.is_muted ? 'Выключить уведомления' : 'Включить уведомления',
+            title: !chat?.is_muted ? 'Выключить уведомления' : 'Включить уведомления',
             icon: <Icons variant={chat.is_muted ? 'unmute' : 'mute'} />,
             callback: async () => {
                 chatMenuAction('mute', chat);
@@ -101,7 +101,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                         </div>
                         <div className={styles.right}>
                             {chat.is_muted && <Icons.Player size={14} variant="mute" />}
-                            {chat.chat_pinned && <Icons variant="pin" />}
+                            {chat.chat_pinned && <Icons size={14} variant="pin" />}
                             {chat.pending_messages_count ? (
                                 <Counter variant="primary" height={18} maxVisibleNumber={99}>
                                     {chat?.pending_messages_count}
