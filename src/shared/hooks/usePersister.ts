@@ -32,6 +32,7 @@ function usePersister() {
             }
             const data = await get(key);
             return data ? JSON.parse(data) : undefined;
+            // return undefined;
         },
         removeClient: async () => {
             if (rustIsRunning) {

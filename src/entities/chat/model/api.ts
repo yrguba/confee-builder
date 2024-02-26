@@ -161,7 +161,7 @@ class ChatApi {
         const queryClient = useQueryClient();
         return useMutation(
             (data: { chatId: number | string; action: 'pin' | 'unpin'; all: boolean }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/${data.action}`, data),
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/${data.action}`, { all: data.all }),
             {
                 onSuccess: async (res, data) => {
                     ['personal', 'all', `for-company/${17}`].forEach((path) => queryClient.invalidateQueries(['get-chats', path]));

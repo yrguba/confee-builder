@@ -80,7 +80,7 @@ function ReplyMessage(props: Props) {
                     sendingError={message.sendingError}
                     sending={message.sending}
                     isMy={message.isMy}
-                    checked={!!message.users_have_read.length}
+                    checked={!!message.users_have_read?.length}
                 />
             </div>
         </div>

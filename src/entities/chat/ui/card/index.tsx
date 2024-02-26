@@ -26,16 +26,16 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
         e.preventDefault();
         chat.id !== chat_gtp_id && visibleMenu.toggle();
     };
-
+    console.log(chat);
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
-        // {
-        //     id: 0,
-        //     title: chat?.chat_pinned ? 'Открепить' : 'Закрепить',
-        //     icon: <Icons variant="pin" />,
-        //     callback: async () => {
-        //         chatMenuAction('pin', chat);
-        //     },
-        // },
+        {
+            id: 0,
+            title: chat?.chat_pinned ? 'Открепить' : 'Закрепить',
+            icon: <Icons variant="pin" />,
+            callback: async () => {
+                chatMenuAction('pin', chat);
+            },
+        },
         {
             id: 1,
             title: chat?.is_muted ? 'Выключить уведомления' : 'Включить уведомления',
