@@ -20,8 +20,10 @@ const queryClient = new QueryClient({
         queries: {
             refetchOnReconnect: true,
             retry: 0,
-            // cacheTime: 1000 * 60 * 60 * 24,
-            // refetchOnWindowFocus: false,
+            cacheTime: 1000 * 60 * 24,
+            staleTime: Infinity,
+            refetchOnWindowFocus: false,
+            refetchOnMount: 'always',
         },
     },
 });

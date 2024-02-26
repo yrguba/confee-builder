@@ -26,7 +26,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
         e.preventDefault();
         chat.id !== chat_gtp_id && visibleMenu.toggle();
     };
-    console.log(chat);
+
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
