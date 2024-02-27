@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
             retry: 0,
             cacheTime: 1000 * 60 * 24,
             refetchOnWindowFocus: false,
-            // refetchOnMount: 'always',
+            refetchOnMount: 'always',
         },
     },
 });
@@ -73,7 +73,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <PersistQueryClientProvider client={queryClient} persistOptions={{ persister, buster: getRandomString(10) }}>
+            <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
                 <Notification options={{ disabledDesktop: !notification }} />
                 <Routing />
                 <ReactQueryDevtools position="bottom-left" />
