@@ -1,21 +1,17 @@
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
-import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { appWindow, WebviewWindow } from '@tauri-apps/api/window';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { useEffectOnce, useUpdateEffect } from 'react-use';
+import { useEffectOnce } from 'react-use';
 
 import 'moment/locale/ru';
 import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useTheme, useIdle, useRouter, useStorage, useTimeoutFn, useTimer, useRustServer, usePersister, useEasyState } from 'shared/hooks';
+import { useTheme, useStorage, useTimer, useRustServer, usePersister } from 'shared/hooks';
 import { Notification } from 'shared/ui';
-
-import { getRandomString } from '../shared/lib';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -65,7 +61,7 @@ function App() {
                 .forEach((i) => {
                     queryClient.invalidateQueries(i.queryKey);
                 });
-        }, 3000);
+        }, 100);
         if (appService.tauriIsRunning) {
             // if (!storage.get('max_cache_size')) {
             //     storage.set('max_cache_size', 1);
