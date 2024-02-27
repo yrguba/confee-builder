@@ -21,7 +21,7 @@ class ChatApi {
         const cacheId = ['get-chat', data.chatId];
 
         return useQuery(cacheId, () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
-            // staleTime: Infinity,
+            staleTime: Infinity,
             enabled: !!Number(data.chatId),
             select: (res) => {
                 return res;

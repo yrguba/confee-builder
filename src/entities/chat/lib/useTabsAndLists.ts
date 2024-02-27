@@ -72,7 +72,7 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
         if (activeType === 'company' && companyHasNextPage) return companyFetchNextPage();
     };
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         if (personalChatsProxy?.length && activeTab.value?.title === 'Личные') {
             return activeList.set(personalChatsProxy as any);
         }
@@ -80,8 +80,9 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
             return activeList.set(allChatsProxy as any);
         }
         if (companyChatsProxy?.length) {
-            activeList.set(companyChatsProxy as any);
+            return activeList.set(companyChatsProxy as any);
         }
+        activeList.set([]);
     }, [activeTab.value, companyChatsProxy]);
 
     const clickTab = (tab: TabBarTypes.TabBarItem<TabPayload>) => {

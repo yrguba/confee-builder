@@ -15,6 +15,8 @@ import './index.scss';
 import { useTheme, useIdle, useRouter, useStorage, useTimeoutFn, useTimer, useRustServer, usePersister } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
+import { getRandomString } from '../shared/lib';
+
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
@@ -22,7 +24,7 @@ const queryClient = new QueryClient({
             retry: 0,
             cacheTime: 1000 * 60 * 24,
             refetchOnWindowFocus: false,
-            refetchOnMount: 'always',
+            // refetchOnMount: 'always',
         },
     },
 });
@@ -71,7 +73,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
+            <PersistQueryClientProvider client={queryClient} persistOptions={{ persister, buster: getRandomString(10) }}>
                 <Notification options={{ disabledDesktop: !notification }} />
                 <Routing />
                 <ReactQueryDevtools position="bottom-left" />

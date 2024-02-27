@@ -22,7 +22,7 @@ export type Chat = {
     updated_at: Date;
     permittedReactions: any[];
     company_id: number | null;
-    chat_pinned?: boolean;
+    chat_pinned: boolean;
     draft:
         | {
               message_text: string;

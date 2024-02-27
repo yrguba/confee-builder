@@ -34,6 +34,7 @@ function mockChat(data: Props): Chat {
         draft: null,
         is_muted: false,
         current_user_role: 'Owner',
+        chat_pinned: false,
     };
 }
 export default mockChat;
