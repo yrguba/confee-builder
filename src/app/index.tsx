@@ -1,5 +1,5 @@
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { appWindow, WebviewWindow } from '@tauri-apps/api/window';
@@ -24,7 +24,6 @@ const queryClient = new QueryClient({
             retry: 0,
             cacheTime: 1000 * 60 * 24,
             refetchOnWindowFocus: false,
-            refetchOnMount: 'always',
         },
     },
 });
@@ -59,6 +58,14 @@ function App() {
     }, []);
 
     useEffectOnce(() => {
+        setTimeout(() => {
+            queryClient
+                .getQueryCache()
+                .getAll()
+                .forEach((i) => {
+                    queryClient.invalidateQueries(i.queryKey);
+                });
+        }, 3000);
         if (appService.tauriIsRunning) {
             // if (!storage.get('max_cache_size')) {
             //     storage.set('max_cache_size', 1);
