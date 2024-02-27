@@ -12,7 +12,7 @@ import 'moment/locale/ru';
 import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
-import { useTheme, useIdle, useRouter, useStorage, useTimeoutFn, useTimer, useRustServer, usePersister } from 'shared/hooks';
+import { useTheme, useIdle, useRouter, useStorage, useTimeoutFn, useTimer, useRustServer, usePersister, useEasyState } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
 import { getRandomString } from '../shared/lib';
@@ -58,7 +58,12 @@ function App() {
         console.log('backBaseURL: ', backBaseURL);
     }, []);
 
+    const buster = useEasyState('w');
+
     useEffectOnce(() => {
+        setTimeout(() => {
+            buster.set(getRandomString(10));
+        }, 3000);
         if (appService.tauriIsRunning) {
             // if (!storage.get('max_cache_size')) {
             //     storage.set('max_cache_size', 1);
@@ -70,7 +75,7 @@ function App() {
             document.body.style.borderLeft = '2px solid var(--bg-secondary)';
         }
     });
-
+    console.log(buster.value);
     return (
         <BrowserRouter>
             <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
