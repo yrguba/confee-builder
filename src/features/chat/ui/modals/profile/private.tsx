@@ -77,7 +77,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 return confirmDeleteChat.open();
             case 'mute':
                 if (proxyChat) {
-                    return handleChatMute({ chatId: proxyChat?.id, value: !proxyChat?.is_muted });
+                    return handleChatMute({ chatId: proxyChat?.id, value: !proxyChat?.is_muted, companyId: proxyChat.company_id });
                 }
         }
     };

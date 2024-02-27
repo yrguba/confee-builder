@@ -8,14 +8,12 @@ import { useStorage, useRingtone, useEffectOnce } from 'shared/hooks';
 function JoinMeet() {
     const ls = useStorage();
 
-    const { controls, audio } = useRingtone();
+    const { controls, audio } = useRingtone({ enabled: !!ls.get('notification') });
 
     useEffectOnce(() => {});
 
     useLifecycles(
-        () => {
-            controls.play();
-        },
+        () => {},
         () => {
             controls.pause();
         }

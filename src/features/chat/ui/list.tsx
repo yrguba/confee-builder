@@ -57,7 +57,8 @@ function ChatsList() {
                     title: chat?.is_group ? 'Покинуть чат' : 'Удалить чат',
                 });
             case 'mute':
-                return handleChatMute({ chatId: chat.id, value: !chat.is_muted });
+                console.log(chat);
+                return handleChatMute({ chatId: chat.id, value: !chat.is_muted, companyId: chat.company_id });
             case 'pin':
                 return handlePin({ chatId: chat.id, action: chat.chat_pinned ? 'unpin' : 'pin', all: tabsAndLists.activeTab?.id === 0 });
         }

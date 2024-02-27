@@ -347,11 +347,11 @@ class ChatApi {
     handleChatMute() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { value: boolean; chatId: number }) =>
+            (data: { value: boolean; chatId: number; companyId: number | null }) =>
                 axiosClient.post(`${this.pathPrefix}/${data.chatId}/mute`, {}, { params: { mute: data.value ? 1 : 0 } }),
             {
                 onMutate: (data) => {
-                    chatService.forEachChats(queryClient, 17, (chats) => {
+                    chatService.forEachChats(queryClient, data.companyId, (chats) => {
                         const foundChatIndex = chats?.findIndex((i: Chat) => data.chatId === i.id);
                         if (foundChatIndex !== -1) {
                             chats[foundChatIndex].is_muted = data.value;
@@ -359,7 +359,9 @@ class ChatApi {
                     });
                     queryClient.setQueryData(['get-chat', data.chatId], (cacheData: any) => {
                         return produce(cacheData, (draft: any) => {
-                            draft.data.data.is_muted = data.value;
+                            if (draft?.data?.data) {
+                                draft.data.data.is_muted = data.value;
+                            }
                         });
                     });
                 },

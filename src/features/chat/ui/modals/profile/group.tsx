@@ -103,7 +103,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
             case 'add-members':
                 return addMembersModal.open();
             case 'mute':
-                return handleChatMute({ chatId, value: !proxyChat?.is_muted });
+                return handleChatMute({ chatId, value: !proxyChat?.is_muted, companyId: proxyChat?.company_id || null });
         }
     };
 
