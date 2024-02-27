@@ -26,7 +26,6 @@ class ViewerApi {
         return useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
             enabled,
-            refetchOnMount: false,
             select: (res) => {
                 storage.set('viewer_id', res.data?.data.user.id);
                 return res.data?.data as { user: Viewer; session: Session; companies: Company[] };
