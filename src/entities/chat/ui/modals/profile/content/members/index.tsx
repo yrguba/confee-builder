@@ -43,7 +43,7 @@ function Members(props: Props) {
                 id: i.id,
                 name: i.full_name || '',
                 avatar: i.avatar || '',
-                description: i?.networkStatus || i.status || '',
+                description: i?.networkStatus || i?.userProxy?.networkStatus || 'Не зарегистрирован',
             };
             if (i.role === 'Owner') {
                 initAdmins.push(obj);
