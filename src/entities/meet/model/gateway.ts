@@ -19,7 +19,13 @@ function meetGateway() {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('CallCreated', (socketData) => {
             const extraInfo = socketData.data.extra_info;
-            invitationToConference.set({ id: extraInfo.confee_video_room, avatar: socketData.data.chat.avatar, name: socketData.data.chat.name });
+
+            invitationToConference.set({
+                id: extraInfo.confee_video_room,
+                avatar: socketData.data.chat.avatar,
+                name: socketData.data.chat.name,
+                muted: extraInfo.muted,
+            });
             // ['all', 'personal', `for-company/17`].forEach((i) =>
             //     queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
             //         if (!cacheData?.pages?.length) return cacheData;

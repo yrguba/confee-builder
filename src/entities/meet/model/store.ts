@@ -11,6 +11,7 @@ type Store = {
         avatar: string;
         id: string;
         name: string;
+        muted: boolean;
     }>;
 };
 

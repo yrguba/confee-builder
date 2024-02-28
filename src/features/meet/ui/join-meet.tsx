@@ -8,7 +8,8 @@ import { useStorage, useRingtone, useEffectOnce } from 'shared/hooks';
 function JoinMeet() {
     const ls = useStorage();
 
-    const { controls, audio } = useRingtone({ enabled: !!ls.get('notification') });
+    const data = ls.get('join_meet_data');
+    const { controls, audio } = useRingtone({ enabled: !!ls.get('notification') && !data?.muted });
 
     useEffectOnce(() => {});
 
@@ -18,7 +19,7 @@ function JoinMeet() {
             controls.pause();
         }
     );
-    const data = ls.get('join_meet_data');
+
     const { joinMeet } = useMeet();
 
     const joining = (value: boolean) => {
