@@ -14,7 +14,7 @@ function usePersister(queryClient: QueryClient) {
     const key = 'queryState';
     const cachePath = { baseDir: 'document', folder: 'cache', fileName: 'state' } as any;
 
-    const saveDebounce = debounce((callback) => callback(), 2000);
+    const saveDebounce = debounce((callback) => callback(), 1000);
 
     return {
         persistClient: async (client: PersistedClient) => {
