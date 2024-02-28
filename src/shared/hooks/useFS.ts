@@ -87,13 +87,9 @@ const useFS = () => {
             const indexingPath = await join(cachePath, 'indexing');
             if (await exists(indexingPath)) {
                 const file = await readTextFile(indexingPath);
-                // if (file) {
-                //     const files = JSON.parse(file) as { size: number; fullPath: string }[];
-                //     const sortFiles = files.sort((a: any, b: any) => a.date - b.date);
-                //
-                // }
 
                 const cleaning = async (remainsToCleaned: number, files: { size: number; fullPath: string }[]) => {
+                    console.log(files);
                     if (files.length) {
                         if (await exists(files[0].fullPath)) {
                             await removeFile(files[0].fullPath);
