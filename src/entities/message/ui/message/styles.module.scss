@@ -6,7 +6,17 @@
   gap: 12px;
   max-width: 90%;
 
-  .noAvatar{
+
+  .avatar {
+    position: relative;
+  
+    .img {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+
+  .noAvatar {
 
   }
 
@@ -19,15 +29,15 @@
       background-color: var(--bg-primary);
     }
 
-    .my_last{
+    .my_last {
       border-radius: 12px 12px 0 12px !important;
     }
 
-    .another_last{
-      border-radius: 12px 12px 12px 0!important;
+    .another_last {
+      border-radius: 12px 12px 12px 0 !important;
     }
 
-    .authorName{
+    .authorName {
       position: absolute;
       top: -24px;
       left: 0;

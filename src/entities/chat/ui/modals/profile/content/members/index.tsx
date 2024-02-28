@@ -73,7 +73,7 @@ function Members(props: Props) {
                     </Title>
                     {admins.value.map((i) => (
                         <div key={i.id} className={styles.item}>
-                            <Card title={i.name} img={i.avatar} subtitle={i.description} />
+                            <Card name={i.name} title={i.name} img={i.avatar} subtitle={i.description} />
                         </div>
                     ))}
                 </div>
@@ -84,7 +84,7 @@ function Members(props: Props) {
                 </Title>
                 {withoutRights.value.map((i) => (
                     <div key={i.id} className={styles.item}>
-                        <Card title={i.name} img={i.avatar} subtitle={i.description} />
+                        <Card name={i.name} title={i.name} img={i.avatar} subtitle={i.description} />
                         {isOwner && (
                             <Button.Circle variant="inherit" onClick={() => removeMember && removeMember(i.id, i.name)}>
                                 <Icons variant="delete" />
