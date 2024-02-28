@@ -7,11 +7,12 @@
   max-width: 549px;
   gap: 20px;
   overflow-y: auto;
+  background-color: var(--bg-primary);
+  border-radius: 20px;
 
   .mainInfo {
     @include flex-column();
     width: calc(100% - 48px);
-    gap: 4px;
     margin: 24px 24px 0 24px;
 
     .name {
@@ -29,7 +30,7 @@
     margin: 0 90px;
 
     svg {
-      fill: var(--text-fixed);
+      fill: var(--text-action);
     }
   }
 
@@ -43,10 +44,9 @@
     @include box-size(calc(84% - 40px), auto);
     gap: 4px;
     flex: 1;
-    background-color: var(--bg-primary);
     border-radius: 12px;
     padding: 20px;
-
+    background-color: var(--bg-secondary);
 
     .item {
       @include box-size(100%, 50px);
@@ -55,43 +55,5 @@
     }
   }
 
-  .media {
-    @include flex-column();
-    @include box-size(84%, auto);
-    gap: 4px;
-    flex: 1;
-    background-color: var(--bg-primary);
-    border-radius: 12px;
-    margin-bottom: 24px;
-    position: relative;
 
-    .addContact {
-      position: absolute;
-      top: 62px;
-      right: 12px;
-
-      svg {
-        fill: var(--text-primary);
-      }
-    }
-
-    .tabBar {
-      padding: 20px 20px 0 20px;
-      position: relative;
-      @include box-size(calc(100% - 40px), auto);
-    }
-
-    .mediaList {
-      @include box-size(100%, auto);
-      margin-top: 10px;
-      min-height: 100px;
-      max-height: 40vh;
-      overflow-y: auto;
-      color: var(--text-action);
-
-      .members, .documents, .audios {
-        padding: 10px 20px;
-      }
-    }
-  }
 }

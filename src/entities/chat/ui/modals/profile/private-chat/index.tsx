@@ -87,7 +87,7 @@ function PrivateChatProfileModalView(props: Props) {
                     btns
                         .filter((i) => !i.hidden)
                         .map((i) => (
-                            <Button direction="vertical" prefixIcon={<Icons variant={i.icon} />} key={i.id} onClick={i.callback}>
+                            <Button variant="bg-secondary" direction="vertical" prefixIcon={<Icons variant={i.icon} />} key={i.id} onClick={i.callback}>
                                 {i.title}
                             </Button>
                         ))}

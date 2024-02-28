@@ -98,7 +98,14 @@ function GroupChatProfileModalView(props: Props) {
             />
             <div className={styles.btns}>
                 {btns.map((i) => (
-                    <Button redText={i.isRed} direction="vertical" prefixIcon={<Icons variant={i.icon} />} key={i.id} onClick={i.callback}>
+                    <Button
+                        variant="bg-secondary"
+                        redText={i.isRed}
+                        direction="vertical"
+                        prefixIcon={<Icons variant={i.icon} />}
+                        key={i.id}
+                        onClick={i.callback}
+                    >
                         {i.title}
                     </Button>
                 ))}

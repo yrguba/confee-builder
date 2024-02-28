@@ -5,6 +5,7 @@
   @include box-size(100%, auto);
   gap: 4px;
   border-radius: 12px;
+  background-color: var(--bg-secondary);
 
   .item {
     @include box-size(100%, auto);

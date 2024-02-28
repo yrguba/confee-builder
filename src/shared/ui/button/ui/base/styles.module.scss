@@ -36,6 +36,16 @@
   }
 }
 
+.bg-secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-action);
+  fill: var(--text-action);
+  border: 1px solid var(--bg-secondary);
+
+  &:hover {
+    border: 1px solid var(--border-primary-pressed);
+  }
+}
 
 .secondary {
   color: var(--text-action-pressed);

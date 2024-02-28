@@ -27,6 +27,7 @@
     z-index: 1000;
     position: relative;
 
+
     .closeIcon {
       @include flex;
       @include box-size(40px, 40px);

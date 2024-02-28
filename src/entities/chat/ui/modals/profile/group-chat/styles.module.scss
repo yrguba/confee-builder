@@ -7,11 +7,12 @@
   max-width: 549px;
   gap: 20px;
   overflow-y: auto;
+  background-color: var(--bg-primary);
+  border-radius: 20px;
 
   .mainInfo {
     @include flex-column();
     width: calc(100% - 48px);
-    gap: 4px;
     margin: 24px 24px 0 24px;
 
     .name {
@@ -29,7 +30,7 @@
     margin: 0 90px;
 
     svg {
-      fill: var(--text-fixed);
+      fill: var(--text-action);
     }
   }
 

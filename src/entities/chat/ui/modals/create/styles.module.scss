@@ -12,7 +12,7 @@
     margin: 24px 24px 0 24px;
     color: var(--text-primary);
 
-    .groupSettings{
+    .groupSettings {
       @include flex;
       margin-top: 12px;
       width: 100%;
@@ -23,7 +23,7 @@
       width: 100%;
     }
 
-    .description{
+    .description {
       margin-top: 12px;
       border: 1px solid var(--control-secondary);
       border-radius: 12px;
