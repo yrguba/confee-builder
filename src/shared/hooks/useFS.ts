@@ -87,24 +87,30 @@ const useFS = () => {
             const indexingPath = await join(cachePath, 'indexing');
             if (await exists(indexingPath)) {
                 const file = await readTextFile(indexingPath);
+                // if (file) {
+                //     const files = JSON.parse(file) as { size: number; fullPath: string }[];
+                //     const sortFiles = files.sort((a: any, b: any) => a.date - b.date);
+                //
+                // }
 
                 const cleaning = async (remainsToCleaned: number, files: { size: number; fullPath: string }[]) => {
                     if (files.length) {
                         if (await exists(files[0].fullPath)) {
                             await removeFile(files[0].fullPath);
+                            const size = files[0]?.size;
                             files.splice(0, 1);
-                            if (remainsToCleaned - files[0]?.size > 0) {
-                                await cleaning(remainsToCleaned - files[0].size, files);
+                            if (remainsToCleaned - size > 0) {
+                                await cleaning(remainsToCleaned - size, files);
                             }
                         } else {
-                            // files.splice(0, 1);
+                            files.splice(0, 1);
                             await cleaning(remainsToCleaned, files);
                         }
                         await writeTextFile(indexingPath, JSON.stringify(files));
                     }
                 };
                 const files = JSON.parse(file);
-                await cleaning(
+                return cleaning(
                     memoryToClear,
                     files.sort((a: any, b: any) => a.date - b.date)
                 );
@@ -149,7 +155,7 @@ const useFS = () => {
                 const currentFile = await metadata(fullPath);
                 const indexingPath = await join(root, 'cache', 'indexing');
                 const obj = {
-                    size: currentFile.size / 1024 / 1024,
+                    size: Math.ceil(currentFile.size / 1024 / 1024),
                     fullPath,
                     date: moment().unix(),
                 };
