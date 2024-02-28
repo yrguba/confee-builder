@@ -42,7 +42,7 @@ function messageGateway() {
                     }
                 });
             });
-            chatService.forEachChats(queryClient, 17, (chats) => {
+            chatService.forEachChats(queryClient, 18, (chats) => {
                 const foundChatIndex = chats?.findIndex((i: Chat) => socketData.data.message.chat_id === i.id);
                 const lastPinnedChatIndex = chats?.findIndex((i: Chat) => i.chat_pinned);
                 if (foundChatIndex !== -1) {
@@ -81,7 +81,7 @@ function messageGateway() {
             });
         });
         onMessage('MessageUpdated', (socketData) => {
-            ['all', 'personal', `for-company/17`].forEach((i) =>
+            ['all', 'personal', `for-company/18`].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                     if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
@@ -112,7 +112,7 @@ function messageGateway() {
             });
         });
         onMessage('MessageRead', (socketData) => {
-            ['all', 'personal', `for-company/17`].forEach((i) =>
+            ['all', 'personal', `for-company/18`].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                     if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
@@ -171,7 +171,7 @@ function messageGateway() {
                         draft.data.data = { ...draft.data.data, typing: getText(draft.data.data.is_group) };
                     });
                 });
-                ['all', 'personal', `for-company/17`].forEach((i) => {
+                ['all', 'personal', `for-company/18`].forEach((i) => {
                     queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                         if (!cacheData?.pages?.length) return cacheData;
                         return produce(cacheData, (draft: any) => {

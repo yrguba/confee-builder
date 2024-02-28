@@ -160,11 +160,11 @@ class ChatApi {
     handlePin() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { chatId: number | string; action: 'pin' | 'unpin'; all: boolean }) =>
+            (data: { chatId: number | string; action: 'pin' | 'unpin'; all: boolean; companyId: number | null }) =>
                 axiosClient.post(`${this.pathPrefix}/${data.chatId}/${data.action}`, { all: data.all }),
             {
                 onSuccess: async (res, data) => {
-                    ['personal', 'all', `for-company/${17}`].forEach((path) => queryClient.invalidateQueries(['get-chats', path]));
+                    ['personal', 'all', `for-company/${data.companyId}`].forEach((path) => queryClient.invalidateQueries(['get-chats', path]));
                 },
             }
         );

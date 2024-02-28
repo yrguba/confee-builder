@@ -13,8 +13,9 @@ function chatGateway() {
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('ChatUpdated', (socketData) => {
-            ['all', 'personal', `for-company/17`].forEach((i) =>
+            ['all', 'personal', `for-company/18`].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                    console.log(socketData.data);
                     if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
                         draft?.pages.forEach((page: any) => {
@@ -34,7 +35,7 @@ function chatGateway() {
             });
         });
         onMessage('ChatCreated', (socketData) => {
-            ['all', 'personal', `for-company/17`].forEach((i) =>
+            ['all', 'personal', `for-company/${socketData.data?.chat?.company_id}`].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                     if (!cacheData?.pages?.length) return cacheData;
                     return produce(cacheData, (draft: any) => {
@@ -48,7 +49,7 @@ function chatGateway() {
         });
         onMessage('ChatDeleted', (socketData) => {
             const openChatId = ChatService.getOpenChatId();
-            ['all', 'personal', `for-company/17`].forEach((i) =>
+            ['all', 'personal', `for-company/18`].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                     if (!cacheData?.pages?.length) return cacheData;
                     if (Number(openChatId) === socketData.data.chat_id) {
