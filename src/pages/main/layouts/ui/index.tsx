@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { appService } from 'entities/app';
-import { chatApi, chatGateway, useChatStore } from 'entities/chat';
+import { chatApi, chatGateway, chatStore } from 'entities/chat';
 import { meetGateway, useMeet, useMeetStore } from 'entities/meet';
 import { messageGateway } from 'entities/message';
 import { userGateway } from 'entities/user';
@@ -15,7 +15,7 @@ import Navbar from '../widgets/navbar';
 function MainLayout() {
     const navigate = useNavigate();
     const { params, pathname } = useRouter();
-    const chatSubscription = useChatStore.use.chatSubscription();
+    const chatSubscription = chatStore.use.chatSubscription();
 
     const invitationToConference = useMeetStore.use.invitationToConference();
 

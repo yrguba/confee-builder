@@ -2,7 +2,7 @@ import React, { useRef, Fragment, useEffect, RefObject, ReactElement } from 'rea
 import { mergeRefs } from 'react-merge-refs';
 import { useUpdateEffect } from 'react-use';
 
-import { useInView, usePrevious, useScroll, UseStoreTypes } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseStoreTypes, UseZustandTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Button, Counter, Icons } from 'shared/ui';
 
@@ -33,7 +33,7 @@ type Props = {
     dropContainerRef: RefObject<any>;
     goDownList: boolean;
     isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
-    initialOpenChat: UseStoreTypes.SelectorWithPrimitive<boolean>;
+    initialOpenChat: UseZustandTypes.Wrapper<boolean>;
     isFetching: boolean;
     menuMessageId: UseStoreTypes.SelectorWithPrimitive<number | null>;
 } & BaseTypes.Statuses;

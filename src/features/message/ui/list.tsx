@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import { chatApi, chatProxy, useChatStore } from 'entities/chat';
+import { chatApi, chatProxy, chatStore } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
 import { messageApi, MessagesListView, messageService, useMessageStore, messageProxy } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
@@ -28,7 +28,7 @@ function MessageList() {
     const { mutate: handleSubscribeToChat } = chatApi.handleSubscribeToChat();
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
 
-    const chatSubscription = useChatStore.use.chatSubscription();
+    const chatSubscription = chatStore.use.chatSubscription();
 
     const replyMessage = useMessageStore.use.replyMessage();
     const editMessage = useMessageStore.use.editMessage();
@@ -56,7 +56,7 @@ function MessageList() {
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const openForwardMessageModal = useMessageStore.use.openForwardMessageModal();
 
-    const initialOpenChat = useChatStore.use.initialOpenChat();
+    const initialOpenChat = chatStore.use.initialOpenChat();
 
     const messages = memoUpdateMessages(messageData);
 

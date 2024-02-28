@@ -2,9 +2,7 @@ import React, { memo, useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import styles from './styles.module.scss';
-import { useChatStore } from '../../../../../../entities/chat';
 import { useMessageStore } from '../../../../../../entities/message';
-import { MediaContentType } from '../../../../../../entities/message/model/types';
 import { useEasyState, UseEasyStateReturnType, useFetchMediaContent, useFs, useStorage, useVideo } from '../../../../../hooks';
 import Box from '../../../../box';
 import Icons from '../../../../icons';

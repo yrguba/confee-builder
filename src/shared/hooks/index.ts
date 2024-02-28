@@ -30,6 +30,7 @@ import { useGlobalAudioPlayer } from 'react-use-audio-player';
 import useDownloader from 'react-use-downloader';
 import { useDraggable as useDraggableScroll } from 'react-use-draggable-scroll';
 import useFileUploader, * as UseFileUploaderTypes from 'react-use-file-uploader';
+import useZustand, * as UseZustandTypes from 'react-use-zustand';
 
 import useArray, { UseArrayReturnType } from './useArray';
 import useAudioRecorder from './useAudioRecord';
@@ -62,6 +63,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useZustand,
     usePersister,
     useRustServer,
     useGlobalAudioPlayer,
@@ -125,4 +127,4 @@ export {
     useWebSocket,
 };
 
-export type { UseFsTypes, UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };
+export type { UseFsTypes, UseZustandTypes, UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };

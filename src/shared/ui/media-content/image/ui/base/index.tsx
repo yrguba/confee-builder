@@ -4,7 +4,6 @@ import { appTypes } from 'entities/app';
 import { useEasyState, useFetchMediaContent, useFs, useStorage, useStyles, useWindowMouseClick } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { useChatStore } from '../../../../../../entities/chat';
 import { useMessageStore } from '../../../../../../entities/message';
 import { sizeConverter } from '../../../../../lib';
 import Box from '../../../../box';

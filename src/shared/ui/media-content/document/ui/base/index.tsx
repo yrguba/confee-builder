@@ -4,7 +4,6 @@ import { appService } from 'entities/app';
 import { useEasyState, useFetchMediaContent, useFs } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { useChatStore } from '../../../../../../entities/chat';
 import { useMessageStore } from '../../../../../../entities/message';
 import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';

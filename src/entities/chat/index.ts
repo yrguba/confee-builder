@@ -3,7 +3,7 @@ import chatService from './lib/service';
 import useChatsTabsAndLists from './lib/useTabsAndLists';
 import chatApi from './model/api';
 import chatGateway from './model/gateway';
-import useChatStore from './model/store';
+import chatStore from './model/store';
 import * as chatTypes from './model/types';
 import ChatGpt from './ui/chat-gpt';
 import ChatHeaderView from './ui/header';
@@ -16,7 +16,7 @@ import PrivateChatProfileModalView from './ui/modals/profile/private-chat';
 
 export {
     chatApi,
-    useChatStore,
+    chatStore,
     chatTypes,
     chatService,
     chatProxy,

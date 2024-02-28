@@ -1,6 +1,6 @@
 import React, { forwardRef, memo, ReactElement, ReactNode } from 'react';
 
-import { chatTypes, useChatStore } from 'entities/chat';
+import { chatTypes } from 'entities/chat';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Dropdown, Icons, Title, TitleTypes } from 'shared/ui';
 
