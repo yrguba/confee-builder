@@ -59,17 +59,17 @@ class ChatService {
         return users?.filter((i: any) => i?.id !== viewerId).map((i: any) => i?.id);
     }
 
-    forEachChats(queryClient: any, companyId: number | null, callback: (chats: ChatProxy[]) => void) {
-        const arr = ['all', 'personal'];
+    forEachChats(queryClient: any, companyId: number | null, callback: (chats: ChatProxy[], key: string) => void) {
+        const keys = ['all', 'personal'];
         if (companyId) {
-            arr.push(`for-company/${companyId}`);
+            keys.push(`for-company/${companyId}`);
         }
-        arr.forEach((i) =>
+        keys.forEach((i) =>
             queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
                 if (!cacheData?.pages?.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
                     draft?.pages.forEach((page: any) => {
-                        callback(page.data.data);
+                        callback(page.data.data, i);
                     });
                 });
             })

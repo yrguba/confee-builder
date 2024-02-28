@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useRouter, useWebSocket } from 'shared/hooks';
 
 import { Chat, SocketOut, SocketIn, ChatProxy } from './types';
+import { chatService } from '../index';
 import ChatService from '../lib/service';
 
 function chatGateway() {
@@ -35,17 +36,10 @@ function chatGateway() {
             });
         });
         onMessage('ChatCreated', (socketData) => {
-            ['all', 'personal', `for-company/${socketData.data?.chat?.company_id}`].forEach((i) =>
-                queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                    if (!cacheData?.pages?.length) return cacheData;
-                    return produce(cacheData, (draft: any) => {
-                        draft?.pages.forEach((page: any) => {
-                            const foundChat = page.data.data.find((i: ChatProxy) => i.id === socketData.data.chat.id);
-                            !foundChat && page.data.data.unshift(socketData.data.chat);
-                        });
-                    });
-                })
-            );
+            chatService.forEachChats(queryClient, socketData.data?.chat?.company_id, (chats, key) => {
+                console.log(key);
+                queryClient.invalidateQueries([key]);
+            });
         });
         onMessage('ChatDeleted', (socketData) => {
             const openChatId = ChatService.getOpenChatId();

@@ -32,7 +32,7 @@ function App() {
     const notification = storage.get('notification');
     const { useWebview, rustIsRunning } = useRustServer();
     const webview = useWebview('main');
-    const persister = usePersister();
+    const persister = usePersister(queryClient);
 
     useEffect(() => {
         if (rustIsRunning) {
@@ -54,14 +54,6 @@ function App() {
     }, []);
 
     useEffectOnce(() => {
-        setTimeout(() => {
-            queryClient
-                .getQueryCache()
-                .getAll()
-                .forEach((i) => {
-                    queryClient.invalidateQueries(i.queryKey);
-                });
-        }, 100);
         if (appService.tauriIsRunning) {
             // if (!storage.get('max_cache_size')) {
             //     storage.set('max_cache_size', 1);

@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientConfig } from '@tanstack/react-query';
 import { PersistedClient, Persister } from '@tanstack/react-query-persist-client';
 import { get, set, del } from 'idb-keyval';
 
@@ -6,7 +7,7 @@ import { debounce } from '../lib';
 
 import { useFs } from './index';
 
-function usePersister() {
+function usePersister(queryClient: QueryClient) {
     const { rustIsRunning } = useRustServer();
     const fs = useFs();
 
@@ -28,7 +29,15 @@ function usePersister() {
         },
         restoreClient: async () => {
             if (rustIsRunning) {
-                return fs.getJson(cachePath) || undefined;
+                const data = (await fs.getJson(cachePath)) as PersistedClient;
+                if (data) {
+                    setTimeout(() => {
+                        data.clientState.queries.forEach((i) => {
+                            queryClient.invalidateQueries(i.queryKey);
+                        });
+                    }, 1000);
+                }
+                return data || undefined;
             }
             const data = await get(key);
             return data ? JSON.parse(data) : undefined;

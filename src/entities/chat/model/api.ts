@@ -73,8 +73,7 @@ class ChatApi {
     handleGetChats = (data: { type?: 'all' | 'personal' | 'company'; companyId?: number }) => {
         const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
         const cacheId = ['get-chats', `${type}`];
-        const enabled = !!type && !(data.type === 'company' && !data.companyId);
-
+        const enabled = data.type === 'company' ? !!data?.companyId : true;
         return useInfiniteQuery(
             cacheId,
             async ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
