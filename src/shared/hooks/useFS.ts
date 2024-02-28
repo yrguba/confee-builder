@@ -89,7 +89,6 @@ const useFS = () => {
                 const file = await readTextFile(indexingPath);
 
                 const cleaning = async (remainsToCleaned: number, files: { size: number; fullPath: string }[]) => {
-                    console.log(files);
                     if (files.length) {
                         if (await exists(files[0].fullPath)) {
                             await removeFile(files[0].fullPath);
