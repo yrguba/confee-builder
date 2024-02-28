@@ -70,31 +70,45 @@ class ChatApi {
         });
     };
 
-    handleGetChats = (data: { type?: 'all' | 'personal' | 'company'; companyId?: number }) => {
-        const type = data.type === 'company' ? `for-company/${data.companyId}` : data.type;
-        const cacheId = ['get-chats', `${type}`];
-        const enabled = data.type === 'company' ? !!data?.companyId : true;
+    chatPagination = {
+        getPreviousPageParam: (lastPage: any, pages: any) => {
+            const { current_page } = lastPage?.data?.meta;
+            return current_page > 1 ? current_page - 1 : undefined;
+        },
+        getNextPageParam: (lastPage: any, pages: any) => {
+            const { current_page, last_page } = lastPage?.data?.meta;
+            return current_page < last_page ? current_page + 1 : undefined;
+        },
+        select: (data: any) => {
+            return {
+                pages: data.pages,
+                pageParams: [...data.pageParams],
+            };
+        },
+    };
+
+    handleGetAllChats = () => {
         return useInfiniteQuery(
-            cacheId,
-            async ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/${type}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
-            {
-                enabled,
-                staleTime: Infinity,
-                getPreviousPageParam: (lastPage, pages) => {
-                    const { current_page } = lastPage?.data?.meta;
-                    return current_page > 1 ? current_page - 1 : undefined;
-                },
-                getNextPageParam: (lastPage, pages) => {
-                    const { current_page, last_page } = lastPage?.data?.meta;
-                    return current_page < last_page ? current_page + 1 : undefined;
-                },
-                select: (data) => {
-                    return {
-                        pages: data.pages,
-                        pageParams: [...data.pageParams],
-                    };
-                },
-            }
+            ['get-chats', `all`],
+            async ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/all`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+            { staleTime: Infinity, ...this.chatPagination }
+        );
+    };
+
+    handleGetPersonalChats = () => {
+        return useInfiniteQuery(
+            ['get-chats', 'personal'],
+            async ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/personal`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+            { staleTime: Infinity, ...this.chatPagination }
+        );
+    };
+
+    handleGetCompanyChats = (data: { companyId?: number }) => {
+        return useInfiniteQuery(
+            ['get-chats', `for-company/${data.companyId}`],
+            async ({ pageParam }) =>
+                axiosClient.get(`${this.pathPrefix}/for-company/${data.companyId}`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+            { enabled: !!data.companyId, staleTime: Infinity, ...this.chatPagination }
         );
     };
 

@@ -37,7 +37,6 @@ function chatGateway() {
         });
         onMessage('ChatCreated', (socketData) => {
             chatService.forEachChats(queryClient, socketData.data?.chat?.company_id, (chats, key) => {
-                console.log(key);
                 queryClient.invalidateQueries([key]);
             });
         });

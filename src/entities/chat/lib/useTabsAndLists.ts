@@ -54,13 +54,13 @@ function useChatsTabsAndLists(props: Props): UseChatsTabsAndListsReturnType {
         companyId: activeTab.value?.payload?.companyId,
     });
 
-    const { data: allChatsData, hasNextPage: allHasNextPage, fetchNextPage: allFetchNextPage } = chatApi.handleGetChats({ type: activeType });
-    const { data: personalChatsData, hasNextPage: personalHasNextPage, fetchNextPage: personalFetchNextPage } = chatApi.handleGetChats({ type: activeType });
+    const { data: allChatsData, hasNextPage: allHasNextPage, fetchNextPage: allFetchNextPage } = chatApi.handleGetAllChats();
+    const { data: personalChatsData, hasNextPage: personalHasNextPage, fetchNextPage: personalFetchNextPage } = chatApi.handleGetPersonalChats();
     const {
         data: companyChatsData,
         hasNextPage: companyHasNextPage,
         fetchNextPage: companyFetchNextPage,
-    } = chatApi.handleGetChats({ type: activeType, companyId: activeTab.value?.payload?.companyId });
+    } = chatApi.handleGetCompanyChats({ companyId: activeTab.value?.payload?.companyId });
 
     const allChatsProxy = memoChats(allChatsData);
     const personalChatsProxy = memoChats(personalChatsData);
