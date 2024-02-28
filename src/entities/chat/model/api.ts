@@ -18,9 +18,7 @@ class ChatApi {
     socket = useWebSocket<SocketIn, SocketOut>();
 
     handleGetChat = (data: { chatId: number | string | undefined }) => {
-        const cacheId = ['get-chat', data.chatId];
-
-        return useQuery(cacheId, () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
+        return useQuery(['get-chat', Number(data.chatId)], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}`), {
             staleTime: Infinity,
             enabled: !!Number(data.chatId),
             select: (res) => {
@@ -370,6 +368,7 @@ class ChatApi {
                             chats[foundChatIndex].is_muted = data.value;
                         }
                     });
+                    console.log(data.chatId);
                     queryClient.setQueryData(['get-chat', data.chatId], (cacheData: any) => {
                         return produce(cacheData, (draft: any) => {
                             if (draft?.data?.data) {
