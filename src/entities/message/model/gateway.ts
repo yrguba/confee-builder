@@ -27,13 +27,12 @@ function messageGateway() {
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
-            console.log(socketData);
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!socketData.data.extra_info.is_read && socketData.data.message && !socketData.data.extra_info.muted) {
                     const proxy: MessageProxy = messageProxy({ message: socketData.data.message });
-                    throttlePushNotification(() =>
-                        messageService.notification(`Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}` || '', proxy.action)
-                    );
+                    // throttlePushNotification(() =>
+                    messageService.notification(`Новое сообщение от ${socketData.data.extra_info.contact_name || proxy.authorName}` || '', proxy.action);
+                    // );
                 }
                 if (!cacheData?.pages.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
