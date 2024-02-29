@@ -9,6 +9,7 @@ import { Modal } from 'shared/ui';
 
 import CacheModal from './modals/cache';
 import SessionModal from './modals/session';
+import { chatStore } from '../../../entities/chat';
 
 function AppSettings() {
     const storage = useStorage();
@@ -18,6 +19,7 @@ function AppSettings() {
 
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
+    const visibleChatGpt = chatStore.use.visibleChatGpt();
 
     const sessionModal = Modal.use();
     const cacheModal = Modal.use();
@@ -79,6 +81,7 @@ function AppSettings() {
             <SessionModal {...sessionModal} />
             <CacheModal {...cacheModal} />
             <AppSettingsView
+                visibleChatGpt={visibleChatGpt}
                 openCacheModal={cacheModal.open}
                 updateAvailable={updateAvailable}
                 updateApp={updateApp}

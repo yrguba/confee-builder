@@ -1,13 +1,15 @@
 import React, { Fragment } from 'react';
 import { boolean } from 'yup';
 
+import { ChatStoreTypes } from 'entities/chat';
+import { UseEasyStateReturnType, UseThemeType, UseZustandTypes } from 'shared/hooks';
 import { Button, Emoji, Icons, Switch, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { UseEasyStateReturnType, UseThemeType } from '../../../../shared/hooks';
 import { appService } from '../../index';
 
 type Props = {
+    visibleChatGpt: ChatStoreTypes.VisibleChatGptMethods;
     updateAvailable: boolean;
     updateApp?: () => void;
     openCacheModal: () => void;
@@ -19,7 +21,7 @@ type Props = {
 };
 
 function AppSettingsView(props: Props) {
-    const { deleteAccount, logout, openCacheModal, updateAvailable, updateApp, theme, openSessionModal, notificationToggle } = props;
+    const { visibleChatGpt, deleteAccount, logout, openCacheModal, updateAvailable, updateApp, theme, openSessionModal, notificationToggle } = props;
     const { version } = appService.getProjectInfo();
 
     const items = [
@@ -59,6 +61,11 @@ function AppSettingsView(props: Props) {
         },
         {
             id: 4,
+            title: 'Показывать chatGpt',
+            element: <Switch onChange={visibleChatGpt.toggle} checked={visibleChatGpt.value} />,
+        },
+        {
+            id: 5,
             title: 'Кэш',
             subtitle: 'Память устройства',
             element: <Icons variant="arrow-drop-right" />,
@@ -66,20 +73,20 @@ function AppSettingsView(props: Props) {
             hidden: !appService.tauriIsRunning,
         },
         {
-            id: 5,
+            id: 6,
             title: 'Устройства',
             subtitle: 'Активность на других устройствах: контроль для безопасности',
             element: <Icons variant="arrow-drop-right" />,
             onClick: openSessionModal,
         },
         {
-            id: 6,
+            id: 7,
             title: 'Выйти из аккаунта',
             element: <Icons variant="logout" />,
             onClick: logout,
         },
         {
-            id: 7,
+            id: 8,
             title: 'Удалить аккаунт',
             element: <Icons variant="delete" />,
             onClick: deleteAccount,
@@ -94,7 +101,7 @@ function AppSettingsView(props: Props) {
                     .filter((i) => !i.hidden)
                     .map((i) => (
                         <Fragment key={i.id}>
-                            {i.id === 6 && <div className={styles.border} />}
+                            {i.id === 7 && <div className={styles.border} />}
                             <div className={styles.item} style={{ cursor: 'pointer' }} onClick={i.onClick && i.onClick}>
                                 <div className={styles.titles}>
                                     <Title textWrap color={i.red ? 'red' : ''} variant="H3M">

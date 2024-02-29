@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { chatApi, chatProxy, ChatsListView, chatTypes, useChatsTabsAndLists } from 'entities/chat';
+import { chatApi, chatProxy, ChatsListView, chatStore, chatTypes, useChatsTabsAndLists } from 'entities/chat';
 import { PrivateChatActions, GroupChatActions, ChatProxy } from 'entities/chat/model/types';
 import { useRouter } from 'shared/hooks';
 
@@ -14,6 +14,8 @@ function ChatsList() {
     const { navigate, params, pathname } = useRouter();
 
     const { data: viewerData } = viewerApi.handleGetViewer();
+
+    const visibleChatGpt = chatStore.use.visibleChatGpt();
 
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
@@ -57,7 +59,6 @@ function ChatsList() {
                     title: chat?.is_group ? 'Покинуть чат' : 'Удалить чат',
                 });
             case 'mute':
-                console.log(chat);
                 return handleChatMute({ chatId: chat.id, value: !chat.is_muted, companyId: chat.company_id });
             case 'pin':
                 return handlePin({
@@ -78,7 +79,7 @@ function ChatsList() {
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
                 tabsAndLists={tabsAndLists}
-                visibleChatGpt={!!viewerData?.companies?.length}
+                visibleChatGpt={!!viewerData?.companies?.length && visibleChatGpt.value}
             />
         </>
     );
