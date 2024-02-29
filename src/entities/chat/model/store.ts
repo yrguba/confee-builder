@@ -1,4 +1,4 @@
-import { useZustand } from 'shared/hooks';
+import { useZustand, UseZustandTypes } from 'shared/hooks';
 
 type Store = {
     chatSubscription: number | null;
@@ -31,7 +31,5 @@ const chatStore = useZustand<Store, Methods>({
     },
 });
 
-type VisibleChatGptMethods = ReturnType<typeof chatStore.use.visibleChatGpt>;
-
-export type { VisibleChatGptMethods };
+export type ChatStoreTypes = UseZustandTypes.AllTypes<typeof chatStore.use>;
 export default chatStore;

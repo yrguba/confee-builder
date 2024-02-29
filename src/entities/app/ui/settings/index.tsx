@@ -9,7 +9,7 @@ import styles from './styles.module.scss';
 import { appService } from '../../index';
 
 type Props = {
-    visibleChatGpt: ChatStoreTypes.VisibleChatGptMethods;
+    visibleChatGpt: ChatStoreTypes['visibleChatGpt'];
     updateAvailable: boolean;
     updateApp?: () => void;
     openCacheModal: () => void;
