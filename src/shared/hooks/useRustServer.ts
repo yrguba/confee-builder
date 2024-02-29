@@ -77,12 +77,10 @@ function useRustServer() {
         return { isOpen, open, close, listen, listenOnce };
     };
 
-    const invoker = () => {
-        const saveStringFile = async (path: string, data: any) => {
-            await invoke('write_data_to_file', { path, data });
-        };
-
-        return { saveStringFile };
+    const invoker = {
+        setIconCounter: async (count: string) => {
+            await invoke('set_icon_counter', { count });
+        },
     };
 
     return { rustIsRunning, useWebview, invoker };

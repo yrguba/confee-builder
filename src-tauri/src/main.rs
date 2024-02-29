@@ -29,7 +29,7 @@ fn main() {
         .with_menu(tray_menu);
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![commands::open_meet, commands::get_folder_size, commands::write_data_to_file])
+        .invoke_handler(tauri::generate_handler![commands::open_meet, commands::get_folder_size, commands::write_data_to_file, commands::set_icon_counter])
         .system_tray(system_tray)
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {

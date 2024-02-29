@@ -1,9 +1,9 @@
 import React, { useTransition } from 'react';
 
 import { chatApi } from 'entities/chat';
-import { useRouter, useStorage } from 'shared/hooks';
+import { useRouter, useRustServer, useStorage } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Counter, Icons, IconsTypes, Modal, Title } from 'shared/ui';
+import { Button, Counter, Icons, IconsTypes, Modal, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appService } from '../../../../../entities/app';
@@ -45,6 +45,8 @@ function Navbar() {
         }
     };
 
+    const { invoker } = useRustServer();
+
     return (
         <>
             <Modal.Confirm {...confirmLogout} title="Выйти из аккаунта" closeText="Отмена" okText="Выйти" />
@@ -69,6 +71,7 @@ function Navbar() {
                                 </Title>
                             </div>
                         ))}
+                    <Button onClick={() => invoker.setIconCounter('33')}>icon</Button>
                 </div>
                 <div className={styles.viewer} />
             </div>

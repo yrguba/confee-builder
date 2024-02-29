@@ -1,11 +1,14 @@
 use fs_extra::dir::get_size;
 use std::{fs};
+use tray_icon::TrayIconEvent;
+
 
 #[path = "set_notification_icon.rs"]
 mod set_notification_icon;
 
 #[tauri::command]
 pub async fn open_meet(handle: tauri::AppHandle, url: String, label: String) {
+    print!("count");
     tauri::WindowBuilder::new(
         &handle,
         label,
@@ -25,11 +28,11 @@ pub fn write_data_to_file(path: &str, data: &[u8]) {
 }
 
 
-
 #[tauri::command]
-pub fn notif_count(window: tauri::Window, amount: u16) {
-
-    // #[cfg(not(target_os = "linux"))]
-    // set_notification_icon::mac(&window, amount);
-
+pub fn set_icon_counter(count: String) {
+    if cfg!(target_os = "windows") {
+        // let mut res = winres::WindowsResource::new();
+        // res.set_icon("test.ico");
+        // res.compile().unwrap();
+    }
 }

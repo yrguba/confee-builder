@@ -186,7 +186,7 @@ const useFS = () => {
         try {
             const { invoker } = useRustServer();
             const filePath = await join(folderPath, props.fileName);
-            await invoker().saveStringFile(filePath, JSON.stringify(props.data));
+            await invoke('write_data_to_file', { path: filePath, data: JSON.stringify(props.data) });
         } catch (e) {
             console.log(e);
         }
