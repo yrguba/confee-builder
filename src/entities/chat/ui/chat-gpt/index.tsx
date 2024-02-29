@@ -73,7 +73,7 @@ function ChatGptView(props: Props) {
                 <Card
                     onClick={openProfileModal}
                     img={`${appService.getUrls().clientBaseURL}${chatGptAvatar}`}
-                    title="ChatGpt"
+                    title="ChatGPT"
                     subtitle={botTyping ? 'Печатает...' : 'Бот'}
                 />
                 <Button.Circle variant="inherit" onClick={clearHistory}>

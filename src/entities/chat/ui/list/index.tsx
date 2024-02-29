@@ -52,7 +52,7 @@ function ChatsListView(props: Props) {
                 {visibleChatGpt && tabsAndLists.activeTab?.title !== 'Личные' && (
                     <ChatCardView
                         chatMenuAction={chatMenuAction}
-                        chat={chatProxy(mockChat({ name: 'ChatGpt', id: chat_gtp_id })) as any}
+                        chat={chatProxy(mockChat({ name: 'ChatGPT', id: chat_gtp_id })) as any}
                         clickOnChat={clickOnChat}
                         active={window.location.pathname.split('/').pop() === 'chat_gpt'}
                         description={

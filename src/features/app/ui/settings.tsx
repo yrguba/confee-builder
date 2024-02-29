@@ -17,6 +17,7 @@ function AppSettings() {
 
     const not_scope = storage.get('notification');
 
+    const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
     const visibleChatGpt = chatStore.use.visibleChatGpt();
@@ -81,6 +82,7 @@ function AppSettings() {
             <SessionModal {...sessionModal} />
             <CacheModal {...cacheModal} />
             <AppSettingsView
+                visibleSwitchChatGpt={!!viewerData?.companies?.length}
                 visibleChatGpt={visibleChatGpt}
                 openCacheModal={cacheModal.open}
                 updateAvailable={updateAvailable}

@@ -9,6 +9,7 @@ import styles from './styles.module.scss';
 import { appService } from '../../index';
 
 type Props = {
+    visibleSwitchChatGpt: boolean;
     visibleChatGpt: ChatStoreTypes['visibleChatGpt'];
     updateAvailable: boolean;
     updateApp?: () => void;
@@ -21,7 +22,18 @@ type Props = {
 };
 
 function AppSettingsView(props: Props) {
-    const { visibleChatGpt, deleteAccount, logout, openCacheModal, updateAvailable, updateApp, theme, openSessionModal, notificationToggle } = props;
+    const {
+        visibleSwitchChatGpt,
+        visibleChatGpt,
+        deleteAccount,
+        logout,
+        openCacheModal,
+        updateAvailable,
+        updateApp,
+        theme,
+        openSessionModal,
+        notificationToggle,
+    } = props;
     const { version } = appService.getProjectInfo();
 
     const items = [
@@ -61,8 +73,9 @@ function AppSettingsView(props: Props) {
         },
         {
             id: 4,
-            title: 'Показывать chatGpt',
+            title: 'Показывать ChatGPT',
             element: <Switch onChange={visibleChatGpt.toggle} checked={visibleChatGpt.value} />,
+            hidden: !visibleSwitchChatGpt,
         },
         {
             id: 5,
