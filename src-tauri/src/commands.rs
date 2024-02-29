@@ -1,7 +1,6 @@
 use fs_extra::dir::get_size;
 use std::{fs};
-use tray_icon::TrayIconEvent;
-
+use tauri;
 
 #[path = "set_notification_icon.rs"]
 mod set_notification_icon;
@@ -31,6 +30,8 @@ pub fn write_data_to_file(path: &str, data: &[u8]) {
 #[tauri::command]
 pub fn set_icon_counter(count: String) {
     if cfg!(target_os = "windows") {
+        // tauri::AppHandle::tray_handle().set_icon(tauri::Icon::Raw(include_bytes!("../path/to/myicon.ico").to_vec())).unwrap();
+
         // let mut res = winres::WindowsResource::new();
         // res.set_icon("test.ico");
         // res.compile().unwrap();

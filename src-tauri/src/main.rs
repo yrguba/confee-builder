@@ -12,7 +12,7 @@ struct Payload {
 #[path = "commands.rs"]
 mod commands;
 
-use tauri::{plugin::TauriPlugin, AppHandle, Manager, Runtime};
+use tauri::{plugin::TauriPlugin, Manager, Runtime};
 use tauri::{CustomMenuItem, SystemTray, SystemTrayMenu, SystemTrayEvent};
 
 
