@@ -27,6 +27,7 @@ function messageGateway() {
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();
         onMessage('MessageCreated', (socketData) => {
+            console.log(socketData);
             queryClient.setQueryData(['get-messages', socketData.data.message.chat_id], (cacheData: any) => {
                 if (!socketData.data.extra_info.is_read && socketData.data.message && !socketData.data.extra_info.muted) {
                     const proxy: MessageProxy = messageProxy({ message: socketData.data.message });

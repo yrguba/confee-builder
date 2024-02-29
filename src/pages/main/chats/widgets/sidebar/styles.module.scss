@@ -21,10 +21,6 @@
     .icons{
       @include flex;
       gap: 24px;
-
-      svg{
-        fill: var(--text-primary);
-      }
     }
   }
 

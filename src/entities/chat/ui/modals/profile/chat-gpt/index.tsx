@@ -34,7 +34,7 @@ function ChatGptProfileModalView(props: Props) {
             </div>
             <div className={styles.secondaryInfo}>
                 {infoItems.map((i) => (
-                    <Fragment key-={i.id}>
+                    <Fragment key={i.id}>
                         <div className={styles.row}>
                             <Title primary={false} textAlign="left" variant="H4R">
                                 {i.title}
