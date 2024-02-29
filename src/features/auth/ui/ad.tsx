@@ -4,12 +4,16 @@ import { useUpdateEffect } from 'react-use';
 import { AuthAdView } from 'entities/auth';
 import { companyApi } from 'entities/company';
 import { useEasyState, useYup } from 'shared/hooks';
-import { Input } from 'shared/ui';
+import { Input, Modal, ModalTypes } from 'shared/ui';
 
-function AuthAd() {
+import { EmployeeProfileModal } from '../../company';
+
+function AuthAd(modal: ModalTypes.UseReturnedType) {
     const yup = useYup();
 
-    const steps = useEasyState<'sendCode' | 'registration' | 'success'>('sendCode');
+    const steps = useEasyState<'sendCode' | 'registration'>('sendCode');
+
+    const employeeProfileModal = Modal.use();
 
     const { mutate: handleSendCode } = companyApi.handleSendCode();
     const { mutate: handleBind } = companyApi.handleBind();
@@ -38,14 +42,27 @@ function AuthAd() {
                     code: codeInput.value,
                 },
                 {
-                    onSuccess: () => steps.set('success'),
+                    onSuccess: () => {
+                        employeeProfileModal.open({ successRegister: true });
+                    },
                     onError: () => codeInput.setError('Неверный код'),
                 }
             );
         }
     }, [codeInput.value]);
 
-    return <AuthAdView sendCode={sendCode} inputs={{ code: codeInput, email: emailInput }} steps={steps} />;
+    return (
+        <>
+            <EmployeeProfileModal {...employeeProfileModal} onClose={modal.close} />
+            <AuthAdView sendCode={sendCode} inputs={{ code: codeInput, email: emailInput }} steps={steps} />
+        </>
+    );
 }
 
-export default AuthAd;
+export default function (modal: ModalTypes.UseReturnedType) {
+    return (
+        <Modal {...modal}>
+            <AuthAd {...modal} />
+        </Modal>
+    );
+}

@@ -15,7 +15,7 @@ type Props = {
     };
     sendCode: () => void;
 
-    steps: UseEasyStateReturnType<'sendCode' | 'registration' | 'success'>;
+    steps: UseEasyStateReturnType<'sendCode' | 'registration'>;
 } & BaseTypes.Statuses;
 
 function AuthAdView(props: Props) {
@@ -32,14 +32,6 @@ function AuthAdView(props: Props) {
                 {
                     item: <Registration sendCode={sendCode} steps={steps} inputs={inputs} />,
                     visible: steps.value === 'registration',
-                },
-                {
-                    item: (
-                        <Title textAlign="center" variant="H1">
-                            регистрация прошла успешно
-                        </Title>
-                    ),
-                    visible: steps.value === 'success',
                 },
             ]}
         />

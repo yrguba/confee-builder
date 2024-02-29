@@ -8,6 +8,7 @@ export type UseReturnedType<T = any> = {
     open: (data?: T) => void;
     close: () => void;
     isOpen: boolean;
+    onClose?: () => void;
     payload: T;
 };
 export type UseConfirmReturnedType = ReturnType<typeof useConfirm>;

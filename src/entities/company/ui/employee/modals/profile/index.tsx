@@ -10,10 +10,11 @@ type Props = {
     employeeData: EmployeeProxy | BaseTypes.Empty;
     openDeleteAccModal: () => void;
     companyAvatar: string;
+    successRegister?: boolean;
 } & BaseTypes.Statuses;
 
 function EmployeeProfileModalView(props: Props) {
-    const { companyAvatar, openDeleteAccModal, employeeData } = props;
+    const { successRegister, companyAvatar, openDeleteAccModal, employeeData } = props;
 
     const rows: { id: number; title: string; subtitle: string; icon?: string }[] = [
         { id: 0, title: 'Отдел', subtitle: employeeData?.departments[0].name || '' },
@@ -30,6 +31,11 @@ function EmployeeProfileModalView(props: Props) {
                     {employeeData?.full_name}
                 </Title>
             </div>
+            {!!successRegister && (
+                <Title color="green" textWrap variant="H4M">
+                    Ваша почта была найдена в базе контактов компании Softworks
+                </Title>
+            )}
             <div className={styles.rows}>
                 <div className={styles.item_company}>
                     <Avatar size={40} img={companyAvatar} />
@@ -46,12 +52,14 @@ function EmployeeProfileModalView(props: Props) {
                     </div>
                 ))}
             </div>
-            <div className={styles.deleteAcc} onClick={openDeleteAccModal}>
-                <Title color="red" variant="H3R">
-                    Удалить корпоративный аккаунт
-                </Title>
-                <Icons variant="delete" />
-            </div>
+            {!successRegister && (
+                <div className={styles.deleteAcc} onClick={openDeleteAccModal}>
+                    <Title color="red" variant="H3R">
+                        Удалить корпоративный аккаунт
+                    </Title>
+                    <Icons variant="delete" />
+                </div>
+            )}
         </div>
     );
 }

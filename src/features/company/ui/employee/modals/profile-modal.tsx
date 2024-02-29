@@ -5,7 +5,7 @@ import { Modal, ModalTypes } from 'shared/ui';
 
 import { EmployeeProfileModalView, employeeProxy, ConfirmDeleteCorpAccModalView, companyApi } from '../../../../../entities/company';
 
-function EmployeeProfileModal(modal: ModalTypes.UseReturnedType) {
+function EmployeeProfileModal(modal: ModalTypes.UseReturnedType<{ successRegister: boolean }>) {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const companies = viewerData?.companies;
 
@@ -37,6 +37,7 @@ function EmployeeProfileModal(modal: ModalTypes.UseReturnedType) {
                 <ConfirmDeleteCorpAccModalView confirmDelete={confirmDelete} />
             </Modal>
             <EmployeeProfileModalView
+                successRegister={modal.payload.successRegister}
                 openDeleteAccModal={confirmDeleteModal.open}
                 employeeData={employeeProxy(employeeData)}
                 companyAvatar={companyAvatar as string}
