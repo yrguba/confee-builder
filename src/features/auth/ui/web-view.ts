@@ -6,6 +6,8 @@ import { useLocation } from 'react-router-dom';
 import { appService } from 'entities/app';
 import { tokensService } from 'entities/viewer';
 
+import { debounce } from '../../../shared/lib';
+
 const authorizeEndpoint = 'oauth/authorize';
 const tokenEndpoint = 'oauth/token';
 
@@ -13,7 +15,7 @@ const codeVerifier = 'mYCO3rcUzhc6RkTKbwurKhDHIIHuc0ojKj2bH9xnOK0fUeSRwki8fSmLDj
 
 const webView = () => {
     const { pathname } = useLocation();
-
+    console.log('wda');
     const { clientBaseURL, backBaseURL } = appService.getUrls();
     const deviceId = appService.getDeviceId();
 
@@ -47,6 +49,8 @@ const webView = () => {
     };
     const buildParams = Object.entries(params).reduce((acc, [key, val]) => `${acc}${acc && '&'}${key}=${val}`, '');
 
+    const getTokens = debounce((cb) => cb(), 1000);
+
     if (pathname === '/callback') {
         const { search } = window.location;
         const code = new URLSearchParams(search).get('code');
@@ -59,16 +63,18 @@ const webView = () => {
             code,
         };
 
-        axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res) => {
-            if (res.data.access_token) {
-                tokensService.save({
-                    access_token: res.data.access_token,
-                    refresh_token: res.data.refresh_token,
-                });
-                window.location.reload();
-            } else {
-                window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
-            }
+        getTokens(() => {
+            axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res) => {
+                if (res.data.access_token) {
+                    tokensService.save({
+                        access_token: res.data.access_token,
+                        refresh_token: res.data.refresh_token,
+                    });
+                    window.location.reload();
+                } else {
+                    window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
+                }
+            });
         });
     } else {
         window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
