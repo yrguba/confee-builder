@@ -109,7 +109,12 @@ function CreateChatModalView(props: Props) {
                     />
                 ) : (
                     tabsAndLists.activeList?.map((dep: any) => (
-                        <Collapse loading={tabsAndLists.loading} onTitleClick={() => tabsAndLists.getEmployees(dep.id)} key={dep.id} title={dep?.name || ''}>
+                        <Collapse
+                            loading={tabsAndLists.loading}
+                            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
+                            key={dep.id}
+                            title={dep?.name || ''}
+                        >
                             <Card.List
                                 visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
                                 selected={selectedEmployees}

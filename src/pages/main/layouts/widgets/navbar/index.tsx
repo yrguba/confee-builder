@@ -71,7 +71,7 @@ function Navbar() {
                                 </Title>
                             </div>
                         ))}
-                    <Button onClick={() => invoker.setIconCounter('33')}>icon</Button>
+                    {/* <Button onClick={() => invoker.setIconCounter('33')}>icon</Button> */}
                 </div>
                 <div className={styles.viewer} />
             </div>
