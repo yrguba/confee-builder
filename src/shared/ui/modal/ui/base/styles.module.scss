@@ -11,7 +11,7 @@
   overflow: hidden;
 
   &_top {
-
+    padding-top: 12px;
     align-items: flex-start !important;
     @include height-from(sm){
       padding-top: 40px;
@@ -55,7 +55,7 @@
       }
 
       @include height-to('sm'){
-        top: 12px;
+        top: 0;
         right: -52px;
       }
 
@@ -63,7 +63,13 @@
 
     .content {
       @include flex;
+      align-items: flex-start;
       width: 100%;
+      max-height: calc(100vh - 22px);
+      overflow-y: auto;
+      @include height-from(sm){
+        max-height: calc(100vh - 50px);
+      }
     }
   }
 }

@@ -1,9 +1,8 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(calc(416px - 48px), auto);
+  @include box-size(calc(416px - 48px), calc(100% - 48px));
   @include flex-column(flex-start, flex-start);
-  max-height: 90vh;
   gap: 16px;
   margin: 24px;
 

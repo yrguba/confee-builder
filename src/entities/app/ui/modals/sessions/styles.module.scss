@@ -4,7 +4,6 @@
   @include box-size(calc(416px - 48px), 100%);
   @include flex-column;
   gap: 24px;
-  max-height: 90vh;
   padding: 32px 24px;
 
   .currentSession {

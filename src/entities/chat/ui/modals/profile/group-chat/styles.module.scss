@@ -3,10 +3,8 @@
 .wrapper {
   @include box-size(auto, 100%);
   @include flex-column(flex-start);
-  max-height: 90vh;
   max-width: 549px;
   gap: 20px;
-  overflow-y: auto;
   background-color: var(--bg-primary);
   border-radius: 20px;
 

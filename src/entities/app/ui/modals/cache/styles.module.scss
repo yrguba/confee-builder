@@ -4,15 +4,15 @@
   @include box-size(calc(416px - 48px), 100%);
   @include flex-column;
   gap: 24px;
-  max-height: 90vh;
   padding: 32px 24px;
-position: relative;
+  position: relative;
 
-  .testInput{
+  .testInput {
     position: absolute;
     top: 120px;
     left: 20px;
   }
+
   .sizeLimit {
     @include box-size(100%, auto);
     @include flex-column(space-between);
