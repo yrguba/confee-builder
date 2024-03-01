@@ -5,7 +5,7 @@ import { BaseTypes } from 'shared/types';
 import { Button, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Session } from '../../../model/types';
+import { Session } from '../../../../viewer/model/types';
 
 type Props = {
     sessions?: Session[];

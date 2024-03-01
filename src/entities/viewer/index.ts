@@ -7,7 +7,6 @@ import * as viewerTypes from './model/types';
 import InitialFillingProfileStep1View from './ui/initial-filling-profile/step1';
 import InitialFillingProfileStep2View from './ui/initial-filling-profile/step2';
 import InitialFillingProfileStep3View from './ui/initial-filling-profile/step3';
-import SessionsModalView from './ui/modals/sessions';
 import ViewerProfileView from './ui/profile';
 import SettingsProfileView from './ui/settings-profile';
 
@@ -23,5 +22,4 @@ export {
     InitialFillingProfileStep3View,
     SettingsProfileView,
     ViewerProfileView,
-    SessionsModalView,
 };

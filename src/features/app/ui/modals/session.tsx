@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { SessionsModalView, viewerApi } from 'entities/viewer';
+import { SessionsModalView } from 'entities/app';
+import { viewerApi } from 'entities/viewer';
 import { Modal, ModalTypes } from 'shared/ui';
 
 function SessionModal(modal: ModalTypes.UseReturnedType) {
