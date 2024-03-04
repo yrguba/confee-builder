@@ -19,7 +19,7 @@ function Navbar() {
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, { path: string; counter: number | undefined }>[] = [
         { id: 0, title: 'Контакты', icon: 'contacts', payload: { path: '/contacts', counter: 0 } },
-        { id: 1, title: 'Сообщения', icon: 'messages', payload: { path: `/chats/${activeChatTab || ''}`, counter: 0 } },
+        { id: 1, title: 'Сообщения', icon: 'messages', payload: { path: `/chats/${activeChatTab || ''}`, counter: totalPendingMessages } },
         // { id: 2, title: 'Задачи', icon: 'tasks', payload: { path: '/tasks', counter: 0 } },
         { id: 3, title: 'Профиль', icon: 'profile', payload: { path: '/profile', counter: 0 } },
         { id: 4, title: 'Выйти', icon: 'logout', payload: { path: '', counter: 0 }, hidden: appService.tauriIsRunning },

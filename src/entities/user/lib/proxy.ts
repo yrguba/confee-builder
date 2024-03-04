@@ -27,7 +27,7 @@ function userProxy(user: User | undefined): UserProxy | null {
                     return viewerId === target.id ? 'online' : target.is_online ? 'online' : receiver.formatted_last_active;
 
                 case 'formatted_last_active':
-                    return momentLocalZone(target.last_active).calendar();
+                    return target.last_active ? momentLocalZone(target.last_active).calendar() : 'Был(а) в сети недавно';
 
                 default:
                     return target[prop];
