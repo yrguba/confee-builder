@@ -11,7 +11,7 @@ import { EmployeeProfileModal } from '../../company';
 function AuthAd(modal: ModalTypes.UseReturnedType) {
     const yup = useYup();
 
-    const steps = useEasyState<'sendCode' | 'registration'>('sendCode');
+    const steps = useEasyState<'sendCode' | 'registration' | 'success'>('sendCode');
 
     const employeeProfileModal = Modal.use();
 
@@ -44,6 +44,7 @@ function AuthAd(modal: ModalTypes.UseReturnedType) {
                 {
                     onSuccess: () => {
                         employeeProfileModal.open({ successRegister: true });
+                        steps.set('success');
                     },
                     onError: () => codeInput.setError('Неверный код'),
                 }
@@ -54,7 +55,7 @@ function AuthAd(modal: ModalTypes.UseReturnedType) {
     return (
         <>
             <EmployeeProfileModal {...employeeProfileModal} onClose={modal.close} />
-            <AuthAdView sendCode={sendCode} inputs={{ code: codeInput, email: emailInput }} steps={steps} />
+            {steps.value !== 'success' && <AuthAdView sendCode={sendCode} inputs={{ code: codeInput, email: emailInput }} steps={steps} />}
         </>
     );
 }

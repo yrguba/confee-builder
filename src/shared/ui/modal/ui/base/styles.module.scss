@@ -20,8 +20,8 @@
 
   .modal {
     @include flex-column(space-between);
-    min-width: 350px;
-    min-height: 200px;
+    //min-width: 350px;
+    //min-height: 200px;
     border-radius: 20px;
     background-color: var(--bg-secondary);
     z-index: 1000;

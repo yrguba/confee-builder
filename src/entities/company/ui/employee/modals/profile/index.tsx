@@ -33,7 +33,7 @@ function EmployeeProfileModalView(props: Props) {
             </div>
             {!!successRegister && (
                 <Title color="green" textWrap variant="H4M">
-                    Ваша почта была найдена в базе контактов компании Softworks
+                    Ваша почта была найдена в базе контактов компании ТФН
                 </Title>
             )}
             <div className={styles.rows}>

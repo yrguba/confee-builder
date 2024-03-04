@@ -11,7 +11,7 @@ type Props = {
         email: InputTypes.UseReturnedType;
         code: InputTypes.UseReturnedType;
     };
-    steps: UseEasyStateReturnType<'sendCode' | 'registration'>;
+    steps: UseEasyStateReturnType<'sendCode' | 'registration' | 'success'>;
     sendCode: () => void;
 } & BaseTypes.Statuses;
 

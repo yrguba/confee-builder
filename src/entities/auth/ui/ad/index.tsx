@@ -2,11 +2,12 @@ import React from 'react';
 
 import { UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, InputTypes, Box } from 'shared/ui';
+import { Title, InputTypes, Box, ModalTypes } from 'shared/ui';
 
 import Registration from './registration';
 import SendCode from './send-code';
 import styles from './styles.module.scss';
+import { EmployeeProfileModal } from '../../../../features/company';
 
 type Props = {
     inputs: {
@@ -14,8 +15,7 @@ type Props = {
         code: InputTypes.UseReturnedType;
     };
     sendCode: () => void;
-
-    steps: UseEasyStateReturnType<'sendCode' | 'registration'>;
+    steps: UseEasyStateReturnType<'sendCode' | 'registration' | 'success'>;
 } & BaseTypes.Statuses;
 
 function AuthAdView(props: Props) {
