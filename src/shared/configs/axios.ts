@@ -50,12 +50,12 @@ axiosClient.interceptors.response.use(
                     });
                     return await axiosClient.request(originalRequest);
                 }
-                // tokensService.remove();
-                // window.location.reload();
+                tokensService.remove();
+                window.location.reload();
                 return null;
             } catch (err) {
-                // tokensService.remove();
-                // window.location.reload();
+                tokensService.remove();
+                window.location.reload();
                 return null;
             }
         }
