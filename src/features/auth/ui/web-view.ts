@@ -12,10 +12,10 @@ const authorizeEndpoint = 'oauth/authorize';
 const tokenEndpoint = 'oauth/token';
 
 const codeVerifier = 'mYCO3rcUzhc6RkTKbwurKhDHIIHuc0ojKj2bH9xnOK0fUeSRwki8fSmLDj9goRtRytKrP4W0UD7j4wIeYHHizRrGuEWvkHwHdSR35eTNCATg4EkC42U93cDO7j6NFTz6';
-
+const getTokens = debounce((cb) => cb(), 1000);
 const webView = () => {
     const { pathname } = useLocation();
-    console.log('wda');
+
     const { clientBaseURL, backBaseURL } = appService.getUrls();
     const deviceId = appService.getDeviceId();
 
@@ -49,8 +49,6 @@ const webView = () => {
     };
     const buildParams = Object.entries(params).reduce((acc, [key, val]) => `${acc}${acc && '&'}${key}=${val}`, '');
 
-    const getTokens = debounce((cb) => cb(), 1000);
-
     if (pathname === '/callback') {
         const { search } = window.location;
         const code = new URLSearchParams(search).get('code');
@@ -63,18 +61,22 @@ const webView = () => {
             code,
         };
 
-        getTokens(() => {
-            axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res) => {
-                if (res.data.access_token) {
-                    tokensService.save({
-                        access_token: res.data.access_token,
-                        refresh_token: res.data.refresh_token,
-                    });
-                    window.location.reload();
-                } else {
-                    window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
-                }
-            });
+        getTokens(async () => {
+            try {
+                axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res) => {
+                    if (res.data.access_token) {
+                        tokensService.save({
+                            access_token: res.data.access_token,
+                            refresh_token: res.data.refresh_token,
+                        });
+                        window.location.reload();
+                    } else {
+                        // window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
         });
     } else {
         window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;

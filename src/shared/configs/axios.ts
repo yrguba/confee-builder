@@ -41,7 +41,7 @@ axiosClient.interceptors.response.use(
             try {
                 const additional = { grant_type: 'refresh_token', ...auth };
                 // const res: any = await $axios.post('/auth/oauth/token', { refresh_token: currentTokens.refresh_token, ...additional });
-                const res: any = await axiosClient.post('api/v2/authorization/refresh', currentTokens);
+                const res: any = await axiosClient.post('api/v2/oauth/token', currentTokens);
                 if (res.data.data) {
                     const { access_token, refresh_token } = res.data.data;
                     tokensService.save({ access_token, refresh_token });
