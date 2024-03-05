@@ -53,7 +53,10 @@ export type TextareaInputProps = {
     focus?: boolean;
     focusTrigger: any[];
     textVariant?: 'H3M';
-} & TextareaHTMLAttributes<HTMLTextAreaElement> &
-    Shared;
+    textChange: (value: string) => void;
+    value: string | number;
+    pressEnter?: (text: string) => void;
+    pressEnterAndCtrl?: (text: string) => void;
+} & Shared;
 
 export type UseReturnedType = ReturnType<typeof use>;

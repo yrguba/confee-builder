@@ -30,17 +30,6 @@ function ChatGptView(props: Props) {
 
     const navigate = useNavigate();
 
-    const onKeyDown = (event: any) => {
-        if (event.keyCode === 13) {
-            event.preventDefault();
-            if (event.shiftKey || event.ctrlKey) {
-                message.set((prev) => `${prev}\n`);
-            } else {
-                message.value.length && sendMessage();
-            }
-        }
-    };
-
     const menuItems = [
         {
             id: 0,
@@ -100,12 +89,14 @@ function ChatGptView(props: Props) {
             </div>
             <div className={styles.input}>
                 <Input.Textarea
+                    textChange={(text) => message.set(text)}
                     focusTrigger={['s']}
                     placeholder="Написать сообщение..."
                     focus
                     value={message.value}
                     onChange={(e) => message.set(e.target.value)}
-                    onKeyDown={onKeyDown}
+                    pressEnter={sendMessage}
+                    pressEnterAndCtrl={() => message.set((prev) => `${prev}\n`)}
                 />
                 <Box.Animated visible={!!message.value.length} className={styles.sendBtn}>
                     <Button.Circle radius={30} variant="secondary" onClick={sendMessage}>

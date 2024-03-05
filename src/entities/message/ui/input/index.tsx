@@ -104,17 +104,6 @@ function MessageInputView(props: Props) {
         messageTextState.set('');
     };
 
-    const onKeyDown = (event: any) => {
-        if (event.keyCode === 13) {
-            event.preventDefault();
-            if (event.shiftKey || event.ctrlKey) {
-                messageTextState.set((prev) => `${prev}\n`);
-            } else {
-                sendMessage();
-            }
-        }
-    };
-
     const clickUser = (user: UserProxy) => {
         messageTextState.set((prev) => `${prev.slice(0, -1)}@${user.nickname} `);
         tagUsers.set([]);
@@ -185,8 +174,9 @@ function MessageInputView(props: Props) {
                             focusTrigger={[tagUsers.value, replyMessage.value.id, editMessage.value.id, chat?.id]}
                             focus
                             value={messageTextState.value}
-                            onChange={(e) => messageTextState.set(e.target.value)}
-                            onKeyDown={onKeyDown}
+                            textChange={(text) => messageTextState.set(text)}
+                            pressEnter={sendMessage}
+                            pressEnterAndCtrl={() => messageTextState.set((prev) => `${prev}\n`)}
                         />
                     )}
                 </Box.Animated>

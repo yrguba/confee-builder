@@ -7,10 +7,26 @@ import styles from './styles.module.scss';
 import { TextareaInputProps } from '../../model/types';
 
 const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, ref: any) => {
-    const { textVariant = '', active, width, height, loading, error, disabled, defaultValue, focus, focusTrigger, ...other } = props;
+    const {
+        pressEnter,
+        pressEnterAndCtrl,
+        placeholder,
+        textChange,
+        value,
+        textVariant = '',
+        active,
+        width,
+        height,
+        loading,
+        error,
+        disabled,
+        defaultValue,
+        focus,
+        focusTrigger,
+    } = props;
 
-    const textAreaRef = useRef<HTMLInputElement>(null);
-
+    const wrapperRef = useRef<any>(null);
+    const textAreaRef = useRef<any>(null);
     useEffect(() => {
         if (textAreaRef.current && focus) {
             textAreaRef.current.focus();
@@ -18,26 +34,49 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     }, [focus, ...focusTrigger]);
 
     useEffect(() => {
-        if (textAreaRef.current && typeof other.value === 'string') {
-            const rows = other.value.split(/\r\n|\r|\n/).length;
+        if (textAreaRef.current && wrapperRef.current && typeof value === 'string') {
+            const rows = value.split(/\r\n|\r|\n/).length;
             if (rows > 1) {
-                textAreaRef.current.style.height = `${rows * 17.3}px`;
+                wrapperRef.current.style.height = `${rows * 17.3}px`;
                 if (rows > 14) {
-                    textAreaRef.current.style.height = `${12 * 17.3}px`;
+                    wrapperRef.current.style.height = `${12 * 17.3}px`;
                 }
             } else {
-                textAreaRef.current.style.height = `auto`;
+                wrapperRef.current.style.height = `auto`;
             }
+            textAreaRef.current.textContent = value;
         }
-    }, [other?.value]);
+    }, [value]);
+
     const cx = cnBind.bind(styles);
+
     const classes = cn(
         cx('wrapper', {
             [textVariant]: textVariant,
         })
     );
 
-    return <textarea defaultValue={defaultValue} ref={mergeRefs([ref, textAreaRef])} className={classes} {...other} />;
+    const onKeyDown = (event: any) => {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            if (event.shiftKey || event.ctrlKey) {
+                pressEnterAndCtrl && pressEnterAndCtrl(value as string);
+            } else {
+                pressEnter && pressEnter(value as string);
+            }
+        }
+    };
+
+    const onInput = (e: any) => {
+        textChange && textChange(e.target.value);
+    };
+
+    return (
+        <div className={classes} ref={wrapperRef}>
+            {value}
+            <textarea className={styles.textArea} ref={textAreaRef} onKeyDown={onKeyDown} placeholder={placeholder} onChange={onInput} value={value} />
+        </div>
+    );
 });
 
 export default InputTextarea;

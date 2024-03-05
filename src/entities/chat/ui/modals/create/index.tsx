@@ -44,8 +44,8 @@ function CreateChatModalView(props: Props) {
                 {isGroup.value && (
                     <div className={styles.description}>
                         <Input.Textarea
+                            textChange={(text) => chatDescription.set(text)}
                             value={chatDescription.value}
-                            onChange={(e) => chatDescription.set(e.target.value)}
                             focusTrigger={[]}
                             placeholder="Описание"
                         />
