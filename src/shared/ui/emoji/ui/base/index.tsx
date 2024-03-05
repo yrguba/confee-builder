@@ -26,7 +26,7 @@ function EmojiBase(props: BaseEmojiProps) {
                 reverseX
                 visible={visibleMenu.value}
                 openCloseTrigger={openCloseTrigger}
-                content={<EmojiPicker emojiStyle={EmojiStyle.NATIVE} theme={theme.value === 'light' ? Theme.LIGHT : Theme.DARK} onEmojiClick={click} />}
+                content={<EmojiPicker emojiStyle={EmojiStyle.APPLE} theme={theme.value === 'light' ? Theme.LIGHT : Theme.DARK} onEmojiClick={click} />}
             />
             <div onClick={() => visibleMenu.set(true)}>
                 <Icons variant="emoji" />
