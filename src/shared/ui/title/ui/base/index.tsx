@@ -45,6 +45,13 @@ function Title(props: BaseTitleProps) {
             wordBreak,
         })
     );
+
+    const textClasses = cn(
+        cx('text', {
+            [variant]: variant,
+        })
+    );
+
     useClickAway(ref, () => {
         isEdit.set(false);
         newValue.set(children);
@@ -68,7 +75,7 @@ function Title(props: BaseTitleProps) {
 
     const updTextCb = useCallback(() => {
         return (
-            <div className={styles.text}>
+            <div className={textClasses}>
                 {String(children)
                     .split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)
                     ?.map((i, index) => {

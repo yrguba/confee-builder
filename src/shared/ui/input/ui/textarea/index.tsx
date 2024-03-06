@@ -45,9 +45,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         if (wrapperRef.current && typeof value === 'string') {
             const rows = value.split(/\r\n|\r|\n/).length;
 
-            wrapperRef.current.focus();
-
-            const w = 16;
+            const w = 20;
             if (rows > 1 && value.length) {
                 wrapperRef.current.style.height = `${rows * w}px`;
                 if (rows > 14) {
@@ -90,7 +88,14 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     const openCloseTrigger = (value: boolean) => {
         visibleEmojiPicker.set(value);
         if (!visibleEmojiPicker.value && wrapperRef.current) {
+            // wrapperRef.current.focus();
+        }
+    };
+
+    const clickEmoji = (emoji: any) => {
+        if (textChange && typeof value === 'string') {
             wrapperRef.current.focus();
+            textChange([value.slice(0, cursorPosition.value), emoji, value.slice(cursorPosition.value)].join(''));
         }
     };
 
@@ -122,7 +127,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                 }}
             </RichTextarea>
             <div style={{ height: '100%', position: 'absolute', bottom: 4, right: 0, display: 'flex', alignItems: 'flex-end' }}>
-                <Emoji openCloseTrigger={openCloseTrigger} clickOnEmoji={(emoji) => textChange && textChange(`${value} ${emoji}`)} />
+                <Emoji openCloseTrigger={openCloseTrigger} clickOnEmoji={clickEmoji} />
             </div>
         </>
     );

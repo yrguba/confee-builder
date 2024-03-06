@@ -52,7 +52,7 @@ export type PhoneInputProps = {
 export type TextareaInputProps = {
     focus?: boolean;
     focusTrigger: any[];
-    textVariant?: 'H3M';
+    textVariant?: 'H3M' | 'H4M';
     textChange?: (value: string) => void;
     value: string | number;
     pressEnter?: (text: string) => void;
