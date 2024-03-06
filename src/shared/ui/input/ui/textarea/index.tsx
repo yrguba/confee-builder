@@ -46,7 +46,8 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
 
                 if (rows > 14) {
                     wrapperRef.current.style.height = `${14 * w}px`;
-                    // textAreaRef.current.style.height = `${14 * 17.3}px`;
+                    wrapperRef.current.style.overflow = `auto`;
+                    textAreaRef.current.style.overflow = `auto`;
                 }
             } else {
                 wrapperRef.current.style.height = `auto`;
