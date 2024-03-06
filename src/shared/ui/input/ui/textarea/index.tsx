@@ -126,7 +126,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                     );
                 }}
             </RichTextarea>
-            <div style={{ height: '100%', position: 'absolute', bottom: 4, right: 0, display: 'flex', alignItems: 'flex-end' }}>
+            <div style={{ height: '100%', display: 'flex', alignItems: 'flex-end' }}>
                 <Emoji openCloseTrigger={openCloseTrigger} clickOnEmoji={clickEmoji} />
             </div>
         </>
