@@ -176,7 +176,8 @@ function MessageInputView(props: Props) {
                             value={messageTextState.value}
                             textChange={(text) => messageTextState.set(text)}
                             pressEnter={sendMessage}
-                            pressEnterAndCtrl={() => messageTextState.set((prev) => `${prev}\n`)}
+                            // pressEnterAndCtrl={() => messageTextState.set((prev) => `${prev}\n`)}
+                            lineBreak="enterAndCtrl"
                         />
                     )}
                 </Box.Animated>

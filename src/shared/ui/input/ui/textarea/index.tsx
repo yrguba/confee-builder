@@ -28,10 +28,12 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         defaultValue,
         focus,
         focusTrigger,
+        lineBreak,
     } = props;
 
     const wrapperRef = useRef<any>(null);
     const visibleEmojiPicker = useEasyState(false);
+    const cursorPosition = useEasyState(0);
 
     useEffect(() => {
         if (wrapperRef.current && focus) {
@@ -71,7 +73,10 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         if (event.keyCode === 13) {
             event.preventDefault();
             if (event.shiftKey || event.ctrlKey) {
-                pressEnterAndCtrl && value && pressEnterAndCtrl(value as string);
+                pressEnterAndCtrl && value && pressEnterAndCtrl(value as string, cursorPosition.value);
+                if (lineBreak && textChange && typeof value === 'string') {
+                    textChange([value.slice(0, cursorPosition.value), '\n', value.slice(cursorPosition.value)].join(''));
+                }
             } else {
                 pressEnter && pressEnter(value as string);
             }
@@ -104,6 +109,9 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                 placeholder={placeholder}
                 onChange={onInput}
                 value={value}
+                onSelect={(e) => {
+                    cursorPosition.set(e.currentTarget.selectionStart);
+                }}
             >
                 {(value) => {
                     return (

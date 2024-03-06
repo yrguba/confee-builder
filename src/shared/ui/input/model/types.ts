@@ -56,7 +56,8 @@ export type TextareaInputProps = {
     textChange?: (value: string) => void;
     value: string | number;
     pressEnter?: (text: string) => void;
-    pressEnterAndCtrl?: (text: string) => void;
+    pressEnterAndCtrl?: (text: string, position: number) => void;
+    lineBreak?: 'enter' | 'enterAndCtrl';
 } & Shared;
 
 export type UseReturnedType = ReturnType<typeof use>;
