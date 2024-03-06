@@ -1,9 +1,11 @@
 import cn from 'classnames';
 import cnBind from 'classnames/bind';
+import { Emoji, EmojiStyle } from 'emoji-picker-react';
+import emojiRegex from 'emoji-regex';
 import React, { forwardRef, useEffect, useRef } from 'react';
-import { mergeRefs } from 'react-merge-refs';
 
 import styles from './styles.module.scss';
+import { useEasyState } from '../../../../hooks';
 import { TextareaInputProps } from '../../model/types';
 
 const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, ref: any) => {
@@ -25,8 +27,9 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         focusTrigger,
     } = props;
 
-    const wrapperRef = useRef<any>(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
     const textAreaRef = useRef<any>(null);
+
     useEffect(() => {
         if (textAreaRef.current && focus) {
             textAreaRef.current.focus();
@@ -37,14 +40,18 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         if (textAreaRef.current && wrapperRef.current && typeof value === 'string') {
             const rows = value.split(/\r\n|\r|\n/).length;
             if (rows > 1) {
-                wrapperRef.current.style.height = `${rows * 17.3}px`;
+                const w = 16;
+                wrapperRef.current.style.height = `${rows * w}px`;
+                textAreaRef.current.style.height = `${rows * w}px`;
+
                 if (rows > 14) {
-                    wrapperRef.current.style.height = `${12 * 17.3}px`;
+                    wrapperRef.current.style.height = `${14 * w}px`;
+                    // textAreaRef.current.style.height = `${14 * 17.3}px`;
                 }
             } else {
                 wrapperRef.current.style.height = `auto`;
+                textAreaRef.current.style.height = `auto`;
             }
-            textAreaRef.current.textContent = value;
         }
     }, [value]);
 

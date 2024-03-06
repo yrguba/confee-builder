@@ -51,6 +51,7 @@
         "cross-env": "^7.0.3",
         "crypto-js": "^4.1.1",
         "emoji-picker-react": "^4.4.10",
+        "emoji-regex": "^10.3.0",
         "framer-motion": "^9.1.7",
         "idb-keyval": "^6.2.1",
         "linkify-plugin-mention": "^4.1.1",

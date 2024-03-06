@@ -17,6 +17,7 @@ function EmojiBase(props: BaseEmojiProps) {
     const click = (data: any) => {
         clickOnEmoji(data.emoji);
     };
+
     return (
         <>
             <Dropdown
@@ -34,5 +35,5 @@ function EmojiBase(props: BaseEmojiProps) {
         </>
     );
 }
-
+//
 export default EmojiBase;
