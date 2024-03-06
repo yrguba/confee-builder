@@ -1,6 +1,5 @@
 import cn from 'classnames';
 import cnBind from 'classnames/bind';
-import { Emoji, EmojiStyle } from 'emoji-picker-react';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { RichTextarea } from 'rich-textarea';
 import { string } from 'yup';
@@ -8,6 +7,7 @@ import { string } from 'yup';
 import styles from './styles.module.scss';
 import { useEasyState } from '../../../../hooks';
 import { replaceEmojis } from '../../../../lib';
+import { Emoji } from '../../../index';
 import Title from '../../../title';
 import { TextareaInputProps } from '../../model/types';
 
@@ -18,7 +18,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         placeholder,
         textChange,
         value,
-        textVariant = '',
+        textVariant = 'H4M',
         active,
         width,
         height = 'auto',
@@ -31,6 +31,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     } = props;
 
     const wrapperRef = useRef<any>(null);
+    const visibleEmojiPicker = useEasyState(false);
 
     useEffect(() => {
         if (wrapperRef.current && focus) {
@@ -82,23 +83,33 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     };
 
     return (
-        <RichTextarea
-            style={{ width: '100%', height, minHeight: '20px' }}
-            className={classes}
-            ref={wrapperRef}
-            onKeyDown={onKeyDown}
-            placeholder={placeholder}
-            onChange={onInput}
-            value={value}
-        >
-            {(value) => {
-                return (
-                    <Title replaceEmoji wordBreak variant="H4M">
-                        {value}
-                    </Title>
-                );
-            }}
-        </RichTextarea>
+        <>
+            <RichTextarea
+                onBlur={() => {
+                    if (visibleEmojiPicker.value && wrapperRef.current) {
+                        wrapperRef.current.focus();
+                    }
+                }}
+                style={{ width: '100%', height, minHeight: '20px' }}
+                className={classes}
+                ref={wrapperRef}
+                onKeyDown={onKeyDown}
+                placeholder={placeholder}
+                onChange={onInput}
+                value={value}
+            >
+                {(value) => {
+                    return (
+                        <Title replaceEmoji wordBreak variant={textVariant}>
+                            {value}
+                        </Title>
+                    );
+                }}
+            </RichTextarea>
+            <div style={{ height: '100%', position: 'absolute', bottom: 4, right: 0, display: 'flex', alignItems: 'flex-end' }}>
+                <Emoji openCloseTrigger={(value) => visibleEmojiPicker.set(value)} clickOnEmoji={(emoji) => textChange && textChange(`${value} ${emoji}`)} />
+            </div>
+        </>
     );
 });
 

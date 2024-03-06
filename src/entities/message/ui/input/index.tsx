@@ -180,9 +180,9 @@ function MessageInputView(props: Props) {
                         />
                     )}
                 </Box.Animated>
-                <Box.Animated visible={!initRecording && !audio} className={styles.openEmoji}>
-                    <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} />
-                </Box.Animated>
+                {/* <Box.Animated visible={!initRecording && !audio} className={styles.openEmoji}> */}
+                {/*    <Emoji clickOnEmoji={(emoji) => messageTextState.set((prev) => prev + emoji)} /> */}
+                {/* </Box.Animated> */}
                 <Box.Replace
                     className={styles.sendBtn}
                     transition={{ duration: 0.05 }}

@@ -1,7 +1,8 @@
 import EmojiPicker, { Emoji, Theme, EmojiStyle } from 'emoji-picker-react';
 import React, { useRef } from 'react';
+import { useUpdateEffect } from 'react-use';
 
-import { useEasyState, useStyles, useTheme, useClickAway } from 'shared/hooks';
+import { useEasyState, useStyles, useTheme, useClickAway, useThrottle } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import Box from '../../../box';
@@ -9,8 +10,10 @@ import Dropdown from '../../../dropdown';
 import Icons from '../../../icons';
 import { BaseEmojiProps } from '../../types';
 
+const [throttleMouseMove] = useThrottle((cb) => cb(), 1000);
+
 function EmojiBase(props: BaseEmojiProps) {
-    const { openCloseTrigger, clickOnEmoji } = props;
+    const { onMouseMove, openCloseTrigger, clickOnEmoji } = props;
 
     const pickerRef = useRef(null);
 
@@ -30,9 +33,20 @@ function EmojiBase(props: BaseEmojiProps) {
         visible,
     });
 
+    useUpdateEffect(() => {
+        openCloseTrigger && openCloseTrigger(visible.value);
+    }, [visible.value]);
+
     return (
         <div className={styles.wrapper}>
-            <Box.Animated visible={visible.value} className={classes} ref={pickerRef}>
+            <Box.Animated
+                visible={visible.value}
+                className={classes}
+                ref={pickerRef}
+                onMouseMove={() => {
+                    onMouseMove && throttleMouseMove(onMouseMove);
+                }}
+            >
                 <EmojiPicker
                     lazyLoadEmojis
                     emojiStyle={EmojiStyle.APPLE}
@@ -42,7 +56,7 @@ function EmojiBase(props: BaseEmojiProps) {
                     onEmojiClick={click}
                 />
             </Box.Animated>
-            <div onClick={() => visible.set(true)}>
+            <div onClick={() => visible.set(true)} className={styles.btn}>
                 <Icons variant="emoji" />
             </div>
         </div>

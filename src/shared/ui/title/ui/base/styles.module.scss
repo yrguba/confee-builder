@@ -89,12 +89,11 @@
   color: var(--text-primary) !important;
 
   .emojiWrapper {
-    min-width: 16px;
-    min-height: 16px;
+    //min-width: 16px;
+    //min-height: 16px;
     color: transparent !important;
     //background-color: #FF4B4B;
     position: relative;
-
     .emoji {
       position: absolute;
       top: 0;

@@ -5,6 +5,7 @@ type SharedProps = {};
 export type BaseEmojiProps = {
     clickOnEmoji: (arg: EmojiClickData) => void;
     openCloseTrigger?: (isOpen: boolean) => void;
+    onMouseMove?: () => void;
 };
 
 export type EmojiItemProps = {

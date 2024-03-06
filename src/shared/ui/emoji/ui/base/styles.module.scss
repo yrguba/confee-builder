@@ -1,6 +1,11 @@
 .wrapper{
   position: relative;
 
+  .btn{
+    cursor: pointer;
+    height: 100%;
+  }
+
   .picker{
     position: absolute;
     bottom: 30px;

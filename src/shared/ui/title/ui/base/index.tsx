@@ -72,7 +72,7 @@ function Title(props: BaseTitleProps) {
                 {children.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i, index) => {
                     if (/[\p{Emoji}\u200d]+/gu.test(i)) {
                         return (
-                            <span className={styles.emojiWrapper}>
+                            <span key={index} className={styles.emojiWrapper}>
                                 😁
                                 <span className={styles.emoji}>
                                     <Emoji key={index} emojiStyle={EmojiStyle.APPLE} unified={i?.codePointAt(0)?.toString(16) || ''} size={18} />
@@ -80,7 +80,7 @@ function Title(props: BaseTitleProps) {
                             </span>
                         );
                     }
-                    return <span>{i}</span>;
+                    return <span key={index}>{i}</span>;
                 })}
             </div>
         ) : (
