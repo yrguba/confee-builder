@@ -3,17 +3,13 @@
 .wrapper {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: center;
   width: auto;
   max-width: 460px;
   //min-width: 400px;
   flex-wrap: wrap;
   //column-gap: 6px;
   word-wrap: break-word;
-  color: var(--text-primary);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
   word-break: break-word;
   white-space: pre-wrap;
 

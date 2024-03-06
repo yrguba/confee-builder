@@ -94,7 +94,11 @@ function TextMessage(props: Props) {
                 flexDirection: withLink.value ? 'column' : 'row',
             }}
         >
-            <Linkify options={options}>{text}</Linkify>
+            <Linkify options={options}>
+                <Title variant="H4M" wordBreak>
+                    {text}
+                </Title>
+            </Linkify>
             {visibleInfoBlock && (
                 <Info
                     date={message.date}
