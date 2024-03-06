@@ -48,7 +48,7 @@ function CreateChatModalView(props: Props) {
                             value={chatDescription.value}
                             focusTrigger={[]}
                             placeholder="Описание"
-                            pressEnterAndCtrl={() => chatDescription.set((prev) => `${prev}\n`)}
+                            height="100%"
                         />
                     </div>
                 )}

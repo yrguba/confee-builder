@@ -119,7 +119,7 @@ function GroupChatProfileModalView(props: Props) {
                         textVariant="H3M"
                         defaultValue={chat.description}
                         value={chat.description}
-                        textChange={(text) => setDescription(text)}
+                        // textChange={(text) => 'setDescription(text)'}
                         focusTrigger={[]}
                     />
                 </div>

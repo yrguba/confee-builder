@@ -1,14 +1,15 @@
 import cn from 'classnames';
 import cnBind from 'classnames/bind';
-import React, { useRef } from 'react';
+import { Emoji, EmojiStyle } from 'emoji-picker-react';
+import React, { useCallback, useRef } from 'react';
 
 import styles from './styles.module.scss';
-import { useEasyState, useClickAway } from '../../../hooks';
-import Box from '../../box';
-import Icons from '../../icons';
-import { TitleProps } from '../types';
+import { useEasyState, useClickAway } from '../../../../hooks';
+import Box from '../../../box';
+import Icons from '../../../icons';
+import { BaseTitleProps } from '../../types';
 
-function Title(props: TitleProps) {
+function Title(props: BaseTitleProps) {
     const {
         color = '',
         maxLength,
@@ -22,6 +23,8 @@ function Title(props: TitleProps) {
         animateTrigger,
         active = false,
         disabled,
+        replaceEmoji,
+        wordBreak,
     } = props;
 
     const cx = cnBind.bind(styles);
@@ -39,6 +42,7 @@ function Title(props: TitleProps) {
             showInput: isEdit.value,
             edited: updCallback,
             [color]: color,
+            wordBreak,
         })
     );
     useClickAway(ref, () => {
@@ -62,10 +66,29 @@ function Title(props: TitleProps) {
         onMouseLeave: () => visibleEditIcon.set(false),
     };
 
+    const updTextCb = useCallback(() => {
+        if (typeof children === 'string') {
+            return children.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i, index) => {
+                if (/[\p{Emoji}\u200d]+/gu.test(i)) {
+                    console.log(i);
+                    return (
+                        <span style={{ display: 'inline-block', marginBottom: -12 }}>
+                            <Emoji key={index} emojiStyle={EmojiStyle.APPLE} unified={i?.codePointAt(0)?.toString(16) || ''} size={16} />
+                        </span>
+                    );
+                }
+                return i;
+            });
+        }
+        return children;
+    }, [children]);
+
+    const text = replaceEmoji ? updTextCb() : children;
+
     return animateTrigger === undefined ? (
         <div ref={ref} {...shared} {...mouseEvents} onClick={() => isEdit.set(!!updCallback)}>
             {!isEdit.value || !updCallback ? (
-                children
+                text
             ) : (
                 <div className={styles.input}>
                     <input autoFocus onChange={(e) => newValue.set(e.target.value)} value={newValue.value} />
@@ -85,7 +108,7 @@ function Title(props: TitleProps) {
             onClick={() => (updCallback ? isEdit.set(true) : '')}
         >
             {!isEdit.value || !updCallback ? (
-                children
+                text
             ) : (
                 <div className={styles.input}>
                     <input maxLength={maxLength} onChange={(e) => newValue.set(e.target.value)} value={newValue.value} />

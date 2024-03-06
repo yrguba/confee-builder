@@ -2,6 +2,7 @@ import cn from 'classnames';
 import cnBind from 'classnames/bind';
 import { Emoji, EmojiStyle } from 'emoji-picker-react';
 import React, { forwardRef, useEffect, useRef } from 'react';
+import { RichTextarea } from 'rich-textarea';
 import { string } from 'yup';
 
 import styles from './styles.module.scss';
@@ -19,7 +20,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         textVariant = '',
         active,
         width,
-        height,
+        height = 'auto',
         loading,
         error,
         disabled,
@@ -28,31 +29,26 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         focusTrigger,
     } = props;
 
-    const wrapperRef = useRef<HTMLDivElement>(null);
-    const textAreaRef = useRef<any>(null);
+    const wrapperRef = useRef<any>(null);
 
     useEffect(() => {
-        if (textAreaRef.current && focus) {
-            textAreaRef.current.focus();
+        if (wrapperRef.current && focus) {
+            wrapperRef.current.focus();
         }
     }, [focus, ...focusTrigger]);
 
     useEffect(() => {
-        if (textAreaRef.current && wrapperRef.current && typeof value === 'string') {
+        if (wrapperRef.current && typeof value === 'string') {
             const rows = value.split(/\r\n|\r|\n/).length;
+            const w = 16;
             if (rows > 1) {
-                const w = 16;
                 wrapperRef.current.style.height = `${rows * w}px`;
-                textAreaRef.current.style.height = `${rows * w}px`;
-
                 if (rows > 14) {
                     wrapperRef.current.style.height = `${14 * w}px`;
-                    wrapperRef.current.style.overflow = `auto`;
-                    textAreaRef.current.style.overflow = `auto`;
+                    // wrapperRef.current.style.overflow = `auto`;
                 }
             } else {
-                wrapperRef.current.style.height = `auto`;
-                textAreaRef.current.style.height = `auto`;
+                // wrapperRef.current.style.height = `auto`;
             }
         }
     }, [value]);
@@ -62,6 +58,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     const classes = cn(
         cx('wrapper', {
             [textVariant]: textVariant,
+            disabled: !textChange,
         })
     );
 
@@ -79,18 +76,22 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     const onInput = (e: any) => {
         textChange && textChange(e.target.value);
     };
-
+    console.log(value);
     return (
-        <div className={classes} ref={wrapperRef}>
-            {/* {typeof value === 'string' && */}
-            {/*    value.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i) => { */}
-            {/*        if (/[\p{Emoji}\u200d]+/gu.test(i)) { */}
-            {/*            return <Emoji emojiStyle={EmojiStyle.NATIVE} unified="1f3fb" size={24} />; */}
-            {/*        } */}
-            {/*        return i; */}
-            {/*    })} */}
-            <textarea className={styles.textArea} ref={textAreaRef} onKeyDown={onKeyDown} placeholder={placeholder} onChange={onInput} value={value} />
-        </div>
+        <RichTextarea
+            style={{ width: '100%', height, minHeight: '20px' }}
+            className={classes}
+            ref={wrapperRef}
+            onKeyDown={onKeyDown}
+            placeholder={placeholder}
+            onChange={onInput}
+            value={value}
+        >
+            {(value) => {
+                console.log(value);
+                return <div>wdwad</div>;
+            }}
+        </RichTextarea>
     );
 });
 

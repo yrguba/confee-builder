@@ -1,4 +1,4 @@
-@import "src/app/styles";
+@import "../../../../../app/styles/index";
 
 .primary {
   color: var(--text-primary) !important;
@@ -7,6 +7,13 @@
 .textWrap {
   white-space: normal !important;
   overflow-wrap: break-word;
+}
+
+.wordBreak{
+  word-break: break-word;
+  white-space: pre-wrap!important;
+  word-wrap: break-word;
+  line-height: 16px !important;
 }
 
 .edited {

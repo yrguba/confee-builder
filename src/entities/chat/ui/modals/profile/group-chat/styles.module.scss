@@ -33,10 +33,12 @@
   }
 
   .description {
+
     @include box-size(calc(84% - 40px), auto);
     padding: 20px;
-    background-color: var(--bg-primary);
+    background-color: var(--bg-secondary);
     border-radius: 12px;
+    min-height: 70px;
   }
 
   .companyCard {
@@ -49,7 +51,7 @@
     @include box-size(calc(84% - 40px), auto);
     gap: 4px;
     flex: 1;
-    background-color: var(--bg-primary);
+    background-color: var(--bg-secondary);
     border-radius: 12px;
     padding: 20px;
 

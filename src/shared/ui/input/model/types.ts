@@ -13,7 +13,7 @@ type Size = number | 's' | 'm';
 type Shared = {
     size?: Size;
     width?: string | number;
-    height?: string | number;
+    height?: string;
     title?: string;
     errorTitle?: string;
     asyncValidate?: any;
@@ -53,7 +53,7 @@ export type TextareaInputProps = {
     focus?: boolean;
     focusTrigger: any[];
     textVariant?: 'H3M';
-    textChange: (value: string) => void;
+    textChange?: (value: string) => void;
     value: string | number;
     pressEnter?: (text: string) => void;
     pressEnterAndCtrl?: (text: string) => void;
