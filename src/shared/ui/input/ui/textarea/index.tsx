@@ -8,6 +8,7 @@ import { string } from 'yup';
 import styles from './styles.module.scss';
 import { useEasyState } from '../../../../hooks';
 import { replaceEmojis } from '../../../../lib';
+import Title from '../../../title';
 import { TextareaInputProps } from '../../model/types';
 
 const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, ref: any) => {
@@ -40,6 +41,9 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     useEffect(() => {
         if (wrapperRef.current && typeof value === 'string') {
             const rows = value.split(/\r\n|\r|\n/).length;
+
+            wrapperRef.current.focus();
+
             const w = 16;
             if (rows > 1) {
                 wrapperRef.current.style.height = `${rows * w}px`;
@@ -48,7 +52,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                     // wrapperRef.current.style.overflow = `auto`;
                 }
             } else {
-                // wrapperRef.current.style.height = `auto`;
+                wrapperRef.current.style.height = height;
             }
         }
     }, [value]);
@@ -76,7 +80,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     const onInput = (e: any) => {
         textChange && textChange(e.target.value);
     };
-    console.log(value);
+
     return (
         <RichTextarea
             style={{ width: '100%', height, minHeight: '20px' }}
@@ -89,7 +93,8 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         >
             {(value) => {
                 console.log(value);
-                return <div>wdwad</div>;
+                // return <Title variant="H4M">{value}</Title>;
+                return value;
             }}
         </RichTextarea>
     );
