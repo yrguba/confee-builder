@@ -67,20 +67,25 @@ function Title(props: BaseTitleProps) {
     };
 
     const updTextCb = useCallback(() => {
-        if (typeof children === 'string') {
-            return children.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i, index) => {
-                if (/[\p{Emoji}\u200d]+/gu.test(i)) {
-                    console.log(i);
-                    return (
-                        <span style={{ display: 'inline-block', marginBottom: -12 }}>
-                            <Emoji key={index} emojiStyle={EmojiStyle.APPLE} unified={i?.codePointAt(0)?.toString(16) || ''} size={16} />
-                        </span>
-                    );
-                }
-                return i;
-            });
-        }
-        return children;
+        return typeof children === 'string' ? (
+            <div className={styles.text}>
+                {children.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i, index) => {
+                    if (/[\p{Emoji}\u200d]+/gu.test(i)) {
+                        return (
+                            <span className={styles.emojiWrapper}>
+                                😁
+                                <span className={styles.emoji}>
+                                    <Emoji key={index} emojiStyle={EmojiStyle.APPLE} unified={i?.codePointAt(0)?.toString(16) || ''} size={18} />
+                                </span>
+                            </span>
+                        );
+                    }
+                    return <span>{i}</span>;
+                })}
+            </div>
+        ) : (
+            children
+        );
     }, [children]);
 
     const text = replaceEmoji ? updTextCb() : children;

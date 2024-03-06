@@ -83,6 +83,25 @@
   color: var(--text-action) !important;
 }
 
+.text {
+  //display: flex;
+  //align-items: center;
+  color: var(--text-primary) !important;
+
+  .emojiWrapper {
+    min-width: 16px;
+    min-height: 16px;
+    color: transparent !important;
+    //background-color: #FF4B4B;
+    position: relative;
+
+    .emoji {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}
 
 .H1 {
   font-size: 24px;
