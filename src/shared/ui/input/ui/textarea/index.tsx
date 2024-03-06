@@ -45,7 +45,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
             wrapperRef.current.focus();
 
             const w = 16;
-            if (rows > 1) {
+            if (rows > 1 && value.length) {
                 wrapperRef.current.style.height = `${rows * w}px`;
                 if (rows > 14) {
                     wrapperRef.current.style.height = `${14 * w}px`;
@@ -70,7 +70,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         if (event.keyCode === 13) {
             event.preventDefault();
             if (event.shiftKey || event.ctrlKey) {
-                pressEnterAndCtrl && pressEnterAndCtrl(value as string);
+                pressEnterAndCtrl && value && pressEnterAndCtrl(value as string);
             } else {
                 pressEnter && pressEnter(value as string);
             }
