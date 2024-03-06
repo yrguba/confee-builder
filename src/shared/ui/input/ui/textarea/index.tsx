@@ -82,6 +82,13 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         textChange && textChange(e.target.value);
     };
 
+    const openCloseTrigger = (value: boolean) => {
+        visibleEmojiPicker.set(value);
+        if (!visibleEmojiPicker.value && wrapperRef.current) {
+            wrapperRef.current.focus();
+        }
+    };
+
     return (
         <>
             <RichTextarea
@@ -107,7 +114,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                 }}
             </RichTextarea>
             <div style={{ height: '100%', position: 'absolute', bottom: 4, right: 0, display: 'flex', alignItems: 'flex-end' }}>
-                <Emoji openCloseTrigger={(value) => visibleEmojiPicker.set(value)} clickOnEmoji={(emoji) => textChange && textChange(`${value} ${emoji}`)} />
+                <Emoji openCloseTrigger={openCloseTrigger} clickOnEmoji={(emoji) => textChange && textChange(`${value} ${emoji}`)} />
             </div>
         </>
     );
