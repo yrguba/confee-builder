@@ -1,8 +1,10 @@
 import EmojiPicker, { Emoji, Theme, EmojiStyle } from 'emoji-picker-react';
-import React from 'react';
+import React, { useRef } from 'react';
 
-import { useEasyState, useTheme } from 'shared/hooks';
+import { useEasyState, useStyles, useTheme, useClickAway } from 'shared/hooks';
 
+import styles from './styles.module.scss';
+import Box from '../../../box';
 import Dropdown from '../../../dropdown';
 import Icons from '../../../icons';
 import { BaseEmojiProps } from '../../types';
@@ -10,29 +12,40 @@ import { BaseEmojiProps } from '../../types';
 function EmojiBase(props: BaseEmojiProps) {
     const { openCloseTrigger, clickOnEmoji } = props;
 
+    const pickerRef = useRef(null);
+
     const theme = useTheme();
 
-    const visibleMenu = useEasyState(false);
+    const visible = useEasyState(false);
 
     const click = (data: any) => {
         clickOnEmoji(data.emoji);
     };
 
+    useClickAway(pickerRef, () => {
+        visible.set(false);
+    });
+
+    const classes = useStyles(styles, 'picker', {
+        visible,
+    });
+
     return (
-        <>
-            <Dropdown
-                clickAway={() => visibleMenu.set(false)}
-                trigger="click"
-                reverseY
-                reverseX
-                visible={visibleMenu.value}
-                openCloseTrigger={openCloseTrigger}
-                content={<EmojiPicker emojiStyle={EmojiStyle.APPLE} theme={theme.value === 'light' ? Theme.LIGHT : Theme.DARK} onEmojiClick={click} />}
-            />
-            <div onClick={() => visibleMenu.set(true)}>
+        <div className={styles.wrapper}>
+            <Box.Animated visible={visible.value} className={classes} ref={pickerRef}>
+                <EmojiPicker
+                    lazyLoadEmojis
+                    emojiStyle={EmojiStyle.APPLE}
+                    width={300}
+                    height={400}
+                    theme={theme.value === 'light' ? Theme.LIGHT : Theme.DARK}
+                    onEmojiClick={click}
+                />
+            </Box.Animated>
+            <div onClick={() => visible.set(true)}>
                 <Icons variant="emoji" />
             </div>
-        </>
+        </div>
     );
 }
 //

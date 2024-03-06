@@ -1,3 +1,15 @@
+.wrapper{
+  position: relative;
+
+  .picker{
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+    box-shadow: var(--box-shadow);
+    border-radius: 12px;
+  }
+}
+
 
 .EmojiPickerReact, .epr-main {
   background-color: var(--bg-primary) !important;
