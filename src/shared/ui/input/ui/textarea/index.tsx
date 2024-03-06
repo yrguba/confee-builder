@@ -94,7 +94,25 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
             {(value) => {
                 console.log(value);
                 // return <Title variant="H4M">{value}</Title>;
-                return value;
+                // return <div className={styles.text}>{`${value}11`}</div>;
+                return (
+                    <div className={styles.text}>
+                        {value.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i, index) => {
+                            if (/[\p{Emoji}\u200d]+/gu.test(i)) {
+                                console.log(i);
+                                return (
+                                    <span className={styles.emojiWrapper}>
+                                        😁
+                                        <span className={styles.emoji}>
+                                            <Emoji key={index} emojiStyle={EmojiStyle.APPLE} unified={i?.codePointAt(0)?.toString(16) || ''} size={18} />
+                                        </span>
+                                    </span>
+                                );
+                            }
+                            return <span>{i}</span>;
+                        })}
+                    </div>
+                );
             }}
         </RichTextarea>
     );
