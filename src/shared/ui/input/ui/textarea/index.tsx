@@ -1,11 +1,12 @@
 import cn from 'classnames';
 import cnBind from 'classnames/bind';
 import { Emoji, EmojiStyle } from 'emoji-picker-react';
-import emojiRegex from 'emoji-regex';
 import React, { forwardRef, useEffect, useRef } from 'react';
+import { string } from 'yup';
 
 import styles from './styles.module.scss';
 import { useEasyState } from '../../../../hooks';
+import { replaceEmojis } from '../../../../lib';
 import { TextareaInputProps } from '../../model/types';
 
 const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, ref: any) => {
@@ -81,7 +82,13 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
 
     return (
         <div className={classes} ref={wrapperRef}>
-            {value}
+            {/* {typeof value === 'string' && */}
+            {/*    value.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i) => { */}
+            {/*        if (/[\p{Emoji}\u200d]+/gu.test(i)) { */}
+            {/*            return <Emoji emojiStyle={EmojiStyle.NATIVE} unified="1f3fb" size={24} />; */}
+            {/*        } */}
+            {/*        return i; */}
+            {/*    })} */}
             <textarea className={styles.textArea} ref={textAreaRef} onKeyDown={onKeyDown} placeholder={placeholder} onChange={onInput} value={value} />
         </div>
     );

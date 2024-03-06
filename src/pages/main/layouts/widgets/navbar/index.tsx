@@ -1,3 +1,4 @@
+import { Emoji, EmojiStyle } from 'emoji-picker-react';
 import React, { useTransition } from 'react';
 
 import { chatApi } from 'entities/chat';
