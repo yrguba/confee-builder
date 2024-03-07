@@ -5,11 +5,13 @@ import { RichTextarea } from 'rich-textarea';
 import { string } from 'yup';
 
 import styles from './styles.module.scss';
-import { useEasyState } from '../../../../hooks';
+import { useDimensionsObserver, useEasyState, useThrottle } from '../../../../hooks';
 import { replaceEmojis } from '../../../../lib';
 import { Emoji } from '../../../index';
 import Title from '../../../title';
 import { TextareaInputProps } from '../../model/types';
+
+const [resizeThrottle] = useThrottle((cb) => cb(), 300);
 
 const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, ref: any) => {
     const {
@@ -91,13 +93,21 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         }
     };
 
-    useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.addEventListener('resize', () => {
-                console.log('wd');
-            });
-        }
-    }, []);
+    useDimensionsObserver({
+        refs: { wrapper: wrapperRef },
+        only: 'width',
+        onResize: {
+            wrapper: (size) => {
+                resizeThrottle(() => {
+                    if (wrapperRef.current) {
+                        console.log('resize');
+                        wrapperRef.current.style.height = height;
+                        wrapperRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+                    }
+                });
+            },
+        },
+    });
 
     return (
         <div className={styles.wrapper} ref={wrapperRef} style={{ height, minHeight: '20px' }}>
