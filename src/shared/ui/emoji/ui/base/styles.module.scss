@@ -117,18 +117,20 @@
       }
     }
   }
-
   .epr-emoji-category-label {
     background-color: var(--bg-03) !important;
   }
 
-  .epr-preview, .epr-header-overlay {
-    display: none;
-  }
 
   .epr-search {
     background-color: var(--bg-1) !important;
   }
 
+  [data-unified="263a-fe0f"] {
+    display: none;
+  }
 
+  [data-unified="1f469-200d-1f33e"] {
+    display: none;
+  }
 }

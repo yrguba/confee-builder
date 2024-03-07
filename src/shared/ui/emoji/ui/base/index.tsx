@@ -9,6 +9,8 @@ import Box from '../../../box';
 import Dropdown from '../../../dropdown';
 import Icons from '../../../icons';
 import { BaseEmojiProps } from '../../types';
+import customsEmojis from '../custom';
+import categoriesEmojis from '../custom/categories';
 
 const [throttleMouseMove] = useThrottle((cb) => cb(), 1000);
 
@@ -22,6 +24,7 @@ function EmojiBase(props: BaseEmojiProps) {
     const visible = useEasyState(false);
 
     const click = (data: any) => {
+        console.log(data);
         clickOnEmoji(data.emoji);
     };
 
@@ -48,13 +51,19 @@ function EmojiBase(props: BaseEmojiProps) {
                 }}
             >
                 <EmojiPicker
-                    emojiVersion="0.6"
+                    categories={categoriesEmojis as any}
+                    customEmojis={customsEmojis}
+                    emojiVersion="5.0"
                     lazyLoadEmojis
                     emojiStyle={EmojiStyle.APPLE}
                     width={300}
                     height={400}
                     theme={theme.value === 'light' ? Theme.LIGHT : Theme.DARK}
                     onEmojiClick={click}
+                    searchDisabled
+                    previewConfig={{
+                        showPreview: false,
+                    }}
                 />
             </Box.Animated>
             <div onClick={() => visible.set(true)} className={styles.btn}>
