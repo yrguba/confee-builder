@@ -74,23 +74,23 @@ function Title(props: BaseTitleProps) {
     };
 
     const updTextCb = useCallback(() => {
+        console.log(children);
+        const content = Array.isArray(children) ? children.join('') : typeof children === 'string' ? children : '';
         return (
             <div className={textClasses}>
-                {String(children)
-                    .split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)
-                    ?.map((i, index) => {
-                        if (/\p{Emoji_Presentation}/gu.test(i)) {
-                            return (
-                                <span key={index} className={styles.emojiWrapper}>
-                                    😁
-                                    <span className={styles.emoji}>
-                                        <Emoji key={index} emojiStyle={EmojiStyle.APPLE} unified={i?.codePointAt(0)?.toString(16) || ''} size={18} />
-                                    </span>
+                {content?.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i, index) => {
+                    if (/\p{Emoji_Presentation}/gu.test(i)) {
+                        return (
+                            <span key={index} className={styles.emojiWrapper}>
+                                😁
+                                <span className={styles.emoji}>
+                                    <Emoji key={index} emojiStyle={EmojiStyle.APPLE} unified={i?.codePointAt(0)?.toString(16) || ''} size={18} />
                                 </span>
-                            );
-                        }
-                        return <span key={index}>{i}</span>;
-                    })}
+                            </span>
+                        );
+                    }
+                    return <span key={index}>{i}</span>;
+                })}
             </div>
         );
     }, [children]);

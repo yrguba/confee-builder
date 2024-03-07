@@ -95,7 +95,7 @@ function TextMessage(props: Props) {
             }}
         >
             <Linkify options={options}>
-                <Title variant="H4M" wordBreak>
+                <Title variant="H4M" replaceEmoji wordBreak>
                     {text}
                 </Title>
             </Linkify>
