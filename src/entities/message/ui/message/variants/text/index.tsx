@@ -89,14 +89,18 @@ function TextMessage(props: Props) {
 
     return (
         <Box className={`${styles.wrapper} ${withLink.value ? styles.wrapper_column : styles.wrapper_row}`}>
-            {text.split(/(https?:\/\/[^\s]+)/g).map((i) => {
+            {text.split(/(https?:\/\/[^\s]+)/g).map((i, index) => {
                 if (regex.url.test(i)) {
-                    return <Linkify options={options}>{i}</Linkify>;
+                    return (
+                        <Linkify key={index} options={options}>
+                            {i}
+                        </Linkify>
+                    );
                 }
                 return text.length === 2 && regex.emoji.test(text) ? (
-                    <Emoji.Item emoji={i} size={60} />
+                    <Emoji.Item key={index} emoji={i} size={60} />
                 ) : (
-                    <Title textAlign="left" variant="H4M" replaceEmoji wordBreak>
+                    <Title key={index} textAlign="left" variant="H4M" replaceEmoji wordBreak>
                         {i}
                     </Title>
                 );

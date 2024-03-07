@@ -48,6 +48,7 @@ function EmojiBase(props: BaseEmojiProps) {
                 }}
             >
                 <EmojiPicker
+                    emojiVersion="0.6"
                     lazyLoadEmojis
                     emojiStyle={EmojiStyle.APPLE}
                     width={300}

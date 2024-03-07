@@ -1,12 +1,12 @@
 import cn from 'classnames';
 import cnBind from 'classnames/bind';
-import { Emoji, EmojiStyle } from 'emoji-picker-react';
 import React, { useCallback, useRef } from 'react';
 
 import styles from './styles.module.scss';
 import { useEasyState, useClickAway } from '../../../../hooks';
 import { regex } from '../../../../lib';
 import Box from '../../../box';
+import Emoji from '../../../emoji';
 import Icons from '../../../icons';
 import { BaseTitleProps } from '../../types';
 
@@ -86,9 +86,9 @@ function Title(props: BaseTitleProps) {
                     if (/\p{Emoji_Presentation}/gu.test(i)) {
                         return (
                             <span key={index} className={styles.emojiWrapper}>
-                                😁
+                                {i}
                                 <span className={styles.emoji}>
-                                    <Emoji key={index} emojiStyle={EmojiStyle.APPLE} unified={i?.codePointAt(0)?.toString(16) || ''} size={18} />
+                                    <Emoji.Item key={index} emoji={i} size={18} />
                                 </span>
                             </span>
                         );
