@@ -34,15 +34,15 @@ function App() {
     const webview = useWebview('main');
     const persister = usePersister(queryClient);
 
-    useEffect(() => {
-        if (rustIsRunning) {
-            webview.listen('close-requested', () => {
-                webview.listenOnce('focus', () => {
-                    queryClient.refetchQueries().then();
-                });
-            });
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (rustIsRunning) {
+    //         webview.listen('close-requested', () => {
+    //             webview.listenOnce('focus', () => {
+    //                 queryClient.refetchQueries().then();
+    //             });
+    //         });
+    //     }
+    // }, []);
 
     useTheme();
 

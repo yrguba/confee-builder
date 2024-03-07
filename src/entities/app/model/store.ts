@@ -1,26 +1,33 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
-
-import { useStore, useCreateSelectors, UseStoreTypes } from 'shared/hooks';
+import { useZustand, UseZustandTypes } from 'shared/hooks';
 
 type Store = {
-    initialOpenChat: UseStoreTypes.SelectorWithArr<{
-        id: number;
-        name: string;
-        src: string;
-        url: string;
-    }>;
+    autostart: boolean;
 };
-const { createSelectors, generateSelectorWithObj, generateSelectorWithArr } = useStore<Store>();
-const AppStore = create<Store>()(
-    devtools(
-        immer((set) => ({
-            ...generateSelectorWithArr([], set),
-        }))
-    )
-);
 
-const useAppStore = useCreateSelectors(AppStore);
+type Methods = {
+    autostart: {
+        toggle: (value: boolean) => void;
+    };
+};
 
-export default useAppStore;
+const appStore = useZustand<Store, Methods>({
+    keys: ['autostart'],
+    default: {
+        autostart: false,
+    },
+    methods: {
+        autostart: (use) => ({
+            toggle: (value) => {
+                const { updater } = use();
+                updater({ autostart: value });
+            },
+        }),
+    },
+    forStorage: {
+        keys: ['autostart'],
+        storageName: 'app_storage',
+    },
+});
+
+export type AppStoreTypes = UseZustandTypes.AllTypes<typeof appStore.use>;
+export default appStore;

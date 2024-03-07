@@ -1,8 +1,10 @@
 import { relaunch } from '@tauri-apps/api/process';
 import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
 import React, { useEffect, useState } from 'react';
+import { useUpdateEffect } from 'react-use';
+import { enable, isEnabled, disable } from 'tauri-plugin-autostart-api';
 
-import { appService, AppSettingsView } from 'entities/app';
+import { appService, AppSettingsView, appStore } from 'entities/app';
 import { tokensService, viewerApi } from 'entities/viewer';
 import { useTheme, useStorage, useEasyState, useUnmount } from 'shared/hooks';
 import { Modal } from 'shared/ui';
@@ -21,6 +23,7 @@ function AppSettings() {
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
     const visibleChatGpt = chatStore.use.visibleChatGpt();
+    const autostart = appStore.use.autostart();
 
     const sessionModal = Modal.use();
     const cacheModal = Modal.use();
@@ -75,6 +78,16 @@ function AppSettings() {
         }
     }, []);
 
+    useUpdateEffect(() => {
+        if (appService.tauriIsRunning) {
+            if (autostart.value) {
+                enable().then();
+            } else {
+                disable().then();
+            }
+        }
+    }, [autostart.value]);
+
     return (
         <>
             <Modal.Confirm {...confirmLogout} title="Выйти из аккаунта" closeText="Отмена" okText="Выйти" />
@@ -92,6 +105,7 @@ function AppSettings() {
                 logout={confirmLogout.open}
                 deleteAccount={confirmDeleteAccount.open}
                 openSessionModal={sessionModal.open}
+                autostart={autostart}
             />
         </>
     );

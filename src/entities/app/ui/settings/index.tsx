@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { boolean } from 'yup';
 
+import { AppStoreTypes } from 'entities/app';
 import { ChatStoreTypes } from 'entities/chat';
 import { UseEasyStateReturnType, UseThemeType, UseZustandTypes } from 'shared/hooks';
 import { Button, Emoji, Icons, Switch, Title } from 'shared/ui';
@@ -19,6 +20,7 @@ type Props = {
     logout: () => void;
     openSessionModal: () => void;
     deleteAccount: () => void;
+    autostart: AppStoreTypes['autostart'];
 };
 
 function AppSettingsView(props: Props) {
@@ -33,6 +35,7 @@ function AppSettingsView(props: Props) {
         theme,
         openSessionModal,
         notificationToggle,
+        autostart,
     } = props;
     const { version } = appService.getProjectInfo();
 
@@ -47,12 +50,13 @@ function AppSettingsView(props: Props) {
                 </Button>
             ),
         },
-        // {
-        //     id: 1,
-        //     title: 'Последняя активность',
-        //     subtitle: 'Отображать время моей последней активности в приложении',
-        //     element: <Switch onChange={visibleLastActive.toggle} checked />,
-        // },
+        {
+            id: 1,
+            title: 'Автостарт',
+            subtitle: 'Открывать приложение при включении компьютера',
+            element: <Switch onChange={autostart.toggle} checked={autostart.value} />,
+            hidden: !appService.tauriIsRunning,
+        },
         {
             id: 2,
             title: 'Уведомления',
@@ -66,8 +70,8 @@ function AppSettingsView(props: Props) {
                 <Switch
                     onChange={(value) => theme.set(value ? 'dark' : 'light')}
                     checked={theme.value === 'dark'}
-                    checkedIcon={<Emoji.Item emoji="🌕" />}
-                    uncheckedIcon={<Emoji.Item emoji="🌑" />}
+                    checkedIcon={<Emoji.Item emoji="🌕" size={20} />}
+                    uncheckedIcon={<Emoji.Item emoji="🌑" size={20} />}
                 />
             ),
         },

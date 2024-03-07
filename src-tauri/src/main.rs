@@ -14,7 +14,7 @@ mod commands;
 
 use tauri::{plugin::TauriPlugin, Manager, Runtime};
 use tauri::{CustomMenuItem, SystemTray, SystemTrayMenu, SystemTrayEvent};
-
+use tauri_plugin_autostart::MacosLauncher;
 
 fn main() {
     let open = CustomMenuItem::new("open".to_string(), "Открыть");
@@ -91,6 +91,8 @@ fn main() {
             }
             _ => {}
         })
+        .plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, Some(vec!["--flag1", "--flag2"])))
+        .plugin(tauri_plugin_window_state::Builder::default().build())
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             let window = app.get_window("main").unwrap();
             window.show().unwrap();
