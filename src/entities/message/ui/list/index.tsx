@@ -36,6 +36,7 @@ type Props = {
     initialOpenChat: UseZustandTypes.Wrapper<boolean>;
     isFetching: boolean;
     menuMessageId: UseStoreTypes.SelectorWithPrimitive<number | null>;
+    clearDownloadFile: () => void;
 } & BaseTypes.Statuses;
 
 function MessagesListView(props: Props) {
@@ -61,6 +62,7 @@ function MessagesListView(props: Props) {
         isFileDrag,
         initialOpenChat,
         isFetching,
+        clearDownloadFile,
     } = props;
 
     const prevChat = usePrevious(chat);
@@ -187,6 +189,7 @@ function MessagesListView(props: Props) {
                                 ref={wrapperRef}
                                 message={message}
                                 voiceRecordingInProgress={voiceRecordingInProgress}
+                                clearDownloadFile={clearDownloadFile}
                             />
                             {messages?.length - 10 === index && <div ref={nextPageRef} />}
                         </div>

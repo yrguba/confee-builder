@@ -14,14 +14,16 @@
   white-space: pre-wrap;
   //min-width: 120px;
   padding: 4px 8px;
-  border-radius:12px;
+  border-radius: 12px;
   background-color: var(--bg-secondary);
+  -moz-user-select: text;
+  -webkit-user-select: text;
 
-  &_column{
+  &_column {
     flex-direction: column;
   }
 
-  &_row{
+  &_row {
     flex-direction: row;
   }
 
@@ -47,5 +49,7 @@
     color: var(--text-action) !important;
     cursor: pointer;
   }
+
+
 }
 

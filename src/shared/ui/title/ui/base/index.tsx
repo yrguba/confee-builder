@@ -26,6 +26,7 @@ function Title(props: BaseTitleProps) {
         disabled,
         replaceEmoji,
         wordBreak,
+        textSelect,
     } = props;
 
     const cx = cnBind.bind(styles);
@@ -50,6 +51,7 @@ function Title(props: BaseTitleProps) {
     const textClasses = cn(
         cx('text', {
             [variant]: variant,
+            textSelect: !!textSelect,
         })
     );
 

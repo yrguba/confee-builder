@@ -31,6 +31,7 @@ export type BaseTitleProps = {
     maxLength?: number;
     color?: 'red' | 'inactive' | 'green' | '';
     replaceEmoji?: boolean;
+    textSelect?: boolean;
 } & BaseTypes.Statuses;
 
 export type TitleReplaceEmoji = {

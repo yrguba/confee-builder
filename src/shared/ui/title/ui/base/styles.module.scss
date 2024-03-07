@@ -84,6 +84,11 @@
   color: var(--text-action) !important;
 }
 
+.textSelect{
+  -moz-user-select: text;
+  -webkit-user-select: text ;
+}
+
 .text {
   //display: flex;
   //align-items: center;

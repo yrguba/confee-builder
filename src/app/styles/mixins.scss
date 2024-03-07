@@ -28,9 +28,9 @@
   }
 }
 @mixin textSelect() {
-  -moz-user-select: auto;
-  -khtml-user-select: auto;
-  -webkit-user-select: auto;
+  -moz-user-select: auto!important;
+  -khtml-user-select: auto!important;
+  -webkit-user-select: auto !important;
 }
 
 

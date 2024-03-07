@@ -30,10 +30,11 @@ type Props = {
     voiceRecordingInProgress: boolean;
     clickMessageReply: (message: MessageProxy) => void;
     menuMessageId: UseStoreTypes.SelectorWithPrimitive<number | null>;
+    clearDownloadFile: () => void;
 } & BaseTypes.Statuses;
 
 const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
-    const { menuMessageId, clickMessageReply, message, MessageMenu, chat, openChatProfileModal, voiceRecordingInProgress } = props;
+    const { clearDownloadFile, menuMessageId, clickMessageReply, message, MessageMenu, chat, openChatProfileModal, voiceRecordingInProgress } = props;
 
     const {
         text,
@@ -99,6 +100,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 clickAway={() => menuMessageId.set(null)}
                 // onClick={() => isVisibleMenu.set(false)}
                 content={<MessageMenu message={message} />}
+                openCloseTrigger={(value) => !value && clearDownloadFile()}
             />
 
             <div className={styles.content} style={{ marginTop: firstMessageInBlock && !isMy ? 30 : 0 }}>

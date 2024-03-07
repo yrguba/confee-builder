@@ -40,6 +40,7 @@ function MessageList() {
     const goDownList = useMessageStore.use.goDownList();
     const isFileDrag = useMessageStore.use.isFileDrag();
     const menuMessageId = useMessageStore.use.menuMessageId();
+    const downloadFile = useMessageStore.use.downloadFile();
 
     const {
         data: messageData,
@@ -165,6 +166,7 @@ function MessageList() {
                 initialOpenChat={initialOpenChat}
                 isFetching={isFetching}
                 menuMessageId={menuMessageId}
+                clearDownloadFile={downloadFile.clear}
             />
         </>
     );
