@@ -33,7 +33,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     } = props;
 
     const inputRef = useRef<any>(null);
-    const wrapperRef = useRef<any>(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
     const visibleEmojiPicker = useEasyState(false);
     const cursorPosition = useEasyState(0);
 
@@ -44,9 +44,9 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     }, [focus, ...focusTrigger]);
 
     useEffect(() => {
-        if (inputRef.current && typeof value === 'string') {
-            inputRef.current.style.height = `auto`;
-            inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+        if (wrapperRef.current && typeof value === 'string') {
+            wrapperRef.current.style.height = height;
+            wrapperRef.current.style.height = `${inputRef.current.scrollHeight}px`;
         }
     }, [value]);
 
@@ -86,10 +86,18 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
 
     const clickEmoji = (emoji: any) => {
         if (textChange && typeof value === 'string') {
-            wrapperRef.current.focus();
+            inputRef.current.focus();
             textChange([value.slice(0, cursorPosition.value), emoji, value.slice(cursorPosition.value)].join(''));
         }
     };
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.addEventListener('resize', () => {
+                console.log('wd');
+            });
+        }
+    }, []);
 
     return (
         <div className={styles.wrapper} ref={wrapperRef} style={{ height, minHeight: '20px' }}>

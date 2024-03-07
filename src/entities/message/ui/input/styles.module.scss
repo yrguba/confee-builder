@@ -36,7 +36,7 @@
   }
 
   .main {
-    @include flex;
+    @include flex(center, flex-end);
     @include box-size(calc(100% - 32px), auto);
     gap: 14px;
     padding: 0 16px;
@@ -62,6 +62,8 @@
       @include flex;
       flex: 1;
       z-index: 100;
+      margin-top: 4px;
+      margin-bottom: 12px;
 
       .timerRecording {
         @include flex(flex-start);
