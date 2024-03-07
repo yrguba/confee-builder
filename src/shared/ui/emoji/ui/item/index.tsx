@@ -5,11 +5,11 @@ import styles from './styles.module.scss';
 import { EmojiItemProps } from '../../types';
 
 function EmojiItem(props: EmojiItemProps) {
-    const { unified, clickOnEmoji } = props;
+    const { emoji, clickOnEmoji } = props;
 
     return (
-        <div className={styles.wrapper} onClick={() => clickOnEmoji && clickOnEmoji(unified)}>
-            <Emoji emojiStyle={EmojiStyle.NATIVE} unified={unified} size={24} />
+        <div className={styles.wrapper} onClick={() => clickOnEmoji && clickOnEmoji(emoji)}>
+            <Emoji emojiStyle={EmojiStyle.APPLE} unified={emoji.codePointAt(0)?.toString(16) || ''} size={24} />
         </div>
     );
 }

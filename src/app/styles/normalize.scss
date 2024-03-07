@@ -53,27 +53,29 @@ html {
   }
 }
 
-.yourClass:not(:root:root){
-  .react-switch-bg {
 
-    div {
-      display: flex;
-      align-items: center;
+.react-switch-bg {
 
-      &:nth-child(1) {
-        justify-content: flex-start;
-      }
+  div {
+    display: flex;
+    align-items: center;
 
-      &:nth-child(2) {
-        justify-content: flex-end;
-      }
-
-      .styles_wrapper__x-ey7{
-        position: relative;
-        top: 1px;
-      }
+    &:nth-child(1) {
+      margin-left: 1px;
+      justify-content: flex-start;
     }
 
+    &:nth-child(2) {
+      margin-right: 1px;
+      justify-content: flex-end;
+    }
 
+    .styles_wrapper__x-ey7 {
+      position: relative;
+      top: 10px;
+    }
   }
+
+
 }
+

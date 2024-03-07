@@ -66,8 +66,8 @@ function AppSettingsView(props: Props) {
                 <Switch
                     onChange={(value) => theme.set(value ? 'dark' : 'light')}
                     checked={theme.value === 'dark'}
-                    checkedIcon={<Emoji.Item unified="1f315" />}
-                    uncheckedIcon={<Emoji.Item unified="1f311" />}
+                    checkedIcon={<Emoji.Item emoji="🌕" />}
+                    uncheckedIcon={<Emoji.Item emoji="🌑" />}
                 />
             ),
         },
