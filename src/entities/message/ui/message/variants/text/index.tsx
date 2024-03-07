@@ -88,21 +88,20 @@ function TextMessage(props: Props) {
     };
 
     return (
-        <Box
-            className={styles.wrapper}
-            style={{
-                flexDirection: withLink.value ? 'column' : 'row',
-            }}
-        >
-            <Linkify options={options}>
-                {text.length === 2 && regex.emoji.test(text) ? (
-                    <Emoji.Item emoji={text} size={60} />
+        <Box className={`${styles.wrapper} ${withLink.value ? styles.wrapper_column : styles.wrapper_row}`}>
+            {text.split(/(https?:\/\/[^\s]+)/g).map((i) => {
+                if (regex.url.test(i)) {
+                    return <Linkify options={options}>{i}</Linkify>;
+                }
+                return text.length === 2 && regex.emoji.test(text) ? (
+                    <Emoji.Item emoji={i} size={60} />
                 ) : (
-                    <Title variant="H4M" replaceEmoji wordBreak>
-                        {text}
+                    <Title textAlign="left" variant="H4M" replaceEmoji wordBreak>
+                        {i}
                     </Title>
-                )}
-            </Linkify>
+                );
+            })}
+
             {visibleInfoBlock && (
                 <Info
                     date={message.date}

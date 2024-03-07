@@ -3,7 +3,7 @@
 .wrapper {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   width: auto;
   max-width: 460px;
   //min-width: 400px;
@@ -12,12 +12,18 @@
   word-wrap: break-word;
   word-break: break-word;
   white-space: pre-wrap;
-
-
   //min-width: 120px;
   padding: 4px 8px;
   border-radius:12px;
   background-color: var(--bg-secondary);
+
+  &_column{
+    flex-direction: column;
+  }
+
+  &_row{
+    flex-direction: row;
+  }
 
   .row {
 

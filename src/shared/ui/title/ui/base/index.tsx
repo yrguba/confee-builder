@@ -5,6 +5,7 @@ import React, { useCallback, useRef } from 'react';
 
 import styles from './styles.module.scss';
 import { useEasyState, useClickAway } from '../../../../hooks';
+import { regex } from '../../../../lib';
 import Box from '../../../box';
 import Icons from '../../../icons';
 import { BaseTitleProps } from '../../types';
@@ -74,9 +75,10 @@ function Title(props: BaseTitleProps) {
     };
 
     const updTextCb = useCallback(() => {
-        if (Array.isArray(children) && children.find((i) => typeof i === 'object')) {
-            return children;
-        }
+        // if (Array.isArray(children) && children.find((i) => typeof i === 'object')) {
+        //     return children;
+        // }
+
         const content = Array.isArray(children) ? children.join('') : typeof children === 'string' ? children : '';
         return (
             <div className={textClasses}>
@@ -91,7 +93,6 @@ function Title(props: BaseTitleProps) {
                             </span>
                         );
                     }
-
                     return <span key={index}>{i}</span>;
                 })}
             </div>
