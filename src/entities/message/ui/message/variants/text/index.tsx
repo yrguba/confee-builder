@@ -86,7 +86,7 @@ function TextMessage(props: Props) {
             },
         },
     };
-
+    console.log(text);
     return (
         <Box
             className={styles.wrapper}
@@ -95,9 +95,13 @@ function TextMessage(props: Props) {
             }}
         >
             <Linkify options={options}>
-                <Title variant="H4M" replaceEmoji wordBreak>
-                    {text}
-                </Title>
+                {regex.url.test(text) ? (
+                    text
+                ) : (
+                    <Title variant="H4M" replaceEmoji wordBreak>
+                        {text}
+                    </Title>
+                )}
             </Linkify>
             {visibleInfoBlock && (
                 <Info
