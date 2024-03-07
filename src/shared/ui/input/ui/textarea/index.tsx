@@ -5,7 +5,7 @@ import { RichTextarea } from 'rich-textarea';
 import { string } from 'yup';
 
 import styles from './styles.module.scss';
-import { useDimensionsObserver, useEasyState, useThrottle } from '../../../../hooks';
+import { useDimensionsObserver, useEasyState, useScroll, useThrottle } from '../../../../hooks';
 import { replaceEmojis } from '../../../../lib';
 import { Emoji } from '../../../index';
 import Title from '../../../title';
@@ -39,6 +39,8 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     const visibleEmojiPicker = useEasyState(false);
     const cursorPosition = useEasyState(0);
 
+    const { executeScrollToElement, scrollBottom } = useScroll();
+
     useEffect(() => {
         if (inputRef.current && focus) {
             inputRef.current.focus();
@@ -68,6 +70,9 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                 pressEnterAndCtrl && value && pressEnterAndCtrl(value as string, cursorPosition.value);
                 if (lineBreak && textChange && typeof value === 'string' && value) {
                     textChange([value.slice(0, cursorPosition.value), '\n', value.slice(cursorPosition.value)].join(''));
+                    setTimeout(() => {
+                        scrollBottom({ ref: inputRef, enable: true });
+                    }, 100);
                 }
             } else {
                 pressEnter && pressEnter(value as string);
@@ -100,7 +105,6 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
             wrapper: (size) => {
                 resizeThrottle(() => {
                     if (wrapperRef.current) {
-                        console.log('resize');
                         wrapperRef.current.style.height = height;
                         wrapperRef.current.style.height = `${inputRef.current.scrollHeight}px`;
                     }
