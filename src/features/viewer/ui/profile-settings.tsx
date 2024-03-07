@@ -54,8 +54,8 @@ function ProfileSettings() {
             if (selectDateTs > currentDateTs) {
                 return birthInput.setError(`Значение должно быть ${currentDate} или раньше`);
             }
-            if (selectYear < 1990) {
-                return birthInput.setError(`Значение должно быть 01.01.1990 или позже`);
+            if (selectYear < 1900) {
+                return birthInput.setError(`Значение должно быть 01.01.1900 или позже`);
             }
             birthInput.setError(``);
         },
