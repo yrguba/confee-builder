@@ -24,6 +24,7 @@ function EmojiBase(props: BaseEmojiProps) {
     const visible = useEasyState(false);
 
     const click = (data: any) => {
+        console.log(`'${data.emoji.codePointAt(0)?.toString(16)}':'${data.unified}'`);
         console.log(data);
         clickOnEmoji(data.emoji);
     };
