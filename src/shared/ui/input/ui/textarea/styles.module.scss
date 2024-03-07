@@ -1,8 +1,15 @@
-.wrapper {
-  //min-height: 30px;
-  //min-width: 100%;
+@import "src/app/styles/index";
 
-  //color: var(--text-primary) !important;
+.wrapper {
+  @include flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 4px;
+
+}
+
+.input {
+  max-height: 250px;
   caret-color: var(--text-primary) !important;
   word-break: break-word;
   white-space: pre-line;
@@ -12,7 +19,11 @@
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+}
 
+.emoji{
+  align-self: flex-end;
+  margin-bottom: 4px;
 }
 
 .disabled {

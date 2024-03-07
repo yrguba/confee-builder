@@ -31,37 +31,28 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         lineBreak,
     } = props;
 
+    const inputRef = useRef<any>(null);
     const wrapperRef = useRef<any>(null);
     const visibleEmojiPicker = useEasyState(false);
     const cursorPosition = useEasyState(0);
 
     useEffect(() => {
-        if (wrapperRef.current && focus) {
-            wrapperRef.current.focus();
+        if (inputRef.current && focus) {
+            inputRef.current.focus();
         }
     }, [focus, ...focusTrigger]);
 
     useEffect(() => {
-        if (wrapperRef.current && typeof value === 'string') {
-            const rows = value.split(/\r\n|\r|\n/).length;
-
-            const w = 20;
-            if (rows > 1 && value.length) {
-                wrapperRef.current.style.height = `${rows * w}px`;
-                if (rows > 14) {
-                    wrapperRef.current.style.height = `${14 * w}px`;
-                    // wrapperRef.current.style.overflow = `auto`;
-                }
-            } else {
-                wrapperRef.current.style.height = height;
-            }
+        if (inputRef.current && typeof value === 'string') {
+            inputRef.current.style.height = `auto`;
+            inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
         }
     }, [value]);
 
     const cx = cnBind.bind(styles);
 
     const classes = cn(
-        cx('wrapper', {
+        cx('input', {
             [textVariant]: textVariant,
             disabled: !textChange,
         })
@@ -72,7 +63,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
             event.preventDefault();
             if (event.shiftKey || event.ctrlKey) {
                 pressEnterAndCtrl && value && pressEnterAndCtrl(value as string, cursorPosition.value);
-                if (lineBreak && textChange && typeof value === 'string') {
+                if (lineBreak && textChange && typeof value === 'string' && value) {
                     textChange([value.slice(0, cursorPosition.value), '\n', value.slice(cursorPosition.value)].join(''));
                 }
             } else {
@@ -100,16 +91,16 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     };
 
     return (
-        <>
+        <div className={styles.wrapper} ref={wrapperRef}>
             <RichTextarea
                 onBlur={() => {
-                    if (visibleEmojiPicker.value && wrapperRef.current) {
-                        wrapperRef.current.focus();
+                    if (visibleEmojiPicker.value && inputRef.current) {
+                        inputRef.current.focus();
                     }
                 }}
                 style={{ width: '100%', height, minHeight: '20px' }}
                 className={classes}
-                ref={wrapperRef}
+                ref={inputRef}
                 onKeyDown={onKeyDown}
                 placeholder={placeholder}
                 onChange={onInput}
@@ -126,10 +117,10 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                     );
                 }}
             </RichTextarea>
-            <div style={{ height: '100%', display: 'flex', alignItems: 'flex-end' }}>
+            <div className={styles.emoji}>
                 <Emoji openCloseTrigger={openCloseTrigger} clickOnEmoji={clickEmoji} />
             </div>
-        </>
+        </div>
     );
 });
 
