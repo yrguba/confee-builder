@@ -9,6 +9,7 @@ export type BaseEmojiProps = {
 };
 
 export type EmojiItemProps = {
+    size?: number;
     emoji: string;
     clickOnEmoji?: (arg: string) => void;
 } & SharedProps;

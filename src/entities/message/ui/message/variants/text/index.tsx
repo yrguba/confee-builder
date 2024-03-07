@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react';
 import { useArray, useEasyState } from 'shared/hooks';
 import { regex } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
-import { Box, Icons, Title } from 'shared/ui';
+import { Box, Emoji, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import LinkInfo from './widgets/link-info';
@@ -86,7 +86,7 @@ function TextMessage(props: Props) {
             },
         },
     };
-    console.log(text);
+
     return (
         <Box
             className={styles.wrapper}
@@ -97,6 +97,8 @@ function TextMessage(props: Props) {
             <Linkify options={options}>
                 {regex.url.test(text) ? (
                     text
+                ) : text.length === 2 && regex.emoji.test(text) ? (
+                    <Emoji.Item emoji={text} size={60} />
                 ) : (
                     <Title variant="H4M" replaceEmoji wordBreak>
                         {text}
