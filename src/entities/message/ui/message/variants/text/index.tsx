@@ -95,9 +95,7 @@ function TextMessage(props: Props) {
             }}
         >
             <Linkify options={options}>
-                {regex.url.test(text) ? (
-                    text
-                ) : text.length === 2 && regex.emoji.test(text) ? (
+                {text.length === 2 && regex.emoji.test(text) ? (
                     <Emoji.Item emoji={text} size={60} />
                 ) : (
                     <Title variant="H4M" replaceEmoji wordBreak>
