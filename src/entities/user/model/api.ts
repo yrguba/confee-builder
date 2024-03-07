@@ -20,7 +20,6 @@ class UserApi {
 
     handleGetAvatars(data: { userId: number | undefined }) {
         return useQuery(['get-user-avatars', data.userId], () => axiosClient.get(`/api/v2/users/${data.userId}/avatars`), {
-            staleTime: Infinity,
             enabled: !!data.userId,
             select: (res) => {
                 const updRes = httpHandlers.response<{ avatars: string[] }>(res);

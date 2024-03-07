@@ -15,7 +15,7 @@ function UserAvatarsSwiper(props: Props) {
 
     const { data: imagesData } = userApi.handleGetAvatars({ userId });
 
-    const updItems = imagesData?.map((i, index) => ({
+    const updItems = imagesData?.reverse().map((i, index) => ({
         id: i,
         url: i || '',
     }));
