@@ -178,6 +178,7 @@ function MessageInputView(props: Props) {
                             pressEnter={sendMessage}
                             // pressEnterAndCtrl={() => messageTextState.set((prev) => `${prev}\n`)}
                             lineBreak="enterAndCtrl"
+                            visibleEmoji
                         />
                     )}
                 </Box.Animated>

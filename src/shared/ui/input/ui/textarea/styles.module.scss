@@ -5,11 +5,10 @@
   justify-content: space-between;
   width: 100%;
   gap: 4px;
-
+  max-height: 250px;
 }
 
 .input {
-  max-height: 250px;
   caret-color: var(--text-primary) !important;
   word-break: break-word;
   white-space: pre-line;
@@ -23,7 +22,6 @@
 
 .emoji{
   align-self: flex-end;
-  margin-bottom: 4px;
 }
 
 .disabled {

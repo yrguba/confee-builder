@@ -21,7 +21,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         textVariant = 'H4M',
         active,
         width,
-        height = 'auto',
+        height = '26px',
         loading,
         error,
         disabled,
@@ -29,6 +29,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         focus,
         focusTrigger,
         lineBreak,
+        visibleEmoji,
     } = props;
 
     const inputRef = useRef<any>(null);
@@ -91,14 +92,14 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
     };
 
     return (
-        <div className={styles.wrapper} ref={wrapperRef}>
+        <div className={styles.wrapper} ref={wrapperRef} style={{ height, minHeight: '20px' }}>
             <RichTextarea
                 onBlur={() => {
                     if (visibleEmojiPicker.value && inputRef.current) {
                         inputRef.current.focus();
                     }
                 }}
-                style={{ width: '100%', height, minHeight: '20px' }}
+                style={{ width: '100%', height: '100%' }}
                 className={classes}
                 ref={inputRef}
                 onKeyDown={onKeyDown}
@@ -117,9 +118,11 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                     );
                 }}
             </RichTextarea>
-            <div className={styles.emoji}>
-                <Emoji openCloseTrigger={openCloseTrigger} clickOnEmoji={clickEmoji} />
-            </div>
+            {visibleEmoji && (
+                <div className={styles.emoji}>
+                    <Emoji openCloseTrigger={openCloseTrigger} clickOnEmoji={clickEmoji} />
+                </div>
+            )}
         </div>
     );
 });
