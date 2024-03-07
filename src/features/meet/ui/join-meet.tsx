@@ -2,7 +2,7 @@ import { WebviewWindow } from '@tauri-apps/api/window';
 import React from 'react';
 import { useLifecycles } from 'react-use';
 
-import { JoinMeetView, useMeet, useMeetStore } from 'entities/meet';
+import { JoinMeetView, useMeet } from 'entities/meet';
 import { useStorage, useRingtone, useEffectOnce } from 'shared/hooks';
 
 function JoinMeet() {

@@ -1,29 +1,19 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
-
-import { useStore, useCreateSelectors, UseStoreTypes } from 'shared/hooks';
-
-import { ChatProxy, ChatsTypes } from '../../chat/model/types';
+import { useZustand, UseZustandTypes } from 'shared/hooks';
 
 type Store = {
-    invitationToConference: UseStoreTypes.SelectorWithObj<{
+    invitationToConference?: {
         avatar: string;
         id: string;
         name: string;
         muted: boolean;
-    }>;
+    };
 };
 
-const { createSelectors, generateSelectorWithObj, generateSelectorWithArr } = useStore<Store>();
-const meetStore = create<Store>()(
-    devtools(
-        immer((set, getState) => ({
-            ...generateSelectorWithObj(['invitationToConference'], set),
-        }))
-    )
-);
+type Methods = {};
 
-const useMeetStore = useCreateSelectors(meetStore);
+const meetStore = useZustand<Store, Methods>({
+    keys: ['invitationToConference'],
+});
 
-export default useMeetStore;
+export type MeetSoreTypes = UseZustandTypes.AllTypes<typeof meetStore.use>;
+export default meetStore;

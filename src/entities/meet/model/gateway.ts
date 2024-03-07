@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { useRouter, useWebSocket } from 'shared/hooks';
 
-import useMeetStore from './store';
+import meetStore from './store';
 import { SocketOut, SocketIn } from './types';
 import { viewerService } from '../../viewer';
 import ChatService from '../lib/service';
@@ -13,7 +13,7 @@ function meetGateway() {
     const { navigate } = useRouter();
     const queryClient = useQueryClient();
 
-    const invitationToConference = useMeetStore.use.invitationToConference();
+    const invitationToConference = meetStore.use.invitationToConference();
 
     useEffect(() => {
         const { onMessage } = useWebSocket<SocketIn, SocketOut>();

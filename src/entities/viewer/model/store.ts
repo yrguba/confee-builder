@@ -1,16 +1,12 @@
-// import useZustand from 'react-use-zustand';
-// import { create } from 'zustand';
-// import { devtools } from 'zustand/middleware';
-// import { immer } from 'zustand/middleware/immer';
-//
-// import { useStore, useCreateSelectors, useFs } from 'shared/hooks';
-//
-// type Store = {
-//     viewer: any;
-// };
-//
-// const viewerStore = useZustand<Store>({
-//     keys: ['viewer'],
-// });
+import { useZustand, UseZustandTypes } from 'shared/hooks';
 
-export default {};
+type Store = {};
+
+type Methods = {};
+
+const viewerStore = useZustand<Store, Methods>({
+    keys: [],
+});
+
+export type ViewerStoreTypes = UseZustandTypes.AllTypes<typeof viewerStore.use>;
+export default viewerStore;

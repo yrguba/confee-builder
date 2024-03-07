@@ -1,13 +1,12 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
-
-import { useStore, useCreateSelectors } from 'shared/hooks';
+import { useZustand, UseZustandTypes } from 'shared/hooks';
 
 type Store = {};
-// const { createSelectors } = useStore<Store>();
-const userStore = create<Store>()(devtools(immer((set) => ({}))));
 
-const useUserStore = useCreateSelectors(userStore);
+type Methods = {};
 
-export default useUserStore;
+const userStore = useZustand<Store, Methods>({
+    keys: [],
+});
+
+export type UserStoreTypes = UseZustandTypes.AllTypes<typeof userStore.use>;
+export default userStore;

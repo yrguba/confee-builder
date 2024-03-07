@@ -1,19 +1,19 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
+import { useZustand, UseZustandTypes } from 'shared/hooks';
 
-import { useStore, useCreateSelectors } from 'shared/hooks';
+type Store = {
+    invitationToConference?: {
+        avatar: string;
+        id: string;
+        name: string;
+        muted: boolean;
+    };
+};
 
-type Store = {};
-const { createSelectors, generateSelectorWithObj } = useStore<Store>();
-const authStore = create<Store>()(
-    devtools(
-        immer((set) => ({
-            ...generateSelectorWithObj([], set),
-        }))
-    )
-);
+type Methods = {};
 
-const useAuthStore = useCreateSelectors(authStore);
+const authStore = useZustand<Store, Methods>({
+    keys: ['invitationToConference'],
+});
 
-export default useAuthStore;
+export type AuthSoreTypes = UseZustandTypes.AllTypes<typeof authStore.use>;
+export default authStore;

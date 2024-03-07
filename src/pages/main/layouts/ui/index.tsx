@@ -3,7 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { appService } from 'entities/app';
 import { chatApi, chatGateway, chatStore } from 'entities/chat';
-import { meetGateway, useMeet, useMeetStore } from 'entities/meet';
+import { meetGateway, useMeet, meetStore } from 'entities/meet';
 import { messageGateway } from 'entities/message';
 import { userGateway } from 'entities/user';
 import { useRouter, useStorage, useRecognizeSpeech } from 'shared/hooks';
@@ -17,8 +17,8 @@ function MainLayout() {
     const { params, pathname } = useRouter();
     const chatSubscription = chatStore.use.chatSubscription();
 
-    const invitationToConference = useMeetStore.use.invitationToConference();
-
+    const invitationToConference = meetStore.use.invitationToConference();
+    // console.log(invitationToConference.value.)
     const currentlyPlaying = Audio.store.use.currentlyPlaying();
 
     const ls = useStorage();
@@ -33,13 +33,13 @@ function MainLayout() {
     const { inCall } = useMeet();
 
     useEffect(() => {
-        if (invitationToConference.value.id && !ls.get('by_meet') && !ls.get('join_meet_data')) {
+        if (invitationToConference.value?.id && !ls.get('by_meet') && !ls.get('join_meet_data')) {
             if (appService.tauriIsRunning) {
                 inCall(invitationToConference.value);
                 invitationToConference.clear();
             }
         }
-    }, [invitationToConference.value.id]);
+    }, [invitationToConference.value?.id]);
 
     useEffect(() => {
         if (!params.chat_id) {
