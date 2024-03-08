@@ -49,7 +49,6 @@ import useScroll from './useScroll';
 import useShell from './useShell';
 import useSize from './useSize';
 import useStorage, * as UseStorageTypes from './useStorage';
-import useStore, * as UseStoreTypes from './useStore';
 import useStyles from './useStyles';
 import useTextToSpeech from './useTextToSpeech';
 import useTheme, * as UseThemeType from './useTheme';
@@ -103,7 +102,6 @@ export {
     useFs,
     useNetworkState,
     useIdle,
-    useStore,
     useTheme,
     useCreateSelectors,
     useDebounce,
@@ -127,4 +125,4 @@ export {
     useWebSocket,
 };
 
-export type { UseFsTypes, UseZustandTypes, UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStoreTypes, UseStorageTypes };
+export type { UseFsTypes, UseZustandTypes, UseArrayReturnType, UseThemeType, UseFileUploaderTypes, UseEasyStateReturnType, UseStorageTypes };

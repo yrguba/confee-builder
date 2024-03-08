@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 
+import { messageStore } from 'entities/message';
+
 import styles from './styles.module.scss';
-import { useMessageStore } from '../../../../../../entities/message';
 import { useEasyState, useFs, useFetchMediaContent, useGlobalAudioPlayer } from '../../../../../hooks';
 import Icons from '../../../../icons';
 import { Box, ContextMenu, ContextMenuTypes } from '../../../../index';
@@ -15,7 +16,7 @@ function AudioBase(props: BaseAudioProps) {
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
 
-    const downloadFile = useMessageStore.use.downloadFile();
+    const downloadFile = messageStore.use.downloadFile();
 
     const { src } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
@@ -26,7 +27,7 @@ function AudioBase(props: BaseAudioProps) {
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
     const type = useAudioStore.use.type();
 
-    const isCurrent = currentlyPlaying.value.apiUrl === url;
+    const isCurrent = currentlyPlaying.value?.apiUrl === url;
 
     const { load, play, pause, playing, isReady, src: playerSrc, togglePlayPause } = useGlobalAudioPlayer();
 
@@ -103,7 +104,7 @@ function AudioBase(props: BaseAudioProps) {
                             visible: playing && isCurrent,
                             item: (
                                 <div className={styles.timer}>
-                                    <div>{currentlyPlaying.value.currentTime}</div>/<div>{currentlyPlaying.value.duration}</div>
+                                    <div>{currentlyPlaying.value?.currentTime}</div>/<div>{currentlyPlaying.value?.duration}</div>
                                 </div>
                             ),
                         },

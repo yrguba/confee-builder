@@ -6,7 +6,7 @@ import { useRouter } from 'shared/hooks';
 
 import { chat_gtp_id } from '../../../entities/chat/lib/constants';
 import mockChat from '../../../entities/chat/lib/mock';
-import { useMessageStore } from '../../../entities/message';
+import { messageStore } from '../../../entities/message';
 import { viewerApi } from '../../../entities/viewer';
 import { Input, Modal } from '../../../shared/ui';
 
@@ -22,7 +22,7 @@ function ChatsList() {
     const { mutate: handleChatMute } = chatApi.handleChatMute();
     const { mutate: handlePin } = chatApi.handlePin();
 
-    const lastMessageWithChatGpt = useMessageStore.use.lastMessageWithChatGpt();
+    const lastMessageWithChatGpt = messageStore.use.lastMessageWithChatGpt();
 
     const confirmDeleteChat = Modal.useConfirm<ChatProxy>((value, chat) => {
         if (value && chat) {

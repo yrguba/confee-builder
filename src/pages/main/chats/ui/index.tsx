@@ -6,7 +6,7 @@ import { useWidthMediaQuery, useRouter, useEasyState, useStorage } from 'shared/
 import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useMessageStore } from '../../../../entities/message';
+import { messageStore } from '../../../../entities/message';
 import { SearchMessages } from '../../../../features/message';
 import { useDebounce } from '../../../../shared/hooks';
 import { Sidebar } from '../widgets';
@@ -22,7 +22,7 @@ function ChatsPage() {
     const md = useWidthMediaQuery().to('md');
     const xl = useWidthMediaQuery().from('xl');
 
-    const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
+    const visibleSearchMessages = messageStore.use.visibleSearchMessages();
 
     const isResize = useEasyState(false);
     const sidebarWidth = useEasyState(md ? '100%' : widthInStorage || '375px');

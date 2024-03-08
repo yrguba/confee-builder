@@ -2,7 +2,7 @@ import React, { useRef, Fragment, useEffect, RefObject, ReactElement } from 'rea
 import { mergeRefs } from 'react-merge-refs';
 import { useUpdateEffect } from 'react-use';
 
-import { useInView, usePrevious, useScroll, UseStoreTypes, UseZustandTypes } from 'shared/hooks';
+import { useInView, usePrevious, useScroll, UseZustandTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Button, Counter, Icons } from 'shared/ui';
 
@@ -11,6 +11,7 @@ import { chatTypes } from '../../../chat';
 import { EmployeeProxy } from '../../../company/model/types';
 import { UserProxy } from '../../../user/model/types';
 import useMessagesScroll from '../../lib/useMessagesScroll';
+import { MessageStoreTypes } from '../../model/store';
 import { MessageProxy } from '../../model/types';
 import Message from '../message';
 import SystemMessage from '../message/variants/system';
@@ -25,17 +26,17 @@ type Props = {
     subscribeToChat: (action: 'sub' | 'unsub') => void;
     chatSubscription: number | null;
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
-    highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
+    highlightedMessages: MessageStoreTypes['highlightedMessages'];
     voiceRecordingInProgress: boolean;
     foundMessage: MessageProxy | null;
     deleteFoundMessage: () => void;
     clickMessageReply: (message: MessageProxy) => void;
     dropContainerRef: RefObject<any>;
     goDownList: boolean;
-    isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
+    isFileDrag: MessageStoreTypes['isFileDrag'];
     initialOpenChat: UseZustandTypes.Wrapper<boolean>;
     isFetching: boolean;
-    menuMessageId: UseStoreTypes.SelectorWithPrimitive<number | null>;
+    menuMessageId: MessageStoreTypes['menuMessageId'];
     clearDownloadFile: () => void;
 } & BaseTypes.Statuses;
 
@@ -98,7 +99,7 @@ function MessagesListView(props: Props) {
 
     const rowClick = (message: MessageProxy) => {
         if (highlightedMessages.value.length) {
-            highlightedMessages.pushOrDelete(message);
+            // highlightedMessages.pushOrDelete(message);
         }
     };
 

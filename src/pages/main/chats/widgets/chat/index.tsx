@@ -2,14 +2,13 @@ import React, { useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useUpdateEffect } from 'react-use';
 
-import { useMessageStore } from 'entities/message';
+import { chatApi } from 'entities/chat';
 import { ChatHeader } from 'features/chat';
 import { MessageInput } from 'features/message';
 import { useRouter, useDimensionsObserver, useEasyState } from 'shared/hooks';
 import { Audio, Box, AudioTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { chatApi } from '../../../../../entities/chat';
 
 function Chat() {
     const { params } = useRouter();

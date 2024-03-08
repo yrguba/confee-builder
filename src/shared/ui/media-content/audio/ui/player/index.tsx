@@ -92,7 +92,7 @@ function Player(props: PlayerProps) {
             currentSec: sliderValue.value ? sliderValue.value : currentSec,
             duration,
             currentTime,
-        });
+        } as any);
     }, [currentSec, sliderValue.value]);
 
     useUpdateEffect(() => {
@@ -110,7 +110,7 @@ function Player(props: PlayerProps) {
     }, []);
 
     return (
-        <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value.src} className={styles.wrapper}>
+        <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value?.src} className={styles.wrapper}>
             <div className={styles.container} ref={wrapperRef}>
                 <div className={styles.left}>
                     <div className={styles.controls}>
@@ -121,9 +121,9 @@ function Player(props: PlayerProps) {
                         ))}
                     </div>
                     <div className={styles.descriptions}>
-                        <Title variant="H3M">{currentlyPlaying.value.authorName}</Title>
+                        <Title variant="H3M">{currentlyPlaying.value?.authorName}</Title>
                         <Title primary={false} variant="H4R">
-                            {currentlyPlaying.value.description}
+                            {currentlyPlaying.value?.description}
                         </Title>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ function Player(props: PlayerProps) {
                     borderRadius={0}
                     max={durationNum}
                     step={0.001}
-                    value={sliderValue.value || currentlyPlaying.value.currentSec}
+                    value={sliderValue.value || currentlyPlaying.value?.currentSec}
                     onChange={(value) => {
                         if (typeof value === 'number') {
                             sliderValue.set(value);

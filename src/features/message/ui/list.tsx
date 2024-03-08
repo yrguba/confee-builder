@@ -4,7 +4,7 @@ import { useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy, chatStore } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
-import { messageApi, MessagesListView, messageService, useMessageStore, messageProxy } from 'entities/message';
+import { messageApi, MessagesListView, messageService, messageStore, messageProxy } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
 import { useRouter, useLifecycles, createMemo, useEasyState, useFileUploader, useFs } from 'shared/hooks';
 import { Modal } from 'shared/ui';
@@ -30,17 +30,17 @@ function MessageList() {
 
     const chatSubscription = chatStore.use.chatSubscription();
 
-    const replyMessage = useMessageStore.use.replyMessage();
-    const editMessage = useMessageStore.use.editMessage();
-    const forwardMessages = useMessageStore.use.forwardMessages();
-    const highlightedMessages = useMessageStore.use.highlightedMessages();
-    const voiceRecordingInProgress = useMessageStore.use.voiceRecordingInProgress();
-    const initialPage = useMessageStore.use.initialPage();
-    const foundMessage = useMessageStore.use.foundMessage();
-    const goDownList = useMessageStore.use.goDownList();
-    const isFileDrag = useMessageStore.use.isFileDrag();
-    const menuMessageId = useMessageStore.use.menuMessageId();
-    const downloadFile = useMessageStore.use.downloadFile();
+    const replyMessage = messageStore.use.replyMessage();
+    const editMessage = messageStore.use.editMessage();
+    const forwardMessages = messageStore.use.forwardMessages();
+    const highlightedMessages = messageStore.use.highlightedMessages();
+    const voiceRecordingInProgress = messageStore.use.voiceRecordingInProgress();
+    const initialPage = messageStore.use.initialPage();
+    const foundMessage = messageStore.use.foundMessage();
+    const goDownList = messageStore.use.goDownList();
+    const isFileDrag = messageStore.use.isFileDrag();
+    const menuMessageId = messageStore.use.menuMessageId();
+    const downloadFile = messageStore.use.downloadFile();
 
     const {
         data: messageData,
@@ -55,7 +55,7 @@ function MessageList() {
     const { data: messageOrder } = messageApi.handleGetMessageOrder({ chatId, messageId: messageIdToSearchForPage.value });
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
-    const openForwardMessageModal = useMessageStore.use.openForwardMessageModal();
+    const openForwardMessageModal = messageStore.use.openForwardMessageModal();
 
     const initialOpenChat = chatStore.use.initialOpenChat();
 
@@ -119,7 +119,7 @@ function MessageList() {
     useLifecycles(
         () => {
             initialOpenChat.set(true);
-            if (forwardMessages.value.toChatId && forwardMessages.value.toChatId !== chatId) {
+            if (forwardMessages.value?.toChatId && forwardMessages.value.toChatId !== chatId) {
                 forwardMessages.clear();
             }
         },

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ChatGptView from 'entities/chat/ui/chat-gpt';
-import { messageApi, useMessageStore } from 'entities/message';
+import { messageApi, messageStore } from 'entities/message';
 import { useArray, useEasyState, useStorage } from 'shared/hooks';
 import { getRandomString } from 'shared/lib';
 
@@ -16,7 +16,7 @@ function ChatGpt() {
 
     const botTyping = useEasyState(false);
 
-    const lastMessageWithChatGpt = useMessageStore.use.lastMessageWithChatGpt();
+    const lastMessageWithChatGpt = messageStore.use.lastMessageWithChatGpt();
 
     const message = useEasyState('');
     const messages = useArray({

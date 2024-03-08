@@ -59,7 +59,7 @@ function MainLayout() {
             <div
                 className={styles.wrapper}
                 style={{
-                    height: !currentlyPlaying.value.src ? '100vh' : params.chat_id ? '100vh' : 'calc(100vh - 60px)',
+                    height: !currentlyPlaying.value?.src ? '100vh' : params.chat_id ? '100vh' : 'calc(100vh - 60px)',
                 }}
             >
                 <div className={styles.navbar}>

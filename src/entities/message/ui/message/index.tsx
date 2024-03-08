@@ -14,12 +14,13 @@ import ReplyMessage from './variants/reply';
 import TextMessage from './variants/text';
 import VideoMessage from './variants/video';
 import VoiceMessage from './variants/voice';
-import { useDimensionsObserver, useEasyState, UseStoreTypes, useStyles } from '../../../../shared/hooks';
+import { useDimensionsObserver, useEasyState, useStyles } from '../../../../shared/hooks';
 import { appTypes } from '../../../app';
 import { EmployeeProxy } from '../../../company/model/types';
 import { userProxy } from '../../../user';
 import { User, UserProxy } from '../../../user/model/types';
 import messageProxy from '../../lib/proxy';
+import { MessageStoreTypes } from '../../model/store';
 import { MessageProxy, MessageMenuActions, File, MediaContentType } from '../../model/types';
 
 type Props = {
@@ -29,7 +30,7 @@ type Props = {
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     voiceRecordingInProgress: boolean;
     clickMessageReply: (message: MessageProxy) => void;
-    menuMessageId: UseStoreTypes.SelectorWithPrimitive<number | null>;
+    menuMessageId: MessageStoreTypes['menuMessageId'];
     clearDownloadFile: () => void;
 } & BaseTypes.Statuses;
 

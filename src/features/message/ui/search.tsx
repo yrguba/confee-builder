@@ -3,7 +3,7 @@ import React from 'react';
 import { useUpdateEffect } from 'react-use';
 import { number } from 'yup';
 
-import { messageApi, SearchMessagesView, useMessageStore } from 'entities/message';
+import { messageApi, SearchMessagesView, messageStore } from 'entities/message';
 import { Message } from 'entities/message/model/types';
 import { useRouter, createMemo, useWidthMediaQuery, useEasyState } from 'shared/hooks';
 import { Input } from 'shared/ui';
@@ -29,9 +29,9 @@ function SearchMessages() {
     const { data: searchMessages, hasNextPage, fetchNextPage } = messageApi.handleSearchMessages({ chatId, text: searchInput.value });
     const { data: messageOrder } = messageApi.handleGetMessageOrder({ chatId, messageId: messageIdToSearchForPage.value });
 
-    const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
-    const initialPage = useMessageStore.use.initialPage();
-    const foundMessage = useMessageStore.use.foundMessage();
+    const visibleSearchMessages = messageStore.use.visibleSearchMessages();
+    const initialPage = messageStore.use.initialPage();
+    const foundMessage = messageStore.use.foundMessage();
 
     const getNextPage = () => {
         hasNextPage && fetchNextPage();

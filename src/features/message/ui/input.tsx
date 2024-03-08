@@ -4,7 +4,7 @@ import { useLifecycles, useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy } from 'entities/chat';
 import { companyTypes } from 'entities/company';
-import { messageApi, MessageInputView, useMessageStore } from 'entities/message';
+import { messageApi, MessageInputView, messageStore } from 'entities/message';
 import { VoiceEvents } from 'entities/message/model/types';
 import { userProxy, userTypes } from 'entities/user';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
@@ -32,13 +32,13 @@ function MessageInput() {
 
     const proxyChat = chatProxy(chatData?.data.data);
 
-    const replyMessage = useMessageStore.use.replyMessage();
-    const editMessage = useMessageStore.use.editMessage();
-    const forwardMessages = useMessageStore.use.forwardMessages();
-    const highlightedMessages = useMessageStore.use.highlightedMessages();
-    const voiceRecordingInProgress = useMessageStore.use.voiceRecordingInProgress();
-    const goDownList = useMessageStore.use.goDownList();
-    const isFileDrag = useMessageStore.use.isFileDrag();
+    const replyMessage = messageStore.use.replyMessage();
+    const editMessage = messageStore.use.editMessage();
+    const forwardMessages = messageStore.use.forwardMessages();
+    const highlightedMessages = messageStore.use.highlightedMessages();
+    const voiceRecordingInProgress = messageStore.use.voiceRecordingInProgress();
+    const goDownList = messageStore.use.goDownList();
+    const isFileDrag = messageStore.use.isFileDrag();
 
     const messageTextState = useEasyState('');
     const voiceEvent = useEasyState<VoiceEvents | null>(null);
@@ -72,11 +72,11 @@ function MessageInput() {
     };
 
     const sendMessage = async () => {
-        if (forwardMessages.value.fromChatName) {
+        if (forwardMessages.value?.fromChatName) {
             setTimeout(() => {
                 handleForwardMessages({
                     chatId,
-                    messages: forwardMessages.value.messages,
+                    messages: forwardMessages.value?.messages as any,
                 });
             }, 1000);
             forwardMessages.clear();

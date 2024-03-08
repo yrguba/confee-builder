@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useChatsTabsAndLists } from 'entities/chat';
 import { ChatProxy } from 'entities/chat/model/types';
-import { ForwardMessagesModalView, useMessageStore } from 'entities/message';
+import { ForwardMessagesModalView, messageStore } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 import { Modal, ModalTypes } from 'shared/ui';
 
@@ -11,11 +11,11 @@ function ForwardMessagesModal(modal: ModalTypes.UseReturnedType) {
 
     const tabsAndLists = useChatsTabsAndLists({ redirect: false });
 
-    const forwardMessages = useMessageStore.use.forwardMessages();
-    const openForwardMessageModal = useMessageStore.use.openForwardMessageModal();
+    const forwardMessages = messageStore.use.forwardMessages();
+    const openForwardMessageModal = messageStore.use.openForwardMessageModal();
 
     const clickOnChat = (chat: ChatProxy) => {
-        forwardMessages.set({ ...forwardMessages.value, toChatId: chat.id, redirect: true });
+        forwardMessages.set({ ...forwardMessages.value, toChatId: chat.id, redirect: true } as any);
         modal.close();
         openForwardMessageModal.set(false);
         navigate(`/chats/${pathname.includes('all') ? 'all' : chat.is_personal ? 'personal' : `company/${params.company_id}`}/chat/${chat.id}`);

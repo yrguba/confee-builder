@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { chatApi, chatProxy } from 'entities/chat';
-import { messageApi, messageTypes, useMessageStore, MessageMenuView } from 'entities/message';
+import { messageApi, messageTypes, messageStore, MessageMenuView } from 'entities/message';
 import { MessageProxy } from 'entities/message/model/types';
 import { useRouter, useCopyToClipboard, useTextToSpeech, useEasyState } from 'shared/hooks';
 import { Modal, Notification } from 'shared/ui';
@@ -23,13 +23,13 @@ function MessageMenu(props: MessageMenuProps) {
 
     const proxyChat = chatProxy(chatData?.data.data);
 
-    const replyMessage = useMessageStore.use.replyMessage();
-    const editMessage = useMessageStore.use.editMessage();
-    const forwardMessages = useMessageStore.use.forwardMessages();
-    const highlightedMessages = useMessageStore.use.highlightedMessages();
-    const downloadFile = useMessageStore.use.downloadFile();
-    const menuMessageId = useMessageStore.use.menuMessageId();
-    const openForwardMessageModal = useMessageStore.use.openForwardMessageModal();
+    const replyMessage = messageStore.use.replyMessage();
+    const editMessage = messageStore.use.editMessage();
+    const forwardMessages = messageStore.use.forwardMessages();
+    const highlightedMessages = messageStore.use.highlightedMessages();
+    const downloadFile = messageStore.use.downloadFile();
+    const menuMessageId = messageStore.use.menuMessageId();
+    const openForwardMessageModal = messageStore.use.openForwardMessageModal();
 
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const { mutate: handleSendReaction } = messageApi.handleSendReaction();
@@ -63,7 +63,7 @@ function MessageMenu(props: MessageMenuProps) {
                 return confirmDeleteMessage.open({ messageId: message.id });
             case 'highlight':
                 menuMessageId.set(null);
-                return highlightedMessages.push(message);
+                return highlightedMessages.set([...highlightedMessages.value, message]);
             case 'play':
                 return playSpeech(message.text);
             case 'save':

@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import { useEasyState, UseEasyStateReturnType, UseStoreTypes } from 'shared/hooks';
+import { useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { getEnding, getUniqueArr } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
 import { Input, Emoji, Box, Icons, Title, Button, Audio, IconsTypes, Dropdown, Card } from 'shared/ui';
@@ -13,6 +13,7 @@ import VoiceButton from './widgets/voice-button';
 import { ChatProxy } from '../../../chat/model/types';
 import { Employee } from '../../../company/model/types';
 import { User, UserProxy } from '../../../user/model/types';
+import { MessageStoreTypes } from '../../model/store';
 import { MessageProxy, VoiceEvents } from '../../model/types';
 
 type Props = {
@@ -20,16 +21,16 @@ type Props = {
     messageTextState: UseEasyStateReturnType<string>;
     sendMessage: () => void;
     clickUploadFiles: () => void;
-    replyMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
-    editMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
-    forwardMessages: UseStoreTypes.SelectorWithObj<{ fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean }>;
-    highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
+    replyMessage: MessageStoreTypes['replyMessage'];
+    editMessage: MessageStoreTypes['editMessage'];
+    forwardMessages: MessageStoreTypes['forwardMessages'];
+    highlightedMessages: MessageStoreTypes['highlightedMessages'];
     getVoiceEvents: (e: VoiceEvents) => void;
     showVoice: boolean;
     deleteVoice: () => void;
     tagUsers: UseEasyStateReturnType<UserProxy[]>;
     dropContainerRef: RefObject<any>;
-    isFileDrag: UseStoreTypes.SelectorWithPrimitive<boolean>;
+    isFileDrag: MessageStoreTypes['isFileDrag'];
     sendDraft: () => void;
     voiceRecord: {
         recorderState: {
@@ -131,7 +132,7 @@ function MessageInputView(props: Props) {
                 ))}
             </Box.Animated>
             <Box.Animated
-                visible={!!replyMessage.value.id || !!editMessage.value.id || forwardMessages?.value?.redirect}
+                visible={!!replyMessage.value?.id || !!editMessage.value?.id || !!forwardMessages?.value?.redirect}
                 className={styles.header}
                 animationVariant="autoHeight"
             >

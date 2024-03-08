@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
-import { useMessageStore } from 'entities/message';
+import { messageStore } from 'entities/message';
 import { useEasyState, useFetchMediaContent, useFs, useGlobalAudioPlayer, useReverseTimer, useRouter, useTimer } from 'shared/hooks';
 
 import styles from './styles.module.scss';
@@ -21,7 +21,7 @@ function Voice(props: VoiceProps) {
 
     const { src, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'audio' });
 
-    const downloadFile = useMessageStore.use.downloadFile();
+    const downloadFile = messageStore.use.downloadFile();
 
     const notification = Notification.use();
 
@@ -30,7 +30,7 @@ function Voice(props: VoiceProps) {
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
     const type = useAudioStore.use.type();
 
-    const isCurrent = currentlyPlaying.value.apiUrl === url;
+    const isCurrent = currentlyPlaying.value?.apiUrl === url;
 
     const { load, playing, isReady, src: playerSrc, togglePlayPause, seek, stop } = useGlobalAudioPlayer();
 
@@ -116,8 +116,8 @@ function Voice(props: VoiceProps) {
                 {/* {!isCurrent && <div className={styles.cover} onClick={playPauseClick} />} */}
             </div>
             <div className={styles.time}>
-                <Box.Animated visible={!!currentlyPlaying.value.currentTime && isCurrent} animationVariant="autoWidth">
-                    {currentlyPlaying.value.currentTime}/
+                <Box.Animated visible={!!currentlyPlaying.value?.currentTime && isCurrent} animationVariant="autoWidth">
+                    {currentlyPlaying.value?.currentTime}/
                 </Box.Animated>
                 <div>{waveDuration}</div>
             </div>

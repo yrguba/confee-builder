@@ -2,7 +2,7 @@ import React, { memo, useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import styles from './styles.module.scss';
-import { useMessageStore } from '../../../../../../entities/message';
+import { messageStore } from '../../../../../../entities/message';
 import { useEasyState, UseEasyStateReturnType, useFetchMediaContent, useFs, useStorage, useVideo } from '../../../../../hooks';
 import Box from '../../../../box';
 import Icons from '../../../../icons';
@@ -19,7 +19,7 @@ function VideoPlayer(props: BaseVideoProps) {
 
     const { src, isLoading, error, getFileBlob } = useFetchMediaContent({ url, name, fileType: 'video' });
 
-    const downloadFile = useMessageStore.use.downloadFile();
+    const downloadFile = messageStore.use.downloadFile();
 
     const notification = Notification.use();
 

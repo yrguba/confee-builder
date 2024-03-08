@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { useWidthMediaQuery, UseStoreTypes } from 'shared/hooks';
+import { MessageStoreTypes } from 'entities/message';
+import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Icons, Card, Button, TabBarTypes, TabBar, Box, Title } from 'shared/ui';
 
@@ -12,7 +13,7 @@ type Props = {
     chat: ChatProxy | BaseTypes.Empty;
     back: () => void;
     clickCard: () => void;
-    highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
+    highlightedMessages: MessageStoreTypes['highlightedMessages'];
     clickDeleteMessages: () => void;
     clickForwardMessages: () => void;
     tabsActions: (action: ChatTabsActions) => void;

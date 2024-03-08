@@ -4,7 +4,7 @@ import { appService } from 'entities/app';
 import { useEasyState, useFetchMediaContent, useFs } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { useMessageStore } from '../../../../../../entities/message';
+import { messageStore } from '../../../../../../entities/message';
 import { sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
 import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../../../index';
@@ -17,7 +17,7 @@ function Document(props: BaseDocumentProps) {
     const { id, disableDownload = true, url, size, name, extension } = props;
     const visibleMenu = useEasyState(false);
 
-    const downloadFile = useMessageStore.use.downloadFile();
+    const downloadFile = messageStore.use.downloadFile();
 
     const notification = Notification.use();
 

@@ -4,7 +4,7 @@ import { appTypes } from 'entities/app';
 import { useEasyState, useFetchMediaContent, useFs, useStorage, useStyles, useWindowMouseClick } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { useMessageStore } from '../../../../../../entities/message';
+import { messageStore } from '../../../../../../entities/message';
 import { sizeConverter } from '../../../../../lib';
 import Box from '../../../../box';
 import Button from '../../../../button';
@@ -34,7 +34,7 @@ function Image(props: BaseImageProps) {
     const storage = useStorage();
 
     const { src, error, getFileBlob, isLoading } = useFetchMediaContent({ url, name, fileType: 'img' });
-    const downloadFile = useMessageStore.use.downloadFile();
+    const downloadFile = messageStore.use.downloadFile();
 
     const visibleMenu = useEasyState(false);
     const progress = useEasyState(0);

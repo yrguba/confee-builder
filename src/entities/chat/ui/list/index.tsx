@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useEffectOnce } from 'react-use';
 
-import { useEasyState, useHeightMediaQuery, useInView, useStorage, UseStoreTypes } from 'shared/hooks';
+import { MessageStoreTypes } from 'entities/message';
+import { useEasyState, useHeightMediaQuery, useInView, useStorage } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Input, TabBar } from 'shared/ui';
 
@@ -18,7 +19,7 @@ type Props = {
     activeChatId: number | null;
     tabsAndLists: UseChatsTabsAndListsReturnType;
     chatMenuAction: (action: PrivateChatActions | GroupChatActions, chat: ChatProxy) => void;
-    lastMessageWithChatGpt: UseStoreTypes.SelectorWithObj<MessageWithChatGpt>;
+    lastMessageWithChatGpt: MessageStoreTypes['lastMessageWithChatGpt'];
     visibleChatGpt: boolean;
 } & BaseTypes.Statuses;
 
@@ -56,7 +57,7 @@ function ChatsListView(props: Props) {
                         clickOnChat={clickOnChat}
                         active={window.location.pathname.split('/').pop() === 'chat_gpt'}
                         description={
-                            lastMessageWithChatGpt.value.id
+                            lastMessageWithChatGpt.value?.id
                                 ? `${chatGtpRole[lastMessageWithChatGpt.value.role]}: ${lastMessageWithChatGpt.value.content}`
                                 : 'Чат с ботом'
                         }

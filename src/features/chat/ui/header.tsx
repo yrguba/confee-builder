@@ -4,7 +4,7 @@ import { ChatHeaderView, chatApi, chatService } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
 import { ChatTabsActions } from 'entities/chat/model/types';
 import { useMeet } from 'entities/meet';
-import { useMessageStore, messageApi } from 'entities/message';
+import { messageStore, messageApi } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
@@ -19,9 +19,9 @@ function ChatHeader() {
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
     const proxyChat = chatProxy(chatData?.data.data);
     const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
-    const highlightedMessages = useMessageStore.use.highlightedMessages();
-    const forwardMessages = useMessageStore.use.forwardMessages();
-    const visibleSearchMessages = useMessageStore.use.visibleSearchMessages();
+    const highlightedMessages = messageStore.use.highlightedMessages();
+    const forwardMessages = messageStore.use.forwardMessages();
+    const visibleSearchMessages = messageStore.use.visibleSearchMessages();
 
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
@@ -33,7 +33,7 @@ function ChatHeader() {
         if (chatData) {
             handleDeleteMessage({
                 chatId: chatData?.data.data.id,
-                messageIds: highlightedMessages.value.map((i) => i.id),
+                messageIds: highlightedMessages.value?.map((i) => i.id),
                 fromAll: true,
             });
             highlightedMessages.clear();
