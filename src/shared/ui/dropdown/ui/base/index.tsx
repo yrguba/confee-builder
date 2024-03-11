@@ -22,7 +22,6 @@ function Dropdown(props: BaseDropdownProps) {
     const outsideX = useEasyState(0);
 
     useClickAway(elementRef, () => {
-        console.log('ck');
         clickAway && clickAway();
     });
 
