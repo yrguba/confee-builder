@@ -25,6 +25,7 @@ function AudioMessage(props: Props) {
             <div className={styles.audio}>
                 <Audio visibleDropdown={false} url={audio.url} name={audio.name} authorName={audio.name} description="неизвестно" />
             </div>
+
             {visibleInfoBlock && (
                 <Info
                     date={message.date}

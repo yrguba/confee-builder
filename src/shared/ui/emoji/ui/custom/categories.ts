@@ -27,8 +27,8 @@ export default [
         category: 'objects',
         name: 'Faces...',
     },
-    {
-        category: 'symbols',
-        name: 'Faces...',
-    },
+    // {
+    //     category: 'symbols',
+    //     name: 'Faces...',
+    // },
 ];
