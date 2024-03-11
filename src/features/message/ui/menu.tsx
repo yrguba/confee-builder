@@ -55,6 +55,10 @@ function MessageMenu(props: MessageMenuProps) {
                 menuMessageId.set(null);
                 copyToClipboard(message.text);
                 return notification.success({ title: 'Текст скопирован в буфер', system: true });
+            case 'copySelectedText':
+                menuMessageId.set(null);
+                copyToClipboard(window?.getSelection()?.toString() || '');
+                return notification.success({ title: 'Текст скопирован в буфер', system: true });
             case 'forward':
                 menuMessageId.set(null);
                 forwardMessages.set({ fromChatName: chatData?.data.data.name || '', toChatId: null, messages: [message], redirect: false });

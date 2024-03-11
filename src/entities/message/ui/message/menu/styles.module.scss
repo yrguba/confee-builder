@@ -55,7 +55,7 @@
   .items {
     @include flex-column();
     color: var(--text-primary);
-    width: 200px;
+    width: 100%;
     background-color: var(--bg-secondary);
     box-shadow: var(--box-shadow);
     border-radius: 12px;

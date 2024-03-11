@@ -73,7 +73,7 @@ export type MessageProxy = {
 
 export type VoiceEvents = 'start' | 'send' | 'stop' | 'cancel';
 
-export type MessageMenuActions = 'reply' | 'edit' | 'fixed' | 'copy' | 'forward' | 'delete' | 'highlight' | 'play' | 'save';
+export type MessageMenuActions = 'reply' | 'edit' | 'fixed' | 'copy' | 'copySelectedText' | 'forward' | 'delete' | 'highlight' | 'play' | 'save';
 
 export type Modals = {
     forwardMessages: null;

@@ -39,6 +39,7 @@ function MessageMenuView(props: Props) {
         { id: 1, title: 'Изменить', icon: 'edit', payload: 'edit', hidden: !message.isMy || moment().unix() - moment(message.created_at).unix() > 86400 },
         // { id: 2, title: 'Закрепить', icon: 'pin', payload: 'fixed' },
         { id: 3, title: 'Копировать текст', icon: 'copy', payload: 'copy', hidden: message.type !== 'text' },
+        { id: 10, title: 'Копировать выделенное', icon: 'copy', payload: 'copySelectedText', hidden: !window?.getSelection()?.toString() },
         { id: 4, title: 'Переслать', icon: 'redirect', payload: 'forward' },
         { id: 5, title: 'Удалить', icon: 'delete', payload: 'delete', hidden: !message.isMy },
         { id: 6, title: 'Выделить', icon: 'check-circle', payload: 'highlight' },
