@@ -36,8 +36,8 @@ function ChatHeaderView(props: Props) {
                     item: (
                         <div className={styles.highlightedMessages}>
                             <div className={styles.btns}>
-                                <Button onClick={clickForwardMessages}>Переслать {highlightedMessages.value.length}</Button>
-                                <Button onClick={clickDeleteMessages}>Удалить {highlightedMessages.value.length}</Button>
+                                <Button onClick={clickForwardMessages}>Переслать {highlightedMessages.value?.length}</Button>
+                                <Button onClick={clickDeleteMessages}>Удалить {highlightedMessages.value?.length}</Button>
                             </div>
                             <div className={styles.cancel} onClick={highlightedMessages.clear}>
                                 <Title active variant="H2">
@@ -46,7 +46,7 @@ function ChatHeaderView(props: Props) {
                             </div>
                         </div>
                     ),
-                    visible: !!highlightedMessages.value.length,
+                    visible: !!highlightedMessages.value?.length,
                 },
                 {
                     item: (
@@ -75,7 +75,7 @@ function ChatHeaderView(props: Props) {
                             </div>
                         </div>
                     ),
-                    visible: !highlightedMessages.value.length,
+                    visible: !highlightedMessages.value?.length,
                 },
             ]}
         />

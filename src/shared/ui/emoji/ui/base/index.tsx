@@ -1,12 +1,12 @@
-import EmojiPicker, { Emoji, Theme, EmojiStyle } from 'emoji-picker-react';
+import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react';
 import React, { useRef } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import { useEasyState, useStyles, useTheme, useClickAway, useThrottle } from 'shared/hooks';
+import { useClickAway, useEasyState, useStyles, useTheme, useThrottle } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import { appService } from '../../../../../entities/app';
 import Box from '../../../box';
-import Dropdown from '../../../dropdown';
 import Icons from '../../../icons';
 import { BaseEmojiProps } from '../../types';
 import customsEmojis from '../custom';
@@ -24,8 +24,7 @@ function EmojiBase(props: BaseEmojiProps) {
     const visible = useEasyState(false);
 
     const click = (data: any) => {
-        console.log(`'${data.emoji.codePointAt(0)?.toString(16)}':'${data.unified}'`);
-        console.log(data);
+        console.log(data.unified);
         clickOnEmoji(data.emoji);
     };
 
@@ -56,7 +55,7 @@ function EmojiBase(props: BaseEmojiProps) {
                     customEmojis={customsEmojis}
                     emojiVersion="5.0"
                     lazyLoadEmojis
-                    emojiStyle={EmojiStyle.APPLE}
+                    emojiStyle={appService.getOs() === 'MacOS' ? EmojiStyle.NATIVE : EmojiStyle.APPLE}
                     width={300}
                     height={400}
                     theme={theme.value === 'light' ? Theme.LIGHT : Theme.DARK}

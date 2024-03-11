@@ -69,8 +69,8 @@ function MessageInputView(props: Props) {
     const icon = useEasyState<'arrow' | 'audio' | 'video' | 'keyboard'>('audio');
 
     const getHeaderTitle = () => {
-        if (replyMessage.value.id) return replyMessage.value?.authorName;
-        if (editMessage.value.id) return 'Редактировать';
+        if (replyMessage.value?.id) return replyMessage.value?.authorName;
+        if (editMessage.value?.id) return 'Редактировать';
         if (forwardMessages?.value?.messages?.length) {
             const { messages } = forwardMessages.value;
             const uniqueUsers = getUniqueArr(messages, 'authorName');
@@ -81,20 +81,20 @@ function MessageInputView(props: Props) {
     };
 
     const getHeaderIcon = (): IconsTypes.BaseIconsVariants => {
-        if (replyMessage.value.id) return 'reply-black';
-        if (editMessage.value.id) return 'edit';
+        if (replyMessage.value?.id) return 'reply-black';
+        if (editMessage.value?.id) return 'edit';
         return 'forward-black';
     };
 
     const getHeaderSubtitle = () => {
-        if (replyMessage.value.id) return replyMessage.value?.text;
-        if (editMessage.value.id) return editMessage.value?.text;
+        if (replyMessage.value?.id) return replyMessage.value?.text;
+        if (editMessage.value?.id) return editMessage.value?.text;
         if (forwardMessages?.value?.messages?.length) {
             const length = forwardMessages?.value?.messages?.length;
             if (length > 1) {
                 return `${length} ${getEnding(length, ['сообщение', 'сообщения', 'сообщений'])}`;
             }
-            return forwardMessages?.value?.messages[0].text;
+            return forwardMessages?.value?.messages[0]?.text;
         }
     };
 
@@ -120,7 +120,7 @@ function MessageInputView(props: Props) {
         <div
             ref={dropContainerRef}
             className={styles.wrapper}
-            style={{ pointerEvents: highlightedMessages.value.length ? 'none' : 'auto' }}
+            style={{ pointerEvents: highlightedMessages.value?.length ? 'none' : 'auto' }}
             onDragOver={() => isFileDrag.set(true)}
             onDragLeave={() => isFileDrag.set(false)}
             onDrop={() => isFileDrag.set(false)}
@@ -172,7 +172,7 @@ function MessageInputView(props: Props) {
                     ) : (
                         <Input.Textarea
                             placeholder="Написать сообщение..."
-                            focusTrigger={[tagUsers.value, replyMessage.value.id, editMessage.value.id, chat?.id]}
+                            focusTrigger={[tagUsers.value, replyMessage.value?.id, editMessage.value?.id, chat?.id]}
                             focus
                             value={messageTextState.value}
                             textChange={(text) => messageTextState.set(text)}

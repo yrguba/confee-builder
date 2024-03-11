@@ -19,7 +19,11 @@ type Store = {
     downloadFile: { fileType: MediaContentType; callback: () => void };
 };
 
-type Methods = {};
+type Methods = {
+    highlightedMessages: {
+        pushOrDelete: (message: MessageProxy) => void;
+    };
+};
 
 const messageStore = useZustand<Store, Methods>({
     keys: [
@@ -38,6 +42,21 @@ const messageStore = useZustand<Store, Methods>({
         'lastMessageWithChatGpt',
         'highlightedMessages',
     ],
+    default: {
+        highlightedMessages: [],
+    },
+    methods: {
+        highlightedMessages: (use) => ({
+            pushOrDelete: (message) => {
+                const { state, updater } = use();
+                if (!state.highlightedMessages.value.find((i) => i.id === message.id)) {
+                    updater({ highlightedMessages: [...state.highlightedMessages.value, message] });
+                } else {
+                    updater({ highlightedMessages: state.highlightedMessages.value.filter((i) => i.id !== message.id) });
+                }
+            },
+        }),
+    },
     forStorage: {
         storageName: 'message_storage',
         keys: ['lastMessageWithChatGpt'],

@@ -204,8 +204,8 @@ function MessageInput() {
     }, [chatId]);
 
     useEffect(() => {
-        messageTextState.set(editMessage.value.text || '');
-    }, [editMessage.value.id]);
+        messageTextState.set(editMessage.value?.text || '');
+    }, [editMessage.value?.id]);
 
     useEffect(() => {
         copyFromClipboard();

@@ -98,8 +98,8 @@ function MessagesListView(props: Props) {
     };
 
     const rowClick = (message: MessageProxy) => {
-        if (highlightedMessages.value.length) {
-            // highlightedMessages.pushOrDelete(message);
+        if (highlightedMessages.value?.length) {
+            highlightedMessages.pushOrDelete(message);
         }
     };
 
@@ -172,11 +172,11 @@ function MessagesListView(props: Props) {
                             onClick={() => rowClick(message)}
                             onMouseEnter={() => !message.is_read && readMessage(message.id)}
                             className={`${styles.row} ${
-                                highlightedMessages.value.find((i) => i.id === message.id) || message.id === foundMessage?.id ? styles.row_active : ''
+                                highlightedMessages.value?.find((i) => i.id === message.id) || message.id === foundMessage?.id ? styles.row_active : ''
                             }`}
                             style={{
                                 justifyContent: message.isMy ? 'flex-end' : 'flex-start',
-                                cursor: highlightedMessages.value.length ? 'pointer' : 'default',
+                                cursor: highlightedMessages.value?.length ? 'pointer' : 'default',
                             }}
                             ref={getMessageRefs(message, index)}
                         >

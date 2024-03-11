@@ -2,6 +2,7 @@ import { Emoji, EmojiStyle, EmojiClickData } from 'emoji-picker-react';
 import React from 'react';
 
 import styles from './styles.module.scss';
+import { appService } from '../../../../../entities/app';
 import { useEasyState } from '../../../../hooks';
 import { EmojiItemProps } from '../../types';
 
@@ -12,7 +13,7 @@ function EmojiItem(props: EmojiItemProps) {
 
     return (
         <div className={styles.wrapper} onClick={() => clickOnEmoji && clickOnEmoji(emoji)}>
-            <Emoji emojiStyle={EmojiStyle.APPLE} lazyLoad unified={unified} size={size} />
+            <Emoji emojiStyle={appService.getOs() === 'MacOS' ? EmojiStyle.NATIVE : EmojiStyle.APPLE} lazyLoad unified={unified} size={size} />
         </div>
     );
 }

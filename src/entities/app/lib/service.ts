@@ -19,6 +19,12 @@ class AppService {
         };
     }
 
+    getOs() {
+        if (navigator.userAgent.indexOf('Mac') !== -1) return 'MacOS';
+        if (navigator.userAgent.indexOf('Win') !== -1) return 'Windows';
+        if (navigator.userAgent.indexOf('Linux') !== -1) return 'Linux';
+    }
+
     getDeviceId(): string {
         return `${window.location.origin}%${window.navigator.userAgent}`;
     }
