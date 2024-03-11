@@ -18,9 +18,15 @@
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  color: transparent !important;
 }
 
-.emoji{
+.input::selection {
+  background: rgb(66, 170, 255, 0.3);
+  opacity: 0.5;
+}
+
+.emoji {
   align-self: flex-end;
   margin-bottom: 4px;
 }

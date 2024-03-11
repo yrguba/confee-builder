@@ -90,15 +90,12 @@
 }
 
 .text {
-  //display: flex;
-  //align-items: center;
   color: var(--text-primary) !important;
   width: 100%;
   .emojiWrapper {
-    //min-width: 16px;
-    //min-height: 16px;
+
     color: transparent !important;
-    //background-color: #FF4B4B;
+
     position: relative;
     .emoji {
       position: absolute;
