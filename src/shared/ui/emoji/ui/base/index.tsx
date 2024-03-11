@@ -55,7 +55,7 @@ function EmojiBase(props: BaseEmojiProps) {
                     customEmojis={customsEmojis}
                     emojiVersion="5.0"
                     lazyLoadEmojis
-                    emojiStyle={appService.getOs() === 'MacOS' ? EmojiStyle.NATIVE : EmojiStyle.APPLE}
+                    emojiStyle={EmojiStyle.APPLE}
                     width={300}
                     height={400}
                     theme={theme.value === 'light' ? Theme.LIGHT : Theme.DARK}

@@ -13,7 +13,7 @@ function EmojiItem(props: EmojiItemProps) {
 
     return (
         <div className={styles.wrapper} onClick={() => clickOnEmoji && clickOnEmoji(emoji)}>
-            <Emoji emojiStyle={appService.getOs() === 'MacOS' ? EmojiStyle.NATIVE : EmojiStyle.APPLE} lazyLoad unified={unified} size={size} />
+            <Emoji emojiStyle={EmojiStyle.APPLE} lazyLoad unified={unified} size={size} />
         </div>
     );
 }
