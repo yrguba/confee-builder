@@ -82,7 +82,11 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 
     const clickContextMenu = (e: any) => {
         e.preventDefault();
-        menuMessageId.set(message.id);
+        if (menuMessageId.value) {
+            menuMessageId.clear();
+        } else {
+            menuMessageId.set(message.id);
+        }
     };
 
     return (
@@ -98,7 +102,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 visible={menuMessageId.value === message.id}
                 reverseX={isMy}
                 disabled={voiceRecordingInProgress}
-                clickAway={() => menuMessageId.set(null)}
+                clickAway={menuMessageId.clear}
                 // onClick={() => isVisibleMenu.set(false)}
                 content={<MessageMenu message={message} />}
                 openCloseTrigger={(value) => !value && clearDownloadFile()}
