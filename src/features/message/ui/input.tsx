@@ -94,13 +94,13 @@ function MessageInput() {
             return deleteVoice();
         }
         if (messageTextState.value) {
-            if (editMessage.value.id) {
+            if (editMessage.value?.id) {
                 editMessage.clear();
                 messageTextState.set('');
                 return handleEditTextMessage({
                     text: messageTextState.value,
                     chatId,
-                    messageId: editMessage.value.id,
+                    messageId: editMessage.value?.id,
                 });
             }
 
@@ -125,7 +125,7 @@ function MessageInput() {
             };
             sendChunks(0);
 
-            if (replyMessage.value.id) replyMessage.clear();
+            if (replyMessage.value?.id) replyMessage.clear();
             messageTextState.set('');
             // handleAddDraft({
             //     text: '',
