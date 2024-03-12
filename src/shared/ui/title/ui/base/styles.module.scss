@@ -92,11 +92,12 @@
 .text {
   color: var(--text-primary) !important;
   width: 100%;
+
   .emojiWrapper {
-
     color: transparent !important;
-
     position: relative;
+    pointer-events: none;
+
     .emoji {
       position: absolute;
       top: 0;

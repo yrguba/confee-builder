@@ -77,10 +77,6 @@ function Title(props: BaseTitleProps) {
     };
 
     const updTextCb = useCallback(() => {
-        // if (Array.isArray(children) && children.find((i) => typeof i === 'object')) {
-        //     return children;
-        // }
-
         const content = Array.isArray(children) ? children.join('') : typeof children === 'string' ? children : '';
         return (
             <div className={textClasses}>
