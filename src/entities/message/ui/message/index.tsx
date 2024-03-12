@@ -4,7 +4,6 @@ import { chatTypes } from 'entities/chat';
 import { BaseTypes } from 'shared/types';
 import { Avatar, Box, Dropdown, Icons, Title, TitleTypes } from 'shared/ui';
 
-import MessageMenu from './menu';
 import styles from './styles.module.scss';
 import AudioMessage from './variants/audio';
 import DocumentsMessage from './variants/documents';
