@@ -28,11 +28,12 @@
     z-index: 10;
     @include flex-column;
     gap: 20px;
-    padding: 12px;
-    @include box-size(450px, auto);
-
-    border-radius: 44px;
+    padding: 18px;
+    @include box-size(calc(374px - 36px), auto);
+    border-radius: 20px;
     background-color: var(--bg-secondary);
+
+
 
     .titles {
       @include flex-column;
@@ -42,6 +43,7 @@
     .btns {
       @include flex;
       gap: 12px;
+      width: 100%;
     }
 
   }
