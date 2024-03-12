@@ -98,6 +98,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 </div>
             ) : null}
             <Dropdown
+                destroyed
                 visible={menuMessageId.value === message.id}
                 reverseX={isMy}
                 disabled={voiceRecordingInProgress}

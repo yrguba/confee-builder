@@ -10,7 +10,19 @@ import styles from './styles.module.scss';
 import { BaseDropdownProps } from '../../types';
 
 function Dropdown(props: BaseDropdownProps) {
-    const { openCloseTrigger, reverseX, reverseY, visible, content, trigger, onClick, animationVariant = 'visibleHidden', disabled, clickAway } = props;
+    const {
+        destroyed,
+        openCloseTrigger,
+        reverseX,
+        reverseY,
+        visible,
+        content,
+        trigger,
+        onClick,
+        animationVariant = 'visibleHidden',
+        disabled,
+        clickAway,
+    } = props;
 
     const elementRef = useRef<HTMLDivElement>(null);
 
@@ -100,7 +112,7 @@ function Dropdown(props: BaseDropdownProps) {
         return clickCoord.x;
     };
 
-    return (
+    const item = () => (
         <Box.Animated
             ref={elementRef}
             animationVariant={animationVariant}
@@ -116,6 +128,8 @@ function Dropdown(props: BaseDropdownProps) {
             {content}
         </Box.Animated>
     );
+
+    return destroyed ? (visible ? item() : null) : item();
 }
 
 export default Dropdown;
