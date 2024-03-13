@@ -57,17 +57,6 @@ function CacheView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            {appService.isDev && (
-                <div className={styles.testInput}>
-                    <select name="hero" onChange={(e) => maxSize.set(Number(e.target.value))}>
-                        <option value={0.01}>10mb</option>
-                        <option value={0.02}>20mb</option>
-                        <option value={0.03}>30mb</option>
-                        <option value={0.04}>40mb</option>
-                        <option value={0.05}>50mb</option>
-                    </select>
-                </div>
-            )}
             <div>
                 <Title textAlign="center" variant="H2">
                     Память устройства

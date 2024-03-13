@@ -119,7 +119,7 @@ function AppSettingsView(props: Props) {
                     .map((i) => (
                         <Fragment key={i.id}>
                             {i.id === 7 && <div className={styles.border} />}
-                            <div className={styles.item} style={{ cursor: 'pointer' }} onClick={i.onClick && i.onClick}>
+                            <div className={styles.item} style={{ cursor: i.onClick ? 'pointer' : 'auto' }} onClick={i.onClick && i.onClick}>
                                 <div className={styles.titles}>
                                     <Title textWrap color={i.red ? 'red' : ''} variant="H3M">
                                         {i.title}

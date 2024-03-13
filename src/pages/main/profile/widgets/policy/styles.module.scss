@@ -2,7 +2,14 @@
 
 .wrapper {
   @include box-size(100%, auto);
-  @include flex-column(flex-start,flex-start);
-  padding: 40px;
+  @include flex-column(flex-start, flex-start);
 
+  padding: 40px;
+  color: red;
+
+  .frame {
+    border-radius: 12px;
+    background-color: var(--white);
+    pointer-events: none;
+  }
 }

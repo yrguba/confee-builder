@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useWindowSize } from 'react-use';
 
 import { Box, Title } from 'shared/ui';
@@ -10,7 +10,7 @@ function Policy() {
 
     return (
         <Box.Animated visible className={styles.wrapper}>
-            <iframe className={styles.frame} src="https://confee.ru/privacy.html" width="100%" height={height - 160} />
+            <iframe className={styles.frame} src="https://confee.ru/privacy.html" color="#FF4B4B" width="100%" height={9900} />
         </Box.Animated>
     );
 }
