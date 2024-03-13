@@ -1,11 +1,12 @@
-import os
 from pathlib import Path
-from scripts import git_pushing, git_mirroring
+from scripts import git_mirroring, build_and_send_release, build_and_send_debug, send_release_from_github
 
 menu_options = {
-    1: 'git pushing',
-    2: 'git mirroring',
-    3: 'Exit',
+    1: 'git mirroring',
+    2: 'build and send debug',
+    3: 'build and send release',
+    4: 'send release from github',
+    5: 'Exit',
 }
 
 
@@ -27,10 +28,14 @@ if __name__ == '__main__':
         except:
             print('Wrong input. Please enter a number ...')
         if option == 1:
-            git_pushing.start()
-        elif option == 2:
             git_mirroring.start()
+        elif option == 2:
+            build_and_send_debug.start()
         elif option == 3:
+            build_and_send_release.start()
+        elif option == 4:
+            send_release_from_github.start()
+        elif option == 5:
             print('exit from web-py-scripts')
             exit()
         else:

@@ -1,29 +1,17 @@
-import os, requests
+import requests
 from pathlib import Path
 import platform
 import json
-import os, stat, shutil
+import os
+from bin.dir_workers import delete_dir
+from bin.vars import back_domain
+
+platform = platform.system()
 
 
-def remove_readonly(fn, path, _):
-    try:
-        os.chmod(path, stat.S_IWRITE)
-        fn(path)
-    except Exception as exc:
-        print("Skipped:", path, "because:\n", exc)
-
-
-def delete_dir(dir_name):
-    check_dir = os.path.isdir(dir_name)
-    print(check_dir)
-    if check_dir:
-        shutil.rmtree(dir_name, onerror=remove_readonly)
-
-
-if __name__ == '__main__':
-    platform = platform.system()
-    server_endpoint_name = ''
-    domain = 'https://dev.chat.softworks.ru/'
+def start():
+    print(platform)
+    back_endpoint = ''
 
     project_dir = Path(__file__).parents[2]
     tauri_dir = Path(project_dir, "src-tauri")
@@ -40,7 +28,7 @@ if __name__ == '__main__':
     app_os = ''
 
     if platform == 'Windows':
-        server_endpoint_name = domain + "api/v1/files/upload_desktop_release_windows"
+        back_endpoint = back_domain + "api/v1/files/upload_desktop_release_windows"
         path = Path(project_dir, "src-tauri", "target", "release", "bundle", "msi")
         if os.path.isdir(path):
             files = os.listdir(path)
@@ -55,7 +43,7 @@ if __name__ == '__main__':
             exit()
 
     if platform == 'Darwin':
-        server_endpoint_name = domain + "api/v1/files/upload_desktop_release_mac"
+        back_endpoint = back_domain + "api/v1/files/upload_desktop_release_mac"
         path = Path(project_dir, "src-tauri", "target", "release", "bundle", "macos")
         if os.path.isdir(path):
             files = os.listdir(path)
@@ -71,7 +59,7 @@ if __name__ == '__main__':
 
     try:
         data = {"version": version, "signature": signature, "os": app_os}
-        res = requests.post(server_endpoint_name, data=data, files=[app],
+        res = requests.post(back_endpoint, data=data, files=[app],
                             verify=False)
         print(res)
         print('success')
