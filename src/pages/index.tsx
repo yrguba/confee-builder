@@ -29,26 +29,14 @@ function Routing() {
     const params = useParams();
     const { width, height } = useWindowSize();
 
-    const queryClient = useQueryClient();
-
     const networkState = appService.getNetworkState();
 
     const checkAuth = tokensService.checkAuth();
-    const { data: viewerData, isFetching, error: viewerError } = viewerApi.handleGetViewer(checkAuth);
+    const { data: viewerData, isFetching, error: viewerError } = viewerApi.handleGetViewer(tokensService.checkAuth());
 
     const session = viewerData?.session;
     const user = viewerData?.user;
     const storage = useStorage();
-
-    useEffectOnce(() => {
-        const { onMessage } = useWebSocket();
-        onMessage((data) => {
-            messageGateway(data, queryClient);
-            chatGateway(data, queryClient, navigate);
-            userGateway(data, queryClient);
-            meetGateway(data, queryClient);
-        });
-    });
 
     const routes = (
         <>

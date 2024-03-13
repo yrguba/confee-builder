@@ -13,6 +13,7 @@ import './index.scss';
 import { useTheme, useStorage, useTimer, useRustServer, usePersister } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
+import Provider from './provider';
 import { chatGateway } from '../entities/chat';
 import { meetGateway } from '../entities/meet';
 import { messageGateway } from '../entities/message';
@@ -74,9 +75,11 @@ function App() {
     return (
         <BrowserRouter>
             <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
-                <Notification options={{ disabledDesktop: !notification }} />
-                <Routing />
-                <ReactQueryDevtools position="bottom-left" />
+                <Provider>
+                    <Notification options={{ disabledDesktop: !notification }} />
+                    <Routing />
+                    <ReactQueryDevtools position="bottom-left" />
+                </Provider>
             </PersistQueryClientProvider>
         </BrowserRouter>
     );

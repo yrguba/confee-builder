@@ -13,42 +13,9 @@ import styles from './styles.module.scss';
 import Navbar from '../widgets/navbar';
 
 function MainLayout() {
-    const navigate = useNavigate();
-    const { params, pathname } = useRouter();
-    const chatSubscription = chatStore.use.chatSubscription();
+    const { params } = useRouter();
 
-    const invitationToConference = meetStore.use.invitationToConference();
-    // console.log(invitationToConference.value.)
     const currentlyPlaying = Audio.store.use.currentlyPlaying();
-
-    const ls = useStorage();
-
-    const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
-    useRecognizeSpeech();
-
-    const { inCall } = useMeet();
-
-    useEffect(() => {
-        if (invitationToConference.value?.id && !ls.get('by_meet') && !ls.get('join_meet_data')) {
-            if (appService.tauriIsRunning) {
-                inCall(invitationToConference.value);
-                invitationToConference.clear();
-            }
-        }
-    }, [invitationToConference.value?.id]);
-
-    useEffect(() => {
-        if (!params.chat_id) {
-            chatSubscription.value && handleUnsubscribeFromChat(chatSubscription.value);
-            chatSubscription.set(null);
-        }
-    }, [params.chat_id]);
-
-    useEffect(() => {
-        if (pathname === '/') {
-            navigate('/chats');
-        }
-    }, [navigate]);
 
     return (
         <>

@@ -2,17 +2,17 @@ import produce from 'immer';
 
 import { Socket } from './types';
 
-function meetGateway({ event, data }: Socket, queryClient: any) {
+function meetGateway({ event, data }: Socket, queryClient: any, store: any) {
     switch (event) {
         case 'CallCreated':
             const extraInfo = data.extra_info;
 
-            // invitationToConference.set({
-            //     id: extraInfo.confee_video_room,
-            //     avatar: data.chat.avatar,
-            //     name: data.chat.name,
-            //     muted: extraInfo.muted,
-            // });
+            store.invitationToConference.set({
+                id: extraInfo.confee_video_room,
+                avatar: data.chat.avatar,
+                name: data.chat.name,
+                muted: extraInfo.muted,
+            });
 
             ['all', 'personal', `for-company/17`].forEach((i) =>
                 queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
