@@ -49,7 +49,7 @@ function ChatsListView(props: Props) {
             <div className={styles.tabs}>
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
             </div>
-            <div className={styles.list} ref={wrapperRef}>
+            <Box.Animated visible trigger={tabsAndLists.activeTab?.title} className={styles.list} ref={wrapperRef}>
                 {visibleChatGpt && tabsAndLists.activeTab?.title !== 'Личные' && (
                     <ChatCardView
                         chatMenuAction={chatMenuAction}
@@ -82,7 +82,7 @@ function ChatsListView(props: Props) {
                         }}
                     />
                 ))}
-            </div>
+            </Box.Animated>
         </Box>
     );
 }
