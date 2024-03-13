@@ -25,10 +25,6 @@ function MainLayout() {
 
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
     useRecognizeSpeech();
-    chatGateway();
-    userGateway();
-    messageGateway();
-    meetGateway();
 
     const { inCall } = useMeet();
 

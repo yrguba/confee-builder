@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { checkUpdate } from '@tauri-apps/api/updater';
 import { AnimatePresence } from 'framer-motion';
 import React, { Suspense, useEffect } from 'react';
@@ -15,7 +16,11 @@ import meetPageRouters from './meet';
 import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
 import { appService } from '../entities/app';
-import { useWindowSize, useEffectOnce, useStorage } from '../shared/hooks';
+import { chatGateway } from '../entities/chat';
+import { meetGateway } from '../entities/meet';
+import { messageGateway } from '../entities/message';
+import { userGateway } from '../entities/user';
+import { useWindowSize, useEffectOnce, useStorage, useRouter, useWebSocket } from '../shared/hooks';
 import { Audio } from '../shared/ui';
 
 function Routing() {
@@ -23,6 +28,8 @@ function Routing() {
     const navigate = useNavigate();
     const params = useParams();
     const { width, height } = useWindowSize();
+
+    const queryClient = useQueryClient();
 
     const networkState = appService.getNetworkState();
 
@@ -32,6 +39,16 @@ function Routing() {
     const session = viewerData?.session;
     const user = viewerData?.user;
     const storage = useStorage();
+
+    useEffectOnce(() => {
+        const { onMessage } = useWebSocket();
+        onMessage((data) => {
+            messageGateway(data, queryClient);
+            chatGateway(data, queryClient, navigate);
+            userGateway(data, queryClient);
+            meetGateway(data, queryClient);
+        });
+    });
 
     const routes = (
         <>

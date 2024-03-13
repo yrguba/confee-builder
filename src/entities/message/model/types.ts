@@ -81,3 +81,8 @@ export type Modals = {
 
 export type SocketIn = 'MessageCreated' | 'MessagesDeleted' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated' | 'MessageRead' | 'Typing';
 export type SocketOut = 'ChatListenersUpdated' | 'Typing' | 'MessageRead';
+
+export type Socket = {
+    event: SocketIn;
+    data: any;
+};

@@ -43,3 +43,8 @@ export type UserCardActions = {
 
 export type SocketIn = 'UserUpdated';
 export type SocketOut = '';
+
+export type Socket = {
+    event: SocketIn;
+    data: any;
+};

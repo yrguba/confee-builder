@@ -13,6 +13,11 @@ import './index.scss';
 import { useTheme, useStorage, useTimer, useRustServer, usePersister } from 'shared/hooks';
 import { Notification } from 'shared/ui';
 
+import { chatGateway } from '../entities/chat';
+import { meetGateway } from '../entities/meet';
+import { messageGateway } from '../entities/message';
+import { userGateway } from '../entities/user';
+
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
