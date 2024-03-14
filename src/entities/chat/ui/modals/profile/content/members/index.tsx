@@ -45,10 +45,10 @@ function Members(props: Props) {
                 avatar: i.avatar || '',
                 description: i?.networkStatus || i?.userProxy?.networkStatus || 'Не зарегистрирован',
             };
-            if (i.role === 'Owner') {
+            if (i.role === 'Owner' || i?.userProxy?.role === 'Owner') {
                 initAdmins.push(obj);
             }
-            if (i.role === 'Chat member') {
+            if (i.role === 'Chat member' || i?.userProxy?.role === 'Chat member') {
                 initMembers.push(obj);
             }
         });
