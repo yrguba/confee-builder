@@ -1,12 +1,13 @@
 from pathlib import Path
-from scripts import git_mirroring, build_and_send_release, build_and_send_debug, send_release_from_github
+from scripts import git_mirroring, build_and_send_release, build_and_send_debug, send_release_from_github, update_web
 
 menu_options = {
     1: 'git mirroring',
     2: 'build and send debug',
     3: 'build and send release',
     4: 'send release from github',
-    5: 'Exit',
+    5: 'update web',
+    6: 'Exit',
 }
 
 
@@ -36,6 +37,8 @@ if __name__ == '__main__':
         elif option == 4:
             send_release_from_github.start()
         elif option == 5:
+            update_web.start()
+        elif option == 6:
             print('exit from web-py-scripts')
             exit()
         else:
