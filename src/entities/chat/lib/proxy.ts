@@ -49,7 +49,12 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                     return receiver.is_personal ? getMembers(target.members) : getMembers(target.employee_members);
 
                 case 'authorLastMessage':
-                    return receiver?.checkIsMyLastMessage ? 'Вы' : target?.last_message?.author?.first_name || target?.last_message?.author?.last_name || '';
+                    return receiver?.checkIsMyLastMessage
+                        ? 'Вы'
+                        : target?.last_message?.author?.contact_name ||
+                              target?.last_message?.author?.first_name ||
+                              target?.last_message?.author?.last_name ||
+                              '';
 
                 case 'lastMessageTitle':
                     if (target.typing) return target.typing;

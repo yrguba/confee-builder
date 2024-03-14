@@ -88,7 +88,7 @@ class ChatApi {
     handleGetAllChats = () => {
         return useInfiniteQuery(
             ['get-chats', `all`],
-            async ({ pageParam }) => axiosClient.get(`${this.pathPrefix}/all`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
+            async ({ pageParam }) => axiosClient.get(`/api/v3/chats/all`, { params: { per_page: chats_limit, page: pageParam || 0 } }),
             { staleTime: Infinity, ...this.chatPagination }
         );
     };
