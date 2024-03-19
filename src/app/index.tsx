@@ -1,6 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { isPermissionGranted, requestPermission } from '@tauri-apps/api/notification';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
@@ -61,9 +62,12 @@ function App() {
 
     useEffectOnce(() => {
         if (appService.tauriIsRunning) {
-            // if (!storage.get('max_cache_size')) {
-            //     storage.set('max_cache_size', 1);
-            // }
+            isPermissionGranted().then((res) => {
+                console.log('permissionGranted', res);
+                if (!res) {
+                    requestPermission().then();
+                }
+            });
         } else {
             document.body.style.maxWidth = '1200px';
             document.body.style.margin = '0 auto';
