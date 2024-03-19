@@ -11,14 +11,14 @@ const use = ({
     debounceDelay,
     callbackPhone,
     onFocus,
-    onlyNumber,
+    onlyType,
     resetFocusError = true,
 }: UseProps) => {
     const firstRender = useRef(true);
     const [value, setValue] = useState(initialValue || '');
     const [error, setError] = useState('');
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        if (onlyNumber) {
+        if (onlyType === 'number') {
             if (/^[0-9]+$|^$/.test(e.currentTarget.value)) {
                 setValue(e.currentTarget.value);
             }

@@ -23,7 +23,7 @@ function AuthAd(modal: ModalTypes.UseReturnedType) {
     });
 
     const codeInput = Input.use({
-        onlyNumber: true,
+        onlyType: 'number',
         yupSchema: yup.checkNumber,
     });
 

@@ -23,7 +23,7 @@ function AddContactModal(modal: ModalTypes.UseReturnedType) {
 
     const phone = Input.use({
         resetFocusError: false,
-        onlyNumber: true,
+        onlyType: 'number',
         yupSchema: yup.checkPhone('Введите номер телефона'),
         callbackPhone: (value) => {
             if (String(value).length === 12) {
