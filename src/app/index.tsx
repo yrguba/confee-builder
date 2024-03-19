@@ -1,7 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { isPermissionGranted, requestPermission } from '@tauri-apps/api/notification';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
@@ -15,10 +14,6 @@ import { useTheme, useStorage, useTimer, useRustServer, usePersister } from 'sha
 import { Notification } from 'shared/ui';
 
 import Provider from './provider';
-import { chatGateway } from '../entities/chat';
-import { meetGateway } from '../entities/meet';
-import { messageGateway } from '../entities/message';
-import { userGateway } from '../entities/user';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -62,12 +57,6 @@ function App() {
 
     useEffectOnce(() => {
         if (appService.tauriIsRunning) {
-            isPermissionGranted().then((res) => {
-                console.log('permissionGranted', res);
-                if (!res) {
-                    requestPermission().then();
-                }
-            });
         } else {
             document.body.style.maxWidth = '1200px';
             document.body.style.margin = '0 auto';
