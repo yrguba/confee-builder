@@ -29,7 +29,7 @@ export type UseProps = {
     callback?: (arg: InputValue) => void;
     callbackPhone?: (phone: string | number) => void;
     onFocus?: (value: boolean) => void;
-    onlyType?: 'number' | 'string';
+    onlyType?: 'number' | 'letters';
     resetFocusError?: boolean;
 };
 

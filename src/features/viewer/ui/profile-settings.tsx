@@ -20,6 +20,7 @@ function ProfileSettings() {
     const yup = useYup();
 
     const firstNameInput = Input.use({
+        onlyType: 'letters',
         yupSchema: yup.checkName,
         initialValue: user?.first_name,
         realtimeValidate: true,
@@ -31,6 +32,7 @@ function ProfileSettings() {
     });
 
     const lastNameInput = Input.use({
+        onlyType: 'letters',
         yupSchema: yup.checkName,
         initialValue: user?.last_name,
         realtimeValidate: true,

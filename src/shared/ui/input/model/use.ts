@@ -18,8 +18,11 @@ const use = ({
     const [value, setValue] = useState(initialValue || '');
     const [error, setError] = useState('');
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        if (onlyType === 'number') {
-            if (/^[0-9]+$|^$/.test(e.currentTarget.value)) {
+        if (onlyType === 'number' || onlyType === 'letters') {
+            if (onlyType === 'number' && /^[0-9]+$|^$/.test(e.currentTarget.value)) {
+                setValue(e.currentTarget.value);
+            }
+            if (onlyType === 'letters' && /^[A-Za-z-А-Яа-я]*$/.test(e.currentTarget.value)) {
                 setValue(e.currentTarget.value);
             }
         } else if (!e.currentTarget.value.includes('ㅤ')) {
