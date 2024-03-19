@@ -29,7 +29,7 @@ export type BaseTitleProps = {
     animateTrigger?: string;
     updCallback?: ((value: string | number | undefined) => void) | null;
     maxLength?: number;
-    color?: 'red' | 'inactive' | 'green' | '';
+    color?: 'red' | 'inactive' | 'green' | 'fixed' | '';
     replaceEmoji?: boolean;
     textSelect?: boolean;
 } & BaseTypes.Statuses;

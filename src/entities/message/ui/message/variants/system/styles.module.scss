@@ -1,8 +1,10 @@
 @import "src/app/styles";
 
 .wrapper {
-  color: var(--text-primary);
+  background-color: var(--bg-quaternary);
   margin: 8px 0;
+  padding: 2px 12px;
+  border-radius: 20px;
 }
 
 

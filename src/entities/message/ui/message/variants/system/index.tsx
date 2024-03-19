@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Box } from 'shared/ui';
+import { Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { MessageProxy } from '../../../../model/types';
@@ -15,7 +15,13 @@ function SystemMessage(props: Props) {
 
     if (!text) return null;
 
-    return <div className={styles.wrapper}>{text}</div>;
+    return (
+        <div className={styles.wrapper}>
+            <Title variant="H4M" color="fixed">
+                {text}
+            </Title>
+        </div>
+    );
 }
 
 export default SystemMessage;

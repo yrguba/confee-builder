@@ -65,15 +65,8 @@ function AppSettingsView(props: Props) {
         },
         {
             id: 3,
-            title: 'Тема приложения',
-            element: (
-                <Switch
-                    onChange={(value) => theme.set(value ? 'dark' : 'light')}
-                    checked={theme.value === 'dark'}
-                    checkedIcon={<Emoji.Item emoji="🌕" size={20} />}
-                    uncheckedIcon={<Emoji.Item emoji="🌑" size={20} />}
-                />
-            ),
+            title: theme.value === 'dark' ? 'Тёмная тема' : 'Светлая тема',
+            element: <Switch onChange={(value) => theme.set(value ? 'dark' : 'light')} checked={theme.value === 'dark'} />,
         },
         {
             id: 4,
