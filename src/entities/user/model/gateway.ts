@@ -21,7 +21,7 @@ function userGateway({ event, data }: Socket, queryClient: any) {
                             if (!chat.is_group && viewerId !== data.user_id) {
                                 return {
                                     ...chat,
-                                    members: chat.members.map((i) => {
+                                    members: chat?.members?.map((i) => {
                                         if (i.id === data.user_id) return { ...i, ...data.updated_values };
                                         return i;
                                     }),
