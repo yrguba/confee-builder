@@ -25,6 +25,7 @@ tauri-plugin-fs-extra = { git = "https://github.com/tauri-apps/plugins-workspace
 tauri-plugin-upload = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1"}
 tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 tauri-plugin-autostart = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+whoami = "=1.5.1"
 
 [features]
 # by default Tauri runs in production mode

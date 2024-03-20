@@ -1,6 +1,8 @@
 use fs_extra::dir::get_size;
 use std::{fs};
 use tauri;
+use std::env;
+use whoami;
 
 #[path = "set_notification_icon.rs"]
 mod set_notification_icon;
@@ -26,6 +28,10 @@ pub fn write_data_to_file(path: &str, data: &[u8]) {
     fs::write(path, data).unwrap();
 }
 
+#[tauri::command]
+pub async fn get_device_name() -> String {
+    return  whoami::realname().to_string() + " " + &whoami::platform().to_string()
+}
 
 #[tauri::command]
 pub fn set_icon_counter(count: String) {

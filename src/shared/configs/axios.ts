@@ -15,6 +15,8 @@ const axiosClient = axios.create(config);
 
 axiosClient.interceptors.request.use(async (config: any) => {
     const tokens = tokensService.get();
+    // const deviceName = await appService.getDeviceName();
+
     if (tokens?.access_token) {
         return {
             ...config,
@@ -22,6 +24,7 @@ axiosClient.interceptors.request.use(async (config: any) => {
                 ...config.headers,
                 Accept: 'application/json',
                 Authorization: `Bearer ${tokens.access_token}`,
+                // 'X-DEVICE-NAME': 'deviceName',
             },
         };
     }

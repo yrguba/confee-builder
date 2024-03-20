@@ -79,7 +79,12 @@ function useRustServer() {
 
     const invoker = {
         setIconCounter: async (count: string) => {
+            if (!rustIsRunning) return null;
             await invoke('set_icon_counter', { count });
+        },
+        getDeviceName: async () => {
+            if (!rustIsRunning) return null;
+            return invoke('get_device_name');
         },
     };
 

@@ -11,7 +11,7 @@ import { appService } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
 import { useTheme, useStorage, useTimer, useRustServer, usePersister } from 'shared/hooks';
-import { Notification } from 'shared/ui';
+import { Button, Notification } from 'shared/ui';
 
 import Provider from './provider';
 
@@ -32,7 +32,7 @@ function App() {
     const { clientBaseURL, backBaseURL } = appService.getUrls();
     const storage = useStorage();
     const notification = storage.get('notification');
-    const { useWebview, rustIsRunning } = useRustServer();
+    const { useWebview, rustIsRunning, invoker } = useRustServer();
     const webview = useWebview('main');
     const persister = usePersister(queryClient);
 

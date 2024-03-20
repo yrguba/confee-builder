@@ -62,6 +62,8 @@ const webView = () => {
         };
 
         getTokens(async () => {
+            const deviceName = (await appService.getDeviceName()) as any;
+            const encDeviceName = encodeURI(deviceName || 'unknown');
             try {
                 axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res) => {
                     if (res.data.access_token) {
@@ -71,7 +73,7 @@ const webView = () => {
                         });
                         window.location.reload();
                     } else {
-                        // window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
+                        window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
                     }
                 });
             } catch (e) {

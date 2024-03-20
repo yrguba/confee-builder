@@ -29,7 +29,7 @@ fn main() {
         .with_menu(tray_menu);
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![commands::open_meet, commands::get_folder_size, commands::write_data_to_file, commands::set_icon_counter])
+        .invoke_handler(tauri::generate_handler![commands::open_meet, commands::get_folder_size, commands::write_data_to_file, commands::set_icon_counter, commands::get_device_name])
         .system_tray(system_tray)
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {
@@ -98,6 +98,7 @@ fn main() {
             window.show().unwrap();
             app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
         }))
+        .plugin(tauri_plugin_upload::init())
         .plugin(tauri_plugin_upload::init())
         .plugin(tauri_plugin_fs_extra::init())
         .run(tauri::generate_context!())

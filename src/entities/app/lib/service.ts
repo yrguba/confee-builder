@@ -1,6 +1,8 @@
+import { invoke } from '@tauri-apps/api';
 import { useNetworkState } from 'react-use';
 
 import pjson from '../../../../package.json';
+import { useRustServer } from '../../../shared/hooks';
 import { NetworkState } from '../model/types';
 
 class AppService {
@@ -23,6 +25,13 @@ class AppService {
         if (navigator.userAgent.indexOf('Mac') !== -1) return 'MacOS';
         if (navigator.userAgent.indexOf('Win') !== -1) return 'Windows';
         if (navigator.userAgent.indexOf('Linux') !== -1) return 'Linux';
+    }
+
+    async getDeviceName() {
+        if (this.tauriIsRunning) {
+            return invoke('get_device_name');
+        }
+        return this.getOs();
     }
 
     getDeviceId(): string {
