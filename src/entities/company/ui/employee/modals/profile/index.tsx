@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { Avatar, Icons, Title } from 'shared/ui';
+import { Avatar, Icons, Switch, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { updatePhone } from '../../../../../../shared/lib';
 import { EmployeeProxy } from '../../../../model/types';
+import EmployeeStatusView from '../../status';
 
 type Props = {
     employeeData: EmployeeProxy | BaseTypes.Empty;
@@ -20,13 +22,13 @@ function EmployeeProfileModalView(props: Props) {
         { id: 0, title: 'Отдел', subtitle: employeeData?.departments[0].name || '' },
         { id: 1, title: 'Должность', subtitle: employeeData?.position || '' },
         { id: 2, title: 'Почта', subtitle: employeeData?.email || '' },
-        { id: 3, title: 'Номер телефона', subtitle: employeeData?.user.phone || '' },
+        { id: 3, title: 'Номер телефона', subtitle: updatePhone(employeeData?.user.phone || '') },
     ];
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.mainInfo}>
-                <Avatar size={200} img={employeeData?.avatar} />
+                <Avatar size={200} img={employeeData?.avatar} networkStatus="online" />
                 <Title variant="H1" textAlign="center">
                     {employeeData?.full_name}
                 </Title>
@@ -42,15 +44,24 @@ function EmployeeProfileModalView(props: Props) {
                     <Title variant="H3B">{employeeData?.companies[0].name || ''}</Title>
                 </div>
                 {rows.map((i) => (
-                    <div key={i.id} className={styles.item}>
-                        <Title variant="H4M" primary={false}>
-                            {i.title}
-                        </Title>
-                        <Title textWrap={i.id === 4} variant="H3M">
-                            {i.subtitle}
-                        </Title>
-                    </div>
+                    <Fragment key={i.id}>
+                        <div className={styles.item}>
+                            <Title variant="H4M" primary={false}>
+                                {i.title}
+                            </Title>
+                            <Title textWrap={i.id === 4} variant="H3M">
+                                {i.subtitle}
+                            </Title>
+                        </div>
+                        <div className={styles.border} />
+                    </Fragment>
                 ))}
+            </div>
+            <div className={styles.pushSwitch}>
+                <Title color="inactive" variant="H4S">
+                    Push-уведомления
+                </Title>
+                <Switch checked onChange={() => ''} />
             </div>
             {!successRegister && (
                 <div className={styles.deleteAcc} onClick={openDeleteAccModal}>

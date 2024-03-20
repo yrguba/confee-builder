@@ -22,8 +22,10 @@ import returnKeysWithValue from './return-keys-with-value';
 import secondsToHms from './seconds-to-hms';
 import sizeConverter from './size-converter';
 import timeConverter from './time-converter';
+import updatePhone from './update-phone';
 
 export {
+    updatePhone,
     replaceEmojis,
     timeConverter,
     objectToFormData,
