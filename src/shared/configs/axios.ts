@@ -24,7 +24,7 @@ axiosClient.interceptors.request.use(async (config: any) => {
                 ...config.headers,
                 Accept: 'application/json',
                 Authorization: `Bearer ${tokens.access_token}`,
-                // 'X-DEVICE-NAME': 'deviceName',
+                // 'x-device-name': 'deviceName',
             },
         };
     }

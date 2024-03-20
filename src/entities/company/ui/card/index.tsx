@@ -29,7 +29,7 @@ function CompanyCardView(props: Props) {
                 <Icons variant="arrow-drop-right" />
             </div>
             <div className={styles.body}>
-                <Card img={avatar} title={title} subtitle={subtitle} />
+                <Card onClick={() => ''} img={avatar} title={title} subtitle={subtitle} />
                 <div className={styles.position}>
                     <Title textWrap variant="caption1M">
                         {position || 'Нет данных'}

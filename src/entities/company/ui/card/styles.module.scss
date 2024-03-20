@@ -9,6 +9,8 @@
   min-width: 288px;
   padding: 0 18px;
   position: relative;
+  cursor: pointer;
+
   @include width-to(sm) {
     width: auto;
     padding: 0
