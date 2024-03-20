@@ -25,12 +25,17 @@ function CompanyCardView(props: Props) {
 
     return (
         <div className={styles.wrapper} style={{ ...style, cursor: cardClick ? 'pointer' : 'default' }} onClick={cardClick}>
+            <div className={styles.arrow}>
+                <Icons variant="arrow-drop-right" />
+            </div>
             <div className={styles.body}>
                 <Card img={avatar} title={title} subtitle={subtitle} />
-                <Title textWrap variant="H3M">
-                    {position || 'Нет данных'}
-                </Title>
-                {/* <EmployeeStatusView status={status} /> */}
+                <div className={styles.position}>
+                    <Title textWrap variant="caption1M">
+                        {position || 'Нет данных'}
+                    </Title>
+                </div>
+                <EmployeeStatusView status={status} />
             </div>
         </div>
     );

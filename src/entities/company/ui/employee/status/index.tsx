@@ -16,7 +16,7 @@ function EmployeeStatusView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.indicator} style={{ backgroundColor: EmployeeStatuses[status] }} />
-            <Title variant="H3S">{status}</Title>
+            <Title variant="H3S">В офисе</Title>
         </div>
     );
 }

@@ -4,7 +4,7 @@
   @include box-size(100%, 100%);
   @include flex-column(flex-start);
   background-color: var(--bg-primary);
-  max-width: 1000px;
+  max-width: 890px;
 
   .tabs {
     @include flex(flex-start, flex-end);
