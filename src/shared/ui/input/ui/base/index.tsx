@@ -32,6 +32,7 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         setError,
         callbackPhone,
         focus,
+        rows = 1,
         ...other
     } = props;
 
@@ -81,19 +82,36 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
     return (
         <div className={styles.wrapper} style={{ width, height }}>
             <div className={styles.title}>{title}</div>
-            <div className={classes} onFocus={onFocus} onBlur={onBlur}>
+            <div className={classes} onFocus={onFocus} onBlur={onBlur} style={{ height: rows > 1 ? rows * 30 : '' }}>
                 {prefixIcon && (
                     <div className={styles.prefixIcon}>
                         <Icons variant={prefixIcon} />
                     </div>
                 )}
                 {prefix && <div className={styles.inputPrefix}>{prefix}</div>}
-                <input
-                    ref={mergeRefs([inputRef, ref])}
-                    className={styles.input}
-                    {...other}
-                    placeholder={prefixIcon === 'search' ? 'Поиск' : other.placeholder}
-                />
+                {rows > 1 ? (
+                    <textarea
+                        onKeyDown={(e) => {
+                            if (e.keyCode === 13 && typeof other.value === 'string' && other.value.split('\n').length >= rows) {
+                                e.preventDefault();
+                            }
+                        }}
+                        rows={rows}
+                        maxLength={other.maxLength}
+                        value={other.value}
+                        onChange={other.onChange as any}
+                        className={styles.textArea}
+                        ref={mergeRefs([inputRef, ref])}
+                        placeholder={prefixIcon === 'search' ? 'Поиск' : other.placeholder}
+                    />
+                ) : (
+                    <input
+                        ref={mergeRefs([inputRef, ref])}
+                        className={styles.input}
+                        {...other}
+                        placeholder={prefixIcon === 'search' ? 'Поиск' : other.placeholder}
+                    />
+                )}
 
                 <Box.Animated
                     onMouseLeave={() => setFocusedClearIcon(false)}

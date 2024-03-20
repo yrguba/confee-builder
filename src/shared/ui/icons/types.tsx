@@ -2,6 +2,7 @@ export type BaseIconsVariants =
     | 'arrow-drop-down'
     | 'arrow-drop-up'
     | 'arrow-drop-right'
+    | 'arrow-drop-left'
     | 'arrow-left'
     | 'search'
     | 'add-contact'

@@ -92,18 +92,6 @@ function ProfileSettings() {
         },
     });
 
-    const { open: selectFile } = useFileUploader({
-        accept: 'image',
-        onAfterUploading: (data) => {
-            const fd = getFormData('images', data.files[0].file);
-            handleAddAvatar({ file: fd });
-        },
-    });
-
-    const getScreenshot = (data: string) => {
-        handleAddAvatar({ file: getFormData('images', data) });
-    };
-
     return (
         <SettingsProfileView
             inputs={{
@@ -113,10 +101,6 @@ function ProfileSettings() {
                 nickname: nicknameInput,
                 about: aboutInput,
             }}
-            getScreenshot={getScreenshot}
-            deleteFile={() => ''}
-            selectFile={selectFile}
-            user={user}
             back={() => navigate('/profile')}
         />
     );

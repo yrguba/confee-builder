@@ -1,11 +1,18 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(100%, auto);
+  @include box-size(calc(100% - 32px), auto);
   @include flex-column;
   align-items: flex-start;
   gap: 24px;
-  max-width: 550px;
+  //max-width: 550px;
+  margin-left: 32px;
+  margin-top: 12px;
+
+  @include width-to(md){
+    width: calc(100% - 12px);
+    margin-left: 12px;
+  }
 
   .back {
     @include flex(flex-start);
@@ -19,9 +26,10 @@
 
   .item {
     @include flex-column(flex-start, flex-start);
+    margin-left: 18px;
     height: auto;
-    gap: 4px;
-    width: 100%;
+    gap: 12px;
+    width: calc(100% - 18px);
     flex: 1;
   }
 }

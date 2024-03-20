@@ -7,6 +7,16 @@ function BaseIcons(props: BaseIconsProps) {
     const { variant, size = 24 } = props;
 
     switch (variant) {
+        case 'arrow-drop-left': {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12">
+                    <path
+                        fill="#7B57C8"
+                        d="M6.71.71c.39.39.39 1.02 0 1.41L2.83 6l3.88 3.88a.996.996 0 11-1.41 1.41L.71 6.7a.996.996 0 010-1.41L5.3.7C5.68.32 6.32.32 6.71.71z"
+                    />
+                </svg>
+            );
+        }
         case 'select-file': {
             return (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

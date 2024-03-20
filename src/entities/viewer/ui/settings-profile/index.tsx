@@ -9,10 +9,6 @@ import { getEnding } from '../../../../shared/lib';
 import { Viewer } from '../../model/types';
 
 type Props = {
-    user: Viewer | BaseTypes.Empty;
-    selectFile: () => void;
-    deleteFile: () => void;
-    getScreenshot: (img: string) => void;
     back: () => void;
     inputs: {
         firstName: InputTypes.UseReturnedType;
@@ -28,9 +24,9 @@ function SettingsProfileView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.back} onClick={back}>
-                <Icons variant="arrow-left" />
-                <Title active variant="H3M">
-                    Вернуться к личной информации
+                <Icons variant="arrow-drop-left" />
+                <Title active variant="H2">
+                    Вернуться в Профиль
                 </Title>
             </div>
 
@@ -47,7 +43,7 @@ function SettingsProfileView(props: Props) {
                 <Title primary={false} textWrap variant="H3M">
                     Эту информацию будут видеть другие пользователи
                 </Title>
-                <Input placeholder="О себе" {...inputs.about} clearIcon maxLength={100} />
+                <Input rows={2} placeholder="О себе" {...inputs.about} clearIcon maxLength={100} />
                 <Title variant="caption1M">{`Осталось ${100 - inputs.about.value.length} ${getEnding(100 - inputs.about.value.length, [
                     'символ',
                     'символа',
@@ -61,7 +57,7 @@ function SettingsProfileView(props: Props) {
                 <Title textWrap primary={false} variant="H3M">
                     Уникальный идентификатор, по которому вас можно найти
                 </Title>
-                <Input placeholder="nickname" {...inputs.nickname} prefix="@" clearIcon size="m" />
+                <Input placeholder="nickname" {...inputs.nickname} prefix="@" clearIcon />
                 <Title primary={false} textWrap variant="caption1M">
                     Можно использовать символы a-z, 0-9 и подчёркивания. Минимальная длина − 5 символов, максимальная − 20.
                 </Title>
@@ -70,7 +66,7 @@ function SettingsProfileView(props: Props) {
                 <Title textWrap variant="H2">
                     Укажите дату рождения
                 </Title>
-                <Input min="1900-01-01" max={moment().format('YYYY-MM-DD')} placeholder="ДД.ММ.ГГГГ" type="date" {...inputs.birth} size="m" />
+                <Input min="1900-01-01" max={moment().format('YYYY-MM-DD')} placeholder="ДД.ММ.ГГГГ" type="date" {...inputs.birth} />
             </div>
         </div>
     );

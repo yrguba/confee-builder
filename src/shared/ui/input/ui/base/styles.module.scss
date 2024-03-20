@@ -26,6 +26,20 @@
     border: 1px solid var(--border-primary-pressed);
   }
 
+  .textArea{
+    width: 100%;
+    //padding: 4px 0;
+    //height: calc(100% - 8px);
+    word-break: break-word;
+    white-space: pre-line;
+    resize: none;
+    outline: none;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
   .input {
     display: flex;
     //align-items: center;
