@@ -1,31 +1,39 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex-column;
-  width: 100%;
+  @include flex;
+  width: calc(100% - 16px);
   min-width: 170px;
   max-width: 400px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
+  padding-left: 8px;
+  padding-top: 8px;
 
+  .content {
+    @include flex-column;
 
-  .description {
-    margin: 0 8px;
-    width: calc(100% - 16px);
-  }
-
-  .body {
-    @include flex(flex-start);
-    width: 100%;
-
-    .deleted {
+    .description {
       margin: 0 8px;
+      margin-bottom: -4px;
       width: calc(100% - 16px);
+    }
+
+    .body {
+      @include flex(flex-start);
+      width: 100%;
+
+      .deleted {
+        margin: 0 8px;
+        width: calc(100% - 16px);
+      }
     }
   }
 
+
   .info {
-    width: calc(100% - 7px);
+    align-self: flex-end;
+    //width: calc(100% - 7px);
     margin-right: 7px;
   }
 }

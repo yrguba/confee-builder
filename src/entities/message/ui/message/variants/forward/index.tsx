@@ -30,26 +30,30 @@ function ForwardMessage(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.description}>
-                <Title textAlign="left" active variant={nameTitleVariant}>
-                    {`Переслано от ${message.authorName}`}
-                </Title>
-            </div>
-            <div className={styles.body}>
-                {forwarded_from_message?.text === 'Сообщение удалено' ? (
-                    <div className={styles.deleted}>
-                        <Title variant="H4M">Сообщение удалено</Title>
-                    </div>
-                ) : (
-                    <>
-                        {forwarded_from_message?.type === 'text' && <TextMessage message={message} openChatProfileModal={openChatProfileModal} chat={chat} />}
-                        {forwarded_from_message?.type === 'images' && <ImagesMessage message={message} />}
-                        {forwarded_from_message?.type === 'documents' && <DocumentsMessage message={message} />}
-                        {forwarded_from_message?.type === 'voices' && <VoiceMessage message={message} chat={chat} />}
-                        {forwarded_from_message?.type === 'audios' && <AudioMessage message={message} chat={chat} />}
-                        {forwarded_from_message?.type === 'videos' && <VideoMessage message={message} />}
-                    </>
-                )}
+            <div className={styles.content}>
+                <div className={styles.description}>
+                    <Title textAlign="left" active variant={nameTitleVariant}>
+                        {`Переслано от ${message.authorName}`}
+                    </Title>
+                </div>
+                <div className={styles.body}>
+                    {forwarded_from_message?.text === 'Сообщение удалено' ? (
+                        <div className={styles.deleted}>
+                            <Title variant="H4M">Сообщение удалено</Title>
+                        </div>
+                    ) : (
+                        <>
+                            {forwarded_from_message?.type === 'text' && (
+                                <TextMessage message={message} openChatProfileModal={openChatProfileModal} chat={chat} />
+                            )}
+                            {forwarded_from_message?.type === 'images' && <ImagesMessage message={message} />}
+                            {forwarded_from_message?.type === 'documents' && <DocumentsMessage message={message} />}
+                            {forwarded_from_message?.type === 'voices' && <VoiceMessage message={message} chat={chat} />}
+                            {forwarded_from_message?.type === 'audios' && <AudioMessage message={message} chat={chat} />}
+                            {forwarded_from_message?.type === 'videos' && <VideoMessage message={message} />}
+                        </>
+                    )}
+                </div>
             </div>
             <div className={styles.info}>
                 <Info
