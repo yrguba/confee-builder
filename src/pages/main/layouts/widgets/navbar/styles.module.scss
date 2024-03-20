@@ -16,13 +16,14 @@
       gap: 4px;
       cursor: pointer;
       position: relative;
-      transition: all  .5s;
+
       svg{
         fill: var(--control-tertiary);
       }
 
       &_active{
         background-color: var(--bg-primary);
+
         svg{
           fill: var(--control-tertiary-active);
         }

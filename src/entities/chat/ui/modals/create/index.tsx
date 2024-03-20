@@ -87,7 +87,7 @@ function CreateChatModalView(props: Props) {
                                 img: contact?.avatar || '',
                                 name: contact?.full_name || '',
                                 title: contact?.full_name || '',
-                                subtitle: contact?.phone || '',
+                                subtitle: contact?.userProxy?.networkStatus || 'Не зарегистрирован',
                                 payload: { id: contact.user?.id },
                             };
                         })}

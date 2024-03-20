@@ -65,7 +65,7 @@ function AppSettingsView(props: Props) {
         },
         {
             id: 3,
-            title: theme.value === 'dark' ? 'Тёмная тема' : 'Светлая тема',
+            title: 'Тёмная тема',
             element: <Switch onChange={(value) => theme.set(value ? 'dark' : 'light')} checked={theme.value === 'dark'} />,
         },
         {
