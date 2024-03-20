@@ -10,7 +10,7 @@ function AvatarChange(props: AvatarChangeProps) {
     const { img, name, clickAvatar, dropdownLeft, dropdownTop, selectFile, circle = true, size = 80, deleteFile, getScreenshot, disabled } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
-
+    const visibleDownload = useEasyState(false);
     const visibleMenu = useEasyState(false);
 
     const action = (preview: string, file: File) => {
@@ -30,11 +30,20 @@ function AvatarChange(props: AvatarChangeProps) {
                 <WebCameraPhoto getScreenshot={action} />
             </Box.Animated>
             <ContextMenu trigger="mouseup" visible={visibleMenu.value} items={items.filter((i) => !i.hidden)} />
-            <div className={styles.avatar} style={{ borderRadius: circle ? '50%' : 8 }}>
+            <div
+                onMouseEnter={() => visibleDownload.set(true)}
+                onMouseLeave={() => visibleDownload.set(false)}
+                className={styles.avatar}
+                style={{ borderRadius: circle ? '50%' : 8 }}
+            >
                 <Avatar clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
-                <div onClick={visibleMenu.toggle} className={styles.cover}>
+                <Box.Animated
+                    visible={visibleMenu.value || visibleDownload.value}
+                    onClick={visibleMenu.toggle}
+                    className={`${styles.cover} ${visibleMenu.value ? styles.cover_active : ''}`}
+                >
                     Загрузить
-                </div>
+                </Box.Animated>
             </div>
         </div>
     );

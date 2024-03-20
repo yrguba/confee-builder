@@ -35,7 +35,7 @@
       opacity: 0;
       transition: all .5s;
 
-      &:hover{
+      &:hover, &_active{
         color: var(--white);
         background-color: var(--control-primary);
       }
