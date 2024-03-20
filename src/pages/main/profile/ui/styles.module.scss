@@ -18,7 +18,7 @@
       @include flex;
       @include box-size(auto, 52px);
 
-      gap: 8px;
+      gap: 16px;
       padding: 0 16px;
       background-color: var(--bg-secondary);
       border-radius: 12px 12px 0 0;
@@ -40,8 +40,7 @@
       }
 
       &_active {
-        @include box-size(auto, 54px);
-        border-bottom: 1px solid var(--bg-secondary);
+        border-bottom: 3px solid var(--control-primary);
 
         svg {
           fill: var(--text-action);

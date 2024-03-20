@@ -8,7 +8,6 @@
 
   .body {
     width: 100%;
-    max-width: 600px;
     @include flex-column(flex-start, flex-start);
     gap: 22px;
 
@@ -21,6 +20,10 @@
     .item {
       width: 100%;
       @include flex(space-between);
+
+      svg {
+        fill: var(--text-inactive);
+      }
 
       &_title {
         font-weight: 400;
@@ -35,9 +38,9 @@
       }
 
 
-      svg {
-        fill: var(--text-primary);
-      }
+      //svg {
+      //  fill: var(--text-primary);
+      //}
 
     }
   }
