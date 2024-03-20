@@ -3,7 +3,6 @@ export type ValuesInStorage =
     | 'access_token'
     | 'refresh_token'
     | 'theme'
-    | 'notification'
     | 'viewer_id'
     | 'session'
     | 'chat_list_width'

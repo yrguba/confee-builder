@@ -17,20 +17,15 @@ function AppSettings() {
     const storage = useStorage();
     const theme = useTheme();
 
-    const not_scope = storage.get('notification');
-
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
     const visibleChatGpt = chatStore.use.visibleChatGpt();
     const autostart = appStore.use.autostart();
+    const enableNotifications = appStore.use.enableNotifications();
 
     const sessionModal = Modal.use();
     const cacheModal = Modal.use();
-
-    const notificationToggle = useEasyState(!!not_scope, (value) => {
-        value ? storage.set('notification', true) : storage.remove('notification');
-    });
 
     const confirmLogout = Modal.useConfirm((value, callbackData) => {
         if (value && callbackData) {
@@ -101,7 +96,7 @@ function AppSettings() {
                 updateAvailable={updateAvailable}
                 updateApp={updateApp}
                 theme={theme}
-                notificationToggle={notificationToggle}
+                enableNotifications={enableNotifications}
                 logout={confirmLogout.open}
                 deleteAccount={confirmDeleteAccount.open}
                 openSessionModal={sessionModal.open}

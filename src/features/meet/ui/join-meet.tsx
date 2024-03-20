@@ -5,11 +5,13 @@ import { useLifecycles } from 'react-use';
 import { JoinMeetView, useMeet } from 'entities/meet';
 import { useStorage, useRingtone, useEffectOnce } from 'shared/hooks';
 
+import { appStore } from '../../../entities/app';
+
 function JoinMeet() {
     const ls = useStorage();
-
+    const enableNotifications = appStore.use.enableNotifications();
     const data = ls.get('join_meet_data');
-    const { controls, audio } = useRingtone({ enabled: !!ls.get('notification') && !data?.muted });
+    const { controls, audio } = useRingtone({ enabled: enableNotifications.value && !data?.muted });
 
     useEffectOnce(() => {});
 

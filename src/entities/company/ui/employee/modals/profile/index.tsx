@@ -5,6 +5,7 @@ import { Avatar, Icons, Switch, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { updatePhone } from '../../../../../../shared/lib';
+import { AppStoreTypes } from '../../../../../app';
 import { EmployeeProxy } from '../../../../model/types';
 import EmployeeStatusView from '../../status';
 
@@ -13,10 +14,11 @@ type Props = {
     openDeleteAccModal: () => void;
     companyAvatar: string;
     successRegister?: boolean;
+    enableCompanyNotifications: AppStoreTypes['enableCompanyNotifications'];
 } & BaseTypes.Statuses;
 
 function EmployeeProfileModalView(props: Props) {
-    const { successRegister, companyAvatar, openDeleteAccModal, employeeData } = props;
+    const { enableCompanyNotifications, successRegister, companyAvatar, openDeleteAccModal, employeeData } = props;
 
     const rows: { id: number; title: string; subtitle: string; icon?: string }[] = [
         { id: 0, title: 'Отдел', subtitle: employeeData?.departments[0].name || '' },
@@ -61,7 +63,7 @@ function EmployeeProfileModalView(props: Props) {
                 <Title color="inactive" variant="H4S">
                     Push-уведомления
                 </Title>
-                <Switch checked onChange={() => ''} />
+                <Switch checked={enableCompanyNotifications.value} onChange={() => enableCompanyNotifications.set(!enableCompanyNotifications.value)} />
             </div>
             {!successRegister && (
                 <div className={styles.deleteAcc} onClick={openDeleteAccModal}>

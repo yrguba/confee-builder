@@ -3,12 +3,14 @@ import React from 'react';
 import { viewerApi } from 'entities/viewer';
 import { Modal, ModalTypes } from 'shared/ui';
 
+import { appStore } from '../../../../../entities/app';
 import { EmployeeProfileModalView, employeeProxy, ConfirmDeleteCorpAccModalView, companyApi } from '../../../../../entities/company';
 
 function EmployeeProfileModal(modal: ModalTypes.UseReturnedType<{ successRegister: boolean }>) {
     const { data: viewerData } = viewerApi.handleGetViewer();
     const companies = viewerData?.companies;
 
+    const enableCompanyNotifications = appStore.use.enableCompanyNotifications();
     const { mutate: handleUnbind } = companyApi.handleUnbind();
 
     const employeeData = companies?.length ? companies[0]?.departments[0]?.employees[0] : null;
@@ -41,6 +43,7 @@ function EmployeeProfileModal(modal: ModalTypes.UseReturnedType<{ successRegiste
                 openDeleteAccModal={confirmDeleteModal.open}
                 employeeData={employeeProxy(employeeData)}
                 companyAvatar={companyAvatar as string}
+                enableCompanyNotifications={enableCompanyNotifications}
             />
         </>
     );

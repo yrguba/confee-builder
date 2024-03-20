@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
 
 import 'moment/locale/ru';
-import { appService } from 'entities/app';
+import { appService, appStore } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
 import { useTheme, useStorage, useTimer, useRustServer, usePersister } from 'shared/hooks';
@@ -30,8 +30,7 @@ moment.locale('ru');
 
 function App() {
     const { clientBaseURL, backBaseURL } = appService.getUrls();
-    const storage = useStorage();
-    const notification = storage.get('notification');
+
     const { useWebview, rustIsRunning, invoker } = useRustServer();
     const webview = useWebview('main');
     const persister = usePersister(queryClient);
@@ -69,7 +68,7 @@ function App() {
         <BrowserRouter>
             <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
                 <Provider>
-                    <Notification options={{ disabledDesktop: !notification }} />
+                    <Notification options={{ disabledDesktop: true }} />
                     <Routing />
                     <ReactQueryDevtools position="bottom-left" />
                 </Provider>

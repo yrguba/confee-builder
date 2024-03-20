@@ -4,6 +4,7 @@ import produce from 'immer';
 import { getUniqueArr } from 'shared/lib';
 
 import { messages_limit } from './constants';
+import { appStore } from '../../app';
 import { Chat } from '../../chat/model/types';
 import { messageProxy } from '../index';
 import { File, Message, MessageProxy, MessageType } from '../model/types';
@@ -26,8 +27,11 @@ class MessageService {
         return Math.ceil(chat.pending_messages_count / messages_limit);
     }
 
-    notification(title: string, body: string) {
-        if (window.localStorage.getItem('notification')) {
+    notification(title: string, body: string, isCompany: boolean) {
+        const { enableNotifications } = appStore.getState();
+        const { enableCompanyNotifications } = appStore.getState();
+        if (enableNotifications.value) {
+            if (isCompany && !enableCompanyNotifications.value) return;
             return sendNotification({ title, body });
         }
     }
@@ -35,7 +39,6 @@ class MessageService {
     updateMockMessage(data: { users_have_read?: number[]; chatId: number; filesType: MessageType; id?: number }, queryClient: any, sendingError?: boolean) {
         queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
             return produce(cacheData, (draft: any) => {
-                console.log(draft);
                 draft.pages[0].data.data.find((i: MessageProxy, index: number) => {
                     if (i.isMock && i.sending && data.filesType === i.type) {
                         draft.pages[0].data.data[index] = {

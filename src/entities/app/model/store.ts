@@ -2,29 +2,21 @@ import { useZustand, UseZustandTypes } from 'shared/hooks';
 
 type Store = {
     autostart: boolean;
+    enableNotifications: boolean;
+    enableCompanyNotifications: boolean;
 };
 
-type Methods = {
-    autostart: {
-        toggle: (value: boolean) => void;
-    };
-};
+type Methods = {};
 
 const appStore = useZustand<Store, Methods>({
-    keys: ['autostart'],
+    keys: ['autostart', 'enableNotifications', 'enableCompanyNotifications'],
     default: {
         autostart: false,
-    },
-    methods: {
-        autostart: (use) => ({
-            toggle: (value) => {
-                const { updater } = use();
-                updater({ autostart: value });
-            },
-        }),
+        enableNotifications: true,
+        enableCompanyNotifications: true,
     },
     forStorage: {
-        keys: ['autostart'],
+        all: true,
         storageName: 'app_storage',
     },
 });

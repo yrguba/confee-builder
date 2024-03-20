@@ -15,7 +15,7 @@ type Props = {
     updateAvailable: boolean;
     updateApp?: () => void;
     openCacheModal: () => void;
-    notificationToggle: UseEasyStateReturnType<boolean>;
+    enableNotifications: AppStoreTypes['enableNotifications'];
     theme: UseThemeType.UseThemeReturned;
     logout: () => void;
     openSessionModal: () => void;
@@ -34,7 +34,7 @@ function AppSettingsView(props: Props) {
         updateApp,
         theme,
         openSessionModal,
-        notificationToggle,
+        enableNotifications,
         autostart,
     } = props;
     const { version } = appService.getProjectInfo();
@@ -54,14 +54,14 @@ function AppSettingsView(props: Props) {
             id: 1,
             title: 'Автостарт',
             subtitle: 'Открывать приложение при включении компьютера',
-            element: <Switch onChange={autostart.toggle} checked={autostart.value} />,
+            element: <Switch onChange={() => autostart.set(!autostart.value)} checked={autostart.value} />,
             hidden: !appService.tauriIsRunning,
         },
         {
             id: 2,
             title: 'Уведомления',
             subtitle: 'Push-уведомления',
-            element: <Switch onChange={notificationToggle.toggle} checked={notificationToggle.value} />,
+            element: <Switch onChange={() => enableNotifications.set(!enableNotifications.value)} checked={enableNotifications.value} />,
         },
         {
             id: 3,

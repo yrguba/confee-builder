@@ -1,9 +1,11 @@
 import produce from 'immer';
+import { unstable_batchedUpdates } from 'react-dom';
 
 import { useThrottle, useStorage } from 'shared/hooks';
 
 import { MessageProxy, Socket } from './types';
 import debounce from '../../../shared/lib/debounce';
+import { appStore } from '../../app';
 import { chatService } from '../../chat';
 import { Chat } from '../../chat/model/types';
 import { viewerService } from '../../viewer';
@@ -18,14 +20,17 @@ const debounceMessageTypingClose = debounce((cl) => cl(), 3000);
 function messageGateway({ event, data }: Socket, queryClient: any) {
     const viewerId = viewerService.getId();
     const session = useStorage().get<Session>('session');
+
     switch (event) {
         case 'MessageCreated':
             queryClient.setQueryData(['get-messages', data.message.chat_id], (cacheData: any) => {
                 if (!data.extra_info.is_read && data.message && !data.extra_info.muted) {
                     const proxy: MessageProxy = messageProxy({ message: data.message });
-                    // throttlePushNotification(() =>
-                    messageService.notification(`Новое сообщение от ${data.extra_info.contact_name || proxy.authorName}` || '', proxy.action);
-                    // );
+                    messageService.notification(
+                        `Новое сообщение от ${data.extra_info.contact_name || proxy.authorName}` || '',
+                        proxy.action,
+                        !!data.message.author_employee
+                    );
                 }
                 if (!cacheData?.pages.length) return cacheData;
                 return produce(cacheData, (draft: any) => {
