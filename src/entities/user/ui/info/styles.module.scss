@@ -3,7 +3,7 @@
 .wrapper {
   @include flex-column();
   @include box-size(100%, auto);
-  gap: 4px;
+  gap: 14px;
   border-radius: 12px;
   background-color: var(--bg-secondary);
 
@@ -11,6 +11,7 @@
     @include box-size(100%, auto);
     min-height: 50px;
     @include flex-column(center, flex-start);
+    gap: 6px;
     border-bottom: 1px solid var(--border-secondary);
   }
 }
