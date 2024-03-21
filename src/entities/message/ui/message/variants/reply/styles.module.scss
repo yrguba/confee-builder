@@ -3,7 +3,7 @@
 .wrapper {
   @include flex-column;
   width: 100%;
-  min-width: 170px;
+  //min-width: 170px;
   max-width: 460px;
   background-color: var(--bg-secondary);
   border-radius: 12px;

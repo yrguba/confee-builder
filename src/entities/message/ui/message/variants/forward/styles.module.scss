@@ -1,9 +1,9 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex;
+  @include flex(flex-start);
   width: 100%;
-  min-width: 170px;
+  //min-width: 170px;
   max-width: 400px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
