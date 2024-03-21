@@ -5,7 +5,7 @@ import { RichTextarea } from 'rich-textarea';
 import { string } from 'yup';
 
 import styles from './styles.module.scss';
-import { useDimensionsObserver, useEasyState, useScroll, useThrottle } from '../../../../hooks';
+import { useClickAway, useDimensionsObserver, useEasyState, useScroll, useThrottle } from '../../../../hooks';
 import { replaceEmojis } from '../../../../lib';
 import { Emoji } from '../../../index';
 import Title from '../../../title';
@@ -32,12 +32,14 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         focusTrigger,
         lineBreak,
         visibleEmoji,
+        clickAway,
     } = props;
 
     const inputRef = useRef<any>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const visibleEmojiPicker = useEasyState(false);
     const cursorPosition = useEasyState(0);
+    const focused = useEasyState(false);
 
     const { executeScrollToElement, scrollBottom } = useScroll();
 
@@ -62,6 +64,12 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
             disabled: !textChange,
         })
     );
+
+    useClickAway(wrapperRef, () => {
+        if (clickAway && focused.value) {
+            clickAway && clickAway();
+        }
+    });
 
     const onKeyDown = (event: any) => {
         if (event.keyCode === 13) {
@@ -120,6 +128,10 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                     if (visibleEmojiPicker.value && inputRef.current) {
                         inputRef.current.focus();
                     }
+                    focused.set(false);
+                }}
+                onFocus={() => {
+                    focused.set(true);
                 }}
                 style={{ width: '100%', height: '100%' }}
                 className={classes}

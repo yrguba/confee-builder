@@ -12,6 +12,7 @@ import { EmployeeProxy } from '../../../../../company/model/types';
 import { UserProxy } from '../../../../../user/model/types';
 import { ChatProxy, PrivateChatActions } from '../../../../model/types';
 import ChatProfileContentView from '../content';
+import ChatDescriptionView from '../description';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
@@ -23,10 +24,11 @@ type Props = {
     clickAvatar: () => void;
     visibleChatBtn: boolean;
     visibleBtns?: boolean;
+    setDescription: (value: string) => void;
 } & BaseTypes.Statuses;
 
 function PrivateChatProfileModalView(props: Props) {
-    const { user, employee, chat, actions, mediaTypes, files, clickAvatar, visibleChatBtn, visibleBtns = true } = props;
+    const { setDescription, user, employee, chat, actions, mediaTypes, files, clickAvatar, visibleChatBtn, visibleBtns = true } = props;
 
     const visibleMenu = useEasyState(false);
 

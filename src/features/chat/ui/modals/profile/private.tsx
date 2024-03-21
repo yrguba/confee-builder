@@ -12,10 +12,12 @@ import { Modal, ModalTypes, Notification } from 'shared/ui';
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
     const { navigate, pathname, params } = useRouter();
 
+    const chatId = Number(params.chat_id);
+
     const viewerId = viewerService.getId();
     const { user, employee } = modal.payload;
 
-    const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
+    const { data: chatData } = chatApi.handleGetChat({ chatId });
 
     const proxyChat = chatProxy(chatData?.data.data);
 
@@ -30,6 +32,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const { mutate: handleChatMute } = chatApi.handleChatMute();
+    const { mutate: handleUpdateChatDescription } = chatApi.handleUpdateChatDescription();
 
     const { createMeet } = useMeet();
 
@@ -95,6 +98,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 files={filesData}
                 visibleChatBtn={String(proxyChat?.id) !== params.chat_id}
                 visibleBtns={user?.id !== viewerId}
+                setDescription={(value) => handleUpdateChatDescription({ chatId, description: value })}
             />
         </>
     );

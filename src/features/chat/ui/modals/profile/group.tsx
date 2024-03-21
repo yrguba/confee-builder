@@ -82,14 +82,6 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
         confirmRemoveMember.open(id, { title: `Удалить ${name} из чата` });
     };
 
-    const descriptionDebounce = debounce((callback) => callback(), 1000);
-
-    const setDescription = (value: string) => {
-        descriptionDebounce(() => {
-            handleUpdateChatDescription({ chatId, description: value });
-        });
-    };
-
     const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
             case 'goMeet':
@@ -131,7 +123,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
                 files={filesData}
                 updateChatName={updateChatName}
                 clickUser={privateChatProfileModal.open}
-                setDescription={setDescription}
+                setDescription={(value) => handleUpdateChatDescription({ chatId, description: value })}
             />
         </>
     );

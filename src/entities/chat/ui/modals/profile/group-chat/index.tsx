@@ -11,6 +11,7 @@ import { EmployeeProxy } from '../../../../../company/model/types';
 import { UserProxy } from '../../../../../user/model/types';
 import { ChatProxy, GroupChatActions } from '../../../../model/types';
 import ChatProfileContentView from '../content';
+import ChatDescriptionView from '../description';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;
@@ -110,20 +111,7 @@ function GroupChatProfileModalView(props: Props) {
                     </Button>
                 ))}
             </div>
-            {chat?.description && (
-                <div className={styles.description}>
-                    <Title primary={false} variant="H4R">
-                        Описание
-                    </Title>
-                    <Input.Textarea
-                        textVariant="H3M"
-                        defaultValue={chat.description}
-                        value={chat.description}
-                        // textChange={(text) => 'setDescription(text)'}
-                        focusTrigger={[]}
-                    />
-                </div>
-            )}
+            <ChatDescriptionView description={chat?.description} setDescription={setDescription} />
             <ChatProfileContentView
                 removeMember={removeMember}
                 files={files}
