@@ -4,14 +4,14 @@ import { UseEasyStateReturnType, UseArrayReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse, Avatar, AvatarTypes, Box, InputTypes } from 'shared/ui';
 
+import UsersList from './components';
 import styles from './styles.module.scss';
 import { employeeProxy } from '../../../../company';
 import contactProxy from '../../../../contact/lib/proxy';
 import { ContactProxy, UseContactsTabsAndListsReturnType } from '../../../../contact/model/types';
 
 type Props = {
-    selectedContacts: UseArrayReturnType<CardTypes.CardListItem>;
-    selectedEmployees: UseArrayReturnType<CardTypes.CardListItem>;
+    selectedUsers: UseArrayReturnType<CardTypes.CardListItem>;
     isGroup: UseEasyStateReturnType<boolean>;
     createChat: () => void;
     tabsAndLists: UseContactsTabsAndListsReturnType;
@@ -22,15 +22,15 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function CreateChatModalView(props: Props) {
-    const { chatDescription, avatar, chatName, avatarActions, selectedContacts, selectedEmployees, isGroup, createChat, tabsAndLists, loading } = props;
+    const { selectedUsers, chatDescription, avatar, chatName, avatarActions, isGroup, createChat, tabsAndLists, loading } = props;
 
     const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
 
     const toggle = () => {
         isGroup.toggle();
-        selectedContacts.clear();
+        // selectedContacts.clear();
     };
-
+    console.log(tabsAndLists);
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -76,64 +76,65 @@ function CreateChatModalView(props: Props) {
                 activeItemId={tabsAndLists.activeTab?.id}
             />
             <div className={styles.list}>
-                {tabsAndLists.activeTab?.title === 'Личные' ? (
-                    <Card.List
-                        sortByName
-                        selected={selectedContacts}
-                        items={contactsArr?.map((i: any) => {
-                            const contact: ContactProxy = contactProxy(i);
-                            return {
-                                id: contact?.id || '',
-                                img: contact?.avatar || '',
-                                name: contact?.full_name || '',
-                                title: contact?.full_name || '',
-                                subtitle: contact?.userProxy?.networkStatus || 'Не зарегистрирован',
-                                payload: { id: contact.user?.id },
-                            };
-                        })}
-                    />
-                ) : tabsAndLists.searchInput.value ? (
-                    <Card.List
-                        visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
-                        selected={selectedEmployees}
-                        items={tabsAndLists.foundEmployees?.map((i: any) => {
-                            const employee = employeeProxy(i);
-                            return {
-                                id: employee?.id || '',
-                                img: employee?.avatar || '',
-                                name: employee?.full_name || '',
-                                title: employee?.full_name || '',
-                                subtitle: employee?.position || '',
-                                payload: { id: employee?.id },
-                            } as any;
-                        })}
-                    />
-                ) : (
-                    tabsAndLists.activeList?.map((dep: any) => (
-                        <Collapse
-                            loading={tabsAndLists.loading}
-                            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
-                            key={dep.id}
-                            title={dep?.name || ''}
-                        >
-                            <Card.List
-                                visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()}
-                                selected={selectedEmployees}
-                                items={tabsAndLists.departmentsEmployees[dep.id]?.map((i: any) => {
-                                    const employee = employeeProxy(i);
-                                    return {
-                                        id: employee?.id || '',
-                                        img: employee?.avatar || '',
-                                        name: employee?.full_name || '',
-                                        title: employee?.full_name || '',
-                                        subtitle: employee?.position || '',
-                                        payload: { id: employee?.id },
-                                    } as any;
-                                })}
-                            />
-                        </Collapse>
-                    ))
-                )}
+                <UsersList selectedUsers={selectedUsers} tabsAndLists={tabsAndLists} />
+                {/* {tabsAndLists.activeTab?.title === 'Личные' ? ( */}
+                {/*   <Card.List */}
+                {/*       sortByName */}
+                {/*       selected={selectedContacts} */}
+                {/*       items={contactsArr?.map((i: any) => { */}
+                {/*           const contact: ContactProxy = contactProxy(i); */}
+                {/*           return { */}
+                {/*               id: contact?.id || '', */}
+                {/*               img: contact?.avatar || '', */}
+                {/*               name: contact?.full_name || '', */}
+                {/*               title: contact?.full_name || '', */}
+                {/*               subtitle: contact?.userProxy?.networkStatus || 'Не зарегистрирован', */}
+                {/*               payload: { id: contact.user?.id }, */}
+                {/*           }; */}
+                {/*       })} */}
+                {/*   /> */}
+                {/* ) : tabsAndLists.searchInput.value ? ( */}
+                {/*    <Card.List */}
+                {/*        visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()} */}
+                {/*        selected={selectedEmployees} */}
+                {/*        items={tabsAndLists.foundEmployees?.map((i: any) => { */}
+                {/*            const employee = employeeProxy(i); */}
+                {/*            return { */}
+                {/*                id: employee?.id || '', */}
+                {/*                img: employee?.avatar || '', */}
+                {/*                name: employee?.full_name || '', */}
+                {/*                title: employee?.full_name || '', */}
+                {/*                subtitle: employee?.position || '', */}
+                {/*                payload: { id: employee?.id }, */}
+                {/*            } as any; */}
+                {/*        })} */}
+                {/*    /> */}
+                {/* ) : ( */}
+                {/*    tabsAndLists.activeList?.map((dep: any) => ( */}
+                {/*        <Collapse */}
+                {/*            loading={tabsAndLists.loading} */}
+                {/*            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)} */}
+                {/*            key={dep.id} */}
+                {/*            title={dep?.name || ''} */}
+                {/*        > */}
+                {/*            <Card.List */}
+                {/*                visibleLastItem={(value) => value && tabsAndLists.getNextPageEmployees()} */}
+                {/*                selected={selectedEmployees} */}
+                {/*                items={tabsAndLists.departmentsEmployees[dep.id]?.map((i: any) => { */}
+                {/*                    const employee = employeeProxy(i); */}
+                {/*                    return { */}
+                {/*                        id: employee?.id || '', */}
+                {/*                        img: employee?.avatar || '', */}
+                {/*                        name: employee?.full_name || '', */}
+                {/*                        title: employee?.full_name || '', */}
+                {/*                        subtitle: employee?.position || '', */}
+                {/*                        payload: { id: employee?.id }, */}
+                {/*                    } as any; */}
+                {/*                })} */}
+                {/*            /> */}
+                {/*        </Collapse> */}
+                {/*    )) */}
+                {/* )} */}
             </div>
             <div className={styles.footer}>
                 <Button animateTrigger={`${isGroup.value}`} prefixIcon={<Icons variant="new-message" />} variant="secondary" onClick={createChat}>

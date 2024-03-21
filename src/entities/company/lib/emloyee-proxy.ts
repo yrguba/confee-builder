@@ -2,7 +2,7 @@ import { userProxy } from '../../user';
 import { viewerService } from '../../viewer';
 import { EmployeeProxy, Employee } from '../model/types';
 
-function employeeProxy(employee: Employee | undefined | null): EmployeeProxy | null {
+function employeeProxy(employee: Employee | undefined | null): any {
     if (!employee) return null;
     const viewerId = viewerService.getId();
     return new Proxy(employee, {

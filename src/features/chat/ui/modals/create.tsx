@@ -19,8 +19,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const chatDescription = useEasyState('');
     const chatName = Input.use({});
 
-    const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
-    const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
+    const selectedUsers = useArray<CardTypes.CardListItem>({ multiple: isGroup.value });
 
     const { mutate: handleCreatePersonalChat, isLoading } = chatApi.handleCreatePersonalChat();
     const { mutate: handleCreateCompanyChat } = chatApi.handleCreateCompanyChat();
@@ -40,72 +39,71 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const getScreenshot = (data: string) => chatAvatar.set(data);
 
     const createChat = () => {
-        const chatsType = pathname.split('/')[2];
-        if (!selectedContacts.array.length && !selectedEmployees.array.length) {
-            return notifications.error({ title: `Выберите участников` });
-        }
-        if (isGroup.value && !chatName.value) {
-            return notifications.error({ title: `Введите название чата` });
-        }
-
-        if (selectedContacts.array.length) {
-            handleCreatePersonalChat(
-                {
-                    user_ids: selectedContacts.array.map((i) => i.payload.id),
-                    is_group: isGroup.value,
-                    name: chatName.value,
-                    avatar: chatAvatarFile.value,
-                    description: chatDescription.value,
-                },
-                {
-                    onSuccess: (res) => {
-                        const chat = chatProxy(res.data.data);
-                        const chatId = chat?.id;
-                        if (chat) {
-                            modal.close();
-                            navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${chatId}`);
-                        }
-                    },
-                }
-            );
-        }
-        if (selectedEmployees.array.length) {
-            handleCreateCompanyChat(
-                {
-                    body: {
-                        employee_ids: selectedEmployees.array.map((i) => i.payload.id),
-                        is_group: isGroup.value,
-                        name: chatName.value,
-                        avatar: chatAvatarFile.value,
-                        description: chatDescription.value,
-                    },
-                    companyId: tabsAndLists.activeTab?.payload?.id,
-                },
-                {
-                    onSuccess: (res) => {
-                        const chat = chatProxy(res.data.data);
-                        const chatId = chat?.id;
-                        if (chat) {
-                            modal.close();
-                            navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.id}/chat/${chatId}`);
-                        }
-                    },
-                }
-            );
-        }
+        // const chatsType = pathname.split('/')[2];
+        // if (!selectedContacts.array.length && !selectedEmployees.array.length) {
+        //     return notifications.error({ title: `Выберите участников` });
+        // }
+        // if (isGroup.value && !chatName.value) {
+        //     return notifications.error({ title: `Введите название чата` });
+        // }
+        //
+        // if (selectedContacts.array.length) {
+        //     handleCreatePersonalChat(
+        //         {
+        //             user_ids: selectedContacts.array.map((i) => i.payload.id),
+        //             is_group: isGroup.value,
+        //             name: chatName.value,
+        //             avatar: chatAvatarFile.value,
+        //             description: chatDescription.value,
+        //         },
+        //         {
+        //             onSuccess: (res) => {
+        //                 const chat = chatProxy(res.data.data);
+        //                 const chatId = chat?.id;
+        //                 if (chat) {
+        //                     modal.close();
+        //                     navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${chatId}`);
+        //                 }
+        //             },
+        //         }
+        //     );
+        // }
+        // if (selectedEmployees.array.length) {
+        //     handleCreateCompanyChat(
+        //         {
+        //             body: {
+        //                 employee_ids: selectedEmployees.array.map((i) => i.payload.id),
+        //                 is_group: isGroup.value,
+        //                 name: chatName.value,
+        //                 avatar: chatAvatarFile.value,
+        //                 description: chatDescription.value,
+        //             },
+        //             companyId: tabsAndLists.activeTab?.payload?.id,
+        //         },
+        //         {
+        //             onSuccess: (res) => {
+        //                 const chat = chatProxy(res.data.data);
+        //                 const chatId = chat?.id;
+        //                 if (chat) {
+        //                     modal.close();
+        //                     navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.id}/chat/${chatId}`);
+        //                 }
+        //             },
+        //         }
+        //     );
+        // }
     };
 
     useUpdateEffect(() => {
-        selectedContacts.clear();
-        selectedEmployees.clear();
+        // selectedContacts.clear();
+        // selectedEmployees.clear();
     }, [tabsAndLists.activeTab?.id]);
 
     return (
         <CreateChatModalView
             isGroup={isGroup}
             tabsAndLists={tabsAndLists}
-            selectedContacts={selectedContacts}
-            selectedEmployees={selectedEmployees}
+            selectedUsers={selectedUsers}
             createChat={createChat}
             loading={isLoading}
             chatName={chatName}

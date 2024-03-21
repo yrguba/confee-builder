@@ -66,7 +66,7 @@ function ContactsListView(props: Props) {
                 ) : tabsAndLists.foundEmployees ? (
                     tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i) as any} {...props} />)
                 ) : (
-                    tabsAndLists.activeList?.map((dep: any) => (
+                    tabsAndLists.departments?.map((dep: any) => (
                         <Collapse
                             headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
                             openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}

@@ -28,13 +28,14 @@ export type UseContactsTabsAndListsReturnType = {
     tabs: TabBarTypes.TabBarItem[];
     activeTab: TabBarTypes.TabBarItem<Company> | null;
     setActiveTab: (tab: TabBarTypes.TabBarItem) => void;
-    activeList: contactTypes.Contact[] | companyTypes.Department[] | companyTypes.Employee[];
+    activeList: contactTypes.ContactProxy[] | companyTypes.EmployeeProxy[];
+    departments: companyTypes.Department[];
     getEmployees: (depId: number) => void;
     departmentsEmployees: Record<number, Employee[]>;
     getNextPageEmployees: () => void;
     searchInput: InputTypes.UseReturnedType;
-    foundContacts: Contact[] | BaseTypes.Empty;
-    foundEmployees: Employee[] | BaseTypes.Empty;
+    foundContacts: ContactProxy[] | BaseTypes.Empty;
+    foundEmployees: EmployeeProxy[] | BaseTypes.Empty;
     loading: boolean;
     searchLoading: boolean;
 };

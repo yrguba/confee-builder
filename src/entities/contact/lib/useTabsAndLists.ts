@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import { companyService } from 'entities/company';
+import { companyService, employeeProxy } from 'entities/company';
 import { createMemo, useEasyState, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Input, TabBarTypes } from 'shared/ui';
 
-import { contactApi, contactTypes } from '..';
+import { contactApi, contactProxy, contactTypes } from '..';
 import { companyTypes, companyApi } from '../../company';
 import { Company, Employee } from '../../company/model/types';
 import { UseContactsTabsAndListsReturnType } from '../model/types';
@@ -38,7 +38,8 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     const departmentId = useEasyState<number | null>(null);
 
     const activeTab = useEasyState<TabBarTypes.TabBarItem<Company> | null>(null);
-    const activeList = useEasyState<contactTypes.Contact[] | companyTypes.Department[] | companyTypes.Employee[]>([]);
+    const activeList = useEasyState<contactTypes.ContactProxy[] | companyTypes.EmployeeProxy[]>([]);
+    const departments = useEasyState<companyTypes.Department[]>([]);
     const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
 
     const companyId = params.company_id || activeTab.value?.payload?.id;
@@ -82,9 +83,9 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
 
     useEffect(() => {
         if (contactsData && activeTab.value?.title === 'Личные') {
-            activeList.set(contactsData);
+            activeList.set(contactsData.map((i) => contactProxy(i)));
         } else {
-            props.companies && departmentsData && activeList.set(departmentsData);
+            props.companies && departmentsData && departments.set(departmentsData);
         }
     }, [activeTab.value, departmentsData]);
 
@@ -92,7 +93,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         if (pathname.includes('companies') && redirect) {
             tabs.length && activeTab.set(tabs[1]);
             if (departmentsData) {
-                activeList.set(departmentsData);
+                departments.set(departmentsData);
             }
         }
     }, [props.companies, activeTab.value, departmentsData]);
@@ -100,7 +101,7 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
     useEffect(() => {
         if (pathname.includes('personal') || !redirect) {
             tabs.length && activeTab.set(tabs[0]);
-            contactsData && activeList.set(contactsData);
+            contactsData && activeList.set(contactsData.map((i) => contactProxy(i)));
         }
     }, [contactsData]);
 
@@ -113,8 +114,9 @@ function useContactsTabsAndLists(props: Props): UseContactsTabsAndListsReturnTyp
         getEmployees,
         getNextPageEmployees,
         searchInput,
-        foundContacts: isFetching ? null : searchInput.value ? searchData?.contacts || [] : null,
-        foundEmployees: isFetching ? null : searchInput.value ? searchData?.employees || [] : null,
+        foundContacts: isFetching ? null : searchInput.value ? searchData?.contacts?.map((i) => contactProxy(i)) || [] : null,
+        foundEmployees: isFetching ? null : searchInput.value ? searchData?.employees?.map((i) => employeeProxy(i)) || [] : null,
+        departments: departments.value,
         loading: isLoading,
         searchLoading,
     };

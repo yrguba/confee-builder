@@ -99,7 +99,8 @@ export type LogoIconsProps = {
     variant: 'confee' | 'confee-white' | 'softworks' | 'tfn' | 'premium';
 };
 export type PictureIconsProps = {
-    variant: 'auth-ad' | 'no-found';
+    variant: 'auth-ad' | 'not-found';
+    size?: number;
 };
 
 export type CountriesIconsProps = {

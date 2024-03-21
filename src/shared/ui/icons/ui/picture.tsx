@@ -3,7 +3,7 @@ import React from 'react';
 import { PictureIconsProps } from '../types';
 
 function Picture(props: PictureIconsProps) {
-    const { variant } = props;
+    const { variant, size } = props;
 
     switch (variant) {
         case 'auth-ad': {
@@ -591,9 +591,9 @@ function Picture(props: PictureIconsProps) {
                 </svg>
             );
         }
-        case 'no-found': {
+        case 'not-found': {
             return (
-                <svg width="457" height="455" viewBox="0 0 457 455" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width={size} height={size} viewBox="0 0 457 455" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clipPath="url(#clip0_12426_101607)">
                         <path
                             d="M418.88 115.628C416.047 113.749 413.245 111.831 410.452 109.872C380.478 88.8074 240.209 -7.0223 181.084 1.76711C114.686 11.6313 -26.1856 229.669 9.70529 294.269C45.5962 358.868 225.041 471.021 272.594 453.081C320.147 435.14 447.558 237.745 455.635 189.288C462.526 147.922 428.865 122.247 418.88 115.628Z"
