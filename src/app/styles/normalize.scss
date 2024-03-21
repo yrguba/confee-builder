@@ -7,14 +7,14 @@ html {
   -webkit-user-select: none ;
   background: var(--bg-html);
 
-  a, button {
+   button {
     all: unset;
     cursor: pointer;
   }
 
-  a {
-    color: var(--main-active);
-  }
+  //a {
+  //  color: var(--main-active);
+  //}
 
   //scrollbar
 

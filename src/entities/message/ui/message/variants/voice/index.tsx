@@ -11,11 +11,10 @@ import Info from '../../info';
 type Props = {
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
-    visibleInfoBlock?: boolean;
 } & BaseTypes.Statuses;
 
 function VoiceMessage(props: Props) {
-    const { visibleInfoBlock, message, chat } = props;
+    const { message, chat } = props;
 
     const voices = message.files.length ? message.files : message.forwarded_from_message?.files || [];
     const voice = voices[0];
@@ -31,16 +30,14 @@ function VoiceMessage(props: Props) {
                     id={voice.id}
                 />
             </div>
-            {visibleInfoBlock && (
-                <Info
-                    date={message.date}
-                    is_edited={message.is_edited}
-                    sendingError={message.sendingError}
-                    sending={message.sending}
-                    isMy={message.isMy}
-                    checked={!!message.users_have_read?.length}
-                />
-            )}
+            <Info
+                date={message.date}
+                is_edited={message.is_edited}
+                sendingError={message.sendingError}
+                sending={message.sending}
+                isMy={message.isMy}
+                checked={!!message.users_have_read?.length}
+            />
         </div>
     );
 }

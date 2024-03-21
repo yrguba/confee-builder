@@ -10,11 +10,10 @@ import Info from '../../info';
 
 type Props = {
     message: MessageProxy;
-    visibleInfoBlock?: boolean;
 } & BaseTypes.Statuses;
 
 function ImagesMessage(props: Props) {
-    const { visibleInfoBlock, message } = props;
+    const { message } = props;
 
     const visibleInfo = useEasyState(false);
 
@@ -31,7 +30,7 @@ function ImagesMessage(props: Props) {
     return (
         <div className={styles.wrapper} onMouseEnter={() => visibleInfo.set(true)} onMouseLeave={() => visibleInfo.set(false)}>
             <Image.List visibleDropdown={false} items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
-            <Box.Animated visible={visibleInfo.value && !!visibleInfoBlock} className={styles.info}>
+            <Box.Animated visible={visibleInfo.value} className={styles.info}>
                 <Info
                     date={message.date}
                     is_edited={message.is_edited}

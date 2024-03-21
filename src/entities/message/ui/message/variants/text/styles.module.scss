@@ -2,6 +2,7 @@
 
 .wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: calc(100% - 16px);
@@ -19,6 +20,10 @@
   .text {
     color: var(--text-primary) !important;
     width: 100%;
+
+    a {
+      color: var(--text-action) !important;
+    }
 
     .emojiWrapper {
       color: transparent !important;

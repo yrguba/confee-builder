@@ -9,11 +9,10 @@ import { File, MediaContentType, MessageProxy } from '../../../../model/types';
 
 type Props = {
     message: MessageProxy;
-    visibleInfoBlock?: boolean;
 } & BaseTypes.Statuses;
 
 function DocumentsMessage(props: Props) {
-    const { visibleInfoBlock, message } = props;
+    const { message } = props;
 
     return (
         <div className={styles.wrapper}>

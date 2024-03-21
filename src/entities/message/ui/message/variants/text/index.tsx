@@ -29,12 +29,14 @@ function TextMessage(props: Props) {
     const once = useRef(true);
     const linksInfo = useArray({});
     const { text, isMy, sending, sendingError } = message;
+    const withLink = useEasyState(false);
 
     useEffect(() => {
         if (text && once.current) {
             Promise.all(
                 text.split(' ').map(async (word, index) => {
                     if (regex.url.test(word) && !word.includes('localhost')) {
+                        withLink.set(true);
                         const data = await axios.get(`https://dev.chat.softworks.ru/api/v2/http/link-preview`, {
                             params: {
                                 link: word,
@@ -84,43 +86,45 @@ function TextMessage(props: Props) {
         },
     };
 
+    const textSplitWithUrl = text.split(regex.urlHTTPS);
+
     return (
         <Box className={styles.wrapper}>
-            {text.split(/(https?:\/\/[^\s]+)/g).map((i, index) => {
-                if (regex.url.test(i)) {
+            {textSplitWithUrl.map((i, indexUrl) => {
+                if (regex.urlHTTPS.test(i)) {
                     return (
-                        <Linkify key={index} options={options}>
+                        <Linkify key={indexUrl} options={options}>
                             {i}
                         </Linkify>
                     );
                 }
-                return text.length === 2 && regex.emoji.test(text) ? (
-                    <Emoji.Item key={index} emoji={i} size={60} />
-                ) : (
-                    <div className={styles.text} key={index}>
-                        {message.text?.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i, index) => {
-                            if (/\p{Emoji_Presentation}/gu.test(i)) {
+                return (
+                    <div className={styles.text} key={indexUrl}>
+                        {i.split(regex.emoji).map((w, index) => {
+                            if (regex.emoji.test(w)) {
                                 return (
                                     <span key={index} className={styles.emojiWrapper}>
-                                        {i}
+                                        {w}
                                         <span className={styles.emoji}>
-                                            <Emoji.Item key={index} emoji={i} size={18} />
+                                            <Emoji.Item key={index} emoji={w} size={18} />
                                         </span>
                                     </span>
                                 );
                             }
-                            return <span key={index}>{i}</span>;
+                            return <span key={index}>{w}</span>;
                         })}
-                        <span className={styles.info}>
-                            <Info
-                                date={message.date}
-                                is_edited={message.is_edited}
-                                sendingError={message.sendingError}
-                                sending={message.sending}
-                                isMy={message.isMy}
-                                checked={!!message.users_have_read?.length}
-                            />
-                        </span>
+                        {textSplitWithUrl.length === indexUrl + 1 && (
+                            <span className={styles.info}>
+                                <Info
+                                    date={message.date}
+                                    is_edited={message.is_edited}
+                                    sendingError={message.sendingError}
+                                    sending={message.sending}
+                                    isMy={message.isMy}
+                                    checked={!!message.users_have_read?.length}
+                                />
+                            </span>
+                        )}
                     </div>
                 );
             })}
