@@ -22,22 +22,19 @@ type Props = {
     openChatProfileModal: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     chat: chatTypes.ChatProxy | BaseTypes.Empty;
     message: MessageProxy;
-    visibleInfoBlock?: boolean;
 } & BaseTypes.Statuses;
 
 function TextMessage(props: Props) {
-    const { visibleInfoBlock, message, openChatProfileModal, chat } = props;
+    const { message, openChatProfileModal, chat } = props;
     const once = useRef(true);
     const linksInfo = useArray({});
     const { text, isMy, sending, sendingError } = message;
-    const withLink = useEasyState(false);
 
     useEffect(() => {
         if (text && once.current) {
             Promise.all(
                 text.split(' ').map(async (word, index) => {
                     if (regex.url.test(word) && !word.includes('localhost')) {
-                        withLink.set(true);
                         const data = await axios.get(`https://dev.chat.softworks.ru/api/v2/http/link-preview`, {
                             params: {
                                 link: word,
@@ -88,7 +85,7 @@ function TextMessage(props: Props) {
     };
 
     return (
-        <Box className={`${styles.wrapper} ${withLink.value ? styles.wrapper_column : styles.wrapper_row}`}>
+        <Box className={styles.wrapper}>
             {text.split(/(https?:\/\/[^\s]+)/g).map((i, index) => {
                 if (regex.url.test(i)) {
                     return (
@@ -100,22 +97,33 @@ function TextMessage(props: Props) {
                 return text.length === 2 && regex.emoji.test(text) ? (
                     <Emoji.Item key={index} emoji={i} size={60} />
                 ) : (
-                    <Title key={index} textAlign="left" variant="H4M" replaceEmoji wordBreak>
-                        {i}
-                    </Title>
+                    <div className={styles.text}>
+                        {message.text?.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i, index) => {
+                            if (/\p{Emoji_Presentation}/gu.test(i)) {
+                                return (
+                                    <span key={index} className={styles.emojiWrapper}>
+                                        {i}
+                                        <span className={styles.emoji}>
+                                            <Emoji.Item key={index} emoji={i} size={18} />
+                                        </span>
+                                    </span>
+                                );
+                            }
+                            return <span key={index}>{i}</span>;
+                        })}
+                        <span className={styles.info}>
+                            <Info
+                                date={message.date}
+                                is_edited={message.is_edited}
+                                sendingError={message.sendingError}
+                                sending={message.sending}
+                                isMy={message.isMy}
+                                checked={!!message.users_have_read?.length}
+                            />
+                        </span>
+                    </div>
                 );
             })}
-
-            {visibleInfoBlock && (
-                <Info
-                    date={message.date}
-                    is_edited={message.is_edited}
-                    sendingError={message.sendingError}
-                    sending={message.sending}
-                    isMy={message.isMy}
-                    checked={!!message.users_have_read?.length}
-                />
-            )}
         </Box>
     );
 }

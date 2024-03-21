@@ -55,16 +55,6 @@ function ForwardMessage(props: Props) {
                     )}
                 </div>
             </div>
-            <div className={styles.info}>
-                <Info
-                    date={message.date}
-                    is_edited={message.is_edited}
-                    sendingError={message.sendingError}
-                    sending={message.sending}
-                    isMy={message.isMy}
-                    checked={!!message.users_have_read?.length}
-                />
-            </div>
         </div>
     );
 }

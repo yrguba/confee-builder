@@ -4,7 +4,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  width: auto;
+  width: calc(100% - 16px);
   max-width: 460px;
   //min-width: 400px;
   flex-wrap: wrap;
@@ -18,18 +18,31 @@
   background-color: var(--bg-secondary);
   -moz-user-select: text;
   -webkit-user-select: text;
+  //float: left;
 
-  &_column {
-    flex-direction: column;
-  }
+  .text {
+    color: var(--text-primary) !important;
+    width: 100%;
 
-  &_row {
-    flex-direction: row;
+    .emojiWrapper {
+      color: transparent !important;
+      position: relative;
+      pointer-events: none;
+
+      .emoji {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+
+    .info {
+      float: right;
+      margin-left: 4px;
+    }
   }
 
   .row {
-
-
     .longWord {
       word-break: break-all;
     }

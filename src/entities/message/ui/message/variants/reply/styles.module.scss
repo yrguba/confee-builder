@@ -4,15 +4,16 @@
   @include flex-column;
   width: 100%;
   min-width: 170px;
-  max-width: 400px;
+  max-width: 460px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
 
-
   .description {
+    flex: 1;
     margin-left: 8px;
     margin-top: 8px;
-    width: calc(100% - 16px);
+    width: 0;
+    min-width: calc(100% - 8px);
     border-left: 2px solid var(--border-primary);
 
     .content {
@@ -29,11 +30,6 @@
       margin: 0 8px;
       width: calc(100% - 16px);
     }
-  }
-
-  .info {
-    width: calc(100% - 7px);
-    margin-right: 7px;
   }
 }
 

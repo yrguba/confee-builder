@@ -2,12 +2,11 @@
 
 .wrapper {
   @include flex;
-  width: calc(100% - 16px);
+  width: 100%;
   min-width: 170px;
   max-width: 400px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
-  padding-left: 8px;
   padding-top: 8px;
 
   .content {
@@ -30,12 +29,6 @@
     }
   }
 
-
-  .info {
-    align-self: flex-end;
-    //width: calc(100% - 7px);
-    margin-right: 7px;
-  }
 }
 
 
