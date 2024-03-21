@@ -29,8 +29,8 @@ type Props = {
 function ReplyMessage(props: Props) {
     const { chat, openChatProfileModal, clickMessageReply, messageWrapperWidth, nameTitleVariant, message } = props;
 
-    const fileLength = message.reply_to_message?.files.length || 0;
-    const firstFile = message.reply_to_message?.files[0] || null;
+    const fileLength = message?.reply_to_message?.files?.length || 0;
+    const firstFile = fileLength ? message?.reply_to_message?.files[0] : null;
 
     const { reply_to_message, replyProxy } = message;
 
