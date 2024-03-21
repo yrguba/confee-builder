@@ -29,14 +29,12 @@ function TextMessage(props: Props) {
     const once = useRef(true);
     const linksInfo = useArray({});
     const { text, isMy, sending, sendingError } = message;
-    const withLink = useEasyState(false);
 
     useEffect(() => {
         if (text && once.current) {
             Promise.all(
                 text.split(' ').map(async (word, index) => {
                     if (regex.url.test(word) && !word.includes('localhost')) {
-                        withLink.set(true);
                         const data = await axios.get(`https://dev.chat.softworks.ru/api/v2/http/link-preview`, {
                             params: {
                                 link: word,
