@@ -97,7 +97,7 @@ function TextMessage(props: Props) {
                 return text.length === 2 && regex.emoji.test(text) ? (
                     <Emoji.Item key={index} emoji={i} size={60} />
                 ) : (
-                    <div className={styles.text}>
+                    <div className={styles.text} key={index}>
                         {message.text?.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)?.map((i, index) => {
                             if (/\p{Emoji_Presentation}/gu.test(i)) {
                                 return (
