@@ -101,8 +101,10 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
 
     const clickEmoji = (emoji: any) => {
         if (textChange && typeof value === 'string') {
+            const v = inputRef.current.innerHTML;
+            const p = inputRef.current.selectionStart;
+            textChange([v.slice(0, p), emoji, v.slice(p)].join(''));
             inputRef.current.focus();
-            textChange([value.slice(0, cursorPosition.value), emoji, value.slice(cursorPosition.value)].join(''));
         }
     };
 
