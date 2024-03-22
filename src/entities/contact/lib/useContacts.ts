@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { number } from 'yup';
 
 import { employeeProxy } from 'entities/company';
 import { useEasyState, useRouter } from 'shared/hooks';
@@ -82,6 +83,13 @@ function useContacts() {
         }
     }, [viewerData?.companies.length]);
 
+    const getDepartments = (data: { companyId: number | null }) => {
+        companyId.set(data.companyId);
+        const found = tabs.value.find((i) => i?.payload?.companyId === data.companyId);
+        setTimeout(() => console.log(tabs), 2000);
+        found && activeTab.set(found);
+    };
+
     const getNextPage = (type: 'employee') => {
         switch (type) {
             case 'employee':
@@ -111,6 +119,7 @@ function useContacts() {
         getEmployees,
         getNextPage,
         searchInput,
+        getDepartments,
         departments: departmentsData || [],
         loading: isLoading,
     };

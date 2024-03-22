@@ -12,36 +12,35 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
 
     const notifications = Notification.use();
 
+    const chatId = Number(params.chat_id);
+    const isGroup = useEasyState(false);
     const { mutate: handleAddMembersPersonalChat, isLoading } = chatApi.handleAddMembersPersonalChat();
     const { mutate: handleAddMembersCompanyChat } = chatApi.handleAddMembersCompanyChat();
-
-    const { data: viewerData } = viewerApi.handleGetViewer();
+    const companyId = useEasyState<number | null>(null);
 
     const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
     const proxyChat = chatProxy(chatData?.data.data);
 
     const tabsAndLists = useContacts();
 
-    const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: true });
-    const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: true });
+    const selectedUsers = useArray<CardTypes.CardListItem>({ multiple: true });
 
     const add = () => {
-        if (!selectedContacts.array.length && !selectedEmployees.array.length) {
+        if (!selectedUsers.array.length) {
             return notifications.error({ title: `Выберите участников` });
         }
-        if (selectedContacts.array.length && params.chat_id) {
+        if (selectedUsers.array.length && !isGroup) {
             handleAddMembersPersonalChat(
-                { chatId: params.chat_id, user_ids: selectedContacts.array.map((i) => i.payload.id) },
+                { chatId, user_ids: selectedUsers.array.map((i) => Number(i.id)) },
                 {
                     onSuccess: (data) => modal.close(),
                 }
             );
-        }
-        if (selectedEmployees.array.length && params.chat_id) {
+        } else {
             handleAddMembersCompanyChat(
                 {
-                    chatId: params.chat_id,
-                    employee_ids: selectedEmployees.array.map((i) => i.payload.id),
+                    chatId,
+                    employee_ids: selectedUsers.array.map((i) => Number(i.id)),
                 },
                 {
                     onSuccess: (data) => modal.close(),
@@ -52,24 +51,14 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
 
     useEffect(() => {
         if (proxyChat) {
-            // if (proxyChat?.is_personal) {
-            //     tabsAndLists.setActiveTab(tabsAndLists.tabs[0]);
-            // } else {
-            //     tabsAndLists.setActiveTab(tabsAndLists.tabs[1]);
-            // }
+            if (proxyChat?.is_personal) {
+            } else {
+                tabsAndLists.getDepartments({ companyId: proxyChat.company_id });
+            }
         }
-    }, [proxyChat?.is_personal]);
+    }, [proxyChat?.is_personal, tabsAndLists.activeTab?.id]);
 
-    return (
-        <AddMembersInChatModalView
-            tabsAndLists={tabsAndLists}
-            selectedContacts={selectedContacts}
-            selectedEmployees={selectedEmployees}
-            add={add}
-            chat={proxyChat}
-            loading={isLoading}
-        />
-    );
+    return <AddMembersInChatModalView tabsAndLists={tabsAndLists} selectedUsers={selectedUsers} add={add} chat={proxyChat} loading={isLoading} />;
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {
