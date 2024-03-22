@@ -7,7 +7,7 @@ import { useEasyState } from '../../../../hooks';
 import { AvatarChangeProps } from '../../types';
 
 function AvatarChange(props: AvatarChangeProps) {
-    const { img, name, clickAvatar, dropdownLeft, dropdownTop, selectFile, circle = true, size = 80, deleteFile, getScreenshot, disabled } = props;
+    const { photoIcon, img, name, clickAvatar, dropdownLeft, dropdownTop, selectFile, circle = true, size = 80, deleteFile, getScreenshot, disabled } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
     const visibleDownload = useEasyState(false);
@@ -36,7 +36,7 @@ function AvatarChange(props: AvatarChangeProps) {
                 className={styles.avatar}
                 style={{ borderRadius: circle ? '50%' : 8 }}
             >
-                <Avatar clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
+                <Avatar photoIcon={photoIcon} clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
                 <Box.Animated
                     visible={visibleMenu.value || visibleDownload.value}
                     onClick={visibleMenu.toggle}

@@ -12,6 +12,7 @@ export type BaseAvatarProps = {
     networkStatus?: keyof typeof userTypes.NetworkStatuses;
     opacity?: 0 | 1;
     clickAvatar?: () => void;
+    photoIcon?: boolean;
 } & BaseTypes.Statuses;
 
 export type AvatarChangeProps = {
@@ -20,6 +21,7 @@ export type AvatarChangeProps = {
     deleteFile: () => void;
     dropdownTop?: number;
     dropdownLeft?: number;
+    photoIcon?: boolean;
 } & BaseAvatarProps;
 
 export type AvatarChangeActions = {
