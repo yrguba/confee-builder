@@ -3,7 +3,7 @@ import { useUpdateEffect } from 'react-use';
 
 import { chatApi } from 'entities/chat';
 import { companyTypes, companyApi } from 'entities/company';
-import { contactApi, ContactsListView, contactTypes, useContactsTabsAndLists } from 'entities/contact';
+import { contactApi, ContactsListView, contactTypes, useContacts } from 'entities/contact';
 import { ContactProxy } from 'entities/contact/model/types';
 import { viewerApi } from 'entities/viewer';
 import { useEasyState, useRouter } from 'shared/hooks';
@@ -24,7 +24,7 @@ function ContactsList() {
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const tabsAndLists = useContactsTabsAndLists();
+    const tabsAndLists = useContacts();
 
     const { data: chatData } = chatApi.handleGetChatWithUser({ userId });
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();

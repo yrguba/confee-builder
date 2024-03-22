@@ -7,10 +7,10 @@ import { UseArrayReturnType } from '../../../../../../shared/hooks';
 import { Box, Card, CardTypes, Icons } from '../../../../../../shared/ui';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import contactProxy from '../../../../../contact/lib/proxy';
-import { ContactProxy, UseContactsTabsAndListsReturnType } from '../../../../../contact/model/types';
+import { ContactProxy, UseContactsReturnType } from '../../../../../contact/model/types';
 
 type Props = {
-    tabsAndLists: UseContactsTabsAndListsReturnType;
+    tabsAndLists: UseContactsReturnType;
     selectedUsers: UseArrayReturnType<CardTypes.CardListItem>;
 };
 

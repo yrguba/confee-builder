@@ -3,7 +3,7 @@ import { useUpdateEffect } from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
 
 import { chatApi, chatProxy, CreateChatModalView } from 'entities/chat';
-import { useContactsTabsAndLists } from 'entities/contact';
+import { useContacts } from 'entities/contact';
 import { viewerApi } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal, Notification, ModalTypes, CardTypes, Input } from 'shared/ui';
@@ -26,7 +26,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const tabsAndLists = useContactsTabsAndLists();
+    const tabsAndLists = useContacts();
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',

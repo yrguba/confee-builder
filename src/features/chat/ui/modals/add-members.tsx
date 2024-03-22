@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { chatApi, chatProxy, chatTypes, AddMembersInChatModalView } from 'entities/chat';
-import { contactProxy, contactApi, useContactsTabsAndLists } from 'entities/contact';
+import { contactProxy, contactApi, useContacts } from 'entities/contact';
 import { viewerApi } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal, Notification, ModalTypes, CardTypes } from 'shared/ui';
@@ -20,7 +20,7 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
     const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
     const proxyChat = chatProxy(chatData?.data.data);
 
-    const tabsAndLists = useContactsTabsAndLists();
+    const tabsAndLists = useContacts();
 
     const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: true });
     const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: true });

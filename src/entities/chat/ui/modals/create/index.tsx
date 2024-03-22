@@ -8,13 +8,13 @@ import UsersList from './components';
 import styles from './styles.module.scss';
 import { employeeProxy } from '../../../../company';
 import contactProxy from '../../../../contact/lib/proxy';
-import { ContactProxy, UseContactsTabsAndListsReturnType } from '../../../../contact/model/types';
+import { ContactProxy, UseContactsReturnType } from '../../../../contact/model/types';
 
 type Props = {
     selectedUsers: UseArrayReturnType<CardTypes.CardListItem>;
     isGroup: UseEasyStateReturnType<boolean>;
     createChat: () => void;
-    tabsAndLists: UseContactsTabsAndListsReturnType;
+    tabsAndLists: UseContactsReturnType;
     avatarActions: AvatarTypes.AvatarChangeActions;
     chatName: InputTypes.UseReturnedType;
     avatar: string | null;

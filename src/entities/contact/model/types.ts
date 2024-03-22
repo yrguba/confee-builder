@@ -1,6 +1,6 @@
 import { ContactSoreTypes } from './store';
 import { User, UserProxy } from '../../user/model/types';
-import { UseContactsTabsAndListsReturnType } from '../lib/useTabsAndLists';
+import { UseContactsReturnType } from '../lib/useContacts';
 
 export type Contact = {
     id: number;
@@ -20,7 +20,7 @@ export type ContactProxy = {
     userProxy: UserProxy;
 } & Contact;
 
-export type { ContactSoreTypes, UseContactsTabsAndListsReturnType };
+export type { ContactSoreTypes, UseContactsReturnType };
 export type Actions = 'delete' | 'mute' | 'goMeet' | 'message' | 'editName';
 export type SocketIn = '';
 export type SocketOut = '';

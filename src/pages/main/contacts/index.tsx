@@ -5,7 +5,7 @@ import { ContactProfile, EmployeeProfile } from './widgets';
 
 const ContactsPage = lazy(() => import('./ui'));
 
-const contactsPageRouters = ['/contacts/personal', '/contacts/companies/:company_id'].map((path) => (
+const contactsPageRouters = ['/contacts/personal', '/contacts/company/:company_id'].map((path) => (
     <Fragment key={path}>
         <Route path={path} element={<ContactsPage />}>
             <Route path="contact/:contact_id/user/:user_id" element={<ContactProfile />} />

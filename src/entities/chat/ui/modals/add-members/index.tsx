@@ -7,7 +7,7 @@ import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse } from '
 import styles from './styles.module.scss';
 import { employeeProxy } from '../../../../company';
 import contactProxy from '../../../../contact/lib/proxy';
-import { ContactProxy, UseContactsTabsAndListsReturnType } from '../../../../contact/model/types';
+import { ContactProxy, UseContactsReturnType } from '../../../../contact/model/types';
 import { ChatProxy } from '../../../model/types';
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
     selectedEmployees: UseArrayReturnType<CardTypes.CardListItem>;
     chat: ChatProxy | BaseTypes.Empty;
     add: () => void;
-    tabsAndLists: UseContactsTabsAndListsReturnType;
+    tabsAndLists: UseContactsReturnType;
 } & BaseTypes.Statuses;
 
 function AddMembersInChatModalView(props: Props) {

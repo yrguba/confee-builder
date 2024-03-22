@@ -9,14 +9,14 @@ import { useInView } from '../../../../shared/hooks';
 import { employeeProxy } from '../../../company';
 import { EmployeeProxy, Department } from '../../../company/model/types';
 import contactProxy from '../../lib/proxy';
-import { ContactProxy, Actions, UseContactsTabsAndListsReturnType, Contact } from '../../model/types';
+import { ContactProxy, Actions, UseContactsReturnType, Contact } from '../../model/types';
 
 type Props = {
     clickContact: (user: ContactProxy) => void;
     clickEmployee: (user: EmployeeProxy) => void;
     activeUserId: number | null;
     actions: (data?: { action: Actions; contact: ContactProxy | null; employee: EmployeeProxy | null }) => void;
-    tabsAndLists: UseContactsTabsAndListsReturnType;
+    tabsAndLists: UseContactsReturnType;
 } & BaseTypes.Statuses;
 
 function ContactsListView(props: Props) {
@@ -29,7 +29,10 @@ function ContactsListView(props: Props) {
     useEffect(() => {
         inViewLastItem && tabsAndLists.getNextPageEmployees();
     }, [inViewLastItem]);
-    console.log(tabsAndLists);
+
+    const isSearching = !!tabsAndLists.searchInput.value;
+    const activeTabIsCompany = !!tabsAndLists.activeTab?.payload?.companyId;
+
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             <div className={styles.search}>
@@ -39,11 +42,12 @@ function ContactsListView(props: Props) {
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
             </div>
             <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
-                {tabsAndLists.searchInput.value && !tabsAndLists.contacts.length && !tabsAndLists.employees.length && (
-                    <Icons.Picture variant="not-found" size={233} />
-                )}
-                {tabsAndLists.activeTab?.payload?.type === 'personal' && tabsAndLists.contacts.map((i) => <Item key={i.id} contact={i} {...props} />)}
-                {tabsAndLists.activeTab?.payload?.type === 'company' &&
+                {isSearching && activeTabIsCompany && !tabsAndLists.employees.length && <Icons.Picture variant="not-found" size={233} />}
+                {isSearching && !activeTabIsCompany && !tabsAndLists.contacts.length && <Icons.Picture variant="not-found" size={233} />}
+                {isSearching && activeTabIsCompany && tabsAndLists.employees.map((i) => <Item key={i.id} contact={i} {...props} />)}
+                {!activeTabIsCompany && tabsAndLists.contacts.map((i) => <Item key={i.id} contact={i} {...props} />)}
+                {!isSearching &&
+                    activeTabIsCompany &&
                     tabsAndLists.departments?.map((dep) => (
                         <Collapse
                             headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}

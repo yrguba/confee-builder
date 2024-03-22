@@ -13,33 +13,25 @@ import { tokensService, viewerApi } from '../../viewer';
 
 type TabPayload = {
     companyId: number | null;
-    type: 'personal' | 'company';
 };
 
-function useContactsTabsAndLists() {
+function useContacts() {
     const searchInput = Input.use({});
-
+    const { pathname, navigate, params } = useRouter();
     const { data: viewerData } = viewerApi.handleGetViewer(tokensService.checkAuth());
 
     const { data: searchData, isLoading: searchLoading, isFetching } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
 
-    const companyId = useEasyState<number | null>(null);
+    const companyId = useEasyState<number | null>(Number(params.company_id) || null);
     const departmentId = useEasyState<number | null>(null);
-
-    const departments = useEasyState<companyTypes.Department[]>([]);
-    const contacts = useEasyState<contactTypes.ContactProxy[]>([]);
-    const employees = useEasyState<companyTypes.EmployeeProxy[]>([]);
 
     const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
 
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
     const { data: departmentsData } = companyApi.handleGetDepartments({ companyId: companyId.value });
 
-    const contactsProxy = contactsData?.map((i) => contactProxy(i)) || [];
-    // const employeesProxy = departmentsData?.map((i) => employeeProxy(i)) || [];
-
     const {
-        data: departmentEmployees,
+        data: employeesData,
         isLoading,
         hasNextPage,
         fetchNextPage,
@@ -54,10 +46,12 @@ function useContactsTabsAndLists() {
 
     const clickTab = (tab: TabBarTypes.TabBarItem<TabPayload>) => {
         activeTab.set(tab);
+        if (pathname.split('/')[1] === 'contacts') {
+            navigate(tab?.payload?.companyId ? `/contacts/company/${tab.payload.companyId}` : '/contacts/personal');
+        }
         if (tab.payload?.companyId) {
             companyId.set(tab.payload.companyId);
         } else {
-            contacts.set(contactsProxy);
         }
     };
 
@@ -66,18 +60,19 @@ function useContactsTabsAndLists() {
             const defaultTab: TabBarTypes.TabBarItem<TabPayload> = {
                 id: 0,
                 title: 'Личные',
-                payload: { companyId: null, type: 'personal' },
+                payload: { companyId: null },
                 callback: () => clickTab(defaultTab),
             };
             const arr: any = [defaultTab];
-            activeTab.set(defaultTab);
+            !params.company_id && activeTab.set(defaultTab);
             viewerData.companies.forEach((i: any, index: number) => {
                 const companyTab: TabBarTypes.TabBarItem<TabPayload> = {
                     id: index + 1,
                     title: i.name || 'unknown',
-                    payload: { companyId: i.id, type: 'company' },
+                    payload: { companyId: i.id },
                     callback: () => clickTab(companyTab),
                 };
+                Number(params.company_id) === i.id && activeTab.set(companyTab);
                 arr.push(companyTab);
             });
             tabs.set(arr);
@@ -92,20 +87,19 @@ function useContactsTabsAndLists() {
         departmentId.set(depId);
     };
 
-    useEffect(() => {
-        contacts.set(contactsProxy);
-    }, [contactsData]);
+    useEffect(() => {}, [contactsData]);
 
-    useEffect(() => {
-        contacts.set(searchData?.contacts?.length ? searchData?.contacts?.map((i) => contactProxy(i)) : []);
-        employees.set(searchData?.employees?.length ? searchData?.employees?.map((i) => employeeProxy(i)) : []);
-    }, [searchData?.contacts?.length && searchData?.employees?.length]);
+    const getEmployeesFromDepartment = () => {
+        return employeesData?.pages.map((page) => {
+            page.data.data.map((e: any) => employeeProxy(e));
+        });
+    };
 
     return {
         tabs: tabs.value,
         activeTab: activeTab.value,
-        employees: employees.value,
-        contacts: contacts.value,
+        employees: searchInput.value ? searchData?.employees?.map((i) => employeeProxy(i)) || [] : getEmployeesFromDepartment() || [],
+        contacts: searchInput.value ? searchData?.contacts?.map((i) => contactProxy(i)) || [] : contactsData?.map((i) => contactProxy(i)) || [],
         departmentsEmployees: departmentsEmployees.value,
         getEmployees,
         getNextPageEmployees,
@@ -116,5 +110,5 @@ function useContactsTabsAndLists() {
     };
 }
 
-export default useContactsTabsAndLists;
-export type UseContactsTabsAndListsReturnType = ReturnType<typeof useContactsTabsAndLists>;
+export default useContacts;
+export type UseContactsReturnType = ReturnType<typeof useContacts>;
