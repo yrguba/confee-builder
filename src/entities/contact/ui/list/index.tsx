@@ -6,6 +6,8 @@ import { Box, Icons, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input
 
 import styles from './styles.module.scss';
 import { useInView } from '../../../../shared/hooks';
+import { CardListItem } from '../../../../shared/ui/card/types';
+import { TabBarItem } from '../../../../shared/ui/tab-bar/types';
 import { employeeProxy } from '../../../company';
 import { EmployeeProxy, Department } from '../../../company/model/types';
 import contactProxy from '../../lib/proxy';
@@ -21,17 +23,30 @@ type Props = {
 
 function ContactsListView(props: Props) {
     const { activeUserId, clickContact, clickEmployee, actions, tabsAndLists, loading } = props;
-    const { navigate, params, pathname } = useRouter();
-    const smHeightSize = useHeightMediaQuery().to('sm');
-
-    const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
-
-    useEffect(() => {
-        inViewLastItem && tabsAndLists.getNextPageEmployees();
-    }, [inViewLastItem]);
+    const { params, pathname } = useRouter();
 
     const isSearching = !!tabsAndLists.searchInput.value;
     const activeTabIsCompany = !!tabsAndLists.activeTab?.payload?.companyId;
+
+    const updContacts = (contacts: ContactProxy[]): CardListItem[] => {
+        return contacts.map((i) => ({
+            id: i.id,
+            title: i.full_name,
+            subtitle: i?.userProxy?.networkStatus || '',
+            img: i.avatar,
+            onClick: () => clickContact(i),
+        }));
+    };
+
+    const updEmployee = (employees: EmployeeProxy[]): CardListItem[] => {
+        return employees.map((i) => ({
+            id: i.id,
+            title: i.full_name,
+            subtitle: i?.userProxy?.networkStatus || 'Не зарегестрирован',
+            img: i.avatar,
+            onClick: () => clickEmployee(i),
+        }));
+    };
 
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
@@ -44,8 +59,8 @@ function ContactsListView(props: Props) {
             <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
                 {isSearching && activeTabIsCompany && !tabsAndLists.employees.length && <Icons.Picture variant="not-found" size={233} />}
                 {isSearching && !activeTabIsCompany && !tabsAndLists.contacts.length && <Icons.Picture variant="not-found" size={233} />}
-                {isSearching && activeTabIsCompany && tabsAndLists.employees.map((i) => <Item key={i.id} contact={i} {...props} />)}
-                {!activeTabIsCompany && tabsAndLists.contacts.map((i) => <Item key={i.id} contact={i} {...props} />)}
+                {isSearching && activeTabIsCompany && <Card.List activeItem={activeUserId} items={updEmployee(tabsAndLists.employees)} />}
+                {!activeTabIsCompany && <Card.List activeItem={activeUserId} items={updContacts(tabsAndLists.contacts)} />}
                 {!isSearching &&
                     activeTabIsCompany &&
                     tabsAndLists.departments?.map((dep) => (
@@ -56,131 +71,16 @@ function ContactsListView(props: Props) {
                             key={dep.id}
                             title={dep?.name || ''}
                         >
-                            {tabsAndLists.departmentsEmployees[dep.id]?.map((emp, index) => (
-                                <Item
-                                    ref={index + 1 === tabsAndLists.departmentsEmployees[dep.id].length ? lastItem : null}
-                                    key={emp.id}
-                                    employee={employeeProxy(emp) as any}
-                                    {...props}
-                                />
-                            ))}
+                            <Card.List
+                                activeItem={activeUserId}
+                                visibleLastItem={() => tabsAndLists.getNextPage('employee')}
+                                items={updEmployee(tabsAndLists.employees)}
+                            />
                         </Collapse>
                     ))}
-                {/* {tabsAndLists.activeTab?.title === 'Личные' && */}
-                {/*    tabsAndLists.searchInput.value && */}
-                {/*    !tabsAndLists.searchLoading && */}
-                {/*    !tabsAndLists.contacts?.length && ( */}
-                {/*        <div style={{ marginLeft: 12 }}> */}
-                {/*            <Title variant="H2">ничего не найдено</Title> */}
-                {/*        </div> */}
-                {/*    )} */}
-                {/* {tabsAndLists.activeTab?.title !== 'Личные' && */}
-                {/*    tabsAndLists.searchInput.value && */}
-                {/*    !tabsAndLists.searchLoading && */}
-                {/*    !tabsAndLists.employees?.length && ( */}
-                {/*        <div style={{ marginLeft: 12 }}> */}
-                {/*            <Title variant="H2">ничего не найдено</Title> */}
-                {/*        </div> */}
-                {/*    )} */}
-                {/* {tabsAndLists.searchInput.value && !tabsAndLists.contacts.length && !tabsAndLists.employees.length ? ( */}
-                {/*    <div style={{ marginLeft: 12 }}> */}
-                {/*        <Title variant="H2">Нет контактов</Title> */}
-                {/*    </div> */}
-                {/* ) : tabsAndLists.activeTab?.title === 'Личные' ? ( */}
-                {/*    tabsAndLists.contacts?.map((i: any, index) => <Item key={index} contact={i} {...props} />) */}
-                {/* ) : tabsAndLists.employees ? ( */}
-                {/*    tabsAndLists.employees.map((i: any, index) => <Item key={index} employee={i} {...props} />) */}
-                {/* ) : ( */}
-                {/*    tabsAndLists.departments?.map((dep: any) => ( */}
-                {/*        <Collapse */}
-                {/*            headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }} */}
-                {/*            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)} */}
-                {/*            isOpen={dep.id === Number(params.department_id)} */}
-                {/*            key={dep.id} */}
-                {/*            title={dep?.name || ''} */}
-                {/*        > */}
-                {/*            {tabsAndLists.departmentsEmployees[dep.id]?.map((emp, index) => ( */}
-                {/*                <Item */}
-                {/*                    ref={index + 1 === tabsAndLists.departmentsEmployees[dep.id].length ? lastItem : null} */}
-                {/*                    key={emp.id} */}
-                {/*                    employee={employeeProxy(emp) as any} */}
-                {/*                    {...props} */}
-                {/*                /> */}
-                {/*            ))} */}
-                {/*        </Collapse> */}
-                {/*    )) */}
-                {/* )} */}
             </Box.Animated>
         </Box.Animated>
     );
 }
-
-const Item = forwardRef((props: { contact?: ContactProxy; employee?: EmployeeProxy } & Props, ref: any) => {
-    const { activeUserId, actions, clickEmployee, clickContact, tabsAndLists, contact, employee } = props;
-
-    const visibleMenu = useEasyState(false);
-
-    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
-        // {
-        //     id: 0,
-        //     icon: <Icons variant="videocam-outlined" />,
-        //     callback: () => actions({ action: 'goMeet', contact: contact || null, employee: employee || null }),
-        //     title: 'конференция',
-        // },
-        {
-            id: 1,
-            icon: <Icons variant="messages" />,
-            callback: () => actions({ action: 'message', contact: contact || null, employee: employee || null }),
-            title: 'написать',
-        },
-        {
-            id: 2,
-            icon: <Icons.Player variant="mute" />,
-            callback: () => actions({ action: 'mute', contact: contact || null, employee: employee || null }),
-            title: 'вкл.звук',
-        },
-        {
-            id: 4,
-            icon: <Icons variant="delete" />,
-            callback: () => actions({ action: 'delete', contact: contact || null, employee: employee || null }),
-            title: 'удалить',
-            isRed: true,
-            hidden: !!employee,
-        },
-    ];
-
-    const id = contact?.id || employee?.id;
-    const full_name = contact?.full_name || employee?.full_name;
-    const subtitle = contact?.phone || employee?.position;
-    const avatar = contact?.avatar || employee?.avatar || '';
-    const status: any = employee?.status || null;
-
-    const clickUser = () => {
-        if (contact && clickContact) return clickContact(contact);
-        if (employee && clickEmployee) return clickEmployee(employee);
-    };
-
-    const clickContextMenu = (e: any) => {
-        e.preventDefault();
-        visibleMenu.toggle();
-    };
-
-    return (
-        <div
-            onContextMenu={clickContextMenu}
-            onMouseLeave={() => visibleMenu.set(false)}
-            ref={ref}
-            key={id}
-            className={`${styles.item} ${activeUserId === id ? styles.item_active : ''}`}
-        >
-            <ContextMenu visible={visibleMenu.value} items={menuItems} />
-            <div className={styles.body}>
-                <div className={styles.card}>
-                    <Card onClick={clickUser} size="l" name={full_name} img={avatar} title={full_name} subtitle={subtitle || ''} />
-                </div>
-            </div>
-        </div>
-    );
-});
 
 export default ContactsListView;

@@ -8,7 +8,7 @@ import { Input, TabBarTypes } from 'shared/ui';
 
 import { contactApi, contactProxy, contactTypes } from '..';
 import { companyTypes, companyApi } from '../../company';
-import { Company, Employee } from '../../company/model/types';
+import { Company, Employee, EmployeeProxy } from '../../company/model/types';
 import { tokensService, viewerApi } from '../../viewer';
 
 type TabPayload = {
@@ -33,8 +33,8 @@ function useContacts() {
     const {
         data: employeesData,
         isLoading,
-        hasNextPage,
-        fetchNextPage,
+        hasNextPage: hasNextPageEmployees,
+        fetchNextPage: fetchNextPageEmployee,
     } = companyApi.handleGetDepartmentEmployees({
         companyId: companyId.value,
         departmentId: departmentId.value,
@@ -79,20 +79,26 @@ function useContacts() {
         }
     }, [viewerData?.companies.length]);
 
-    const getNextPageEmployees = () => {
-        hasNextPage && fetchNextPage();
+    const getNextPage = (type: 'employee') => {
+        switch (type) {
+            case 'employee':
+                hasNextPageEmployees && fetchNextPageEmployee();
+        }
+        // hasNextPage && fetchNextPage();
     };
 
     const getEmployees = (depId: number) => {
-        departmentId.set(depId);
+        depId && departmentId.set(depId);
     };
 
-    useEffect(() => {}, [contactsData]);
-
     const getEmployeesFromDepartment = () => {
-        return employeesData?.pages.map((page) => {
-            page.data.data.map((e: any) => employeeProxy(e));
+        const arr: EmployeeProxy[] = [];
+        employeesData?.pages.map((page) => {
+            page.data.data.forEach((e: any) => {
+                arr.push(employeeProxy(e));
+            });
         });
+        return arr;
     };
 
     return {
@@ -100,13 +106,11 @@ function useContacts() {
         activeTab: activeTab.value,
         employees: searchInput.value ? searchData?.employees?.map((i) => employeeProxy(i)) || [] : getEmployeesFromDepartment() || [],
         contacts: searchInput.value ? searchData?.contacts?.map((i) => contactProxy(i)) || [] : contactsData?.map((i) => contactProxy(i)) || [],
-        departmentsEmployees: departmentsEmployees.value,
         getEmployees,
-        getNextPageEmployees,
+        getNextPage,
         searchInput,
         departments: departmentsData || [],
         loading: isLoading,
-        searchLoading,
     };
 }
 

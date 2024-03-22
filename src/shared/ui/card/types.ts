@@ -32,4 +32,5 @@ export type CardListProps = {
     selected?: UseArrayReturnType<CardListItem>;
     sortByName?: boolean;
     visibleLastItem?: (value: boolean) => void;
+    activeItem?: number | string | null;
 };

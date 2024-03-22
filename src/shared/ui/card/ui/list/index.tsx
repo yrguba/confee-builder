@@ -6,7 +6,7 @@ import { Box, Card, Icons } from '../../../index';
 import { CardListProps } from '../../types';
 
 function CardList(props: CardListProps) {
-    const { items, selected, sortByName, visibleLastItem } = props;
+    const { activeItem, items, selected, sortByName, visibleLastItem } = props;
 
     const getArray = () => {
         if (sortByName && items?.length) {
@@ -40,25 +40,27 @@ function CardList(props: CardListProps) {
                 <Fragment key={i.id}>
                     {getDelimiter(arr, index)}
                     <div
-                        className={styles.item}
+                        className={`${styles.item} ${activeItem === i.id ? styles.item_active : ''}`}
                         onClick={() => !i.disabledSelect && selected && selected.pushOrDelete(i)}
                         ref={index + 1 === arr?.length ? lastCard : null}
                     >
-                        <div className={styles.info}>
-                            <Card {...i} onClick={() => (i.onClick ? i.onClick() : '')} />
+                        <div className={styles.container}>
+                            <div className={styles.info}>
+                                <Card {...i} onClick={() => (i.onClick ? i.onClick() : '')} />
+                            </div>
+                            {i.remove && (
+                                <div onClick={() => i.remove && i.remove(Number(i.id), String(i.title))}>
+                                    <Icons variant="delete" />
+                                </div>
+                            )}
+                            {selected && (
+                                <div className={styles.selectIndicator}>
+                                    <Box.Animated visible={!!selected?.findById(i.id) || !!i?.disabledSelect}>
+                                        <Icons variant="check" />
+                                    </Box.Animated>
+                                </div>
+                            )}
                         </div>
-                        {i.remove && (
-                            <div onClick={() => i.remove && i.remove(Number(i.id), String(i.title))}>
-                                <Icons variant="delete" />
-                            </div>
-                        )}
-                        {selected && (
-                            <div className={styles.selectIndicator}>
-                                <Box.Animated visible={!!selected?.findById(i.id) || !!i?.disabledSelect}>
-                                    <Icons variant="check" />
-                                </Box.Animated>
-                            </div>
-                        )}
                     </div>
                 </Fragment>
             ))}
