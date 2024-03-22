@@ -6,9 +6,7 @@ import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse, Avatar,
 
 import styles from './styles.module.scss';
 import { CardListItem } from '../../../../../shared/ui/card/types';
-import { employeeProxy } from '../../../../company';
 import { EmployeeProxy } from '../../../../company/model/types';
-import contactProxy from '../../../../contact/lib/proxy';
 import { ContactProxy, UseContactsReturnType } from '../../../../contact/model/types';
 
 type Props = {
@@ -25,13 +23,11 @@ type Props = {
 function CreateChatModalView(props: Props) {
     const { selectedUsers, chatDescription, avatar, chatName, avatarActions, isGroup, createChat, tabsAndLists, loading } = props;
 
-    // const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
-
     const finalStep = useEasyState(false);
 
     const toggle = () => {
         isGroup.toggle();
-        // selectedContacts.clear();
+        selectedUsers.clear();
     };
 
     const isSearching = !!tabsAndLists.searchInput.value;
