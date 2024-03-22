@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UseEasyStateReturnType, UseArrayReturnType } from 'shared/hooks';
+import { UseEasyStateReturnType, UseArrayReturnType, useEasyState } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse, Avatar, AvatarTypes, Box, InputTypes } from 'shared/ui';
 
@@ -27,6 +27,8 @@ function CreateChatModalView(props: Props) {
 
     // const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
 
+    const finalStep = useEasyState(false);
+
     const toggle = () => {
         isGroup.toggle();
         // selectedContacts.clear();
@@ -45,7 +47,6 @@ function CreateChatModalView(props: Props) {
     };
 
     const updEmployee = (employees: EmployeeProxy[]): CardListItem[] => {
-        console.log(employees);
         return employees.map((i) => ({
             id: i.id,
             title: i.full_name,
@@ -60,66 +61,88 @@ function CreateChatModalView(props: Props) {
                 <Title animateTrigger={`${isGroup.value}`} variant="H2">
                     {isGroup.value ? 'Создать группу' : 'Написать сообщение'}
                 </Title>
-                {/* <Box.Animated className={styles.groupSettings} visible={isGroup.value}> */}
-                {/*    <Avatar.Change dropdownLeft={20} {...avatarActions} img={avatar} /> */}
-                {/*    <Input {...chatName} placeholder="Введите название" clearIcon maxLength={22} /> */}
-                {/* </Box.Animated> */}
-                {/* {isGroup.value && ( */}
-                {/*    <div className={styles.description}> */}
-                {/*        <Input.Textarea */}
-                {/*            textChange={(text) => chatDescription.set(text)} */}
-                {/*            value={chatDescription.value} */}
-                {/*            focusTrigger={[]} */}
-                {/*            placeholder="Описание" */}
-                {/*            height="100%" */}
-                {/*        /> */}
-                {/*    </div> */}
-                {/* )} */}
-
-                <div className={styles.switch}>
-                    <Button
-                        onClick={toggle}
-                        width="auto"
-                        variant="inherit"
-                        active
-                        animateTrigger={`${isGroup.value}`}
-                        prefixIcon={<Icons variant={isGroup.value ? 'personal-acc' : 'contacts'} />}
-                    >
-                        {!isGroup.value ? 'Создать группу' : 'Написать сообщение'}
-                    </Button>
-                </div>
-                <div className={styles.border} />
-                <div className={styles.search}>
-                    <Input {...tabsAndLists.searchInput} width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
-                </div>
+                {finalStep.value ? (
+                    <div className={styles.chatInfo}>
+                        <Box.Animated className={styles.groupSettings} visible={isGroup.value}>
+                            <Avatar.Change dropdownLeft={20} {...avatarActions} img={avatar} />
+                            <Input {...chatName} placeholder="Введите название" clearIcon maxLength={22} />
+                        </Box.Animated>
+                        {isGroup.value && (
+                            <div className={styles.description}>
+                                <Input.Textarea
+                                    textChange={(text) => chatDescription.set(text)}
+                                    value={chatDescription.value}
+                                    focusTrigger={[]}
+                                    placeholder="Описание"
+                                    height="100%"
+                                />
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <>
+                        <div className={styles.switch}>
+                            <Button
+                                onClick={toggle}
+                                width="auto"
+                                variant="inherit"
+                                active
+                                animateTrigger={`${isGroup.value}`}
+                                prefixIcon={<Icons variant={isGroup.value ? 'personal-acc' : 'contacts'} />}
+                            >
+                                {!isGroup.value ? 'Создать группу' : 'Написать сообщение'}
+                            </Button>
+                        </div>
+                        <div className={styles.search}>
+                            <Input {...tabsAndLists.searchInput} width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
+                        </div>
+                    </>
+                )}
             </div>
-            <TabBar bodyStyle={{ padding: '0 22px' }} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
+            {!finalStep.value && <TabBar bodyStyle={{ padding: '0 22px' }} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />}
             <div className={styles.list}>
-                {isSearching && activeTabIsCompany && !tabsAndLists.employees.length && <Icons.Picture variant="not-found" size={233} />}
-                {isSearching && !activeTabIsCompany && !tabsAndLists.contacts.length && <Icons.Picture variant="not-found" size={233} />}
-                {isSearching && activeTabIsCompany && <Card.List selected={selectedUsers} items={updEmployee(tabsAndLists.employees)} />}
-                {!activeTabIsCompany && <Card.List selected={selectedUsers} items={updContacts(tabsAndLists.contacts)} />}
-                {!isSearching &&
-                    activeTabIsCompany &&
-                    tabsAndLists.departments?.map((dep) => (
-                        <Collapse
-                            headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
-                            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
-                            key={dep.id}
-                            title={dep?.name || ''}
-                        >
-                            <Card.List
-                                selected={selectedUsers}
-                                visibleLastItem={() => tabsAndLists.getNextPage('employee')}
-                                items={updEmployee(tabsAndLists.employees)}
-                            />
-                        </Collapse>
-                    ))}
+                {finalStep.value ? (
+                    <Card.List items={selectedUsers.array} />
+                ) : (
+                    <>
+                        {isSearching && activeTabIsCompany && !tabsAndLists.employees.length && <Icons.Picture variant="not-found" size={233} />}
+                        {isSearching && !activeTabIsCompany && !tabsAndLists.contacts.length && <Icons.Picture variant="not-found" size={233} />}
+                        {isSearching && activeTabIsCompany && <Card.List selected={selectedUsers} items={updEmployee(tabsAndLists.employees)} />}
+                        {!activeTabIsCompany && <Card.List selected={selectedUsers} items={updContacts(tabsAndLists.contacts)} />}
+                        {!isSearching &&
+                            activeTabIsCompany &&
+                            tabsAndLists.departments?.map((dep) => (
+                                <Collapse
+                                    headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
+                                    openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
+                                    key={dep.id}
+                                    title={dep?.name || ''}
+                                >
+                                    <Card.List
+                                        selected={selectedUsers}
+                                        visibleLastItem={() => tabsAndLists.getNextPage('employee')}
+                                        items={updEmployee(tabsAndLists.employees)}
+                                    />
+                                </Collapse>
+                            ))}
+                    </>
+                )}
             </div>
             <div className={styles.footer}>
-                <Button animateTrigger={`${isGroup.value}`} prefixIcon={<Icons variant="new-message" />} variant="secondary" onClick={createChat}>
-                    {isGroup.value ? 'Далее' : '  Написать'}
+                <Button
+                    animateTrigger={`${isGroup.value}`}
+                    // prefixIcon={!isGroup.value ? <Icons variant="new-message" /> : null}
+                    variant="primary"
+                    onClick={isGroup.value ? () => finalStep.set(true) : createChat}
+                    disabled={!selectedUsers.length}
+                >
+                    {isGroup.value ? (finalStep.value ? 'Создать' : 'Далее') : '  Написать'}
                 </Button>
+                {finalStep.value && (
+                    <Button animateTrigger={`${isGroup.value}`} variant="secondary" onClick={() => finalStep.set(false)}>
+                        Назад
+                    </Button>
+                )}
             </div>
         </div>
     );

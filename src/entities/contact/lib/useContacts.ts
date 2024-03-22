@@ -25,6 +25,8 @@ function useContacts() {
     const companyId = useEasyState<number | null>(Number(params.company_id) || null);
     const departmentId = useEasyState<number | null>(null);
 
+    const redirect = pathname.split('/')[1] === 'contacts';
+
     const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
 
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
@@ -46,7 +48,7 @@ function useContacts() {
 
     const clickTab = (tab: TabBarTypes.TabBarItem<TabPayload>) => {
         activeTab.set(tab);
-        if (pathname.split('/')[1] === 'contacts') {
+        if (redirect) {
             navigate(tab?.payload?.companyId ? `/contacts/company/${tab.payload.companyId}` : '/contacts/personal');
         }
         if (tab.payload?.companyId) {
@@ -64,7 +66,8 @@ function useContacts() {
                 callback: () => clickTab(defaultTab),
             };
             const arr: any = [defaultTab];
-            !params.company_id && activeTab.set(defaultTab);
+
+            (!redirect || !params.company_id) && activeTab.set(defaultTab);
             viewerData.companies.forEach((i: any, index: number) => {
                 const companyTab: TabBarTypes.TabBarItem<TabPayload> = {
                     id: index + 1,
@@ -72,7 +75,7 @@ function useContacts() {
                     payload: { companyId: i.id },
                     callback: () => clickTab(companyTab),
                 };
-                Number(params.company_id) === i.id && activeTab.set(companyTab);
+                Number(params.company_id) === i.id && redirect && activeTab.set(companyTab);
                 arr.push(companyTab);
             });
             tabs.set(arr);
