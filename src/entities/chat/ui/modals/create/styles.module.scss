@@ -5,15 +5,14 @@
   @include flex-column(flex-start, center);
   max-height: calc(100vh - 22px);
   overflow-y: auto;
-  @include height-from(sm){
+  @include height-from(sm) {
     max-height: calc(100vh - 50px);
   }
 
   .header {
     @include flex-column();
     width: calc(100% - 48px);
-    gap: 4px;
-    margin: 24px 24px 0 24px;
+    margin: 32px 24px 12px 24px;
     color: var(--text-primary);
 
     .groupSettings {
@@ -37,16 +36,12 @@
       overflow: auto;
     }
 
-    .border {
-      @include box-size(100%, 1px);
-      margin: 14px 0 8px 0;
-      background-color: var(--border-secondary);
-    }
-
     .switch {
       width: 100%;
-      margin-bottom: 8px;
+      margin-top: 8px;
+
       @include flex(flex-start);
+      border-bottom: 1px solid var(--border-secondary);
 
       svg {
         stroke: var(--text-action) !important;
@@ -56,6 +51,7 @@
 
   .list {
     @include scrollBarVertical;
+    @include flex-column(flex-start);
     margin-top: 8px;
     width: 94%;
     padding: 12px;

@@ -5,9 +5,11 @@ import { useEasyState, useRouter } from 'shared/hooks';
 import { Input, TabBarTypes } from 'shared/ui';
 
 import { contactApi, contactProxy } from '..';
+import { CardListItem } from '../../../shared/ui/card/types';
 import { companyApi } from '../../company';
 import { Employee, EmployeeProxy } from '../../company/model/types';
 import { tokensService, viewerApi } from '../../viewer';
+import { ContactProxy } from '../model/types';
 
 type TabPayload = {
     companyId: number | null;

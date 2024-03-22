@@ -39,59 +39,58 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     const getScreenshot = (data: string) => chatAvatar.set(data);
 
     const createChat = () => {
-        // const chatsType = pathname.split('/')[2];
-        // if (!selectedContacts.array.length && !selectedEmployees.array.length) {
-        //     return notifications.error({ title: `Выберите участников` });
-        // }
-        // if (isGroup.value && !chatName.value) {
-        //     return notifications.error({ title: `Введите название чата` });
-        // }
-        //
-        // if (selectedContacts.array.length) {
-        //     handleCreatePersonalChat(
-        //         {
-        //             user_ids: selectedContacts.array.map((i) => i.payload.id),
-        //             is_group: isGroup.value,
-        //             name: chatName.value,
-        //             avatar: chatAvatarFile.value,
-        //             description: chatDescription.value,
-        //         },
-        //         {
-        //             onSuccess: (res) => {
-        //                 const chat = chatProxy(res.data.data);
-        //                 const chatId = chat?.id;
-        //                 if (chat) {
-        //                     modal.close();
-        //                     navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${chatId}`);
-        //                 }
-        //             },
-        //         }
-        //     );
-        // }
-        // if (selectedEmployees.array.length) {
-        //     handleCreateCompanyChat(
-        //         {
-        //             body: {
-        //                 employee_ids: selectedEmployees.array.map((i) => i.payload.id),
-        //                 is_group: isGroup.value,
-        //                 name: chatName.value,
-        //                 avatar: chatAvatarFile.value,
-        //                 description: chatDescription.value,
-        //             },
-        //             companyId: tabsAndLists.activeTab?.payload?.id,
-        //         },
-        //         {
-        //             onSuccess: (res) => {
-        //                 const chat = chatProxy(res.data.data);
-        //                 const chatId = chat?.id;
-        //                 if (chat) {
-        //                     modal.close();
-        //                     navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.id}/chat/${chatId}`);
-        //                 }
-        //             },
-        //         }
-        //     );
-        // }
+        const chatsType = pathname.split('/')[2];
+        if (!selectedUsers.array.length) {
+            return notifications.error({ title: `Выберите участников` });
+        }
+        if (isGroup.value && !chatName.value) {
+            return notifications.error({ title: `Введите название чата` });
+        }
+
+        if (!tabsAndLists.activeTab?.payload?.companyId) {
+            handleCreatePersonalChat(
+                {
+                    user_ids: selectedUsers.array.map((i) => Number(i.id)),
+                    is_group: isGroup.value,
+                    name: chatName.value,
+                    avatar: chatAvatarFile.value,
+                    description: chatDescription.value,
+                },
+                {
+                    onSuccess: (res) => {
+                        const chat = chatProxy(res.data.data);
+                        const chatId = chat?.id;
+                        if (chat) {
+                            modal.close();
+                            navigate(`/chats/${chatsType !== 'company' ? chatsType : 'personal'}/chat/${chatId}`);
+                        }
+                    },
+                }
+            );
+        } else {
+            handleCreateCompanyChat(
+                {
+                    body: {
+                        employee_ids: selectedUsers.array.map((i) => Number(i.id)),
+                        is_group: isGroup.value,
+                        name: chatName.value,
+                        avatar: chatAvatarFile.value,
+                        description: chatDescription.value,
+                    },
+                    companyId: tabsAndLists.activeTab?.payload?.companyId,
+                },
+                {
+                    onSuccess: (res) => {
+                        const chat = chatProxy(res.data.data);
+                        const chatId = chat?.id;
+                        if (chat) {
+                            modal.close();
+                            navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.companyId}/chat/${chatId}`);
+                        }
+                    },
+                }
+            );
+        }
     };
 
     useUpdateEffect(() => {
