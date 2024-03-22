@@ -13,6 +13,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     const notifications = Notification.use();
 
+    const companyId = useEasyState<number | null>(null);
     const isGroup = useEasyState(false);
     const chatAvatar = useEasyState<string | null>(null);
     const chatAvatarFile = useEasyState<any>(null);
@@ -46,8 +47,8 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         if (isGroup.value && !chatName.value) {
             return notifications.error({ title: `Введите название чата` });
         }
-
-        if (!tabsAndLists.activeTab?.payload?.companyId) {
+        console.log('tt');
+        if (!companyId.value) {
             handleCreatePersonalChat(
                 {
                     user_ids: selectedUsers.array.map((i) => Number(i.id)),
@@ -85,7 +86,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
                         const chatId = chat?.id;
                         if (chat) {
                             modal.close();
-                            navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${tabsAndLists.activeTab?.payload?.companyId}/chat/${chatId}`);
+                            navigate(`/chats/${chatsType !== 'personal' ? chatsType : 'company'}/${companyId.value}/chat/${chatId}`);
                         }
                     },
                 }
@@ -94,8 +95,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
     };
 
     useUpdateEffect(() => {
-        // selectedContacts.clear();
-        // selectedEmployees.clear();
+        companyId.set(tabsAndLists.activeTab?.payload?.companyId || null);
     }, [tabsAndLists.activeTab?.id]);
 
     return (

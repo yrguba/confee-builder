@@ -133,13 +133,21 @@ function CreateChatModalView(props: Props) {
                     animateTrigger={`${isGroup.value}`}
                     // prefixIcon={!isGroup.value ? <Icons variant="new-message" /> : null}
                     variant="primary"
-                    onClick={isGroup.value ? () => finalStep.set(true) : createChat}
+                    onClick={isGroup.value ? () => (finalStep.value ? createChat() : finalStep.set(true)) : createChat}
                     disabled={!selectedUsers.length}
                 >
                     {isGroup.value ? (finalStep.value ? 'Создать' : 'Далее') : '  Написать'}
                 </Button>
                 {finalStep.value && (
-                    <Button animateTrigger={`${isGroup.value}`} variant="secondary" onClick={() => finalStep.set(false)}>
+                    <Button
+                        animateTrigger={`${isGroup.value}`}
+                        variant="secondary"
+                        onClick={() => {
+                            finalStep.set(false);
+                            chatName.clear();
+                            chatDescription.set('');
+                        }}
+                    >
                         Назад
                     </Button>
                 )}
