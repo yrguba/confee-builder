@@ -21,7 +21,7 @@
 
 
   .list {
-    @include flex-column(flex-start, flex-start);
+    @include flex-column(flex-start);
     width: 100%;
     height: calc(100% - 100px);
     overflow-y: auto;
