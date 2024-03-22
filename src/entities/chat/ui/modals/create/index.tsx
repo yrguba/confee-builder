@@ -95,6 +95,18 @@ function CreateChatModalView(props: Props) {
                     </>
                 )}
             </div>
+            {!finalStep.value && selectedUsers.length && isGroup.value ? (
+                <div className={styles.selected}>
+                    {selectedUsers.array.map((i) => (
+                        <div className={styles.item}>
+                            {i.title}
+                            <span className={styles.icon} onClick={() => selectedUsers.deleteById(i.id)}>
+                                <Icons variant="close" size={16} />
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            ) : null}
             {!finalStep.value && <TabBar bodyStyle={{ padding: '0 22px' }} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />}
             <div className={styles.list}>
                 {finalStep.value ? (

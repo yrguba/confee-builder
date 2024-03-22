@@ -56,6 +56,38 @@
     }
   }
 
+  .selected{
+    @include flex(flex-start);
+    @include box-size(calc(100% - 24px), auto);
+    @include scrollBarVertical;
+    margin-left: 24px;
+    max-height: 120px;
+    margin-bottom: 12px;
+    flex: 1 0 auto;
+    flex-wrap: wrap;
+    gap: 6px;
+    overflow-y: auto;
+
+
+    .item{
+      @include flex;
+      gap: 6px;
+      padding: 8px 14px;
+      background-color: var(--control-primary);
+      border-radius: 12px;
+      color: var(--text-fixed);
+
+      .icon{
+        @include flex;
+        cursor: pointer;
+        margin-top: 2px;
+        svg{
+          fill: var(--text-fixed);
+        }
+      }
+    }
+  }
+
   .list {
     @include scrollBarVertical;
     @include flex-column(flex-start);
@@ -63,7 +95,7 @@
     width: 94%;
     padding: 12px;
     overflow-y: auto;
-    min-height: 100%;
+    //min-height: 100%;
   }
 
   .footer {

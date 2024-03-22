@@ -47,7 +47,6 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
         if (isGroup.value && !chatName.value) {
             return notifications.error({ title: `Введите название чата` });
         }
-        console.log('tt');
         if (!companyId.value) {
             handleCreatePersonalChat(
                 {
@@ -96,6 +95,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     useUpdateEffect(() => {
         companyId.set(tabsAndLists.activeTab?.payload?.companyId || null);
+        selectedUsers.clear();
     }, [tabsAndLists.activeTab?.id]);
 
     return (

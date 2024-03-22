@@ -41,7 +41,7 @@ function CardList(props: CardListProps) {
                     {getDelimiter(arr, index)}
                     <div
                         className={`${styles.item} ${activeItem === i.id ? styles.item_active : ''}`}
-                        onClick={() => !i.disabledSelect && selected && selected.pushOrDelete(i)}
+                        onClick={() => !i.disabledSelect && selected && selected.unshiftOrDelete(i)}
                         ref={index + 1 === arr?.length ? lastCard : null}
                     >
                         <div className={styles.container}>
