@@ -24,7 +24,7 @@ type Props = {
 function CreateChatModalView(props: Props) {
     const { selectedUsers, chatDescription, avatar, chatName, avatarActions, isGroup, createChat, tabsAndLists, loading } = props;
 
-    const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
+    // const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
 
     const toggle = () => {
         isGroup.toggle();
@@ -69,12 +69,12 @@ function CreateChatModalView(props: Props) {
                     </Button>
                 </div>
             </div>
-            <TabBar
-                bodyStyle={{ padding: '0 22px' }}
-                clickTab={(tab) => tabsAndLists.setActiveTab(tab)}
-                items={tabsAndLists.tabs}
-                activeItemId={tabsAndLists.activeTab?.id}
-            />
+            {/* <TabBar */}
+            {/*    bodyStyle={{ padding: '0 22px' }} */}
+            {/*    clickTab={(tab) => tabsAndLists.setActiveTab(tab)} */}
+            {/*    items={tabsAndLists.tabs} */}
+            {/*    activeItemId={tabsAndLists.activeTab?.id} */}
+            {/* /> */}
             <div className={styles.list}>
                 <UsersList selectedUsers={selectedUsers} tabsAndLists={tabsAndLists} />
                 {/* {tabsAndLists.activeTab?.title === 'Личные' ? ( */}

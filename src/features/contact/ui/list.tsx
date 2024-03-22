@@ -24,7 +24,7 @@ function ContactsList() {
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies });
+    const tabsAndLists = useContactsTabsAndLists();
 
     const { data: chatData } = chatApi.handleGetChatWithUser({ userId });
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
@@ -37,7 +37,7 @@ function ContactsList() {
     }, []);
 
     const clickEmployee = (employee: companyTypes.Employee) => {
-        navigate(`/contacts/companies/${tabsAndLists.activeTab?.payload?.id}/department/${employee.departments[0].id}/employee/${employee.id}`);
+        // navigate(`/contacts/companies/${tabsAndLists.activeTab?.payload?.id}/department/${employee.departments[0].id}/employee/${employee.id}`);
     };
 
     const createMessage = (contact: contactTypes.ContactProxy | null, employee: companyTypes.EmployeeProxy | null) => {
@@ -56,14 +56,14 @@ function ContactsList() {
             );
         }
         if (employee) {
-            return handleCreateCompanyChat(
-                { body: { employee_ids: [employee.id], is_group: false }, companyId: tabsAndLists.activeTab?.payload?.id },
-                {
-                    onSuccess: (res) => {
-                        startTransition(() => navigate(`/chats/company/${tabsAndLists.activeTab?.payload?.id}/chat/${res?.data.data.id}`));
-                    },
-                }
-            );
+            // return handleCreateCompanyChat(
+            //     { body: { employee_ids: [employee.id], is_group: false }, companyId: tabsAndLists.activeTab?.payload?.id },
+            //     {
+            //         onSuccess: (res) => {
+            //             startTransition(() => navigate(`/chats/company/${tabsAndLists.activeTab?.payload?.id}/chat/${res?.data.data.id}`));
+            //         },
+            //     }
+            // );
         }
     };
 

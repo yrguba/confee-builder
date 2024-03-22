@@ -96,7 +96,7 @@ class CompanyApi {
         );
     }
 
-    handleGetDepartments(data: { companyId: number | string | undefined }) {
+    handleGetDepartments(data: { companyId: number | string | undefined | null }) {
         return useQuery(['get-departments', data.companyId], () => axiosClient.get(`/api/v2/companies/${data.companyId}/departments/without-employees`), {
             enabled: !!data.companyId,
             staleTime: Infinity,

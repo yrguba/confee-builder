@@ -1,10 +1,6 @@
-import { InputTypes, TabBarTypes } from 'shared/ui';
-
-import { BaseTypes } from '../../../shared/types';
-import { companyTypes } from '../../company';
-import { Company, Employee, EmployeeProxy } from '../../company/model/types';
+import { ContactSoreTypes } from './store';
 import { User, UserProxy } from '../../user/model/types';
-import { contactTypes } from '../index';
+import { UseContactsTabsAndListsReturnType } from '../lib/useTabsAndLists';
 
 export type Contact = {
     id: number;
@@ -24,22 +20,7 @@ export type ContactProxy = {
     userProxy: UserProxy;
 } & Contact;
 
-export type UseContactsTabsAndListsReturnType = {
-    tabs: TabBarTypes.TabBarItem[];
-    activeTab: TabBarTypes.TabBarItem<Company> | null;
-    setActiveTab: (tab: TabBarTypes.TabBarItem) => void;
-    activeList: contactTypes.ContactProxy[] | companyTypes.EmployeeProxy[];
-    departments: companyTypes.Department[];
-    getEmployees: (depId: number) => void;
-    departmentsEmployees: Record<number, Employee[]>;
-    getNextPageEmployees: () => void;
-    searchInput: InputTypes.UseReturnedType;
-    foundContacts: ContactProxy[] | BaseTypes.Empty;
-    foundEmployees: EmployeeProxy[] | BaseTypes.Empty;
-    loading: boolean;
-    searchLoading: boolean;
-};
-
+export type { ContactSoreTypes, UseContactsTabsAndListsReturnType };
 export type Actions = 'delete' | 'mute' | 'goMeet' | 'message' | 'editName';
 export type SocketIn = '';
 export type SocketOut = '';

@@ -24,49 +24,27 @@ function ContactsListView(props: Props) {
     const { navigate, params, pathname } = useRouter();
     const smHeightSize = useHeightMediaQuery().to('sm');
 
-    const contactsArr = tabsAndLists?.searchInput.value ? tabsAndLists.foundContacts : tabsAndLists.activeList;
-
     const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
 
     useEffect(() => {
         inViewLastItem && tabsAndLists.getNextPageEmployees();
     }, [inViewLastItem]);
-
+    console.log(tabsAndLists);
     return (
         <Box.Animated visible loading={loading} className={styles.wrapper}>
             <div className={styles.search}>
                 <Input {...tabsAndLists.searchInput} prefixIcon="search" />
             </div>
             <div className={styles.tabs}>
-                <TabBar clickTab={(tab) => tabsAndLists.setActiveTab(tab)} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
+                <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
             </div>
             <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
-                {tabsAndLists.activeTab?.title === 'Личные' &&
-                    tabsAndLists.searchInput.value &&
-                    !tabsAndLists.searchLoading &&
-                    !tabsAndLists.foundContacts?.length && (
-                        <div style={{ marginLeft: 12 }}>
-                            <Title variant="H2">ничего не найдено</Title>
-                        </div>
-                    )}
-                {tabsAndLists.activeTab?.title !== 'Личные' &&
-                    tabsAndLists.searchInput.value &&
-                    !tabsAndLists.searchLoading &&
-                    !tabsAndLists.foundEmployees?.length && (
-                        <div style={{ marginLeft: 12 }}>
-                            <Title variant="H2">ничего не найдено</Title>
-                        </div>
-                    )}
-                {!tabsAndLists.activeList?.length ? (
-                    <div style={{ marginLeft: 12 }}>
-                        <Title variant="H2">Нет контактов</Title>
-                    </div>
-                ) : tabsAndLists.activeTab?.title === 'Личные' ? (
-                    contactsArr?.map((i: any, index) => <Item key={index} contact={contactProxy(i)} {...props} />)
-                ) : tabsAndLists.foundEmployees ? (
-                    tabsAndLists.foundEmployees.map((i: any, index) => <Item key={index} employee={employeeProxy(i) as any} {...props} />)
-                ) : (
-                    tabsAndLists.departments?.map((dep: any) => (
+                {tabsAndLists.searchInput.value && !tabsAndLists.contacts.length && !tabsAndLists.employees.length && (
+                    <Icons.Picture variant="not-found" size={233} />
+                )}
+                {tabsAndLists.activeTab?.payload?.type === 'personal' && tabsAndLists.contacts.map((i) => <Item key={i.id} contact={i} {...props} />)}
+                {tabsAndLists.activeTab?.payload?.type === 'company' &&
+                    tabsAndLists.departments?.map((dep) => (
                         <Collapse
                             headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
                             openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
@@ -83,8 +61,51 @@ function ContactsListView(props: Props) {
                                 />
                             ))}
                         </Collapse>
-                    ))
-                )}
+                    ))}
+                {/* {tabsAndLists.activeTab?.title === 'Личные' && */}
+                {/*    tabsAndLists.searchInput.value && */}
+                {/*    !tabsAndLists.searchLoading && */}
+                {/*    !tabsAndLists.contacts?.length && ( */}
+                {/*        <div style={{ marginLeft: 12 }}> */}
+                {/*            <Title variant="H2">ничего не найдено</Title> */}
+                {/*        </div> */}
+                {/*    )} */}
+                {/* {tabsAndLists.activeTab?.title !== 'Личные' && */}
+                {/*    tabsAndLists.searchInput.value && */}
+                {/*    !tabsAndLists.searchLoading && */}
+                {/*    !tabsAndLists.employees?.length && ( */}
+                {/*        <div style={{ marginLeft: 12 }}> */}
+                {/*            <Title variant="H2">ничего не найдено</Title> */}
+                {/*        </div> */}
+                {/*    )} */}
+                {/* {tabsAndLists.searchInput.value && !tabsAndLists.contacts.length && !tabsAndLists.employees.length ? ( */}
+                {/*    <div style={{ marginLeft: 12 }}> */}
+                {/*        <Title variant="H2">Нет контактов</Title> */}
+                {/*    </div> */}
+                {/* ) : tabsAndLists.activeTab?.title === 'Личные' ? ( */}
+                {/*    tabsAndLists.contacts?.map((i: any, index) => <Item key={index} contact={i} {...props} />) */}
+                {/* ) : tabsAndLists.employees ? ( */}
+                {/*    tabsAndLists.employees.map((i: any, index) => <Item key={index} employee={i} {...props} />) */}
+                {/* ) : ( */}
+                {/*    tabsAndLists.departments?.map((dep: any) => ( */}
+                {/*        <Collapse */}
+                {/*            headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }} */}
+                {/*            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)} */}
+                {/*            isOpen={dep.id === Number(params.department_id)} */}
+                {/*            key={dep.id} */}
+                {/*            title={dep?.name || ''} */}
+                {/*        > */}
+                {/*            {tabsAndLists.departmentsEmployees[dep.id]?.map((emp, index) => ( */}
+                {/*                <Item */}
+                {/*                    ref={index + 1 === tabsAndLists.departmentsEmployees[dep.id].length ? lastItem : null} */}
+                {/*                    key={emp.id} */}
+                {/*                    employee={employeeProxy(emp) as any} */}
+                {/*                    {...props} */}
+                {/*                /> */}
+                {/*            ))} */}
+                {/*        </Collapse> */}
+                {/*    )) */}
+                {/* )} */}
             </Box.Animated>
         </Box.Animated>
     );

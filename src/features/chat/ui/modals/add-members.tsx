@@ -20,7 +20,7 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
     const { data: chatData } = chatApi.handleGetChat({ chatId: params.chat_id });
     const proxyChat = chatProxy(chatData?.data.data);
 
-    const tabsAndLists = useContactsTabsAndLists({ companies: viewerData?.companies, redirect: false });
+    const tabsAndLists = useContactsTabsAndLists();
 
     const selectedContacts = useArray<CardTypes.CardListItem>({ multiple: true });
     const selectedEmployees = useArray<CardTypes.CardListItem>({ multiple: true });
@@ -52,11 +52,11 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
 
     useEffect(() => {
         if (proxyChat) {
-            if (proxyChat?.is_personal) {
-                tabsAndLists.setActiveTab(tabsAndLists.tabs[0]);
-            } else {
-                tabsAndLists.setActiveTab(tabsAndLists.tabs[1]);
-            }
+            // if (proxyChat?.is_personal) {
+            //     tabsAndLists.setActiveTab(tabsAndLists.tabs[0]);
+            // } else {
+            //     tabsAndLists.setActiveTab(tabsAndLists.tabs[1]);
+            // }
         }
     }, [proxyChat?.is_personal]);
 

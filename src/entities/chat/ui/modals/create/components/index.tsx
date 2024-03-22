@@ -17,29 +17,29 @@ type Props = {
 function UsersList(props: Props) {
     const { tabsAndLists, selectedUsers } = props;
 
-    const found = tabsAndLists.foundContacts || tabsAndLists.foundEmployees || [];
+    // const found = tabsAndLists.foundContacts || tabsAndLists.foundEmployees || [];
 
     return (
         <div className={styles.wrapper}>
-            {!!tabsAndLists.searchInput.value && !found.length && <Icons.Picture variant="not-found" size={233} />}
-            {!!found.length &&
-                found.map((i) => (
-                    <Card.List
-                        key={i.id}
-                        sortByName
-                        selected={selectedUsers}
-                        items={found?.map((i: any) => {
-                            return {
-                                id: i?.id || '',
-                                img: i?.avatar || '',
-                                name: i?.full_name || '',
-                                title: i?.full_name || '',
-                                subtitle: i?.userProxy?.networkStatus || 'Не зарегистрирован',
-                                payload: { id: i.user?.id },
-                            };
-                        })}
-                    />
-                ))}
+            {/* {!!tabsAndLists.searchInput.value && !found.length && <Icons.Picture variant="not-found" size={233} />} */}
+            {/* {!!found.length && */}
+            {/*    found.map((i) => ( */}
+            {/*        <Card.List */}
+            {/*            key={i.id} */}
+            {/*            sortByName */}
+            {/*            selected={selectedUsers} */}
+            {/*            items={found?.map((i: any) => { */}
+            {/*                return { */}
+            {/*                    id: i?.id || '', */}
+            {/*                    img: i?.avatar || '', */}
+            {/*                    name: i?.full_name || '', */}
+            {/*                    title: i?.full_name || '', */}
+            {/*                    subtitle: i?.userProxy?.networkStatus || 'Не зарегистрирован', */}
+            {/*                    payload: { id: i.user?.id }, */}
+            {/*                }; */}
+            {/*            })} */}
+            {/*        /> */}
+            {/*    ))} */}
         </div>
     );
 }
