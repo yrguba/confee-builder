@@ -1,17 +1,13 @@
 import React, { forwardRef, memo, useEffect } from 'react';
 
-import { useWidthMediaQuery, useHeightMediaQuery, useRouter, useEasyState } from 'shared/hooks';
+import { useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Icons, Button, IconsTypes, Card, Dropdown, Collapse, TabBar, Input, Title, ContextMenu, DropdownTypes, ContextMenuTypes } from 'shared/ui';
+import { Box, Icons, Card, Collapse, TabBar, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { useInView } from '../../../../shared/hooks';
 import { CardListItem } from '../../../../shared/ui/card/types';
-import { TabBarItem } from '../../../../shared/ui/tab-bar/types';
-import { employeeProxy } from '../../../company';
-import { EmployeeProxy, Department } from '../../../company/model/types';
-import contactProxy from '../../lib/proxy';
-import { ContactProxy, Actions, UseContactsReturnType, Contact } from '../../model/types';
+import { EmployeeProxy } from '../../../company/model/types';
+import { ContactProxy, Actions, UseContactsReturnType } from '../../model/types';
 
 type Props = {
     clickContact: (user: ContactProxy) => void;

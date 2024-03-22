@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
-import { useUpdateEffect } from 'react-use';
 
-import { companyService, employeeProxy } from 'entities/company';
-import { createMemo, useArray, useEasyState, useRouter } from 'shared/hooks';
-import { BaseTypes } from 'shared/types';
+import { employeeProxy } from 'entities/company';
+import { useEasyState, useRouter } from 'shared/hooks';
 import { Input, TabBarTypes } from 'shared/ui';
 
-import { contactApi, contactProxy, contactTypes } from '..';
-import { companyTypes, companyApi } from '../../company';
-import { Company, Employee, EmployeeProxy } from '../../company/model/types';
+import { contactApi, contactProxy } from '..';
+import { companyApi } from '../../company';
+import { Employee, EmployeeProxy } from '../../company/model/types';
 import { tokensService, viewerApi } from '../../viewer';
 
 type TabPayload = {
@@ -84,7 +82,6 @@ function useContacts() {
             case 'employee':
                 hasNextPageEmployees && fetchNextPageEmployee();
         }
-        // hasNextPage && fetchNextPage();
     };
 
     const getEmployees = (depId: number) => {
