@@ -4,7 +4,7 @@
   @include flex-column;
   justify-content: flex-start;
   @include box-size(100%, 100%);
-  gap: 12px;
+  gap: 7px;
 
   .delimiter {
     @include box-size(calc(100% - 40px), 28px);

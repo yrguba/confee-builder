@@ -33,6 +33,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         lineBreak,
         visibleEmoji,
         clickAway,
+        maxLength,
     } = props;
 
     const inputRef = useRef<any>(null);
@@ -135,6 +136,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                 onFocus={() => {
                     focused.set(true);
                 }}
+                maxLength={maxLength}
                 style={{ width: '100%', height: '100%' }}
                 className={classes}
                 ref={inputRef}

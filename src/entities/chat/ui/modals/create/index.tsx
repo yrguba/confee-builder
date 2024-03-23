@@ -61,11 +61,12 @@ function CreateChatModalView(props: Props) {
                     <div className={styles.chatInfo}>
                         <Box.Animated className={styles.groupSettings} visible={isGroup.value}>
                             <Avatar.Change photoIcon dropdownLeft={20} {...avatarActions} img={avatar} />
-                            <Input {...chatName} placeholder="Введите название" clearIcon maxLength={22} />
+                            <Input {...chatName} placeholder="Название" clearIcon maxLength={22} />
                         </Box.Animated>
                         {isGroup.value && (
                             <div className={styles.description}>
                                 <Input.Textarea
+                                    maxLength={500}
                                     textChange={(text) => chatDescription.set(text)}
                                     value={chatDescription.value}
                                     focusTrigger={[]}
