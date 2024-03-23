@@ -33,4 +33,5 @@ export type CardListProps = {
     sortByName?: boolean;
     visibleLastItem?: (value: boolean) => void;
     activeItem?: number | string | null;
+    companyNames?: string[];
 };

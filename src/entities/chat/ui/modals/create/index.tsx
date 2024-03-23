@@ -5,6 +5,7 @@ import { BaseTypes } from 'shared/types';
 import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse, Avatar, AvatarTypes, Box, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { getEnding } from '../../../../../shared/lib';
 import { CardListItem } from '../../../../../shared/ui/card/types';
 import { EmployeeProxy } from '../../../../company/model/types';
 import { ContactProxy, UseContactsReturnType } from '../../../../contact/model/types';
@@ -82,10 +83,11 @@ function CreateChatModalView(props: Props) {
                             <Button
                                 onClick={toggle}
                                 width="auto"
+                                height="38px"
                                 variant="inherit"
                                 active
                                 animateTrigger={`${isGroup.value}`}
-                                prefixIcon={<Icons variant={isGroup.value ? 'personal-acc' : 'contacts'} />}
+                                prefixIcon={<Icons variant={isGroup.value ? 'create-personal' : 'create-group'} />}
                             >
                                 {!isGroup.value ? 'Создать группу' : 'Написать сообщение'}
                             </Button>
@@ -99,7 +101,7 @@ function CreateChatModalView(props: Props) {
             {!finalStep.value && selectedUsers.length && isGroup.value ? (
                 <div className={styles.selected}>
                     {selectedUsers.array.map((i) => (
-                        <div className={styles.item}>
+                        <div className={styles.item} key={i.id}>
                             {i.title}
                             <span className={styles.icon} onClick={() => selectedUsers.deleteById(i.id)}>
                                 <Icons variant="close" size={16} />
@@ -126,8 +128,10 @@ function CreateChatModalView(props: Props) {
                                     openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
                                     key={dep.id}
                                     title={dep?.name || ''}
+                                    // subtitle={getEnding()}
                                 >
                                     <Card.List
+                                        companyNames={[tabsAndLists.activeTab?.title || '']}
                                         selected={selectedUsers}
                                         visibleLastItem={() => tabsAndLists.getNextPage('employee')}
                                         items={updEmployee(tabsAndLists.employees)}

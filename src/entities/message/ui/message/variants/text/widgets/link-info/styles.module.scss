@@ -3,7 +3,7 @@
 .wrapper {
   @include flex-column(flex-start, flex-start);
   gap: 4px;
-  //width: 100%;
+  width: 100%;
   cursor: pointer;
   margin-top: 12px;
 

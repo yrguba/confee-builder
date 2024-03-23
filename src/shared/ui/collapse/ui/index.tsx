@@ -48,7 +48,7 @@ function Collapse(props: CollapseProps) {
                 </div>
             </div>
 
-            <Box.Animated animationVariant="autoHeight" onClick={(e) => e.stopPropagation()} visible={visible.value}>
+            <Box.Animated style={{ overflow: 'hidden' }} animationVariant="autoHeight" onClick={(e) => e.stopPropagation()} visible={visible.value}>
                 {children}
             </Box.Animated>
         </div>

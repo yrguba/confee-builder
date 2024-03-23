@@ -3,6 +3,7 @@
 .wrapper {
   @include flex-column;
   justify-content: flex-start;
+  align-items: flex-start;
   @include box-size(100%, 100%);
   gap: 7px;
 
@@ -38,12 +39,12 @@
       }
 
       .selectIndicator {
-        @include box-size(24px, 24px);
+        @include box-size(20px, 20px);
         border: 2px solid var(--text-action);
         border-radius: 50%;
 
-        svg {
-          fill: var(--text-action);
+        &_selected{
+          background-color: var(--control-primary);
         }
       }
     }

@@ -7,6 +7,7 @@ export type BaseIconsVariants =
     | 'search'
     | 'add-contact'
     | 'close'
+    | 'check-outlined'
     | 'check'
     | 'double-check'
     | 'add'
@@ -66,7 +67,9 @@ export type BaseIconsVariants =
     | 'unmute'
     | 'reload'
     | 'makePhoto'
-    | 'select-file';
+    | 'select-file'
+    | 'create-group'
+    | 'create-personal';
 
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;

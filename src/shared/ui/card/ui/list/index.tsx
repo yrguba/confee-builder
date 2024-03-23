@@ -6,7 +6,7 @@ import { Box, Card, Icons } from '../../../index';
 import { CardListProps } from '../../types';
 
 function CardList(props: CardListProps) {
-    const { activeItem, items, selected, sortByName, visibleLastItem } = props;
+    const { companyNames, activeItem, items, selected, sortByName, visibleLastItem } = props;
 
     const getArray = () => {
         if (sortByName && items?.length) {
@@ -46,7 +46,7 @@ function CardList(props: CardListProps) {
                     >
                         <div className={styles.container}>
                             <div className={styles.info}>
-                                <Card {...i} onClick={() => (i.onClick ? i.onClick() : '')} />
+                                <Card companyNames={companyNames} {...i} onClick={() => (i.onClick ? i.onClick() : '')} />
                             </div>
                             {i.remove && (
                                 <div onClick={() => i.remove && i.remove(Number(i.id), String(i.title))}>
@@ -54,9 +54,13 @@ function CardList(props: CardListProps) {
                                 </div>
                             )}
                             {selected && (
-                                <div className={styles.selectIndicator}>
+                                <div
+                                    className={`${styles.selectIndicator} ${
+                                        !!selected?.findById(i.id) || !!i?.disabledSelect ? styles.selectIndicator_selected : ''
+                                    }`}
+                                >
                                     <Box.Animated visible={!!selected?.findById(i.id) || !!i?.disabledSelect}>
-                                        <Icons variant="check" />
+                                        <Icons variant="check-outlined" size={20} />
                                     </Box.Animated>
                                 </div>
                             )}
