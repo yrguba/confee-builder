@@ -60,7 +60,7 @@ function CardList(props: CardListProps) {
                                     }`}
                                 >
                                     <Box.Animated visible={!!selected?.findById(i.id) || !!i?.disabledSelect}>
-                                        <Icons variant="check-outlined" size={20} />
+                                        <Icons variant="check-outlined" size={17} />
                                     </Box.Animated>
                                 </div>
                             )}

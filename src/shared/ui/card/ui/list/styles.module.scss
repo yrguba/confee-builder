@@ -39,7 +39,7 @@
       }
 
       .selectIndicator {
-        @include box-size(20px, 20px);
+        @include box-size(17px, 17px);
         border: 2px solid var(--text-action);
         border-radius: 50%;
 
