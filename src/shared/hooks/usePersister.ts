@@ -28,20 +28,21 @@ function usePersister(queryClient: QueryClient) {
             });
         },
         restoreClient: async () => {
+            let data: any = null;
             if (rustIsRunning) {
-                const data = (await fs.getJson(cachePath)) as PersistedClient;
-                if (data) {
-                    setTimeout(() => {
-                        data.clientState.queries.forEach((i) => {
-                            queryClient.invalidateQueries(i.queryKey);
-                        });
-                    }, 1000);
-                }
-                return data || undefined;
+                data = (await fs.getJson(cachePath)) as PersistedClient;
+            } else {
+                const dataInCache = await get(key);
+                data = JSON.parse(dataInCache);
             }
-            const data = await get(key);
-            return data ? JSON.parse(data) : undefined;
-            // return undefined;
+            if (data) {
+                setTimeout(() => {
+                    data.clientState.queries.forEach((i: any) => {
+                        queryClient.invalidateQueries(i.queryKey);
+                    });
+                }, 1000);
+            }
+            return data || undefined;
         },
         removeClient: async () => {
             if (rustIsRunning) {
