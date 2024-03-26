@@ -45,7 +45,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
             return notifications.error({ title: `Выберите участников` });
         }
         if (isGroup.value && !chatName.value) {
-            return notifications.error({ title: `Введите название чата` });
+            return chatName.setError('Введите название');
         }
         if (!companyId.value) {
             handleCreatePersonalChat(

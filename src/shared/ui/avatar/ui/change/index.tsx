@@ -25,7 +25,7 @@ function AvatarChange(props: AvatarChangeProps) {
     ];
 
     return (
-        <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)}>
+        <div className={styles.wrapper} onMouseLeave={() => visibleMenu.set(false)} onClick={() => (photoIcon ? visibleMenu.toggle() : '')}>
             <Box.Animated visible={visibleCamera} className={styles.webCamera}>
                 <WebCameraPhoto getScreenshot={action} />
             </Box.Animated>
@@ -38,7 +38,7 @@ function AvatarChange(props: AvatarChangeProps) {
             >
                 <Avatar photoIcon={photoIcon} clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
                 <Box.Animated
-                    visible={visibleMenu.value || visibleDownload.value}
+                    visible={(visibleMenu.value || visibleDownload.value) && !photoIcon}
                     onClick={visibleMenu.toggle}
                     className={`${styles.cover} ${visibleMenu.value ? styles.cover_active : ''}`}
                 >
