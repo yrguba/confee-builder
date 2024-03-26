@@ -62,7 +62,9 @@ function CreateChatModalView(props: Props) {
                     <div className={styles.chatInfo}>
                         <Box.Animated className={styles.groupSettings} visible={isGroup.value}>
                             <Avatar.Change photoIcon dropdownLeft={20} {...avatarActions} img={avatar} />
-                            <Input {...chatName} placeholder="Название" clearIcon maxLength={22} />
+                            <div className={styles.name}>
+                                <Input {...chatName} placeholder="Название" clearIcon maxLength={22} />
+                            </div>
                         </Box.Animated>
                         {isGroup.value && (
                             <div className={styles.description}>
