@@ -24,6 +24,7 @@ function ChatDescriptionView(props: Props) {
                         setDescription(updDescription.value);
                     }
                 }}
+                maxLength={500}
                 placeholder="Описание"
                 lineBreak="enterAndCtrl"
                 focusTrigger={[]}
