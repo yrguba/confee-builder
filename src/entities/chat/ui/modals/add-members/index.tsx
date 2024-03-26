@@ -53,8 +53,12 @@ function AddMembersInChatModalView(props: Props) {
                 <div className={styles.border} />
             </div>
             <div className={styles.list}>
-                {isSearching && activeTabIsCompany && !tabsAndLists.employees.length && <Icons.Picture variant="not-found" size={233} />}
-                {isSearching && !activeTabIsCompany && !tabsAndLists.contacts.length && <Icons.Picture variant="not-found" size={233} />}
+                {isSearching && activeTabIsCompany && !tabsAndLists.employees.length && (
+                    <Icons.Picture variant="not-found" text="Пользователей с таким именем не найдено" size={233} />
+                )}
+                {isSearching && !activeTabIsCompany && !tabsAndLists.contacts.length && (
+                    <Icons.Picture variant="not-found" text="Пользователей с таким именем не найдено" size={233} />
+                )}
                 {isSearching && activeTabIsCompany && <Card.List selected={selectedUsers} items={updEmployee(tabsAndLists.employees)} />}
                 {!activeTabIsCompany && <Card.List selected={selectedUsers} items={updContacts(tabsAndLists.contacts)} />}
                 {!isSearching &&

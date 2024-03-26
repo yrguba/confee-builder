@@ -104,6 +104,7 @@ export type LogoIconsProps = {
 export type PictureIconsProps = {
     variant: 'auth-ad' | 'not-found';
     size?: number;
+    text?: string;
 };
 
 export type CountriesIconsProps = {

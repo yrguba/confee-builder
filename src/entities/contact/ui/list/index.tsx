@@ -53,8 +53,12 @@ function ContactsListView(props: Props) {
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
             </div>
             <Box.Animated visible key={pathname.split('/')[2]} className={styles.list}>
-                {isSearching && activeTabIsCompany && !tabsAndLists.employees.length && <Icons.Picture variant="not-found" size={233} />}
-                {isSearching && !activeTabIsCompany && !tabsAndLists.contacts.length && <Icons.Picture variant="not-found" size={233} />}
+                {isSearching && activeTabIsCompany && !tabsAndLists.employees.length && (
+                    <Icons.Picture variant="not-found" text="Пользователей с таким именем не найдено" size={233} />
+                )}
+                {isSearching && !activeTabIsCompany && !tabsAndLists.contacts.length && (
+                    <Icons.Picture variant="not-found" text="Пользователей с таким именем не найдено" size={233} />
+                )}
                 {isSearching && activeTabIsCompany && <Card.List activeItem={activeUserId} items={updEmployee(tabsAndLists.employees)} />}
                 {!activeTabIsCompany && <Card.List activeItem={activeUserId} items={updContacts(tabsAndLists.contacts)} />}
                 {!isSearching &&
