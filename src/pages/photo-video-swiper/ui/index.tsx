@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Outlet } from 'react-router-dom';
+
+import { PhotoVideoSwiper } from 'features/app';
 
 import styles from './styles.module.scss';
 
@@ -10,7 +11,7 @@ function MeetPage() {
     return calls_root
         ? ReactDOM.createPortal(
               <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
-                  swiper
+                  <PhotoVideoSwiper />
               </div>,
               calls_root
           )
