@@ -75,7 +75,9 @@ function useRustServer() {
             }
         };
 
-        return { isOpen, open, close, listen, listenOnce };
+        const view = rustIsRunning ? WebviewWindow.getByLabel(label) : null;
+
+        return { isOpen, open, close, listen, listenOnce, view };
     };
 
     const invoker = {

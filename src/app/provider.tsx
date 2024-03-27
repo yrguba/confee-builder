@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { WebviewWindow } from '@tauri-apps/api/window';
 import { useEffect } from 'react';
 
 import { appService } from '../entities/app';
@@ -38,7 +39,12 @@ function Provider({ children }: { children: any }) {
     }, [invitationToConference.value?.id]);
 
     useEffect(() => {
-        photoVideoSwiperView.open({ path: '/photo_video_swiper' }).then(() => {});
+        const { view } = photoVideoSwiperView;
+        if (view) {
+            view.show();
+        } else {
+            photoVideoSwiperView.open({ path: '/photo_video_swiper' }).then(() => {});
+        }
     }, []);
 
     useEffect(() => {
