@@ -58,7 +58,6 @@ function useRustServer() {
             if (!rustIsRunning) return null;
             await invoke('open_window', { url: `${window.location.origin}${props.path}`, label });
             const view = WebviewWindow.getByLabel(label);
-            // view?.setDecorations(false);
             setTimeout(() => {
                 view?.setTitle(props?.title || webviewProps?.title || '');
                 view?.once('tauri://close-requested', function () {

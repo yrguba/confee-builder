@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { WebviewWindow } from '@tauri-apps/api/window';
+import { set } from 'idb-keyval';
 import { useEffect } from 'react';
 
 import { appService } from '../entities/app';
@@ -43,7 +44,7 @@ function Provider({ children }: { children: any }) {
         if (view) {
             view.show();
         } else {
-            photoVideoSwiperView.open({ path: '/photo_video_swiper' }).then(() => {});
+            photoVideoSwiperView.open({ path: '/photo_video_swiper' }).then((value) => {});
         }
     }, []);
 

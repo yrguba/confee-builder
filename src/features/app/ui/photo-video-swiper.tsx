@@ -1,4 +1,4 @@
-import { WebviewWindow } from '@tauri-apps/api/window';
+import { LogicalPosition, PhysicalPosition, WebviewWindow } from '@tauri-apps/api/window';
 import React from 'react';
 
 import { PhotoVideoSwiperView } from 'entities/app';
