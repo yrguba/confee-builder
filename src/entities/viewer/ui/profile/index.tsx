@@ -46,14 +46,16 @@ function ViewerProfileView(props: Props) {
                 </div>
                 <UserInfoView user={viewer as any} />
                 {companies.length ? (
-                    <CompanyCardView
-                        cardClick={() => clickCompanyCard(companies[0])}
-                        title={companies[0]?.name || ''}
-                        subtitle={companies[0].departments[0].name || ''}
-                        position={companies[0].departments[0].employees[0].position || ''}
-                        status={companies[0].departments[0].employees[0].status || ''}
-                        avatar={companies[0].avatar || ''}
-                    />
+                    companies.map((i) => (
+                        <CompanyCardView
+                            cardClick={() => clickCompanyCard(i)}
+                            title={i.name || ''}
+                            subtitle={i.departments[0].name || ''}
+                            position={i.departments[0].employees[0].position || ''}
+                            status={i.departments[0].employees[0].status || ''}
+                            avatar={i.avatar || ''}
+                        />
+                    ))
                 ) : (
                     <BindCompanyView addClick={openAuthCompanyModal} />
                 )}
