@@ -8,7 +8,6 @@ import { getFormData } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
 import { AuthAdModal } from '../../auth';
 import { EmployeeProfile, EmployeeProfileModal } from '../../company';
-import { UserAvatarsSwiper } from '../../user';
 
 function ViewerProfile() {
     const { navigate } = useRouter();
@@ -47,7 +46,6 @@ function ViewerProfile() {
         <>
             <AuthAdModal {...authCompanyModal} />
             <EmployeeProfileModal {...employeeProfileModal} />
-            <UserAvatarsSwiper userId={user?.id} onClose={() => visibleSwiper.set(false)} visible={visibleSwiper.value} />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
 
             <ViewerProfileView

@@ -10,7 +10,6 @@ import { Modal, ModalTypes } from 'shared/ui';
 
 import PrivateChatProfileModal from './private';
 import { debounce } from '../../../../../shared/lib';
-import ChatAvatarsSwiper from '../../avatars-swiper';
 import AddMembersInChatModal from '../add-members';
 
 function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
@@ -108,7 +107,6 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
         <>
             <PrivateChatProfileModal {...privateChatProfileModal} />
             <AddMembersInChatModal {...addMembersModal} />
-            <ChatAvatarsSwiper visible={visibleSwiper.value} chatId={chatId} onClose={() => visibleSwiper.set(false)} />
             <Modal.Confirm {...confirmLeaveChat} />
             <Modal.Confirm {...confirmRemoveMember} okText="Удалить" />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />

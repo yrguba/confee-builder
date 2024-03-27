@@ -5,7 +5,6 @@
   @include box-size(calc(100% - 8px), calc(100% - 8px));
   gap: 12px;
   position: relative;
-  background: transparent;
 
   .closeIcon{
     @include box-size(40px, 40px);

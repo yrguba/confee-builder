@@ -22,7 +22,6 @@ import Pagination, { Types as PaginationTypes } from './pagination';
 import Select, { Types as SelectTypes } from './select';
 import Slider, { Types as SliderTypes } from './slider';
 import Steps, { Types as StepsTypes } from './steps';
-import Swiper, { Types as SwiperTypes } from './swiper';
 import Switch, { Types as SwitchTypes } from './switch';
 import TabBar, { Types as TabBarTypes } from './tab-bar';
 import Title, { Types as TitleTypes } from './title';
@@ -30,7 +29,6 @@ import Title, { Types as TitleTypes } from './title';
 export {
     ContextMenu,
     Slider,
-    Swiper,
     Video,
     TabBar,
     Card,
@@ -60,7 +58,6 @@ export {
 export type {
     ContextMenuTypes,
     SliderTypes,
-    SwiperTypes,
     VideoPlayerTypes,
     TabBarTypes,
     CardTypes,
