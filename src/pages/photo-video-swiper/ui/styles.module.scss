@@ -3,7 +3,7 @@
 .wrapper {
   @include box-size(calc(100% - 4px), calc(100vh - 4px));
   @include flex;
-  background-color: var(--bg-dimming);
+  background-color: rgb(0,0,0,0.8);
   border-radius: 20px;
-  border: 2px solid var(--border-secondary);
+  border: 2px solid black;
 }
