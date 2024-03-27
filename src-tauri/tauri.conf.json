@@ -166,6 +166,16 @@
         "decorations": true,
         "alwaysOnTop": false,
         "fileDropEnabled": false
+      },
+      {
+        "label": "photo_video_swiper",
+        "minWidth": 450,
+        "minHeight": 470,
+        "resizable": true,
+        "fullscreen": false,
+        "url": "/photo_video_swiper",
+        "transparent": true,
+        "decorations": false
       }
     ],
     "updater": {

@@ -8,7 +8,7 @@ use whoami;
 mod set_notification_icon;
 
 #[tauri::command]
-pub async fn open_meet(handle: tauri::AppHandle, url: String, label: String) {
+pub async fn open_window(handle: tauri::AppHandle, url: String, label: String) {
     print!("count");
     tauri::WindowBuilder::new(
         &handle,

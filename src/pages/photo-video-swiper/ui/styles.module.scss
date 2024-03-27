@@ -3,5 +3,5 @@
 .wrapper {
   @include box-size(100%, 100vh);
   @include flex;
-  background-color: var(--bg-primary);
+  background-color: transparent;
 }

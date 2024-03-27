@@ -14,7 +14,13 @@ function Provider({ children }: { children: any }) {
     const { params, pathname, navigate } = useRouter();
     const ls = useStorage();
     const { useWebview } = useRustServer();
-    const { open } = useWebview('photo_video_swiper');
+    const photoVideoSwiperView = useWebview('photo_video_swiper', {
+        events: {
+            onClose: () => {
+                photoVideoSwiperView.close();
+            },
+        },
+    });
     const { inCall } = useMeet();
 
     const chatSubscription = chatStore.use.chatSubscription();
@@ -32,7 +38,7 @@ function Provider({ children }: { children: any }) {
     }, [invitationToConference.value?.id]);
 
     useEffect(() => {
-        open({ path: '/photo_video_swiper' });
+        photoVideoSwiperView.open({ path: '/photo_video_swiper' }).then(() => {});
     }, []);
 
     useEffect(() => {

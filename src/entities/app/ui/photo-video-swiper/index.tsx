@@ -9,7 +9,11 @@ function PhotoVideoSwiperView(props: Props) {
     //
     // } = props;
 
-    return <div className={styles.wrapper}>PhotoVideoSwiperView</div>;
+    return (
+        <div data-tauri-drag-region className={styles.wrapper}>
+            PhotoVideoSwiperView
+        </div>
+    );
 }
 
 export default PhotoVideoSwiperView;
