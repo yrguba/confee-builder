@@ -13,13 +13,10 @@ import { webView } from 'features/auth';
 import initialFillingProfilePageRouters from './initial-filling-profile';
 import mainRoutes from './main';
 import meetPageRouters from './meet';
+import photoVideoSwiperPageRouters from './photo-video-swiper';
 import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
 import { appService } from '../entities/app';
-import { chatGateway } from '../entities/chat';
-import { meetGateway } from '../entities/meet';
-import { messageGateway } from '../entities/message';
-import { userGateway } from '../entities/user';
 import { useWindowSize, useEffectOnce, useStorage, useRouter, useWebSocket } from '../shared/hooks';
 import { Audio } from '../shared/ui';
 
@@ -43,6 +40,7 @@ function Routing() {
             <AnimatePresence mode="wait">
                 <Network />
                 <Routes location={location} key={location.pathname.split('/')[1]}>
+                    {photoVideoSwiperPageRouters}
                     {mainRoutes}
                     {meetPageRouters}
                     {initialFillingProfilePageRouters}

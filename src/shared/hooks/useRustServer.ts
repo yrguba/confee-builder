@@ -32,7 +32,7 @@ type WebviewEvents =
 function useRustServer() {
     const rustIsRunning = !!window.__TAURI__;
 
-    const useWebview = (label: 'main' | 'meet', webviewProps?: WebviewProps) => {
+    const useWebview = (label: 'main' | 'meet' | 'photo_video_swiper', webviewProps?: WebviewProps) => {
         const isOpen = () => {
             if (!rustIsRunning) return null;
             return !!WebviewWindow.getByLabel(label);

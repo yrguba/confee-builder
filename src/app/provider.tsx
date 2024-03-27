@@ -6,13 +6,15 @@ import { chatApi, chatGateway, chatStore } from '../entities/chat';
 import { meetGateway, meetStore, useMeet } from '../entities/meet';
 import { messageGateway } from '../entities/message';
 import { userGateway } from '../entities/user';
-import { useEffectOnce, useRecognizeSpeech, useRouter, useStorage, useWebSocket } from '../shared/hooks';
+import { useEffectOnce, useRecognizeSpeech, useRouter, useRustServer, useStorage, useWebSocket } from '../shared/hooks';
 
 function Provider({ children }: { children: any }) {
     useRecognizeSpeech();
     const queryClient = useQueryClient();
     const { params, pathname, navigate } = useRouter();
     const ls = useStorage();
+    const { useWebview } = useRustServer();
+    const { open } = useWebview('photo_video_swiper');
     const { inCall } = useMeet();
 
     const chatSubscription = chatStore.use.chatSubscription();
@@ -28,6 +30,10 @@ function Provider({ children }: { children: any }) {
             }
         }
     }, [invitationToConference.value?.id]);
+
+    useEffect(() => {
+        open({ path: '/photo_video_swiper' });
+    }, []);
 
     useEffect(() => {
         if (!params.chat_id) {
