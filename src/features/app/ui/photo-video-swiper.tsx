@@ -1,17 +1,13 @@
-import { LogicalPosition, PhysicalPosition, WebviewWindow } from '@tauri-apps/api/window';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { PhotoVideoSwiperView } from 'entities/app';
-
-import usePhotoVideoSwiper from '../../../entities/app/lib/usePhotoVideoSwiper';
-import { useRustServer } from '../../../shared/hooks';
+import { appStore, PhotoVideoSwiperView } from 'entities/app';
+import usePhotoVideoSwiper from 'entities/app/lib/usePhotoVideoSwiper';
 
 function PhotoVideoSwiper() {
     const swiper = usePhotoVideoSwiper();
+    const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
 
-    return (
-        <PhotoVideoSwiperView minimize={swiper.minimize} toggleFullScreen={swiper.toggleFullScreen} close={swiper.close} isFullScreen={swiper.isFullScreen} />
-    );
+    return <PhotoVideoSwiperView data={photoAndVideoFromSwiper.value} />;
 }
 
 export default PhotoVideoSwiper;

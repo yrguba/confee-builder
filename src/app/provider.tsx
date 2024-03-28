@@ -25,16 +25,11 @@ function Provider({ children }: { children: any }) {
         },
     });
     const { inCall } = useMeet();
-    const swiper = usePhotoVideoSwiper();
 
     const chatSubscription = chatStore.use.chatSubscription();
     const invitationToConference = meetStore.use.invitationToConference();
 
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
-
-    useEffect(() => {
-        swiper.close();
-    }, []);
 
     useEffect(() => {
         if (invitationToConference.value?.id && !ls.get('by_meet') && !ls.get('join_meet_data')) {

@@ -63,6 +63,7 @@ function useRustServer() {
                 view?.once('tauri://close-requested', function () {
                     webviewProps?.events?.onClose && webviewProps.events.onClose();
                 });
+                view?.maximize();
             }, 100);
         };
 

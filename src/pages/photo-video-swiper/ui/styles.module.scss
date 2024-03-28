@@ -1,9 +1,7 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(calc(100% - 4px), calc(100vh - 4px));
+  @include box-size(100%, 100vh);
   @include flex;
-  background-color: rgb(0,0,0,0.8);
-  border-radius: 20px;
-  border: 2px solid black;
+  background: var(--bg-primary);
 }

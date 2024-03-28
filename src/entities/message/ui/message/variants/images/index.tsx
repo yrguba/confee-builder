@@ -31,7 +31,7 @@ function ImagesMessage(props: Props) {
     }));
 
     const imgClick = () => {
-        swiper.open();
+        swiper.open({ items: updItems as any });
     };
 
     return (

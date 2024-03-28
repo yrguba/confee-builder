@@ -1,32 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FreeMode, Navigation, Thumbs } from 'swiper';
+import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 
 import styles from './styles.module.scss';
-import { Button, Icons } from '../../../../shared/ui';
+import { Button, Icons, Image } from '../../../../shared/ui';
+import { PhotoAndVideoSwiperType } from '../../model/types';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
 
 type Props = {
-    minimize: () => void;
-    toggleFullScreen: () => void;
-    close: () => void;
-    isFullScreen: boolean;
+    data: PhotoAndVideoSwiperType;
 };
 
 function PhotoVideoSwiperView(props: Props) {
-    const { minimize, toggleFullScreen, close, isFullScreen } = props;
+    const { data } = props;
+    const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
+    console.log(data);
     return (
-        <div data-tauri-drag-region className={styles.wrapper}>
-            <div data-tauri-drag-region className={styles.header}>
-                <Button.Circle variant="inherit" onClick={minimize}>
-                    <Icons variant="minimize" />
-                </Button.Circle>
-                <Button.Circle variant="inherit" onClick={toggleFullScreen}>
-                    <Icons variant={isFullScreen ? 'not-full-screen' : 'full-screen'} />
-                </Button.Circle>
-                <Button.Circle variant="inherit" onClick={close}>
-                    <Icons variant="close" />
-                </Button.Circle>
-            </div>
-            awdawdd
+        <div className={styles.wrapper}>
+            <Swiper spaceBetween={10} navigation thumbs={{ swiper: thumbsSwiper }} modules={[FreeMode, Navigation, Thumbs]} className={styles.swiperTop}>
+                {data?.items?.map((i) => (
+                    <SwiperSlide key={i.id}>
+                        wadwd
+                        <Image url={i.url} />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+            <Swiper
+                // onSwiper={setThumbsSwiper}
+                spaceBetween={10}
+                slidesPerView={4}
+                freeMode
+                watchSlidesProgress
+                modules={[FreeMode, Navigation, Thumbs]}
+                className="mySwiper"
+            >
+                {data?.items?.map((i) => (
+                    <SwiperSlide key={i.id}>
+                        <Image url={i.url} />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </div>
     );
 }

@@ -1,84 +1,51 @@
-import {
-    LogicalSize,
-    currentMonitor,
-    PhysicalSize,
-    PhysicalPosition,
-    LogicalPosition,
-    getCurrent,
-    primaryMonitor,
-    WindowOptions,
-    Monitor,
-} from '@tauri-apps/api/window';
 import { useEffect } from 'react';
 
+import { appTypes } from 'entities/app';
 import { useEasyState, useRustServer, useStorage } from 'shared/hooks';
 
 import { appStore } from '../index';
 
-// type OpenSwiperProps = {
-//     items: {
-//         id: number;
-//         url: string;
-//     };
-// };
-
 function usePhotoVideoSwiper() {
     const { useWebview } = useRustServer();
+
+    const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
+
     const swiperView = useWebview('photo_video_swiper');
     const isFullScreen = useEasyState(false);
 
-    const open = () => {
-        swiperView?.view?.show();
+    useEffect(() => {
+        swiperView.listen('close-requested', () => {
+            swiperView.view?.hide();
+        });
+    }, []);
+
+    const open = (data: appTypes.PhotoAndVideoSwiperType) => {
+        photoAndVideoFromSwiper.set(data);
+        console.log(appStore.getState().photoAndVideoFromSwiper);
+        if (swiperView.isOpen()) {
+            swiperView?.view?.show();
+        } else {
+            swiperView.open({ path: '/photo_video_swiper', title: 'Просмотр медиа' });
+        }
     };
 
     const close = () => {
-        currentMonitor().then((res) => {
-            if (res?.size.width && res.size.height) {
-                const { width, height } = res.size;
-                swiperView.view?.innerSize().then((viewSize) => {
-                    if (viewSize.height + 6 > height && viewSize.width + 6 > width) {
-                        swiperView.view?.setPosition(new PhysicalPosition(res.position.x, res.position.y));
-                        swiperView.view?.setSize(new PhysicalSize(width, height));
-                    }
-                    swiperView?.view?.hide();
-                });
-            }
-        });
+        swiperView?.view?.hide();
     };
 
     const toggleFullScreen = () => {
-        swiperView.view?.toggleMaximize();
+        swiperView.view?.isFullscreen().then((r) => {
+            swiperView.view?.setFullscreen(!r);
+        });
     };
 
     const fullScreen = () => {
-        // swiperView.view?.maximize();
+        swiperView.view?.setFullscreen(true);
     };
 
     const minimize = () => {
-        console.log('wdwd');
         swiperView.view?.minimize();
     };
-
-    useEffect(() => {
-        // swiperView.listenOnce('resize', () => {
-        //     currentMonitor().then((res) => {
-        //         if (res?.size.width && res.size.height) {
-        //             const { width, height } = res.size;
-        //             swiperView.view?.innerSize().then((viewSize) => {
-        //                 if (viewSize.height + 3 > height && viewSize.width + 3 > width) {
-        //                     isFullScreen.set(true);
-        //                     swiperView.view?.setResizable(false);
-        //                     swiperView.view?.maximize();
-        //                 } else {
-        //                     isFullScreen.set(false);
-        //                     swiperView.view?.setResizable(true);
-        //                     swiperView.view?.setSize(new PhysicalSize(450, 650));
-        //                 }
-        //             });
-        //         }
-        //     });
-        // });
-    }, []);
 
     return { open, close, toggleFullScreen, fullScreen, minimize, isFullScreen: isFullScreen.value };
 }

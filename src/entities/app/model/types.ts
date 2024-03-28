@@ -6,3 +6,10 @@ export type NetworkState = {
     effectiveType?: 'slow-2g' | '2g' | '3g' | '4g';
     downlink?: number;
 };
+
+export type PhotoAndVideoSwiperType = {
+    items: {
+        id: number;
+        url: string;
+    }[];
+};
