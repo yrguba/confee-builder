@@ -27,8 +27,9 @@ type WebviewEvents =
     | 'update-available'
     | 'update-install'
     | 'update-status'
-    | 'update-download-progress'
-    | string;
+    | 'update-download-progress';
+
+type GlobalEvents = 'photoVideoSwiperData';
 
 function useRustServer() {
     const rustIsRunning = !!window.__TAURI__;
@@ -92,7 +93,18 @@ function useRustServer() {
         },
     };
 
-    return { rustIsRunning, useWebview, invoker };
+    const events = {
+        emit: (eventName: GlobalEvents, data: any) => {
+            WebviewWindow.getByLabel('main')?.emit(eventName, JSON.stringify(data));
+        },
+        listen: (eventName: GlobalEvents, cb: (data: any) => void) => {
+            WebviewWindow.getByLabel('main')?.listen(eventName, (e) => {
+                cb(e.payload);
+            });
+        },
+    };
+
+    return { rustIsRunning, useWebview, invoker, events };
 }
 
 export default useRustServer;

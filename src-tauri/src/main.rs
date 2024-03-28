@@ -11,6 +11,7 @@ struct Payload {
 
 #[path = "commands.rs"]
 mod commands;
+#[path = "events.rs"]
 
 use tauri::{plugin::TauriPlugin, Manager, Runtime};
 use tauri::{CustomMenuItem, SystemTray, SystemTrayMenu, SystemTrayEvent};
@@ -29,7 +30,7 @@ fn main() {
         .with_menu(tray_menu);
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![commands::init_process, commands::open_window, commands::get_folder_size, commands::write_data_to_file, commands::set_icon_counter, commands::get_device_name])
+        .invoke_handler(tauri::generate_handler![commands::open_window, commands::get_folder_size, commands::write_data_to_file, commands::set_icon_counter, commands::get_device_name])
         .system_tray(system_tray)
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {

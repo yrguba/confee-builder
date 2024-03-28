@@ -2,12 +2,10 @@ use fs_extra::dir::get_size;
 use std::{fs};
 use tauri;
 use std::env;
+use tauri::Manager;
 use whoami;
 
-#[derive(Clone, serde::Serialize)]
-struct RRR {
-    message: String,
-}
+
 
 #[path = "set_notification_icon.rs"]
 mod set_notification_icon;
@@ -20,15 +18,6 @@ pub async fn open_window(handle: tauri::AppHandle, url: String, label: String) {
         label,
         tauri::WindowUrl::External(url.parse().unwrap()),
     ).build().unwrap();
-}
-
-#[tauri::command]
-pub fn init_process(window: tauri::Window) {
-    std::thread::spawn(move || {
-        loop {
-            window.emit("click", RRR { message: "Tauri is awesome!".into() }).unwrap();
-        }
-    });
 }
 
 #[tauri::command]
