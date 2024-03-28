@@ -7,9 +7,11 @@ export type NetworkState = {
     downlink?: number;
 };
 
+export type PhotoAndVideoSwiperItemsType = {
+    id: number;
+    url: string;
+};
+
 export type PhotoAndVideoSwiperType = {
-    items: {
-        id: number;
-        url: string;
-    }[];
+    items: PhotoAndVideoSwiperItemsType[];
 };

@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 
 import styles from './styles.module.scss';
 import { Button, Icons, Image } from '../../../../shared/ui';
-import { PhotoAndVideoSwiperType } from '../../model/types';
+import { PhotoAndVideoSwiperItemsType } from '../../model/types';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -12,18 +12,18 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 
 type Props = {
-    data: PhotoAndVideoSwiperType;
+    items: PhotoAndVideoSwiperItemsType[];
 };
 
 function PhotoVideoSwiperView(props: Props) {
-    const { data } = props;
+    const { items } = props;
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-    console.log(data);
     return (
         <div className={styles.wrapper}>
+            wadwdd
             <Swiper spaceBetween={10} navigation thumbs={{ swiper: thumbsSwiper }} modules={[FreeMode, Navigation, Thumbs]} className={styles.swiperTop}>
-                {data?.items?.map((i) => (
+                {items?.map((i) => (
                     <SwiperSlide key={i.id}>
                         wadwd
                         <Image url={i.url} />
@@ -39,7 +39,7 @@ function PhotoVideoSwiperView(props: Props) {
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="mySwiper"
             >
-                {data?.items?.map((i) => (
+                {items?.map((i) => (
                     <SwiperSlide key={i.id}>
                         <Image url={i.url} />
                     </SwiperSlide>

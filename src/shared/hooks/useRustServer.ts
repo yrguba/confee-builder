@@ -27,7 +27,8 @@ type WebviewEvents =
     | 'update-available'
     | 'update-install'
     | 'update-status'
-    | 'update-download-progress';
+    | 'update-download-progress'
+    | string;
 
 function useRustServer() {
     const rustIsRunning = !!window.__TAURI__;

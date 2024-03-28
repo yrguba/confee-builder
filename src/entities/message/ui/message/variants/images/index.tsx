@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useEasyState } from 'shared/hooks';
+import { useEasyState, useRustServer } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Image } from 'shared/ui';
 
@@ -15,7 +15,8 @@ type Props = {
 
 function ImagesMessage(props: Props) {
     const { message } = props;
-
+    const { useWebview } = useRustServer();
+    const swiperView = useWebview('photo_video_swiper');
     const swiper = usePhotoVideoSwiper();
 
     const visibleInfo = useEasyState(false);
