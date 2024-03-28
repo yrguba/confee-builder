@@ -7,10 +7,16 @@ import { useEasyState, useRustServer } from 'shared/hooks';
 import { appStore } from '../index';
 
 function usePhotoVideoSwiper() {
-    const { useWebview, socket } = useRustServer('photo_video_swiper');
-    const swiperView = useWebview();
+    const { useWebview, socket } = useRustServer();
+    const swiperView = useWebview('photo_video_swiper');
 
     useEffect(() => {
+        swiperView.view?.innerPosition().then((pos) => {
+            console.log('rgdggdr');
+            if (pos.y > 30000) {
+                swiperView.view?.hide();
+            }
+        });
         swiperView.listen('close-requested', () => {
             swiperView.view?.hide();
         });
@@ -22,8 +28,9 @@ function usePhotoVideoSwiper() {
                 swiperView.view?.center();
             }
         });
-        swiperView?.view?.show();
-        socket.emit('photoVideoSwiperData', { m: data });
+        swiperView?.view?.show().then(() => {
+            socket.emit('photo_video_swiper', 'photoVideoSwiperData', data);
+        });
     };
 
     const close = () => {

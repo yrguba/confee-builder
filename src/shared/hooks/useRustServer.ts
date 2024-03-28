@@ -10,9 +10,6 @@ type WebviewProps = {
 };
 
 type Label = 'main' | 'meet' | 'photo_video_swiper' | '';
-type Options = {
-    webview: WebviewProps;
-};
 
 type WebviewEvents =
     | 'resize'
@@ -36,10 +33,10 @@ type WebviewEvents =
 
 type Socket = 'photoVideoSwiperData';
 
-function useRustServer(label: Label, options?: Options) {
+function useRustServer() {
     const rustIsRunning = !!window.__TAURI__;
 
-    const useWebview = () => {
+    const useWebview = (label: Label, webviewProps?: WebviewProps) => {
         const isOpen = () => {
             if (!rustIsRunning) return null;
             return !!WebviewWindow.getByLabel(label);
@@ -66,9 +63,9 @@ function useRustServer(label: Label, options?: Options) {
             await invoke('open_window', { url: `${window.location.origin}${props.path}`, label });
             const view = WebviewWindow.getByLabel(label);
             setTimeout(() => {
-                view?.setTitle(props?.title || options?.webview?.title || '');
+                view?.setTitle(props?.title || webviewProps?.title || '');
                 view?.once('tauri://close-requested', function () {
-                    options?.webview?.events?.onClose && options?.webview?.events.onClose();
+                    webviewProps?.events?.onClose && webviewProps?.events.onClose();
                 });
                 view?.maximize();
             }, 100);
@@ -99,12 +96,12 @@ function useRustServer(label: Label, options?: Options) {
     };
 
     const socket = {
-        emit: (eventName: Socket, data: any) => {
-            WebviewWindow.getByLabel('main')?.emit(eventName, JSON.stringify(data));
+        emit: <T = any>(label: Label, eventName: Socket, data: T | {}) => {
+            WebviewWindow.getByLabel(label)?.emit(eventName, JSON.stringify(data));
         },
-        listen: <T = any>(eventName: Socket, cb: (data: T | {}) => void) => {
-            WebviewWindow.getByLabel('main')?.listen(eventName, (e) => {
-                e.payload && cb(e.payload);
+        listen: <T = any>(label: Label, eventName: Socket, cb: (data: T) => void) => {
+            WebviewWindow.getByLabel(label)?.listen(eventName, (e) => {
+                cb(JSON.parse(e.payload as any));
             });
         },
     };

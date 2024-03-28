@@ -12,22 +12,20 @@ function useMeet() {
 
     const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
 
-    const { useWebview } = useRustServer('meet', {
-        webview: {
-            title: `Конференция`,
-            events: {
-                onClose: () => {
-                    console.log('close');
-                    ls.remove('by_meet');
-                    ls.remove('join_meet_data');
-                    ls.remove('meet_chat_id');
-                    webview.close();
-                },
+    const { useWebview } = useRustServer();
+
+    const webview = useWebview('meet', {
+        title: `Конференция`,
+        events: {
+            onClose: () => {
+                console.log('close');
+                ls.remove('by_meet');
+                ls.remove('join_meet_data');
+                ls.remove('meet_chat_id');
+                webview.close();
             },
         },
     });
-
-    const webview = useWebview();
 
     const createMeet = async (chatId?: number, users?: number[]) => {
         ls.set('by_meet', true);

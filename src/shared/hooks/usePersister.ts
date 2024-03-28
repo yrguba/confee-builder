@@ -8,7 +8,7 @@ import { debounce } from '../lib';
 import { useFs } from './index';
 
 function usePersister(queryClient: QueryClient) {
-    const { rustIsRunning } = useRustServer('');
+    const { rustIsRunning } = useRustServer();
     const fs = useFs();
 
     const key = 'queryState';

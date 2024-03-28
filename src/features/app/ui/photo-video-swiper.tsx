@@ -4,18 +4,20 @@ import React, { useEffect } from 'react';
 import { PhotoVideoSwiperView } from 'entities/app';
 
 import usePhotoVideoSwiper from '../../../entities/app/lib/usePhotoVideoSwiper';
-import { useRustServer } from '../../../shared/hooks';
+import { useEasyState, useRustServer } from '../../../shared/hooks';
 
 function PhotoVideoSwiper() {
     const { socket } = usePhotoVideoSwiper();
 
+    const items = useEasyState([]);
+
     useEffect(() => {
-        socket.listen<{ m: string }>('photoVideoSwiperData', (data) => {
-            alert('wd');
-            console.log(data);
+        socket.listen<any>('main', 'photoVideoSwiperData', (data) => {
+            items.set(data.items);
         });
     }, []);
-    return <PhotoVideoSwiperView items={[]} />;
+
+    return <PhotoVideoSwiperView items={items.value} />;
 }
 
 export default PhotoVideoSwiper;

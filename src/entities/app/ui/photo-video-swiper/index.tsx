@@ -18,7 +18,7 @@ type Props = {
 function PhotoVideoSwiperView(props: Props) {
     const { items } = props;
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
+    console.log(items);
     return (
         <div className={styles.wrapper}>
             wadwdd
