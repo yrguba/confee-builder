@@ -16,8 +16,8 @@ function Player(props: PlayerProps) {
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
 
-    const { rustIsRunning, useWebview } = useRustServer();
-    const webview = useWebview('main');
+    const { rustIsRunning, useWebview } = useRustServer('main');
+    const webview = useWebview();
 
     const sliderValue = useEasyState<any>(null);
     const visibleVolume = useEasyState<any>(false);

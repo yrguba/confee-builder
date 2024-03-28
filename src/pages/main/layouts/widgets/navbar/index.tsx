@@ -46,8 +46,6 @@ function Navbar() {
         }
     };
 
-    const { invoker } = useRustServer();
-
     return (
         <>
             <Modal.Confirm {...confirmLogout} title="Выйти из аккаунта" closeText="Отмена" okText="Выйти" />

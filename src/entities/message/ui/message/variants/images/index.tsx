@@ -15,8 +15,7 @@ type Props = {
 
 function ImagesMessage(props: Props) {
     const { message } = props;
-    const { useWebview } = useRustServer();
-    const swiperView = useWebview('photo_video_swiper');
+
     const swiper = usePhotoVideoSwiper();
 
     const visibleInfo = useEasyState(false);
@@ -32,7 +31,7 @@ function ImagesMessage(props: Props) {
     }));
 
     const imgClick = () => {
-        swiper.open({ items: updItems as any });
+        swiper.show({ items: updItems as any });
     };
 
     return (

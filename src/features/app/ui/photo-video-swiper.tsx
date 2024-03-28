@@ -7,13 +7,12 @@ import usePhotoVideoSwiper from '../../../entities/app/lib/usePhotoVideoSwiper';
 import { useRustServer } from '../../../shared/hooks';
 
 function PhotoVideoSwiper() {
-    const { useWebview, events } = useRustServer();
-    const { close } = usePhotoVideoSwiper();
+    const { socket } = usePhotoVideoSwiper();
 
     useEffect(() => {
-        WebviewWindow.getByLabel('main')?.listen('photoVideoSwiperData', (e) => {
-            alert('wdad');
-            console.log(e.payload);
+        socket.listen<{ m: string }>('photoVideoSwiperData', (data) => {
+            alert('wd');
+            console.log(data);
         });
     }, []);
     return <PhotoVideoSwiperView items={[]} />;

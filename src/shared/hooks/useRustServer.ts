@@ -9,6 +9,11 @@ type WebviewProps = {
     };
 };
 
+type Label = 'main' | 'meet' | 'photo_video_swiper' | '';
+type Options = {
+    webview: WebviewProps;
+};
+
 type WebviewEvents =
     | 'resize'
     | 'move'
@@ -29,12 +34,12 @@ type WebviewEvents =
     | 'update-status'
     | 'update-download-progress';
 
-type GlobalEvents = 'photoVideoSwiperData';
+type Socket = 'photoVideoSwiperData';
 
-function useRustServer() {
+function useRustServer(label: Label, options?: Options) {
     const rustIsRunning = !!window.__TAURI__;
 
-    const useWebview = (label: 'main' | 'meet' | 'photo_video_swiper', webviewProps?: WebviewProps) => {
+    const useWebview = () => {
         const isOpen = () => {
             if (!rustIsRunning) return null;
             return !!WebviewWindow.getByLabel(label);
@@ -52,7 +57,7 @@ function useRustServer() {
             if (!rustIsRunning) return null;
             const view = WebviewWindow.getByLabel(label);
             if (view) {
-                appWindow.once(`tauri://${event}`, callback);
+                view.once(`tauri://${event}`, callback);
             }
         };
 
@@ -61,9 +66,9 @@ function useRustServer() {
             await invoke('open_window', { url: `${window.location.origin}${props.path}`, label });
             const view = WebviewWindow.getByLabel(label);
             setTimeout(() => {
-                view?.setTitle(props?.title || webviewProps?.title || '');
+                view?.setTitle(props?.title || options?.webview?.title || '');
                 view?.once('tauri://close-requested', function () {
-                    webviewProps?.events?.onClose && webviewProps.events.onClose();
+                    options?.webview?.events?.onClose && options?.webview?.events.onClose();
                 });
                 view?.maximize();
             }, 100);
@@ -93,18 +98,18 @@ function useRustServer() {
         },
     };
 
-    const events = {
-        emit: (eventName: GlobalEvents, data: any) => {
+    const socket = {
+        emit: (eventName: Socket, data: any) => {
             WebviewWindow.getByLabel('main')?.emit(eventName, JSON.stringify(data));
         },
-        listen: (eventName: GlobalEvents, cb: (data: any) => void) => {
+        listen: <T = any>(eventName: Socket, cb: (data: T | {}) => void) => {
             WebviewWindow.getByLabel('main')?.listen(eventName, (e) => {
-                cb(e.payload);
+                e.payload && cb(e.payload);
             });
         },
     };
 
-    return { rustIsRunning, useWebview, invoker, events };
+    return { rustIsRunning, useWebview, invoker, socket };
 }
 
 export default useRustServer;

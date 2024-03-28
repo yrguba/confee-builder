@@ -184,7 +184,6 @@ const useFS = () => {
         const checkPath = await exists(folderPath);
         if (!checkPath) await createDir(folderPath, { recursive: true });
         try {
-            const { invoker } = useRustServer();
             const filePath = await join(folderPath, props.fileName);
             await invoke('write_data_to_file', { path: filePath, data: JSON.stringify(props.data) });
         } catch (e) {

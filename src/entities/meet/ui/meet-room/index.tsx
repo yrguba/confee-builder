@@ -22,8 +22,8 @@ function MeetRoomView(props: Props) {
     const { chatId, viewer, meetId, invite } = props;
 
     const ls = useStorage();
-    const { useWebview } = useRustServer();
-    const { close } = useWebview('meet');
+    const { useWebview } = useRustServer('meet');
+    const { close } = useWebview();
 
     const conferenceName = meetId;
     const userName = viewer?.full_name;

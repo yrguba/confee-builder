@@ -31,8 +31,6 @@ moment.locale('ru');
 function App() {
     const { clientBaseURL, backBaseURL } = appService.getUrls();
 
-    const { useWebview, rustIsRunning, invoker } = useRustServer();
-    const webview = useWebview('main');
     const persister = usePersister(queryClient);
 
     // useEffect(() => {

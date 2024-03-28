@@ -16,14 +16,7 @@ function Provider({ children }: { children: any }) {
     const queryClient = useQueryClient();
     const { params, pathname, navigate } = useRouter();
     const ls = useStorage();
-    const { useWebview } = useRustServer();
-    const photoVideoSwiperView = useWebview('photo_video_swiper', {
-        events: {
-            onClose: () => {
-                photoVideoSwiperView.close();
-            },
-        },
-    });
+
     const { inCall } = useMeet();
 
     const chatSubscription = chatStore.use.chatSubscription();
