@@ -23,8 +23,8 @@ function usePhotoVideoSwiper() {
     const close = () => {
         currentMonitor().then((res) => {
             if (res?.size.width && res.size.height) {
-                swiperView.view?.setPosition(new PhysicalPosition(res.position.x, 0));
-                swiperView.view?.setMaxSize(new PhysicalSize(res?.size.width - 11, res.size.height - 11));
+                // swiperView.view?.setPosition(new PhysicalPosition(res.position.x, 0));
+                // swiperView.view?.setMaxSize(new PhysicalSize(res?.size.width - 11, res.size.height - 11));
             }
         });
         swiperView?.view?.hide();
