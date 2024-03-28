@@ -69,8 +69,10 @@ export type BaseIconsVariants =
     | 'makePhoto'
     | 'select-file'
     | 'create-group'
-    | 'create-personal';
-
+    | 'create-personal'
+    | 'full-screen'
+    | 'minimize'
+    | 'not-full-screen';
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;
     size?: 24 | 48 | number;

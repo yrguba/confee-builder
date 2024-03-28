@@ -1,23 +1,17 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex-column;
+  @include flex-column(flex-start);
   @include box-size(calc(100% - 8px), calc(100% - 8px));
   gap: 12px;
   position: relative;
 
-  .closeIcon{
-    @include box-size(40px, 40px);
-    @include flex;
-    background-color: var(--white);
-    border-radius: 50%;
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    cursor: pointer;
+  .header{
+    @include box-size(100%, 40px);
+    @include flex(flex-end);
 
     svg{
-      fill: black;
+      fill: var(--control-tertiary);
     }
   }
 }

@@ -9,7 +9,9 @@ import { useRustServer } from '../../../shared/hooks';
 function PhotoVideoSwiper() {
     const swiper = usePhotoVideoSwiper();
 
-    return <PhotoVideoSwiperView close={swiper.close} />;
+    return (
+        <PhotoVideoSwiperView minimize={swiper.minimize} toggleFullScreen={swiper.toggleFullScreen} close={swiper.close} isFullScreen={swiper.isFullScreen} />
+    );
 }
 
 export default PhotoVideoSwiper;
