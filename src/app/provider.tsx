@@ -4,6 +4,7 @@ import { set } from 'idb-keyval';
 import { useEffect } from 'react';
 
 import { appService } from '../entities/app';
+import usePhotoVideoSwiper from '../entities/app/lib/usePhotoVideoSwiper';
 import { chatApi, chatGateway, chatStore } from '../entities/chat';
 import { meetGateway, meetStore, useMeet } from '../entities/meet';
 import { messageGateway } from '../entities/message';
@@ -24,11 +25,16 @@ function Provider({ children }: { children: any }) {
         },
     });
     const { inCall } = useMeet();
+    const swiper = usePhotoVideoSwiper();
 
     const chatSubscription = chatStore.use.chatSubscription();
     const invitationToConference = meetStore.use.invitationToConference();
 
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
+
+    useEffect(() => {
+        swiper.close();
+    }, []);
 
     useEffect(() => {
         if (invitationToConference.value?.id && !ls.get('by_meet') && !ls.get('join_meet_data')) {
@@ -38,15 +44,6 @@ function Provider({ children }: { children: any }) {
             }
         }
     }, [invitationToConference.value?.id]);
-
-    useEffect(() => {
-        const { view } = photoVideoSwiperView;
-        if (view) {
-            view.show();
-        } else {
-            photoVideoSwiperView.open({ path: '/photo_video_swiper' }).then((value) => {});
-        }
-    }, []);
 
     useEffect(() => {
         if (!params.chat_id) {

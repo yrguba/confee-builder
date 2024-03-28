@@ -5,6 +5,7 @@ import { BaseTypes } from 'shared/types';
 import { Box, Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import usePhotoVideoSwiper from '../../../../../app/lib/usePhotoVideoSwiper';
 import { MessageProxy } from '../../../../model/types';
 import Info from '../../info';
 
@@ -14,6 +15,8 @@ type Props = {
 
 function ImagesMessage(props: Props) {
     const { message } = props;
+
+    const swiper = usePhotoVideoSwiper();
 
     const visibleInfo = useEasyState(false);
 
@@ -27,9 +30,18 @@ function ImagesMessage(props: Props) {
         height: '220px',
     }));
 
+    const imgClick = () => {
+        swiper.open();
+    };
+
     return (
         <div className={styles.wrapper} onMouseEnter={() => visibleInfo.set(true)} onMouseLeave={() => visibleInfo.set(false)}>
-            <Image.List visibleDropdown={false} items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+            <Image.List
+                imgClick={imgClick}
+                visibleDropdown={false}
+                items={updItems}
+                style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }}
+            />
             <Box.Animated visible={visibleInfo.value} className={styles.info}>
                 <Info
                     date={message.date}

@@ -74,7 +74,7 @@ function useRustServer() {
             }
         };
 
-        const view = rustIsRunning ? WebviewWindow.getByLabel(label) : null;
+        const view = rustIsRunning && label ? WebviewWindow.getByLabel(label) : null;
 
         return { isOpen, open, close, listen, listenOnce, view };
     };

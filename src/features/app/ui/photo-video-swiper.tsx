@@ -3,20 +3,13 @@ import React from 'react';
 
 import { PhotoVideoSwiperView } from 'entities/app';
 
+import usePhotoVideoSwiper from '../../../entities/app/lib/usePhotoVideoSwiper';
 import { useRustServer } from '../../../shared/hooks';
 
 function PhotoVideoSwiper() {
-    const { useWebview } = useRustServer();
+    const swiper = usePhotoVideoSwiper();
 
-    const { view } = useWebview('photo_video_swiper');
-
-    const closeClick = () => {
-        if (view) {
-            view.hide();
-        }
-    };
-
-    return <PhotoVideoSwiperView closeClick={closeClick} />;
+    return <PhotoVideoSwiperView close={swiper.close} />;
 }
 
 export default PhotoVideoSwiper;

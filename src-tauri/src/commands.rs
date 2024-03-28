@@ -10,7 +10,7 @@ mod set_notification_icon;
 #[tauri::command]
 pub async fn open_window(handle: tauri::AppHandle, url: String, label: String) {
     print!("count");
-    tauri::WindowBuilder::new(
+  let w =  tauri::WindowBuilder::new(
         &handle,
         label,
         tauri::WindowUrl::External(url.parse().unwrap()),

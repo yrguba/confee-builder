@@ -5,19 +5,12 @@ import { ImagesListProps } from '../../types';
 import Image from '../base';
 
 function ImageList(props: ImagesListProps) {
-    const { visibleDropdown = true, items, style } = props;
+    const { imgClick, visibleDropdown = true, items, style } = props;
 
     return (
         <div className={styles.wrapper} style={style}>
             {items?.map((i, index) => (
-                <Image
-                    visibleDropdown={visibleDropdown}
-                    name={i.name}
-                    // onClick={() => visibleSwiper.set({ visible: true, init: index })}
-                    key={i.id}
-                    {...i}
-                    borderRadius={false}
-                />
+                <Image visibleDropdown={visibleDropdown} name={i.name} onClick={() => imgClick && imgClick(index)} key={i.id} {...i} borderRadius={false} />
             ))}
         </div>
     );

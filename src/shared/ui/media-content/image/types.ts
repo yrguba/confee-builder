@@ -28,7 +28,7 @@ export type ImagesListItem = {
 export type ImagesListProps = {
     items: ImagesListItem[] | BaseTypes.Empty;
     style?: CSSProperties;
-
+    imgClick?: (index: number) => void;
     visibleDropdown?: boolean;
 } & BaseTypes.Statuses;
 

@@ -175,7 +175,7 @@
         "url": "/photo_video_swiper",
         "transparent": true,
         "decorations": false,
-        "fullscreen": true,
+        "fullscreen": false,
         "title": ""
       }
     ],
