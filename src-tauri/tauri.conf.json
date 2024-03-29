@@ -178,8 +178,7 @@
         "decorations": true,
         "alwaysOnTop": true,
         "fileDropEnabled": false,
-        "y": 50000,
-        "x": 0
+        "visible": false
       }
     ],
     "updater": {

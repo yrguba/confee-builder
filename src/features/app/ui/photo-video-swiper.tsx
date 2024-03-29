@@ -8,11 +8,12 @@ import { useEasyState, useRustServer } from '../../../shared/hooks';
 
 function PhotoVideoSwiper() {
     const { socket } = usePhotoVideoSwiper();
-
-    const items = useEasyState([]);
+    const dataInLs = localStorage.getItem('a');
+    const items = useEasyState(dataInLs ? JSON.parse(dataInLs) : []);
 
     useEffect(() => {
         socket.listen<any>('main', 'photoVideoSwiperData', (data) => {
+            localStorage.setItem('a', JSON.stringify(data.items));
             items.set(data.items);
         });
     }, []);
