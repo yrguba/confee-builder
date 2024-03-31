@@ -59,6 +59,7 @@ function PhotoVideoSwiperView(props: Props) {
                 ))}
             </Swiper>
             <div className={styles.footer}>
+                <div className={styles.actions}>dwad</div>
                 <div className={styles.swiperContainer}>
                     <Swiper
                         onSwiper={setThumbsSwiper}
