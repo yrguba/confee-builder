@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { appTypes } from 'entities/app';
 import { useEasyState, useRouter, useRustServer } from 'shared/hooks';
 
+import { Modal } from '../../../shared/ui';
 import { appStore } from '../index';
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
 };
 
 function usePhotoVideoSwiper(props?: Props) {
-    const { useWebview, socket } = useRustServer();
+    const { useWebview, socket, rustIsRunning } = useRustServer();
     const swiperView = useWebview('photo_video_swiper');
     const { navigate } = useRouter();
     const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
@@ -24,11 +25,14 @@ function usePhotoVideoSwiper(props?: Props) {
     }, []);
 
     const show = (data: appTypes.PhotoAndVideoSwiperType) => {
-        photoAndVideoFromSwiper.set(data);
-        navigate('/photo_video_swiper');
-        // swiperView?.view?.show().then(() => {
-        //     socket.emit('photo_video_swiper', 'photoVideoSwiperData', data);
-        // });
+        if (rustIsRunning) {
+            swiperView?.view?.show().then(() => {
+                socket.emit('photo_video_swiper', 'photoVideoSwiperData', data);
+            });
+        } else {
+            navigate('/photo_video_swiper');
+            photoAndVideoFromSwiper.set(data);
+        }
     };
 
     const close = () => {

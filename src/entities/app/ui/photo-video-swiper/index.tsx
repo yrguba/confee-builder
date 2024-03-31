@@ -8,8 +8,8 @@ import { Button, Card, Icons, Image, Video } from '../../../../shared/ui';
 import VideoPlayer from '../../../../shared/ui/media-content/video';
 import VideoPlayerWithControls from '../../../../shared/ui/media-content/video/ui/with-controls';
 import { appService } from '../../index';
-import { PhotoAndVideoSwiperItemsType, PhotoAndVideoSwiperType } from '../../model/types';
-// Import Swiper styles
+import { PhotoAndVideoSwiperType } from '../../model/types';
+
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
