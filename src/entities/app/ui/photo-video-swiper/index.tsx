@@ -50,6 +50,7 @@ function PhotoVideoSwiperView(props: Props) {
                 onActiveIndexChange={(e) => {
                     setActiveIndex(e.activeIndex);
                 }}
+                allowTouchMove={false}
                 onSwiper={onSwiper}
                 spaceBetween={10}
                 navigation
