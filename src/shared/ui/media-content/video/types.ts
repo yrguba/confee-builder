@@ -23,7 +23,7 @@ export type VideoListItem = {
 export type VideoListProps = {
     items: VideoListItem[] | BaseTypes.Empty;
     style?: CSSProperties;
-
+    videoClick?: (index: number) => void;
     visibleDropdown?: boolean;
 } & BaseTypes.Statuses;
 
@@ -32,11 +32,4 @@ export type VideoCardProps = {
     previewUrl?: string;
     name: string;
     size: number;
-} & BaseTypes.Statuses;
-
-export type VideoSwiperProps = {
-    visible: boolean;
-    closeClick: () => void;
-    initialSlide?: number;
-    items: VideoListItem[] | BaseTypes.Empty;
 } & BaseTypes.Statuses;

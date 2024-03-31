@@ -5,6 +5,7 @@ import { Box, Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useEasyState } from '../../../../../../shared/hooks';
+import usePhotoVideoSwiper from '../../../../../app/lib/usePhotoVideoSwiper';
 import { MessageProxy } from '../../../../model/types';
 import Info from '../../info';
 
@@ -14,6 +15,8 @@ type Props = {
 
 function VideoMessage(props: Props) {
     const { message } = props;
+
+    const swiper = usePhotoVideoSwiper();
 
     const visibleInfo = useEasyState(false);
 
@@ -26,9 +29,23 @@ function VideoMessage(props: Props) {
         height: 'auto',
     }));
 
+    const videoClick = (index: number) => {
+        swiper.show({
+            type: 'video',
+            startIndex: index,
+            items: updItems as any,
+            description: { title: message.authorName || '', subtitle: message.date, avatar: message.authorAvatar },
+        });
+    };
+
     return (
         <div className={styles.wrapper} onMouseEnter={() => visibleInfo.set(true)} onMouseLeave={() => visibleInfo.set(false)}>
-            <Video.List visibleDropdown={false} items={updItems} style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }} />
+            <Video.List
+                videoClick={videoClick}
+                visibleDropdown={false}
+                items={updItems}
+                style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }}
+            />
             <Box.Animated visible={visibleInfo.value} className={styles.info}>
                 <Info
                     date={message.date}
