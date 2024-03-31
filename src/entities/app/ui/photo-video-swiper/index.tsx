@@ -3,7 +3,8 @@ import { FreeMode, Navigation, Thumbs } from 'swiper';
 import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 
 import styles from './styles.module.scss';
-import { Button, Icons, Image, Video } from '../../../../shared/ui';
+import { useEasyState } from '../../../../shared/hooks';
+import { Button, Card, Icons, Image, Video } from '../../../../shared/ui';
 import VideoPlayer from '../../../../shared/ui/media-content/video';
 import VideoPlayerWithControls from '../../../../shared/ui/media-content/video/ui/with-controls';
 import { PhotoAndVideoSwiperItemsType, PhotoAndVideoSwiperType } from '../../model/types';
@@ -22,6 +23,13 @@ function PhotoVideoSwiperView(props: Props) {
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
     const [swiper, setSwiper] = useState<any>(null);
     const [activeIndex, setActiveIndex] = useState<any>(data.startIndex || 0);
+    const fullScreen = useEasyState(false);
+
+    const actions = [
+        { id: 0, icon: <Icons variant="upload" /> },
+        { id: 1, icon: <Icons variant="redirect" /> },
+        { id: 1, icon: <Icons variant="delete" /> },
+    ];
 
     const onSwiper = (swiper: SwiperClass) => {
         setSwiper(swiper);
@@ -57,16 +65,27 @@ function PhotoVideoSwiperView(props: Props) {
                 thumbs={{ swiper: thumbsSwiper }}
                 modules={[FreeMode, Navigation, Thumbs]}
                 className={styles.swiperTop}
+                style={{ margin: fullScreen.value ? '0' : '20px 0' }}
             >
                 {data.items?.map((i) => (
                     <SwiperSlide key={i.id}>
                         {data.type === 'img' && <Image visibleDropdown={false} url={i.url} objectFit="contain" />}
-                        {data.type === 'video' && <VideoPlayerWithControls visibleDropdown={false} url={i.url} />}
+                        {data.type === 'video' && <VideoPlayerWithControls clickFull={() => fullScreen.toggle()} visibleDropdown={false} url={i.url} />}
                     </SwiperSlide>
                 ))}
             </Swiper>
-            <div className={styles.footer}>
-                <div className={styles.actions}>dwad</div>
+            <div className={styles.fullScreen} style={{ bottom: fullScreen.value ? 30 : 290 }} onClick={fullScreen.toggle}>
+                <Icons.Player variant="full" />
+            </div>
+            <div className={`${styles.footer} ${fullScreen.value ? styles.footer_hidden : ''}`}>
+                <div className={styles.card}>
+                    <Card title={data.description.title} subtitle={data.description.subtitle} img={data.description.avatar} />
+                </div>
+                <div className={styles.actions}>
+                    {actions.map((i) => (
+                        <div className={styles.item}>{i.icon}</div>
+                    ))}
+                </div>
                 {multiple && data.type !== 'video' && (
                     <div className={styles.swiperContainer}>
                         <Swiper

@@ -51,11 +51,8 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
                         <Icons.Player variant={state.playing ? 'pause' : 'play'} />
                     </Button.Circle>
                     <div className={styles.actions}>
-                        <Button.Circle variant="inherit" radius={30} onClick={clickFull}>
+                        <Button.Circle variant="inherit" radius={18} onClick={clickFull}>
                             <Icons.Player variant="full" />
-                        </Button.Circle>
-                        <Button.Circle variant="inherit" radius={30}>
-                            <Icons variant="more" />
                         </Button.Circle>
                     </div>
                 </div>

@@ -2,18 +2,17 @@
 
 .wrapper {
   @include box-size(100%, 100%);
-  @include flex-column;
+  @include flex;
   gap: 12px;
 
   .video {
     @include flex(center, flex-end);
-    @include box-size(500px, auto);
-    max-height: 76vh;
+    @include box-size(100%, 100%);
   }
 
   .controls {
     position: absolute;
-    bottom: 0;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     @include box-size(500px, calc(92px - 32px));

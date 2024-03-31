@@ -5,12 +5,27 @@
   @include box-size(100%, 100%);
   background-color: var(--bg-secondary);
   gap: 12px;
-
+  position: relative;
 
   .swiperTop {
     width: 100%;
     flex: 1;
-    margin-top: 20px;
+  }
+
+  .fullScreen {
+    @include flex;
+    @include box-size(30px, 30px);
+    background-color: rgb(0, 0, 0, 0.4);
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    z-index: 100;
+    transform: translateX(-50%);
+    cursor: pointer;
+
+    svg {
+      fill: var(--white);
+    }
   }
 
   .footer {
@@ -19,6 +34,10 @@
     width: 100%;
     position: relative;
     margin: 20px 0;
+
+    &_hidden {
+      display: none;
+    }
 
     .card {
       position: absolute;
@@ -54,12 +73,20 @@
     .actions {
       @include box-size(152px, 40px);
       @include flex;
+      gap: 16px;
       border-radius: 24px;
       background: var(--white);
+
+      .item {
+        cursor: pointer;
+      }
+
+      svg {
+        fill: black;
+      }
     }
-
-
   }
+
 }
 
 

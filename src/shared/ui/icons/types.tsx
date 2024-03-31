@@ -72,7 +72,8 @@ export type BaseIconsVariants =
     | 'create-personal'
     | 'full-screen'
     | 'minimize'
-    | 'not-full-screen';
+    | 'not-full-screen'
+    | 'upload';
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;
     size?: 24 | 48 | number;
