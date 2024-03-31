@@ -10,6 +10,7 @@ export type NetworkState = {
 export type PhotoAndVideoSwiperItemsType = {
     id: number;
     url: string;
+    name: string;
 };
 
 export type PhotoAndVideoSwiperType = {

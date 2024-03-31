@@ -3,8 +3,8 @@ import { FreeMode, Navigation, Thumbs } from 'swiper';
 import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 
 import styles from './styles.module.scss';
-import { useEasyState } from '../../../../shared/hooks';
-import { Button, Card, Icons, Image, Video } from '../../../../shared/ui';
+import { useEasyState, useFs } from '../../../../shared/hooks';
+import { Button, Card, ContextMenu, Icons, Image, Video } from '../../../../shared/ui';
 import VideoPlayer from '../../../../shared/ui/media-content/video';
 import VideoPlayerWithControls from '../../../../shared/ui/media-content/video/ui/with-controls';
 import { appService } from '../../index';
@@ -18,19 +18,40 @@ import 'swiper/css/thumbs';
 type Props = {
     data?: PhotoAndVideoSwiperType;
     back: () => void;
+    downloads: (all: boolean, index: number | null) => void;
 };
 
 function PhotoVideoSwiperView(props: Props) {
-    const { data, back } = props;
+    const { data, back, downloads } = props;
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
     const [swiper, setSwiper] = useState<any>(null);
     const [activeIndex, setActiveIndex] = useState<any>(data?.startIndex || 0);
     const fullScreen = useEasyState(false);
+    const visibleContextMenu = useEasyState(false);
 
     const actions = [
-        { id: 0, icon: <Icons variant="upload" /> },
+        { id: 0, icon: <Icons variant="upload" />, onClick: () => visibleContextMenu.set(true) },
         { id: 1, icon: <Icons variant="redirect" /> },
         { id: 1, icon: <Icons variant="delete" /> },
+    ];
+
+    const contextMenuItems = [
+        {
+            id: 0,
+            title: 'Все фото',
+            callback: () => {
+                downloads(true, null);
+                visibleContextMenu.set(false);
+            },
+        },
+        {
+            id: 1,
+            title: 'Только это',
+            callback: () => {
+                downloads(true, activeIndex);
+                visibleContextMenu.set(false);
+            },
+        },
     ];
 
     const onSwiper = (swiper: SwiperClass) => {
@@ -55,6 +76,7 @@ function PhotoVideoSwiperView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
+            <ContextMenu clickAway={() => visibleContextMenu.set(false)} trigger="mouseup" visible={visibleContextMenu.value} items={contextMenuItems} />
             {!appService.tauriIsRunning && (
                 <div className={styles.backIcon} onClick={back}>
                     <Icons variant="close" />
@@ -94,7 +116,7 @@ function PhotoVideoSwiperView(props: Props) {
                 </div>
                 <div className={styles.actions}>
                     {actions.map((i) => (
-                        <div key={i.id} className={styles.item}>
+                        <div key={i.id} className={styles.item} onClick={i.onClick}>
                             {i.icon}
                         </div>
                     ))}
