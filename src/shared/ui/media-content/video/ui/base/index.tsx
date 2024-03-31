@@ -37,7 +37,7 @@ function VideoPlayer(props: BaseVideoProps) {
     const [video, state, controls, ref] = useVideo(
         <video
             onContextMenu={(e) => e.preventDefault()}
-            style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0 }}
+            style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0, objectFit: 'contain' }}
             src={src}
             autoPlay
             muted

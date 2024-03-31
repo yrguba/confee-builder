@@ -34,7 +34,12 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
     return (
         <div className={styles.wrapper}>
             {video}
-            <Box.Animated visible={visibleControl.value} className={styles.controls} onMouseMove={() => visibleControl.set(true)}>
+            <Box.Animated
+                visible={visibleControl.value}
+                className={styles.controls}
+                onMouseMove={() => visibleControl.set(true)}
+                onMouseLeave={() => visibleControl.set(false)}
+            >
                 <div className={styles.top}>
                     <div className={styles.volume}>
                         <Button.Circle variant="inherit" radius={30} onClick={state.muted ? controls.unmute : controls.mute}>
@@ -72,7 +77,7 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
                         />
                     </div>
                     <div className={styles.timeReverse}>
-                        <Title textAlign="right" variant="H4M">{`-${secondsToHms(Math.floor(state.duration - state.time))}`}</Title>
+                        <Title textAlign="right" variant="H4M">{`${secondsToHms(Math.floor(state.duration - state.time))}`}</Title>
                     </div>
                 </div>
             </Box.Animated>

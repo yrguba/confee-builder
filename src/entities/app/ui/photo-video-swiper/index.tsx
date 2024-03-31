@@ -46,6 +46,7 @@ function PhotoVideoSwiperView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <Swiper
+                aria-disabled
                 onActiveIndexChange={(e) => {
                     setActiveIndex(e.activeIndex);
                 }}
@@ -65,7 +66,7 @@ function PhotoVideoSwiperView(props: Props) {
             </Swiper>
             <div className={styles.footer}>
                 <div className={styles.actions}>dwad</div>
-                {multiple && (
+                {multiple && data.type !== 'video' && (
                     <div className={styles.swiperContainer}>
                         <Swiper
                             onSwiper={setThumbsSwiper}
@@ -82,7 +83,7 @@ function PhotoVideoSwiperView(props: Props) {
                             {data.items?.map((i, index) => (
                                 <SwiperSlide key={i.id} className={`${styles.sliderBottom} ${activeIndex === index ? styles.sliderBottom_active : ''}`}>
                                     {data.type === 'img' && <Image visibleDropdown={false} url={i.url} onClick={() => ''} />}
-                                    {data.type === 'video' && <Video height="100%" width="100%" visibleDropdown={false} url={i.url} />}
+                                    {data.type === 'video' && <Video height="50px" width="100px" visibleDropdown={false} url={i.url} />}
                                 </SwiperSlide>
                             ))}
                         </Swiper>
