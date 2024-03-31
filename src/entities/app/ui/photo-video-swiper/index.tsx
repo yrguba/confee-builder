@@ -15,14 +15,14 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 
 type Props = {
-    data: PhotoAndVideoSwiperType;
+    data?: PhotoAndVideoSwiperType;
 };
 
 function PhotoVideoSwiperView(props: Props) {
     const { data } = props;
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
     const [swiper, setSwiper] = useState<any>(null);
-    const [activeIndex, setActiveIndex] = useState<any>(data.startIndex || 0);
+    const [activeIndex, setActiveIndex] = useState<any>(data?.startIndex || 0);
     const fullScreen = useEasyState(false);
 
     const actions = [
@@ -46,8 +46,8 @@ function PhotoVideoSwiperView(props: Props) {
     };
 
     useEffect(() => {
-        swiper?.slideTo(data.startIndex || 0);
-    }, [data.startIndex]);
+        swiper?.slideTo(data?.startIndex || 0);
+    }, [data?.startIndex]);
 
     const multiple = data?.items?.length && data.items.length > 1;
 
@@ -67,19 +67,23 @@ function PhotoVideoSwiperView(props: Props) {
                 className={styles.swiperTop}
                 style={{ margin: fullScreen.value ? '0' : '20px 0' }}
             >
-                {data.items?.map((i) => (
+                {data?.items?.map((i, index) => (
                     <SwiperSlide key={i.id}>
                         {data.type === 'img' && <Image visibleDropdown={false} url={i.url} objectFit="contain" />}
-                        {data.type === 'video' && <VideoPlayerWithControls clickFull={() => fullScreen.toggle()} visibleDropdown={false} url={i.url} />}
+                        {data.type === 'video' && (
+                            <VideoPlayerWithControls pause={index !== activeIndex} clickFull={() => fullScreen.toggle()} visibleDropdown={false} url={i.url} />
+                        )}
                     </SwiperSlide>
                 ))}
             </Swiper>
-            <div className={styles.fullScreen} style={{ bottom: fullScreen.value ? 30 : 290 }} onClick={fullScreen.toggle}>
-                <Icons.Player variant="full" />
-            </div>
+            {data?.type === 'img' && (
+                <div className={styles.fullScreen} style={{ bottom: fullScreen.value ? 30 : 290 }} onClick={fullScreen.toggle}>
+                    <Icons.Player variant="full" />
+                </div>
+            )}
             <div className={`${styles.footer} ${fullScreen.value ? styles.footer_hidden : ''}`}>
                 <div className={styles.card}>
-                    <Card title={data.description.title} subtitle={data.description.subtitle} img={data.description.avatar} />
+                    <Card title={data?.description.title} subtitle={data?.description.subtitle} img={data?.description.avatar} />
                 </div>
                 <div className={styles.actions}>
                     {actions.map((i) => (
@@ -100,10 +104,10 @@ function PhotoVideoSwiperView(props: Props) {
                             modules={[FreeMode, Navigation, Thumbs]}
                             className={styles.swiperBottom}
                         >
-                            {data.items?.map((i, index) => (
+                            {data?.items?.map((i, index) => (
                                 <SwiperSlide key={i.id} className={`${styles.sliderBottom} ${activeIndex === index ? styles.sliderBottom_active : ''}`}>
-                                    {data.type === 'img' && <Image visibleDropdown={false} url={i.url} onClick={() => ''} />}
-                                    {data.type === 'video' && <Video height="50px" width="100px" visibleDropdown={false} url={i.url} />}
+                                    {data?.type === 'img' && <Image visibleDropdown={false} url={i.url} onClick={() => ''} />}
+                                    {data?.type === 'video' && <Video height="50px" width="100px" visibleDropdown={false} url={i.url} />}
                                 </SwiperSlide>
                             ))}
                         </Swiper>

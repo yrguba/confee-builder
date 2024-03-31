@@ -15,6 +15,7 @@ export type BaseVideoProps = {
     reset?: boolean;
     visibleDropdown?: boolean;
     clickFull?: () => void;
+    pause?: boolean;
 } & BaseTypes.Statuses;
 
 export type VideoListItem = {

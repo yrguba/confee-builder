@@ -6,13 +6,18 @@ import { useEasyState, useRustServer } from 'shared/hooks';
 
 import { appStore } from '../index';
 
-function usePhotoVideoSwiper() {
+type Props = {
+    onClose: () => void;
+};
+
+function usePhotoVideoSwiper(props?: Props) {
     const { useWebview, socket } = useRustServer();
     const swiperView = useWebview('photo_video_swiper');
 
     useEffect(() => {
         swiperView.listen('close-requested', () => {
             swiperView.view?.hide();
+            props?.onClose();
         });
     }, []);
 

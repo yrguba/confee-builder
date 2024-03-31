@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 import { VideoSeekSlider } from 'react-video-seek-slider';
 
@@ -13,7 +13,7 @@ import { Box, Button, Icons, Slider, Title } from '../../../..';
 import { BaseVideoProps } from '../../types';
 
 function VideoPlayerWithControls(props: BaseVideoProps) {
-    const { clickFull, url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
+    const { pause, clickFull, url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
 
     const { src, isLoading, error } = useFetchMediaContent({ url, name, fileType: 'video' });
     const visibleControl = useEasyState(false);
@@ -30,6 +30,12 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
             }}
         />
     );
+
+    useEffect(() => {
+        if (pause) {
+            controls.pause();
+        }
+    }, [pause]);
 
     return (
         <div className={styles.wrapper}>
