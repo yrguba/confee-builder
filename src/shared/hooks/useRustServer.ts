@@ -97,9 +97,11 @@ function useRustServer() {
 
     const socket = {
         emit: <T = any>(label: Label, eventName: Socket, data: T | {}) => {
+            if (!rustIsRunning) return null;
             WebviewWindow.getByLabel(label)?.emit(eventName, JSON.stringify(data));
         },
         listen: <T = any>(label: Label, eventName: Socket, cb: (data: T) => void) => {
+            if (!rustIsRunning) return null;
             WebviewWindow.getByLabel(label)?.listen(eventName, (e) => {
                 cb(JSON.parse(e.payload as any));
             });

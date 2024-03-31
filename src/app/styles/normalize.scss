@@ -5,7 +5,7 @@ html {
   overflow: hidden;
   -moz-user-select: none;
   -webkit-user-select: none ;
-  background-color: transparent;
+  background: var(--bg-html);
 
    button {
     all: unset;

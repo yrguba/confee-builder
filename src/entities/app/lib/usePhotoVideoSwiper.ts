@@ -2,7 +2,7 @@ import { LogicalPosition, PhysicalPosition, WebviewWindow } from '@tauri-apps/ap
 import { useEffect } from 'react';
 
 import { appTypes } from 'entities/app';
-import { useEasyState, useRustServer } from 'shared/hooks';
+import { useEasyState, useRouter, useRustServer } from 'shared/hooks';
 
 import { appStore } from '../index';
 
@@ -13,6 +13,8 @@ type Props = {
 function usePhotoVideoSwiper(props?: Props) {
     const { useWebview, socket } = useRustServer();
     const swiperView = useWebview('photo_video_swiper');
+    const { navigate } = useRouter();
+    const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
 
     useEffect(() => {
         swiperView.listen('close-requested', () => {
@@ -22,9 +24,11 @@ function usePhotoVideoSwiper(props?: Props) {
     }, []);
 
     const show = (data: appTypes.PhotoAndVideoSwiperType) => {
-        swiperView?.view?.show().then(() => {
-            socket.emit('photo_video_swiper', 'photoVideoSwiperData', data);
-        });
+        photoAndVideoFromSwiper.set(data);
+        navigate('/photo_video_swiper');
+        // swiperView?.view?.show().then(() => {
+        //     socket.emit('photo_video_swiper', 'photoVideoSwiperData', data);
+        // });
     };
 
     const close = () => {

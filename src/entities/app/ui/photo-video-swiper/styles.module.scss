@@ -7,6 +7,21 @@
   gap: 12px;
   position: relative;
 
+  .backIcon{
+    @include flex;
+    @include box-size(40px, 40px);
+    border-radius: 50% ;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: var(--control-primary);
+    cursor: pointer;
+    z-index: 100;
+    svg{
+      fill: var(--white);
+    }
+  }
+
   .swiperTop {
     width: 100%;
     flex: 1;

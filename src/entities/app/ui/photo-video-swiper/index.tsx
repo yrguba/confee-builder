@@ -7,6 +7,7 @@ import { useEasyState } from '../../../../shared/hooks';
 import { Button, Card, Icons, Image, Video } from '../../../../shared/ui';
 import VideoPlayer from '../../../../shared/ui/media-content/video';
 import VideoPlayerWithControls from '../../../../shared/ui/media-content/video/ui/with-controls';
+import { appService } from '../../index';
 import { PhotoAndVideoSwiperItemsType, PhotoAndVideoSwiperType } from '../../model/types';
 // Import Swiper styles
 import 'swiper/css';
@@ -16,10 +17,11 @@ import 'swiper/css/thumbs';
 
 type Props = {
     data?: PhotoAndVideoSwiperType;
+    back: () => void;
 };
 
 function PhotoVideoSwiperView(props: Props) {
-    const { data } = props;
+    const { data, back } = props;
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
     const [swiper, setSwiper] = useState<any>(null);
     const [activeIndex, setActiveIndex] = useState<any>(data?.startIndex || 0);
@@ -53,6 +55,11 @@ function PhotoVideoSwiperView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
+            {!appService.tauriIsRunning && (
+                <div className={styles.backIcon} onClick={back}>
+                    <Icons variant="close" />
+                </div>
+            )}
             <Swiper
                 aria-disabled
                 onActiveIndexChange={(e) => {
@@ -87,7 +94,9 @@ function PhotoVideoSwiperView(props: Props) {
                 </div>
                 <div className={styles.actions}>
                     {actions.map((i) => (
-                        <div className={styles.item}>{i.icon}</div>
+                        <div key={i.id} className={styles.item}>
+                            {i.icon}
+                        </div>
                     ))}
                 </div>
                 {multiple && data.type !== 'video' && (
