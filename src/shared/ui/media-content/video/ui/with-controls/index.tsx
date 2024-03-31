@@ -13,16 +13,15 @@ import { Box, Button, Icons, Slider, Title } from '../../../..';
 import { BaseVideoProps } from '../../types';
 
 function VideoPlayerWithControls(props: BaseVideoProps) {
-    const { url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
+    const { clickFull, url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
 
     const { src, isLoading, error } = useFetchMediaContent({ url, name, fileType: 'video' });
-    const isFull = useEasyState(false);
-    const visibleControl = useEasyState(true);
+    const visibleControl = useEasyState(false);
 
     const [video, state, controls, ref] = useVideo(
         <motion.video
-            initial={{ width: isFull.value ? '100%' : '', height: isFull.value ? '100%' : '' }}
-            animate={{ width: isFull.value ? '100%' : '', height: isFull.value ? '100%' : '' }}
+            onMouseEnter={() => visibleControl.set(true)}
+            onMouseLeave={() => visibleControl.set(false)}
             className={styles.video}
             style={{ borderRadius: borderRadius ? 12 : 0 }}
             src={src}
@@ -32,25 +31,10 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
         />
     );
 
-    const idle = useIdle(2000);
-
-    useUpdateEffect(() => {
-        if (isFull.value) {
-            visibleControl.set(!idle);
-        } else {
-            visibleControl.set(true);
-        }
-    }, [idle, isFull]);
-
-    useUpdateEffect(() => {
-        isFull.set(false);
-        controls.pause();
-    }, [reset]);
-
     return (
-        <div className={`${styles.wrapper} ${isFull.value ? styles.wrapper_full : ''}`}>
+        <div className={styles.wrapper}>
             {video}
-            <Box.Animated key={`${isFull.value}`} visible={visibleControl.value} className={styles.controls}>
+            <Box.Animated visible={visibleControl.value} className={styles.controls} onMouseMove={() => visibleControl.set(true)}>
                 <div className={styles.top}>
                     <div className={styles.volume}>
                         <Button.Circle variant="inherit" radius={30} onClick={state.muted ? controls.unmute : controls.mute}>
@@ -62,7 +46,7 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
                         <Icons.Player variant={state.playing ? 'pause' : 'play'} />
                     </Button.Circle>
                     <div className={styles.actions}>
-                        <Button.Circle variant="inherit" radius={30} onClick={isFull.toggle}>
+                        <Button.Circle variant="inherit" radius={30} onClick={clickFull}>
                             <Icons.Player variant="full" />
                         </Button.Circle>
                         <Button.Circle variant="inherit" radius={30}>

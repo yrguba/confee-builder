@@ -5,17 +5,6 @@
   @include flex-column;
   gap: 12px;
 
-  &_full {
-    position: relative;
-
-    .controls {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-  }
-
   .video {
     @include flex(center, flex-end);
     @include box-size(500px, auto);
@@ -23,7 +12,11 @@
   }
 
   .controls {
-    @include box-size(calc(450px - 32px), calc(92px - 32px));
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    @include box-size(500px, calc(92px - 32px));
     background-color: var(--bg-primary);
     border-radius: 12px;
     padding: 16px;

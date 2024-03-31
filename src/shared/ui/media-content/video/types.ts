@@ -14,6 +14,7 @@ export type BaseVideoProps = {
     borderRadius?: boolean;
     reset?: boolean;
     visibleDropdown?: boolean;
+    clickFull?: () => void;
 } & BaseTypes.Statuses;
 
 export type VideoListItem = {
