@@ -13,5 +13,12 @@ export type PhotoAndVideoSwiperItemsType = {
 };
 
 export type PhotoAndVideoSwiperType = {
+    type: 'img' | 'video';
+    startIndex: number;
     items: PhotoAndVideoSwiperItemsType[];
+    description: {
+        title: string;
+        subtitle: string;
+        avatar: string;
+    };
 };

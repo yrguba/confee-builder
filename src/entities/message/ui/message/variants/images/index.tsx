@@ -30,8 +30,13 @@ function ImagesMessage(props: Props) {
         height: '220px',
     }));
 
-    const imgClick = () => {
-        swiper.show({ items: updItems as any });
+    const imgClick = (index: number) => {
+        swiper.show({
+            type: 'img',
+            startIndex: index,
+            items: updItems as any,
+            description: { title: message.authorName || '', subtitle: message.date, avatar: message.authorAvatar },
+        });
     };
 
     return (
