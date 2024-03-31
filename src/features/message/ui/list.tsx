@@ -33,6 +33,7 @@ function MessageList() {
     const replyMessage = messageStore.use.replyMessage();
     const editMessage = messageStore.use.editMessage();
     const forwardMessages = messageStore.use.forwardMessages();
+    const openForwardMessageModal = messageStore.use.openForwardMessageModal();
     const highlightedMessages = messageStore.use.highlightedMessages();
     const voiceRecordingInProgress = messageStore.use.voiceRecordingInProgress();
     const initialPage = messageStore.use.initialPage();
@@ -55,14 +56,13 @@ function MessageList() {
     const { data: messageOrder } = messageApi.handleGetMessageOrder({ chatId, messageId: messageIdToSearchForPage.value });
     const { mutate: handleReadMessage } = messageApi.handleReadMessage();
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
-    const openForwardMessageModal = messageStore.use.openForwardMessageModal();
 
     const initialOpenChat = chatStore.use.initialOpenChat();
 
     const messages = memoUpdateMessages(messageData);
 
     const privateChatProfileModal = Modal.use();
-    const forwardMessagesModal = Modal.use();
+
     const filesToSendModal = Modal.use();
 
     const confirmDeleteMessage = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
@@ -130,19 +130,11 @@ function MessageList() {
         }
     );
 
-    useEffect(() => {
-        if (openForwardMessageModal.value) {
-            forwardMessagesModal.open();
-        } else {
-            forwardMessagesModal.close();
-        }
-    }, [openForwardMessageModal.value]);
-
     return (
         <>
             <FilesToSendModal onClose={clear} modal={filesToSendModal} files={sortByAccept as any} />
             <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
-            <ForwardMessagesModal {...forwardMessagesModal} />
+
             <PrivateChatProfileModal {...privateChatProfileModal} />
             <MessagesListView
                 MessageMenu={MessageMenu}

@@ -31,6 +31,7 @@ function VideoMessage(props: Props) {
 
     const videoClick = (index: number) => {
         swiper.show({
+            message,
             type: 'video',
             startIndex: index,
             items: updItems as any,

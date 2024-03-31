@@ -39,6 +39,6 @@ function usePhotoVideoSwiper(props?: Props) {
         swiperView?.view?.hide();
     };
 
-    return { show, socket };
+    return { show, socket, close };
 }
 export default usePhotoVideoSwiper;

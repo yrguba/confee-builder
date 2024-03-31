@@ -31,7 +31,7 @@ type WebviewEvents =
     | 'update-status'
     | 'update-download-progress';
 
-type Socket = 'photoVideoSwiperData';
+type Socket = 'photoVideoSwiperData' | 'forwardMessage';
 
 function useRustServer() {
     const rustIsRunning = !!window.__TAURI__;

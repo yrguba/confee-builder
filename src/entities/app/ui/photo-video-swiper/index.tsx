@@ -19,10 +19,12 @@ type Props = {
     data?: PhotoAndVideoSwiperType;
     back: () => void;
     downloads: (all: boolean, index: number | null) => void;
+    deleteMessage: () => void;
+    forward: () => void;
 };
 
 function PhotoVideoSwiperView(props: Props) {
-    const { data, back, downloads } = props;
+    const { forward, data, back, downloads, deleteMessage } = props;
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
     const [swiper, setSwiper] = useState<any>(null);
     const [activeIndex, setActiveIndex] = useState<any>(data?.startIndex || 0);
@@ -31,8 +33,8 @@ function PhotoVideoSwiperView(props: Props) {
 
     const actions = [
         { id: 0, icon: <Icons variant="upload" />, onClick: () => visibleContextMenu.set(true) },
-        { id: 1, icon: <Icons variant="redirect" /> },
-        { id: 1, icon: <Icons variant="delete" /> },
+        { id: 1, icon: <Icons variant="redirect" />, onClick: forward },
+        { id: 1, icon: <Icons variant="delete" />, onClick: deleteMessage },
     ];
 
     const contextMenuItems = [

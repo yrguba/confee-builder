@@ -32,6 +32,7 @@ function ImagesMessage(props: Props) {
 
     const imgClick = (index: number) => {
         swiper.show({
+            message,
             type: 'img',
             startIndex: index,
             items: updItems as any,

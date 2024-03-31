@@ -1,3 +1,5 @@
+import { MessageProxy } from '../../message/model/types';
+
 export type SocketIn = 'UWS_CLIENT_IDENTIFICATION';
 
 export type NetworkState = {
@@ -14,6 +16,7 @@ export type PhotoAndVideoSwiperItemsType = {
 };
 
 export type PhotoAndVideoSwiperType = {
+    message?: MessageProxy;
     type: 'img' | 'video';
     startIndex: number;
     items: PhotoAndVideoSwiperItemsType[];

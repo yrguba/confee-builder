@@ -74,9 +74,9 @@ function MessageInputView(props: Props) {
         if (forwardMessages?.value?.messages?.length) {
             const { messages } = forwardMessages.value;
             const uniqueUsers = getUniqueArr(messages, 'authorName');
-            if (uniqueUsers.length === 1) return uniqueUsers[0].authorName;
-            if (uniqueUsers.length === 2) return `${uniqueUsers[0].authorName} и ${uniqueUsers[1].authorName}`;
-            if (uniqueUsers.length > 3) return `${uniqueUsers[0].authorName}, ${uniqueUsers[1].authorName} и ${messages.length - 2} других`;
+            if (uniqueUsers.length === 1) return uniqueUsers[0]?.authorName;
+            if (uniqueUsers.length === 2) return `${uniqueUsers[0]?.authorName} и ${uniqueUsers[1]?.authorName}`;
+            if (uniqueUsers.length > 3) return `${uniqueUsers[0]?.authorName}, ${uniqueUsers[1]?.authorName} и ${messages.length - 2} других`;
         }
     };
 

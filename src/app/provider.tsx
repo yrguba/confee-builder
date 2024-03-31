@@ -1,15 +1,17 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { WebviewWindow } from '@tauri-apps/api/window';
 import { set } from 'idb-keyval';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { appService } from '../entities/app';
 import usePhotoVideoSwiper from '../entities/app/lib/usePhotoVideoSwiper';
 import { chatApi, chatGateway, chatStore } from '../entities/chat';
 import { meetGateway, meetStore, useMeet } from '../entities/meet';
-import { messageGateway } from '../entities/message';
+import { messageGateway, messageStore } from '../entities/message';
 import { userGateway } from '../entities/user';
+import { ForwardMessagesModal } from '../features/message';
 import { useEffectOnce, useRecognizeSpeech, useRouter, useRustServer, useStorage, useWebSocket } from '../shared/hooks';
+import { Modal } from '../shared/ui';
 
 function Provider({ children }: { children: any }) {
     useRecognizeSpeech();
@@ -21,8 +23,12 @@ function Provider({ children }: { children: any }) {
 
     const chatSubscription = chatStore.use.chatSubscription();
     const invitationToConference = meetStore.use.invitationToConference();
-
+    const forwardMessages = messageStore.use.forwardMessages();
+    const openForwardMessageModal = messageStore.use.openForwardMessageModal();
+    const forwardMessagesModal = Modal.use();
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
+
+    const { socket } = usePhotoVideoSwiper();
 
     useEffect(() => {
         if (invitationToConference.value?.id && !ls.get('by_meet') && !ls.get('join_meet_data')) {
@@ -46,6 +52,14 @@ function Provider({ children }: { children: any }) {
         }
     }, [navigate]);
 
+    useEffect(() => {
+        socket.listen<any>('photo_video_swiper', 'forwardMessage', (message) => {
+            console.log(message);
+            forwardMessages.set({ fromChatName: 'fef', toChatId: message.chat_id, messages: [message], redirect: false });
+            openForwardMessageModal.set(true);
+        });
+    }, []);
+
     useEffectOnce(() => {
         const { onMessage } = useWebSocket();
         onMessage((data) => {
@@ -56,7 +70,20 @@ function Provider({ children }: { children: any }) {
         });
     });
 
-    return children;
+    useEffect(() => {
+        if (openForwardMessageModal.value) {
+            forwardMessagesModal.open();
+        } else {
+            forwardMessagesModal.close();
+        }
+    }, [openForwardMessageModal.value]);
+
+    return (
+        <>
+            <ForwardMessagesModal {...forwardMessagesModal} />
+            {children}
+        </>
+    );
 }
 
 export default Provider;
