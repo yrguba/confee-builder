@@ -78,7 +78,13 @@ function PhotoVideoSwiperView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <ContextMenu clickAway={() => visibleContextMenu.set(false)} trigger="mouseup" visible={visibleContextMenu.value} items={contextMenuItems} />
+            <ContextMenu
+                reverseY
+                clickAway={() => visibleContextMenu.set(false)}
+                trigger="mouseup"
+                visible={visibleContextMenu.value}
+                items={contextMenuItems}
+            />
             {!appService.tauriIsRunning && (
                 <div className={styles.backIcon} onClick={back}>
                     <Icons variant="close" />
