@@ -18,6 +18,13 @@
     }
   }
 
+  .full{
+    height: 100vh;
+    width: 100vw;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+  }
+
   .modal {
     @include flex-column(space-between);
     //min-width: 350px;
@@ -69,6 +76,10 @@
       overflow-y: auto;
       @include height-from(sm){
         max-height: calc(100vh - 50px);
+      }
+
+      &_full{
+        max-height: 100% !important;
       }
     }
   }

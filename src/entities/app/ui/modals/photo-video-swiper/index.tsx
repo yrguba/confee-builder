@@ -3,12 +3,12 @@ import { FreeMode, Navigation, Thumbs } from 'swiper';
 import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 
 import styles from './styles.module.scss';
-import { useEasyState, useFs } from '../../../../shared/hooks';
-import { Button, Card, ContextMenu, Icons, Image, Video } from '../../../../shared/ui';
-import VideoPlayer from '../../../../shared/ui/media-content/video';
-import VideoPlayerWithControls from '../../../../shared/ui/media-content/video/ui/with-controls';
-import { appService } from '../../index';
-import { PhotoAndVideoSwiperType } from '../../model/types';
+import { useEasyState, useFs } from '../../../../../shared/hooks';
+import { Button, Card, ContextMenu, Icons, Image, Video } from '../../../../../shared/ui';
+import VideoPlayer from '../../../../../shared/ui/media-content/video';
+import VideoPlayerWithControls from '../../../../../shared/ui/media-content/video/ui/with-controls';
+import { appService } from '../../../index';
+import { PhotoAndVideoSwiperType } from '../../../model/types';
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -17,14 +17,14 @@ import 'swiper/css/thumbs';
 
 type Props = {
     data?: PhotoAndVideoSwiperType;
-    back: () => void;
+    close: () => void;
     downloads: (all: boolean, index: number | null) => void;
     deleteMessage: () => void;
     forward: () => void;
 };
 
 function PhotoVideoSwiperView(props: Props) {
-    const { forward, data, back, downloads, deleteMessage } = props;
+    const { forward, data, close, downloads, deleteMessage } = props;
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
     const [swiper, setSwiper] = useState<any>(null);
     const [activeIndex, setActiveIndex] = useState<any>(data?.startIndex || 0);
@@ -77,7 +77,7 @@ function PhotoVideoSwiperView(props: Props) {
     const multiple = data?.items?.length && data.items.length > 1;
 
     return (
-        <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
+        <div className={styles.wrapper}>
             <ContextMenu
                 reverseY
                 clickAway={() => visibleContextMenu.set(false)}
@@ -85,11 +85,9 @@ function PhotoVideoSwiperView(props: Props) {
                 visible={visibleContextMenu.value}
                 items={contextMenuItems}
             />
-            {!appService.tauriIsRunning && (
-                <div className={styles.backIcon} onClick={back}>
-                    <Icons variant="close" />
-                </div>
-            )}
+            <div className={styles.closeIcon} onClick={close}>
+                <Icons variant="close" />
+            </div>
             <Swiper
                 onActiveIndexChange={(e) => {
                     setActiveIndex(e.activeIndex);

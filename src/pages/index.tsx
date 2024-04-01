@@ -13,7 +13,6 @@ import { webView } from 'features/auth';
 import initialFillingProfilePageRouters from './initial-filling-profile';
 import mainRoutes from './main';
 import meetPageRouters from './meet';
-import photoVideoSwiperPageRouters from './photo-video-swiper';
 import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
 import { appService } from '../entities/app';
@@ -40,7 +39,6 @@ function Routing() {
             <AnimatePresence mode="wait">
                 <Network />
                 <Routes location={location} key={location.pathname.split('/')[1]}>
-                    {photoVideoSwiperPageRouters}
                     {mainRoutes}
                     {meetPageRouters}
                     {initialFillingProfilePageRouters}

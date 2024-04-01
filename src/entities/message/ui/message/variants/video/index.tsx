@@ -5,7 +5,7 @@ import { Box, Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useEasyState } from '../../../../../../shared/hooks';
-import usePhotoVideoSwiper from '../../../../../app/lib/usePhotoVideoSwiper';
+import { appStore } from '../../../../../app';
 import { MessageProxy } from '../../../../model/types';
 import Info from '../../info';
 
@@ -15,8 +15,7 @@ type Props = {
 
 function VideoMessage(props: Props) {
     const { message } = props;
-
-    const swiper = usePhotoVideoSwiper();
+    const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
 
     const visibleInfo = useEasyState(false);
 
@@ -30,7 +29,7 @@ function VideoMessage(props: Props) {
     }));
 
     const videoClick = (index: number) => {
-        swiper.show({
+        photoAndVideoFromSwiper.set({
             message,
             type: 'video',
             startIndex: index,

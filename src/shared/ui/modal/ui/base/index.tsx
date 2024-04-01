@@ -9,7 +9,7 @@ import styles from './styles.module.scss';
 import { BaseModalProps } from '../../model/types';
 
 function Modal(props: BaseModalProps) {
-    const { centered = true, isOpen, close, children, onClose, closeIcon = true, open } = props;
+    const { full, centered = true, isOpen, close, children, onClose, closeIcon = true, open } = props;
     const modal_root = document.querySelector('#modal-root');
 
     const closeClick = () => {
@@ -23,18 +23,20 @@ function Modal(props: BaseModalProps) {
         }
     }, [isOpen]);
 
-    const classes = useStyles(styles, 'modal');
+    const classes = useStyles(styles, 'modal', {
+        full,
+    });
 
     return modal_root
         ? ReactDOM.createPortal(
               <Box.Animated visible={isOpen} presence className={`${styles.mask} ${!centered ? styles.mask_top : ''}`}>
                   <div className={classes} onClick={(e) => e.stopPropagation()}>
-                      {closeIcon && (
+                      {closeIcon && !full && (
                           <div className={styles.closeIcon} onClick={closeClick}>
                               <Icons variant="close" />
                           </div>
                       )}
-                      <div className={styles.content}>{isOpen && children}</div>
+                      <div className={`${styles.content} ${full ? styles.content_full : ''}`}>{isOpen && children}</div>
                   </div>
               </Box.Animated>,
               modal_root

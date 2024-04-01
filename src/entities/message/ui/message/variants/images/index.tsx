@@ -5,7 +5,7 @@ import { BaseTypes } from 'shared/types';
 import { Box, Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import usePhotoVideoSwiper from '../../../../../app/lib/usePhotoVideoSwiper';
+import { appStore } from '../../../../../app';
 import { MessageProxy } from '../../../../model/types';
 import Info from '../../info';
 
@@ -15,9 +15,7 @@ type Props = {
 
 function ImagesMessage(props: Props) {
     const { message } = props;
-
-    const swiper = usePhotoVideoSwiper();
-
+    const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
     const visibleInfo = useEasyState(false);
 
     const images = message.files.length ? message.files : message.forwarded_from_message?.files;
@@ -31,7 +29,7 @@ function ImagesMessage(props: Props) {
     }));
 
     const imgClick = (index: number) => {
-        swiper.show({
+        photoAndVideoFromSwiper.set({
             message,
             type: 'img',
             startIndex: index,

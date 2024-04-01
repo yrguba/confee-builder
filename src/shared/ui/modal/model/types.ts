@@ -18,6 +18,7 @@ export type BaseModalProps = {
     onClose?: () => void;
     closeIcon?: boolean;
     centered?: boolean;
+    full?: boolean;
 } & UseReturnedType &
     BaseTypes.Statuses;
 
