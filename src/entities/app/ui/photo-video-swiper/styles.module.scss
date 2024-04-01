@@ -62,12 +62,15 @@
     }
 
     .swiperContainer {
-
+      @include flex;
+      width: 300px;
+      max-width: 90%;
       .swiperBottom {
         @include flex;
         gap: 6px;
         height: 80px;
         width: 100%;
+
 
         .sliderBottom {
           @include flex;

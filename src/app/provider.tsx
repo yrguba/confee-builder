@@ -32,9 +32,6 @@ function Provider({ children }: { children: any }) {
     const { socket, create, close } = usePhotoVideoSwiper();
 
     useEffect(() => {
-        if (tokensService.checkAuth()) {
-            create();
-        }
         socket.listen<any>('photo_video_swiper', 'forwardMessage', (message) => {
             forwardMessages.set({ fromChatName: 'fef', toChatId: message.chat_id, messages: [message], redirect: false });
             openForwardMessageModal.set(true);

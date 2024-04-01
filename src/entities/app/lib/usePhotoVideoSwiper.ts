@@ -19,24 +19,27 @@ function usePhotoVideoSwiper(props?: Props) {
 
     useEffect(() => {
         swiperView.listen('close-requested', () => {
-            swiperView.view?.hide();
+            swiperView.close();
+            // swiperView.view?.hide();
             props?.onClose();
         });
     }, []);
 
     const show = (data: appTypes.PhotoAndVideoSwiperType) => {
         photoAndVideoFromSwiper.set(data);
+        console.log(swiperView?.view);
         if (rustIsRunning) {
-            swiperView?.view?.show().then(() => {
-                socket.emit('photo_video_swiper', 'photoVideoSwiperData', data);
-            });
+            swiperView.create({ url: '/photo_video_swiper', title: 'Просмотр медиа' }, !photoAndVideoFromSwiper.value);
+            // swiperView?.view?.show().then(() => {
+            //     socket.emit('photo_video_swiper', 'photoVideoSwiperData', data);
+            // });
         } else {
             navigate('/photo_video_swiper');
         }
     };
 
     const create = () => {
-        swiperView.create({ url: '/photo_video_swiper', title: 'Просмотр медиа', transparent: true });
+        swiperView.create({ url: '/photo_video_swiper', title: 'Просмотр медиа' }, !photoAndVideoFromSwiper.value);
     };
 
     const close = () => {

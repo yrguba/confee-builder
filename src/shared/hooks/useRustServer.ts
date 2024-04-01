@@ -58,11 +58,15 @@ function useRustServer() {
             }
         };
 
-        const create = (props: WindowOptions) => {
+        const create = (props: WindowOptions, hidden?: boolean) => {
+            if (!rustIsRunning) return null;
             const webview = new WebviewWindow(label, { ...props, minHeight: 600, minWidth: 600 });
-            setTimeout(() => {
-                webview.hide();
-            }, 0);
+            // console.log(webview);
+            // if (hidden) {
+            //     setTimeout(() => {
+            //         webview.hide();
+            //     }, 0);
+            // }
         };
 
         const open = async (props: { path: string; title?: string }) => {

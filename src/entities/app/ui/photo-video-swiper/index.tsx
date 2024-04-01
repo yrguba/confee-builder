@@ -77,7 +77,7 @@ function PhotoVideoSwiperView(props: Props) {
     const multiple = data?.items?.length && data.items.length > 1;
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
             <ContextMenu
                 reverseY
                 clickAway={() => visibleContextMenu.set(false)}
