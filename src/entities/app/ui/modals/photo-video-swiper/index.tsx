@@ -27,8 +27,8 @@ function PhotoVideoSwiperView(props: Props) {
     const fullScreen = useEasyState(false);
     const visibleContextMenu = useEasyState(false);
 
-    const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView();
-    const { ref: lastItemRef, inView: inViewLastItemRef } = useInView();
+    const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
+    const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
 
     const actions = [
         { id: 0, icon: <Icons variant="upload" />, onClick: () => visibleContextMenu.set(true) },
@@ -131,9 +131,9 @@ function PhotoVideoSwiperView(props: Props) {
                 </div>
             )}
             <div className={`${styles.footer} ${fullScreen.value ? styles.footer_hidden : ''}`}>
-                <div className={styles.card}>
-                    <Card title={data?.description.title} subtitle={data?.description.subtitle} img={data?.description.avatar} />
-                </div>
+                {/* <div className={styles.card}> */}
+                {/*    <Card title={data?.description.title} subtitle={data?.description.subtitle} img={data?.description.avatar} /> */}
+                {/* </div> */}
                 <div className={styles.actions}>
                     {actions.map((i) => (
                         <div key={i.id} className={styles.item} onClick={i.onClick}>

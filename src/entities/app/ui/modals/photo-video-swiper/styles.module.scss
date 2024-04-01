@@ -94,7 +94,7 @@
       @include flex;
       //max-width: calc(70% + 30px);
       position: relative;
-      max-width: 70%;
+      max-width: 90%;
 
       .swiper {
         @include flex(flex-start);
@@ -123,7 +123,7 @@
         cursor: pointer;
         position: absolute;
         top: 40%;
-        left: -30px;
+        left: -26px;
         z-index: 100;
       }
 
@@ -131,7 +131,7 @@
         cursor: pointer;
         position: absolute;
         top: 40%;
-        right: -30px;
+        right: -26px;
         z-index: 100;
       }
     }
