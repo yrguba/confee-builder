@@ -33,7 +33,7 @@ function ForwardMessage(props: Props) {
             <div className={styles.content}>
                 <div className={styles.description}>
                     <Title textAlign="left" active variant={nameTitleVariant}>
-                        {`Переслано от ${message.authorName}`}
+                        {`Переслано от ${message.proxy_forwarded_from_message?.authorName}`}
                     </Title>
                 </div>
                 <div className={styles.body}>

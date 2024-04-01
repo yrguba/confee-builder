@@ -69,6 +69,7 @@ export type MessageProxy = {
     sending: boolean;
     sendingError: boolean;
     replyProxy: MessageProxy;
+    proxy_forwarded_from_message: MessageProxy | null;
 } & Message;
 
 export type VoiceEvents = 'start' | 'send' | 'stop' | 'cancel';

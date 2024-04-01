@@ -22,6 +22,10 @@ function messageProxy(data: { prevMessage?: Message | null; message: Message; ne
                     if (!data.prevMessage || data.prevMessage.type === 'system') return true;
                     return target?.author?.id !== data.prevMessage?.author?.id;
 
+                case 'proxy_forwarded_from_message':
+                    if (!target.forwarded_from_message) return true;
+                    return messageProxy({ message: target.forwarded_from_message });
+
                 case 'lastMessageInBlock':
                     if (!data.nextMessage) return true;
                     if (target.isMock) return false;
