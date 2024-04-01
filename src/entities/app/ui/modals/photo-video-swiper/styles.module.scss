@@ -46,7 +46,7 @@
 
   .footer {
     @include flex-column;
-    gap: 12px;
+    gap: 18px;
     width: 100%;
     position: relative;
     margin: 20px 0;
@@ -64,10 +64,11 @@
 
     .swiperContainer {
       @include flex;
-      width: 300px;
-      max-width: 90%;
+      max-width: 80%;
+
       .swiperBottom {
         @include flex;
+
         gap: 6px;
         height: 80px;
         width: 100%;

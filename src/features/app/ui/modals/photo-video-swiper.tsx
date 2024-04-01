@@ -51,6 +51,7 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
                 redirect: true,
             });
             openForwardMessageModal.set(true);
+            photoAndVideoFromSwiper.clear();
         }
     };
 

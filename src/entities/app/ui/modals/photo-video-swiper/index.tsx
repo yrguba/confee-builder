@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useWindowSize } from 'react-use';
 import { FreeMode, Navigation, Thumbs } from 'swiper';
 import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 
@@ -9,7 +10,6 @@ import VideoPlayer from '../../../../../shared/ui/media-content/video';
 import VideoPlayerWithControls from '../../../../../shared/ui/media-content/video/ui/with-controls';
 import { appService } from '../../../index';
 import { PhotoAndVideoSwiperType } from '../../../model/types';
-
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
