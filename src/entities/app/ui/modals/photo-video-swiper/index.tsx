@@ -34,7 +34,7 @@ function PhotoVideoSwiperView(props: Props) {
     const actions = [
         { id: 0, icon: <Icons variant="upload" />, onClick: () => visibleContextMenu.set(true) },
         { id: 1, icon: <Icons variant="redirect" />, onClick: forward },
-        { id: 1, icon: <Icons variant="delete" />, onClick: deleteMessage },
+        { id: 2, icon: <Icons variant="delete" />, onClick: deleteMessage },
     ];
 
     const contextMenuItems = [
@@ -72,7 +72,7 @@ function PhotoVideoSwiperView(props: Props) {
 
     useEffect(() => {
         swiper?.slideTo(data?.startIndex || 0);
-    }, [data?.startIndex]);
+    }, [data?.startIndex, swiper]);
 
     const multiple = data?.items?.length && data.items.length > 1;
 

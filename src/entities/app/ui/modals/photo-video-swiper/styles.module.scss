@@ -4,9 +4,9 @@
   @include flex-column(flex-start);
   @include box-size(100%, 100%);
   background-color: rgb(0,0,0,0.8);
-
   gap: 12px;
   position: relative;
+  min-height: 100vh;
 
   .closeIcon{
     @include flex;
