@@ -113,6 +113,21 @@ function messageGateway({ event, data }: Socket, queryClient: any) {
                     });
                 });
             });
+        case 'MessagesDeleted':
+            return ['all', 'personal', `for-company/18`].forEach((i) =>
+                queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                    if (!cacheData?.pages?.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        if (draft?.pages?.length) {
+                            draft?.pages.forEach((page: any) => {
+                                if (page?.data?.data.length) {
+                                    page.data.data = page.data?.data.filter((msg: MessageProxy) => !data?.messageIds?.includes(msg.id));
+                                }
+                            });
+                        }
+                    });
+                })
+            );
 
         case 'Typing':
             const fn = (name: string | null) => {

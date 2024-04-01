@@ -13,6 +13,7 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
 
     const dataInLs = localStorage.getItem('photoVideoSwiperData');
 
+    const messagesForDelete = messageStore.use.messagesForDelete();
     const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
     const forwardMessages = messageStore.use.forwardMessages();
     const openForwardMessageModal = messageStore.use.openForwardMessageModal();
@@ -50,15 +51,20 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
         }
     };
 
+    const deleteMessage = () => {
+        if (photoAndVideoFromSwiper?.value?.message) {
+            messagesForDelete.set([photoAndVideoFromSwiper.value.message]);
+        }
+    };
+
     return (
         <>
-            <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
             <PhotoVideoSwiperView
                 close={photoAndVideoFromSwiper.clear}
                 forward={forward}
                 data={photoAndVideoFromSwiper.value}
                 downloads={downloads}
-                deleteMessage={confirmDeleteMessage.open}
+                deleteMessage={deleteMessage}
             />
         </>
     );

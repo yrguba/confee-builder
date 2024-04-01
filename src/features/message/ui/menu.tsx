@@ -23,6 +23,7 @@ function MessageMenu(props: MessageMenuProps) {
 
     const proxyChat = chatProxy(chatData?.data.data);
 
+    const messagesForDelete = messageStore.use.messagesForDelete();
     const replyMessage = messageStore.use.replyMessage();
     const editMessage = messageStore.use.editMessage();
     const forwardMessages = messageStore.use.forwardMessages();
@@ -37,7 +38,8 @@ function MessageMenu(props: MessageMenuProps) {
     const notification = Notification.use();
 
     const confirmDeleteMessage = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
-        value && callbackData && handleDeleteMessage({ chatId, messageIds: [callbackData.messageId], fromAll: true });
+        console.log('callbackData', callbackData);
+        // value && callbackData && handleDeleteMessage({ chatId, messageIds: [callbackData.messageId], fromAll: true });
     });
 
     const messageMenuAction = (action: messageTypes.MessageMenuActions, message: messageTypes.MessageProxy) => {
@@ -64,7 +66,8 @@ function MessageMenu(props: MessageMenuProps) {
                 forwardMessages.set({ fromChatName: chatData?.data.data.name || '', toChatId: null, messages: [message], redirect: false });
                 return openForwardMessageModal.set(true);
             case 'delete':
-                return confirmDeleteMessage.open({ messageId: message.id });
+                messagesForDelete.set([message]);
+                return menuMessageId.set(null);
             case 'highlight':
                 menuMessageId.set(null);
                 return highlightedMessages.set([...highlightedMessages.value, message]);
@@ -79,7 +82,6 @@ function MessageMenu(props: MessageMenuProps) {
 
     return (
         <>
-            <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
             <MessageMenuView downloadFileType={downloadFile.value?.fileType} chat={proxyChat} message={props.message} messageMenuAction={messageMenuAction} />
         </>
     );

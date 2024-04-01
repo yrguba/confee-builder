@@ -10,6 +10,7 @@ import { useRouter, useLifecycles, createMemo, useEasyState, useFileUploader, us
 import { Modal } from 'shared/ui';
 
 import MessageMenu from './menu';
+import { appStore } from '../../../entities/app';
 import PrivateChatProfileModal from '../../chat/ui/modals/profile/private';
 import { FilesToSendModal, ForwardMessagesModal } from '../index';
 
@@ -29,7 +30,9 @@ function MessageList() {
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
 
     const chatSubscription = chatStore.use.chatSubscription();
+    const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
 
+    const messagesForDelete = messageStore.use.messagesForDelete();
     const replyMessage = messageStore.use.replyMessage();
     const editMessage = messageStore.use.editMessage();
     const forwardMessages = messageStore.use.forwardMessages();
@@ -65,8 +68,11 @@ function MessageList() {
 
     const filesToSendModal = Modal.use();
 
-    const confirmDeleteMessage = Modal.useConfirm<{ messageId: number }>((value, callbackData) => {
-        value && callbackData && handleDeleteMessage({ chatId, messageIds: [callbackData.messageId], fromAll: true });
+    const confirmDeleteMessage = Modal.useConfirm<{ messageId: number }>((value) => {
+        if (value) {
+            handleDeleteMessage({ chatId, messageIds: messagesForDelete.value.map((i) => i.id), fromAll: true });
+            photoAndVideoFromSwiper.clear();
+        }
     });
 
     const { sortByAccept, clear, dropContainerRef } = useFileUploader({
@@ -129,6 +135,14 @@ function MessageList() {
             editMessage.clear();
         }
     );
+
+    useUpdateEffect(() => {
+        if (messagesForDelete.value) {
+            confirmDeleteMessage.open();
+        } else {
+            confirmDeleteMessage.close();
+        }
+    }, [messagesForDelete.value]);
 
     return (
         <>

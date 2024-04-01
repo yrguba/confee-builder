@@ -5,6 +5,7 @@ import { MediaContentType, Message, MessageProxy, MessageWithChatGpt } from './t
 type Store = {
     replyMessage: MessageProxy;
     editMessage: MessageProxy;
+    messagesForDelete: MessageProxy[];
     forwardMessages?: { fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean };
     highlightedMessages: MessageProxy[];
     voiceRecordingInProgress: boolean;
@@ -27,6 +28,7 @@ type Methods = {
 
 const messageStore = useZustand<Store, Methods>({
     keys: [
+        'messagesForDelete',
         'voiceRecordingInProgress',
         'visibleSearchMessages',
         'initialPage',
