@@ -89,11 +89,8 @@ function BaseIcons(props: BaseIconsProps) {
         }
         case 'arrow-drop-left': {
             return (
-                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12">
-                    <path
-                        fill="#7B57C8"
-                        d="M6.71.71c.39.39.39 1.02 0 1.41L2.83 6l3.88 3.88a.996.996 0 11-1.41 1.41L.71 6.7a.996.996 0 010-1.41L5.3.7C5.68.32 6.32.32 6.71.71z"
-                    />
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" fill="white" />
                 </svg>
             );
         }
@@ -565,7 +562,7 @@ function BaseIcons(props: BaseIconsProps) {
         case 'arrow-drop-right': {
             return (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.29006 6.71027C8.90006 7.10027 8.90006 7.73027 9.29006 8.12027L13.1701 12.0003L9.29006 15.8803C8.90006 16.2703 8.90006 16.9003 9.29006 17.2903C9.68006 17.6803 10.3101 17.6803 10.7001 17.2903L15.2901 12.7003C15.6801 12.3103 15.6801 11.6803 15.2901 11.2903L10.7001 6.70027C10.3201 6.32027 9.68006 6.32027 9.29006 6.71027Z" />
+                    <path d="M8 22L18 12L8 2L6.225 3.775L14.45 12L6.225 20.225L8 22Z" fill="white" />
                 </svg>
             );
         }

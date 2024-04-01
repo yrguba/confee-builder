@@ -13,13 +13,14 @@ import { Box, Button, Icons, Slider, Title } from '../../../..';
 import { BaseVideoProps } from '../../types';
 
 function VideoPlayerWithControls(props: BaseVideoProps) {
-    const { pause, clickFull, url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
+    const { autoPlay, clickFull, url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
 
     const { src, isLoading, error } = useFetchMediaContent({ url, name, fileType: 'video' });
     const visibleControl = useEasyState(false);
 
     const [video, state, controls, ref] = useVideo(
         <motion.video
+            autoPlay={autoPlay}
             onMouseEnter={() => visibleControl.set(true)}
             onMouseLeave={() => visibleControl.set(false)}
             className={styles.video}
@@ -30,12 +31,6 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
             }}
         />
     );
-
-    useEffect(() => {
-        if (pause) {
-            controls.pause();
-        }
-    }, [pause]);
 
     return (
         <div className={styles.wrapper}>

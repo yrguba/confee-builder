@@ -60,7 +60,6 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
                 downloads={downloads}
                 deleteMessage={confirmDeleteMessage.open}
             />
-            ;
         </>
     );
 }
