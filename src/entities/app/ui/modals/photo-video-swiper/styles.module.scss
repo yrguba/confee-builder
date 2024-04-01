@@ -37,6 +37,19 @@
     svg {
       fill: var(--white);
     }
+
+    .btn {
+      @include flex;
+      height: 100%;
+      width: 50px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.5s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 
   .fullScreen {
@@ -72,7 +85,7 @@
       bottom: 10px;
       left: 20px;
 
-      @include width-to(md){
+      @include width-to(md) {
         display: none;
       }
     }

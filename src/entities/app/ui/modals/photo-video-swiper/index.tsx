@@ -1,13 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { mergeRefs } from 'react-merge-refs';
-import { useUpdateEffect, useWindowSize } from 'react-use';
+
+import { useEasyState, useInView } from 'shared/hooks';
+import { Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
+import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-controls';
 
 import styles from './styles.module.scss';
-import { useEasyState, useFs, useInView } from '../../../../../shared/hooks';
-import { Button, Card, ContextMenu, Icons, Image, Video } from '../../../../../shared/ui';
-import VideoPlayer from '../../../../../shared/ui/media-content/video';
-import VideoPlayerWithControls from '../../../../../shared/ui/media-content/video/ui/with-controls';
-import { appService } from '../../../index';
 import { PhotoAndVideoSwiperType, PhotoAndVideoSwiperItemsType } from '../../../model/types';
 
 type Props = {
@@ -111,9 +109,9 @@ function PhotoVideoSwiperView(props: Props) {
                 <Icons variant="close" />
             </div>
             <div className={styles.swiperTop} style={{ margin: fullScreen.value ? '0' : '20px 0', height: `calc(100% - ${multiple ? '230px' : '130px'})` }}>
-                <Button.Circle onClick={prevSlide} variant="inherit">
+                <div className={styles.btn} onClick={prevSlide}>
                     {multiple && <Icons variant="arrow-drop-left" />}
-                </Button.Circle>
+                </div>
 
                 {activeItem.value && (
                     <div className={styles.slideTop}>
@@ -123,9 +121,9 @@ function PhotoVideoSwiperView(props: Props) {
                         )}
                     </div>
                 )}
-                <Button.Circle onClick={nextSlide} variant="inherit">
+                <div className={styles.btn} onClick={nextSlide}>
                     {multiple && <Icons variant="arrow-drop-right" />}
-                </Button.Circle>
+                </div>
             </div>
             {data?.type === 'img' && (
                 <div className={styles.fullScreen} style={{ bottom: fullScreen.value ? 30 : 290 }} onClick={fullScreen.toggle}>
@@ -146,7 +144,7 @@ function PhotoVideoSwiperView(props: Props) {
                 {multiple && (
                     <div className={styles.swiperContainer}>
                         {!inViewFirsItemRef && (
-                            <div className={styles.btnLeft} onClick={() => scroll(-80)}>
+                            <div className={styles.btnLeft} onClick={() => scroll(-220)}>
                                 <Icons variant="arrow-drop-left" />
                             </div>
                         )}
@@ -175,7 +173,7 @@ function PhotoVideoSwiperView(props: Props) {
                         </div>
 
                         {!inViewLastItemRef && (
-                            <div className={styles.btnRight} onClick={() => scroll(80)}>
+                            <div className={styles.btnRight} onClick={() => scroll(220)}>
                                 <Icons variant="arrow-drop-right" />
                             </div>
                         )}
