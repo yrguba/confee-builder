@@ -29,17 +29,12 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
         }
     });
 
-    const downloads = (all: boolean, index: number | null) => {
-        if (all) {
-            Promise.all(
-                photoAndVideoFromSwiper.value.items.map(async (i: any) => {
-                    fs.downLoadAndSave({ baseDir: 'download', url: i.url, fileName: i.name, progressCallback: (percent) => '' });
-                })
-            );
-        } else {
-            const found = photoAndVideoFromSwiper.value.items.find((i: any, ind: number) => ind === index);
-            found && fs.downLoadAndSave({ baseDir: 'download', url: found.url, fileName: found.name, progressCallback: (percent) => '' });
-        }
+    const downloads = (items: any) => {
+        Promise.all(
+            items.map(async (i: any) => {
+                fs.downLoadAndSave({ baseDir: 'download', url: i.url, fileName: i.name, progressCallback: (percent) => '' });
+            })
+        );
     };
 
     const forward = () => {

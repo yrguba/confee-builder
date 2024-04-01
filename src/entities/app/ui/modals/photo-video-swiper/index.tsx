@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
-import { FreeMode, Navigation, Thumbs } from 'swiper';
-import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 
 import styles from './styles.module.scss';
 import { useEasyState, useFs } from '../../../../../shared/hooks';
@@ -9,25 +7,20 @@ import { Button, Card, ContextMenu, Icons, Image, Video } from '../../../../../s
 import VideoPlayer from '../../../../../shared/ui/media-content/video';
 import VideoPlayerWithControls from '../../../../../shared/ui/media-content/video/ui/with-controls';
 import { appService } from '../../../index';
-import { PhotoAndVideoSwiperType } from '../../../model/types';
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
+import { PhotoAndVideoSwiperType, PhotoAndVideoSwiperItemsType } from '../../../model/types';
 
 type Props = {
     data?: PhotoAndVideoSwiperType;
     close: () => void;
-    downloads: (all: boolean, index: number | null) => void;
+    downloads: (items: any) => void;
     deleteMessage: () => void;
     forward: () => void;
 };
 
 function PhotoVideoSwiperView(props: Props) {
     const { forward, data, close, downloads, deleteMessage } = props;
-    const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-    const [swiper, setSwiper] = useState<any>(null);
-    const [activeIndex, setActiveIndex] = useState<any>(data?.startIndex || 0);
+
+    const activeItem = useEasyState<PhotoAndVideoSwiperItemsType | null>(null);
     const fullScreen = useEasyState(false);
     const visibleContextMenu = useEasyState(false);
 
@@ -42,7 +35,7 @@ function PhotoVideoSwiperView(props: Props) {
             id: 0,
             title: 'Все фото',
             callback: () => {
-                downloads(true, null);
+                downloads(data?.items);
                 visibleContextMenu.set(false);
             },
         },
@@ -50,30 +43,31 @@ function PhotoVideoSwiperView(props: Props) {
             id: 1,
             title: 'Только это',
             callback: () => {
-                downloads(true, activeIndex);
+                downloads(activeItem.value);
                 visibleContextMenu.set(false);
             },
         },
     ];
 
-    const onSwiper = (swiper: SwiperClass) => {
-        setSwiper(swiper);
-        swiper
-            ? window.addEventListener('keydown', function (event) {
-                  switch (event.code) {
-                      case 'ArrowRight':
-                          return swiper?.slideNext(400);
-                      case 'ArrowLeft':
-                          return swiper?.slidePrev(400);
-                  }
-              })
-            : window.removeEventListener('keydown', () => '');
-    };
-
+    // const onSwiper = (swiper: SwiperClass) => {
+    //     setSwiper(swiper);
+    //     swiper
+    //         ? window.addEventListener('keydown', function (event) {
+    //               switch (event.code) {
+    //                   case 'ArrowRight':
+    //                       return swiper?.slideNext(400);
+    //                   case 'ArrowLeft':
+    //                       return swiper?.slidePrev(400);
+    //               }
+    //           })
+    //         : window.removeEventListener('keydown', () => '');
+    // };
+    //
     useEffect(() => {
-        swiper?.slideTo(data?.startIndex || 0);
-    }, [data?.startIndex, swiper]);
-
+        const found = data?.items.find((i, index) => index === data?.startIndex);
+        found && activeItem.set(found);
+    }, [data?.startIndex]);
+    console.log(activeItem.value);
     const multiple = data?.items?.length && data.items.length > 1;
 
     return (
@@ -88,28 +82,16 @@ function PhotoVideoSwiperView(props: Props) {
             <div className={styles.closeIcon} onClick={close}>
                 <Icons variant="close" />
             </div>
-            <Swiper
-                onActiveIndexChange={(e) => {
-                    setActiveIndex(e.activeIndex);
-                }}
-                allowTouchMove={false}
-                onSwiper={onSwiper}
-                spaceBetween={10}
-                navigation
-                thumbs={{ swiper: thumbsSwiper }}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className={styles.swiperTop}
-                style={{ margin: fullScreen.value ? '0' : '20px 0' }}
-            >
-                {data?.items?.map((i, index) => (
-                    <SwiperSlide key={i.id}>
-                        {data.type === 'img' && <Image visibleDropdown={false} url={i.url} objectFit="contain" />}
-                        {data.type === 'video' && (
-                            <VideoPlayerWithControls pause={index !== activeIndex} clickFull={() => fullScreen.toggle()} visibleDropdown={false} url={i.url} />
-                        )}
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+            <div className={styles.swiperTop} style={{ margin: fullScreen.value ? '0' : '20px 0', height: `calc(100% - ${multiple ? '230px' : '130px'})` }}>
+                {activeItem.value && (
+                    <div className={styles.slideTop}>
+                        {data?.type === 'img' && <Image height="100%" visibleDropdown={false} url={activeItem.value?.url} objectFit="contain" />}
+                        {/* {data?.type === 'video' && ( */}
+                        {/*    <VideoPlayerWithControls pause={index !== activeIndex} clickFull={() => fullScreen.toggle()} visibleDropdown={false} url={i.url} /> */}
+                        {/* )} */}
+                    </div>
+                )}
+            </div>
             {data?.type === 'img' && (
                 <div className={styles.fullScreen} style={{ bottom: fullScreen.value ? 30 : 290 }} onClick={fullScreen.toggle}>
                     <Icons.Player variant="full" />
@@ -126,28 +108,36 @@ function PhotoVideoSwiperView(props: Props) {
                         </div>
                     ))}
                 </div>
-                {multiple && data.type !== 'video' && (
+                {multiple && (
                     <div className={styles.swiperContainer}>
-                        <Swiper
-                            allowTouchMove={false}
-                            onSwiper={setThumbsSwiper}
-                            onActiveIndexChange={(e) => {
-                                setActiveIndex(e.activeIndex);
-                            }}
-                            spaceBetween={10}
-                            slidesPerView={4}
-                            freeMode
-                            watchSlidesProgress
-                            modules={[FreeMode, Navigation, Thumbs]}
-                            className={styles.swiperBottom}
-                        >
-                            {data?.items?.map((i, index) => (
-                                <SwiperSlide key={i.id} className={`${styles.sliderBottom} ${activeIndex === index ? styles.sliderBottom_active : ''}`}>
-                                    {data?.type === 'img' && <Image visibleDropdown={false} url={i.url} onClick={() => ''} />}
-                                    {data?.type === 'video' && <Video height="50px" width="100px" visibleDropdown={false} url={i.url} />}
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
+                        {data?.items?.map((i, index) => (
+                            <div key={i.id} className={`${styles.slideBottom} ${activeItem.value?.id === i.id ? styles.slideBottom_active : ''}`}>
+                                {data?.type === 'img' && (
+                                    <Image height="80px" width="56px" visibleDropdown={false} url={i.url} onClick={() => activeItem.set(i)} objectFit="cover" />
+                                )}
+                                {data?.type === 'video' && <Video height="80px" width="56px" visibleDropdown={false} url={i.url} />}
+                            </div>
+                        ))}
+                        {/* <Swiper */}
+                        {/*    allowTouchMove={false} */}
+                        {/*    onSwiper={setThumbsSwiper} */}
+                        {/*    onActiveIndexChange={(e) => { */}
+                        {/*        setActiveIndex(e.activeIndex); */}
+                        {/*    }} */}
+                        {/*    spaceBetween={10} */}
+                        {/*    slidesPerView={4} */}
+                        {/*    freeMode */}
+                        {/*    watchSlidesProgress */}
+                        {/*    modules={[FreeMode, Navigation, Thumbs]} */}
+                        {/*    className={styles.swiperBottom} */}
+                        {/* > */}
+                        {/*    {data?.items?.map((i, index) => ( */}
+                        {/*        <SwiperSlide key={i.id} className={`${styles.sliderBottom} ${activeIndex === index ? styles.sliderBottom_active : ''}`}> */}
+                        {/*            {data?.type === 'img' && <Image visibleDropdown={false} url={i.url} onClick={() => ''} />} */}
+                        {/*            {data?.type === 'video' && <Video height="50px" width="100px" visibleDropdown={false} url={i.url} />} */}
+                        {/*        </SwiperSlide> */}
+                        {/*    ))} */}
+                        {/* </Swiper> */}
                     </div>
                 )}
             </div>
