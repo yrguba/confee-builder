@@ -41,7 +41,7 @@ function useFetchMediaContent(props: Props) {
 
     useEffect(() => {
         if (fileData) {
-            const filePath = fileConverter.arrayBufferToBlobLocalPath(fileData as ArrayBuffer);
+            const filePath = fileConverter.arrayBufferToBlobLocalPath(fileData as ArrayBuffer, fileType);
             src.set(filePath);
             if (name) {
                 downLoadAndSave({

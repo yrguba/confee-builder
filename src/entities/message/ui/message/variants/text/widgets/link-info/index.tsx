@@ -32,7 +32,7 @@ function LinkInfo(props: Props) {
                         responseType: ResponseType.Binary,
                     })
                     .then((res) => {
-                        previewImg.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(res.data as any)));
+                        previewImg.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(res.data as any), 'img'));
                     });
             });
         }
