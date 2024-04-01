@@ -109,7 +109,7 @@ function PhotoVideoSwiperView(props: Props) {
                 <Icons variant="close" />
             </div>
             <div className={styles.swiperTop} style={{ margin: fullScreen.value ? '0' : '20px 0', height: `calc(100% - ${multiple ? '230px' : '130px'})` }}>
-                <div className={styles.btn} onClick={prevSlide}>
+                <div className={styles.btnLeft} onClick={prevSlide}>
                     {multiple && <Icons variant="arrow-drop-left" />}
                 </div>
 
@@ -121,7 +121,7 @@ function PhotoVideoSwiperView(props: Props) {
                         )}
                     </div>
                 )}
-                <div className={styles.btn} onClick={nextSlide}>
+                <div className={styles.btnRight} onClick={nextSlide}>
                     {multiple && <Icons variant="arrow-drop-right" />}
                 </div>
             </div>
