@@ -44,7 +44,7 @@ function EmployeeProfileView(props: Props) {
                 <div className={styles.center}>
                     <div className={styles.name}>
                         <Title variant="H1">{employee?.full_name}</Title>
-                        {employee?.companies?.length ? <CompanyTagView name="TFN" /> : null}
+                        {employee?.companies?.length ? <CompanyTagView name={employee?.companies[0]?.name || ''} /> : null}
                     </div>
                     <ContextMenu items={menuItems} visible={visibleMenu.value} />
                     <div className={styles.btns}>

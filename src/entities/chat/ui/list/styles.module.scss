@@ -14,9 +14,9 @@
   }
 
   .tabs {
-    @include box-size(calc(100% - 16px), 48px);
+    @include box-size(calc(100% - 32px), 48px);
     @include flex(flex-start);
-    padding-left: 16px;
+    margin: 0 16px;
   }
 
 

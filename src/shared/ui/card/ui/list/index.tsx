@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 
 import styles from './styles.module.scss';
-import { useInView } from '../../../../hooks';
+import { useInView, useStorage } from '../../../../hooks';
 import { Box, Card, Icons } from '../../../index';
 import { CardListProps } from '../../types';
 
