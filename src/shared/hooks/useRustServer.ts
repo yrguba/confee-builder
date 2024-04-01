@@ -1,6 +1,6 @@
 import { invoke } from '@tauri-apps/api';
 import { Event, EventName } from '@tauri-apps/api/event';
-import { appWindow, WebviewWindow } from '@tauri-apps/api/window';
+import { appWindow, WebviewWindow, WindowOptions } from '@tauri-apps/api/window';
 
 type WebviewProps = {
     title?: string;
@@ -58,6 +58,13 @@ function useRustServer() {
             }
         };
 
+        const create = (props: WindowOptions) => {
+            const webview = new WebviewWindow(label, { ...props, minHeight: 600, minWidth: 600 });
+            setTimeout(() => {
+                webview.hide();
+            }, 0);
+        };
+
         const open = async (props: { path: string; title?: string }) => {
             if (!rustIsRunning) return null;
             await invoke('open_window', { url: `${window.location.origin}${props.path}`, label });
@@ -81,7 +88,7 @@ function useRustServer() {
 
         const view = rustIsRunning && label ? WebviewWindow.getByLabel(label) : null;
 
-        return { isOpen, open, close, listen, listenOnce, view };
+        return { isOpen, open, close, listen, listenOnce, create, view };
     };
 
     const invoker = {

@@ -166,20 +166,6 @@
         "decorations": true,
         "alwaysOnTop": false,
         "fileDropEnabled": false
-      },
-      {
-        "title": "Просмотр медиа",
-        "url": "/photo_video_swiper",
-        "label": "photo_video_swiper",
-        "minWidth": 700,
-        "minHeight": 700,
-        "resizable": true,
-        "fullscreen": false,
-        "decorations": true,
-        "alwaysOnTop": true,
-        "fileDropEnabled": false,
-        "visible": false,
-        "hiddenTitle": true
       }
     ],
     "updater": {

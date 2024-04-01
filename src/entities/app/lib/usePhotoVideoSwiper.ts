@@ -1,4 +1,4 @@
-import { LogicalPosition, PhysicalPosition, WebviewWindow } from '@tauri-apps/api/window';
+import { LogicalPosition, PhysicalPosition, WebviewWindow, WindowOptions } from '@tauri-apps/api/window';
 import { useEffect } from 'react';
 
 import { appTypes } from 'entities/app';
@@ -25,20 +25,24 @@ function usePhotoVideoSwiper(props?: Props) {
     }, []);
 
     const show = (data: appTypes.PhotoAndVideoSwiperType) => {
+        photoAndVideoFromSwiper.set(data);
         if (rustIsRunning) {
             swiperView?.view?.show().then(() => {
                 socket.emit('photo_video_swiper', 'photoVideoSwiperData', data);
             });
         } else {
             navigate('/photo_video_swiper');
-            photoAndVideoFromSwiper.set(data);
         }
+    };
+
+    const create = () => {
+        swiperView.create({ url: '/photo_video_swiper', title: 'Просмотр медиа', transparent: true });
     };
 
     const close = () => {
         swiperView?.view?.hide();
     };
 
-    return { show, socket, close };
+    return { show, create, socket, close };
 }
 export default usePhotoVideoSwiper;

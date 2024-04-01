@@ -91,7 +91,6 @@ function PhotoVideoSwiperView(props: Props) {
                 </div>
             )}
             <Swiper
-                aria-disabled
                 onActiveIndexChange={(e) => {
                     setActiveIndex(e.activeIndex);
                 }}
@@ -132,6 +131,7 @@ function PhotoVideoSwiperView(props: Props) {
                 {multiple && data.type !== 'video' && (
                     <div className={styles.swiperContainer}>
                         <Swiper
+                            allowTouchMove={false}
                             onSwiper={setThumbsSwiper}
                             onActiveIndexChange={(e) => {
                                 setActiveIndex(e.activeIndex);
