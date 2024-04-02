@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Cropper from 'react-easy-crop';
 import { mergeRefs } from 'react-merge-refs';
 
 import { useEasyState, useInView } from 'shared/hooks';
-import { Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
+import { Button, Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
 import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-controls';
 
 import styles from './styles.module.scss';
+import { getCroppedImg } from '../../../../../shared/lib/canvas';
 import { PhotoAndVideoSwiperType, PhotoAndVideoSwiperItemsType } from '../../../model/types';
 
 type Props = {
@@ -30,6 +32,10 @@ function PhotoVideoSwiperView(props: Props) {
 
     const fullScreen = useEasyState(false);
     const visibleContextMenu = useEasyState(false);
+
+    const croppedAreaPixels = useEasyState(null);
+    const rotation = useEasyState(0);
+    const zoom = useEasyState(1);
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
     const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
@@ -116,9 +122,27 @@ function PhotoVideoSwiperView(props: Props) {
     };
 
     const actionItems = data?.update ? actionsImgUpdate : actions;
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+
+    const onCropComplete = useCallback((croppedArea: any, pixels: any) => {
+        croppedAreaPixels.set(pixels);
+    }, []);
+    console.log(croppedAreaPixels.value);
+    const showCroppedImage = useCallback(async () => {
+        try {
+            const croppedImage = await getCroppedImg(activeItem.value?.url, croppedAreaPixels.value, rotation.value);
+            console.log('donee', { croppedImage });
+            console.log(croppedImage);
+        } catch (e) {
+            console.error(e);
+        }
+    }, [croppedAreaPixels.value, rotation.value]);
 
     return (
         <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
+            <Button onClick={showCroppedImage}>dwddwaddw</Button>
+            <Button onClick={() => zoom.set(zoom.value + 0.1)}>+</Button>
+            <Button onClick={() => zoom.set(zoom.value - 0.1)}>-</Button>
             <ContextMenu
                 reverseY
                 clickAway={() => visibleContextMenu.set(false)}
@@ -138,10 +162,25 @@ function PhotoVideoSwiperView(props: Props) {
 
                 {activeItem.value && (
                     <div className={styles.slideTop}>
-                        {data?.type === 'img' && <Image height="100%" visibleDropdown={false} url={activeItem.value?.url} objectFit="contain" />}
-                        {data?.type === 'video' && (
-                            <VideoPlayerWithControls autoPlay clickFull={() => fullScreen.toggle()} visibleDropdown={false} url={activeItem.value.url} />
-                        )}
+                        <Cropper
+                            zoomWithScroll
+                            image={activeItem.value.url}
+                            crop={crop}
+                            onCropChange={setCrop}
+                            onCropComplete={onCropComplete}
+                            rotation={rotation.value}
+                            zoom={zoom.value}
+                            onZoomChange={zoom.set}
+                            // aspect={2 / 2}
+                            onMediaLoaded={(mediaSize) => {
+                                // Adapt zoom based on media size to fit max height
+                                zoom.set(mediaSize.naturalWidth);
+                            }}
+                        />
+                        {/* {data?.type === 'img' && <Image height="100%" visibleDropdown={false} url={activeItem.value?.url} objectFit="contain" />} */}
+                        {/* {data?.type === 'video' && ( */}
+                        {/*    <VideoPlayerWithControls autoPlay clickFull={() => fullScreen.toggle()} visibleDropdown={false} url={activeItem.value.url} /> */}
+                        {/* )} */}
                     </div>
                 )}
                 {visibleRightBtn.value && (

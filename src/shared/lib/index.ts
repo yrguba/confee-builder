@@ -1,3 +1,4 @@
+import * as canvas from './canvas';
 import chunkString from './chunk-string';
 import compressImage from './compress-image';
 import crypto from './crypto';
@@ -25,6 +26,7 @@ import timeConverter from './time-converter';
 import updatePhone from './update-phone';
 
 export {
+    canvas,
     updatePhone,
     replaceEmojis,
     timeConverter,
