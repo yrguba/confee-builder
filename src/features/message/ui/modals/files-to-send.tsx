@@ -1,30 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { FilesToSendModalView, messageApi, messageTypes } from 'entities/message';
+import { FilesToSendModalView, messageApi, messageStore, messageTypes } from 'entities/message';
 import { UseFileUploaderTypes, useFileUploader, useArray, useEasyState } from 'shared/hooks';
 import { getRandomInt, compressImage } from 'shared/lib';
 import { Modal, ModalTypes, CardTypes } from 'shared/ui';
 
 type Props = {
     modal: ModalTypes.UseReturnedType;
-    files: UseFileUploaderTypes.Types.SortByAcceptType;
     onClose: () => void;
 };
 
 function FilesToSendModal(props: Props) {
-    const { modal, files, onClose } = props;
+    const { modal, onClose } = props;
     const params = useParams();
     const chatId = Number(params.chat_id);
 
     const isLoading = useEasyState(false);
 
-    const { mutate: handleSendFileMessage, error: sendingError } = messageApi.handleSendFileMessage();
+    const filesToSend = messageStore.use.filesToSend();
 
-    const images = useArray<UseFileUploaderTypes.Types.ImageFile>({ initialArr: files.image });
-    const audios = useArray<UseFileUploaderTypes.Types.AudioFile>({ initialArr: files.audio });
-    const videos = useArray<UseFileUploaderTypes.Types.VideoFile>({ initialArr: files.video });
-    const documents = useArray<UseFileUploaderTypes.Types.DocumentFile>({ initialArr: files.document });
+    const { mutate: handleSendFileMessage, error: sendingError } = messageApi.handleSendFileMessage();
 
     const close = () => {
         modal.close();
@@ -62,17 +58,18 @@ function FilesToSendModal(props: Props) {
                 );
             });
         };
-        if (images.array.length) {
-            await send(images.array, 'images');
+
+        if (filesToSend.value.image.length) {
+            await send(filesToSend.value.image, 'images');
         }
-        if (audios.array.length) {
-            await send(audios.array, 'audios');
+        if (filesToSend.value.audio.length) {
+            await send(filesToSend.value.audio, 'audios');
         }
-        if (videos.array.length) {
-            await send(videos.array, 'videos');
+        if (filesToSend.value.video.length) {
+            await send(filesToSend.value.video, 'videos');
         }
-        if (documents.array.length) {
-            await send(documents.array, 'documents');
+        if (filesToSend.value.document.length) {
+            await send(filesToSend.value.document, 'documents');
         }
         close();
         isLoading.set(false);
@@ -87,13 +84,13 @@ function FilesToSendModal(props: Props) {
                 Object.entries(data.sortByAccept).forEach(([key, value]) => {
                     switch (key) {
                         case 'image':
-                            return images.concat(value);
-                        case 'audio':
-                            return audios.concat(value as any);
-                        case 'video':
-                            return videos.concat(value as any);
-                        case 'document':
-                            return documents.concat(value);
+                            return filesToSend.set({ ...filesToSend.value, image: [...filesToSend.value.image, ...value] });
+                        // case 'audio':
+                        //     return audios.concat(value as any);
+                        // case 'video':
+                        //     return videos.concat(value as any);
+                        // case 'document':
+                        //     return documents.concat(value);
                     }
                 });
                 isLoading.set(false);
@@ -107,10 +104,7 @@ function FilesToSendModal(props: Props) {
             sendFiles={sendFiles}
             close={close}
             addFiles={openFilesDownloader}
-            images={images}
-            audios={audios}
-            videos={videos}
-            documents={documents}
+            files={filesToSend}
             loading={isLoading.value}
         />
     );

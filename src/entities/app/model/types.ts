@@ -16,13 +16,9 @@ export type PhotoAndVideoSwiperItemsType = {
 };
 
 export type PhotoAndVideoSwiperType = {
+    update?: boolean;
     message?: MessageProxy;
     type: 'img' | 'video';
     startIndex: number;
     items: PhotoAndVideoSwiperItemsType[];
-    description: {
-        title: string;
-        subtitle: string;
-        avatar: string;
-    };
 };

@@ -45,6 +45,7 @@ function MessageList() {
     const isFileDrag = messageStore.use.isFileDrag();
     const menuMessageId = messageStore.use.menuMessageId();
     const downloadFile = messageStore.use.downloadFile();
+    const filesToSend = messageStore.use.filesToSend();
 
     const {
         data: messageData,
@@ -75,11 +76,12 @@ function MessageList() {
         }
     });
 
-    const { sortByAccept, clear, dropContainerRef } = useFileUploader({
+    const { clear, dropContainerRef } = useFileUploader({
         accept: 'all',
         multiple: true,
         onAfterUploading: (data) => {
             if (data.sortByAccept) {
+                filesToSend.set(data.sortByAccept);
                 filesToSendModal.open();
             }
         },
@@ -146,7 +148,7 @@ function MessageList() {
 
     return (
         <>
-            <FilesToSendModal onClose={clear} modal={filesToSendModal} files={sortByAccept as any} />
+            <FilesToSendModal onClose={clear} modal={filesToSendModal} />
             <Modal.Confirm {...confirmDeleteMessage} title="Удалить сообщение" closeText="Отмена" okText="Удалить" />
 
             <PrivateChatProfileModal {...privateChatProfileModal} />

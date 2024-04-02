@@ -35,6 +35,18 @@ function BaseIcons(props: BaseIconsProps) {
                 </svg>
             );
         }
+        case 'crop': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <mask id="mask0_2243_142624" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <rect width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_2243_142624)">
+                        <path d="M18 23C17.4477 23 17 22.5523 17 22V19H7C6.45 19 5.97917 18.8042 5.5875 18.4125C5.19583 18.0208 5 17.55 5 17V7H2C1.44772 7 1 6.55228 1 6C1 5.44772 1.44772 5 2 5H5V2C5 1.44772 5.44772 1 6 1C6.55228 1 7 1.44772 7 2V17H22C22.5523 17 23 17.4477 23 18C23 18.5523 22.5523 19 22 19H19V22C19 22.5523 18.5523 23 18 23ZM18 15C17.4477 15 17 14.5523 17 14V7H10C9.44771 7 9 6.55228 9 6C9 5.44772 9.44771 5 10 5H17C17.55 5 18.0208 5.19583 18.4125 5.5875C18.8042 5.97917 19 6.45 19 7V14C19 14.5523 18.5523 15 18 15Z" />
+                    </g>
+                </svg>
+            );
+        }
         case 'upload': {
             return (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

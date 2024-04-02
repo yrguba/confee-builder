@@ -39,6 +39,7 @@ function MessageInput() {
     const voiceRecordingInProgress = messageStore.use.voiceRecordingInProgress();
     const goDownList = messageStore.use.goDownList();
     const isFileDrag = messageStore.use.isFileDrag();
+    const filesToSend = messageStore.use.filesToSend();
 
     const messageTextState = useEasyState('');
     const voiceEvent = useEasyState<VoiceEvents | null>(null);
@@ -51,7 +52,6 @@ function MessageInput() {
 
     const {
         open: openFilesDownloader,
-        sortByAccept,
         clear,
         copyFromClipboard,
         dropContainerRef,
@@ -60,6 +60,7 @@ function MessageInput() {
         multiple: true,
         onAfterUploading: (data) => {
             if (data.sortByAccept) {
+                filesToSend.set(data.sortByAccept);
                 filesToSendModal.open();
             }
         },
@@ -152,22 +153,7 @@ function MessageInput() {
         }
     };
 
-    const sendDraft = () => {
-        // if (!replyMessage.value.id && messageTextState.value !== proxyChat?.draft[0].message_text) {
-        //     handleAddDraft({
-        //         text: messageTextState.value,
-        //         chatId,
-        //     });
-        // }
-    };
-
-    // useEffect(() => {
-    //     if (proxyChat?.draft[0]?.message_text) {
-    //         messageTextState.set(proxyChat?.draft[0]?.message_text);
-    //     } else {
-    //         messageTextState.set('');
-    //     }
-    // }, [proxyChat?.id]);
+    const sendDraft = () => {};
 
     useUpdateEffect(() => {
         const text = messageTextState.value;
@@ -213,7 +199,7 @@ function MessageInput() {
 
     return (
         <>
-            <FilesToSendModal onClose={clear} modal={filesToSendModal} files={sortByAccept as any} />
+            <FilesToSendModal onClose={clear} modal={filesToSendModal} />
             {!proxyChat?.isDeleted && (
                 <MessageInputView
                     tagUsers={tagUsers}

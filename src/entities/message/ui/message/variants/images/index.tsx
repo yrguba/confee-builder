@@ -34,7 +34,6 @@ function ImagesMessage(props: Props) {
             type: 'img',
             startIndex: index,
             items: updItems as any,
-            description: { title: message.authorName || '', subtitle: message.date, avatar: message.authorAvatar },
         });
     };
 

@@ -6,12 +6,11 @@ import { Audio, Box, Button, Document, Icons, Image, Title, Video } from 'shared
 
 import styles from './styles.module.scss';
 import { getEnding } from '../../../../../shared/lib';
+import { appStore } from '../../../../app';
+import { MessageStoreTypes } from '../../../model/store';
 
 type Props = {
-    images: UseArrayReturnType<UseFileUploaderTypes.Types.ImageFile>;
-    audios: UseArrayReturnType<UseFileUploaderTypes.Types.AudioFile>;
-    documents: UseArrayReturnType<UseFileUploaderTypes.Types.DocumentFile>;
-    videos: UseArrayReturnType<UseFileUploaderTypes.Types.VideoFile>;
+    files: MessageStoreTypes['filesToSend'];
     addFiles: () => void;
     sendFiles: () => void;
     close: () => void;
@@ -19,9 +18,21 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function FilesToSendModalView(props: Props) {
-    const { sendingError, loading, images, documents, audios, videos, addFiles, sendFiles, close } = props;
+    const { sendingError, loading, files, addFiles, sendFiles, close } = props;
 
-    const fileLength = images.length + documents.length + audios.length + videos.length;
+    const { image, video, document, audio } = files.value;
+
+    const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
+    const fileLength = image.length + document.length + audio.length + video.length;
+
+    const imgClick = (index: number) => {
+        photoAndVideoFromSwiper.set({
+            update: true,
+            type: 'img',
+            startIndex: index,
+            items: image.map((i) => ({ id: i.id, name: i.name, url: i.fileUrl })),
+        });
+    };
 
     return (
         <Box loading={!sendingError && loading} className={styles.wrapper}>
@@ -34,34 +45,35 @@ function FilesToSendModalView(props: Props) {
                 <Title variant="H2">{!fileLength ? 'Выбирите файлы' : `Отправить ${fileLength} ${getEnding(fileLength, ['файл', 'файла', 'файлов'])}`}</Title>
             </div>
             <div className={styles.list}>
-                {images.array.length ? (
+                {image.length ? (
                     <Image.List
-                        items={images.array.map((i) => ({
-                            remove: (id) => images.deleteById(id),
+                        imgClick={imgClick}
+                        items={image.map((i) => ({
+                            remove: (id) => files.deleteById({ type: 'image', id }),
                             id: i.id,
                             url: i.fileUrl,
-                            height: images.array.length === 1 ? '100%' : '120px',
-                            width: images.array.length === 1 ? '100%' : 'auto',
+                            height: image.length === 1 ? '100%' : '120px',
+                            width: image.length === 1 ? '100%' : 'auto',
                         }))}
                     />
                 ) : null}
-                {audios.array.length
-                    ? audios.array.map((i) => (
-                          <Item key={i.id} remove={() => audios.deleteById(i.id)}>
+                {audio.length
+                    ? audio.map((i) => (
+                          <Item key={i.id} remove={() => files.deleteById({ type: 'audio', id: i.id })}>
                               <Audio url={i.fileUrl} authorName={i.album?.artist} name={i.name} description={i.album?.title} cover={i.album?.coverUrl} />
                           </Item>
                       ))
                     : null}
-                {videos.array.length
-                    ? videos.array.map((i) => (
-                          <Item key={i.id} remove={() => videos.deleteById(i.id)}>
+                {video.length
+                    ? video.map((i) => (
+                          <Item key={i.id} remove={() => files.deleteById({ type: 'video', id: i.id })}>
                               <Video.Card previewUrl={i.previewUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}
-                {documents.array.length
-                    ? documents.array.map((i) => (
-                          <Item key={i.id} remove={() => documents.deleteById(i.id)}>
+                {document.length
+                    ? document.map((i) => (
+                          <Item key={i.id} remove={() => files.deleteById({ type: 'document', id: i.id })}>
                               <Document url={i.fileUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))

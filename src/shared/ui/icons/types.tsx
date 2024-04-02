@@ -73,7 +73,8 @@ export type BaseIconsVariants =
     | 'full-screen'
     | 'minimize'
     | 'not-full-screen'
-    | 'upload';
+    | 'upload'
+    | 'crop';
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;
     size?: 24 | 48 | number;

@@ -85,6 +85,11 @@ function Image(props: BaseImageProps) {
         error: error || !url,
     });
 
+    const removeClick = (e: any) => {
+        e.stopPropagation();
+        remove && id && remove(id);
+    };
+
     return (
         <div
             onMouseLeave={() => visibleMenu.set(false)}
@@ -106,7 +111,7 @@ function Image(props: BaseImageProps) {
             ) : null}
             {!error && !isLoading && <img onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />}
             {remove && (
-                <Button.Circle radius={30} className={styles.remove} onClick={id ? () => remove(id) : () => ''} variant="inherit">
+                <Button.Circle radius={30} className={styles.remove} onClick={id ? removeClick : () => ''} variant="inherit">
                     <Icons variant="delete" />
                 </Button.Circle>
             )}

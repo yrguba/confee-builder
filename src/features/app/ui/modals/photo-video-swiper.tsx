@@ -17,6 +17,7 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
     const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
     const forwardMessages = messageStore.use.forwardMessages();
     const openForwardMessageModal = messageStore.use.openForwardMessageModal();
+    const filesToSend = messageStore.use.filesToSend();
 
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
 
@@ -57,6 +58,13 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
         }
     };
 
+    const deleteImage = (id: string | number) => {
+        filesToSend.deleteById({ type: 'image', id });
+        const arr = photoAndVideoFromSwiper.value.items.filter((i) => i.id !== id);
+        photoAndVideoFromSwiper.set({ ...photoAndVideoFromSwiper.value, items: arr });
+        !arr.length && photoAndVideoFromSwiper.clear();
+    };
+
     return (
         <>
             <PhotoVideoSwiperView
@@ -65,6 +73,7 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
                 data={photoAndVideoFromSwiper.value}
                 downloads={downloads}
                 deleteMessage={deleteMessage}
+                deleteImage={deleteImage}
             />
         </>
     );

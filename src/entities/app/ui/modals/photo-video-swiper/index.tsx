@@ -14,13 +14,17 @@ type Props = {
     downloads: (items: any) => void;
     deleteMessage: () => void;
     forward: () => void;
+    deleteImage: (id: string | number) => void;
 };
 
 function PhotoVideoSwiperView(props: Props) {
-    const { forward, data, close, downloads, deleteMessage } = props;
+    const { forward, data, close, downloads, deleteMessage, deleteImage } = props;
 
     const activeSlideRef = useRef<any>(null);
     const bottomSwiperRef = useRef<any>(null);
+
+    const visibleLeftBtn = useEasyState(true);
+    const visibleRightBtn = useEasyState(true);
 
     const activeItem = useEasyState<PhotoAndVideoSwiperItemsType | null>(null);
 
@@ -30,10 +34,39 @@ function PhotoVideoSwiperView(props: Props) {
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
     const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
 
+    const nextSlide = () => {
+        const foundIndex: any = data?.items.findIndex((i) => i.id === activeItem.value?.id);
+        if (foundIndex !== -1) {
+            const next = data?.items[foundIndex + 1];
+            next && activeItem.set(next);
+        }
+    };
+
+    const prevSlide = () => {
+        const foundIndex: any = data?.items.findIndex((i) => i.id === activeItem.value?.id);
+        if (foundIndex !== -1) {
+            const next = data?.items[foundIndex - 1];
+            next && activeItem.set(next);
+        }
+    };
+
     const actions = [
         { id: 0, icon: <Icons variant="upload" />, onClick: () => visibleContextMenu.set(true) },
         { id: 1, icon: <Icons variant="redirect" />, onClick: forward },
         { id: 2, icon: <Icons variant="delete" />, onClick: deleteMessage },
+    ];
+
+    const actionsImgUpdate = [
+        { id: 0, icon: <Icons variant="crop" />, onClick: () => '' },
+        { id: 1, icon: <Icons variant="edit" />, onClick: () => '' },
+        {
+            id: 2,
+            icon: <Icons variant="delete" />,
+            onClick: () => {
+                visibleLeftBtn.value ? prevSlide() : nextSlide();
+                deleteImage(activeItem.value?.id || 0);
+            },
+        },
     ];
 
     const contextMenuItems = [
@@ -57,23 +90,9 @@ function PhotoVideoSwiperView(props: Props) {
 
     useEffect(() => {
         activeSlideRef?.current?.scrollIntoView();
+        visibleLeftBtn.set(activeItem.value?.id !== data?.items[0].id);
+        visibleRightBtn.set(activeItem.value?.id !== data?.items[data?.items.length - 1].id);
     }, [activeItem.value?.id]);
-
-    const nextSlide = () => {
-        const foundIndex: any = data?.items.findIndex((i) => i.id === activeItem.value?.id);
-        if (foundIndex !== -1) {
-            const next = data?.items[foundIndex + 1];
-            next && activeItem.set(next);
-        }
-    };
-
-    const prevSlide = () => {
-        const foundIndex: any = data?.items.findIndex((i) => i.id === activeItem.value?.id);
-        if (foundIndex !== -1) {
-            const next = data?.items[foundIndex - 1];
-            next && activeItem.set(next);
-        }
-    };
 
     useEffect(() => {
         const found = data?.items.find((i, index) => index === data?.startIndex);
@@ -96,8 +115,10 @@ function PhotoVideoSwiperView(props: Props) {
         }
     };
 
+    const actionItems = data?.update ? actionsImgUpdate : actions;
+
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
             <ContextMenu
                 reverseY
                 clickAway={() => visibleContextMenu.set(false)}
@@ -109,9 +130,11 @@ function PhotoVideoSwiperView(props: Props) {
                 <Icons variant="close" />
             </div>
             <div className={styles.swiperTop} style={{ margin: fullScreen.value ? '0' : '20px 0', height: `calc(100% - ${multiple ? '230px' : '130px'})` }}>
-                <div className={styles.btnLeft} onClick={prevSlide}>
-                    {multiple && <Icons variant="arrow-drop-left" />}
-                </div>
+                {visibleLeftBtn.value && (
+                    <div className={styles.btnLeft} onClick={prevSlide}>
+                        {multiple && <Icons variant="arrow-drop-left" />}
+                    </div>
+                )}
 
                 {activeItem.value && (
                     <div className={styles.slideTop}>
@@ -121,9 +144,11 @@ function PhotoVideoSwiperView(props: Props) {
                         )}
                     </div>
                 )}
-                <div className={styles.btnRight} onClick={nextSlide}>
-                    {multiple && <Icons variant="arrow-drop-right" />}
-                </div>
+                {visibleRightBtn.value && (
+                    <div className={styles.btnRight} onClick={nextSlide}>
+                        {multiple && <Icons variant="arrow-drop-right" />}
+                    </div>
+                )}
             </div>
             {data?.type === 'img' && (
                 <div className={styles.fullScreen} style={{ bottom: fullScreen.value ? 30 : 290 }} onClick={fullScreen.toggle}>
@@ -131,11 +156,8 @@ function PhotoVideoSwiperView(props: Props) {
                 </div>
             )}
             <div className={`${styles.footer} ${fullScreen.value ? styles.footer_hidden : ''}`}>
-                {/* <div className={styles.card}> */}
-                {/*    <Card title={data?.description.title} subtitle={data?.description.subtitle} img={data?.description.avatar} /> */}
-                {/* </div> */}
                 <div className={styles.actions}>
-                    {actions.map((i) => (
+                    {actionItems.map((i) => (
                         <div key={i.id} className={styles.item} onClick={i.onClick}>
                             {i.icon}
                         </div>
