@@ -35,6 +35,7 @@ import useZustand, * as UseZustandTypes from 'react-use-zustand';
 import useArray, { UseArrayReturnType } from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
+import useCanvas from './useCanvas';
 import useCreateSelectors from './useCreateSelectors';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
@@ -62,6 +63,7 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
+    useCanvas,
     useZustand,
     usePersister,
     useRustServer,
