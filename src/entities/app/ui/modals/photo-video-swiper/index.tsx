@@ -46,6 +46,11 @@ function PhotoVideoSwiperView(props: Props) {
 
     const { drawCanvas, drawControl } = Canvas.useDraw({
         onClose: () => activeDraw.set(false),
+        getResult: (data) => {
+            if (activeItem.value) {
+                replaceImage(activeItem.value?.id, data.file, data.url);
+            }
+        },
     });
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
@@ -183,7 +188,9 @@ function PhotoVideoSwiperView(props: Props) {
                 )}
                 {activeItem.value && (
                     <div className={styles.slideTop}>
-                        {activeDraw.value && <Canvas.Draw {...drawCanvas} width={imgSize.value.width} height={imgSize.value.height} />}
+                        {activeDraw.value && (
+                            <Canvas.Draw {...drawCanvas} imageUrl={activeItem.value.url} width={imgSize.value.width} height={imgSize.value.height} />
+                        )}
                         {activeCrop.value ? (
                             <Cropper
                                 src={activeItem.value.url}
@@ -210,7 +217,7 @@ function PhotoVideoSwiperView(props: Props) {
                                                 imgSize.set(size);
                                             }
                                         }}
-                                        height="100%"
+                                        // height="100%"
                                         visibleDropdown={false}
                                         url={activeItem.value?.url}
                                         objectFit="contain"

@@ -4,7 +4,7 @@ import { UseDraw } from './types';
 import { useEasyState } from '../../hooks';
 
 function useDraw(props: UseDraw) {
-    const { onClose } = props;
+    const { onClose, getResult } = props;
 
     const drawRef = useRef<HTMLCanvasElement>(null);
     const color = useEasyState('black');
@@ -18,6 +18,7 @@ function useDraw(props: UseDraw) {
             ref: drawRef,
             color,
             onClose,
+            getResult,
         },
     };
 }

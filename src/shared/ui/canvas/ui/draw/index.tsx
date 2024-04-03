@@ -1,4 +1,5 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { useEasyState } from 'shared/hooks';
 
@@ -6,9 +7,29 @@ import styles from './styles.module.scss';
 import { DrawCanvasProps } from '../../types';
 
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
-    const { width = '100%', height = '100%', color = 'black' } = props;
+    const { width = '100%', height = '100%', color = 'black', imageUrl } = props;
 
+    const background = useRef(false);
     const isDrawing = useEasyState(false);
+    console.log(width, height);
+    useEffect(() => {
+        if (ref?.current && !background.current) {
+            const canvas = ref.current;
+            const context = canvas.getContext('2d');
+            if (context) {
+                if (imageUrl) {
+                    const bgImg = new Image();
+                    bgImg.src = imageUrl;
+                    bgImg.onload = (e) => {
+                        context.drawImage(e.target, 0, 0, width, height);
+                    };
+                } else {
+                    context.fillStyle = 'white';
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+        }
+    }, [ref.current, imageUrl]);
 
     const start = (e: any) => {
         if (ref?.current) {
@@ -53,13 +74,14 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             }
         }
     };
+
     return (
         <canvas
             onMouseDown={start}
             onMouseMove={draw}
             onMouseUp={stopDraw}
             style={{ cursor: isDrawing ? 'crosshair' : 'auto' }}
-            className={styles.drawCanvas}
+            className={styles.wrapper}
             ref={ref}
             width={width}
             height={height}
