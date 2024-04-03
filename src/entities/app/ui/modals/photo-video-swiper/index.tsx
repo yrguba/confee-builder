@@ -3,11 +3,11 @@ import Cropper, { ReactCropperElement } from 'react-cropper';
 import { mergeRefs } from 'react-merge-refs';
 
 import { useEasyState, useInView } from 'shared/hooks';
+import { fileConverter } from 'shared/lib';
 import { Button, Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
 import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-controls';
 
 import styles from './styles.module.scss';
-import { fileConverter } from '../../../../../shared/lib';
 import { PhotoAndVideoSwiperType, PhotoAndVideoSwiperItemsType } from '../../../model/types';
 import 'cropperjs/dist/cropper.css';
 
@@ -37,6 +37,7 @@ function PhotoVideoSwiperView(props: Props) {
     const visibleContextMenu = useEasyState(false);
 
     const activeCrop = useEasyState(false);
+    const rotate = useEasyState(0);
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
     const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
@@ -96,7 +97,7 @@ function PhotoVideoSwiperView(props: Props) {
 
     const actionsCrop = [
         { id: 0, icon: null, title: 'Отмена', onClick: () => activeCrop.set(false) },
-        { id: 1, icon: <Icons variant="rotate-img" />, onClick: () => '' },
+        { id: 1, icon: <Icons variant="rotate-img" />, onClick: () => rotate.set(rotate.value + 20) },
         { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
     ];
 
@@ -147,16 +148,13 @@ function PhotoVideoSwiperView(props: Props) {
     };
 
     const actionItems: any = activeCrop.value ? actionsCrop : data?.update ? actionsImgUpdate : actions;
+    console.log(rotate.value);
 
-    // const showCroppedImage = useCallback(async () => {
-    //     // try {
-    //     //     const croppedImage = await getCroppedImg(activeItem.value?.url, croppedAreaPixels.value, rotation.value);
-    //     //     console.log('donee', { croppedImage });
-    //     //     console.log(croppedImage);
-    //     // } catch (e) {
-    //     //     console.error(e);
-    //     // }
-    // }, [croppedAreaPixels.value, rotation.value]);
+    useEffect(() => {
+        if (cropperRef.current) {
+            cropperRef.current.cropper.rotateTo(rotate.value);
+        }
+    }, [rotate.value]);
 
     return (
         <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
@@ -185,8 +183,8 @@ function PhotoVideoSwiperView(props: Props) {
                                 ref={cropperRef}
                                 style={{ height: '100%', width: '100%' }}
                                 zoomTo={0}
-                                initialAspectRatio={1}
-                                preview=".img-preview"
+                                // initialAspectRatio={1}
+                                // preview=".img-preview"
                                 viewMode={1}
                                 minCropBoxHeight={10}
                                 minCropBoxWidth={10}
