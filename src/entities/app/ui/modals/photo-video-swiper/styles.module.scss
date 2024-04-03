@@ -149,14 +149,16 @@
     }
 
     .actions {
-      @include box-size(152px, 40px);
+      @include box-size(auto, 40px);
       @include flex;
+      padding: 0 25px;
       gap: 16px;
       border-radius: 24px;
       background: var(--white);
 
       .item {
         cursor: pointer;
+        font-weight: 600;
       }
 
       svg {

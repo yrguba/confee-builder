@@ -74,7 +74,8 @@ export type BaseIconsVariants =
     | 'minimize'
     | 'not-full-screen'
     | 'upload'
-    | 'crop';
+    | 'crop'
+    | 'rotate-img';
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;
     size?: 24 | 48 | number;

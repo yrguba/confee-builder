@@ -7,7 +7,7 @@ import { Button, Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
 import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-controls';
 
 import styles from './styles.module.scss';
-import { getCroppedImg } from '../../../../../shared/lib/canvas';
+import { fileConverter } from '../../../../../shared/lib';
 import { PhotoAndVideoSwiperType, PhotoAndVideoSwiperItemsType } from '../../../model/types';
 import 'cropperjs/dist/cropper.css';
 
@@ -57,6 +57,24 @@ function PhotoVideoSwiperView(props: Props) {
         }
     };
 
+    const onCrop = async () => {
+        const cropper = cropperRef.current?.cropper;
+        if (cropper) {
+            return new Promise((resolve, reject) => {
+                cropper.getCroppedCanvas().toBlob((blob) => {
+                    if (blob && activeItem.value) {
+                        const blobUrl = fileConverter.blobLocalPath(blob);
+                        const file = new File([blob as any], activeItem.value?.name || 'img.jpg', { type: 'image/jpeg' });
+                        console.log(blobUrl);
+                        console.log(file);
+                        activeItem.set({ ...activeItem.value, url: blobUrl });
+                        activeCrop.set(false);
+                    }
+                }, 'image/jpeg');
+            });
+        }
+    };
+
     const actions = [
         { id: 0, icon: <Icons variant="upload" />, onClick: () => visibleContextMenu.set(true) },
         { id: 1, icon: <Icons variant="redirect" />, onClick: forward },
@@ -74,6 +92,12 @@ function PhotoVideoSwiperView(props: Props) {
                 deleteImage(activeItem.value?.id || 0);
             },
         },
+    ];
+
+    const actionsCrop = [
+        { id: 0, icon: null, title: 'Отмена', onClick: () => activeCrop.set(false) },
+        { id: 1, icon: <Icons variant="rotate-img" />, onClick: () => '' },
+        { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
     ];
 
     const contextMenuItems = [
@@ -122,12 +146,7 @@ function PhotoVideoSwiperView(props: Props) {
         }
     };
 
-    const onCrop = () => {
-        const cropper = cropperRef.current?.cropper;
-        // console.log(cropper.getCroppedCanvas().toDataURL());
-    };
-
-    const actionItems = data?.update ? actionsImgUpdate : actions;
+    const actionItems: any = activeCrop.value ? actionsCrop : data?.update ? actionsImgUpdate : actions;
 
     // const showCroppedImage = useCallback(async () => {
     //     // try {
@@ -198,16 +217,17 @@ function PhotoVideoSwiperView(props: Props) {
                     </div>
                 )}
             </div>
-            {data?.type === 'img' && (
+            {data?.type === 'img' && !activeCrop.value && (
                 <div className={styles.fullScreen} style={{ bottom: fullScreen.value ? 30 : 290 }} onClick={fullScreen.toggle}>
                     <Icons.Player variant="full" />
                 </div>
             )}
             <div className={`${styles.footer} ${fullScreen.value ? styles.footer_hidden : ''}`}>
                 <div className={styles.actions}>
-                    {actionItems.map((i) => (
-                        <div key={i.id} className={styles.item} onClick={i.onClick}>
-                            {i.icon}
+                    {actionItems.map((i: any) => (
+                        <div key={i.id} className={styles.item} onClick={i.onClick} style={{ color: i?.active ? 'var(--text-action)' : '' }}>
+                            {i?.icon}
+                            {i?.title}
                         </div>
                     ))}
                 </div>
