@@ -1,6 +1,7 @@
-import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
+import React, { createRef, MouseEventHandler, TouchEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import { mergeRefs } from 'react-merge-refs';
+import { useUpdateEffect } from 'react-use';
 
 import { useEasyState, useInView } from 'shared/hooks';
 import { fileConverter } from 'shared/lib';
@@ -25,6 +26,7 @@ function PhotoVideoSwiperView(props: Props) {
     const { forward, data, close, downloads, deleteMessage, deleteImage, replaceImage } = props;
 
     const cropperRef = useRef<ReactCropperElement>(null);
+    const drawRef = useRef<HTMLCanvasElement>(null);
 
     const activeSlideRef = useRef<any>(null);
     const bottomSwiperRef = useRef<any>(null);
@@ -163,6 +165,51 @@ function PhotoVideoSwiperView(props: Props) {
         }
     }, [rotate.value]);
 
+    const color = useEasyState('black');
+    const isDrawing = useEasyState(false);
+
+    const start = (e: any) => {
+        if (drawRef.current) {
+            const canvas = drawRef.current;
+            const context = canvas.getContext('2d');
+            if (context) {
+                const clientRect = canvas.getBoundingClientRect();
+                isDrawing.set(true);
+                context.beginPath();
+                context.moveTo(e.clientX - clientRect.left, e.clientY - clientRect.top);
+                e.preventDefault();
+            }
+        }
+    };
+
+    const draw = (e: any) => {
+        if (drawRef.current && isDrawing.value) {
+            const canvas = drawRef.current;
+            const context = canvas.getContext('2d');
+            if (context) {
+                const clientRect = canvas.getBoundingClientRect();
+                context.lineTo(e.clientX - clientRect.left, e.clientY - clientRect.top);
+                context.strokeStyle = color.value;
+                context.lineWidth = 3;
+                context.lineCap = 'round';
+                context.lineJoin = 'round';
+                context.stroke();
+            }
+        }
+    };
+
+    const stopDraw = () => {
+        if (drawRef.current && isDrawing.value) {
+            const canvas = drawRef.current;
+            const context = canvas.getContext('2d');
+            if (context) {
+                context.stroke();
+                context.closePath();
+                isDrawing.set(false);
+            }
+        }
+    };
+
     return (
         <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
             <ContextMenu
@@ -184,7 +231,18 @@ function PhotoVideoSwiperView(props: Props) {
 
                 {activeItem.value && (
                     <div className={styles.slideTop}>
-                        {activeDraw.value && <div>wd</div>}
+                        {activeDraw.value && (
+                            <canvas
+                                style={{ cursor: isDrawing ? 'crosshair' : 'auto' }}
+                                onMouseDown={start}
+                                onMouseMove={draw}
+                                onMouseUp={stopDraw}
+                                className={styles.draw}
+                                ref={drawRef}
+                                width={imgSize.value.width}
+                                height={imgSize.value.height}
+                            />
+                        )}
                         {activeCrop.value ? (
                             <Cropper
                                 src={activeItem.value.url}
