@@ -1,4 +1,5 @@
 import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
+import Cropper, { ReactCropperElement } from 'react-cropper';
 import { mergeRefs } from 'react-merge-refs';
 
 import { useEasyState, useInView } from 'shared/hooks';
@@ -8,6 +9,7 @@ import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-contr
 import styles from './styles.module.scss';
 import { getCroppedImg } from '../../../../../shared/lib/canvas';
 import { PhotoAndVideoSwiperType, PhotoAndVideoSwiperItemsType } from '../../../model/types';
+import 'cropperjs/dist/cropper.css';
 
 type Props = {
     data?: PhotoAndVideoSwiperType;
@@ -21,6 +23,8 @@ type Props = {
 function PhotoVideoSwiperView(props: Props) {
     const { forward, data, close, downloads, deleteMessage, deleteImage } = props;
 
+    const cropperRef = useRef<ReactCropperElement>(null);
+
     const activeSlideRef = useRef<any>(null);
     const bottomSwiperRef = useRef<any>(null);
 
@@ -31,6 +35,8 @@ function PhotoVideoSwiperView(props: Props) {
 
     const fullScreen = useEasyState(false);
     const visibleContextMenu = useEasyState(false);
+
+    const activeCrop = useEasyState(false);
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
     const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
@@ -58,7 +64,7 @@ function PhotoVideoSwiperView(props: Props) {
     ];
 
     const actionsImgUpdate = [
-        { id: 0, icon: <Icons variant="crop" />, onClick: () => '' },
+        { id: 0, icon: <Icons variant="crop" />, onClick: () => activeCrop.set(true) },
         { id: 1, icon: <Icons variant="edit" />, onClick: () => '' },
         {
             id: 2,
@@ -116,6 +122,11 @@ function PhotoVideoSwiperView(props: Props) {
         }
     };
 
+    const onCrop = () => {
+        const cropper = cropperRef.current?.cropper;
+        // console.log(cropper.getCroppedCanvas().toDataURL());
+    };
+
     const actionItems = data?.update ? actionsImgUpdate : actions;
 
     // const showCroppedImage = useCallback(async () => {
@@ -149,9 +160,35 @@ function PhotoVideoSwiperView(props: Props) {
 
                 {activeItem.value && (
                     <div className={styles.slideTop}>
-                        {data?.type === 'img' && <Image height="100%" visibleDropdown={false} url={activeItem.value?.url} objectFit="contain" />}
-                        {data?.type === 'video' && (
-                            <VideoPlayerWithControls autoPlay clickFull={() => fullScreen.toggle()} visibleDropdown={false} url={activeItem.value.url} />
+                        {activeCrop.value ? (
+                            <Cropper
+                                src={activeItem.value.url}
+                                ref={cropperRef}
+                                style={{ height: '100%', width: '100%' }}
+                                zoomTo={0}
+                                initialAspectRatio={1}
+                                preview=".img-preview"
+                                viewMode={1}
+                                minCropBoxHeight={10}
+                                minCropBoxWidth={10}
+                                background={false}
+                                responsive
+                                autoCropArea={1}
+                                checkOrientation={false}
+                                guides
+                            />
+                        ) : (
+                            <>
+                                {data?.type === 'img' && <Image height="100%" visibleDropdown={false} url={activeItem.value?.url} objectFit="contain" />}
+                                {data?.type === 'video' && (
+                                    <VideoPlayerWithControls
+                                        autoPlay
+                                        clickFull={() => fullScreen.toggle()}
+                                        visibleDropdown={false}
+                                        url={activeItem.value.url}
+                                    />
+                                )}
+                            </>
                         )}
                     </div>
                 )}

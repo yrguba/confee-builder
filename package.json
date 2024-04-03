@@ -57,6 +57,7 @@
         "or": "^0.2.0",
         "rc-slider": "^10.2.1",
         "react": "^18.2.0",
+        "react-cropper": "^2.3.3",
         "react-dom": "^18.2.0",
         "react-highlight-words": "^0.20.0",
         "react-hook-speech-to-text": "^0.8.0",
