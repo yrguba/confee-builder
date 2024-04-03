@@ -36,7 +36,6 @@ import useArray, { UseArrayReturnType } from './useArray';
 import useAudioRecorder from './useAudioRecord';
 import useCallbackRef from './useCallbackRef';
 import useCreateSelectors from './useCreateSelectors';
-import useDraw from './useDraw';
 import useEasyState, { UseEasyStateReturnType } from './useEasyState';
 import useFetchMediaContent from './useFetchMediaContent';
 import useFs, * as UseFsTypes from './useFS';
@@ -63,7 +62,6 @@ import mediaQuery from '../configs/media-query';
 
 const { useWidthMediaQuery, useHeightMediaQuery } = mediaQuery;
 export {
-    useDraw,
     useZustand,
     usePersister,
     useRustServer,

@@ -2,6 +2,7 @@ import Avatar, { Types as AvatarTypes } from './avatar';
 import Box, { Types as BoxTypes } from './box';
 import Breadcrumb, { Types as BreadcrumbTypes } from './breadcrumb';
 import Button, { Types as ButtonTypes } from './button';
+import Canvas, { Types as CanvasTypes } from './canvas';
 import Card, { Types as CardTypes } from './card';
 import Collapse, { CollapseTypes } from './collapse';
 import ContextMenu, { Types as ContextMenuTypes } from './context-menu';
@@ -26,6 +27,7 @@ import TabBar, { Types as TabBarTypes } from './tab-bar';
 import Title, { Types as TitleTypes } from './title';
 
 export {
+    Canvas,
     ContextMenu,
     Slider,
     Video,
@@ -54,6 +56,7 @@ export {
     Notification,
 };
 export type {
+    CanvasTypes,
     ContextMenuTypes,
     SliderTypes,
     VideoPlayerTypes,

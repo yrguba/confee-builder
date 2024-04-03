@@ -1,52 +1,17 @@
-import React, { RefObject, useRef } from 'react';
+import React, { forwardRef } from 'react';
 
-import styles from '../../entities/app/ui/modals/photo-video-swiper/styles.module.scss';
+import { useEasyState } from 'shared/hooks';
 
-import { useEasyState, UseEasyStateReturnType } from './index';
+import styles from './styles.module.scss';
+import { DrawCanvasProps } from '../../types';
 
-type Props = {
-    width: string | number;
-    height: string | number;
-};
-
-function useDraw(props: Props) {
-    const { width = '100%', height = '100%' } = props;
-    const color = useEasyState('black');
-
-    // const drawControlItems = [
-    //     { id: 0, icon: null, title: 'Отмена', onClick: () => activeDraw.set(false) },
-    //     {
-    //         id: 1,
-    //         icon: (
-    //             <div className={styles.colorPiker} style={{ backgroundColor: color.value }}>
-    //                 <input className={styles.colorPiker_input} type="color" onChange={(e) => color.set(e.target.value)} />
-    //             </div>
-    //         ),
-    //         onClick: () => rotate.set(rotate.value + 20),
-    //     },
-    //     { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
-    // ];
-
-    const drawControl = <DrawControlFn />;
-    const drawCanvas = <DrawCanvasFn width={width} height={height} color={color.value} />;
-
-    return { drawControl, drawCanvas };
-}
-
-function DrawControlFn() {
-    return <div>DrawControl</div>;
-}
-
-type DrawCanvasFnProps = {
-    color: string;
-} & Props;
-
-function DrawCanvasFn({ color, width, height }: DrawCanvasFnProps) {
-    const ref = useRef<HTMLCanvasElement>(null);
+const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
+    const { width = '100%', height = '100%', color = 'black' } = props;
 
     const isDrawing = useEasyState(false);
+
     const start = (e: any) => {
-        if (ref.current) {
+        if (ref?.current) {
             const canvas = ref.current;
             const context = canvas.getContext('2d');
             if (context) {
@@ -60,7 +25,7 @@ function DrawCanvasFn({ color, width, height }: DrawCanvasFnProps) {
     };
 
     const draw = (e: any) => {
-        if (ref.current && isDrawing.value) {
+        if (ref?.current && isDrawing.value) {
             const canvas = ref.current;
             const context = canvas.getContext('2d');
             if (context) {
@@ -77,7 +42,7 @@ function DrawCanvasFn({ color, width, height }: DrawCanvasFnProps) {
     };
 
     const stopDraw = (e: any) => {
-        if (ref.current && isDrawing.value) {
+        if (ref?.current && isDrawing.value) {
             const canvas = ref.current;
             const context = canvas.getContext('2d');
             if (context) {
@@ -100,6 +65,6 @@ function DrawCanvasFn({ color, width, height }: DrawCanvasFnProps) {
             height={height}
         />
     );
-}
+});
 
-export default useDraw;
+export default Draw;

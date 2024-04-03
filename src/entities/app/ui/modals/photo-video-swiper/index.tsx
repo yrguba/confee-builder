@@ -3,9 +3,9 @@ import Cropper, { ReactCropperElement } from 'react-cropper';
 import { mergeRefs } from 'react-merge-refs';
 import { useUpdateEffect } from 'react-use';
 
-import { useDraw, useEasyState, useInView } from 'shared/hooks';
+import { useEasyState, useInView } from 'shared/hooks';
 import { fileConverter } from 'shared/lib';
-import { Button, Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
+import { Button, Canvas, Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
 import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-controls';
 
 import styles from './styles.module.scss';
@@ -44,7 +44,9 @@ function PhotoVideoSwiperView(props: Props) {
     const activeDraw = useEasyState(false);
     const rotate = useEasyState(0);
 
-    const { drawCanvas, drawControl } = useDraw({ width: imgSize.value.width, height: imgSize.value.height });
+    const { drawCanvas, drawControl } = Canvas.useDraw({
+        onClose: () => activeDraw.set(false),
+    });
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
     const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
@@ -181,7 +183,7 @@ function PhotoVideoSwiperView(props: Props) {
                 )}
                 {activeItem.value && (
                     <div className={styles.slideTop}>
-                        {activeDraw.value && drawCanvas}
+                        {activeDraw.value && <Canvas.Draw {...drawCanvas} width={imgSize.value.width} height={imgSize.value.height} />}
                         {activeCrop.value ? (
                             <Cropper
                                 src={activeItem.value.url}
@@ -239,7 +241,7 @@ function PhotoVideoSwiperView(props: Props) {
             )}
             <div className={`${styles.footer} ${fullScreen.value ? styles.footer_hidden : ''}`}>
                 {activeDraw.value ? (
-                    drawControl
+                    <Canvas.DrawControl {...drawControl} />
                 ) : (
                     <div className={styles.actions}>
                         {actionItems.map((i: any) => (

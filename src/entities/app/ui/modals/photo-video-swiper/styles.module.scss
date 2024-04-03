@@ -35,13 +35,7 @@
       height: 100%;
       position: relative;
 
-      .drawCanvas {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 10;
-      }
+
     }
 
     svg {
@@ -166,44 +160,18 @@
       border-radius: 24px;
       background: var(--white);
 
-      .colorPiker {
-        @include box-size(28px,28px);
-        position: relative;
-        border-radius: 50%;
-
-        &::before {
-          @include box-size(28px,28px);
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          z-index: 2;
-          border-radius: 50%;
-          pointer-events: none;
-          box-shadow: var(--box-shadow);
-        }
-        &_input {
-          @include box-size(100%,100%);
-          -webkit-appearance: none;
-          border: none;
-          opacity: 0;
-          border-radius: 50%;
-        }
-      }
-
-      .item {
-        cursor: pointer;
-        font-weight: 600;
-      }
-
-      svg {
-        fill: black;
-      }
     }
 
+    .item {
+      cursor: pointer;
+      font-weight: 600;
+    }
 
+    svg {
+      fill: black;
+    }
   }
+
 
 }
 
