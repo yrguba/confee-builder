@@ -21,12 +21,15 @@ type Store = {
     filesToSend: UseFileUploaderTypes.Types.SortByAcceptType;
 };
 
+type FilesType = 'image' | 'video' | 'audio' | 'document';
+
 type Methods = {
     highlightedMessages: {
         pushOrDelete: (message: MessageProxy) => void;
     };
     filesToSend: {
-        deleteById: (data: { type: 'image' | 'video' | 'audio' | 'document'; id: string | number }) => void;
+        deleteById: (data: { type: FilesType; id: string | number }) => void;
+        replaceById: (data: { type: FilesType; id: string | number; file: File; url: string }) => void;
     };
 };
 
@@ -68,6 +71,14 @@ const messageStore = useZustand<Store, Methods>({
             deleteById: ({ type, id }) => {
                 const { state, updater } = use();
                 const upd = state.filesToSend.value[type].filter((i) => i.id !== id);
+                updater({ filesToSend: { ...state.filesToSend.value, [type]: upd } });
+            },
+            replaceById: ({ type, id, file, url }) => {
+                const { state, updater } = use();
+                const upd = state.filesToSend.value[type].map((i) => {
+                    if (i.id === id) return { ...i, file, fileUrl: url };
+                    return i;
+                });
                 updater({ filesToSend: { ...state.filesToSend.value, [type]: upd } });
             },
         }),

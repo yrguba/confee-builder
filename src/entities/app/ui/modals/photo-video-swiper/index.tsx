@@ -18,10 +18,11 @@ type Props = {
     deleteMessage: () => void;
     forward: () => void;
     deleteImage: (id: string | number) => void;
+    replaceImage: (id: number | string, file: File, url: string) => void;
 };
 
 function PhotoVideoSwiperView(props: Props) {
-    const { forward, data, close, downloads, deleteMessage, deleteImage } = props;
+    const { forward, data, close, downloads, deleteMessage, deleteImage, replaceImage } = props;
 
     const cropperRef = useRef<ReactCropperElement>(null);
 
@@ -66,9 +67,8 @@ function PhotoVideoSwiperView(props: Props) {
                     if (blob && activeItem.value) {
                         const blobUrl = fileConverter.blobLocalPath(blob);
                         const file = new File([blob as any], activeItem.value?.name || 'img.jpg', { type: 'image/jpeg' });
-                        console.log(blobUrl);
-                        console.log(file);
                         activeItem.set({ ...activeItem.value, url: blobUrl });
+                        replaceImage(activeItem.value.id, file, blobUrl);
                         activeCrop.set(false);
                     }
                 }, 'image/jpeg');
@@ -148,7 +148,6 @@ function PhotoVideoSwiperView(props: Props) {
     };
 
     const actionItems: any = activeCrop.value ? actionsCrop : data?.update ? actionsImgUpdate : actions;
-    console.log(rotate.value);
 
     useEffect(() => {
         if (cropperRef.current) {

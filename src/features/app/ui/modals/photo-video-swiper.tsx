@@ -65,6 +65,10 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
         !arr.length && photoAndVideoFromSwiper.clear();
     };
 
+    const replaceImage = (id: number | string, file: File, url: string) => {
+        filesToSend.replaceById({ type: 'image', id, file, url });
+    };
+
     return (
         <>
             <PhotoVideoSwiperView
@@ -74,6 +78,7 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
                 downloads={downloads}
                 deleteMessage={deleteMessage}
                 deleteImage={deleteImage}
+                replaceImage={replaceImage}
             />
         </>
     );
