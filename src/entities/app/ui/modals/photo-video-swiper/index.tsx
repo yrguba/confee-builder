@@ -39,6 +39,7 @@ function PhotoVideoSwiperView(props: Props) {
     const visibleContextMenu = useEasyState(false);
 
     const activeCrop = useEasyState(false);
+    const activeDraw = useEasyState(false);
     const rotate = useEasyState(0);
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
@@ -85,7 +86,7 @@ function PhotoVideoSwiperView(props: Props) {
 
     const actionsImgUpdate = [
         { id: 0, icon: <Icons variant="crop" />, onClick: () => activeCrop.set(true) },
-        { id: 1, icon: <Icons variant="edit" />, onClick: () => '' },
+        { id: 1, icon: <Icons variant="edit" />, onClick: () => activeDraw.set(true) },
         {
             id: 2,
             icon: <Icons variant="delete" />,
@@ -98,6 +99,12 @@ function PhotoVideoSwiperView(props: Props) {
 
     const actionsCrop = [
         { id: 0, icon: null, title: 'Отмена', onClick: () => activeCrop.set(false) },
+        { id: 1, icon: <Icons variant="rotate-img" />, onClick: () => rotate.set(rotate.value + 20) },
+        { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
+    ];
+
+    const actionsDraw = [
+        { id: 0, icon: null, title: 'Отмена', onClick: () => activeDraw.set(false) },
         { id: 1, icon: <Icons variant="rotate-img" />, onClick: () => rotate.set(rotate.value + 20) },
         { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
     ];
@@ -155,7 +162,7 @@ function PhotoVideoSwiperView(props: Props) {
             cropperRef.current.cropper.rotateTo(rotate.value);
         }
     }, [rotate.value]);
-    console.log(imgSize.value);
+
     return (
         <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
             <ContextMenu
@@ -177,6 +184,7 @@ function PhotoVideoSwiperView(props: Props) {
 
                 {activeItem.value && (
                     <div className={styles.slideTop}>
+                        {activeDraw.value && <div>wd</div>}
                         {activeCrop.value ? (
                             <Cropper
                                 src={activeItem.value.url}
@@ -197,7 +205,17 @@ function PhotoVideoSwiperView(props: Props) {
                         ) : (
                             <>
                                 {data?.type === 'img' && (
-                                    <Image onResize={imgSize.set} height="100%" visibleDropdown={false} url={activeItem.value?.url} objectFit="contain" />
+                                    <Image
+                                        onResize={(size) => {
+                                            if (size.width && size.height) {
+                                                imgSize.set(size);
+                                            }
+                                        }}
+                                        height="100%"
+                                        visibleDropdown={false}
+                                        url={activeItem.value?.url}
+                                        objectFit="contain"
+                                    />
                                 )}
                                 {data?.type === 'video' && (
                                     <VideoPlayerWithControls

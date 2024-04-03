@@ -18,7 +18,6 @@ import Video, { Types as VideoPlayerTypes } from './media-content/video';
 import WebCameraPhoto, { Types as WebCamaraPhotoTypes } from './media-content/web-camera-photo';
 import Modal, { Types as ModalTypes } from './modal';
 import Notification, { Types as NotificationTypes } from './notification';
-import Pagination, { Types as PaginationTypes } from './pagination';
 import Select, { Types as SelectTypes } from './select';
 import Slider, { Types as SliderTypes } from './slider';
 import Steps, { Types as StepsTypes } from './steps';
@@ -51,7 +50,6 @@ export {
     Select,
     Emoji,
     Breadcrumb,
-    Pagination,
     Image,
     Notification,
 };
@@ -79,7 +77,6 @@ export type {
     EmojiTypes,
     CollapseTypes,
     BreadcrumbTypes,
-    PaginationTypes,
     ImageTypes,
     NotificationTypes,
     AudioTypes,
