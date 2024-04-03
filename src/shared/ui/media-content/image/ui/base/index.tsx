@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { appTypes } from 'entities/app';
 import { useEasyState, useFetchMediaContent, useFs, useStorage, useStyles, useWindowMouseClick } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { messageStore } from '../../../../../../entities/message';
+import { useDimensionsObserver } from '../../../../../hooks';
 import { sizeConverter } from '../../../../../lib';
 import Box from '../../../../box';
 import Button from '../../../../button';
@@ -29,9 +30,11 @@ function Image(props: BaseImageProps) {
         id,
         remove,
         visibleDropdown = true,
+        onResize,
         ...other
     } = props;
-    const storage = useStorage();
+
+    const ref = useRef<HTMLImageElement>(null);
 
     const { src, error, getFileBlob, isLoading } = useFetchMediaContent({ url, name, fileType: 'img' });
     const downloadFile = messageStore.use.downloadFile();
@@ -90,6 +93,15 @@ function Image(props: BaseImageProps) {
         remove && id && remove(id);
     };
 
+    useDimensionsObserver({
+        refs: { wrapper: ref },
+        onResize: {
+            wrapper: (size) => {
+                onResize && onResize(size);
+            },
+        },
+    });
+
     return (
         <div
             onMouseLeave={() => visibleMenu.set(false)}
@@ -109,7 +121,7 @@ function Image(props: BaseImageProps) {
                     <LoadingIndicator.Downloaded size={50} visible primary={false} />
                 </div>
             ) : null}
-            {!error && !isLoading && <img onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />}
+            {!error && !isLoading && <img ref={onResize ? ref : null} onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />}
             {remove && (
                 <Button.Circle radius={30} className={styles.remove} onClick={id ? removeClick : () => ''} variant="inherit">
                     <Icons variant="delete" />

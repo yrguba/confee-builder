@@ -17,8 +17,8 @@ export type BaseImageProps = {
     borderRadius?: boolean;
     remove?: (id: number | string) => void;
     objectFit?: 'cover' | 'contain';
-
     visibleDropdown?: boolean;
+    onResize?: (size: { width: number; height: number }) => void;
 } & BaseTypes.Statuses;
 
 export type ImagesListItem = {

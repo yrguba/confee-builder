@@ -33,6 +33,7 @@ function PhotoVideoSwiperView(props: Props) {
     const visibleRightBtn = useEasyState(true);
 
     const activeItem = useEasyState<PhotoAndVideoSwiperItemsType | null>(null);
+    const imgSize = useEasyState({ width: 0, height: 0 });
 
     const fullScreen = useEasyState(false);
     const visibleContextMenu = useEasyState(false);
@@ -154,7 +155,7 @@ function PhotoVideoSwiperView(props: Props) {
             cropperRef.current.cropper.rotateTo(rotate.value);
         }
     }, [rotate.value]);
-
+    console.log(imgSize.value);
     return (
         <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
             <ContextMenu
@@ -195,7 +196,9 @@ function PhotoVideoSwiperView(props: Props) {
                             />
                         ) : (
                             <>
-                                {data?.type === 'img' && <Image height="100%" visibleDropdown={false} url={activeItem.value?.url} objectFit="contain" />}
+                                {data?.type === 'img' && (
+                                    <Image onResize={imgSize.set} height="100%" visibleDropdown={false} url={activeItem.value?.url} objectFit="contain" />
+                                )}
                                 {data?.type === 'video' && (
                                     <VideoPlayerWithControls
                                         autoPlay
