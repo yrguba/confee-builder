@@ -9,7 +9,7 @@ type Props = {
     color?: string;
 };
 
-function useCanvas(props: Props) {
+function useDraw(props: Props) {
     const { ref, color = 'black' } = props;
 
     const isDrawing = useEasyState(false);
@@ -61,4 +61,4 @@ function useCanvas(props: Props) {
     return { canvasAttrs: { onMouseDown, onMouseMove, onMouseUp }, isDrawing };
 }
 
-export default useCanvas;
+export default useDraw;

@@ -3,7 +3,7 @@ import Cropper, { ReactCropperElement } from 'react-cropper';
 import { mergeRefs } from 'react-merge-refs';
 import { useUpdateEffect } from 'react-use';
 
-import { useCanvas, useEasyState, useInView } from 'shared/hooks';
+import { useDraw, useEasyState, useInView } from 'shared/hooks';
 import { fileConverter } from 'shared/lib';
 import { Button, Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
 import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-controls';
@@ -46,7 +46,7 @@ function PhotoVideoSwiperView(props: Props) {
     const rotate = useEasyState(0);
     const color = useEasyState('black');
 
-    const { canvasAttrs, isDrawing } = useCanvas({ ref: drawRef, color: color.value });
+    const { canvasAttrs, isDrawing } = useDraw({ ref: drawRef, color: color.value });
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
     const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
