@@ -27,7 +27,6 @@ function PhotoVideoSwiperView(props: Props) {
     const { forward, data, close, downloads, deleteMessage, deleteImage, replaceImage } = props;
 
     const cropperRef = useRef<ReactCropperElement>(null);
-    const drawRef = useRef<HTMLCanvasElement>(null);
 
     const activeSlideRef = useRef<any>(null);
     const bottomSwiperRef = useRef<any>(null);
@@ -44,9 +43,8 @@ function PhotoVideoSwiperView(props: Props) {
     const activeCrop = useEasyState(false);
     const activeDraw = useEasyState(false);
     const rotate = useEasyState(0);
-    const color = useEasyState('black');
 
-    const { canvasAttrs, isDrawing } = useDraw({ ref: drawRef, color: color.value });
+    const { drawCanvas, drawControl } = useDraw({ width: imgSize.value.width, height: imgSize.value.height });
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
     const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
@@ -109,20 +107,6 @@ function PhotoVideoSwiperView(props: Props) {
         { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
     ];
 
-    const actionsDraw = [
-        { id: 0, icon: null, title: 'Отмена', onClick: () => activeDraw.set(false) },
-        {
-            id: 1,
-            icon: (
-                <div className={styles.colorPiker} style={{ backgroundColor: color.value }}>
-                    <input className={styles.colorPiker_input} type="color" onChange={(e) => color.set(e.target.value)} />
-                </div>
-            ),
-            onClick: () => rotate.set(rotate.value + 20),
-        },
-        { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
-    ];
-
     const contextMenuItems = [
         {
             id: 0,
@@ -169,7 +153,7 @@ function PhotoVideoSwiperView(props: Props) {
         }
     };
 
-    const actionItems: any = activeDraw.value ? actionsDraw : activeCrop.value ? actionsCrop : data?.update ? actionsImgUpdate : actions;
+    const actionItems: any = activeCrop.value ? actionsCrop : data?.update ? actionsImgUpdate : actions;
 
     useEffect(() => {
         if (cropperRef.current) {
@@ -197,16 +181,7 @@ function PhotoVideoSwiperView(props: Props) {
                 )}
                 {activeItem.value && (
                     <div className={styles.slideTop}>
-                        {activeDraw.value && (
-                            <canvas
-                                {...canvasAttrs}
-                                style={{ cursor: isDrawing ? 'crosshair' : 'auto' }}
-                                className={styles.drawCanvas}
-                                ref={drawRef}
-                                width={imgSize.value.width}
-                                height={imgSize.value.height}
-                            />
-                        )}
+                        {activeDraw.value && drawCanvas}
                         {activeCrop.value ? (
                             <Cropper
                                 src={activeItem.value.url}
@@ -263,14 +238,18 @@ function PhotoVideoSwiperView(props: Props) {
                 </div>
             )}
             <div className={`${styles.footer} ${fullScreen.value ? styles.footer_hidden : ''}`}>
-                <div className={styles.actions}>
-                    {actionItems.map((i: any) => (
-                        <div key={i.id} className={styles.item} onClick={i.onClick} style={{ color: i?.active ? 'var(--text-action)' : '' }}>
-                            {i?.icon}
-                            {i?.title}
-                        </div>
-                    ))}
-                </div>
+                {activeDraw.value ? (
+                    drawControl
+                ) : (
+                    <div className={styles.actions}>
+                        {actionItems.map((i: any) => (
+                            <div key={i.id} className={styles.item} onClick={i.onClick} style={{ color: i?.active ? 'var(--text-action)' : '' }}>
+                                {i?.icon}
+                                {i?.title}
+                            </div>
+                        ))}
+                    </div>
+                )}
                 {multiple && (
                     <div className={styles.swiperContainer}>
                         {!inViewFirsItemRef && (
