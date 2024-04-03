@@ -44,8 +44,9 @@ function PhotoVideoSwiperView(props: Props) {
     const activeCrop = useEasyState(false);
     const activeDraw = useEasyState(false);
     const rotate = useEasyState(0);
+    const color = useEasyState('black');
 
-    const { canvasAttrs, isDrawing } = useCanvas({ ref: drawRef });
+    const { canvasAttrs, isDrawing } = useCanvas({ ref: drawRef, color: color.value });
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
     const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
@@ -110,7 +111,15 @@ function PhotoVideoSwiperView(props: Props) {
 
     const actionsDraw = [
         { id: 0, icon: null, title: 'Отмена', onClick: () => activeDraw.set(false) },
-        { id: 1, icon: <Icons variant="rotate-img" />, onClick: () => rotate.set(rotate.value + 20) },
+        {
+            id: 1,
+            icon: (
+                <div className={styles.colorPiker} style={{ backgroundColor: color.value }}>
+                    <input className={styles.colorPiker_input} type="color" onChange={(e) => color.set(e.target.value)} />
+                </div>
+            ),
+            onClick: () => rotate.set(rotate.value + 20),
+        },
         { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
     ];
 
@@ -160,7 +169,7 @@ function PhotoVideoSwiperView(props: Props) {
         }
     };
 
-    const actionItems: any = activeCrop.value ? actionsCrop : data?.update ? actionsImgUpdate : actions;
+    const actionItems: any = activeDraw.value ? actionsDraw : activeCrop.value ? actionsCrop : data?.update ? actionsImgUpdate : actions;
 
     useEffect(() => {
         if (cropperRef.current) {
