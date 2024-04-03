@@ -1,23 +1,22 @@
-import React, { useRef } from 'react';
+import React, { RefObject, useRef } from 'react';
 
 import styles from '../../entities/app/ui/modals/photo-video-swiper/styles.module.scss';
 
 import { useEasyState } from './index';
 
 type Props = {
-    width: string | number;
-    height: string | number;
+    ref: RefObject<HTMLCanvasElement>;
+    color?: string;
 };
 
 function useCanvas(props: Props) {
-    const drawRef = useRef<HTMLCanvasElement>(null);
+    const { ref, color = 'black' } = props;
 
-    const color = useEasyState('black');
     const isDrawing = useEasyState(false);
 
-    const start = (e: any) => {
-        if (drawRef.current) {
-            const canvas = drawRef.current;
+    const onMouseDown = (e: any) => {
+        if (ref.current) {
+            const canvas = ref.current;
             const context = canvas.getContext('2d');
             if (context) {
                 const clientRect = canvas.getBoundingClientRect();
@@ -29,14 +28,14 @@ function useCanvas(props: Props) {
         }
     };
 
-    const draw = (e: any) => {
-        if (drawRef.current && isDrawing.value) {
-            const canvas = drawRef.current;
+    const onMouseMove = (e: any) => {
+        if (ref.current && isDrawing.value) {
+            const canvas = ref.current;
             const context = canvas.getContext('2d');
             if (context) {
                 const clientRect = canvas.getBoundingClientRect();
                 context.lineTo(e.clientX - clientRect.left, e.clientY - clientRect.top);
-                context.strokeStyle = color.value;
+                context.strokeStyle = color;
                 context.lineWidth = 3;
                 context.lineCap = 'round';
                 context.lineJoin = 'round';
@@ -46,9 +45,9 @@ function useCanvas(props: Props) {
         }
     };
 
-    const stopDraw = (e: any) => {
-        if (drawRef.current && isDrawing.value) {
-            const canvas = drawRef.current;
+    const onMouseUp = (e: any) => {
+        if (ref.current && isDrawing.value) {
+            const canvas = ref.current;
             const context = canvas.getContext('2d');
             if (context) {
                 context.stroke();
@@ -59,18 +58,7 @@ function useCanvas(props: Props) {
         }
     };
 
-    return (
-        <canvas
-            style={{ cursor: isDrawing ? 'crosshair' : 'auto' }}
-            onMouseDown={start}
-            onMouseMove={draw}
-            onMouseUp={stopDraw}
-            className={styles.draw}
-            ref={drawRef}
-            width={props.width}
-            height={props.height}
-        />
-    );
+    return { canvasAttrs: { onMouseDown, onMouseMove, onMouseUp }, isDrawing };
 }
 
 export default useCanvas;

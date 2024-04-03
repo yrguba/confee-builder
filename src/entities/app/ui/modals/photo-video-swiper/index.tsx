@@ -10,6 +10,7 @@ import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-contr
 
 import styles from './styles.module.scss';
 import { PhotoAndVideoSwiperType, PhotoAndVideoSwiperItemsType } from '../../../model/types';
+
 import 'cropperjs/dist/cropper.css';
 
 type Props = {
@@ -26,6 +27,7 @@ function PhotoVideoSwiperView(props: Props) {
     const { forward, data, close, downloads, deleteMessage, deleteImage, replaceImage } = props;
 
     const cropperRef = useRef<ReactCropperElement>(null);
+    const drawRef = useRef<HTMLCanvasElement>(null);
 
     const activeSlideRef = useRef<any>(null);
     const bottomSwiperRef = useRef<any>(null);
@@ -43,7 +45,7 @@ function PhotoVideoSwiperView(props: Props) {
     const activeDraw = useEasyState(false);
     const rotate = useEasyState(0);
 
-    const draw = useCanvas({ width: imgSize.value.width, height: imgSize.value.height });
+    const { canvasAttrs, isDrawing } = useCanvas({ ref: drawRef });
 
     const { ref: firsItemRef, inView: inViewFirsItemRef } = useInView({ threshold: 0.5 });
     const { ref: lastItemRef, inView: inViewLastItemRef } = useInView({ threshold: 0.5 });
@@ -184,10 +186,18 @@ function PhotoVideoSwiperView(props: Props) {
                         {multiple && <Icons variant="arrow-drop-left" />}
                     </div>
                 )}
-
                 {activeItem.value && (
                     <div className={styles.slideTop}>
-                        {activeDraw.value && draw}
+                        {activeDraw.value && (
+                            <canvas
+                                {...canvasAttrs}
+                                style={{ cursor: isDrawing ? 'crosshair' : 'auto' }}
+                                className={styles.drawCanvas}
+                                ref={drawRef}
+                                width={imgSize.value.width}
+                                height={imgSize.value.height}
+                            />
+                        )}
                         {activeCrop.value ? (
                             <Cropper
                                 src={activeItem.value.url}
