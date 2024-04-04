@@ -33,9 +33,9 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const canvas = ref.current as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
         const roughCanvas = rough.canvas(canvas);
-
+        console.log('e');
         if (ctx) {
-            ctx.clearRect(0, 0, size.naturalWidth, size.containedHeight);
+            ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
             elements.value.forEach((i) => roughCanvas.draw(i.el));
         }
     }, [elements.value]);
