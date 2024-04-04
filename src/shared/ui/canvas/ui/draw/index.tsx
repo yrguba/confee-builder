@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useRef } from 'react';
-import { useUpdateEffect } from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 
 import { useEasyState } from 'shared/hooks';
 
@@ -7,11 +7,36 @@ import styles from './styles.module.scss';
 import { DrawCanvasProps } from '../../types';
 
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
-    const { width = '100%', height = '100%', color = 'black', imageUrl } = props;
+    const { width, height, color = 'black', imageUrl } = props;
 
     const background = useRef(false);
     const isDrawing = useEasyState(false);
-    console.log(width, height);
+
+    // useEffect(() => {
+    //     if (ref?.current) {
+    //         ref.current.height = height;
+    //         ref.current.width = width;
+    //     }
+    // }, [width, height]);
+
+    useEffect(() => {
+        if (ref.current) {
+            const canvas = ref.current as HTMLCanvasElement;
+            const context = canvas.getContext('2d');
+            let y = 1;
+            window.addEventListener('wheel', (e) => {
+                if (e.deltaY < 0) {
+                    if (context) {
+                        console.log(y);
+                        context.transform(21, 20, 21.7, 12, 20, 20);
+                        y += 1;
+                    }
+                } else {
+                }
+            });
+        }
+    }, [ref.current]);
+
     useEffect(() => {
         if (ref?.current && !background.current) {
             const canvas = ref.current;
@@ -21,7 +46,9 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
                     const bgImg = new Image();
                     bgImg.src = imageUrl;
                     bgImg.onload = (e) => {
-                        context.drawImage(e.target, 0, 0, width, height);
+                        canvas.width = bgImg.naturalWidth; // actual size given with integer values
+                        canvas.height = bgImg.naturalHeight;
+                        context.drawImage(e.target, 0, 0, bgImg.naturalWidth, bgImg.naturalHeight);
                     };
                 } else {
                     context.fillStyle = 'white';
@@ -74,7 +101,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             }
         }
     };
-
+    const scale = useRef<any>(1);
     return (
         <canvas
             onMouseDown={start}
@@ -83,8 +110,6 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             style={{ cursor: isDrawing ? 'crosshair' : 'auto' }}
             className={styles.wrapper}
             ref={ref}
-            width={width}
-            height={height}
         />
     );
 });

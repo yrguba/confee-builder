@@ -93,11 +93,24 @@ function Image(props: BaseImageProps) {
         remove && id && remove(id);
     };
 
+    function getContainedSize(e?: any) {
+        const img = ref.current || e?.target;
+        if (onResize && img) {
+            const ratio = img.naturalWidth / img.naturalHeight;
+            let width = img.height * ratio;
+            let { height } = img;
+
+            width = img.width;
+            height = img.width / ratio;
+            onResize({ width, height });
+        }
+    }
+
     useDimensionsObserver({
         refs: { wrapper: ref },
         onResize: {
             wrapper: (size) => {
-                onResize && onResize(size);
+                getContainedSize();
             },
         },
     });
@@ -121,7 +134,9 @@ function Image(props: BaseImageProps) {
                     <LoadingIndicator.Downloaded size={50} visible primary={false} />
                 </div>
             ) : null}
-            {!error && !isLoading && <img ref={onResize ? ref : null} onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />}
+            {!error && !isLoading && (
+                <img onLoad={getContainedSize} ref={onResize ? ref : null} onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />
+            )}
             {remove && (
                 <Button.Circle radius={30} className={styles.remove} onClick={id ? removeClick : () => ''} variant="inherit">
                     <Icons variant="delete" />

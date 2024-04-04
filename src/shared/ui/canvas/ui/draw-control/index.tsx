@@ -10,11 +10,15 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
     const done = () => {
         if (ref.current) {
             new Promise((resolve) => {
-                ref.current.toBlob((blob: Blob) => {
-                    const url = blobLocalPath(blob);
-                    const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-                    resolve({ url, file });
-                }, 'image/jpeg');
+                ref.current.toBlob(
+                    (blob: Blob) => {
+                        const url = blobLocalPath(blob);
+                        const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+                        resolve({ url, file });
+                    },
+                    'image/jpeg',
+                    1000
+                );
             }).then((res) => {
                 getResult(res as any);
             });
