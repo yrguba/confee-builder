@@ -10,6 +10,8 @@ import { DrawCanvasProps } from '../../types';
 
 const generator = rough.generator();
 
+const MAX_ELEMENTS = 20;
+
 type Tool = 'line' | 'rectangle' | 'ellipse' | 'circle' | 'pencil';
 
 type Coords = {
@@ -71,7 +73,11 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const ctx = canvas.getContext('2d');
         const roughCanvas = rough.canvas(canvas);
         if (ctx) {
-            // ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
+            if (elements.value.length > MAX_ELEMENTS) {
+                const updArr = [...elements.value];
+                updArr.splice(0, MAX_ELEMENTS);
+                elements.set(updArr);
+            }
             elements.value.forEach((i) => roughCanvas.draw(i.el));
         }
     }, [elements.value]);
@@ -92,7 +98,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         });
         elements.set((prev) => [...prev, el]);
     };
-    console.log(elements.value);
+
     const handleMousemove = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
         if (!isDrawing.value || !canvas) return null;
