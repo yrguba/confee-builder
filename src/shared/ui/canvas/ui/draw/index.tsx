@@ -59,7 +59,7 @@ function drawing(props: DrawingProps) {
         case 'rect':
             return { tag, coords, points, el: generator.rectangle(x1, y1, x2 - x1, y2 - y1, options) };
         case 'circle':
-            return { tag, coords, points, el: generator.circle(x1, y1, (x2 - x1 || y1) * 2, options) };
+            return { tag, coords, points, el: generator.circle(x1, y1, (x2 - x1) * 2, options) };
         case 'pencil':
             if (points) {
                 return { tag, coords, points, el: generator.linearPath(points, options) };
