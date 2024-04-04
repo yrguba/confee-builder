@@ -73,6 +73,8 @@ function drawing(props: DrawingProps) {
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     const { size, color = 'black', imageUrl, tool = 'pencil', elements } = props;
 
+    const bc = useRef(false);
+
     const options = {
         stroke: color,
         fillStyle: color,
@@ -87,24 +89,33 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const ctx = canvas.getContext('2d');
         const roughCanvas = rough.canvas(canvas);
         if (ctx && elements?.value) {
-            ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
-            if (elements.value.length > MAX_ELEMENTS) {
-                const updArr = [...elements.value];
-                updArr.splice(0, MAX_ELEMENTS);
-                elements.set(updArr);
+            if (imageUrl) {
+                const img = new Image();
+                img.src = imageUrl;
+                img.onload = () => {
+                    ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
+                    ctx.drawImage(img, 0, 0, size.naturalWidth, size.naturalHeight);
+                    bc.current = true;
+
+                    if (elements.value.length > MAX_ELEMENTS) {
+                        const updArr = [...elements.value];
+                        updArr.splice(0, MAX_ELEMENTS);
+                        elements.set(updArr);
+                    }
+                    elements.value.forEach((i) => {
+                        if (i.tag === 'rough') {
+                            roughCanvas.draw(i.el);
+                        }
+                        if (i.tag === 'arrow') {
+                            canvas_arrow(ctx, i.coords.x1, i.coords.y1, i.coords.x2, i.coords.y2);
+                            ctx.fillStyle = color;
+                            ctx.strokeStyle = color;
+                            ctx.lineWidth = 30;
+                            ctx.stroke();
+                        }
+                    });
+                };
             }
-            elements.value.forEach((i) => {
-                if (i.tag === 'rough') {
-                    roughCanvas.draw(i.el);
-                }
-                if (i.tag === 'arrow') {
-                    canvas_arrow(ctx, i.coords.x1, i.coords.y1, i.coords.x2, i.coords.y2);
-                    ctx.fillStyle = color;
-                    ctx.strokeStyle = color;
-                    ctx.lineWidth = 30;
-                    ctx.stroke();
-                }
-            });
         }
     }, [elements?.value]);
 
