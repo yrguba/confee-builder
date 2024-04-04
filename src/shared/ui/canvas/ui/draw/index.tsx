@@ -1,116 +1,87 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, MouseEvent, MouseEventHandler, useEffect, useLayoutEffect, useRef } from 'react';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
+import rough from 'roughjs';
+import { Drawable } from 'roughjs/bin/core';
 
-import { useEasyState } from 'shared/hooks';
+import { useArray, useEasyState } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { DrawCanvasProps } from '../../types';
 
+const generator = rough.generator();
+
+type Item = {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+    el: Drawable;
+};
+
+function createElement(x1: number, y1: number, x2: number, y2: number) {
+    const roughElement = generator.line(x1, y1, x2, y2);
+    return { x1, y1, x2, y2, el: roughElement };
+}
+
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
-    const { width, height, color = 'black', imageUrl } = props;
+    const { size, color = 'black', imageUrl } = props;
 
-    const background = useRef(false);
     const isDrawing = useEasyState(false);
+    const elements = useEasyState<Array<Item>>([]);
 
-    // useEffect(() => {
-    //     if (ref?.current) {
-    //         ref.current.height = height;
-    //         ref.current.width = width;
-    //     }
-    // }, [width, height]);
+    useLayoutEffect(() => {
+        const canvas = ref.current as HTMLCanvasElement;
+        const ctx = canvas.getContext('2d');
+        const roughCanvas = rough.canvas(canvas);
 
-    useEffect(() => {
-        if (ref.current) {
-            const canvas = ref.current as HTMLCanvasElement;
-            const context = canvas.getContext('2d');
-            let y = 1;
-            window.addEventListener('wheel', (e) => {
-                if (e.deltaY < 0) {
-                    if (context) {
-                        console.log(y);
-                        context.transform(21, 20, 21.7, 12, 20, 20);
-                        y += 1;
-                    }
-                } else {
-                }
-            });
+        if (ctx) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            elements.value.forEach((i) => roughCanvas.draw(i.el));
         }
-    }, [ref.current]);
+    }, [elements.value]);
 
-    useEffect(() => {
-        if (ref?.current && !background.current) {
-            const canvas = ref.current;
-            const context = canvas.getContext('2d');
-            if (context) {
-                if (imageUrl) {
-                    const bgImg = new Image();
-                    bgImg.src = imageUrl;
-                    bgImg.onload = (e) => {
-                        canvas.width = bgImg.naturalWidth; // actual size given with integer values
-                        canvas.height = bgImg.naturalHeight;
-                        context.drawImage(e.target, 0, 0, bgImg.naturalWidth, bgImg.naturalHeight);
-                    };
-                } else {
-                    context.fillStyle = 'white';
-                    context.fillRect(0, 0, canvas.width, canvas.height);
-                }
-            }
-        }
-    }, [ref.current, imageUrl]);
-
-    const start = (e: any) => {
-        if (ref?.current) {
-            const canvas = ref.current;
-            const context = canvas.getContext('2d');
-            if (context) {
-                const clientRect = canvas.getBoundingClientRect();
-                isDrawing.set(true);
-                context.beginPath();
-                context.moveTo(e.clientX - clientRect.left, e.clientY - clientRect.top);
-                e.preventDefault();
-            }
-        }
+    const handleMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
+        const canvas = ref.current as HTMLCanvasElement;
+        if (!canvas) return null;
+        isDrawing.set(true);
+        const canvasRect = canvas.getBoundingClientRect();
+        const { clientX, clientY } = e;
+        const x = clientX - canvasRect.left;
+        const y = clientY - canvasRect.top;
+        const el = createElement(x, y, x, y);
+        elements.set((prev) => [...prev, el]);
     };
 
-    const draw = (e: any) => {
-        if (ref?.current && isDrawing.value) {
-            const canvas = ref.current;
-            const context = canvas.getContext('2d');
-            if (context) {
-                const clientRect = canvas.getBoundingClientRect();
-                context.lineTo(e.clientX - clientRect.left, e.clientY - clientRect.top);
-                context.strokeStyle = color;
-                context.lineWidth = 3;
-                context.lineCap = 'round';
-                context.lineJoin = 'round';
-                context.stroke();
-                e.preventDefault();
-            }
-        }
+    const handleMousemove = (e: MouseEvent<HTMLCanvasElement>) => {
+        const canvas = ref.current as HTMLCanvasElement;
+        if (!isDrawing.value || !canvas) return null;
+        const canvasRect = canvas.getBoundingClientRect();
+        const { clientX, clientY } = e;
+        const index = elements.value.length - 1;
+        const lastEl = elements.value[index];
+        const updEl = createElement(lastEl.x1, lastEl.y1, clientX - canvasRect.left, clientY - canvasRect.top);
+        const copyEls = [...elements.value];
+        copyEls[index] = updEl;
+        elements.set(copyEls);
     };
 
-    const stopDraw = (e: any) => {
-        if (ref?.current && isDrawing.value) {
-            const canvas = ref.current;
-            const context = canvas.getContext('2d');
-            if (context) {
-                context.stroke();
-                context.closePath();
-                isDrawing.set(false);
-                e.preventDefault();
-            }
-        }
+    const handleMouseup = (e: MouseEvent<HTMLCanvasElement>) => {
+        // isDrawing.set(false);
     };
-    const scale = useRef<any>(1);
+
     return (
         <canvas
-            onMouseDown={start}
-            onMouseMove={draw}
-            onMouseUp={stopDraw}
-            style={{ cursor: isDrawing ? 'crosshair' : 'auto' }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMousemove}
+            onMouseUp={handleMouseup}
+            style={{ backgroundImage: `url(${imageUrl})`, width: size.containedWidth, height: size.containedHeight }}
             className={styles.wrapper}
             ref={ref}
-        />
+            width={size.naturalWidth}
+            height={size.naturalHeight}
+        >
+            canvas
+        </canvas>
     );
 });
 

@@ -6,8 +6,12 @@ export type UseDraw = {
 };
 
 export type DrawCanvasProps = {
-    width?: string | number;
-    height?: string | number;
+    size: {
+        naturalWidth?: string | number;
+        naturalHeight?: string | number;
+        containedWidth?: string | number;
+        containedHeight?: string | number;
+    };
     color?: string;
     imageUrl?: string;
 };

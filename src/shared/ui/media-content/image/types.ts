@@ -18,7 +18,7 @@ export type BaseImageProps = {
     remove?: (id: number | string) => void;
     objectFit?: 'cover' | 'contain';
     visibleDropdown?: boolean;
-    onResize?: (size: { width: number; height: number }) => void;
+    getSize?: (size: { naturalWidth: number; naturalHeight: number; containedWidth: number; containedHeight: number }) => void;
 } & BaseTypes.Statuses;
 
 export type ImagesListItem = {

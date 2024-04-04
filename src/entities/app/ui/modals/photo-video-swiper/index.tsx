@@ -9,6 +9,7 @@ import { Button, Canvas, Card, ContextMenu, Icons, Image, Video } from 'shared/u
 import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-controls';
 
 import styles from './styles.module.scss';
+import size from '../../../../../pages/warning/widgets/size';
 import { PhotoAndVideoSwiperType, PhotoAndVideoSwiperItemsType } from '../../../model/types';
 
 import 'cropperjs/dist/cropper.css';
@@ -35,7 +36,7 @@ function PhotoVideoSwiperView(props: Props) {
     const visibleRightBtn = useEasyState(true);
 
     const activeItem = useEasyState<PhotoAndVideoSwiperItemsType | null>(null);
-    const imgSize = useEasyState({ width: 0, height: 0 });
+    const imgSize = useEasyState({ naturalWidth: 0, naturalHeight: 0, containedWidth: 0, containedHeight: 0 });
 
     const fullScreen = useEasyState(false);
     const visibleContextMenu = useEasyState(false);
@@ -188,9 +189,7 @@ function PhotoVideoSwiperView(props: Props) {
                 )}
                 {activeItem.value && (
                     <div className={styles.slideTop}>
-                        {activeDraw.value && (
-                            <Canvas.Draw {...drawCanvas} imageUrl={activeItem.value.url} width={imgSize.value.width} height={imgSize.value.height} />
-                        )}
+                        {activeDraw.value && <Canvas.Draw {...drawCanvas} imageUrl={activeItem.value.url} size={imgSize.value} />}
                         {activeCrop.value ? (
                             <Cropper
                                 src={activeItem.value.url}
@@ -212,12 +211,9 @@ function PhotoVideoSwiperView(props: Props) {
                             <>
                                 {data?.type === 'img' && (
                                     <Image
-                                        onResize={(size) => {
-                                            if (size.width && size.height) {
-                                                imgSize.set(size);
-                                            }
+                                        getSize={(size) => {
+                                            imgSize.set(size);
                                         }}
-                                        // height="100%"
                                         visibleDropdown={false}
                                         url={activeItem.value?.url}
                                         objectFit="contain"

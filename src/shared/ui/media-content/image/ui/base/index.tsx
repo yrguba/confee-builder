@@ -30,7 +30,7 @@ function Image(props: BaseImageProps) {
         id,
         remove,
         visibleDropdown = true,
-        onResize,
+        getSize,
         ...other
     } = props;
 
@@ -95,14 +95,13 @@ function Image(props: BaseImageProps) {
 
     function getContainedSize(e?: any) {
         const img = ref.current || e?.target;
-        if (onResize && img) {
+        if (getSize && img) {
             const ratio = img.naturalWidth / img.naturalHeight;
             let width = img.height * ratio;
             let { height } = img;
-
             width = img.width;
             height = img.width / ratio;
-            onResize({ width, height });
+            getSize({ naturalWidth: img.naturalWidth, naturalHeight: img.naturalHeight, containedWidth: width, containedHeight: height });
         }
     }
 
@@ -135,7 +134,7 @@ function Image(props: BaseImageProps) {
                 </div>
             ) : null}
             {!error && !isLoading && (
-                <img onLoad={getContainedSize} ref={onResize ? ref : null} onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />
+                <img onLoad={getContainedSize} ref={getSize ? ref : null} onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />
             )}
             {remove && (
                 <Button.Circle radius={30} className={styles.remove} onClick={id ? removeClick : () => ''} variant="inherit">
