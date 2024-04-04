@@ -46,22 +46,24 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         isDrawing.set(true);
         const canvasRect = canvas.getBoundingClientRect();
         const { clientX, clientY } = e;
-        const x = clientX - canvasRect.left;
-        const y = clientY - canvasRect.top;
-        const el = createElement(clientX, clientY, clientX, clientY);
+        const x = ((clientX - canvasRect.left) * size.naturalWidth) / size.containedWidth;
+        const y = ((clientY - canvasRect.top) * size.naturalHeight) / size.containedHeight;
+        const el = createElement(x, y, x, y);
         elements.set((prev) => [...prev, el]);
     };
 
     const handleMousemove = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
         if (!isDrawing.value || !canvas) return null;
+
         const canvasRect = canvas.getBoundingClientRect();
         const { clientX, clientY } = e;
-        const x = clientX - canvasRect.left;
-        const y = clientY - canvasRect.top;
+
+        const x = ((clientX - canvasRect.left) * size.naturalWidth) / size.containedWidth;
+        const y = ((clientY - canvasRect.top) * size.naturalHeight) / size.containedHeight;
         const index = elements.value.length - 1;
         const lastEl = elements.value[index];
-        const updEl = createElement(lastEl.x1, lastEl.y1, clientX - canvasRect.left, clientY - canvasRect.top);
+        const updEl = createElement(lastEl.x1, lastEl.y1, x, y);
         const copyEls = [...elements.value];
         copyEls[index] = updEl;
         elements.set(copyEls);
