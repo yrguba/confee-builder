@@ -6,33 +6,12 @@ import { Drawable, Options } from 'roughjs/bin/core';
 import { useArray, useEasyState } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { DrawCanvasProps } from '../../types';
+import { blobLocalPath } from '../../../../lib/file-converter';
+import { DrawingProps, Item, DrawCanvasProps } from '../../types';
 
 const generator = rough.generator();
 
-const MAX_ELEMENTS = 20;
-
-type Tool = 'line' | 'rectangle' | 'ellipse' | 'circle' | 'pencil';
-
-type Coords = {
-    x1: number;
-    y1: number;
-    x2: number;
-    y2: number;
-};
-
-type Item = {
-    coords: Coords;
-    points: Array<[number, number]>;
-    el: Drawable;
-};
-
-type DrawingProps = {
-    coords: Coords;
-    tool: Tool;
-    options: Options;
-    points?: Array<[number, number]>;
-};
+const MAX_ELEMENTS = 5;
 
 function drawing(props: DrawingProps) {
     const { options, tool, coords, points } = props;
@@ -54,7 +33,9 @@ function drawing(props: DrawingProps) {
 }
 
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
-    const { size, color = 'black', imageUrl, tool = 'pencil' } = props;
+    const { size, color = 'black', imageUrl, tool = 'pencil', elements } = props;
+
+    const newImg = useEasyState('');
 
     const options = {
         stroke: color,
@@ -66,21 +47,25 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     };
 
     const isDrawing = useEasyState(false);
-    const elements = useEasyState<Array<Item>>([]);
 
     useLayoutEffect(() => {
         const canvas = ref.current as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
         const roughCanvas = rough.canvas(canvas);
-        if (ctx) {
+        if (ctx && elements?.value) {
             if (elements.value.length > MAX_ELEMENTS) {
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        newImg.set(blobLocalPath(blob));
+                    }
+                }, 'image/jpeg');
                 const updArr = [...elements.value];
                 updArr.splice(0, MAX_ELEMENTS);
                 elements.set(updArr);
             }
             elements.value.forEach((i) => roughCanvas.draw(i.el));
         }
-    }, [elements.value]);
+    }, [elements?.value]);
 
     const handleMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
@@ -96,12 +81,12 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             tool,
             options,
         });
-        elements.set((prev) => [...prev, el]);
+        elements?.set((prev) => [...prev, el]);
     };
 
     const handleMousemove = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
-        if (!isDrawing.value || !canvas) return null;
+        if (!isDrawing.value || !canvas || !elements?.value) return null;
 
         const canvasRect = canvas.getBoundingClientRect();
         const { clientX, clientY } = e;
@@ -132,7 +117,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             onMouseMove={handleMousemove}
             onMouseUp={handleMouseup}
             style={{
-                backgroundImage: `url(${imageUrl})`,
+                backgroundImage: `url(${newImg || imageUrl})`,
                 width: size.containedWidth,
                 height: size.containedHeight,
             }}

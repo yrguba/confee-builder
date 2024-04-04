@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { DrawTools, UseDraw } from './types';
+import { DrawTools, UseDraw, Item } from './types';
 import { useEasyState } from '../../hooks';
 
 function useDraw(props: UseDraw) {
@@ -10,11 +10,15 @@ function useDraw(props: UseDraw) {
     const color = useEasyState('black');
     const tools = useEasyState<DrawTools>('pencil');
 
+    const elements = useEasyState<Array<Item>>([]);
+    const canceledElements = useEasyState<Array<Item>>([]);
+
     return {
         drawCanvas: {
             color: color.value,
             ref: drawRef,
             tools: tools.value,
+            elements,
         },
         drawControl: {
             ref: drawRef,
@@ -22,6 +26,8 @@ function useDraw(props: UseDraw) {
             onClose,
             getResult,
             tools,
+            elements,
+            canceledElements,
         },
     };
 }

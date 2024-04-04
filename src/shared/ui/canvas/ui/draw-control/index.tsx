@@ -5,20 +5,16 @@ import { blobLocalPath } from '../../../../lib/file-converter';
 import { DrawControlProps } from '../../types';
 
 const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
-    const { color, onClose, getResult, tool } = props;
+    const { color, onClose, getResult, tool, elements, canceledElements } = props;
 
     const done = () => {
         if (ref.current) {
             new Promise((resolve) => {
-                ref.current.toBlob(
-                    (blob: Blob) => {
-                        const url = blobLocalPath(blob);
-                        const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-                        resolve({ url, file });
-                    },
-                    'image/jpeg',
-                    1000
-                );
+                ref.current.toBlob((blob: Blob) => {
+                    const url = blobLocalPath(blob);
+                    const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+                    resolve({ url, file });
+                }, 'image/jpeg');
             }).then((res) => {
                 getResult(res as any);
             });
