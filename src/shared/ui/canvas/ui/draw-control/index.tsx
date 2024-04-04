@@ -27,7 +27,7 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
         {
             id: 1,
             icon: (
-                <div className={styles.colorPiker} style={{ backgroundColor: color.value }}>
+                <div className={styles.colorPiker} style={{ boxShadow: `0 0 8px 2px ${color.value}` }}>
                     <Icons.Canvas variant="color" />
                     <input className={styles.colorPiker_input} type="color" onChange={(e) => color.set(e.target.value)} />
                 </div>
@@ -55,13 +55,27 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
         },
         {
             id: 6,
-            icon: <Icons.Canvas active={tool?.value === 'circle'} variant="undo" />,
-            onClick: () => tool?.set('circle'),
+            icon: <Icons.Canvas active={!!elements?.value.length} variant="undo" />,
+            onClick: () => {
+                if (elements?.value.length && canceledElements?.value) {
+                    const arr = [...elements?.value];
+                    const lastEl = arr.pop();
+                    canceledElements?.set((prev) => [...prev, lastEl]);
+                    elements?.set(arr);
+                }
+            },
         },
         {
             id: 7,
-            icon: <Icons.Canvas active={tool?.value === 'circle'} variant="redo" />,
-            onClick: () => tool?.set('circle'),
+            icon: <Icons.Canvas active={!!canceledElements?.value.length} variant="redo" />,
+            onClick: () => {
+                if (elements?.value && canceledElements?.value.length) {
+                    const arr = [...canceledElements?.value];
+                    const lastEl = arr.pop();
+                    canceledElements?.set(arr);
+                    elements?.set((prev) => [...prev, lastEl]);
+                }
+            },
         },
         { id: 8, icon: null, title: 'Готово', onClick: done, active: true },
     ];

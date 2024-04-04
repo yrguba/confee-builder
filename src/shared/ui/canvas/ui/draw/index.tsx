@@ -107,6 +107,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
                 if (i.tag === 'arrow') {
                     canvas_arrow(ctx, i.coords.x1, i.coords.y1, i.coords.x2, i.coords.y2);
                     ctx.fillStyle = color;
+                    ctx.strokeStyle = color;
                     ctx.lineWidth = 30;
                     ctx.stroke();
                 }
