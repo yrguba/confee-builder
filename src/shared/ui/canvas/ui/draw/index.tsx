@@ -73,8 +73,6 @@ function drawing(props: DrawingProps) {
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     const { size, color = 'black', imageUrl, tool = 'pencil', elements } = props;
 
-    const newImg = useEasyState('');
-
     const options = {
         stroke: color,
         fillStyle: color,
@@ -91,11 +89,6 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         if (ctx && elements?.value) {
             ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
             if (elements.value.length > MAX_ELEMENTS) {
-                canvas.toBlob((blob) => {
-                    if (blob) {
-                        newImg.set(blobLocalPath(blob));
-                    }
-                }, 'image/jpeg');
                 const updArr = [...elements.value];
                 updArr.splice(0, MAX_ELEMENTS);
                 elements.set(updArr);
@@ -161,16 +154,15 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     const handleMouseup = (e: MouseEvent<HTMLCanvasElement>) => {
         isDrawing.set(false);
     };
-
     return (
         <canvas
             onMouseDown={handleMouseDown}
             onMouseMove={handleMousemove}
             onMouseUp={handleMouseup}
             style={{
-                backgroundImage: `url(${newImg || imageUrl})`,
                 width: size.containedWidth,
                 height: size.containedHeight,
+                // backgroundImage: `url(${imageUrl})`,
             }}
             className={styles.wrapper}
             ref={ref}
