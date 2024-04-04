@@ -35,7 +35,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const roughCanvas = rough.canvas(canvas);
 
         if (ctx) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, size.naturalWidth, size.containedHeight);
             elements.value.forEach((i) => roughCanvas.draw(i.el));
         }
     }, [elements.value]);
@@ -48,7 +48,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const { clientX, clientY } = e;
         const x = clientX - canvasRect.left;
         const y = clientY - canvasRect.top;
-        const el = createElement(x, y, x, y);
+        const el = createElement(clientX, clientY, clientX, clientY);
         elements.set((prev) => [...prev, el]);
     };
 
@@ -57,6 +57,8 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         if (!isDrawing.value || !canvas) return null;
         const canvasRect = canvas.getBoundingClientRect();
         const { clientX, clientY } = e;
+        const x = clientX - canvasRect.left;
+        const y = clientY - canvasRect.top;
         const index = elements.value.length - 1;
         const lastEl = elements.value[index];
         const updEl = createElement(lastEl.x1, lastEl.y1, clientX - canvasRect.left, clientY - canvasRect.top);
@@ -74,7 +76,12 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             onMouseDown={handleMouseDown}
             onMouseMove={handleMousemove}
             onMouseUp={handleMouseup}
-            style={{ backgroundImage: `url(${imageUrl})`, width: size.containedWidth, height: size.containedHeight }}
+            style={{
+                // backgroundImage: `url(${imageUrl})`,
+                backgroundColor: 'white',
+                width: size.containedWidth,
+                height: size.containedHeight,
+            }}
             className={styles.wrapper}
             ref={ref}
             width={size.naturalWidth}

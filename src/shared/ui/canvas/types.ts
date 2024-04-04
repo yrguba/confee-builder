@@ -7,10 +7,10 @@ export type UseDraw = {
 
 export type DrawCanvasProps = {
     size: {
-        naturalWidth?: string | number;
-        naturalHeight?: string | number;
-        containedWidth?: string | number;
-        containedHeight?: string | number;
+        naturalWidth: number;
+        naturalHeight: number;
+        containedWidth: number;
+        containedHeight: number;
     };
     color?: string;
     imageUrl?: string;
