@@ -18,9 +18,17 @@ type Item = {
     el: Drawable;
 };
 
-function createElement(x1: number, y1: number, x2: number, y2: number) {
-    const roughElement = generator.line(x1, y1, x2, y2);
-    return { x1, y1, x2, y2, el: roughElement };
+type Shape = 'line' | 'rectangle' | 'ellipse' | 'circle';
+
+function createElement(x1: number, y1: number, x2: number, y2: number, shape: Shape = 'line') {
+    switch (shape) {
+        case 'line':
+            return { x1, y1, x2, y2, el: generator[shape](x1, y1, x2, y2) };
+        case 'rectangle':
+            return { x1, y1, x2, y2, el: generator[shape](x1, y1, x2 - x1, y2 - y1) };
+        default:
+            return { x1, y1, x2, y2, el: generator.line(x1, y1, x2, y2) };
+    }
 }
 
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
@@ -33,7 +41,6 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const canvas = ref.current as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
         const roughCanvas = rough.canvas(canvas);
-        console.log('e');
         if (ctx) {
             ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
             elements.value.forEach((i) => roughCanvas.draw(i.el));
@@ -63,14 +70,14 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const y = ((clientY - canvasRect.top) * size.naturalHeight) / size.containedHeight;
         const index = elements.value.length - 1;
         const lastEl = elements.value[index];
-        const updEl = createElement(lastEl.x1, lastEl.y1, x, y);
+        const updEl = createElement(lastEl.x1, lastEl.y1, x, y, 'circle');
         const copyEls = [...elements.value];
         copyEls[index] = updEl;
         elements.set(copyEls);
     };
 
     const handleMouseup = (e: MouseEvent<HTMLCanvasElement>) => {
-        // isDrawing.set(false);
+        isDrawing.set(false);
     };
 
     return (
@@ -79,8 +86,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             onMouseMove={handleMousemove}
             onMouseUp={handleMouseup}
             style={{
-                // backgroundImage: `url(${imageUrl})`,
-                backgroundColor: 'white',
+                backgroundImage: `url(${imageUrl})`,
                 width: size.containedWidth,
                 height: size.containedHeight,
             }}
