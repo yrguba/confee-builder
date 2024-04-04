@@ -1,7 +1,7 @@
 import React, { forwardRef, MouseEvent, MouseEventHandler, useEffect, useLayoutEffect, useRef } from 'react';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import rough from 'roughjs';
-import { Drawable } from 'roughjs/bin/core';
+import { Drawable, Options } from 'roughjs/bin/core';
 
 import { useArray, useEasyState } from 'shared/hooks';
 
@@ -10,29 +10,58 @@ import { DrawCanvasProps } from '../../types';
 
 const generator = rough.generator();
 
-type Item = {
+type Tool = 'line' | 'rectangle' | 'ellipse' | 'circle' | 'pencil';
+
+type Coords = {
     x1: number;
     y1: number;
     x2: number;
     y2: number;
+};
+
+type Item = {
+    coords: Coords;
+    points: Array<[number, number]>;
     el: Drawable;
 };
 
-type Shape = 'line' | 'rectangle' | 'ellipse' | 'circle';
+type DrawingProps = {
+    coords: Coords;
+    tool: Tool;
+    options: Options;
+    points?: Array<[number, number]>;
+};
 
-function createElement(x1: number, y1: number, x2: number, y2: number, shape: Shape = 'line') {
-    switch (shape) {
+function drawing(props: DrawingProps) {
+    const { options, tool, coords, points } = props;
+
+    const { x1, y1, x2, y2 } = coords;
+    switch (tool) {
         case 'line':
-            return { x1, y1, x2, y2, el: generator[shape](x1, y1, x2, y2) };
+            return { coords, points, el: generator[tool](x1, y1, x2, y2, options) };
         case 'rectangle':
-            return { x1, y1, x2, y2, el: generator[shape](x1, y1, x2 - x1, y2 - y1) };
+            return { coords, points, el: generator[tool](x1, y1, x2 - x1, y2 - y1, options) };
+        case 'pencil':
+            if (points) {
+                return { coords, points, el: generator.linearPath(points, options) };
+            }
+            return;
         default:
-            return { x1, y1, x2, y2, el: generator.line(x1, y1, x2, y2) };
+            throw Error();
     }
 }
 
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
-    const { size, color = 'black', imageUrl } = props;
+    const { size, color = 'black', imageUrl, tool = 'pencil' } = props;
+
+    const options = {
+        stroke: color,
+        fillStyle: color,
+        roughness: 0,
+        strokeWidth: 100,
+        disableMultiStrokeFill: true,
+        curveFitting: 0,
+    };
 
     const isDrawing = useEasyState(false);
     const elements = useEasyState<Array<Item>>([]);
@@ -42,7 +71,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const ctx = canvas.getContext('2d');
         const roughCanvas = rough.canvas(canvas);
         if (ctx) {
-            ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
+            // ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
             elements.value.forEach((i) => roughCanvas.draw(i.el));
         }
     }, [elements.value]);
@@ -55,10 +84,15 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const { clientX, clientY } = e;
         const x = ((clientX - canvasRect.left) * size.naturalWidth) / size.containedWidth;
         const y = ((clientY - canvasRect.top) * size.naturalHeight) / size.containedHeight;
-        const el = createElement(x, y, x, y);
+        const el = drawing({
+            coords: { x1: x, x2: x, y1: y, y2: y },
+            points: [[x, y]],
+            tool,
+            options,
+        });
         elements.set((prev) => [...prev, el]);
     };
-
+    console.log(elements.value);
     const handleMousemove = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
         if (!isDrawing.value || !canvas) return null;
@@ -70,8 +104,14 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const y = ((clientY - canvasRect.top) * size.naturalHeight) / size.containedHeight;
         const index = elements.value.length - 1;
         const lastEl = elements.value[index];
-        const updEl = createElement(lastEl.x1, lastEl.y1, x, y, 'circle');
-        const copyEls = [...elements.value];
+
+        const updEl = drawing({
+            coords: { x1: lastEl.coords.x1, y1: lastEl.coords.y1, x2: x, y2: y },
+            points: [...lastEl.points, [x, y]],
+            tool,
+            options,
+        });
+        const copyEls: any = [...elements.value];
         copyEls[index] = updEl;
         elements.set(copyEls);
     };

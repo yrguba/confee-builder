@@ -5,7 +5,7 @@ import { blobLocalPath } from '../../../../lib/file-converter';
 import { DrawControlProps } from '../../types';
 
 const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
-    const { color, onClose, getResult } = props;
+    const { color, onClose, getResult, tool } = props;
 
     const done = () => {
         if (ref.current) {

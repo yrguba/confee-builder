@@ -1,5 +1,7 @@
 import { UseEasyStateReturnType } from '../../hooks';
 
+export type DrawTools = 'pencil';
+
 export type UseDraw = {
     onClose: () => void;
     getResult: (data: { file: File; url: string }) => void;
@@ -14,10 +16,12 @@ export type DrawCanvasProps = {
     };
     color?: string;
     imageUrl?: string;
+    tool?: DrawTools;
 };
 
 export type DrawControlProps = {
     color: UseEasyStateReturnType<string>;
     onClose: () => void;
     getResult: (data: { file: File; url: string }) => void;
+    tool?: UseEasyStateReturnType<DrawTools>;
 };
