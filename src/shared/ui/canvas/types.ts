@@ -2,7 +2,7 @@ import { Drawable, Options } from 'roughjs/bin/core';
 
 import { UseEasyStateReturnType } from '../../hooks';
 
-export type DrawTools = 'pencil';
+export type Tool = 'arrow' | 'rect' | 'circle' | 'pencil';
 
 export type UseDraw = {
     onClose: () => void;
@@ -19,7 +19,7 @@ export type DrawCanvasProps = {
     elements?: UseEasyStateReturnType<Item[]>;
     color?: string;
     imageUrl?: string;
-    tool?: DrawTools;
+    tool?: Tool;
 };
 
 export type DrawControlProps = {
@@ -28,10 +28,8 @@ export type DrawControlProps = {
     color: UseEasyStateReturnType<string>;
     onClose: () => void;
     getResult: (data: { file: File; url: string }) => void;
-    tool?: UseEasyStateReturnType<DrawTools>;
+    tool?: UseEasyStateReturnType<Tool>;
 };
-
-export type Tool = 'line' | 'rectangle' | 'ellipse' | 'circle' | 'pencil';
 
 export type Coords = {
     x1: number;
@@ -44,11 +42,4 @@ export type Item = {
     coords: Coords;
     points: Array<[number, number]>;
     el: Drawable;
-};
-
-export type DrawingProps = {
-    coords: Coords;
-    tool: Tool;
-    options: Options;
-    points?: Array<[number, number]>;
 };

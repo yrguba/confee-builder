@@ -89,6 +89,12 @@ export type PlayerIconsProps = {
     active?: boolean;
 };
 
+export type CanvasIconsProps = {
+    variant: 'color' | 'pencil' | 'arrow' | 'rect' | 'circle' | 'undo' | 'redo';
+    size?: number;
+    active?: boolean;
+};
+
 export type NetworkIndicatorProps = {
     speed: number;
     size: number;

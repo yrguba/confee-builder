@@ -7,21 +7,29 @@ import { useArray, useEasyState } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { blobLocalPath } from '../../../../lib/file-converter';
-import { DrawingProps, Item, DrawCanvasProps } from '../../types';
+import { DrawCanvasProps, Coords, Tool } from '../../types';
 
 const generator = rough.generator();
 
 const MAX_ELEMENTS = 5;
 
+export type DrawingProps = {
+    coords: Coords;
+    tool: Tool;
+    options: Options;
+    points?: Array<[number, number]>;
+};
+
 function drawing(props: DrawingProps) {
     const { options, tool, coords, points } = props;
 
     const { x1, y1, x2, y2 } = coords;
+
     switch (tool) {
-        case 'line':
-            return { coords, points, el: generator[tool](x1, y1, x2, y2, options) };
-        case 'rectangle':
-            return { coords, points, el: generator[tool](x1, y1, x2 - x1, y2 - y1, options) };
+        case 'rect':
+            return { coords, points, el: generator.rectangle(x1, y1, x2 - x1, y2 - y1, options) };
+        case 'circle':
+            return { coords, points, el: generator.circle(x1, y1, (x2 - x1 || y1) * 2, options) };
         case 'pencil':
             if (points) {
                 return { coords, points, el: generator.linearPath(points, options) };
@@ -41,9 +49,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         stroke: color,
         fillStyle: color,
         roughness: 0,
-        strokeWidth: 100,
-        disableMultiStrokeFill: true,
-        curveFitting: 0,
+        strokeWidth: 10,
     };
 
     const isDrawing = useEasyState(false);
@@ -53,6 +59,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const ctx = canvas.getContext('2d');
         const roughCanvas = rough.canvas(canvas);
         if (ctx && elements?.value) {
+            ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
             if (elements.value.length > MAX_ELEMENTS) {
                 canvas.toBlob((blob) => {
                     if (blob) {

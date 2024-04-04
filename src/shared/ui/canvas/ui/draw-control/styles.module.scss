@@ -11,23 +11,19 @@
   .item {
     @include flex;
     cursor: pointer;
-
+    font-weight: 600;
     .colorPiker {
-      @include box-size(28px, 28px);
+      @include box-size(24px, 24px);
       position: relative;
       border-radius: 50%;
 
-      &::before {
-        @include box-size(28px, 28px);
-        content: '';
+
+      svg{
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 2;
-        border-radius: 50%;
         pointer-events: none;
-        box-shadow: var(--box-shadow);
       }
 
       &_input {

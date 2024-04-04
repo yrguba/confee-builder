@@ -3,6 +3,7 @@ import React, { ForwardRefExoticComponent } from 'react';
 import * as Types from './types';
 import { ArrowAnimated, BroomAnimated } from './ui/animated';
 import Base from './ui/base';
+import Canvas from './ui/cancas';
 import Countries from './ui/countries';
 import Devices from './ui/devices';
 import Document from './ui/document';
@@ -21,6 +22,7 @@ type CompoundedComponent = ForwardRefExoticComponent<Types.BaseIconsProps> & {
     Picture: typeof Picture;
     NetworkIndicator: typeof NetworkIndicator;
     Devices: typeof Devices;
+    Canvas: typeof Canvas;
 };
 
 const Icons = Base as CompoundedComponent;
@@ -33,6 +35,6 @@ Icons.Picture = Picture;
 Icons.ArrowAnimated = ArrowAnimated;
 Icons.BroomAnimated = BroomAnimated;
 Icons.Devices = Devices;
-
+Icons.Canvas = Canvas;
 export { Types };
 export default Icons;
