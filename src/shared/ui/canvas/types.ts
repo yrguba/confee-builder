@@ -3,7 +3,7 @@ import { Drawable, Options } from 'roughjs/bin/core';
 import { UseEasyStateReturnType } from '../../hooks';
 
 export type Tool = 'arrow' | 'rect' | 'circle' | 'pencil';
-
+export type Tag = 'rough' | 'arrow';
 export type UseDraw = {
     onClose: () => void;
     getResult: (data: { file: File; url: string }) => void;
@@ -42,4 +42,5 @@ export type Item = {
     coords: Coords;
     points: Array<[number, number]>;
     el: Drawable;
+    tag: Tag;
 };

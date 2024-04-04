@@ -12,7 +12,7 @@ function useDraw(props: UseDraw) {
 
     const elements = useEasyState<Array<Item>>([]);
     const canceledElements = useEasyState<Array<Item>>([]);
-    console.log(tool.value);
+
     return {
         drawCanvas: {
             color: color.value,
