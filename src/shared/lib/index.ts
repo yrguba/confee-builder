@@ -1,6 +1,5 @@
 import * as canvas from './canvas';
 import chunkString from './chunk-string';
-import compressImage from './compress-image';
 import crypto from './crypto';
 import dateConverter from './date-converter';
 import debounce from './debounce';
@@ -51,6 +50,5 @@ export {
     momentLocalZone,
     getUniqueArr,
     getVideoCover,
-    compressImage,
     downloadUrl,
 };

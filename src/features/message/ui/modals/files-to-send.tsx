@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import { FilesToSendModalView, messageApi, messageStore, messageTypes } from 'entities/message';
 import { UseFileUploaderTypes, useFileUploader, useArray, useEasyState } from 'shared/hooks';
-import { getRandomInt, compressImage } from 'shared/lib';
+import { getRandomInt } from 'shared/lib';
 import { Modal, ModalTypes, CardTypes } from 'shared/ui';
 
 type Props = {
@@ -35,8 +35,7 @@ function FilesToSendModal(props: Props) {
             await Promise.all(
                 arr.map(async (i) => {
                     if (type === 'images') {
-                        const compressed = await compressImage(i.file, i?.name, 50);
-                        formData.append(`files[${type}][]`, compressed);
+                        formData.append(`files[${type}][]`, i.file);
                     } else {
                         formData.append(`files[${type}][]`, i.file);
                     }
