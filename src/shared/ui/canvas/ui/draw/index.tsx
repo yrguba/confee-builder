@@ -73,8 +73,6 @@ function drawing(props: DrawingProps) {
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     const { size, color = 'black', imageUrl, tool = 'pencil', elements } = props;
 
-    const bc = useRef(false);
-
     const options = {
         stroke: color,
         fillStyle: color,
@@ -87,6 +85,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     useLayoutEffect(() => {
         const canvas = ref.current as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
+
         const roughCanvas = rough.canvas(canvas);
         if (ctx && elements?.value) {
             if (imageUrl) {
@@ -95,12 +94,14 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
                 img.onload = () => {
                     ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
                     ctx.drawImage(img, 0, 0, size.naturalWidth, size.naturalHeight);
-                    bc.current = true;
 
                     if (elements.value.length > MAX_ELEMENTS) {
+                        const imageData = ctx.getImageData(0, 0, size.naturalWidth, size.naturalHeight);
+
                         const updArr = [...elements.value];
                         updArr.splice(0, MAX_ELEMENTS);
                         elements.set(updArr);
+                        ctx.createImageData(imageData);
                     }
                     elements.value.forEach((i) => {
                         if (i.tag === 'rough') {
@@ -121,7 +122,9 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
 
     const handleMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
-        if (!canvas) return null;
+        const ctx = canvas.getContext('2d');
+        if (!canvas || !ctx) return null;
+        ctx.beginPath();
         isDrawing.set(true);
         const canvasRect = canvas.getBoundingClientRect();
         const { clientX, clientY } = e;
@@ -163,6 +166,10 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     };
 
     const handleMouseup = (e: MouseEvent<HTMLCanvasElement>) => {
+        const canvas = ref.current as HTMLCanvasElement;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return null;
+        ctx.closePath();
         isDrawing.set(false);
     };
     return (
