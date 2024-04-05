@@ -79,6 +79,7 @@ function MessageList() {
     const { clear, dropContainerRef } = useFileUploader({
         accept: 'all',
         multiple: true,
+        maxImgWidthOrHeight: 1800,
         onAfterUploading: (data) => {
             if (data.sortByAccept) {
                 filesToSend.set(data.sortByAccept);

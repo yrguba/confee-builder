@@ -58,6 +58,7 @@ function MessageInput() {
     } = useFileUploader({
         accept: 'all',
         multiple: true,
+        maxImgWidthOrHeight: 1800,
         onAfterUploading: (data) => {
             if (data.sortByAccept) {
                 filesToSend.set(data.sortByAccept);

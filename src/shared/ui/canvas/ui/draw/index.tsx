@@ -18,7 +18,6 @@ export type DrawingProps = {
     tool: Tool;
     options: Options;
     points?: Array<[number, number]>;
-    tag: Tag;
 };
 
 function canvas_arrow(ctx: any, fromx: number, fromy: number, tox: number, toy: number) {
@@ -49,20 +48,20 @@ function canvas_arrow(ctx: any, fromx: number, fromy: number, tox: number, toy: 
 }
 
 function drawing(props: DrawingProps) {
-    const { options, tool, coords, points, tag } = props;
+    const { options, tool, coords, points } = props;
 
     const { x1, y1, x2, y2 } = coords;
 
     switch (tool) {
-        case 'arrow':
-            return { tag, coords, points, el: generator.line(x1, y1, x2, y2, options) };
+        // case 'arrow':
+        //     return generator.line(x1, y1, x2, y2, options);
         case 'rect':
-            return { tag, coords, points, el: generator.rectangle(x1, y1, x2 - x1, y2 - y1, options) };
+            return generator.rectangle(x1, y1, x2 - x1, y2 - y1, options);
         case 'circle':
-            return { tag, coords, points, el: generator.circle(x1, y1, (x2 - x1) * 2, options) };
+            return generator.circle(x1, y1, (x2 - x1) * 2, options);
         case 'pencil':
             if (points) {
-                return { tag, coords, points, el: generator.linearPath(points, options) };
+                return generator.linearPath(points, options);
             }
             return;
         default:
@@ -73,6 +72,10 @@ function drawing(props: DrawingProps) {
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     const { size, color = 'black', imageUrl, tool = 'pencil', elements } = props;
 
+    const initCoords = useRef({ x: 0, y: 0 });
+    const points = useRef<Array<[number, number]>>([[0, 0]]);
+    const canvasImg = useRef('');
+
     const options = {
         stroke: color,
         fillStyle: color,
@@ -82,7 +85,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
 
     const isDrawing = useEasyState(false);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const canvas = ref.current as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
 
@@ -90,32 +93,31 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         if (ctx && elements?.value) {
             if (imageUrl) {
                 const img = new Image();
-                img.src = imageUrl;
-                img.onload = () => {
-                    ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
-                    ctx.drawImage(img, 0, 0, size.naturalWidth, size.naturalHeight);
-
-                    if (elements.value.length > MAX_ELEMENTS) {
-                        const imageData = ctx.getImageData(0, 0, size.naturalWidth, size.naturalHeight);
-
-                        const updArr = [...elements.value];
-                        updArr.splice(0, MAX_ELEMENTS);
-                        elements.set(updArr);
-                        ctx.createImageData(imageData);
-                    }
-                    elements.value.forEach((i) => {
-                        if (i.tag === 'rough') {
-                            roughCanvas.draw(i.el);
-                        }
-                        if (i.tag === 'arrow') {
-                            canvas_arrow(ctx, i.coords.x1, i.coords.y1, i.coords.x2, i.coords.y2);
-                            ctx.fillStyle = color;
-                            ctx.strokeStyle = color;
-                            ctx.lineWidth = 30;
-                            ctx.stroke();
-                        }
-                    });
-                };
+                // img.src = imageUrl;
+                // img.onload = () => {
+                //     ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
+                //     ctx.drawImage(img, 0, 0, size.naturalWidth, size.naturalHeight);
+                // if (elements.value.length > MAX_ELEMENTS) {
+                //     const imageData = ctx.getImageData(0, 0, size.naturalWidth, size.naturalHeight);
+                //
+                //     const updArr = [...elements.value];
+                //     updArr.splice(0, MAX_ELEMENTS);
+                //     elements.set(updArr);
+                //     ctx.createImageData(imageData);
+                // }
+                // elements.value.forEach((i) => {
+                //     if (i.tag === 'rough') {
+                //         roughCanvas.draw(i.el);
+                //     }
+                //     if (i.tag === 'arrow') {
+                //         canvas_arrow(ctx, i.coords.x1, i.coords.y1, i.coords.x2, i.coords.y2);
+                //         ctx.fillStyle = color;
+                //         ctx.strokeStyle = color;
+                //         ctx.lineWidth = 30;
+                //         ctx.stroke();
+                //     }
+                // });
+                // };
             }
         }
     }, [elements?.value]);
@@ -123,6 +125,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     const handleMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
+        const roughCanvas = rough.canvas(canvas);
         if (!canvas || !ctx) return null;
         ctx.beginPath();
         isDrawing.set(true);
@@ -130,39 +133,56 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const { clientX, clientY } = e;
         const x = ((clientX - canvasRect.left) * size.naturalWidth) / size.containedWidth;
         const y = ((clientY - canvasRect.top) * size.naturalHeight) / size.containedHeight;
+        canvasImg.current = canvas.toDataURL();
+        initCoords.current = { x, y };
+        points.current = [[x, y]];
+        if (tool === 'arrow') {
+            return canvas_arrow(ctx, x, y, x, y);
+        }
         const el = drawing({
             coords: { x1: x, x2: x, y1: y, y2: y },
-            points: tool === 'pencil' ? [[x, y]] : [[0, 0]],
+            points: [[x, y]],
             tool,
             options,
-            tag: tool === 'arrow' ? 'arrow' : 'rough',
         });
-        elements?.set((prev) => [...prev, el]);
+        el && roughCanvas.draw(el);
     };
 
     const handleMousemove = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
-        if (!isDrawing.value || !canvas || !elements?.value) return null;
+        const ctx = canvas.getContext('2d');
+        if (!isDrawing.value || !canvas || !elements?.value || !ctx) return null;
 
+        const roughCanvas = rough.canvas(canvas);
         const canvasRect = canvas.getBoundingClientRect();
         const { clientX, clientY } = e;
 
         const x = ((clientX - canvasRect.left) * size.naturalWidth) / size.containedWidth;
         const y = ((clientY - canvasRect.top) * size.naturalHeight) / size.containedHeight;
-        const index = elements.value.length - 1;
-        const lastEl = elements.value[index];
 
-        const updEl = drawing({
-            coords: { x1: lastEl.coords.x1, y1: lastEl.coords.y1, x2: x, y2: y },
-            points: tool === 'pencil' ? [...lastEl.points, [x, y]] : [[0, 0]],
-            tool,
-            options,
-            tag: tool === 'arrow' ? 'arrow' : 'rough',
-        });
-
-        const copyEls: any = [...elements.value];
-        copyEls[index] = updEl;
-        elements.set(copyEls);
+        const img = new Image();
+        img.src = canvasImg.current;
+        img.onload = () => {
+            ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
+            ctx.drawImage(img, 0, 0, size.naturalWidth, size.naturalHeight);
+            ctx.beginPath();
+            if (tool === 'arrow') {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 30;
+                return canvas_arrow(ctx, initCoords.current.x, initCoords.current.y, x, y);
+            }
+            console.log(x, y);
+            if (tool === 'pencil') {
+                points.current.push([x, y]);
+            }
+            const el = drawing({
+                coords: { x1: initCoords.current.x, y1: initCoords.current.y, x2: x, y2: y },
+                points: points.current,
+                tool,
+                options,
+            });
+            el && roughCanvas.draw(el);
+        };
     };
 
     const handleMouseup = (e: MouseEvent<HTMLCanvasElement>) => {
