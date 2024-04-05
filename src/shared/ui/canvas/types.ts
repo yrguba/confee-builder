@@ -5,6 +5,7 @@ import { UseEasyStateReturnType } from '../../hooks';
 export type Tool = 'arrow' | 'rect' | 'circle' | 'pencil';
 export type Tag = 'rough' | 'arrow';
 export type UseDraw = {
+    imageUrl?: string;
     onClose: () => void;
     getResult: (data: { file: File; url: string }) => void;
 };
@@ -18,11 +19,11 @@ export type DrawCanvasProps = {
     };
     elements?: UseEasyStateReturnType<Item[]>;
     color?: string;
-    imageUrl?: string;
     tool?: Tool;
 };
 
 export type DrawControlProps = {
+    imageUrl?: string;
     elements?: UseEasyStateReturnType<Item[]>;
     canceledElements?: UseEasyStateReturnType<Item[]>;
     color: UseEasyStateReturnType<string>;

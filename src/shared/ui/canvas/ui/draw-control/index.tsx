@@ -6,19 +6,31 @@ import Icons from '../../../icons';
 import { DrawControlProps } from '../../types';
 
 const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
-    const { color, onClose, getResult, tool, elements, canceledElements } = props;
+    const { imageUrl, color, onClose, getResult, tool, elements, canceledElements } = props;
 
     const done = () => {
         if (ref.current) {
-            new Promise((resolve) => {
-                ref.current.toBlob((blob: Blob) => {
-                    const url = blobLocalPath(blob);
-                    const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-                    resolve({ url, file });
-                }, 'image/jpeg');
-            }).then((res) => {
-                getResult(res as any);
-            });
+            const canvas = ref.current as HTMLCanvasElement;
+            const ctx = canvas.getContext('2d');
+            if (imageUrl && ctx) {
+                const canvasImg = canvas.toDataURL();
+                const img1 = new Image();
+                img1.src = imageUrl;
+                img1.onload = () => {
+                    const img2 = new Image();
+                    img2.src = canvasImg;
+                    img2.onload = () => {
+                        ctx.drawImage(img1, 0, 0, img1.naturalWidth, img1.naturalHeight);
+                        ctx.drawImage(img2, 0, 0, img2.naturalWidth, img2.naturalHeight);
+                        canvas.toBlob((b) => {
+                            if (!b) return null;
+                            const url = blobLocalPath(b);
+                            const file = new File([b], 'image.jpg', { type: 'image/jpeg' });
+                            getResult({ url, file });
+                        });
+                    };
+                };
+            }
         }
     };
 

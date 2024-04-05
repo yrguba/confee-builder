@@ -46,6 +46,7 @@ function PhotoVideoSwiperView(props: Props) {
     const rotate = useEasyState(0);
 
     const { drawCanvas, drawControl } = Canvas.useDraw({
+        imageUrl: activeItem.value?.url,
         onClose: () => activeDraw.set(false),
         getResult: (data) => {
             if (activeItem.value) {
@@ -189,7 +190,7 @@ function PhotoVideoSwiperView(props: Props) {
                 )}
                 {activeItem.value && (
                     <div className={styles.slideTop}>
-                        {activeDraw.value && <Canvas.Draw {...drawCanvas} imageUrl={activeItem.value.url} size={imgSize.value} />}
+                        {activeDraw.value && <Canvas.Draw {...drawCanvas} size={imgSize.value} />}
                         {activeCrop.value ? (
                             <Cropper
                                 src={activeItem.value.url}
