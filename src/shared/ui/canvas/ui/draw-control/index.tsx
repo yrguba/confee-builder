@@ -1,12 +1,17 @@
 import React, { forwardRef } from 'react';
 
 import styles from './styles.module.scss';
+import { useEasyState } from '../../../../hooks';
 import { blobLocalPath } from '../../../../lib/file-converter';
+import Box from '../../../box';
 import Icons from '../../../icons';
+import { Dropdown } from '../../../index';
 import { DrawControlProps } from '../../types';
 
 const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
     const { imageUrl, color, onClose, getResult, tool, undoLength, redoLength, redo, undo } = props;
+
+    const visibleTools = useEasyState(false);
 
     const done = () => {
         if (ref.current) {
@@ -34,6 +39,25 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
         }
     };
 
+    const toolsItems = [
+        {
+            id: 'rect',
+            icon: <Icons.Canvas variant="rect" />,
+        },
+        {
+            id: 'circle',
+            icon: <Icons.Canvas variant="circle" />,
+        },
+        {
+            id: 'arrow',
+            icon: <Icons.Canvas variant="arrow" />,
+        },
+        {
+            id: 'pencil',
+            icon: <Icons.Canvas variant="pencil" />,
+        },
+    ];
+    console.log(tool?.value);
     const items = [
         { id: 0, icon: null, title: 'Отмена', onClick: onClose },
         {
@@ -47,23 +71,27 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
         },
         {
             id: 2,
-            icon: <Icons.Canvas active={tool?.value === 'pencil'} variant="pencil" />,
-            onClick: () => tool?.set('pencil'),
-        },
-        {
-            id: 3,
-            icon: <Icons.Canvas active={tool?.value === 'arrow'} variant="arrow" />,
-            onClick: () => tool?.set('arrow'),
-        },
-        {
-            id: 4,
-            icon: <Icons.Canvas active={tool?.value === 'rect'} variant="rect" />,
-            onClick: () => tool?.set('rect'),
-        },
-        {
-            id: 5,
-            icon: <Icons.Canvas active={tool?.value === 'circle'} variant="circle" />,
-            onClick: () => tool?.set('circle'),
+            icon: (
+                <div className={styles.tool} onClick={visibleTools.toggle}>
+                    <Box.Animated visible={visibleTools.value} className={styles.tools} onMouseLeave={() => visibleTools.set(false)}>
+                        {toolsItems.map(
+                            (i) =>
+                                i.id !== tool?.value && (
+                                    <div
+                                        key={i.id}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            tool?.set(i.id as any);
+                                        }}
+                                    >
+                                        <Icons.Canvas variant={i.id as any} />
+                                    </div>
+                                )
+                        )}
+                    </Box.Animated>
+                    <Icons.Canvas active variant={tool?.value as any} />
+                </div>
+            ),
         },
         {
             id: 6,

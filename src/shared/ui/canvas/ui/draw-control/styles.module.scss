@@ -35,6 +35,23 @@
         border-radius: 50%;
       }
     }
+
+    .tool {
+      position: relative;
+      width: 20px;
+      .tools {
+        @include flex-column;
+        z-index: 100;
+        background: var(--white);
+        gap: 4px;
+        border-radius: 16px;
+        padding: 8px 4px;
+        position: absolute;
+        bottom: 40px;
+        left: -4px;
+      }
+    }
+
   }
 
 

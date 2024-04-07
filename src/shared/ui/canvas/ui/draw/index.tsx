@@ -58,7 +58,9 @@ function drawing(props: DrawingProps) {
         case 'rect':
             return generator.rectangle(x1, y1, x2 - x1, y2 - y1, options);
         case 'circle':
-            return generator.circle(x1, y1, (x2 - x1) * 2, options);
+            const y = x2 - x1;
+            const x = y2 - y1;
+            return generator.circle(x1, y1, Math.sqrt(x * x + y * y) * 2, options);
         case 'pencil':
             if (points) {
                 return generator.linearPath(points, options);
