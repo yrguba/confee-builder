@@ -30,6 +30,7 @@ type Methods = {
     filesToSend: {
         deleteById: (data: { type: FilesType; id: string | number }) => void;
         replaceById: (data: { type: FilesType; id: string | number; file: File; url: string }) => void;
+        add: (data: { type: FilesType; files: any[] }) => void;
     };
 };
 
@@ -72,6 +73,10 @@ const messageStore = useZustand<Store, Methods>({
                 const { state, updater } = use();
                 const upd = state.filesToSend.value[type].filter((i) => i.id !== id);
                 updater({ filesToSend: { ...state.filesToSend.value, [type]: upd } });
+            },
+            add: ({ type, files }) => {
+                const { state, updater } = use();
+                updater({ filesToSend: { ...state.filesToSend.value, [type]: [...files, ...state.filesToSend.value[type]] } });
             },
             replaceById: ({ type, id, file, url }) => {
                 const { state, updater } = use();

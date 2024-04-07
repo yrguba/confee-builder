@@ -26,7 +26,7 @@ function FilesToSendModal(props: Props) {
         modal.close();
         onClose();
     };
-    console.log(filesToSend.value);
+
     const sendFiles = async () => {
         isLoading.set(true);
         const send = async (arr: any[], type: messageTypes.MediaContentType) => {
@@ -73,19 +73,13 @@ function FilesToSendModal(props: Props) {
     const { open: openFilesDownloader } = useFileUploader({
         accept: 'all',
         multiple: true,
+        maxImgWidthOrHeight: 1800,
         onAfterUploading: (data) => {
             if (data.sortByAccept) {
                 isLoading.set(true);
                 Object.entries(data.sortByAccept).forEach(([key, value]) => {
-                    switch (key) {
-                        case 'image':
-                            return filesToSend.set({ ...filesToSend.value, image: [...filesToSend.value.image, ...value] });
-                        case 'audio':
-                            return filesToSend.set({ ...filesToSend.value, audio: [...filesToSend.value.audio, ...value] as any });
-                        case 'video':
-                            return filesToSend.set({ ...filesToSend.value, video: [...filesToSend.value.video, ...value] as any });
-                        case 'document':
-                            return filesToSend.set({ ...filesToSend.value, document: [...filesToSend.value.document, ...value] as any });
+                    if (value.length) {
+                        filesToSend.add({ type: key as any, files: value });
                     }
                 });
                 isLoading.set(false);

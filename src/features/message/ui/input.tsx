@@ -61,7 +61,6 @@ function MessageInput() {
         maxImgWidthOrHeight: 1800,
         onAfterUploading: (data) => {
             if (data.sortByAccept) {
-                console.log(data.sortByAccept);
                 filesToSend.set(data.sortByAccept);
                 filesToSendModal.open();
             }
