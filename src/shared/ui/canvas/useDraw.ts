@@ -9,6 +9,7 @@ function useDraw(props: UseDraw) {
     const drawRef = useRef<HTMLCanvasElement>(null);
     const color = useEasyState('black');
     const tool = useEasyState<Tool>('pencil');
+    const strokeWidth = useEasyState(12);
 
     const undoList = useEasyState<Array<string>>([]);
     const redoList = useEasyState<Array<string>>([]);
@@ -57,6 +58,7 @@ function useDraw(props: UseDraw) {
             tool: tool.value,
             pushToUndoList: (src: string) => undoList.set((prev) => [...prev, src]),
             clearRedoList: () => redoList.set([]),
+            strokeWidth: strokeWidth.value,
         },
         drawControl: {
             ref: drawRef,
@@ -69,6 +71,7 @@ function useDraw(props: UseDraw) {
             undoLength: undoList.value.length > 0,
             redoLength: redoList.value.length > 0,
             imageUrl,
+            strokeWidth,
         },
     };
 }

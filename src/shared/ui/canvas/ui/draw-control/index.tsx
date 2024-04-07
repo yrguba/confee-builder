@@ -5,13 +5,15 @@ import { useEasyState } from '../../../../hooks';
 import { blobLocalPath } from '../../../../lib/file-converter';
 import Box from '../../../box';
 import Icons from '../../../icons';
-import { Dropdown } from '../../../index';
+import { Dropdown, Title } from '../../../index';
+import Slider from '../../../slider';
 import { DrawControlProps } from '../../types';
 
 const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
-    const { imageUrl, color, onClose, getResult, tool, undoLength, redoLength, redo, undo } = props;
+    const { strokeWidth, imageUrl, color, onClose, getResult, tool, undoLength, redoLength, redo, undo } = props;
 
     const visibleTools = useEasyState(false);
+    const visibleWidthSlider = useEasyState(false);
 
     const done = () => {
         if (ref.current) {
@@ -57,21 +59,11 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
             icon: <Icons.Canvas variant="pencil" />,
         },
     ];
-    console.log(tool?.value);
+    console.log(visibleWidthSlider.value);
     const items = [
-        { id: 0, icon: null, title: 'Отмена', onClick: onClose },
         {
             id: 1,
-            icon: (
-                <div className={styles.colorPiker} style={{ boxShadow: `0 0 8px 2px ${color.value}` }}>
-                    <Icons.Canvas variant="color" />
-                    <input className={styles.colorPiker_input} type="color" onChange={(e) => color.set(e.target.value)} />
-                </div>
-            ),
-        },
-        {
-            id: 2,
-            icon: (
+            element: (
                 <div className={styles.tool} onClick={visibleTools.toggle}>
                     <Box.Animated visible={visibleTools.value} className={styles.tools} onMouseLeave={() => visibleTools.set(false)}>
                         {toolsItems.map(
@@ -94,25 +86,81 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
             ),
         },
         {
-            id: 6,
-            icon: <Icons.Canvas active={undoLength} variant="undo" />,
+            id: 2,
+            element: (
+                <div className={styles.widthSlider} onClick={visibleWidthSlider.toggle}>
+                    <Box.Animated visible={visibleWidthSlider.value} className={styles.slider} onMouseLeave={() => visibleWidthSlider.set(false)}>
+                        <Title variant="caption2M" textAlign="center" active>
+                            {strokeWidth?.value}
+                        </Title>
+                        <Slider
+                            vertical
+                            className={styles.sliderWidth}
+                            max={100}
+                            min={1}
+                            step={1}
+                            defaultValue={12}
+                            value={strokeWidth?.value}
+                            handleStyle={{
+                                width: 12,
+                                height: 12,
+                                // marginLeft: 0,
+                                backgroundColor: 'var(--control-primary)',
+                                border: '3px solid var(--control-primary)',
+                                cursor: 'pointer',
+                                opacity: 1,
+                                boxShadow: 'none',
+                            }}
+                            onChange={(value) => {
+                                if (typeof value === 'number') {
+                                    strokeWidth?.set(value);
+                                }
+                            }}
+                        />
+                    </Box.Animated>
+                    <div className={styles.dot} />
+                    <Title variant="caption2M" textAlign="center" active>
+                        {strokeWidth?.value}
+                    </Title>
+                </div>
+            ),
+        },
+        {
+            id: 3,
+            element: (
+                <div className={styles.colorPiker} style={{ boxShadow: `0 0 8px 2px ${color.value}` }}>
+                    <Icons.Canvas variant="color" />
+                    <input className={styles.colorPiker_input} type="color" onChange={(e) => color.set(e.target.value)} />
+                </div>
+            ),
+        },
+        {
+            id: 4,
+            element: <Icons.Canvas active={undoLength} variant="undo" />,
             onClick: undo,
         },
         {
-            id: 7,
-            icon: <Icons.Canvas active={redoLength} variant="redo" />,
+            id: 5,
+            element: <Icons.Canvas active={redoLength} variant="redo" />,
             onClick: redo,
         },
-        { id: 8, icon: null, title: 'Готово', onClick: done, active: true },
     ];
 
     return (
         <div className={styles.wrapper}>
-            {items.map((i) => (
-                <div key={i.id} className={styles.item} onClick={i.onClick} style={{ color: i.active ? 'var(--text-action)' : '' }}>
-                    {i?.title || i.icon}
-                </div>
-            ))}
+            <div className={styles.title} onClick={onClose}>
+                Отмена
+            </div>
+            <div className={styles.container}>
+                {items.map((i) => (
+                    <div key={i.id} className={styles.item} onClick={i.onClick}>
+                        {i?.element}
+                    </div>
+                ))}
+            </div>
+            <div style={{ color: 'var(--text-action)' }} className={styles.title} onClick={done}>
+                Готово
+            </div>
         </div>
     );
 });

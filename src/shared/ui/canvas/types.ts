@@ -21,6 +21,7 @@ export type DrawCanvasProps = {
     tool?: Tool;
     pushToUndoList?: (src: string) => void;
     clearRedoList?: () => void;
+    strokeWidth?: number;
 };
 
 export type DrawControlProps = {
@@ -33,6 +34,7 @@ export type DrawControlProps = {
     onClose: () => void;
     getResult: (data: { file: File; url: string }) => void;
     tool?: UseEasyStateReturnType<Tool>;
+    strokeWidth?: UseEasyStateReturnType<number>;
 };
 
 export type Coords = {

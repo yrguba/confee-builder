@@ -1,17 +1,13 @@
-import React, { forwardRef, MouseEvent, MouseEventHandler, useEffect, useLayoutEffect, useRef } from 'react';
-import { useEffectOnce, useUpdateEffect } from 'react-use';
+import React, { forwardRef, MouseEvent, useRef } from 'react';
 import rough from 'roughjs';
-import { Drawable, Options } from 'roughjs/bin/core';
+import { Options } from 'roughjs/bin/core';
 
-import { useArray, useEasyState } from 'shared/hooks';
+import { useEasyState } from 'shared/hooks';
 
 import styles from './styles.module.scss';
-import { blobLocalPath } from '../../../../lib/file-converter';
 import { DrawCanvasProps, Coords, Tool, Tag } from '../../types';
 
 const generator = rough.generator();
-
-const MAX_ELEMENTS = 5;
 
 export type DrawingProps = {
     coords: Coords;
@@ -20,10 +16,10 @@ export type DrawingProps = {
     points?: Array<[number, number]>;
 };
 
-function canvas_arrow(ctx: any, fromx: number, fromy: number, tox: number, toy: number) {
+function canvas_arrow(ctx: any, fromx: number, fromy: number, tox: number, toy: number, width: number) {
+    const r = width * 2;
     const x_center = tox;
     const y_center = toy;
-    const r = 50;
     let angle;
     let x;
     let y;
@@ -53,8 +49,6 @@ function drawing(props: DrawingProps) {
     const { x1, y1, x2, y2 } = coords;
 
     switch (tool) {
-        // case 'arrow':
-        //     return generator.line(x1, y1, x2, y2, options);
         case 'rect':
             return generator.rectangle(x1, y1, x2 - x1, y2 - y1, options);
         case 'circle':
@@ -72,7 +66,7 @@ function drawing(props: DrawingProps) {
 }
 
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
-    const { size, color = 'black', tool = 'pencil', pushToUndoList, clearRedoList } = props;
+    const { strokeWidth, size, color = 'black', tool = 'pencil', pushToUndoList, clearRedoList } = props;
 
     const isDrawing = useEasyState(false);
 
@@ -84,7 +78,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         stroke: color,
         fillStyle: color,
         roughness: 0,
-        strokeWidth: 10,
+        strokeWidth,
     };
 
     const handleMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
@@ -105,7 +99,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         initCoords.current = { x, y };
         points.current = [[x, y]];
         if (tool === 'arrow') {
-            return canvas_arrow(ctx, x, y, x, y);
+            return canvas_arrow(ctx, x, y, x, y, strokeWidth || 12);
         }
         const el = drawing({
             coords: { x1: x, x2: x, y1: y, y2: y },
@@ -136,8 +130,9 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             ctx.beginPath();
             if (tool === 'arrow') {
                 ctx.strokeStyle = color;
-                ctx.lineWidth = 30;
-                return canvas_arrow(ctx, initCoords.current.x, initCoords.current.y, x, y);
+                ctx.fillStyle = color;
+                ctx.lineWidth = strokeWidth || 12;
+                return canvas_arrow(ctx, initCoords.current.x, initCoords.current.y, x, y, strokeWidth || 12);
             }
             if (tool === 'pencil') {
                 points.current.push([x, y]);
