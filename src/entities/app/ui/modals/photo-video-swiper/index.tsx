@@ -97,7 +97,7 @@ function PhotoVideoSwiperView(props: Props) {
     const downloadMenuItems = [
         {
             id: 0,
-            title: 'Все фото',
+            title: data?.type === 'img' ? 'Все фото' : 'Все видео',
             callback: () => {
                 downloads(data?.items);
                 visibleContextMenu.set(false);
@@ -194,6 +194,18 @@ function PhotoVideoSwiperView(props: Props) {
                 <Icons variant="close" />
             </div>
             <div className={styles.swiperTop} style={{ margin: fullScreen.value ? '0' : '20px 0', height: `calc(100% - ${multiple ? '230px' : '130px'})` }}>
+                {data?.type === 'img' && !activeCrop.value && visibleFullscreenBtn.value && !activeDraw.value && (
+                    <div
+                        className={styles.fullscreen}
+                        // style={{ bottom: fullScreen.value ? 30 : 290 }}
+                        onClick={fullScreen.toggle}
+                        onMouseEnter={(e) => {
+                            visibleFullscreenBtn.set(true);
+                        }}
+                    >
+                        <Icons.Player variant="full" />
+                    </div>
+                )}
                 {visibleLeftBtn.value && (
                     <div className={styles.btnLeft} onClick={prevSlide}>
                         {multiple && <Icons variant="arrow-drop-left" />}
@@ -255,18 +267,6 @@ function PhotoVideoSwiperView(props: Props) {
                     </div>
                 )}
             </div>
-            {data?.type === 'img' && !activeCrop.value && visibleFullscreenBtn.value && !activeDraw.value && (
-                <div
-                    className={styles.fullScreen}
-                    style={{ bottom: fullScreen.value ? 30 : 290 }}
-                    onClick={fullScreen.toggle}
-                    onMouseEnter={(e) => {
-                        visibleFullscreenBtn.set(true);
-                    }}
-                >
-                    <Icons.Player variant="full" />
-                </div>
-            )}
             <div className={`${styles.footer} ${fullScreen.value ? styles.footer_hidden : ''}`}>
                 {activeDraw.value ? (
                     <Canvas.DrawControl {...drawControl} />
