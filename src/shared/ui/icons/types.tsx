@@ -75,7 +75,8 @@ export type BaseIconsVariants =
     | 'not-full-screen'
     | 'upload'
     | 'crop'
-    | 'rotate-img';
+    | 'rotate-img'
+    | 'add-company';
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;
     size?: 24 | 48 | number;

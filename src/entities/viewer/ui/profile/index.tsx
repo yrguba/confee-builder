@@ -5,7 +5,7 @@ import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
 import { useWidthMediaQuery } from '../../../../shared/hooks';
-import { Avatar, AvatarTypes, Button, Title } from '../../../../shared/ui';
+import { Avatar, AvatarTypes, Button, Icons, Image, Title } from '../../../../shared/ui';
 import { BindCompanyView, CompanyCardView } from '../../../company';
 import { Company } from '../../../company/model/types';
 import { ViewerProxy } from '../../model/types';
@@ -45,20 +45,29 @@ function ViewerProfileView(props: Props) {
                     <Title variant="H1">{viewer?.full_name}</Title>
                 </div>
                 <UserInfoView user={viewer as any} />
-                {companies.length ? (
-                    companies.map((i) => (
-                        <CompanyCardView
-                            cardClick={() => clickCompanyCard(i)}
-                            title={i.name || ''}
-                            subtitle={i.departments[0].name || ''}
-                            position={i.departments[0].employees[0].position || ''}
-                            status={i.departments[0].employees[0].status || ''}
-                            avatar={i.avatar || ''}
-                        />
-                    ))
-                ) : (
-                    <BindCompanyView addClick={openAuthCompanyModal} />
-                )}
+
+                {companies.map((i) => (
+                    <div className={styles.company} key={i.id} onClick={() => clickCompanyCard(i)}>
+                        <div className={styles.container}>
+                            <Image width="32px" height="32px" url={i.avatar || ''} />
+                            <div className={styles.name}>
+                                <Title variant="H4S">{i.name || ''}</Title>
+                            </div>
+                            <div className={styles.dot} />
+                            <Title primary={false} variant="H4R">
+                                {i.departments[0].name || ''}
+                            </Title>
+                        </div>
+                        <Icons size={14} variant="arrow-drop-right" />
+                    </div>
+                ))}
+                <div className={styles.addCompany} onClick={openAuthCompanyModal}>
+                    <div className={styles.container}>
+                        <Icons variant="add-company" />
+                        <Title variant="H4S">Добавить корпоративную почту</Title>
+                    </div>
+                    <div className={styles.plus}>+</div>
+                </div>
             </div>
         </div>
     );

@@ -35,6 +35,17 @@ function BaseIcons(props: BaseIconsProps) {
                 </svg>
             );
         }
+        case 'add-company': {
+            return (
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="16" fill="#7B57C8" />
+                    <path
+                        d="M16.8 19.1998H15.2C14.76 19.1998 14.4 18.8398 14.4 18.3998H8.808V21.5998C8.808 22.4798 9.528 23.1998 10.408 23.1998H21.6C22.48 23.1998 23.2 22.4798 23.2 21.5998V18.3998H17.6C17.6 18.8398 17.24 19.1998 16.8 19.1998ZM22.4 11.9998H19.2C19.2 10.2318 17.768 8.7998 16 8.7998C14.232 8.7998 12.8 10.2318 12.8 11.9998H9.6C8.72 11.9998 8 12.7198 8 13.5998V15.9998C8 16.8878 8.712 17.5998 9.6 17.5998H14.4V16.7998C14.4 16.3598 14.76 15.9998 15.2 15.9998H16.8C17.24 15.9998 17.6 16.3598 17.6 16.7998V17.5998H22.4C23.28 17.5998 24 16.8798 24 15.9998V13.5998C24 12.7198 23.28 11.9998 22.4 11.9998ZM14.4 11.9998C14.4 11.1198 15.12 10.3998 16 10.3998C16.88 10.3998 17.6 11.1198 17.6 11.9998H14.392H14.4Z"
+                        fill="white"
+                    />
+                </svg>
+            );
+        }
         case 'rotate-img': {
             return (
                 <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -587,7 +598,7 @@ function BaseIcons(props: BaseIconsProps) {
         case 'arrow-drop-right': {
             return (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 22L18 12L8 2L6.225 3.775L14.45 12L6.225 20.225L8 22Z" fill="white" />
+                    <path d="M8 22L18 12L8 2L6.225 3.775L14.45 12L6.225 20.225L8 22Z" />
                 </svg>
             );
         }
