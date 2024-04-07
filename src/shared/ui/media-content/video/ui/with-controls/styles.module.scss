@@ -36,8 +36,13 @@
 
       .actions {
         @include flex(flex-end);
-        @include box-size(100px, 50%);
+        @include box-size(auto, 50%);
         gap: 8px;
+
+        .speed{
+          font-weight: 600;
+          font-size: 16px;
+        }
       }
     }
 

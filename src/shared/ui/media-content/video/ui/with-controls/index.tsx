@@ -16,7 +16,8 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
     const { autoPlay, clickFull, url, onClick, borderRadius = true, height, horizontalImgWidth, width, reset, name } = props;
 
     const { src, isLoading, error } = useFetchMediaContent({ url, name, fileType: 'video' });
-    const visibleControl = useEasyState(false);
+    const visibleControl = useEasyState(true);
+    const speed = useEasyState(1);
 
     const [video, state, controls, ref] = useVideo(
         <motion.video
@@ -32,6 +33,12 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
         />
     );
 
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.playbackRate = speed.value;
+        }
+    }, [speed.value]);
+
     return (
         <div className={styles.wrapper}>
             {video}
@@ -43,7 +50,7 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
             >
                 <div className={styles.top}>
                     <div className={styles.volume}>
-                        <Button.Circle variant="inherit" radius={30} onClick={state.muted ? controls.unmute : controls.mute}>
+                        <Button.Circle variant="inherit" radius={24} onClick={state.muted ? controls.unmute : controls.mute}>
                             <Icons.Player variant={!state.muted ? 'unmute' : 'mute'} />
                         </Button.Circle>
                         <Slider max={1} step={0.01} defaultValue={state.volume} onChange={(value) => typeof value === 'number' && controls.volume(value)} />
@@ -52,6 +59,9 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
                         <Icons.Player variant={state.playing ? 'pause' : 'play'} />
                     </Button.Circle>
                     <div className={styles.actions}>
+                        <Button.Circle variant="inherit" radius={30} onClick={() => speed.set(speed.value < 3 ? speed.value + 0.5 : 1)}>
+                            <div className={styles.speed}>{`${speed.value}x`}</div>
+                        </Button.Circle>
                         <Button.Circle variant="inherit" radius={18} onClick={clickFull}>
                             <Icons.Player variant="full" />
                         </Button.Circle>
