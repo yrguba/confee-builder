@@ -66,6 +66,13 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
     };
 
     const replaceImage = (id: number | string, file: File, url: string) => {
+        photoAndVideoFromSwiper.set({
+            ...photoAndVideoFromSwiper.value,
+            items: photoAndVideoFromSwiper.value.items.map((i) => {
+                if (i.id === id) return { ...i, url };
+                return i;
+            }),
+        });
         filesToSend.replaceById({ type: 'image', id, file, url });
     };
 
