@@ -5,7 +5,7 @@ import { useUpdateEffect } from 'react-use';
 
 import { useEasyState, useInView } from 'shared/hooks';
 import { fileConverter } from 'shared/lib';
-import { Button, Canvas, Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
+import { Box, Button, Canvas, Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
 import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-controls';
 
 import styles from './styles.module.scss';
@@ -94,8 +94,42 @@ function PhotoVideoSwiperView(props: Props) {
         }
     };
 
+    const downloadMenuItems = [
+        {
+            id: 0,
+            title: 'Все фото',
+            callback: () => {
+                downloads(data?.items);
+                visibleContextMenu.set(false);
+            },
+        },
+        {
+            id: 1,
+            title: 'Только это',
+            callback: () => {
+                downloads([activeItem.value]);
+                visibleContextMenu.set(false);
+            },
+        },
+    ];
+
     const actions = [
-        { id: 0, icon: <Icons variant="upload" />, onClick: () => visibleContextMenu.set(true) },
+        {
+            id: 0,
+            icon: (
+                <div className={styles.download}>
+                    <Box.Animated className={styles.menu} onMouseLeave={() => visibleContextMenu.set(false)} visible={visibleContextMenu.value}>
+                        {downloadMenuItems.map((i) => (
+                            <div key={i.id} onClick={i.callback}>
+                                {i.title}
+                            </div>
+                        ))}
+                    </Box.Animated>
+                    <Icons variant="upload" />
+                </div>
+            ),
+            onClick: () => (multiple ? visibleContextMenu.set(true) : downloads([activeItem.value])),
+        },
         { id: 1, icon: <Icons variant="redirect" />, onClick: forward },
         { id: 2, icon: <Icons variant="delete" />, onClick: deleteMessage },
     ];
@@ -117,25 +151,6 @@ function PhotoVideoSwiperView(props: Props) {
         { id: 0, icon: null, title: 'Отмена', onClick: () => activeCrop.set(false) },
         { id: 1, icon: <Icons variant="rotate-img" />, onClick: () => rotate.set(rotate.value + 20) },
         { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
-    ];
-
-    const contextMenuItems = [
-        {
-            id: 0,
-            title: 'Все фото',
-            callback: () => {
-                downloads(data?.items);
-                visibleContextMenu.set(false);
-            },
-        },
-        {
-            id: 1,
-            title: 'Только это',
-            callback: () => {
-                downloads(activeItem.value);
-                visibleContextMenu.set(false);
-            },
-        },
     ];
 
     useEffect(() => {
@@ -175,13 +190,6 @@ function PhotoVideoSwiperView(props: Props) {
 
     return (
         <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
-            <ContextMenu
-                reverseY
-                clickAway={() => visibleContextMenu.set(false)}
-                trigger="mouseup"
-                visible={visibleContextMenu.value}
-                items={contextMenuItems}
-            />
             <div className={styles.closeIcon} onClick={close}>
                 <Icons variant="close" />
             </div>

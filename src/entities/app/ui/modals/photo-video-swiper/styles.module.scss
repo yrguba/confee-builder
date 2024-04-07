@@ -161,6 +161,22 @@
       border-radius: 24px;
       background: var(--white);
 
+      .download{
+        position: relative;
+
+        .menu{
+          @include flex-column(flex-start, flex-start);
+          @include box-size(94px, auto);
+          padding: 12px;
+          gap: 12px;
+          position: absolute;
+          bottom: 40px;
+          left: 20px;
+          background-color: var(--white);
+          border-radius: 12px;
+        }
+      }
+      
     }
 
     .item {
