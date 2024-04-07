@@ -70,7 +70,7 @@ function drawing(props: DrawingProps) {
 }
 
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
-    const { size, color = 'black', tool = 'pencil', elements } = props;
+    const { size, color = 'black', tool = 'pencil', pushToUndoList, clearRedoList } = props;
 
     const isDrawing = useEasyState(false);
 
@@ -90,6 +90,9 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const ctx = canvas.getContext('2d');
         const roughCanvas = rough.canvas(canvas);
         if (!canvas || !ctx) return null;
+        clearRedoList && clearRedoList();
+        pushToUndoList && pushToUndoList(canvas.toDataURL());
+
         ctx.beginPath();
         isDrawing.set(true);
         const canvasRect = canvas.getBoundingClientRect();
@@ -114,7 +117,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     const handleMousemove = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
-        if (!isDrawing.value || !canvas || !elements?.value || !ctx) return null;
+        if (!isDrawing.value || !canvas || !ctx) return null;
 
         const roughCanvas = rough.canvas(canvas);
         const canvasRect = canvas.getBoundingClientRect();

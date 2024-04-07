@@ -17,15 +17,18 @@ export type DrawCanvasProps = {
         containedWidth: number;
         containedHeight: number;
     };
-    elements?: UseEasyStateReturnType<Item[]>;
     color?: string;
     tool?: Tool;
+    pushToUndoList?: (src: string) => void;
+    clearRedoList?: () => void;
 };
 
 export type DrawControlProps = {
     imageUrl?: string;
-    elements?: UseEasyStateReturnType<Item[]>;
-    canceledElements?: UseEasyStateReturnType<Item[]>;
+    undoLength?: boolean;
+    redoLength?: boolean;
+    undo?: () => void;
+    redo?: () => void;
     color: UseEasyStateReturnType<string>;
     onClose: () => void;
     getResult: (data: { file: File; url: string }) => void;
@@ -37,11 +40,4 @@ export type Coords = {
     y1: number;
     x2: number;
     y2: number;
-};
-
-export type Item = {
-    coords: Coords;
-    points: Array<[number, number]>;
-    el: Drawable;
-    tag: Tag;
 };

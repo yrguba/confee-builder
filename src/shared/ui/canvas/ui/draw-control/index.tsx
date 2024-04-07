@@ -6,7 +6,7 @@ import Icons from '../../../icons';
 import { DrawControlProps } from '../../types';
 
 const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
-    const { imageUrl, color, onClose, getResult, tool, elements, canceledElements } = props;
+    const { imageUrl, color, onClose, getResult, tool, undoLength, redoLength, redo, undo } = props;
 
     const done = () => {
         if (ref.current) {
@@ -67,27 +67,13 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
         },
         {
             id: 6,
-            icon: <Icons.Canvas active={!!elements?.value.length} variant="undo" />,
-            onClick: () => {
-                if (elements?.value.length && canceledElements?.value) {
-                    const arr = [...elements?.value];
-                    const lastEl = arr.pop();
-                    canceledElements?.set((prev) => [...prev, lastEl]);
-                    elements?.set(arr);
-                }
-            },
+            icon: <Icons.Canvas active={undoLength} variant="undo" />,
+            onClick: undo,
         },
         {
             id: 7,
-            icon: <Icons.Canvas active={!!canceledElements?.value.length} variant="redo" />,
-            onClick: () => {
-                if (elements?.value && canceledElements?.value.length) {
-                    const arr = [...canceledElements?.value];
-                    const lastEl = arr.pop();
-                    canceledElements?.set(arr);
-                    elements?.set((prev) => [...prev, lastEl]);
-                }
-            },
+            icon: <Icons.Canvas active={redoLength} variant="redo" />,
+            onClick: redo,
         },
         { id: 8, icon: null, title: 'Готово', onClick: done, active: true },
     ];
