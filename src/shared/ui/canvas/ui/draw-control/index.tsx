@@ -59,7 +59,7 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
             icon: <Icons.Canvas variant="pencil" />,
         },
     ];
-    console.log(visibleWidthSlider.value);
+
     const items = [
         {
             id: 1,

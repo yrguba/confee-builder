@@ -50,7 +50,9 @@ function PhotoVideoSwiperView(props: Props) {
         onClose: () => activeDraw.set(false),
         getResult: (data) => {
             if (activeItem.value) {
+                activeItem.set({ ...activeItem.value, url: data.url });
                 replaceImage(activeItem.value?.id, data.file, data.url);
+                activeDraw.set(false);
             }
         },
     });
