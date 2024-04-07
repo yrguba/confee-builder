@@ -32,6 +32,7 @@ function PhotoVideoSwiperView(props: Props) {
     const activeSlideRef = useRef<any>(null);
     const bottomSwiperRef = useRef<any>(null);
 
+    const visibleFullscreenBtn = useEasyState(false);
     const visibleLeftBtn = useEasyState(true);
     const visibleRightBtn = useEasyState(true);
 
@@ -191,7 +192,13 @@ function PhotoVideoSwiperView(props: Props) {
                     </div>
                 )}
                 {activeItem.value && (
-                    <div className={styles.slideTop}>
+                    <div
+                        className={styles.slideTop}
+                        onMouseEnter={(e) => {
+                            visibleFullscreenBtn.set(true);
+                        }}
+                        onMouseLeave={() => visibleFullscreenBtn.set(false)}
+                    >
                         {activeDraw.value && <Canvas.Draw {...drawCanvas} size={imgSize.value} />}
                         {activeCrop.value ? (
                             <Cropper
@@ -240,8 +247,15 @@ function PhotoVideoSwiperView(props: Props) {
                     </div>
                 )}
             </div>
-            {data?.type === 'img' && !activeCrop.value && (
-                <div className={styles.fullScreen} style={{ bottom: fullScreen.value ? 30 : 290 }} onClick={fullScreen.toggle}>
+            {data?.type === 'img' && !activeCrop.value && visibleFullscreenBtn.value && !activeDraw.value && (
+                <div
+                    className={styles.fullScreen}
+                    style={{ bottom: fullScreen.value ? 30 : 290 }}
+                    onClick={fullScreen.toggle}
+                    onMouseEnter={(e) => {
+                        visibleFullscreenBtn.set(true);
+                    }}
+                >
                     <Icons.Player variant="full" />
                 </div>
             )}
