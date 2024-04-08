@@ -70,6 +70,13 @@ function ChatsList() {
         }
     };
 
+    const getVisibleChatGpt = () => {
+        if (visibleChatGpt.value && viewerData?.companies?.length && tabsAndLists.activeTab?.title !== 'Личные') {
+            return !(tabsAndLists.searchInput.value && !'ChatGPT'.toLowerCase().match(tabsAndLists.searchInput.value.toLowerCase()));
+        }
+        return false;
+    };
+
     return (
         <>
             <Modal.Confirm {...confirmDeleteChat} />
@@ -79,7 +86,7 @@ function ChatsList() {
                 clickOnChat={clickOnChatCard}
                 activeChatId={Number(params.chat_id) || null}
                 tabsAndLists={tabsAndLists}
-                visibleChatGpt={!!viewerData?.companies?.length && visibleChatGpt.value}
+                visibleChatGpt={getVisibleChatGpt()}
             />
         </>
     );

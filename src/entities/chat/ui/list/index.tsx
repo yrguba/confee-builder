@@ -50,7 +50,7 @@ function ChatsListView(props: Props) {
                 <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
             </div>
             <Box.Animated visible trigger={tabsAndLists.activeTab?.title} className={styles.list} ref={wrapperRef}>
-                {visibleChatGpt && tabsAndLists.activeTab?.title !== 'Личные' && (
+                {visibleChatGpt && (
                     <ChatCardView
                         chatMenuAction={chatMenuAction}
                         chat={chatProxy(mockChat({ name: 'ChatGPT', id: chat_gtp_id })) as any}
