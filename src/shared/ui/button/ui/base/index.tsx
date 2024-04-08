@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { useStyles } from 'shared/hooks';
 
@@ -7,7 +7,7 @@ import Box from '../../../box';
 import Glare from '../../../loading-indicator/ui/glare';
 import { BaseButtonProps } from '../../types';
 
-function BaseButton(props: BaseButtonProps) {
+const BaseButton = forwardRef((props: BaseButtonProps, ref: any) => {
     const {
         children,
         disabled,
@@ -38,7 +38,7 @@ function BaseButton(props: BaseButtonProps) {
     });
 
     return (
-        <button className={classes} {...other} style={{ width, height }}>
+        <button ref={ref} className={classes} {...other} style={{ width, height }}>
             {animateTrigger === undefined ? (
                 <>
                     {prefixIcon}
@@ -54,6 +54,6 @@ function BaseButton(props: BaseButtonProps) {
             )}
         </button>
     );
-}
+});
 
 export default BaseButton;

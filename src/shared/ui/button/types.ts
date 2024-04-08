@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode, RefObject } from 'react';
 
 import { BaseTypes } from 'shared/types';
 
@@ -18,6 +18,7 @@ export type BaseButtonProps = {
     width?: string;
     height?: string;
     chips?: boolean;
+    ref?: any;
 } & SharedProps;
 
 export type CircleButtonProps = {

@@ -71,7 +71,6 @@
         "react-use": "^17.4.0",
         "react-use-audio-player": "^2.2.0",
         "react-use-downloader": "^1.2.4",
-        "react-use-draggable-scroll": "^0.4.7",
         "react-use-file-uploader": "^0.0.46",
         "react-use-zustand": "^1.0.10",
         "react-video-seek-slider": "^6.0.6",

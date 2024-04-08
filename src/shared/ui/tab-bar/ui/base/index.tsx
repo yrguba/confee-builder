@@ -1,6 +1,6 @@
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
 
-import { useStyles, useDraggableScroll } from 'shared/hooks';
+import { useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import Button from '../../../button';
@@ -10,16 +10,26 @@ import { BaseTabBarProps, TabBarItem } from '../../types';
 function BaseTabBar(props: BaseTabBarProps) {
     const { items, activeItemId, variant = '', clickTab, bodyStyle } = props;
 
-    const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
-    const { events } = useDraggableScroll(ref);
+    const btnRef = useRef<HTMLButtonElement>(null);
+    const bodyRef = useRef<HTMLDivElement>(null);
 
     const classes = useStyles(styles, 'body', {
         [variant]: variant,
     });
 
+    useEffect(() => {
+        if (btnRef.current && bodyRef.current) {
+            const btnRect = btnRef?.current?.getBoundingClientRect();
+            const last = items[items.length - 1].id === activeItemId ? 9 * items.length : 0;
+            bodyRef.current.scrollTo({
+                left: btnRef.current.offsetLeft - btnRect.width + last,
+            });
+        }
+    }, [btnRef.current, activeItemId]);
+
     return (
         <div className={styles.wrapper}>
-            <div className={classes} {...events} style={bodyStyle} ref={ref}>
+            <div className={classes} ref={bodyRef}>
                 {items.map(
                     (i) =>
                         !i.hidden && (
@@ -36,6 +46,7 @@ function BaseTabBar(props: BaseTabBarProps) {
                                     </Button.Circle>
                                 ) : (
                                     <Button
+                                        ref={i.id === activeItemId ? btnRef : null}
                                         onClick={() => {
                                             i.callback();
                                             clickTab && clickTab(i);

@@ -28,7 +28,6 @@ import {
 } from 'react-use';
 import { useGlobalAudioPlayer } from 'react-use-audio-player';
 import useDownloader from 'react-use-downloader';
-import { useDraggable as useDraggableScroll } from 'react-use-draggable-scroll';
 import useFileUploader, * as UseFileUploaderTypes from 'react-use-file-uploader';
 import useZustand, * as UseZustandTypes from 'react-use-zustand';
 
@@ -81,7 +80,6 @@ export {
     createMemo,
     useThrottle,
     useUpdateEffect,
-    useDraggableScroll,
     useLifecycles,
     useTimeoutFn,
     useYup,

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { useDraggableScroll, useRouter, useSize } from 'shared/hooks';
+import { useRouter, useSize } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Icons, Title, IconsTypes } from 'shared/ui';
 
