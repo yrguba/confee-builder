@@ -35,7 +35,7 @@ function ContactsListView(props: Props) {
     };
 
     const updEmployee = (employees: EmployeeProxy[]): CardListItem[] => {
-        return employees.map((i) => ({
+        return employees?.map((i) => ({
             id: i.id,
             title: i.full_name,
             subtitle: i?.userProxy?.networkStatus || 'Не зарегестрирован',
@@ -74,7 +74,7 @@ function ContactsListView(props: Props) {
                             <Card.List
                                 activeItem={activeUserId}
                                 visibleLastItem={() => tabsAndLists.getNextPage('employee')}
-                                items={updEmployee(tabsAndLists.employees)}
+                                items={updEmployee(tabsAndLists.departmentsEmployees[dep.id])}
                             />
                         </Collapse>
                     ))}

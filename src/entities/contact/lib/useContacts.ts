@@ -28,7 +28,7 @@ function useContacts() {
 
     const redirect = pathname.split('/')[1] === 'contacts';
 
-    const departmentsEmployees = useEasyState<Record<number, Employee[]>>({});
+    const departmentsEmployees = useEasyState<Record<number, EmployeeProxy[]>>({});
 
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
     const { data: departmentsData } = companyApi.handleGetDepartments({ companyId: companyId.value });
@@ -111,11 +111,24 @@ function useContacts() {
         return arr;
     };
 
+    useEffect(() => {
+        if (departmentId.value) {
+            const emp: any = [];
+            employeesData?.pages.forEach((p) => {
+                p.data.data.forEach((e: any) => {
+                    emp.push(employeeProxy(e));
+                });
+            });
+            departmentsEmployees.set((prev) => ({ ...prev, [Number(departmentId.value)]: emp }));
+        }
+    }, [employeesData]);
+
     return {
         tabs: tabs.value,
         activeTab: activeTab.value,
         employees: searchInput.value ? searchData?.employees?.map((i) => employeeProxy(i)) || [] : getEmployeesFromDepartment() || [],
         contacts: searchInput.value ? searchData?.contacts?.map((i) => contactProxy(i)) || [] : contactsData?.map((i) => contactProxy(i)) || [],
+        departmentsEmployees: departmentsEmployees.value,
         getEmployees,
         getNextPage,
         searchInput,

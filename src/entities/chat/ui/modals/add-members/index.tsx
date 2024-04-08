@@ -26,7 +26,7 @@ function AddMembersInChatModalView(props: Props) {
     const activeTabIsCompany = !!tabsAndLists.activeTab?.payload?.companyId;
 
     const updContacts = (contacts: ContactProxy[]): CardListItem[] => {
-        return contacts.map((i) => ({
+        return contacts?.map((i) => ({
             id: i.user.id,
             title: i.full_name,
             subtitle: i?.userProxy?.networkStatus || '',
@@ -35,7 +35,7 @@ function AddMembersInChatModalView(props: Props) {
     };
 
     const updEmployee = (employees: EmployeeProxy[]): CardListItem[] => {
-        return employees.map((i) => ({
+        return employees?.map((i) => ({
             id: i.id,
             title: i.full_name,
             subtitle: i?.userProxy?.networkStatus || 'Не зарегестрирован',
@@ -73,7 +73,7 @@ function AddMembersInChatModalView(props: Props) {
                             <Card.List
                                 selected={selectedUsers}
                                 visibleLastItem={() => tabsAndLists.getNextPage('employee')}
-                                items={updEmployee(tabsAndLists.employees)}
+                                items={updEmployee(tabsAndLists.departmentsEmployees[dep.id])}
                             />
                         </Collapse>
                     ))}
