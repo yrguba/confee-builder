@@ -1,10 +1,6 @@
 const ls = window.localStorage;
 export type ValuesInStorage =
-    // | 'access_token'
-    // | 'refresh_token'
     | 'theme'
-    // | 'viewer_id'
-    // | 'session'
     | 'chat_list_width'
     | 'max_cache_size'
     | 'active_chats_tab'
