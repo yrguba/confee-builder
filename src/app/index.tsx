@@ -14,6 +14,7 @@ import { useTheme, useStorage, useTimer, useRustServer, usePersister } from 'sha
 import { Button, Notification } from 'shared/ui';
 
 import Provider from './provider';
+import MainProvider from './providers/main';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -65,11 +66,13 @@ function App() {
     return (
         <BrowserRouter>
             <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
-                <Provider>
-                    <Notification options={{ disabledDesktop: true }} />
-                    <Routing />
-                    <ReactQueryDevtools position="bottom-left" />
-                </Provider>
+                <MainProvider>
+                    <Provider>
+                        <Notification options={{ disabledDesktop: true }} />
+                        <Routing />
+                        <ReactQueryDevtools position="bottom-left" />
+                    </Provider>
+                </MainProvider>
             </PersistQueryClientProvider>
         </BrowserRouter>
     );

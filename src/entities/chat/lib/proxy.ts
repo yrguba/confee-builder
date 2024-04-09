@@ -4,10 +4,11 @@ import { dateConverter, getEnding } from 'shared/lib';
 import { employeeProxy } from '../../company';
 import { userProxy, userService } from '../../user';
 import { UserProxy } from '../../user/model/types';
+import { viewerStore } from '../../viewer';
 import { ChatProxy, Chat, CurrentShortMember } from '../model/types';
 
 function chatProxy(chat: Chat | undefined): ChatProxy | null {
-    const viewerId = viewerService.getId();
+    const viewerId = viewerStore.getState().viewer.value.id;
     if (!chat) return null;
     return new Proxy(chat, {
         get(target: ChatProxy, prop: keyof ChatProxy, receiver: ChatProxy): ChatProxy[keyof ChatProxy] {

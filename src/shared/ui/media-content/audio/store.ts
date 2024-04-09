@@ -12,5 +12,5 @@ const audioStore = useZustand<Store>({
     keys: ['currentlyPlaying', 'type', 'list'],
 });
 
-export type AudioStoreTypes = UseZustandTypes.AllTypes<typeof audioStore.use>;
+export type AudioStoreTypes = UseZustandTypes.StoreTypes<typeof audioStore.use>;
 export default audioStore;

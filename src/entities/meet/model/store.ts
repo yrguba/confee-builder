@@ -15,5 +15,5 @@ const meetStore = useZustand<Store, Methods>({
     keys: ['invitationToConference'],
 });
 
-export type MeetSoreTypes = UseZustandTypes.AllTypes<typeof meetStore.use>;
+export type MeetSoreTypes = UseZustandTypes.StoreTypes<typeof meetStore.use>;
 export default meetStore;

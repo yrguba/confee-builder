@@ -4,11 +4,11 @@ import { dateConverter } from '../../../shared/lib';
 import momentLocalZone from '../../../shared/lib/moment-local-zone';
 import { employeeProxy } from '../../company';
 import { userProxy } from '../../user';
-import { viewerService } from '../../viewer';
+import { viewerService, viewerStore } from '../../viewer';
 import { Message, MessageProxy } from '../model/types';
 
 function messageProxy(data: { prevMessage?: Message | null; message: Message; nextMessage?: Message | null }): MessageProxy {
-    const viewerId = viewerService.getId();
+    const viewerId = viewerStore.getState().viewer.value.id;
     const employee = data.message?.author_employee ? employeeProxy(data.message.author_employee) : null;
     const author = data.message.author ? userProxy(data.message?.author) : null;
     return new Proxy(data.message, {

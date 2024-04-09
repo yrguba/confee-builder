@@ -7,7 +7,7 @@ import { BaseTypes } from 'shared/types';
 import { Box, Button, Counter, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { chatTypes } from '../../../chat';
+import { ChatStoreTypes, chatTypes } from '../../../chat';
 import { EmployeeProxy } from '../../../company/model/types';
 import { UserProxy } from '../../../user/model/types';
 import useMessagesScroll from '../../lib/useMessagesScroll';
@@ -34,7 +34,7 @@ type Props = {
     dropContainerRef: RefObject<any>;
     goDownList: boolean;
     isFileDrag: MessageStoreTypes['isFileDrag'];
-    initialOpenChat: UseZustandTypes.Wrapper<boolean>;
+    initialOpenChat: ChatStoreTypes['initialOpenChat'];
     isFetching: boolean;
     menuMessageId: MessageStoreTypes['menuMessageId'];
     clearDownloadFile: () => void;

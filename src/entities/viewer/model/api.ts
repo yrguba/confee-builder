@@ -3,11 +3,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { axiosClient } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
 
+import viewerStore from './store';
 import { Session, Viewer } from './types';
 import { Company } from '../../company/model/types';
 
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
+
+    viewer = viewerStore.getState().viewer.value;
 
     handleGetAllSessions(enabled = true) {
         const cacheId = ['get-sessions'];
@@ -20,14 +23,12 @@ class ViewerApi {
         });
     }
 
-    handleGetViewer(enabled = true) {
-        const storage = useStorage();
+    handleGetViewer() {
         const cacheId = ['get-viewer'];
         return useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
-            enabled,
+            enabled: !!viewerStore.getState().tokens.value?.access_token,
             select: (res) => {
-                storage.set('viewer_id', res.data?.data.user.id);
                 return res.data?.data as { user: Viewer; session: Session; companies: Company[] };
             },
         });

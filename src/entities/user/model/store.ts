@@ -8,5 +8,5 @@ const userStore = useZustand<Store, Methods>({
     keys: [],
 });
 
-export type UserStoreTypes = UseZustandTypes.AllTypes<typeof userStore.use>;
+export type UserStoreTypes = UseZustandTypes.StoreTypes<typeof userStore.use>;
 export default userStore;

@@ -1,6 +1,5 @@
 import viewerProxy from './lib/proxy';
 import viewerService from './lib/service';
-import tokensService from './lib/tokens-service';
 import viewerApi from './model/api';
 import viewerStore, { ViewerStoreTypes } from './model/store';
 import * as viewerTypes from './model/types';
@@ -16,7 +15,6 @@ export {
     viewerTypes,
     viewerApi,
     viewerService,
-    tokensService,
     viewerProxy,
     InitialFillingProfileStep1View,
     InitialFillingProfileStep2View,

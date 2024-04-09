@@ -18,10 +18,10 @@ import { metadata, Metadata } from 'tauri-plugin-fs-extra-api';
 import { download } from 'tauri-plugin-upload-api';
 
 import { appService } from 'entities/app';
-import { tokensService } from 'entities/viewer';
 import { debounce } from 'shared/lib';
 
 import useRustServer from './useRustServer';
+import { viewerStore } from '../../entities/viewer';
 
 import { useStorage } from '.';
 
@@ -132,7 +132,7 @@ const useFS = () => {
             return;
         }
 
-        const tokens = tokensService.get();
+        const tokens = viewerStore.getState().tokens.value;
         if (tokens?.access_token) {
             const getProgress = (progress: number, total: number) => {
                 if (props?.progressCallback) {

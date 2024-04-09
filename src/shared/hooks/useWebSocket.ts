@@ -1,7 +1,8 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
 import { appService } from 'entities/app';
-import { tokensService } from 'entities/viewer';
+
+import { viewerStore } from '../../entities/viewer';
 
 const { socketUrl } = appService.getUrls();
 const ws = new ReconnectingWebSocket(socketUrl);
@@ -12,17 +13,19 @@ type Returned<In, Out> = {
 };
 
 function useWebSocket<In, Out>(): Returned<In, Out> {
-    const token = tokensService.get()?.access_token;
+    const tokens = viewerStore.getState().tokens.value;
 
     ws.onopen = function () {
-        ws.send(
-            JSON.stringify({
-                event: 'Auth',
-                data: {
-                    token: token || '',
-                },
-            })
-        );
+        if (tokens?.access_token) {
+            ws.send(
+                JSON.stringify({
+                    event: 'Auth',
+                    data: {
+                        token: tokens?.access_token || '',
+                    },
+                })
+            );
+        }
     };
 
     const onMessage = (callback: (arg: any) => void) => {

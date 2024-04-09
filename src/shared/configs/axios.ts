@@ -1,8 +1,8 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosError } from 'axios';
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 
 import { appService } from 'entities/app';
-import { tokensService } from 'entities/viewer';
 
+import { viewerStore } from '../../entities/viewer';
 import { useWebSocket } from '../hooks';
 
 const { backBaseURL } = appService.getUrls();
@@ -14,7 +14,7 @@ const config: AxiosRequestConfig = {
 const axiosClient = axios.create(config);
 
 axiosClient.interceptors.request.use(async (config: any) => {
-    const tokens = tokensService.get();
+    const tokens = viewerStore.getState().tokens.value;
     // const deviceName = await appService.getDeviceName();
 
     if (tokens?.access_token) {
@@ -37,26 +37,25 @@ axiosClient.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
-        const currentTokens = tokensService.get();
+        const { tokens } = viewerStore.getState();
         const { sendMessage } = useWebSocket<any, any>();
-        if (error.response.status === 401 && error.config && currentTokens && !error.config._isRetry) {
+        if (error.response.status === 401 && error.config && tokens && !error.config._isRetry) {
             error.config._isRetry = true;
             try {
                 const additional = { grant_type: 'refresh_token', ...auth };
-                const res: any = await axiosClient.post('api/v2/oauth/token', { refresh_token: currentTokens.refresh_token, ...additional });
+                const res: any = await axiosClient.post('api/v2/oauth/token', { refresh_token: tokens.value.refresh_token, ...additional });
                 if (res.data.data) {
-                    const { access_token, refresh_token } = res.data.data;
-                    tokensService.save({ access_token, refresh_token });
+                    tokens.set(res.data.data);
                     sendMessage('Auth', {
-                        token: access_token,
+                        token: res.data.data.access_token,
                     });
                     return await axiosClient.request(originalRequest);
                 }
-                tokensService.remove();
+                tokens.clear();
                 window.location.reload();
                 return null;
             } catch (err) {
-                tokensService.remove();
+                tokens.clear();
                 window.location.reload();
                 return null;
             }

@@ -5,7 +5,7 @@ import { EmployeeProxy } from 'entities/company/model/types';
 import { useMeet } from 'entities/meet';
 import { messageDictionaries, messageTypes } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
-import { viewerService } from 'entities/viewer';
+import { viewerService, viewerStore } from 'entities/viewer';
 import { useRouter, useEasyState } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
 
@@ -14,7 +14,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
 
     const chatId = Number(params.chat_id);
 
-    const viewerId = viewerService.getId();
+    const viewer = viewerStore.use.viewer();
     const { user, employee } = modal.payload;
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
@@ -97,7 +97,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 mediaTypes={mediaTypes}
                 files={filesData}
                 visibleChatBtn={String(proxyChat?.id) !== params.chat_id}
-                visibleBtns={user?.id !== viewerId}
+                visibleBtns={user?.id !== viewer.value.id}
                 setDescription={(value) => handleUpdateChatDescription({ chatId, description: value })}
             />
         </>

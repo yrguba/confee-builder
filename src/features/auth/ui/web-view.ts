@@ -4,8 +4,8 @@ import SHA256 from 'crypto-js/sha256';
 import { useLocation } from 'react-router-dom';
 
 import { appService } from 'entities/app';
-import { tokensService } from 'entities/viewer';
 
+import { viewerStore } from '../../../entities/viewer';
 import { debounce } from '../../../shared/lib';
 
 const authorizeEndpoint = 'oauth/authorize';
@@ -65,13 +65,11 @@ const webView = () => {
             const deviceName = (await appService.getDeviceName()) as any;
             const encDeviceName = encodeURI(deviceName || 'unknown');
             try {
-                axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res) => {
+                axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res: any) => {
                     if (res.data.access_token) {
-                        tokensService.save({
-                            access_token: res.data.access_token,
-                            refresh_token: res.data.refresh_token,
-                        });
-                        window.location.reload();
+                        console.log(res.data);
+                        viewerStore.setStateOutsideComponent({ tokens: { access_token: res.data.access_token, refresh_token: res.data.refresh_token } });
+                        // window.location.reload();
                     } else {
                         window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
                     }

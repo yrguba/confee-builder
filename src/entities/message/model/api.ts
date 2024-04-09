@@ -8,6 +8,7 @@ import { useStorage, useWebSocket } from 'shared/hooks';
 import { File, Message, MessageProxy, MessageType, MessageWithChatGpt, SocketOut } from './types';
 import { getRandomString, httpHandlers } from '../../../shared/lib';
 import { Chat } from '../../chat/model/types';
+import { viewerStore } from '../../viewer';
 import { messageService } from '../index';
 import { messages_limit } from '../lib/constants';
 import mockMessage from '../lib/mock';
@@ -15,11 +16,13 @@ import mockMessage from '../lib/mock';
 class MessageApi {
     private pathPrefix = '/api/v2/chats';
 
+    viewer = viewerStore.getState().viewer;
+
     socket = useWebSocket<any, SocketOut>();
 
     handleGetMessagesWithChatGpt() {
         const storage = useStorage();
-        return useQuery(['get-messages', 'with-chat-gpt'], () => axios.get(`https://gpt.confee.ru/api/history/${storage.get('viewer_id')}`), {
+        return useQuery(['get-messages', 'with-chat-gpt'], () => axios.get(`https://gpt.confee.ru/api/history/${this.viewer.value.id}`), {
             select: (data) => {
                 return data.data.history as MessageWithChatGpt[];
             },
@@ -29,14 +32,14 @@ class MessageApi {
     handleSendTextMessageWithChatGpt() {
         return useMutation((data: { text: string }) => {
             const storage = useStorage();
-            return axios.post(`https://gpt.confee.ru/api/send-text`, { ...data, id: storage.get('viewer_id') });
+            return axios.post(`https://gpt.confee.ru/api/send-text`, { ...data, id: this.viewer.value.id });
         });
     }
 
     handleClearHistoryWithChatGpt() {
         return useMutation(() => {
             const storage = useStorage();
-            return axios.post(`https://gpt.confee.ru/api/clear-history/${storage.get('viewer_id')}`);
+            return axios.post(`https://gpt.confee.ru/api/clear-history/${this.viewer.value.id}`);
         });
     }
 

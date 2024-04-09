@@ -2,12 +2,12 @@ import moment from 'moment';
 
 import { momentLocalZone } from 'shared/lib';
 
-import { viewerService } from '../../viewer';
+import { viewerService, viewerStore } from '../../viewer';
 import { User, UserProxy } from '../model/types';
 
 function userProxy(user: User | undefined): UserProxy | null {
     if (!user) return null;
-    const viewerId = viewerService.getId();
+    const viewerId = viewerStore.getState().viewer.value.id;
     return new Proxy(user, {
         get(target, prop: keyof UserProxy, receiver: UserProxy): UserProxy[keyof UserProxy] {
             switch (prop) {

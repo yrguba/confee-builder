@@ -17,7 +17,7 @@ const BaseButton = forwardRef((props: BaseButtonProps, ref: any) => {
         chips,
         error,
         size = 's',
-        width = '100%',
+        width = !props.chips ? '100%' : '',
         animateTrigger,
         height,
         active,

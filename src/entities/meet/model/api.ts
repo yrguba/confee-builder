@@ -17,6 +17,12 @@ class MeetApi {
             axiosClient.post(`${this.pathPrefix}/${data.chatId}/call `, data)
         );
     };
+
+    handleCallResponse = () => {
+        return useMutation((data: { chatId: number | string | undefined; targets_user_id?: number[]; confee_video_room: string }) =>
+            axiosClient.post(`${this.pathPrefix}/${data.chatId}/call `, data)
+        );
+    };
 }
 
 export default new MeetApi();

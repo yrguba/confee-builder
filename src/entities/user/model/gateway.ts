@@ -5,10 +5,10 @@ import { chatTypes } from 'entities/chat';
 import { Socket } from './types';
 import chatService from '../../chat/lib/service';
 import { Chat } from '../../chat/model/types';
-import { viewerService } from '../../viewer';
+import { viewerService, viewerStore } from '../../viewer';
 
 function userGateway({ event, data }: Socket, queryClient: any) {
-    const viewerId = viewerService.getId();
+    const viewerId = viewerStore.getState().viewer.value.id;
     const openChatId = chatService.getOpenChatId();
 
     switch (event) {

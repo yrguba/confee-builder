@@ -31,5 +31,5 @@ const chatStore = useZustand<Store, Methods>({
     },
 });
 
-export type ChatStoreTypes = UseZustandTypes.AllTypes<typeof chatStore.use>;
+export type ChatStoreTypes = UseZustandTypes.StoreTypes<typeof chatStore.use>;
 export default chatStore;

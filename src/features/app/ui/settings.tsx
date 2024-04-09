@@ -5,13 +5,14 @@ import { useUpdateEffect } from 'react-use';
 import { enable, isEnabled, disable } from 'tauri-plugin-autostart-api';
 
 import { appService, AppSettingsView, appStore } from 'entities/app';
-import { tokensService, viewerApi } from 'entities/viewer';
+import { viewerApi } from 'entities/viewer';
 import { useTheme, useStorage, useEasyState, useUnmount } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
 import CacheModal from './modals/cache';
 import SessionModal from './modals/session';
 import { chatStore } from '../../../entities/chat';
+import { viewerStore } from '../../../entities/viewer';
 
 function AppSettings() {
     const storage = useStorage();
@@ -20,6 +21,11 @@ function AppSettings() {
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
     const { mutate: handleLogout } = viewerApi.handleLogout();
     const { mutate: handleDeleteAccount } = viewerApi.handleDeleteAccount();
+
+    const viewer = viewerStore.use.viewer();
+    const session = viewerStore.use.session();
+    const tokens = viewerStore.use.tokens();
+
     const visibleChatGpt = chatStore.use.visibleChatGpt();
     const autostart = appStore.use.autostart();
     const enableNotifications = appStore.use.enableNotifications();
@@ -31,8 +37,9 @@ function AppSettings() {
         if (value && callbackData) {
             handleLogout(null, {
                 onSuccess: () => {
-                    tokensService.remove();
-                    storage.remove('session');
+                    tokens.clear();
+                    viewer.clear();
+                    session.clear();
                     window.location.reload();
                 },
             });
@@ -43,8 +50,9 @@ function AppSettings() {
         if (value) {
             handleDeleteAccount(null, {
                 onSuccess: () => {
-                    tokensService.remove();
-                    storage.remove('session');
+                    tokens.clear();
+                    viewer.clear();
+                    session.clear();
                     window.location.reload();
                 },
             });

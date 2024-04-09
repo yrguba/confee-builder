@@ -24,5 +24,5 @@ const appStore = useZustand<Store, Methods>({
     },
 });
 
-export type AppStoreTypes = UseZustandTypes.AllTypes<typeof appStore.use>;
+export type AppStoreTypes = UseZustandTypes.StoreTypes<typeof appStore.use>;
 export default appStore;

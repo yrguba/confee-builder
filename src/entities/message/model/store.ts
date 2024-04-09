@@ -94,5 +94,5 @@ const messageStore = useZustand<Store, Methods>({
     },
 });
 
-export type MessageStoreTypes = UseZustandTypes.AllTypes<typeof messageStore.use>;
+export type MessageStoreTypes = UseZustandTypes.StoreTypes<typeof messageStore.use>;
 export default messageStore;

@@ -8,5 +8,5 @@ const companyStore = useZustand<Store, Methods>({
     keys: [],
 });
 
-export type CompanySoreTypes = UseZustandTypes.AllTypes<typeof companyStore.use>;
+export type CompanySoreTypes = UseZustandTypes.StoreTypes<typeof companyStore.use>;
 export default companyStore;

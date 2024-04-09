@@ -1,12 +1,10 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { checkUpdate } from '@tauri-apps/api/updater';
 import { AnimatePresence } from 'framer-motion';
-import React, { Suspense, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { useUpdateEffect } from 'react-use';
 
-import { viewerApi, tokensService } from 'entities/viewer';
+import { viewerStore } from 'entities/viewer';
 import { Network } from 'features/app';
 import { webView } from 'features/auth';
 
@@ -16,7 +14,7 @@ import meetPageRouters from './meet';
 import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
 import { appService } from '../entities/app';
-import { useWindowSize, useEffectOnce, useStorage, useRouter, useWebSocket } from '../shared/hooks';
+import { useWindowSize, useEffectOnce } from '../shared/hooks';
 import { Audio } from '../shared/ui';
 
 function Routing() {
@@ -27,12 +25,9 @@ function Routing() {
 
     const networkState = appService.getNetworkState();
 
-    const checkAuth = tokensService.checkAuth();
-    const { data: viewerData, isFetching, error: viewerError } = viewerApi.handleGetViewer(tokensService.checkAuth());
+    const checkAuth = !!viewerStore.use.tokens().value?.access_token;
 
-    const session = viewerData?.session;
-    const user = viewerData?.user;
-    const storage = useStorage();
+    const viewer = viewerStore.use.viewer();
 
     const routes = (
         <>
@@ -50,12 +45,6 @@ function Routing() {
             {!params.chat_id && <Audio.Player sliderPosition="top" width={window.innerWidth} />}
         </>
     );
-
-    useUpdateEffect(() => {
-        if (session?.id) {
-            storage.set('session', session);
-        }
-    }, [session?.id]);
 
     useEffect(() => {
         if (checkAuth) {
@@ -75,11 +64,11 @@ function Routing() {
     });
 
     useEffect(() => {
-        if (checkAuth && user) {
-            if (!user?.nickname) return navigate('/filling_profile');
+        if (checkAuth && viewer.value) {
+            if (!viewer.value?.nickname) return navigate('/filling_profile');
             ['/warning/server', '/filling_profile'].includes(location.pathname) && navigate('/chats');
         }
-    }, [user]);
+    }, [viewer.value]);
 
     const getRouting = () => {
         if (checkAuth) {

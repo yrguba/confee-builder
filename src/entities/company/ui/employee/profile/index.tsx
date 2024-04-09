@@ -6,7 +6,7 @@ import { Avatar, Button, ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes,
 
 import styles from './styles.module.scss';
 import { UserInfoView, userTypes } from '../../../../user';
-import { viewerService } from '../../../../viewer';
+import { viewerService, viewerStore } from '../../../../viewer';
 import { CompanyCardView, CompanyTagView } from '../../../index';
 import { EmployeeProxy } from '../../../model/types';
 
@@ -21,7 +21,7 @@ function EmployeeProfileView(props: Props) {
 
     const visibleMenu = useEasyState(false);
 
-    const viewerId = viewerService.getId();
+    const viewerId = viewerStore.getState().viewer.value.id;
 
     const sm = useWidthMediaQuery().to('sm');
 

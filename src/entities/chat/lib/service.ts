@@ -5,10 +5,12 @@ import { getUniqueArr } from '../../../shared/lib';
 import employeeProxy from '../../company/lib/emloyee-proxy';
 import { userProxy } from '../../user';
 import { User } from '../../user/model/types';
-import { viewerService } from '../../viewer';
+import { viewerService, viewerStore } from '../../viewer';
 import { ChatProxy } from '../model/types';
 
 class ChatService {
+    viewer = viewerStore.getState().viewer.value;
+
     getUpdatedChatsList(chats: any) {
         if (!chats) return null;
         const uniq = getUniqueArr(
@@ -29,14 +31,14 @@ class ChatService {
 
     getMembersWithoutMe(chat?: ChatProxy | null): User[] | null {
         if (!chat) return null;
-        const viewerId = viewerService.getId();
+        const viewerId = this.viewer.id;
         const users: any = chat?.is_personal ? chat.members : chat?.employee_members.filter((i) => i.user).map((i) => i.user);
         return users?.filter((i: any) => i.id !== viewerId).map((i: any) => i);
     }
 
     getMemberNameByUserId(chat?: ChatProxy | null, id?: number): string {
         if (!chat) return '';
-        const viewerId = viewerService.getId();
+        const viewerId = this.viewer.id;
         if (chat.is_personal) {
             const found = chat.members.find((i) => i.id === id);
             if (found) {
@@ -53,7 +55,7 @@ class ChatService {
 
     getMembersIdsWithoutMe(chat?: ChatProxy | null) {
         if (!chat) return null;
-        const viewerId = viewerService.getId();
+        const viewerId = this.viewer.id;
         const users: any = chat?.is_personal ? chat.members : chat?.employee_members.filter((i) => i.user).map((i) => i.user);
 
         return users?.filter((i: any) => i?.id !== viewerId).map((i: any) => i?.id);

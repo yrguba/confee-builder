@@ -8,7 +8,7 @@ import { Button, Counter, Icons, IconsTypes, Modal, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appService } from '../../../../../entities/app';
-import { tokensService, viewerApi } from '../../../../../entities/viewer';
+import { viewerApi, viewerStore } from '../../../../../entities/viewer';
 
 function Navbar() {
     const { pathname, navigate } = useRouter();
@@ -16,6 +16,11 @@ function Navbar() {
     const storage = useStorage();
     const { data: totalPendingMessages } = chatApi.handleGetTotalPendingMessages();
     const { mutate: handleLogout } = viewerApi.handleLogout();
+
+    const viewer = viewerStore.use.viewer();
+    const session = viewerStore.use.session();
+    const tokens = viewerStore.use.tokens();
+
     const activeChatTab = storage.get('active_chats_tab');
 
     const items: BaseTypes.Item<IconsTypes.BaseIconsVariants, { path: string; counter: number | undefined }>[] = [
@@ -30,8 +35,9 @@ function Navbar() {
         if (value) {
             handleLogout(null, {
                 onSuccess: () => {
-                    tokensService.remove();
-                    storage.remove('session');
+                    tokens.clear();
+                    viewer.clear();
+                    session.clear();
                     window.location.reload();
                 },
             });

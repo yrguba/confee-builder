@@ -8,7 +8,7 @@ import debounce from '../../../shared/lib/debounce';
 import { appStore } from '../../app';
 import { chatService } from '../../chat';
 import { Chat } from '../../chat/model/types';
-import { viewerService } from '../../viewer';
+import { viewerService, viewerStore } from '../../viewer';
 import { Session } from '../../viewer/model/types';
 import messageProxy from '../lib/proxy';
 import messageService from '../lib/service';
@@ -18,8 +18,8 @@ const [throttleMessageTyping] = useThrottle((cl) => cl(), 1000);
 const debounceMessageTypingClose = debounce((cl) => cl(), 3000);
 
 function messageGateway({ event, data }: Socket, queryClient: any) {
-    const viewerId = viewerService.getId();
-    const session = useStorage().get<Session>('session');
+    const viewerId = viewerStore.getState().viewer.value.id;
+    const session = viewerStore.getState().session.value;
 
     switch (event) {
         case 'MessageCreated':

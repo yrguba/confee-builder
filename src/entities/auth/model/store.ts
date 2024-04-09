@@ -15,5 +15,5 @@ const authStore = useZustand<Store, Methods>({
     keys: ['invitationToConference'],
 });
 
-export type AuthSoreTypes = UseZustandTypes.AllTypes<typeof authStore.use>;
+export type AuthSoreTypes = UseZustandTypes.StoreTypes<typeof authStore.use>;
 export default authStore;

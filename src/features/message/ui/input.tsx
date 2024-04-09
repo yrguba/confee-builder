@@ -9,7 +9,7 @@ import { VoiceEvents } from 'entities/message/model/types';
 import { userProxy, userTypes } from 'entities/user';
 import { useEasyState, useFileUploader, useAudioRecorder, useThrottle } from 'shared/hooks';
 
-import { viewerService } from '../../../entities/viewer';
+import { viewerService, viewerStore } from '../../../entities/viewer';
 import { chunkString, debounce, getRandomString } from '../../../shared/lib';
 import { Modal } from '../../../shared/ui';
 import { FilesToSendModal } from '../index';
@@ -19,7 +19,8 @@ const [throttleMessageTyping] = useThrottle((cl) => cl(), 2000);
 function MessageInput() {
     const params = useParams();
     const chatId = Number(params.chat_id);
-    const viewerId = viewerService.getId();
+
+    const viewer = viewerStore.use.viewer();
 
     const { mutate: handleSendTextMessage, isLoading } = messageApi.handleSendTextMessage();
     const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
@@ -161,7 +162,9 @@ function MessageInput() {
         const lasWord = text.split(' ').pop();
         if (lasWord && lasWord.includes('@')) {
             const arr: any = proxyChat?.is_personal ? proxyChat?.members : proxyChat?.employee_members;
-            const members = arr?.filter((i: any) => viewerId !== i.id && i.nickname?.includes(lasWord.substring(1))).map((i: any) => userProxy(i)) as any;
+            const members = arr
+                ?.filter((i: any) => viewer.value.id !== i.id && i.nickname?.includes(lasWord.substring(1)))
+                .map((i: any) => userProxy(i)) as any;
             tagUsers.set(members || []);
         } else {
             tagUsers.set([]);
