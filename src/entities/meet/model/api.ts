@@ -23,6 +23,17 @@ class MeetApi {
             axiosClient.post(`${this.pathPrefix}/${data.chatId}/call `, data)
         );
     };
+
+    handleLeftCall = () => {
+        return {
+            mutate: (chatId: number | null, call_id: number) => {
+                this.socket.sendMessage('LeftCall', {
+                    chatId,
+                    call_id,
+                });
+            },
+        };
+    };
 }
 
 export default new MeetApi();

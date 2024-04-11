@@ -2,6 +2,8 @@ import React, { JSX, useEffect } from 'react';
 
 import { viewerApi, viewerProxy, viewerStore } from 'entities/viewer';
 
+import { webView } from '../../features/auth';
+
 function MainProvider({ children }: { children: JSX.Element }) {
     const { data: viewerData, isFetching, error: viewerError } = viewerApi.handleGetViewer();
     const viewer = viewerStore.use.viewer();
@@ -15,7 +17,7 @@ function MainProvider({ children }: { children: JSX.Element }) {
         }
     }, [viewerData]);
 
-    return viewer.value ? children : null;
+    return viewer.value ? children : webView();
 }
 
 export default MainProvider;

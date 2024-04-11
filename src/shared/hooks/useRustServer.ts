@@ -9,7 +9,7 @@ type WebviewProps = {
     };
 };
 
-type Label = 'main' | 'meet' | 'photo_video_swiper' | '';
+type Label = 'meet' | 'photo_video_swiper' | string;
 
 type WebviewEvents =
     | 'resize'

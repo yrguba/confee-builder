@@ -3,13 +3,15 @@ import React from 'react';
 import { ChatHeaderView, chatApi, chatService } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
 import { ChatTabsActions } from 'entities/chat/model/types';
-import { useMeet } from 'entities/meet';
+import { meetStore, useMeet } from 'entities/meet';
 import { messageStore, messageApi } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 import { Modal } from 'shared/ui';
 
 import GroupChatProfileModal from './modals/profile/group';
 import PrivateChatProfileModal from './modals/profile/private';
+import { viewerStore } from '../../../entities/viewer';
+import { getRandomString } from '../../../shared/lib';
 import { ForwardMessagesModal } from '../../message';
 
 function ChatHeader() {
@@ -22,6 +24,10 @@ function ChatHeader() {
     const highlightedMessages = messageStore.use.highlightedMessages();
     const forwardMessages = messageStore.use.forwardMessages();
     const visibleSearchMessages = messageStore.use.visibleSearchMessages();
+
+    const calls = meetStore.use.calls();
+
+    const viewer = viewerStore.use.viewer();
 
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
@@ -60,7 +66,18 @@ function ChatHeader() {
             case 'search':
                 return visibleSearchMessages.set(!visibleSearchMessages.value);
             case 'goMeet':
-                createMeet(proxyChat?.id, getMembersIdsWithoutMe);
+                const meetId = getRandomString(30);
+                calls.set([
+                    ...calls.value,
+                    {
+                        id: meetId,
+                        name: proxyChat?.name || '',
+                        avatar: proxyChat?.avatar || '',
+                        status: 'outgoing',
+                        userId: viewer.value.id,
+                        muted: !!proxyChat?.is_muted,
+                    },
+                ]);
         }
     };
 

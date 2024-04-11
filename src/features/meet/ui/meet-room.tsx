@@ -16,14 +16,13 @@ function MeetRoom() {
 
     const inviteToMeetModal = Modal.use();
 
-    const chatId = ls.get('meet_chat_id');
     const meetStr = clientFullURL.split('/').pop();
     const meetId = meetStr?.split(':')[0];
 
     return meetId ? (
         <>
             <InviteToMeetModal {...inviteToMeetModal} />
-            <MeetRoomView viewer={viewer} meetId={meetId} invite={inviteToMeetModal.open} chatId={chatId} />
+            <MeetRoomView viewer={viewer} meetId={meetId} invite={inviteToMeetModal.open} chatId={3} />
         </>
     ) : null;
 }

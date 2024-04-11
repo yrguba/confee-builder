@@ -67,7 +67,6 @@ const webView = () => {
             try {
                 axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res: any) => {
                     if (res.data.access_token) {
-                        console.log(res.data);
                         viewerStore.setStateOutsideComponent({ tokens: { access_token: res.data.access_token, refresh_token: res.data.refresh_token } });
                         // window.location.reload();
                     } else {

@@ -2,12 +2,14 @@ import React from 'react';
 
 import { chatApi, chatProxy, chatService, chatTypes, PrivateChatProfileModalView } from 'entities/chat';
 import { EmployeeProxy } from 'entities/company/model/types';
-import { useMeet } from 'entities/meet';
+import { meetStore, useMeet } from 'entities/meet';
 import { messageDictionaries, messageTypes } from 'entities/message';
 import { UserProxy } from 'entities/user/model/types';
 import { viewerService, viewerStore } from 'entities/viewer';
 import { useRouter, useEasyState } from 'shared/hooks';
 import { Modal, ModalTypes, Notification } from 'shared/ui';
+
+import { getRandomString } from '../../../../../shared/lib';
 
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
     const { navigate, pathname, params } = useRouter();
@@ -26,6 +28,8 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const notification = Notification.use();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>('images');
+
+    const calls = meetStore.use.calls();
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId: proxyChat?.id, filesType: mediaTypes.value });
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
@@ -53,13 +57,18 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const actions = (action: chatTypes.PrivateChatActions) => {
         switch (action) {
             case 'goMeet':
-                if (proxyChat?.isDeleted) {
-                    return notification.success({
-                        title: `Нельзя создать конфиренцию, пользователь удаден.`,
-                        system: true,
-                    });
-                }
-                return createMeet(proxyChat?.id, getMembersIdsWithoutMe);
+                const meetId = getRandomString(30);
+                return calls.set([
+                    ...calls.value,
+                    {
+                        id: meetId,
+                        name: proxyChat?.name || '',
+                        avatar: proxyChat?.avatar || '',
+                        status: 'outgoing',
+                        userId: viewer.value.id,
+                        muted: !!proxyChat?.is_muted,
+                    },
+                ]);
             case 'message':
                 const redirect = (chatId?: number) => navigate(`/chats/${user ? 'personal' : `company/${params.company_id}`}/chat/${chatId}`);
                 if (!proxyChat) {

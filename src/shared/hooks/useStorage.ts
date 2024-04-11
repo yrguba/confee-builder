@@ -4,9 +4,9 @@ export type ValuesInStorage =
     | 'chat_list_width'
     | 'max_cache_size'
     | 'active_chats_tab'
-    | 'join_meet_data'
-    | 'by_meet'
-    | 'meet_chat_id'
+    // | 'join_meet_data'
+    // | 'by_meet'
+    // | 'meet_chat_id'
     | 'last_message_with_chat_gpt';
 
 function useStorage() {

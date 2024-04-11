@@ -18,25 +18,14 @@ function Provider({ children }: { children: any }) {
     const { params, pathname, navigate } = useRouter();
     const ls = useStorage();
 
-    const { inCall } = useMeet();
-
     const chatSubscription = chatStore.use.chatSubscription();
-    const invitationToConference = meetStore.use.invitationToConference();
+
     const openForwardMessageModal = messageStore.use.openForwardMessageModal();
     const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
     const forwardMessagesModal = Modal.use();
     const photoVideoSwiperModal = Modal.use();
 
     const { mutate: handleUnsubscribeFromChat } = chatApi.handleUnsubscribeFromChat();
-
-    useEffect(() => {
-        if (invitationToConference.value?.id && !ls.get('by_meet') && !ls.get('join_meet_data')) {
-            if (appService.tauriIsRunning) {
-                inCall(invitationToConference.value);
-                invitationToConference.clear();
-            }
-        }
-    }, [invitationToConference.value?.id]);
 
     useEffect(() => {
         if (!params.chat_id) {
@@ -57,7 +46,7 @@ function Provider({ children }: { children: any }) {
             messageGateway(data, queryClient);
             chatGateway(data, queryClient, navigate);
             userGateway(data, queryClient);
-            meetGateway(data, queryClient, { invitationToConference });
+            meetGateway(data, queryClient);
         });
     });
 

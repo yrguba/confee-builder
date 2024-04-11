@@ -57,7 +57,7 @@ function useContacts() {
     };
 
     useEffect(() => {
-        if (viewerData?.companies.length) {
+        if (viewerData?.companies?.length) {
             const defaultTab: TabBarTypes.TabBarItem<TabPayload> = {
                 id: 0,
                 title: 'Личные',
@@ -79,7 +79,7 @@ function useContacts() {
             });
             tabs.set(arr);
         }
-    }, [viewerData?.companies.length]);
+    }, [viewerData?.companies?.length]);
 
     const getDepartments = (data: { companyId: number | null }) => {
         companyId.set(data.companyId);

@@ -15,6 +15,7 @@ import { Button, Notification } from 'shared/ui';
 
 import Provider from './provider';
 import MainProvider from './providers/main';
+import MeetProvider from './providers/meet';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -67,11 +68,13 @@ function App() {
         <BrowserRouter>
             <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
                 <MainProvider>
-                    <Provider>
-                        <Notification options={{ disabledDesktop: true }} />
-                        <Routing />
-                        <ReactQueryDevtools position="bottom-left" />
-                    </Provider>
+                    <MeetProvider>
+                        <Provider>
+                            <Notification options={{ disabledDesktop: true }} />
+                            <Routing />
+                            <ReactQueryDevtools position="bottom-left" />
+                        </Provider>
+                    </MeetProvider>
                 </MainProvider>
             </PersistQueryClientProvider>
         </BrowserRouter>

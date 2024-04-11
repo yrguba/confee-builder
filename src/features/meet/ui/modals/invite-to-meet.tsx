@@ -12,7 +12,7 @@ function InviteToMeetModal(modal: ModalTypes.UseReturnedType) {
 
     const ls = useStorage();
 
-    const chatId = ls.get('meet_chat_id');
+    const chatId = 4;
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const proxyChat = chatProxy(chatData?.data.data);
 

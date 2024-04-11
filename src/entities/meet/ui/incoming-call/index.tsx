@@ -11,7 +11,7 @@ type Props = {
     name?: string;
 } & BaseTypes.Statuses;
 
-function JoinMeetView(props: Props) {
+function IncomingCallView(props: Props) {
     const { joining, avatar, name } = props;
 
     return (
@@ -33,4 +33,4 @@ function JoinMeetView(props: Props) {
     );
 }
 
-export default JoinMeetView;
+export default IncomingCallView;

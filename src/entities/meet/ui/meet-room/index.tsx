@@ -56,9 +56,9 @@ function MeetRoomView(props: Props) {
                     externalApi.executeCommand('avatarUrl', avatarUrl || '');
                 }}
                 onReadyToClose={() => {
-                    ls.remove('by_meet');
-                    ls.remove('join_meet_data');
-                    ls.remove('meet_chat_id');
+                    // ls.remove('by_meet');
+                    // ls.remove('join_meet_data');
+                    // ls.remove('meet_chat_id');
                     close();
                 }}
                 getIFrameRef={getIframeRef}

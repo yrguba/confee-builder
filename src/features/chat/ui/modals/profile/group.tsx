@@ -3,13 +3,14 @@ import { useUpdateEffect } from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
 
 import { chatApi, chatProxy, GroupChatProfileModalView, chatTypes, chatService } from 'entities/chat';
-import { useMeet } from 'entities/meet';
+import { meetStore, useMeet } from 'entities/meet';
 import { messageTypes } from 'entities/message';
 import { useRouter, useEasyState } from 'shared/hooks';
 import { Modal, ModalTypes } from 'shared/ui';
 
 import PrivateChatProfileModal from './private';
-import { debounce } from '../../../../../shared/lib';
+import { viewerStore } from '../../../../../entities/viewer';
+import { debounce, getRandomString } from '../../../../../shared/lib';
 import AddMembersInChatModal from '../add-members';
 
 function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
@@ -23,6 +24,10 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const proxyChat = chatProxy(chatData?.data.data);
     const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
+
+    const calls = meetStore.use.calls();
+
+    const viewer = viewerStore.use.viewer();
 
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
@@ -84,8 +89,18 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
             case 'goMeet':
-                return createMeet(proxyChat?.id, getMembersIdsWithoutMe);
-
+                const meetId = getRandomString(30);
+                return calls.set([
+                    ...calls.value,
+                    {
+                        id: meetId,
+                        name: proxyChat?.name || '',
+                        avatar: proxyChat?.avatar || '',
+                        status: 'outgoing',
+                        userId: viewer.value.id,
+                        muted: !!proxyChat?.is_muted,
+                    },
+                ]);
             case 'leave':
                 return confirmLeaveChat.open(null, {
                     okText: proxyChat?.is_group ? 'Покинуть' : 'Удалить',
