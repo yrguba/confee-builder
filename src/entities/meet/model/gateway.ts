@@ -10,20 +10,24 @@ function meetGateway({ event, data }: Socket, queryClient: any) {
     switch (event) {
         case 'CallCreated':
             const extraInfo = data.extra_info;
+            if (extraInfo.for_user_id !== viewer.id) {
+                meetStore.setStateOutsideComponent({
+                    calls: [
+                        ...meetStore.getState().calls.value,
+                        {
+                            id: extraInfo.confee_video_room,
+                            name: data.chat.name,
+                            avatar: data.chat.avatar || '',
+                            chatId: data.chat.id,
+                            status: 'incoming',
+                            usersIds: [],
+                            muted: data.chat.is_muted,
+                            userId: viewer.id,
+                        },
+                    ],
+                });
+            }
 
-        // meetStore.setStateOutsideComponent({
-        //     calls: [
-        //         ...meetStore.getState().calls.value,
-        //         {
-        //             id: extraInfo.confee_video_room,
-        //             avatar: data.chat.avatar,
-        //             name: data.chat.name,
-        //             muted: extraInfo.muted,
-        //             userId: extraInfo.for_user_id,
-        //             status: viewer.id === extraInfo.for_user_id ? 'outgoing' : 'incoming',
-        //         },
-        //     ],
-        // });
         // store.invitationToConference.set({
         //     id: extraInfo.confee_video_room,
         //     avatar: data.chat.avatar,

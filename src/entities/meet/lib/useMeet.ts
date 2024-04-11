@@ -21,26 +21,19 @@ function useMeet() {
 
     const { useWebview } = useRustServer();
 
-    const open = (id: string, type: 'outgoing' | 'incoming' | 'room', chat: ChatProxy | null, openModal: () => void) => {
-        if (!chat) return null;
+    const openCall = (id: string, name: string, type: 'outgoing' | 'incoming' | 'room', chatId: number, openModal: () => void) => {
         const webview = useWebview(`meet-${id}`, {
-            title: chat.name || `Конференция`,
+            title: name || `Конференция`,
             events: {
                 onClose: () => {
                     calls.set(calls.value.filter((i) => i.id !== id));
-                    webview.close();
+                    webview?.close();
                 },
             },
         });
         if (!webview.view) {
-            const users = chatService.getMembersIdsWithoutMe(chat);
-            handleCreateMeeting({ chatId: chat.id, targets_user_id: users, confee_video_room: id });
             if (appService.tauriIsRunning) {
-                if (type === 'room') {
-                    webview.open({ path: `/meet/room/${id}` });
-                } else {
-                    webview.open({ path: `/meet/${type}_call/${id}` });
-                }
+                webview.open({ path: `/meet/${type}_call/${id}` });
             } else {
                 openModal();
             }
@@ -59,7 +52,7 @@ function useMeet() {
         navigate(`/meet/room/${meetId}`);
     };
 
-    return { openCreateMeet, open, goToRoom };
+    return { openCreateMeet, openCall, goToRoom };
 }
 
 export default useMeet;

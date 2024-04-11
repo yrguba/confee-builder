@@ -71,21 +71,25 @@ function useRustServer() {
 
         const open = async (props: { path: string; title?: string }) => {
             if (!rustIsRunning) return null;
-            await invoke('open_window', { url: `${window.location.origin}${props.path}`, label });
-            const view = WebviewWindow.getByLabel(label);
-            setTimeout(() => {
-                view?.setTitle(props?.title || webviewProps?.title || '');
-                view?.once('tauri://close-requested', function () {
-                    webviewProps?.events?.onClose && webviewProps?.events.onClose();
-                });
-            }, 100);
+            const view = new WebviewWindow(label, {
+                url: `${window.location.origin}${props.path}`,
+            });
+            // await invoke('open_window', { url: `${window.location.origin}${props.path}`, label });
+            // const view = WebviewWindow.getByLabel(label);
+            if (view) {
+                setTimeout(() => {
+                    view?.setTitle(props?.title || webviewProps?.title || '');
+                    view?.once('tauri://close-requested', function () {
+                        webviewProps?.events?.onClose && webviewProps?.events.onClose();
+                    });
+                }, 500);
+            }
         };
 
         const close = async () => {
             if (!rustIsRunning) return null;
             const view = WebviewWindow.getByLabel(label);
             if (view) {
-                await view.close();
                 await view.close();
             }
         };
