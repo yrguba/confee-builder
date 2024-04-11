@@ -19,9 +19,17 @@ class MeetApi {
     };
 
     handleCallResponse = () => {
-        return useMutation((data: { chatId: number | string | undefined; targets_user_id?: number[]; confee_video_room: string }) =>
-            axiosClient.post(`${this.pathPrefix}/${data.chatId}/call `, data)
-        );
+        console.log('tt');
+        return {
+            mutate: (chat_id: number | null, call_id: string, response: 'accepted' | 'reject' | 'timeout', user_id: number) => {
+                this.socket.sendMessage('CallResponse', {
+                    chat_id,
+                    call_id,
+                    response,
+                    user_id,
+                });
+            },
+        };
     };
 
     handleLeftCall = () => {

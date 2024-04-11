@@ -25,7 +25,7 @@ function IncomingCallView(props: Props) {
             </Title>
             <div className={styles.btns}>
                 <Button onClick={() => joining(false)} variant="secondary">
-                    Может позже
+                    Отклонить
                 </Button>
                 <Button onClick={() => joining(true)}>Присоединиться</Button>
             </div>

@@ -45,6 +45,7 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
     ws.onclose = function (event) {};
 
     const sendMessage = (event: Out, data: string) => {
+        console.log(event, data);
         ws.readyState &&
             ws.send(
                 JSON.stringify({

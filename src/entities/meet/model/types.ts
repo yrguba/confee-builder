@@ -17,7 +17,7 @@ export type CreateMeet = {
 };
 
 export type SocketIn = 'CallCreated';
-export type SocketOut = 'LeftCall';
+export type SocketOut = 'LeftCall' | 'CallResponse';
 
 export type Socket = {
     event: SocketIn;
