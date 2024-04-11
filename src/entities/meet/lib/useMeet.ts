@@ -2,6 +2,8 @@ import { useRouter, useRustServer, useStorage } from '../../../shared/hooks';
 import { getRandomString } from '../../../shared/lib';
 import { Notification } from '../../../shared/ui';
 import { appService } from '../../app';
+import { chatService } from '../../chat';
+import { ChatProxy } from '../../chat/model/types';
 import { meetStore } from '../index';
 import meetApi from '../model/api';
 
@@ -15,35 +17,49 @@ function useMeet() {
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
 
     const calls = meetStore.use.calls();
+    const createMeet = meetStore.use.createMeet();
 
     const { useWebview } = useRustServer();
 
-    const createMeet = async (meetId: string) => {
-        const webview = useWebview(`meet-${meetId}`, {
-            title: `Конференция`,
+    const open = (id: string, type: 'outgoing' | 'incoming' | 'room', chat: ChatProxy | null, openModal: () => void) => {
+        if (!chat) return null;
+        const webview = useWebview(`meet-${id}`, {
+            title: chat.name || `Конференция`,
             events: {
                 onClose: () => {
-                    console.log('close');
-                    calls.set(calls.value.filter((i) => i.id !== meetId));
+                    calls.set(calls.value.filter((i) => i.id !== id));
                     webview.close();
                 },
             },
         });
-    };
-
-    const showIncomingCall = (meetId: string) => {
-        if (appService.tauriIsRunning) {
-            // webview?.open({ path: `/meet/incoming_call/${meetId}` });
-        } else {
-            navigate(`/meet/incoming_call/${meetId}`);
+        if (!webview.view) {
+            const users = chatService.getMembersIdsWithoutMe(chat);
+            handleCreateMeeting({ chatId: chat.id, targets_user_id: users, confee_video_room: id });
+            if (appService.tauriIsRunning) {
+                if (type === 'room') {
+                    webview.open({ path: `/meet/room/${id}` });
+                } else {
+                    webview.open({ path: `/meet/${type}_call/${id}` });
+                }
+            } else {
+                openModal();
+            }
         }
     };
 
-    const joinMeet = (meetId: string) => {
+    const openCreateMeet = (chat: ChatProxy | null) => {
+        if (!chat) return null;
+        createMeet.set({
+            meetId: getRandomString(30),
+            chat,
+        });
+    };
+
+    const goToRoom = (meetId: string) => {
         navigate(`/meet/room/${meetId}`);
     };
 
-    return { createMeet, joinMeet, showIncomingCall };
+    return { openCreateMeet, open, goToRoom };
 }
 
 export default useMeet;

@@ -3,16 +3,23 @@ import React from 'react';
 import { useLifecycles } from 'react-use';
 
 import { OutgoingCallView, meetStore, useMeet } from 'entities/meet';
-import { useStorage, useRingtone, useEffectOnce } from 'shared/hooks';
+import { useStorage, useRingtone, useEffectOnce, useRouter } from 'shared/hooks';
 
 import { appStore } from '../../../entities/app';
 
-function OutGoingCall() {
-    const ls = useStorage();
+type Props = {
+    meetId?: string;
+};
+
+function OutGoingCall(props: Props) {
+    const { params } = useRouter();
     const enableNotifications = appStore.use.enableNotifications();
     const calls = meetStore.use.calls();
     // const data = ls.get('join_meet_data');
     // const { controls, audio } = useRingtone({ enabled: enableNotifications.value && !incomingCall.value?.muted });
+
+    const meetId = props?.meetId || params.meet_id;
+    const call = calls.value.find((i) => i.id === meetId);
 
     useEffectOnce(() => {});
 
@@ -23,7 +30,11 @@ function OutGoingCall() {
         }
     );
 
-    const { joinMeet } = useMeet();
+    useEffectOnce(() => {
+        // if()
+    });
+
+    // const { joinMeet } = useMeet();
     // console.log(incomingCall.value);
     const joining = (value: boolean) => {
         // const joinWindow = WebviewWindow.getByLabel('meet');

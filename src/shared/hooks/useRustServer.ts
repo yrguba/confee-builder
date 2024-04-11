@@ -78,7 +78,6 @@ function useRustServer() {
                 view?.once('tauri://close-requested', function () {
                     webviewProps?.events?.onClose && webviewProps?.events.onClose();
                 });
-                view?.maximize();
             }, 100);
         };
 
@@ -86,6 +85,7 @@ function useRustServer() {
             if (!rustIsRunning) return null;
             const view = WebviewWindow.getByLabel(label);
             if (view) {
+                await view.close();
                 await view.close();
             }
         };

@@ -75,6 +75,9 @@
     gap: 6px;
     overflow-y: auto;
 
+    @include height-to('sm'){
+      max-height: 50px;
+    }
 
     .item{
       @include flex;
@@ -93,6 +96,11 @@
         }
       }
     }
+  }
+
+  .tabBar{
+    @include box-size(calc(100% - 24px), auto);
+    margin-left: 24px;
   }
 
   .list {

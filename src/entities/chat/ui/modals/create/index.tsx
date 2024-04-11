@@ -112,7 +112,11 @@ function CreateChatModalView(props: Props) {
                     ))}
                 </div>
             ) : null}
-            {!finalStep.value && <TabBar bodyStyle={{ padding: '0 22px' }} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />}
+            {!finalStep.value && (
+                <div className={styles.tabBar}>
+                    <TabBar bodyStyle={{ padding: '0 22px' }} items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} />
+                </div>
+            )}
             <div className={styles.list}>
                 {finalStep.value ? (
                     <Card.List items={selectedUsers.array} />

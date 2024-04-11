@@ -29,7 +29,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>('images');
 
-    const calls = meetStore.use.calls();
+    const meet = useMeet();
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId: proxyChat?.id, filesType: mediaTypes.value });
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
@@ -37,8 +37,6 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const { mutate: handleDeleteChat } = chatApi.handleDeleteChat();
     const { mutate: handleChatMute } = chatApi.handleChatMute();
     const { mutate: handleUpdateChatDescription } = chatApi.handleUpdateChatDescription();
-
-    const { createMeet } = useMeet();
 
     const confirmDeleteChat = Modal.useConfirm((value) => {
         if (value && proxyChat?.id) {
@@ -57,18 +55,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
     const actions = (action: chatTypes.PrivateChatActions) => {
         switch (action) {
             case 'goMeet':
-                const meetId = getRandomString(30);
-                return calls.set([
-                    ...calls.value,
-                    {
-                        id: meetId,
-                        name: proxyChat?.name || '',
-                        avatar: proxyChat?.avatar || '',
-                        status: 'outgoing',
-                        userId: viewer.value.id,
-                        muted: !!proxyChat?.is_muted,
-                    },
-                ]);
+                return meet.openCreateMeet(proxyChat);
             case 'message':
                 const redirect = (chatId?: number) => navigate(`/chats/${user ? 'personal' : `company/${params.company_id}`}/chat/${chatId}`);
                 if (!proxyChat) {

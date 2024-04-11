@@ -26,6 +26,7 @@ function ChatHeader() {
     const visibleSearchMessages = messageStore.use.visibleSearchMessages();
 
     const calls = meetStore.use.calls();
+    const createMeet = meetStore.use.createMeet();
 
     const viewer = viewerStore.use.viewer();
 
@@ -33,7 +34,7 @@ function ChatHeader() {
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
-    const { createMeet } = useMeet();
+    const meet = useMeet();
 
     const clickDeleteMessages = async () => {
         if (chatData) {
@@ -66,18 +67,7 @@ function ChatHeader() {
             case 'search':
                 return visibleSearchMessages.set(!visibleSearchMessages.value);
             case 'goMeet':
-                const meetId = getRandomString(30);
-                calls.set([
-                    ...calls.value,
-                    {
-                        id: meetId,
-                        name: proxyChat?.name || '',
-                        avatar: proxyChat?.avatar || '',
-                        status: 'outgoing',
-                        userId: viewer.value.id,
-                        muted: !!proxyChat?.is_muted,
-                    },
-                ]);
+                meet.openCreateMeet(proxyChat);
         }
     };
 

@@ -18,16 +18,11 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     const chatId = Number(params.chat_id);
 
-    const { createMeet } = useMeet();
     const visibleSwiper = useEasyState(false);
 
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const proxyChat = chatProxy(chatData?.data.data);
     const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
-
-    const calls = meetStore.use.calls();
-
-    const viewer = viewerStore.use.viewer();
 
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
     const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
@@ -40,6 +35,8 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(null);
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
+
+    const meet = useMeet();
 
     const addMembersModal = Modal.use();
     const privateChatProfileModal = Modal.use();
@@ -89,18 +86,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
             case 'goMeet':
-                const meetId = getRandomString(30);
-                return calls.set([
-                    ...calls.value,
-                    {
-                        id: meetId,
-                        name: proxyChat?.name || '',
-                        avatar: proxyChat?.avatar || '',
-                        status: 'outgoing',
-                        userId: viewer.value.id,
-                        muted: !!proxyChat?.is_muted,
-                    },
-                ]);
+                return meet.openCreateMeet(proxyChat);
             case 'leave':
                 return confirmLeaveChat.open(null, {
                     okText: proxyChat?.is_group ? 'Покинуть' : 'Удалить',

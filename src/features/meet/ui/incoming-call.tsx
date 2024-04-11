@@ -7,13 +7,17 @@ import { useStorage, useRingtone, useEffectOnce } from 'shared/hooks';
 
 import { appStore } from '../../../entities/app';
 
-function IncomingCall() {
+type Props = {
+    meetId?: string;
+};
+
+function IncomingCall(props: Props) {
     const ls = useStorage();
     const enableNotifications = appStore.use.enableNotifications();
     const calls = meetStore.use.calls();
     // const data = ls.get('join_meet_data');
     // const { controls, audio } = useRingtone({ enabled: enableNotifications.value && !incomingCall.value?.muted });
-
+    const meetId = props?.meetId;
     useEffectOnce(() => {});
 
     useLifecycles(
@@ -23,7 +27,7 @@ function IncomingCall() {
         }
     );
 
-    const { joinMeet } = useMeet();
+    // const { joinMeet } = useMeet();
     // console.log(incomingCall.value);
     const joining = (value: boolean) => {
         // const joinWindow = WebviewWindow.getByLabel('meet');

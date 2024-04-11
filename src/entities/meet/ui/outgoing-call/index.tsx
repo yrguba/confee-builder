@@ -21,14 +21,9 @@ function OutgoingCallView(props: Props) {
                 {name}
             </Title>
             <Title textAlign="center" variant="H3R">
-                приглашает присоединиться к конференции
+                звоним
             </Title>
-            <div className={styles.btns}>
-                <Button onClick={() => joining(false)} variant="secondary">
-                    Может позже
-                </Button>
-                <Button onClick={() => joining(true)}>Присоединиться</Button>
-            </div>
+            ждем
         </div>
     );
 }
