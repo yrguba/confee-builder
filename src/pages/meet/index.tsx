@@ -6,9 +6,9 @@ import { IncomingCall, MeetRoom, OutGoingCall } from 'features/meet';
 const MeetPage = lazy(() => import('./ui'));
 const meetPageRouters = (
     <Route path="/meet" element={<MeetPage />}>
-        <Route path="room/:meet_id" element={<MeetRoom />} />
-        <Route path="incoming_call/:meet_id" element={<IncomingCall />} />
-        <Route path="outgoing_call/:meet_id" element={<OutGoingCall />} />
+        <Route path="room/:meet_data" element={<MeetRoom />} />
+        <Route path="incoming_call/:meet_data" element={<IncomingCall />} />
+        <Route path="outgoing_call/:meet_data" element={<OutGoingCall />} />
     </Route>
 );
 

@@ -7,15 +7,14 @@ import { useStorage, useRingtone, useEffectOnce, useRouter } from 'shared/hooks'
 
 import { appStore } from '../../../entities/app';
 
-type Props = {
-    meetId?: string;
-};
+type Props = {};
 
 function IncomingCall(props: Props) {
     const { params } = useRouter();
 
     const enableNotifications = appStore.use.enableNotifications();
-    const calls = meetStore.use.calls();
+    const calls = meetStore.use.incomingCalls();
+    const meet = useMeet();
 
     const { mutate: handleCallResponse } = meetApi.handleCallResponse();
 
@@ -24,10 +23,14 @@ function IncomingCall(props: Props) {
 
     // const data = ls.get('join_meet_data');
     // const { controls, audio } = useRingtone({ enabled: enableNotifications.value && !incomingCall.value?.muted });
+    //
+    // const meetId = props?.meetId || params.meet_id;
+    // const call = calls.value.find((i) => i.id === meetId);
 
-    const meetId = props?.meetId || params.meet_id;
-    const call = calls.value.find((i) => i.id === meetId);
+    const meetJson = JSON.parse(params.meet_data || '');
+    const meetData = { ...meetJson, avatar: meetJson.avatar.split('|').join('/') };
 
+    console.log(meetData);
     useEffectOnce(() => {});
 
     useLifecycles(
@@ -37,12 +40,25 @@ function IncomingCall(props: Props) {
         }
     );
 
-    // const { joinMeet } = useMeet();
     // console.log(incomingCall.value);
     const joining = (value: boolean) => {
-        if (call) {
-            handleCallResponse(call.chatId, call.id, value ? 'accepted' : 'reject', call.userId);
-        }
+        window?.top?.postMessage(
+            JSON.stringify({
+                error: false,
+                message: 'Here we go',
+            }),
+            '*'
+        );
+        // if (call && meetId) {
+        // handleCallResponse(call.chatId, call.id, value ? 'accepted' : 'reject', call.userId);
+        // if (value) {
+        // } else {
+        //     console.log(meetId);
+        //     // calls.set(calls.value.filter((i) => i.id !== meetId));
+        //     props.reject && props.reject();
+        //     meet.closeCall(meetId);
+        // }
+        // }
         // const joinWindow = WebviewWindow.getByLabel('meet');
         //
         // if (value && data && data) {
@@ -56,7 +72,7 @@ function IncomingCall(props: Props) {
     return (
         <>
             {/* {audio} */}
-            <IncomingCallView joining={joining} {...{}} />
+            <IncomingCallView joining={joining} {...meetData} />
         </>
     );
 }

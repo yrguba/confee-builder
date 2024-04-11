@@ -20,10 +20,10 @@ function InviteToMeetModal(modal: ModalTypes.UseReturnedType) {
     const selectedUsers = useArray<CardTypes.CardListItem>({ multiple: true });
 
     const sendInvites = () => {
-        if (selectedUsers.array.length && params.meet_id && chatId) {
-            handleInvite({ confee_video_room: params.meet_id, chatId, targets_user_id: selectedUsers.array.map((i) => Number(i.id)) });
-            modal.close();
-        }
+        // if (selectedUsers.array.length && params.meet_id && chatId) {
+        //     handleInvite({ confee_video_room: params.meet_id, chatId, targets_user_id: selectedUsers.array.map((i) => Number(i.id)) });
+        //     modal.close();
+        // }
     };
 
     const users = chatService.getMembersWithoutMe(proxyChat);

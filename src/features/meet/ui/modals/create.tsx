@@ -13,8 +13,6 @@ import { CreateMeetModalView, meetStore } from '../../../../entities/meet';
 function CreateMeetModal(modal: ModalTypes.UseReturnedType) {
     const { navigate, pathname, params } = useRouter();
 
-    const calls = meetStore.use.calls();
-
     const selectedUsers = useArray<CardTypes.CardListItem>({ multiple: true });
 
     const tabsAndLists = useContacts();

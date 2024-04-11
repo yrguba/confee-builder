@@ -16,7 +16,7 @@ function useMeet() {
     const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
 
-    const calls = meetStore.use.calls();
+    // const calls = meetStore.use.calls();
     const createMeet = meetStore.use.createMeet();
 
     const { useWebview } = useRustServer();
@@ -28,7 +28,7 @@ function useMeet() {
                 title: name || `Конференция`,
                 events: {
                     onClose: () => {
-                        calls.set(calls.value.filter((i) => i.id !== id));
+                        // calls.set(calls.value.filter((i) => i.id !== id));
                         webview?.close();
                     },
                 },
@@ -51,11 +51,42 @@ function useMeet() {
         });
     };
 
+    const closeCall = (meetId: string) => {
+        const { view } = useWebview(`meet-${meetId}`);
+        if (view) {
+            console.log('close');
+            // calls.set(calls.value.filter((i) => i.id !== meetId));
+            // view.close();
+        }
+    };
+
+    const createRoom = (meetId: string, name: string) => {
+        const { view } = useWebview(`meet-${meetId}`);
+        console.log(view);
+        if (!view) {
+            const webview = useWebview(`meet-${meetId}`, {
+                title: name || `Конференция`,
+                events: {
+                    onClose: () => {
+                        // calls.set(calls.value.filter((i) => i.id !== meetId));
+                        webview?.close();
+                    },
+                },
+            });
+            if (!webview.view) {
+                if (appService.tauriIsRunning) {
+                    webview.open({ path: `/meet/room/${meetId}` });
+                } else {
+                }
+            }
+        }
+    };
+
     const goToRoom = (meetId: string) => {
         navigate(`/meet/room/${meetId}`);
     };
 
-    return { openCreateMeet, openCall, goToRoom };
+    return { openCreateMeet, openCall, goToRoom, createRoom, closeCall };
 }
 
 export default useMeet;

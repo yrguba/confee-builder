@@ -12,14 +12,13 @@ function meetGateway({ event, data }: Socket, queryClient: any) {
             const extraInfo = data.extra_info;
             if (extraInfo.for_user_id !== viewer.id) {
                 meetStore.setStateOutsideComponent({
-                    calls: [
-                        ...meetStore.getState().calls.value,
+                    incomingCalls: [
+                        ...meetStore.getState().incomingCalls.value,
                         {
                             id: extraInfo.confee_video_room,
                             name: data.chat.name,
                             avatar: data.chat.avatar || '',
                             chatId: data.call_id.chat_id,
-                            status: 'incoming',
                             usersIds: [],
                             muted: extraInfo.muted,
                             userId: extraInfo.for_user_id,

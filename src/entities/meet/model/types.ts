@@ -8,7 +8,6 @@ export type Call = {
     userId: number;
     chatId: number;
     usersIds: number[];
-    status: 'incoming' | 'outgoing' | 'in-room';
 };
 
 export type CreateMeet = {

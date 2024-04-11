@@ -25,7 +25,6 @@ function ChatHeader() {
     const forwardMessages = messageStore.use.forwardMessages();
     const visibleSearchMessages = messageStore.use.visibleSearchMessages();
 
-    const calls = meetStore.use.calls();
     const createMeet = meetStore.use.createMeet();
 
     const viewer = viewerStore.use.viewer();

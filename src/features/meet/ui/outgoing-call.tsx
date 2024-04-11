@@ -8,18 +8,18 @@ import { useStorage, useRingtone, useEffectOnce, useRouter } from 'shared/hooks'
 import { appStore } from '../../../entities/app';
 
 type Props = {
-    meetId?: string;
+    // meetId?: string;
 };
 
 function OutGoingCall(props: Props) {
     const { params } = useRouter();
     const enableNotifications = appStore.use.enableNotifications();
-    const calls = meetStore.use.calls();
+    // const calls = meetStore.use.o();
     // const data = ls.get('join_meet_data');
     // const { controls, audio } = useRingtone({ enabled: enableNotifications.value && !incomingCall.value?.muted });
 
-    const meetId = props?.meetId || params.meet_id;
-    const call = calls.value.find((i) => i.id === meetId);
+    // const meetId = props?.meetId || params.meet_id;
+    // const call = calls.value.find((i) => i.id === meetId);
 
     useEffectOnce(() => {});
 

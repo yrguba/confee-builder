@@ -3,19 +3,22 @@ import { useZustand, UseZustandTypes } from 'shared/hooks';
 import { Call, CreateMeet } from './types';
 
 type Store = {
-    calls: Call[];
+    activeCalls: Call[];
+    incomingCalls: Call[];
+    outgoingCalls: Call;
     createMeet: CreateMeet;
 };
 
 type Methods = {};
 
 const meetStore = useZustand<Store, Methods>({
-    keys: ['calls', 'createMeet'],
+    keys: ['activeCalls', 'createMeet', 'incomingCalls', 'outgoingCalls'],
     default: {
-        calls: [],
+        activeCalls: [],
+        incomingCalls: [],
     },
     forStorage: {
-        keys: ['calls'],
+        keys: [],
         storageName: 'meet_storage',
     },
 });
