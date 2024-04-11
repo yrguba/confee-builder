@@ -78,7 +78,7 @@ function MeetProvider({ children }: { children: JSX.Element }) {
             meet.openCall(call.id, call.name, 'incoming', call.chatId, incomingCallModal.open);
         });
     }, [incomingCalls.value]);
-    console.log(JSON.stringify(lastIncomingCalls));
+
     return (
         <>
             {children}
