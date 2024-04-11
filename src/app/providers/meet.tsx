@@ -56,7 +56,6 @@ function MeetProvider({ children }: { children: JSX.Element }) {
     }, [createMeet.value]);
 
     useUpdateEffect(() => {
-        console.log(calls.value);
         if (calls.value.length) {
             calls.value.forEach((call) => {
                 if (call.status === 'incoming') {
