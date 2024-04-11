@@ -22,20 +22,23 @@ function useMeet() {
     const { useWebview } = useRustServer();
 
     const openCall = (id: string, name: string, type: 'outgoing' | 'incoming' | 'room', chatId: number, openModal: () => void) => {
-        const webview = useWebview(`meet-${id}`, {
-            title: name || `Конференция`,
-            events: {
-                onClose: () => {
-                    calls.set(calls.value.filter((i) => i.id !== id));
-                    webview?.close();
+        const { view } = useWebview(`meet-${id}`);
+        if (!view) {
+            const webview = useWebview(`meet-${id}`, {
+                title: name || `Конференция`,
+                events: {
+                    onClose: () => {
+                        calls.set(calls.value.filter((i) => i.id !== id));
+                        webview?.close();
+                    },
                 },
-            },
-        });
-        if (!webview.view) {
-            if (appService.tauriIsRunning) {
-                webview.open({ path: `/meet/${type}_call/${id}` });
-            } else {
-                openModal();
+            });
+            if (!webview.view) {
+                if (appService.tauriIsRunning) {
+                    webview.open({ path: `/meet/${type}_call/${id}` });
+                } else {
+                    openModal();
+                }
             }
         }
     };

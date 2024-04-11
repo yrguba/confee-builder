@@ -32,7 +32,7 @@ function MeetProvider({ children }: { children: JSX.Element }) {
         if (createMeet.value) {
             if (createMeet.value.chat.is_group) {
                 createMeetModal.open();
-            } else {
+            } else if (!calls.value.find((i) => i.chatId === createMeet.value.chat.id)) {
                 const secondUserId = createMeet.value.chat.secondUser?.id;
                 if (secondUserId) {
                     handleCreateMeeting({ confee_video_room: createMeet.value.meetId, chatId: createMeet.value.chat.id, targets_user_id: [secondUserId] });
