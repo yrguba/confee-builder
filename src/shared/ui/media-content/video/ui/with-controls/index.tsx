@@ -69,7 +69,9 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
                 </div>
                 <div className={styles.bottom}>
                     <div className={styles.time}>
-                        <Title variant="H4M">{secondsToHms(Math.ceil(state.time))}</Title>
+                        <Title variant="H4M" color="fixed">
+                            {secondsToHms(Math.ceil(state.time))}
+                        </Title>
                     </div>
                     <div className={styles.slider}>
                         <VideoSeekSlider
@@ -85,7 +87,7 @@ function VideoPlayerWithControls(props: BaseVideoProps) {
                         />
                     </div>
                     <div className={styles.timeReverse}>
-                        <Title textAlign="right" variant="H4M">{`${secondsToHms(Math.floor(state.duration - state.time))}`}</Title>
+                        <Title color="fixed" textAlign="right" variant="H4M">{`${secondsToHms(Math.floor(state.duration - state.time))}`}</Title>
                     </div>
                 </div>
             </Box.Animated>

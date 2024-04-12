@@ -16,10 +16,13 @@
     left: 50%;
     transform: translateX(-50%);
     @include box-size(500px, calc(92px - 32px));
-    background-color: rgb(0,0,0,0.4);
+    background-color: rgb(0, 0, 0, 0.4);
     border-radius: 12px;
     padding: 16px;
 
+    @include width-to(sm) {
+      width: 400px;
+    }
     svg {
       fill: var(--text-primary);
     }
@@ -39,7 +42,8 @@
         @include box-size(auto, 50%);
         gap: 8px;
 
-        .speed{
+        .speed {
+          color: var(--text-fixed);
           font-weight: 600;
           font-size: 16px;
         }
@@ -50,7 +54,7 @@
       @include flex;
       @include box-size(100%, 50%);
       gap: 8px;
-
+      color: var(--text-primary);
       .time {
         width: 44px;
       }
