@@ -1,22 +1,11 @@
 import React, { forwardRef, MouseEvent, useRef } from 'react';
-import rough from 'roughjs';
-import { Options } from 'roughjs/bin/core';
 
 import { useEasyState } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { DrawCanvasProps, Coords, Tool, Tag } from '../../types';
 
-const generator = rough.generator();
-
-export type DrawingProps = {
-    coords: Coords;
-    tool: Tool;
-    options: Options;
-    points?: Array<[number, number]>;
-};
-
-function canvas_arrow(ctx: any, fromx: number, fromy: number, tox: number, toy: number, width: number) {
+function drawArrow(ctx: any, fromx: number, fromy: number, tox: number, toy: number, width: number) {
     const r = width * 2;
     const x_center = tox;
     const y_center = toy;
@@ -43,33 +32,30 @@ function canvas_arrow(ctx: any, fromx: number, fromy: number, tox: number, toy: 
     ctx.fill();
 }
 
-function canvas_rect(ctx: any, x1: number, y1: number, x2: number, y2: number) {
+function drawRect(ctx: any, x1: number, y1: number, x2: number, y2: number) {
     ctx.beginPath();
     ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
     ctx.closePath();
     ctx.fill();
 }
 
-function drawing(props: DrawingProps) {
-    const { options, tool, coords, points } = props;
+function drawCircle(ctx: any, x1: number, y1: number, x2: number, y2: number) {
+    const y = x2 - x1;
+    const x = y2 - y1;
+    ctx.beginPath();
+    ctx.arc(x1, y1, Math.sqrt(x * x + y * y), 0, 2 * Math.PI, false);
+    ctx.stroke();
+}
 
-    const { x1, y1, x2, y2 } = coords;
-
-    switch (tool) {
-        case 'rect':
-            return generator.rectangle(x1, y1, x2 - x1, y2 - y1, options);
-        case 'circle':
-            const y = x2 - x1;
-            const x = y2 - y1;
-            return generator.circle(x1, y1, Math.sqrt(x * x + y * y) * 2, options);
-        case 'pencil':
-            if (points) {
-                return generator.linearPath(points, options);
-            }
-            return;
-        default:
-            throw Error();
+function drawFreeHand(ctx: any, points: Array<[number, number]>) {
+    ctx.beginPath();
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i][0], points[i][1]);
     }
+    ctx.stroke();
+    ctx.closePath();
 }
 
 const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
@@ -81,22 +67,12 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
     const points = useRef<Array<[number, number]>>([[0, 0]]);
     const canvasImg = useRef('');
 
-    const options = {
-        stroke: color,
-        fillStyle: color,
-        roughness: 0,
-        strokeWidth,
-        bowing: 0,
-    };
-
     const handleMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
         const canvas = ref.current as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
-        const roughCanvas = rough.canvas(canvas);
         if (!canvas || !ctx) return null;
         clearRedoList && clearRedoList();
         pushToUndoList && pushToUndoList(canvas.toDataURL());
-
         ctx.beginPath();
         isDrawing.set(true);
         const canvasRect = canvas.getBoundingClientRect();
@@ -106,16 +82,10 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         canvasImg.current = canvas.toDataURL();
         initCoords.current = { x, y };
         points.current = [[x, y]];
-        if (tool === 'arrow') {
-            return canvas_arrow(ctx, x, y, x, y, strokeWidth || 12);
+        if (tool === 'pencil') {
+            points.current.push([x, y]);
+            return drawFreeHand(ctx, points.current);
         }
-        const el = drawing({
-            coords: { x1: x, x2: x, y1: y, y2: y },
-            points: [[x, y]],
-            tool,
-            options,
-        });
-        el && roughCanvas.draw(el);
     };
 
     const handleMousemove = (e: MouseEvent<HTMLCanvasElement>) => {
@@ -123,7 +93,6 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         const ctx = canvas.getContext('2d');
         if (!isDrawing.value || !canvas || !ctx) return null;
 
-        const roughCanvas = rough.canvas(canvas);
         const canvasRect = canvas.getBoundingClientRect();
         const { clientX, clientY } = e;
 
@@ -140,21 +109,18 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             ctx.fillStyle = color;
             ctx.lineWidth = strokeWidth || 12;
             if (tool === 'arrow') {
-                return canvas_arrow(ctx, initCoords.current.x, initCoords.current.y, x, y, strokeWidth || 12);
+                return drawArrow(ctx, initCoords.current.x, initCoords.current.y, x, y, strokeWidth || 12);
             }
             if (tool === 'rect') {
-                return canvas_rect(ctx, initCoords.current.x, initCoords.current.y, x, y);
+                return drawRect(ctx, initCoords.current.x, initCoords.current.y, x, y);
+            }
+            if (tool === 'circle') {
+                return drawCircle(ctx, initCoords.current.x, initCoords.current.y, x, y);
             }
             if (tool === 'pencil') {
                 points.current.push([x, y]);
+                return drawFreeHand(ctx, points.current);
             }
-            const el = drawing({
-                coords: { x1: initCoords.current.x, y1: initCoords.current.y, x2: x, y2: y },
-                points: points.current,
-                tool,
-                options,
-            });
-            el && roughCanvas.draw(el);
         };
     };
 
