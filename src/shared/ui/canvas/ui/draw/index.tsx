@@ -43,6 +43,13 @@ function canvas_arrow(ctx: any, fromx: number, fromy: number, tox: number, toy: 
     ctx.fill();
 }
 
+function canvas_rect(ctx: any, x1: number, y1: number, x2: number, y2: number) {
+    ctx.beginPath();
+    ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+    ctx.closePath();
+    ctx.fill();
+}
+
 function drawing(props: DrawingProps) {
     const { options, tool, coords, points } = props;
 
@@ -79,6 +86,7 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
         fillStyle: color,
         roughness: 0,
         strokeWidth,
+        bowing: 0,
     };
 
     const handleMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
@@ -128,11 +136,14 @@ const Draw = forwardRef((props: DrawCanvasProps, ref: any) => {
             ctx.clearRect(0, 0, size.naturalWidth, size.naturalHeight);
             ctx.drawImage(img, 0, 0, size.naturalWidth, size.naturalHeight);
             ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = strokeWidth || 12;
             if (tool === 'arrow') {
-                ctx.strokeStyle = color;
-                ctx.fillStyle = color;
-                ctx.lineWidth = strokeWidth || 12;
                 return canvas_arrow(ctx, initCoords.current.x, initCoords.current.y, x, y, strokeWidth || 12);
+            }
+            if (tool === 'rect') {
+                return canvas_rect(ctx, initCoords.current.x, initCoords.current.y, x, y);
             }
             if (tool === 'pencil') {
                 points.current.push([x, y]);

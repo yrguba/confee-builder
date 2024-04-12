@@ -11,7 +11,7 @@ type Props = {
     name?: string;
 } & BaseTypes.Statuses;
 
-function IncomingCallView(props: Props) {
+function PreJoinView(props: Props) {
     const { joining, avatar, name } = props;
 
     return (
@@ -33,4 +33,4 @@ function IncomingCallView(props: Props) {
     );
 }
 
-export default IncomingCallView;
+export default PreJoinView;

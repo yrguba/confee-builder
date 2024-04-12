@@ -8,7 +8,7 @@ export type UrlParams = {
     employee_id: string | undefined;
     company_id: string | undefined;
     department_id: string | undefined;
-    meet_data: string | undefined;
+    meet_id: string | undefined;
 };
 
 function useRouter(): { navigate: ReturnType<typeof useNavigate>; params: UrlParams; pathname: string; lastPath?: string } {

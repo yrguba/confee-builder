@@ -16,7 +16,7 @@ function useDraw(props: UseDraw) {
 
     const undo = () => {
         const ctx = drawRef.current?.getContext('2d');
-        if (!ctx || !drawRef.current) return null;
+        if (!ctx || !drawRef.current || !undoList.value.length) return null;
         const copyUndoList = [...undoList.value];
         const src = copyUndoList.pop();
         undoList.set(copyUndoList);
@@ -36,7 +36,7 @@ function useDraw(props: UseDraw) {
 
     const redo = () => {
         const ctx = drawRef.current?.getContext('2d');
-        if (!ctx || !drawRef.current) return null;
+        if (!ctx || !drawRef.current || !redoList.value.length) return null;
         const copyRedoList = [...redoList.value];
         const src = copyRedoList.pop();
         redoList.set(copyRedoList);
@@ -63,8 +63,16 @@ function useDraw(props: UseDraw) {
         drawControl: {
             ref: drawRef,
             color,
-            onClose,
-            getResult,
+            onClose: () => {
+                undoList.set([]);
+                redoList.set([]);
+                onClose();
+            },
+            getResult: (data: any) => {
+                undoList.set([]);
+                redoList.set([]);
+                getResult(data);
+            },
             tool,
             undo,
             redo,

@@ -82,7 +82,7 @@ export type BaseIconsProps = {
     size?: 24 | 48 | number;
 };
 
-export type PlayerIconsVariants = 'stop' | 'pause' | 'play-outline' | 'pause-outline' | 'play' | 'mute' | 'unmute' | 'full' | 'repeat';
+export type PlayerIconsVariants = 'stop' | 'pause' | 'play-outline' | 'pause-outline' | 'play' | 'mute' | 'unmute' | 'full' | 'no-full' | 'repeat';
 
 export type PlayerIconsProps = {
     variant: PlayerIconsVariants;

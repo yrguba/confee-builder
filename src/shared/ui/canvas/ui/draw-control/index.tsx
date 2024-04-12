@@ -88,7 +88,7 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
         {
             id: 2,
             element: (
-                <div className={styles.widthSlider} onClick={visibleWidthSlider.toggle}>
+                <div className={styles.widthSlider}>
                     <Box.Animated visible={visibleWidthSlider.value} className={styles.slider} onMouseLeave={() => visibleWidthSlider.set(false)}>
                         <Title variant="caption2M" textAlign="center" active>
                             {strokeWidth?.value}
@@ -118,17 +118,19 @@ const DrawControl = forwardRef((props: DrawControlProps, ref: any) => {
                             }}
                         />
                     </Box.Animated>
-                    <div className={styles.dot} />
-                    <Title variant="caption2M" textAlign="center" active>
-                        {strokeWidth?.value}
-                    </Title>
+                    <div className={styles.icon} onClick={visibleWidthSlider.toggle}>
+                        <div className={styles.dot} />
+                        <Title variant="caption2M" textAlign="center" active>
+                            {strokeWidth?.value}
+                        </Title>
+                    </div>
                 </div>
             ),
         },
         {
             id: 3,
             element: (
-                <div className={styles.colorPiker} style={{ boxShadow: `0 0 8px 2px ${color.value}` }}>
+                <div className={styles.colorPiker}>
                     <Icons.Canvas variant="color" />
                     <input className={styles.colorPiker_input} type="color" onChange={(e) => color.set(e.target.value)} />
                 </div>

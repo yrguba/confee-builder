@@ -149,7 +149,7 @@ function PhotoVideoSwiperView(props: Props) {
 
     const actionsCrop = [
         { id: 0, icon: null, title: 'Отмена', onClick: () => activeCrop.set(false) },
-        { id: 1, icon: <Icons variant="rotate-img" />, onClick: () => rotate.set(rotate.value + 20) },
+        { id: 1, icon: <Icons variant="rotate-img" />, onClick: () => rotate.set(rotate.value + 45) },
         { id: 2, icon: null, title: 'Готово', onClick: onCrop, active: true },
     ];
 
@@ -203,7 +203,7 @@ function PhotoVideoSwiperView(props: Props) {
                             visibleFullscreenBtn.set(true);
                         }}
                     >
-                        <Icons.Player variant="full" />
+                        <Icons.Player variant={fullScreen.value ? 'no-full' : 'full'} />
                     </div>
                 )}
                 {visibleLeftBtn.value && (
@@ -226,15 +226,15 @@ function PhotoVideoSwiperView(props: Props) {
                                 ref={cropperRef}
                                 style={{ height: '100%', width: '100%' }}
                                 zoomTo={0}
-                                // initialAspectRatio={1}
+                                initialAspectRatio={0}
                                 // preview=".img-preview"
-                                viewMode={1}
+                                viewMode={0}
                                 minCropBoxHeight={10}
                                 minCropBoxWidth={10}
                                 background={false}
                                 responsive
                                 autoCropArea={1}
-                                checkOrientation={false}
+                                checkOrientation
                                 guides
                             />
                         ) : (

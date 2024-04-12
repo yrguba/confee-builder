@@ -1,4 +1,4 @@
-import { useRouter, useRustServer, useStorage } from '../../../shared/hooks';
+import { useRouter, useRustServer, useShell, useStorage } from '../../../shared/hooks';
 import { getRandomString } from '../../../shared/lib';
 import { Notification } from '../../../shared/ui';
 import { appService } from '../../app';
@@ -12,20 +12,20 @@ function useMeet() {
     const notification = Notification.use();
 
     const ls = useStorage();
-
+    const { openBrowser } = useShell();
     const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
 
     // const calls = meetStore.use.calls();
     const createMeet = meetStore.use.createMeet();
 
-    const { useWebview } = useRustServer();
+    const { useWebview, rustIsRunning, socket } = useRustServer();
 
-    const openCall = (id: string, name: string, type: 'outgoing' | 'incoming' | 'room', chatId: number, openModal: () => void) => {
+    const openCall = (id: string) => {
         const { view } = useWebview(`meet-${id}`);
         if (!view) {
             const webview = useWebview(`meet-${id}`, {
-                title: name || `Конференция`,
+                // title: name || `Конференция`,
                 events: {
                     onClose: () => {
                         // calls.set(calls.value.filter((i) => i.id !== id));
@@ -35,9 +35,11 @@ function useMeet() {
             });
             if (!webview.view) {
                 if (appService.tauriIsRunning) {
-                    webview.open({ path: `/meet/${type}_call/${id}` });
+                    webview.open({ path: `/meet/pre_join/${id}` }).then(() => {
+                        socket.emit(`meet-${id}`, 'meetData', { r: 1 });
+                    });
                 } else {
-                    openModal();
+                    window.open(`${appService.getUrls().clientBaseURL}/meet/pre_join/${id}`, '_blank');
                 }
             }
         }
@@ -52,17 +54,16 @@ function useMeet() {
     };
 
     const closeCall = (meetId: string) => {
-        const { view } = useWebview(`meet-${meetId}`);
-        if (view) {
-            console.log('close');
-            // calls.set(calls.value.filter((i) => i.id !== meetId));
-            // view.close();
+        if (rustIsRunning) {
+            const { view } = useWebview(`meet-${meetId}`);
+            view && view.close();
+        } else {
+            window.close();
         }
     };
 
     const createRoom = (meetId: string, name: string) => {
         const { view } = useWebview(`meet-${meetId}`);
-        console.log(view);
         if (!view) {
             const webview = useWebview(`meet-${meetId}`, {
                 title: name || `Конференция`,

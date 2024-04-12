@@ -84,16 +84,21 @@
           }
         }
 
-        .dot {
-          @include flex;
-          @include box-size(8px, 8px);
-          background-color: var(--text-action);
-          border-radius: 50%;
+        .icon{
+          @include flex-column;
+
+          .dot {
+            @include flex;
+            @include box-size(8px, 8px);
+            background-color: var(--text-action);
+            border-radius: 50%;
+          }
+
+          .value {
+
+          }
         }
 
-        .value {
-
-        }
       }
 
     }

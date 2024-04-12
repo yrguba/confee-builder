@@ -33,7 +33,7 @@
 
     .fullscreen {
       @include flex;
-      @include box-size(30px, 30px);
+      @include box-size(40px, 40px);
       background-color: rgb(0, 0, 0, 0.4);
       border-radius: 50%;
       position: absolute;
@@ -53,6 +53,7 @@
       height: 100%;
       width: auto;
       position: relative;
+
     }
 
     svg {
@@ -135,7 +136,9 @@
           }
         }
       }
-
+      svg {
+        fill: var(--white);
+      }
       .btnLeft {
         cursor: pointer;
         position: absolute;
