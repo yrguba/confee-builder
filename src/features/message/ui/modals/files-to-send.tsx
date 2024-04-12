@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { useDebounce } from 'react-use';
 
 import { FilesToSendModalView, messageApi, messageStore, messageTypes } from 'entities/message';
 import { UseFileUploaderTypes, useFileUploader, useArray, useEasyState } from 'shared/hooks';
 import { getRandomInt } from 'shared/lib';
 import { Modal, ModalTypes, CardTypes } from 'shared/ui';
 
+import { debounce } from '../../../../shared/lib';
+
 type Props = {
     modal: ModalTypes.UseReturnedType;
     onClose: () => void;
 };
+
+const debounceUpload = debounce((cb) => cb(), 100);
 
 function FilesToSendModal(props: Props) {
     const { modal, onClose } = props;
@@ -70,32 +75,36 @@ function FilesToSendModal(props: Props) {
         isLoading.set(false);
     };
 
-    const { open: openFilesDownloader } = useFileUploader({
+    const { open: openFilesDownloader, dropContainerRef } = useFileUploader({
         accept: 'all',
         multiple: true,
         maxImgWidthOrHeight: 1800,
         onAfterUploading: (data) => {
-            if (data.sortByAccept) {
-                isLoading.set(true);
-                Object.entries(data.sortByAccept).forEach(([key, value]) => {
-                    if (value.length) {
-                        filesToSend.add({ type: key as any, files: value });
-                    }
-                });
-                isLoading.set(false);
-            }
+            debounceUpload(() => {
+                if (data.sortByAccept) {
+                    isLoading.set(true);
+                    Object.entries(data.sortByAccept).forEach(([key, value]) => {
+                        if (value.length) {
+                            filesToSend.add({ type: key as any, files: value });
+                        }
+                    });
+                    isLoading.set(false);
+                }
+            });
         },
     });
 
     return (
-        <FilesToSendModalView
-            sendingError={!!sendingError}
-            sendFiles={sendFiles}
-            close={close}
-            addFiles={openFilesDownloader}
-            files={filesToSend}
-            loading={isLoading.value}
-        />
+        <div ref={dropContainerRef}>
+            <FilesToSendModalView
+                sendingError={!!sendingError}
+                sendFiles={sendFiles}
+                close={close}
+                addFiles={openFilesDownloader}
+                files={filesToSend}
+                loading={isLoading.value}
+            />
+        </div>
     );
 }
 
