@@ -16,14 +16,11 @@ type Props = {
     invite: () => void;
     viewer?: ViewerProxy | null;
     chatId?: number;
+    close: () => void;
 } & BaseTypes.Statuses;
 
 function MeetRoomView(props: Props) {
-    const { chatId, viewer, meetId, invite } = props;
-
-    const ls = useStorage();
-    const { useWebview } = useRustServer();
-    const { close } = useWebview('meet');
+    const { close, chatId, viewer, meetId, invite } = props;
 
     const conferenceName = meetId;
     const userName = viewer?.full_name;
@@ -56,9 +53,6 @@ function MeetRoomView(props: Props) {
                     externalApi.executeCommand('avatarUrl', avatarUrl || '');
                 }}
                 onReadyToClose={() => {
-                    // ls.remove('by_meet');
-                    // ls.remove('join_meet_data');
-                    // ls.remove('meet_chat_id');
                     close();
                 }}
                 getIFrameRef={getIframeRef}

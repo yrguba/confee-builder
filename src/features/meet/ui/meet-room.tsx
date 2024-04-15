@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MeetRoomView } from 'entities/meet';
+import { MeetRoomView, useMeet } from 'entities/meet';
 
 import { appService } from '../../../entities/app';
 import { viewerApi, viewerProxy } from '../../../entities/viewer';
@@ -19,14 +19,20 @@ function MeetRoom() {
 
     const inviteToMeetModal = Modal.use();
 
+    const meet = useMeet();
+
     const meetData = params.meet_data ? JSON.parse(params.meet_data) : null;
     const meetStr = clientFullURL.split('/').pop();
     const meetId = meetStr?.split(':')[0];
 
+    const close = () => {
+        meet.closeWindow({ call_id: meetData.callId, roomId: meetData.roomId, chat_id: meetData.chatId });
+    };
+
     return meetId ? (
         <>
             <InviteToMeetModal {...inviteToMeetModal} />
-            <MeetRoomView viewer={viewer} meetId={meetData.roomId} invite={inviteToMeetModal.open} chatId={3} />
+            <MeetRoomView close={close} viewer={viewer} meetId={meetData.roomId} invite={inviteToMeetModal.open} chatId={3} />
         </>
     ) : null;
 }
