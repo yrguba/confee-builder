@@ -1,5 +1,5 @@
 import { WebviewWindow } from '@tauri-apps/api/window';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
 import { PreJoinView, meetApi, meetStore, useMeet, meetTypes } from 'entities/meet';
@@ -7,6 +7,10 @@ import { useStorage, useRingtone, useEffectOnce, useRouter, useRustServer, useEa
 
 import { appStore } from '../../../entities/app';
 import { Responses } from '../../../entities/meet/model/types';
+import { useAudio } from '../../../shared/hooks';
+
+const outCallAudio = require('assets/ringtone/hone_ringing.mp3');
+const inCallAudio = require('assets/ringtone/Impress.mp3');
 
 type Props = {};
 
@@ -20,8 +24,12 @@ function PreJoin(props: Props) {
 
     const meetData = params.meet_data ? JSON.parse(params.meet_data) : null;
 
-    const { useWebview, rustIsRunning, socket } = useRustServer();
     const meet = useMeet();
+
+    const [audio, state, controls, ref] = useAudio({
+        src: meetData.type === 'in' ? inCallAudio : '',
+        autoPlay: !!enableNotifications.value,
+    });
 
     const response = useEasyState<Responses | null>(null);
 
@@ -30,9 +38,22 @@ function PreJoin(props: Props) {
     useLifecycles(
         () => {},
         () => {
-            // controls.pause();
+            // alert('wdadw');
         }
     );
+
+    useEffect(() => {
+        window.onbeforeunload = confirmExit;
+        function confirmExit() {
+            handleCallResponse({
+                call_id: meetData.callId,
+                chat_id: meetData.chatId,
+                room_id: meetData.roomId,
+                user_id: meetData.initiatorId,
+                response: 'reject',
+            });
+        }
+    }, []);
 
     const createCall = () => {
         meet.outgoingPrivateCall(meetData);
@@ -54,9 +75,8 @@ function PreJoin(props: Props) {
             meet.goToRoom(meetData);
         }
     };
-    console.log(meetData);
+
     useUpdateEffect(() => {
-        console.log(responses.value);
         responses.value.forEach((r) => {
             if (meetData.callId === r.callId) {
                 response.set(r.response);
@@ -70,7 +90,7 @@ function PreJoin(props: Props) {
 
     return (
         <>
-            {/* {audio} */}
+            {audio}
             <PreJoinView
                 createCall={createCall}
                 response={response.value}
