@@ -14,6 +14,7 @@ function useMeet() {
     const { mutate: handleCreateCall } = meetApi.handleCreateCall();
     const viewer = viewerStore.use.viewer();
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
+    const { mutate: handleJoinCall } = meetApi.handleJoinCall();
 
     const createCall = meetStore.use.createCall();
 
@@ -107,7 +108,10 @@ function useMeet() {
     };
 
     const goToRoom = (data: Meet) => {
-        navigate(`/meet/room/${JSON.stringify(data)}`);
+        if (data.callId) {
+            handleJoinCall({ call_id: data.callId, chat_id: data.chatId });
+            navigate(`/meet/room/${JSON.stringify(data)}`);
+        }
     };
 
     return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow, leftCall, createGroupCall };

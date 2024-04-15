@@ -44,6 +44,14 @@ class MeetApi {
             },
         };
     };
+
+    handleJoinCall = () => {
+        return {
+            mutate: (data: { chat_id: number | null; call_id: number }) => {
+                this.socket.sendMessage('JoinedCall', data);
+            },
+        };
+    };
 }
 
 export default new MeetApi();
