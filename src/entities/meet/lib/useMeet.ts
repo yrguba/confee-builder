@@ -11,12 +11,7 @@ import { CallResponse, Meet } from '../model/types';
 
 function useMeet() {
     const { params, navigate } = useRouter();
-    const notification = Notification.use();
-
-    const ls = useStorage();
-    const { openBrowser } = useShell();
     const { mutate: handleCreateCall } = meetApi.handleCreateCall();
-    const { mutate: handleCallResponse } = meetApi.handleCallResponse();
     const viewer = viewerStore.use.viewer();
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
 
