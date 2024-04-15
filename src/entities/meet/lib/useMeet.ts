@@ -83,6 +83,10 @@ function useMeet() {
         });
     };
 
+    const leftCall = (data: { roomId: string; chat_id: number; call_id: number }) => {
+        handleLeftCall(data);
+    };
+
     const closeWindow = (data: { roomId: string; chat_id: number; call_id: number }) => {
         handleLeftCall(data);
         if (rustIsRunning) {
@@ -94,10 +98,10 @@ function useMeet() {
     };
 
     const goToRoom = (data: Meet) => {
-        navigate(`/meet/room/${data}`);
+        navigate(`/meet/room/${JSON.stringify(data)}`);
     };
 
-    return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow };
+    return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow, leftCall };
 }
 
 export default useMeet;

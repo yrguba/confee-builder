@@ -17,6 +17,17 @@ type Props = {
 
 function PreJoinView(props: Props) {
     const { createCall, response, type, joining, avatar, name } = props;
+    console.log(response);
+
+    const getTitle = () => {
+        if (response === 'reject') return `${name} отменил звонок`;
+        if (type === 'out') {
+            if (response === 'timeout') return `${name} не ответил`;
+            return `ждем ответа...`;
+        }
+        if (response === 'timeout') return `${name} звонил вам`;
+        return 'приглашает присоединиться к конференции';
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -27,21 +38,23 @@ function PreJoinView(props: Props) {
                 </Title>
             </div>
             <Title textAlign="center" variant="H3R">
-                {response === 'reject' ? `${name} отменил звонок` : type === 'in' ? 'приглашает присоединиться к конференции' : 'ждем ответа...'}
+                {getTitle()}
             </Title>
             {type === 'in' ? (
-                <div className={styles.btns}>
-                    <Button onClick={() => joining(false)} variant="secondary">
-                        Отклонить
-                    </Button>
-                    <Button onClick={() => joining(true)}>Присоединиться</Button>
-                </div>
+                response === 'timeout' ? null : (
+                    <div className={styles.btns}>
+                        <Button onClick={() => joining(false)} variant="secondary">
+                            Отклонить
+                        </Button>
+                        <Button onClick={() => joining(true)}>Присоединиться</Button>
+                    </div>
+                )
             ) : (
                 <div className={styles.btns}>
                     <Button onClick={() => joining(false)} variant="secondary">
                         Отменить
                     </Button>
-                    {response === 'reject' && (
+                    {(response === 'timeout' || response === 'reject') && (
                         <Button onClick={createCall} variant="secondary">
                             Перезвонить
                         </Button>

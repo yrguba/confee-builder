@@ -3,10 +3,11 @@ import React, { useEffect } from 'react';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
 import { PreJoinView, meetApi, meetStore, useMeet, meetTypes } from 'entities/meet';
-import { useStorage, useRingtone, useEffectOnce, useRouter, useRustServer, useEasyState } from 'shared/hooks';
+import { useStorage, useRingtone, useEffectOnce, useRouter, useRustServer, useEasyState, useReverseTimer } from 'shared/hooks';
 
 import { appStore } from '../../../entities/app';
 import { Responses } from '../../../entities/meet/model/types';
+import { viewerStore } from '../../../entities/viewer';
 import { useAudio } from '../../../shared/hooks';
 
 const outCallAudio = require('assets/ringtone/hone_ringing.mp3');
@@ -19,12 +20,13 @@ function PreJoin(props: Props) {
 
     const { mutate: handleCallResponse } = meetApi.handleCallResponse();
     const responses = meetStore.use.responses();
-
+    const viewer = viewerStore.use.viewer();
     const enableNotifications = appStore.use.enableNotifications();
 
     const meetData = params.meet_data ? JSON.parse(params.meet_data) : null;
 
     const meet = useMeet();
+    const timer = useReverseTimer({ hours: 0, minutes: 0, seconds: 10 });
 
     const [audio, state, controls, ref] = useAudio({
         src: meetData.type === 'in' ? inCallAudio : '',
@@ -36,26 +38,39 @@ function PreJoin(props: Props) {
     // console.log(meetData);
 
     useLifecycles(
-        () => {},
+        () => {
+            timer.start();
+        },
         () => {
             // alert('wdadw');
         }
     );
 
+    useUpdateEffect(() => {
+        if (timer.time[2] === 0 && !response.value) {
+            if (meetData.initiatorId !== viewer.value.id) {
+                meet.closeWindow(meetData.roomId);
+            }
+            response.set('timeout');
+            timer.reset();
+        }
+    }, [timer.time]);
+
+    useEffect(() => {
+        setTimeout(() => controls.play(), 1000);
+    }, [ref.current]);
+
     useEffect(() => {
         window.onbeforeunload = confirmExit;
         function confirmExit() {
-            handleCallResponse({
-                call_id: meetData.callId,
-                chat_id: meetData.chatId,
-                room_id: meetData.roomId,
-                user_id: meetData.initiatorId,
-                response: 'reject',
-            });
+            meet.leftCall({ call_id: meetData.callId, chat_id: meetData.chatId, room_id: meetData.roomId } as any);
         }
     }, []);
 
     const createCall = () => {
+        response.set(null);
+        timer.start();
+        meet.leftCall({ call_id: meetData.callId, chat_id: meetData.chatId, room_id: meetData.roomId } as any);
         meet.outgoingPrivateCall(meetData);
         responses.clear();
         response.set(null);
