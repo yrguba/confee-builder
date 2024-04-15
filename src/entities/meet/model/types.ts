@@ -21,15 +21,17 @@ export type Meet = {
     users_ids: number[];
 };
 
+export type Responses = 'accepted' | 'reject' | 'timeout';
+
 export type CallResponse = {
     room_id: string;
     chat_id: number | null;
     call_id: string;
-    response: 'accepted' | 'reject' | 'timeout';
+    response: Responses;
     user_id: number;
 };
 
-export type SocketIn = 'CallCreated';
+export type SocketIn = 'CallCreated' | 'CallResponse';
 export type SocketOut = 'LeftCall' | 'CallResponse';
 
 export type Socket = {

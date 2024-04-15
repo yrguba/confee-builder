@@ -2,15 +2,19 @@ import { WebviewWindow } from '@tauri-apps/api/window';
 import React from 'react';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
-import { PreJoinView, meetApi, meetStore, useMeet } from 'entities/meet';
-import { useStorage, useRingtone, useEffectOnce, useRouter, useRustServer } from 'shared/hooks';
+import { PreJoinView, meetApi, meetStore, useMeet, meetTypes } from 'entities/meet';
+import { useStorage, useRingtone, useEffectOnce, useRouter, useRustServer, useEasyState } from 'shared/hooks';
 
 import { appStore } from '../../../entities/app';
+import { Responses } from '../../../entities/meet/model/types';
 
 type Props = {};
 
 function PreJoin(props: Props) {
     const { params, navigate } = useRouter();
+
+    const { mutate: handleCallResponse } = meetApi.handleCallResponse();
+    const responses = meetStore.use.responses();
 
     const enableNotifications = appStore.use.enableNotifications();
 
@@ -19,17 +23,9 @@ function PreJoin(props: Props) {
     const { useWebview, rustIsRunning, socket } = useRustServer();
     const meet = useMeet();
 
-    // const { data: meetData } = meetApi.handleGetMeet(meetDataParse);
+    const response = useEasyState<Responses | null>(null);
 
-    const { mutate: handleCallResponse } = meetApi.handleCallResponse();
-    console.log(meetData);
-    // useUpdateEffect(() => {
-    //     if (params?.meet_id) {
-    //         socket.listen(`meet-${params.meet_id}`, 'meetData', (data) => {
-    //             console.log(data);
-    //         });
-    //     }
-    // }, [params?.meet_id]);
+    // console.log(meetData);
 
     useLifecycles(
         () => {},
@@ -38,16 +34,51 @@ function PreJoin(props: Props) {
         }
     );
 
-    const joining = (value: boolean) => {
-        // if (params.meet_id) {
-        //     value ? navigate(`/meet/room/${params.meet_id}`) : meet.closeCall(params.meet_id);
-        // }
+    const createCall = () => {
+        meet.outgoingPrivateCall(meetData);
+        responses.clear();
+        response.set(null);
     };
+
+    const joining = (value: boolean) => {
+        handleCallResponse({
+            call_id: meetData.callId,
+            chat_id: meetData.chatId,
+            room_id: meetData.roomId,
+            user_id: meetData.initiatorId,
+            response: value ? 'accepted' : 'reject',
+        });
+        if (!value) {
+            meet.closeWindow({ call_id: meetData.callId, roomId: meetData.roomId, chat_id: meetData.chatId });
+        } else {
+            meet.goToRoom(meetData);
+        }
+    };
+    console.log(meetData);
+    useUpdateEffect(() => {
+        console.log(responses.value);
+        responses.value.forEach((r) => {
+            if (meetData.callId === r.callId) {
+                response.set(r.response);
+                if (r.response === 'accepted') {
+                    meet.goToRoom(meetData);
+                }
+                responses.set(responses.value.filter((i) => i.callId !== meetData.callId));
+            }
+        });
+    }, [responses.value]);
 
     return (
         <>
             {/* {audio} */}
-            <PreJoinView joining={joining} type={meetData?.type} name={meetData?.name} avatar={meetData?.avatar?.split('|').join('/')} />
+            <PreJoinView
+                createCall={createCall}
+                response={response.value}
+                joining={joining}
+                type={meetData?.type}
+                name={meetData?.name}
+                avatar={meetData?.avatar?.split('|').join('/')}
+            />
         </>
     );
 }

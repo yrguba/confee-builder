@@ -45,13 +45,21 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
     ws.onclose = function (event) {};
 
     const sendMessage = (event: Out, data: string) => {
-        ws.readyState &&
+        if (ws.readyState) {
+            console.log(
+                event,
+                JSON.stringify({
+                    event,
+                    data,
+                })
+            );
             ws.send(
                 JSON.stringify({
                     event,
                     data,
                 })
             );
+        }
     };
 
     return { sendMessage, onMessage };

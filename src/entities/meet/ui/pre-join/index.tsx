@@ -1,19 +1,22 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
+import { Avatar, Button, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Avatar, Button, Title } from '../../../../shared/ui';
+import { Responses } from '../../model/types';
 
 type Props = {
     joining: (value: boolean) => void;
     avatar?: string;
     name?: string;
     type: 'in' | 'out';
+    response: Responses | null;
+    createCall: () => void;
 } & BaseTypes.Statuses;
 
 function PreJoinView(props: Props) {
-    const { type, joining, avatar, name } = props;
+    const { createCall, response, type, joining, avatar, name } = props;
 
     return (
         <div className={styles.wrapper}>
@@ -24,7 +27,7 @@ function PreJoinView(props: Props) {
                 </Title>
             </div>
             <Title textAlign="center" variant="H3R">
-                {type === 'in' ? 'приглашает присоединиться к конференции' : 'ждем ответа...'}
+                {response === 'reject' ? `${name} отменил звонок` : type === 'in' ? 'приглашает присоединиться к конференции' : 'ждем ответа...'}
             </Title>
             {type === 'in' ? (
                 <div className={styles.btns}>
@@ -38,6 +41,11 @@ function PreJoinView(props: Props) {
                     <Button onClick={() => joining(false)} variant="secondary">
                         Отменить
                     </Button>
+                    {response === 'reject' && (
+                        <Button onClick={createCall} variant="secondary">
+                            Перезвонить
+                        </Button>
+                    )}
                 </div>
             )}
         </div>

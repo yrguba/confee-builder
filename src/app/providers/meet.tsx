@@ -8,7 +8,6 @@ import { Modal } from 'shared/ui';
 function MeetProvider({ children }: { children: JSX.Element }) {
     const createCall = meetStore.use.createCall();
     const incomingCall = meetStore.use.incomingCall();
-    const { mutate: handleCreateMeet } = meetApi.handleCreateMeet();
 
     const createMeetModal = Modal.use();
 
@@ -19,7 +18,7 @@ function MeetProvider({ children }: { children: JSX.Element }) {
             if (createCall.value.isGroup) {
                 createMeetModal.open();
             } else {
-                meet.outgoingPrivateCall(createCall.value);
+                meet.outgoingPrivateCall(createCall.value, true);
                 createCall.clear();
             }
         }

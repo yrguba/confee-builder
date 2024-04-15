@@ -23,7 +23,7 @@ class MeetApi {
         });
     };
 
-    handleCreateMeet = () => {
+    handleCreateCall = () => {
         return useMutation((data: { chatId: number | undefined; targets_user_id?: number[]; confee_video_room: string }) =>
             axiosClient.post(`${this.pathPrefix}/${data.chatId}/call`, data)
         );
@@ -39,11 +39,8 @@ class MeetApi {
 
     handleLeftCall = () => {
         return {
-            mutate: (chatId: number | null, call_id: number) => {
-                this.socket.sendMessage('LeftCall', {
-                    chatId,
-                    call_id,
-                });
+            mutate: (data: { chat_id: number | null; call_id: number }) => {
+                this.socket.sendMessage('LeftCall', data);
             },
         };
     };

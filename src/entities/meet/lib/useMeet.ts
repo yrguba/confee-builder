@@ -15,7 +15,7 @@ function useMeet() {
 
     const ls = useStorage();
     const { openBrowser } = useShell();
-    const { mutate: handleCreateMeet } = meetApi.handleCreateMeet();
+    const { mutate: handleCreateCall } = meetApi.handleCreateCall();
     const { mutate: handleCallResponse } = meetApi.handleCallResponse();
     const viewer = viewerStore.use.viewer();
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
@@ -46,8 +46,8 @@ function useMeet() {
         }
     };
 
-    const outgoingPrivateCall = (data: Meet) => {
-        handleCreateMeet(
+    const outgoingPrivateCall = (data: Meet, openWindows?: boolean) => {
+        handleCreateCall(
             {
                 confee_video_room: data.roomId,
                 chatId: data.chatId,
@@ -55,7 +55,11 @@ function useMeet() {
             },
             {
                 onSuccess: (res) => {
-                    createWindow(data.roomId, 'pre_join', { ...data, callId: res.data.data.id, type: 'out' });
+                    if (openWindows) {
+                        createWindow(data.roomId, 'pre_join', { ...data, callId: res.data.data.id, type: 'out' });
+                    } else {
+                        navigate(`/meet/pre_join/${JSON.stringify({ ...data, callId: res.data.data.id, type: 'out' })}`);
+                    }
                 },
             }
         );
@@ -79,21 +83,21 @@ function useMeet() {
         });
     };
 
-    const callResponse = (data: CallResponse) => {
+    const closeWindow = (data: { roomId: string; chat_id: number; call_id: number }) => {
+        handleLeftCall(data);
         if (rustIsRunning) {
-            const { view } = useWebview(data.room_id);
+            const { view } = useWebview(data.roomId);
             view && view.close();
         } else {
             window.close();
         }
-        handleCallResponse(data);
     };
 
-    const goToRoom = (meetId: string) => {
-        navigate(`/meet/room/${meetId}`);
+    const goToRoom = (data: Meet) => {
+        navigate(`/meet/room/${data}`);
     };
 
-    return { outgoingPrivateCall, openCreateMeet, goToRoom, callResponse, incomingCall };
+    return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow };
 }
 
 export default useMeet;

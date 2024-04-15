@@ -16,7 +16,7 @@ function InviteToMeetModal(modal: ModalTypes.UseReturnedType) {
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const proxyChat = chatProxy(chatData?.data.data);
 
-    const { mutate: handleInvite } = meetApi.handleCreateMeet();
+    const { mutate: handleCreateCall } = meetApi.handleCreateCall();
     const selectedUsers = useArray<CardTypes.CardListItem>({ multiple: true });
 
     const sendInvites = () => {

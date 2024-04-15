@@ -23,6 +23,11 @@ function meetGateway({ event, data }: Socket, queryClient: any) {
                     },
                 });
             }
+            return;
+        case 'CallResponse':
+            return meetStore.setStateOutsideComponent({
+                responses: [...meetStore.getState().responses.value, { callId: data.call_id, response: data.response }],
+            });
 
         // store.invitationToConference.set({
         //     id: extraInfo.confee_video_room,
