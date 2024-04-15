@@ -18,7 +18,7 @@ export type Meet = {
     name: string;
     chatId: number;
     initiatorId: number;
-    users_ids: number[];
+    users_ids: number[] | string[];
 };
 
 export type Responses = 'accepted' | 'reject' | 'timeout';

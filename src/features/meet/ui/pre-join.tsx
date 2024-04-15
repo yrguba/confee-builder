@@ -27,7 +27,7 @@ function PreJoin(props: Props) {
     const meetData = params.meet_data ? JSON.parse(params.meet_data) : null;
 
     const meet = useMeet();
-    const timer = useReverseTimer({ hours: 0, minutes: 0, seconds: 10 });
+    const timer = useReverseTimer({ hours: 0, minutes: 0, seconds: 30 });
 
     const [audio, state, controls, ref] = useAudio({
         src: meetData.type === 'in' ? inCallAudio : '',
@@ -63,7 +63,7 @@ function PreJoin(props: Props) {
     }, [timer.time]);
 
     useEffect(() => {
-        setTimeout(() => controls.play(), 1000);
+        controls.play();
     }, [ref.current]);
 
     useEffect(() => {

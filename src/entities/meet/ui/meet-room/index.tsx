@@ -8,6 +8,7 @@ import { BaseTypes } from 'shared/types';
 
 import styles from './styles.module.scss';
 import { Button } from '../../../../shared/ui';
+import { appService } from '../../../app';
 import { ViewerProxy } from '../../../viewer/model/types';
 import { DOMAIN, INTERFACE_CONFIG_OVERWRITE, GENERAL_SETTINGS } from '../../lib/config';
 
@@ -25,6 +26,7 @@ function MeetRoomView(props: Props) {
     const conferenceName = meetId;
     const userName = viewer?.full_name;
     const avatarUrl = viewer?.full_avatar_url;
+
     const getIframeRef = (parentNode: HTMLDivElement) => {
         parentNode.style.height = '100vh';
         parentNode.style.width = '100%';

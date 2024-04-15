@@ -24,7 +24,7 @@ class MeetApi {
     };
 
     handleCreateCall = () => {
-        return useMutation((data: { chatId: number | undefined; targets_user_id?: number[]; confee_video_room: string }) =>
+        return useMutation((data: { chatId: number | undefined; targets_user_id?: number[] | string[]; confee_video_room: string }) =>
             axiosClient.post(`${this.pathPrefix}/${data.chatId}/call`, data)
         );
     };

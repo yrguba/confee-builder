@@ -30,7 +30,7 @@ function useMeet() {
                 },
             });
             if (!webview.view) {
-                const meetData = JSON.stringify({ ...data, avatar: data?.avatar.split('/').join('|') });
+                const meetData = JSON.stringify({ ...data, avatar: data?.avatar?.split('/').join('|') });
                 if (appService.tauriIsRunning) {
                     webview.open({ path: `/meet/${path}/${meetData}` });
                 } else {
@@ -61,6 +61,21 @@ function useMeet() {
 
     const incomingCall = (data: Meet) => {
         createWindow(data.roomId, 'pre_join', { ...data, type: 'in' });
+    };
+
+    const createGroupCall = (data: Meet) => {
+        handleCreateCall(
+            {
+                confee_video_room: data.roomId,
+                chatId: data.chatId,
+                targets_user_id: data.users_ids,
+            },
+            {
+                onSuccess: (res) => {
+                    createWindow(data.roomId, 'room', { ...data, callId: res.data.data.id, type: 'out' });
+                },
+            }
+        );
     };
 
     const openCreateMeet = (chat: ChatProxy | null) => {
@@ -95,7 +110,7 @@ function useMeet() {
         navigate(`/meet/room/${JSON.stringify(data)}`);
     };
 
-    return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow, leftCall };
+    return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow, leftCall, createGroupCall };
 }
 
 export default useMeet;
