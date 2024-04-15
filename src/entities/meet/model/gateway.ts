@@ -13,8 +13,12 @@ function meetGateway({ event, data }: Socket, queryClient: any) {
             if (extraInfo.for_user_id !== viewer.id) {
                 meetStore.setStateOutsideComponent({
                     incomingCall: {
-                        meetId: data.call_id.room,
+                        roomId: data.call_id.room,
                         chatId: data.call_id.chat_id,
+                        callId: data.call_id.id,
+                        avatar: data.chat.avatar,
+                        name: data.chat.name,
+                        initiatorId: extraInfo.for_user_id,
                     },
                 });
             }

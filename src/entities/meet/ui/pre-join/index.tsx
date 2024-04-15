@@ -9,26 +9,37 @@ type Props = {
     joining: (value: boolean) => void;
     avatar?: string;
     name?: string;
+    type: 'in' | 'out';
 } & BaseTypes.Statuses;
 
 function PreJoinView(props: Props) {
-    const { joining, avatar, name } = props;
+    const { type, joining, avatar, name } = props;
 
     return (
         <div className={styles.wrapper}>
-            <Avatar size={170} img={avatar} />
-            <Title textAlign="center" variant="H2">
-                {name}
-            </Title>
-            <Title textAlign="center" variant="H3R">
-                приглашает присоединиться к конференции
-            </Title>
-            <div className={styles.btns}>
-                <Button onClick={() => joining(false)} variant="secondary">
-                    Отклонить
-                </Button>
-                <Button onClick={() => joining(true)}>Присоединиться</Button>
+            <div className={styles.user}>
+                <Avatar size={170} img={avatar} />
+                <Title textAlign="center" variant="H2">
+                    {name}
+                </Title>
             </div>
+            <Title textAlign="center" variant="H3R">
+                {type === 'in' ? 'приглашает присоединиться к конференции' : 'ждем ответа...'}
+            </Title>
+            {type === 'in' ? (
+                <div className={styles.btns}>
+                    <Button onClick={() => joining(false)} variant="secondary">
+                        Отклонить
+                    </Button>
+                    <Button onClick={() => joining(true)}>Присоединиться</Button>
+                </div>
+            ) : (
+                <div className={styles.btns}>
+                    <Button onClick={() => joining(false)} variant="secondary">
+                        Отменить
+                    </Button>
+                </div>
+            )}
         </div>
     );
 }

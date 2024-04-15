@@ -19,14 +19,15 @@ function MeetProvider({ children }: { children: JSX.Element }) {
             if (createMeet.value.chat.is_group) {
                 createMeetModal.open();
             } else {
-                const secondUserId = createMeet.value.chat.secondUser?.id;
-                if (secondUserId) {
-                    handleCreateMeet({
-                        confee_video_room: createMeet.value.meetId,
+                const { secondUser } = createMeet.value.chat;
+                if (secondUser) {
+                    meet.outgoingPrivateCall({
+                        roomId: createMeet.value.roomId,
                         chatId: createMeet.value.chat.id,
-                        targets_user_id: [secondUserId],
+                        userId: secondUser.id,
+                        avatar: secondUser.avatar,
+                        name: secondUser.full_name,
                     });
-                    meet.openNewWindow({ meetId: createMeet.value.meetId, chatId: createMeet.value.chat.id });
                 }
             }
             createMeet.clear();
@@ -35,7 +36,7 @@ function MeetProvider({ children }: { children: JSX.Element }) {
 
     useUpdateEffect(() => {
         if (incomingCall.value) {
-            meet.openNewWindow({ meetId: incomingCall.value.meetId, chatId: incomingCall.value.chatId });
+            meet.incomingPrivateCall(incomingCall.value);
             incomingCall.clear();
         }
     }, [incomingCall.value]);

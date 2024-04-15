@@ -11,13 +11,17 @@ export type Call = {
 };
 
 export type CreateMeet = {
-    meetId: string;
+    roomId: string;
     chat: ChatProxy;
 };
 
 export type IncomingCall = {
-    meetId: string;
+    roomId: string;
+    callId: number;
+    avatar: string;
+    name: string;
     chatId: number;
+    initiatorId: number;
 };
 
 export type SocketIn = 'CallCreated';

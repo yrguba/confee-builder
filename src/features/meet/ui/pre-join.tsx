@@ -14,15 +14,15 @@ function PreJoin(props: Props) {
 
     const enableNotifications = appStore.use.enableNotifications();
 
-    const meetDataParse = params.meet_data ? JSON.parse(params.meet_data) : null;
+    const meetData = params.meet_data ? JSON.parse(params.meet_data) : null;
 
     const { useWebview, rustIsRunning, socket } = useRustServer();
     const meet = useMeet();
 
     // const { data: meetData } = meetApi.handleGetMeet(meetDataParse);
-    // console.log(meetData);
-    // const { mutate: handleCallResponse } = meetApi.handleCallResponse();
 
+    const { mutate: handleCallResponse } = meetApi.handleCallResponse();
+    console.log(meetData);
     // useUpdateEffect(() => {
     //     if (params?.meet_id) {
     //         socket.listen(`meet-${params.meet_id}`, 'meetData', (data) => {
@@ -47,7 +47,7 @@ function PreJoin(props: Props) {
     return (
         <>
             {/* {audio} */}
-            <PreJoinView joining={joining} {...{}} />
+            <PreJoinView joining={joining} type={meetData?.type} name={meetData?.name} avatar={meetData?.avatar?.split('|').join('/')} />
         </>
     );
 }
