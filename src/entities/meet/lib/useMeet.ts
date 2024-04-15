@@ -20,7 +20,6 @@ function useMeet() {
     const viewer = viewerStore.use.viewer();
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
 
-    // const calls = meetStore.use.calls();
     const createCall = meetStore.use.createCall();
 
     const { useWebview, rustIsRunning, socket } = useRustServer();

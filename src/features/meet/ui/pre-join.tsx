@@ -20,6 +20,7 @@ function PreJoin(props: Props) {
 
     const { mutate: handleCallResponse } = meetApi.handleCallResponse();
     const responses = meetStore.use.responses();
+
     const viewer = viewerStore.use.viewer();
     const enableNotifications = appStore.use.enableNotifications();
 
@@ -48,10 +49,15 @@ function PreJoin(props: Props) {
 
     useUpdateEffect(() => {
         if (timer.time[2] === 0 && !response.value) {
-            if (meetData.initiatorId !== viewer.value.id) {
-                meet.closeWindow(meetData.roomId);
-            }
-            response.set('timeout');
+            [viewer.value.id, meetData.initiatorId].forEach((id) => {
+                handleCallResponse({
+                    call_id: meetData.callId,
+                    chat_id: meetData.chatId,
+                    room_id: meetData.roomId,
+                    user_id: id,
+                    response: 'timeout',
+                });
+            });
             timer.reset();
         }
     }, [timer.time]);

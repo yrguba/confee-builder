@@ -1,9 +1,12 @@
-import React, { JSX } from 'react';
+import React, { JSX, useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
 import { meetApi, meetStore, useMeet } from 'entities/meet';
 import { CreateMeetModal } from 'features/meet';
 import { Modal } from 'shared/ui';
+
+import { appService } from '../../entities/app';
+import { useRouter } from '../../shared/hooks';
 
 function MeetProvider({ children }: { children: JSX.Element }) {
     const createCall = meetStore.use.createCall();
@@ -24,8 +27,9 @@ function MeetProvider({ children }: { children: JSX.Element }) {
         }
     }, [createCall.value]);
 
-    useUpdateEffect(() => {
-        if (incomingCall.value) {
+    useEffect(() => {
+        const url = appService.getUrls().clientFullURL;
+        if (incomingCall.value && !url.includes('pre_join') && !url.includes('room')) {
             meet.incomingCall(incomingCall.value);
             incomingCall.clear();
         }

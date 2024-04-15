@@ -17,10 +17,9 @@ type Props = {
 
 function PreJoinView(props: Props) {
     const { createCall, response, type, joining, avatar, name } = props;
-    console.log(response);
 
     const getTitle = () => {
-        if (response === 'reject') return `${name} отменил звонок`;
+        if (response === 'reject') return `${name} отклонил звонок`;
         if (type === 'out') {
             if (response === 'timeout') return `${name} не ответил`;
             return `ждем ответа...`;
