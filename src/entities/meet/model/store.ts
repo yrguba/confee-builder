@@ -1,16 +1,16 @@
 import { useZustand, UseZustandTypes } from 'shared/hooks';
 
-import { IncomingCall, CreateMeet } from './types';
+import { Meet } from './types';
 
 type Store = {
-    createMeet: CreateMeet;
-    incomingCall: IncomingCall;
+    createCall: Meet & { isGroup: boolean };
+    incomingCall: Meet;
 };
 
 type Methods = {};
 
 const meetStore = useZustand<Store, Methods>({
-    keys: ['createMeet', 'incomingCall'],
+    keys: ['createCall', 'incomingCall'],
     default: {},
 });
 

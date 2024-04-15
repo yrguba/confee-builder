@@ -8,20 +8,25 @@ export type Call = {
     userId: number;
     chatId: number;
     usersIds: number[];
+    type: 'out' | 'in';
 };
 
-export type CreateMeet = {
+export type Meet = {
     roomId: string;
-    chat: ChatProxy;
-};
-
-export type IncomingCall = {
-    roomId: string;
-    callId: number;
+    callId?: number;
     avatar: string;
     name: string;
     chatId: number;
     initiatorId: number;
+    users_ids: number[];
+};
+
+export type CallResponse = {
+    room_id: string;
+    chat_id: number | null;
+    call_id: string;
+    response: 'accepted' | 'reject' | 'timeout';
+    user_id: number;
 };
 
 export type SocketIn = 'CallCreated';

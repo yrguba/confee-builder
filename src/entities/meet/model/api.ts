@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { useWebSocket } from 'shared/hooks';
 
-import { SocketIn, SocketOut } from './types';
+import { CallResponse, SocketIn, SocketOut } from './types';
 import { axiosClient } from '../../../shared/configs';
 import { httpHandlers } from '../../../shared/lib';
 import { Chat } from '../../chat/model/types';
@@ -31,13 +31,8 @@ class MeetApi {
 
     handleCallResponse = () => {
         return {
-            mutate: (chat_id: number | null, call_id: string, response: 'accepted' | 'reject' | 'timeout', user_id: number) => {
-                this.socket.sendMessage('CallResponse', {
-                    chat_id,
-                    call_id,
-                    response,
-                    user_id,
-                });
+            mutate: (data: CallResponse) => {
+                this.socket.sendMessage('CallResponse', data);
             },
         };
     };

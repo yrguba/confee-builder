@@ -6,7 +6,7 @@ import { CreateMeetModal } from 'features/meet';
 import { Modal } from 'shared/ui';
 
 function MeetProvider({ children }: { children: JSX.Element }) {
-    const createMeet = meetStore.use.createMeet();
+    const createCall = meetStore.use.createCall();
     const incomingCall = meetStore.use.incomingCall();
     const { mutate: handleCreateMeet } = meetApi.handleCreateMeet();
 
@@ -15,28 +15,19 @@ function MeetProvider({ children }: { children: JSX.Element }) {
     const meet = useMeet();
 
     useUpdateEffect(() => {
-        if (createMeet.value) {
-            if (createMeet.value.chat.is_group) {
+        if (createCall.value) {
+            if (createCall.value.isGroup) {
                 createMeetModal.open();
             } else {
-                const { secondUser } = createMeet.value.chat;
-                if (secondUser) {
-                    meet.outgoingPrivateCall({
-                        roomId: createMeet.value.roomId,
-                        chatId: createMeet.value.chat.id,
-                        userId: secondUser.id,
-                        avatar: secondUser.avatar,
-                        name: secondUser.full_name,
-                    });
-                }
+                meet.outgoingPrivateCall(createCall.value);
+                createCall.clear();
             }
-            createMeet.clear();
         }
-    }, [createMeet.value]);
+    }, [createCall.value]);
 
     useUpdateEffect(() => {
         if (incomingCall.value) {
-            meet.incomingPrivateCall(incomingCall.value);
+            meet.incomingCall(incomingCall.value);
             incomingCall.clear();
         }
     }, [incomingCall.value]);
@@ -44,7 +35,7 @@ function MeetProvider({ children }: { children: JSX.Element }) {
     return (
         <>
             {children}
-            <CreateMeetModal onClose={createMeet.clear} {...createMeetModal} />
+            <CreateMeetModal onClose={createCall.clear} {...createMeetModal} />
         </>
     );
 }

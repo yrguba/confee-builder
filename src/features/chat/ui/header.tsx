@@ -25,8 +25,6 @@ function ChatHeader() {
     const forwardMessages = messageStore.use.forwardMessages();
     const visibleSearchMessages = messageStore.use.visibleSearchMessages();
 
-    const createMeet = meetStore.use.createMeet();
-
     const viewer = viewerStore.use.viewer();
 
     const groupChatProfileModal = Modal.use();

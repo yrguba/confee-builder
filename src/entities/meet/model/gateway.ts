@@ -19,6 +19,7 @@ function meetGateway({ event, data }: Socket, queryClient: any) {
                         avatar: data.chat.avatar,
                         name: data.chat.name,
                         initiatorId: extraInfo.for_user_id,
+                        users_ids: [],
                     },
                 });
             }
