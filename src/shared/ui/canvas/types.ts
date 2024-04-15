@@ -1,5 +1,3 @@
-import { Drawable, Options } from 'roughjs/bin/core';
-
 import { UseEasyStateReturnType } from '../../hooks';
 
 export type Tool = 'arrow' | 'rect' | 'circle' | 'pencil';

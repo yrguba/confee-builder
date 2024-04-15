@@ -11,11 +11,12 @@ function meetGateway({ event, data }: Socket, queryClient: any) {
         case 'CallCreated':
             const extraInfo = data.extra_info;
             if (extraInfo.for_user_id !== viewer.id) {
-                // meetStore.setStateOutsideComponent({
-                //     createMeet: {
-                //         meetId: extraInfo.confee_video_room,
-                //     },
-                // });
+                meetStore.setStateOutsideComponent({
+                    incomingCall: {
+                        meetId: data.call_id.room,
+                        chatId: data.call_id.chat_id,
+                    },
+                });
             }
 
         // store.invitationToConference.set({

@@ -6,8 +6,8 @@ import { PreJoin, MeetRoom } from 'features/meet';
 const MeetPage = lazy(() => import('./ui'));
 const meetPageRouters = (
     <Route path="/meet" element={<MeetPage />}>
-        <Route path="room/:meet_id" element={<MeetRoom />} />
-        <Route path="pre_join/:meet_id" element={<PreJoin />} />
+        <Route path="room/:meet_data" element={<MeetRoom />} />
+        <Route path="pre_join/:meet_data" element={<PreJoin />} />
     </Route>
 );
 

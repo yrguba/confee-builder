@@ -6,6 +6,7 @@ import { chatService } from '../../chat';
 import { ChatProxy } from '../../chat/model/types';
 import { meetStore } from '../index';
 import meetApi from '../model/api';
+import { CreateMeet } from '../model/types';
 
 function useMeet() {
     const { params, navigate } = useRouter();
@@ -13,7 +14,7 @@ function useMeet() {
 
     const ls = useStorage();
     const { openBrowser } = useShell();
-    const { mutate: handleCreateMeeting } = meetApi.handleCreateMeeting();
+    const { mutate: handleCreateMeet } = meetApi.handleCreateMeet();
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
 
     // const calls = meetStore.use.calls();
@@ -21,25 +22,22 @@ function useMeet() {
 
     const { useWebview, rustIsRunning, socket } = useRustServer();
 
-    const openCall = (id: string) => {
-        const { view } = useWebview(`meet-${id}`);
+    const openNewWindow = (data: { meetId: string; chatId: number }) => {
+        const { view } = useWebview(`meet-${data.meetId}`);
         if (!view) {
-            const webview = useWebview(`meet-${id}`, {
-                // title: name || `Конференция`,
+            const webview = useWebview(`meet-${data.meetId}`, {
                 events: {
                     onClose: () => {
-                        // calls.set(calls.value.filter((i) => i.id !== id));
                         webview?.close();
                     },
                 },
             });
             if (!webview.view) {
+                const meetData = JSON.stringify(data);
                 if (appService.tauriIsRunning) {
-                    webview.open({ path: `/meet/pre_join/${id}` }).then(() => {
-                        socket.emit(`meet-${id}`, 'meetData', { r: 1 });
-                    });
+                    webview.open({ path: `/meet/pre_join/${meetData}` });
                 } else {
-                    window.open(`${appService.getUrls().clientBaseURL}/meet/pre_join/${id}`, '_blank');
+                    window.open(`${appService.getUrls().clientBaseURL}/meet/pre_join/${meetData}`, '_blank');
                 }
             }
         }
@@ -87,7 +85,7 @@ function useMeet() {
         navigate(`/meet/room/${meetId}`);
     };
 
-    return { openCreateMeet, openCall, goToRoom, createRoom, closeCall };
+    return { openCreateMeet, openNewWindow, goToRoom, createRoom, closeCall };
 }
 
 export default useMeet;

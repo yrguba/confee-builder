@@ -14,18 +14,22 @@ function PreJoin(props: Props) {
 
     const enableNotifications = appStore.use.enableNotifications();
 
+    const meetDataParse = params.meet_data ? JSON.parse(params.meet_data) : null;
+
     const { useWebview, rustIsRunning, socket } = useRustServer();
     const meet = useMeet();
 
-    const { mutate: handleCallResponse } = meetApi.handleCallResponse();
+    // const { data: meetData } = meetApi.handleGetMeet(meetDataParse);
+    // console.log(meetData);
+    // const { mutate: handleCallResponse } = meetApi.handleCallResponse();
 
-    useUpdateEffect(() => {
-        if (params?.meet_id) {
-            socket.listen(`meet-${params.meet_id}`, 'meetData', (data) => {
-                console.log(data);
-            });
-        }
-    }, [params?.meet_id]);
+    // useUpdateEffect(() => {
+    //     if (params?.meet_id) {
+    //         socket.listen(`meet-${params.meet_id}`, 'meetData', (data) => {
+    //             console.log(data);
+    //         });
+    //     }
+    // }, [params?.meet_id]);
 
     useLifecycles(
         () => {},
@@ -35,9 +39,9 @@ function PreJoin(props: Props) {
     );
 
     const joining = (value: boolean) => {
-        if (params.meet_id) {
-            value ? navigate(`/meet/room/${params.meet_id}`) : meet.closeCall(params.meet_id);
-        }
+        // if (params.meet_id) {
+        //     value ? navigate(`/meet/room/${params.meet_id}`) : meet.closeCall(params.meet_id);
+        // }
     };
 
     return (

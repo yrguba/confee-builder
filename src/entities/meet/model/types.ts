@@ -15,6 +15,11 @@ export type CreateMeet = {
     chat: ChatProxy;
 };
 
+export type IncomingCall = {
+    meetId: string;
+    chatId: number;
+};
+
 export type SocketIn = 'CallCreated';
 export type SocketOut = 'LeftCall' | 'CallResponse';
 
