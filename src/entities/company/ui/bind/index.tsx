@@ -15,10 +15,8 @@ function BindCompanyView(props: Props) {
 
     return mini ? (
         <div className={styles.addCompany} onClick={onClick}>
-            <div className={styles.container}>
-                <Icons variant="add-company" />
-                <Title variant="H4S">Добавить корпоративную почту</Title>
-            </div>
+            <Icons variant="add-company" />
+            <Title variant="H4S">Добавить корпоративную почту</Title>
             <div className={styles.plus}>+</div>
         </div>
     ) : (

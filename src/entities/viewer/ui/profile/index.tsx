@@ -57,7 +57,7 @@ function ViewerProfileView(props: Props) {
                         avatar={i.avatar || ''}
                     />
                 ))}
-                <BindCompanyView onClick={openAuthCompanyModal} mini={companies.length < 1} />
+                <BindCompanyView onClick={openAuthCompanyModal} mini={!!companies.length} />
             </div>
         </div>
     );
