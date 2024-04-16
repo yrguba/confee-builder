@@ -35,16 +35,6 @@ function App() {
 
     const persister = usePersister(queryClient);
 
-    // useEffect(() => {
-    //     if (rustIsRunning) {
-    //         webview.listen('close-requested', () => {
-    //             webview.listenOnce('focus', () => {
-    //                 queryClient.refetchQueries().then();
-    //             });
-    //         });
-    //     }
-    // }, []);
-
     useTheme();
 
     useTimer(30);
@@ -55,6 +45,9 @@ function App() {
     }, []);
 
     useEffectOnce(() => {
+        window.addEventListener('dragover', (e) => e.preventDefault(), false);
+        window.addEventListener('drop', (e) => e.preventDefault(), false);
+
         if (appService.tauriIsRunning) {
         } else {
             document.body.style.maxWidth = '1200px';
