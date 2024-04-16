@@ -10,6 +10,11 @@
   flex-wrap: wrap;
   padding: 40px;
 
+  @include width-to(min){
+    padding: 40px 12px;
+    width: calc(100% - 24px);
+  }
+
   .avatarBlock {
     @include flex-column(flex-start, flex-start);
     gap: 20px;

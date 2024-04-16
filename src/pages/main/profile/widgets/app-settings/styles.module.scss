@@ -5,4 +5,9 @@
   @include flex-column(flex-start,flex-start);
   gap: 24px;
   padding: 40px;
+
+  @include width-to(min){
+    padding: 40px 12px;
+    width: calc(100% - 24px);
+  }
 }

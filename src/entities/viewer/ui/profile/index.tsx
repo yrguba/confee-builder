@@ -45,7 +45,7 @@ function ViewerProfileView(props: Props) {
                     <Title variant="H1">{viewer?.full_name}</Title>
                 </div>
                 <UserInfoView user={viewer as any} />
-                {companies.map((i) => (
+                {companies?.map((i) => (
                     <CompanyCardView
                         mini={companies.length < 1}
                         key={i.id}
@@ -57,7 +57,7 @@ function ViewerProfileView(props: Props) {
                         avatar={i.avatar || ''}
                     />
                 ))}
-                <BindCompanyView onClick={openAuthCompanyModal} mini={!!companies.length} />
+                <BindCompanyView onClick={openAuthCompanyModal} mini={!!companies?.length} />
             </div>
         </div>
     );

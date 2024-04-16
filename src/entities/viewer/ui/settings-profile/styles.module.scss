@@ -11,8 +11,8 @@
   margin-bottom: 40px;
 
   @include width-to(md){
-    width: calc(100% - 12px);
-    margin-left: 12px;
+    width: calc(100% - 4px);
+    margin-left: 4px;
   }
 
   .back {
