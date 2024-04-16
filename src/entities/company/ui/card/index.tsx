@@ -2,7 +2,7 @@ import React, { CSSProperties } from 'react';
 
 import { useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Card, Icons, Title } from 'shared/ui';
+import { Card, Icons, Image, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { Company, EmployeeStatuses } from '../../model/types';
@@ -17,13 +17,28 @@ type Props = {
     style?: CSSProperties;
     cardClick?: () => void;
     avatar?: string;
+    mini?: boolean;
 } & BaseTypes.Statuses;
 
 function CompanyCardView(props: Props) {
-    const { avatar, cardClick, style, title, status, subtitle, position, width } = props;
+    const { mini, avatar, cardClick, style, title, status, subtitle, position, width } = props;
     const sm = useWidthMediaQuery().to('sm');
 
-    return (
+    return mini ? (
+        <div className={styles.company} onClick={cardClick}>
+            <div className={styles.container}>
+                <Image width="32px" height="32px" url={avatar || ''} />
+                <div className={styles.name}>
+                    <Title variant="H4S">{title || ''}</Title>
+                </div>
+                <div className={styles.dot} />
+                <Title primary={false} variant="H4R">
+                    {subtitle}
+                </Title>
+            </div>
+            <Icons size={14} variant="arrow-drop-right" />
+        </div>
+    ) : (
         <div className={styles.wrapper} style={{ ...style, cursor: cardClick ? 'pointer' : 'default' }} onClick={cardClick}>
             <div className={styles.arrow}>
                 <Icons variant="arrow-drop-right" />

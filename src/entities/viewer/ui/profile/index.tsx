@@ -45,29 +45,19 @@ function ViewerProfileView(props: Props) {
                     <Title variant="H1">{viewer?.full_name}</Title>
                 </div>
                 <UserInfoView user={viewer as any} />
-
                 {companies.map((i) => (
-                    <div className={styles.company} key={i.id} onClick={() => clickCompanyCard(i)}>
-                        <div className={styles.container}>
-                            <Image width="32px" height="32px" url={i.avatar || ''} />
-                            <div className={styles.name}>
-                                <Title variant="H4S">{i.name || ''}</Title>
-                            </div>
-                            <div className={styles.dot} />
-                            <Title primary={false} variant="H4R">
-                                {i.departments[0].name || ''}
-                            </Title>
-                        </div>
-                        <Icons size={14} variant="arrow-drop-right" />
-                    </div>
+                    <CompanyCardView
+                        mini={companies.length < 1}
+                        key={i.id}
+                        cardClick={() => clickCompanyCard(companies[0])}
+                        title={i.name || ''}
+                        subtitle={i.departments[0].name || ''}
+                        position={i.departments[0].employees[0].position || ''}
+                        status={i.departments[0].employees[0].status || ''}
+                        avatar={i.avatar || ''}
+                    />
                 ))}
-                <div className={styles.addCompany} onClick={openAuthCompanyModal}>
-                    <div className={styles.container}>
-                        <Icons variant="add-company" />
-                        <Title variant="H4S">Добавить корпоративную почту</Title>
-                    </div>
-                    <div className={styles.plus}>+</div>
-                </div>
+                <BindCompanyView onClick={openAuthCompanyModal} mini={companies.length < 1} />
             </div>
         </div>
     );

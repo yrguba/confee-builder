@@ -31,7 +31,7 @@ class ChatService {
 
     getMembersWithoutMe(chat?: ChatProxy | null): User[] | null {
         if (!chat) return null;
-        const viewerId = this.viewer.id;
+        const viewerId = this.viewer?.id;
         const users: any = chat?.is_personal ? chat.members : chat?.employee_members.filter((i) => i.user).map((i) => i.user);
         return users?.filter((i: any) => i.id !== viewerId).map((i: any) => i);
     }
@@ -55,7 +55,7 @@ class ChatService {
 
     getMembersIdsWithoutMe(chat?: ChatProxy | null) {
         if (!chat) return null;
-        const viewerId = this.viewer.id;
+        const viewerId = this.viewer?.id;
         const users: any = chat?.is_personal ? chat.members : chat?.employee_members.filter((i) => i.user).map((i) => i.user);
 
         return users?.filter((i: any) => i?.id !== viewerId).map((i: any) => i?.id);

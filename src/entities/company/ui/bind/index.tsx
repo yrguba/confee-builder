@@ -6,13 +6,22 @@ import { Button, Icons, Title } from 'shared/ui';
 import styles from './styles.module.scss';
 
 type Props = {
-    addClick: () => void;
+    onClick: () => void;
+    mini?: boolean;
 } & BaseTypes.Statuses;
 
 function BindCompanyView(props: Props) {
-    const { addClick } = props;
+    const { onClick, mini } = props;
 
-    return (
+    return mini ? (
+        <div className={styles.addCompany} onClick={onClick}>
+            <div className={styles.container}>
+                <Icons variant="add-company" />
+                <Title variant="H4S">Добавить корпоративную почту</Title>
+            </div>
+            <div className={styles.plus}>+</div>
+        </div>
+    ) : (
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <div className={styles.icon}>
@@ -27,7 +36,7 @@ function BindCompanyView(props: Props) {
                     </Title>
                 </div>
             </div>
-            <Button onClick={addClick}>Добавить</Button>
+            <Button onClick={onClick}>Добавить</Button>
         </div>
     );
 }
