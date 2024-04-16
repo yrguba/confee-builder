@@ -15,6 +15,10 @@
     margin-bottom: 18px;
   }
 
+  .successRegister{
+    height: 38px;
+  }
+
   .rows {
     @include flex-column();
     @include box-size(100%, auto);

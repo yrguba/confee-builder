@@ -29,7 +29,7 @@ function Modal(props: BaseModalProps) {
 
     return modal_root
         ? ReactDOM.createPortal(
-              <Box.Animated visible={isOpen} presence className={`${styles.mask} ${!centered ? styles.mask_top : ''}`}>
+              <Box.Animated draggable={false} visible={isOpen} presence className={`${styles.mask} ${!centered ? styles.mask_top : ''}`}>
                   <div className={classes} onClick={(e) => e.stopPropagation()}>
                       {closeIcon && !full && (
                           <div className={styles.closeIcon} onClick={closeClick}>

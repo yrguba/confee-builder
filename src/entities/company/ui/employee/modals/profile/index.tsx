@@ -36,9 +36,11 @@ function EmployeeProfileModalView(props: Props) {
                 </Title>
             </div>
             {!!successRegister && (
-                <Title color="green" textWrap variant="H4M">
-                    Ваша почта была найдена в базе контактов компании ТФН
-                </Title>
+                <div className={styles.successRegister}>
+                    <Title color="green" textWrap variant="H4M">
+                        {`Ваша почта была найдена в базе контактов компании ${employeeData?.companies[0].name}`}
+                    </Title>
+                </div>
             )}
             <div className={styles.rows}>
                 <div className={styles.item_company}>
