@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 
-import { ArrowAnimatedProps, BroomAnimatedProps } from '../types';
+import Icons from '../index';
+import { ArrowAnimatedProps, BroomAnimatedProps, CallAnimatedProps } from '../types';
 
 export function ArrowAnimated(props: ArrowAnimatedProps) {
     const { initialDeg, animateDeg, activeAnimate } = props;
@@ -47,5 +48,57 @@ export function BroomAnimated(props: BroomAnimatedProps) {
                 fillRule="evenodd"
             />
         </motion.svg>
+    );
+}
+
+export function CallAnimated(props: CallAnimatedProps) {
+    const { activeAnimate, size = 30 } = props;
+
+    return (
+        <div style={{ position: 'relative', width: size, height: size, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Icons variant="call" />
+            {activeAnimate && (
+                <svg
+                    style={{ position: 'absolute', top: -1, left: 18 }}
+                    width="13"
+                    height="13"
+                    viewBox="0 0 17 17"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <motion.path
+                        initial={{ opacity: 0 }}
+                        animate={{ scale: [0, 1] }}
+                        transition={{
+                            type: 'tween',
+                            ease: 'easeInOut',
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                            repeatDelay: 0.4,
+                            duration: 0.3,
+                            delay: 0.4,
+                        }}
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M9.40503 7.59474C11.5125 9.70226 12.7509 12.1884 13.1201 15.0531C13.2528 16.0834 14.0798 16.9295 15.1187 16.9295C16.1576 16.9295 17.0116 16.0848 16.9015 15.0518C16.725 13.3961 16.311 11.8196 15.6595 10.3223C14.766 8.26879 13.559 6.48179 12.0385 4.96127C10.518 3.44076 8.73099 2.23375 6.67751 1.34025C5.18017 0.688739 3.60367 0.274759 1.94799 0.0983082C0.914959 -0.0117842 0.0703125 0.842176 0.0703125 1.88105C0.0703125 2.91993 0.916353 3.74693 1.94671 3.87971C4.81141 4.24889 7.29752 5.48723 9.40503 7.59474Z"
+                        fill="#29CC39"
+                    />
+                    <motion.path
+                        initial={{ opacity: 0 }}
+                        animate={{ scale: [0, 1] }}
+                        transition={{
+                            type: 'tween',
+                            ease: 'easeInOut',
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                            repeatDelay: 0.4,
+                            duration: 0.3,
+                        }}
+                        d="M7.59452 17C6.55564 17 5.75442 16.1345 5.42328 15.1498C5.15601 14.355 4.70409 13.6393 4.06755 13.0028C3.431 12.3662 2.71532 11.9143 1.92052 11.647C0.93583 11.3159 0.0703125 10.5147 0.0703125 9.4758C0.0703125 8.43692 0.920192 7.57183 1.94095 7.76499C3.75222 8.10773 5.34675 8.968 6.72453 10.3458C8.10232 11.7236 8.96258 13.3181 9.30533 15.1294C9.49848 16.1501 8.63339 17 7.59452 17Z"
+                        fill="#29CC39"
+                    />
+                </svg>
+            )}
+        </div>
     );
 }

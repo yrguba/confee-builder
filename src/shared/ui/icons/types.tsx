@@ -76,7 +76,8 @@ export type BaseIconsVariants =
     | 'upload'
     | 'crop'
     | 'rotate-img'
-    | 'add-company';
+    | 'add-company'
+    | 'call';
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;
     size?: 24 | 48 | number;
@@ -132,4 +133,8 @@ export type ArrowAnimatedProps = {
 
 export type BroomAnimatedProps = {
     activeAnimate?: boolean;
+};
+export type CallAnimatedProps = {
+    activeAnimate?: boolean;
+    size?: number;
 };
