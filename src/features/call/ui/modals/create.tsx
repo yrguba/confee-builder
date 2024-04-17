@@ -8,23 +8,23 @@ import { viewerApi } from 'entities/viewer';
 import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { Modal, Notification, ModalTypes, CardTypes, Input } from 'shared/ui';
 
-import { CreateMeetModalView, meetStore, useMeet } from '../../../../entities/meet';
+import { CreateCallModalView, callStore, useCall } from '../../../../entities/call';
 import { viewerStore } from '../../../../entities/viewer';
 import { getRandomString } from '../../../../shared/lib';
 
-function CreateMeetModal(modal: ModalTypes.UseReturnedType) {
+function CreateCallModal(modal: ModalTypes.UseReturnedType) {
     const { navigate, pathname, params } = useRouter();
 
     const viewer = viewerStore.use.viewer();
-    const createCall = meetStore.use.createCall();
+    const createCall = callStore.use.createCall();
     const selectedUsers = useArray<CardTypes.CardListItem>({ multiple: true });
 
     const tabsAndLists = useContacts();
 
-    const meet = useMeet();
+    const call = useCall();
 
     const createMeet = () => {
-        meet.createGroupCall({
+        call.createGroupCall({
             avatar: '',
             name: '',
             chatId: createCall.value.chatId,
@@ -36,13 +36,13 @@ function CreateMeetModal(modal: ModalTypes.UseReturnedType) {
         modal.close();
     };
 
-    return <CreateMeetModalView tabsAndLists={tabsAndLists} selectedUsers={selectedUsers} createMeet={createMeet} />;
+    return <CreateCallModalView tabsAndLists={tabsAndLists} selectedUsers={selectedUsers} createMeet={createMeet} />;
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {
     return (
         <Modal {...modal} centered={false}>
-            <CreateMeetModal {...modal} />
+            <CreateCallModal {...modal} />
         </Modal>
     );
 }

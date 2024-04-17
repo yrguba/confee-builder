@@ -4,16 +4,13 @@ import { useWebSocket } from 'shared/hooks';
 
 import { CallResponse, SocketIn, SocketOut } from './types';
 import { axiosClient } from '../../../shared/configs';
-import { httpHandlers } from '../../../shared/lib';
-import { Chat } from '../../chat/model/types';
-import { useMeet } from '../index';
 
-class MeetApi {
+class CallApi {
     socket = useWebSocket<SocketIn, SocketOut>();
 
     pathPrefix = '/api/v2/chats';
 
-    handleGetMeet = (data: { chatId?: number; meetId?: string | undefined }) => {
+    handleGetCall = (data: { chatId?: number; meetId?: string | undefined }) => {
         return useQuery(['get-meet', Number(data.meetId)], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/call/${data.meetId}/members`), {
             staleTime: Infinity,
             enabled: !!Number(data.chatId),
@@ -54,4 +51,4 @@ class MeetApi {
     };
 }
 
-export default new MeetApi();
+export default new CallApi();

@@ -1,27 +1,26 @@
 import React, { JSX, useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 
-import { meetApi, meetStore, useMeet } from 'entities/meet';
-import { CreateMeetModal } from 'features/meet';
+import { callStore, useCall } from 'entities/call';
+import { CreateMeetModal } from 'features/call';
 import { Modal } from 'shared/ui';
 
 import { appService } from '../../entities/app';
-import { useRouter } from '../../shared/hooks';
 
-function MeetProvider({ children }: { children: JSX.Element }) {
-    const createCall = meetStore.use.createCall();
-    const incomingCall = meetStore.use.incomingCall();
+function CallProvider({ children }: { children: JSX.Element }) {
+    const createCall = callStore.use.createCall();
+    const incomingCall = callStore.use.incomingCall();
 
     const createMeetModal = Modal.use();
 
-    const meet = useMeet();
+    const call = useCall();
 
     useUpdateEffect(() => {
         if (createCall.value) {
             if (createCall.value.isGroup) {
                 createMeetModal.open();
             } else {
-                meet.outgoingPrivateCall(createCall.value, true);
+                call.outgoingPrivateCall(createCall.value, true);
                 createCall.clear();
             }
         }
@@ -30,7 +29,7 @@ function MeetProvider({ children }: { children: JSX.Element }) {
     useEffect(() => {
         const url = appService.getUrls().clientFullURL;
         if (incomingCall.value && !url.includes('pre_join') && !url.includes('room')) {
-            meet.incomingCall(incomingCall.value);
+            call.incomingCall(incomingCall.value);
             incomingCall.clear();
         }
     }, [incomingCall.value]);
@@ -43,4 +42,4 @@ function MeetProvider({ children }: { children: JSX.Element }) {
     );
 }
 
-export default MeetProvider;
+export default CallProvider;

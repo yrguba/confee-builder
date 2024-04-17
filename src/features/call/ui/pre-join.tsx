@@ -2,11 +2,10 @@ import { WebviewWindow } from '@tauri-apps/api/window';
 import React, { useEffect } from 'react';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
-import { PreJoinView, meetApi, meetStore, useMeet, meetTypes } from 'entities/meet';
+import { PreJoinView, useCall, callApi, callStore, meetTypes } from 'entities/call';
 import { useStorage, useRingtone, useEffectOnce, useRouter, useRustServer, useEasyState, useReverseTimer } from 'shared/hooks';
 
 import { appStore } from '../../../entities/app';
-import { Responses } from '../../../entities/meet/model/types';
 import { viewerStore } from '../../../entities/viewer';
 import { useAudio } from '../../../shared/hooks';
 
@@ -18,15 +17,15 @@ type Props = {};
 function PreJoin(props: Props) {
     const { params, navigate } = useRouter();
 
-    const { mutate: handleCallResponse } = meetApi.handleCallResponse();
-    const responses = meetStore.use.responses();
+    const { mutate: handleCallResponse } = callApi.handleCallResponse();
+    const responses = callStore.use.responses();
 
     const viewer = viewerStore.use.viewer();
     const enableNotifications = appStore.use.enableNotifications();
 
-    const meetData = params.meet_data ? JSON.parse(params.meet_data) : null;
+    const meetData = params.call_data ? JSON.parse(params.call_data) : null;
 
-    const meet = useMeet();
+    const meet = useCall();
     const timer = useReverseTimer({ hours: 0, minutes: 0, seconds: 30 });
 
     const [audio, state, controls, ref] = useAudio({
@@ -34,7 +33,7 @@ function PreJoin(props: Props) {
         autoPlay: !!enableNotifications.value,
     });
 
-    const response = useEasyState<Responses | null>(null);
+    const response = useEasyState<meetTypes.Responses | null>(null);
 
     // console.log(meetData);
 

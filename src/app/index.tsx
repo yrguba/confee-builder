@@ -14,8 +14,9 @@ import { useTheme, useStorage, useTimer, useRustServer, usePersister } from 'sha
 import { Button, Notification } from 'shared/ui';
 
 import Provider from './provider';
+import MeetProvider from './providers/call';
+import CallProvider from './providers/call';
 import MainProvider from './providers/main';
-import MeetProvider from './providers/meet';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -61,13 +62,13 @@ function App() {
         <BrowserRouter>
             <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
                 <MainProvider>
-                    <MeetProvider>
+                    <CallProvider>
                         <Provider>
                             <Notification options={{ disabledDesktop: true }} />
                             <Routing />
                             <ReactQueryDevtools position="bottom-left" />
                         </Provider>
-                    </MeetProvider>
+                    </CallProvider>
                 </MainProvider>
             </PersistQueryClientProvider>
         </BrowserRouter>

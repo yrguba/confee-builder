@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { callStore, useCall } from 'entities/call';
 import { ChatHeaderView, chatApi, chatService } from 'entities/chat';
 import chatProxy from 'entities/chat/lib/proxy';
 import { ChatTabsActions } from 'entities/chat/model/types';
-import { meetStore, useMeet } from 'entities/meet';
 import { messageStore, messageApi } from 'entities/message';
 import { useRouter } from 'shared/hooks';
 import { Modal } from 'shared/ui';
@@ -31,7 +31,7 @@ function ChatHeader() {
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
 
-    const meet = useMeet();
+    const meet = useCall();
 
     const clickDeleteMessages = async () => {
         if (chatData) {

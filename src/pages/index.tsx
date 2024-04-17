@@ -8,9 +8,9 @@ import { viewerStore } from 'entities/viewer';
 import { Network } from 'features/app';
 import { webView } from 'features/auth';
 
+import callPageRouters from './call';
 import initialFillingProfilePageRouters from './initial-filling-profile';
 import mainRoutes from './main';
-import meetPageRouters from './meet';
 import updateAppPageRouters from './update-app';
 import warningPageRouters from './warning';
 import { appService } from '../entities/app';
@@ -35,7 +35,7 @@ function Routing() {
                 <Network />
                 <Routes location={location} key={location.pathname.split('/')[1]}>
                     {mainRoutes}
-                    {meetPageRouters}
+                    {callPageRouters}
                     {initialFillingProfilePageRouters}
                     {warningPageRouters}
                     {updateAppPageRouters}

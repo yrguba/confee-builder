@@ -3,13 +3,13 @@ import React, { useEffect } from 'react';
 
 import { PhotoVideoSwiperModal } from 'features/app';
 
-import { appService, appStore } from '../entities/app';
+import { appStore } from '../entities/app';
+import { callGateway } from '../entities/call';
 import { chatApi, chatGateway, chatStore } from '../entities/chat';
-import { meetGateway, meetStore, useMeet } from '../entities/meet';
 import { messageGateway, messageStore } from '../entities/message';
 import { userGateway } from '../entities/user';
 import { ForwardMessagesModal } from '../features/message';
-import { useEffectOnce, useRecognizeSpeech, useRouter, useRustServer, useStorage, useWebSocket } from '../shared/hooks';
+import { useEffectOnce, useRecognizeSpeech, useRouter, useStorage, useWebSocket } from '../shared/hooks';
 import { Modal } from '../shared/ui';
 
 function Provider({ children }: { children: any }) {
@@ -46,7 +46,7 @@ function Provider({ children }: { children: any }) {
             messageGateway(data, queryClient);
             chatGateway(data, queryClient, navigate);
             userGateway(data, queryClient);
-            meetGateway(data, queryClient);
+            callGateway(data, queryClient);
         });
     });
 

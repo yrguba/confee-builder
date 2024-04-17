@@ -16,7 +16,7 @@ type Props = {
     tabsAndLists: UseContactsReturnType;
 } & BaseTypes.Statuses;
 
-function CreateMeetModalView(props: Props) {
+function CreateCallModalView(props: Props) {
     const { selectedUsers, tabsAndLists, loading, createMeet } = props;
 
     const isSearching = !!tabsAndLists.searchInput.value;
@@ -98,4 +98,4 @@ function CreateMeetModalView(props: Props) {
     );
 }
 
-export default CreateMeetModalView;
+export default CreateCallModalView;

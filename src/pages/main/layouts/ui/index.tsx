@@ -1,12 +1,7 @@
-import React, { useEffect } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-import { appService } from 'entities/app';
-import { chatApi, chatGateway, chatStore } from 'entities/chat';
-import { meetGateway, useMeet, meetStore } from 'entities/meet';
-import { messageGateway } from 'entities/message';
-import { userGateway } from 'entities/user';
-import { useRouter, useStorage, useRecognizeSpeech } from 'shared/hooks';
+import { useRouter } from 'shared/hooks';
 import { Audio } from 'shared/ui';
 
 import styles from './styles.module.scss';

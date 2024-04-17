@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MeetRoomView, useMeet } from 'entities/meet';
+import { CallRoomView, useCall } from 'entities/call';
 
 import { appService } from '../../../entities/app';
 import { viewerApi, viewerProxy } from '../../../entities/viewer';
@@ -8,7 +8,7 @@ import { useRouter, useStorage } from '../../../shared/hooks';
 import { Modal } from '../../../shared/ui';
 import { InviteToMeetModal } from '../index';
 
-function MeetRoom() {
+function CallRoom() {
     const { clientFullURL } = appService.getUrls();
 
     const { params } = useRouter();
@@ -19,9 +19,9 @@ function MeetRoom() {
 
     const inviteToMeetModal = Modal.use();
 
-    const meet = useMeet();
+    const meet = useCall();
 
-    const meetData = params.meet_data ? JSON.parse(params.meet_data) : null;
+    const meetData = params.call_data ? JSON.parse(params.call_data) : null;
     const meetStr = clientFullURL.split('/').pop();
     const meetId = meetStr?.split(':')[0];
 
@@ -32,9 +32,9 @@ function MeetRoom() {
     return meetId ? (
         <>
             <InviteToMeetModal {...inviteToMeetModal} />
-            <MeetRoomView close={close} viewer={viewer} meetId={meetData.roomId} invite={inviteToMeetModal.open} chatId={3} />
+            <CallRoomView close={close} viewer={viewer} meetId={meetData.roomId} invite={inviteToMeetModal.open} chatId={3} />
         </>
     ) : null;
 }
 
-export default MeetRoom;
+export default CallRoom;

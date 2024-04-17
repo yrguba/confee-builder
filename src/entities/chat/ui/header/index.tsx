@@ -27,7 +27,7 @@ function ChatHeaderView(props: Props) {
         // { id: 1, icon: 'phone', callback: clickChatAudioCall },
         { id: 2, icon: chat?.meetId ? 'videocam-pulse' : 'videocam-outlined', callback: () => tabsActions('goMeet'), hidden: chat?.isDeleted },
     ];
-
+    console.log(chat);
     return (
         <Box.Replace
             className={styles.wrapper}
@@ -73,9 +73,9 @@ function ChatHeaderView(props: Props) {
                             <div>
                                 <TabBar variant="icons" items={tabs} activeItemId={0} />
                             </div>
-                            <div className={styles.calls}>
-                                <Icons.CallAnimated size={40} activeAnimate />
-                            </div>
+                            {/* {chat. <div className={styles.calls}> */}
+                            {/*    <Icons.CallAnimated size={40} activeAnimate/> */}
+                            {/* </div>} */}
                         </div>
                     ),
                     visible: !highlightedMessages.value?.length,

@@ -16,7 +16,7 @@ type Props = {
     selectedUsers: UseArrayReturnType<CardTypes.CardListItem>;
 } & BaseTypes.Statuses;
 
-function InviteToMeetModalView(props: Props) {
+function InviteToCallModalView(props: Props) {
     const { selectedUsers, users, sendInvites } = props;
 
     return (
@@ -49,4 +49,4 @@ function InviteToMeetModalView(props: Props) {
     );
 }
 
-export default InviteToMeetModalView;
+export default InviteToCallModalView;

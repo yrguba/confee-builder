@@ -10,12 +10,12 @@ type Store = {
 
 type Methods = {};
 
-const meetStore = useZustand<Store, Methods>({
+const callStore = useZustand<Store, Methods>({
     keys: ['createCall', 'incomingCall', 'responses'],
     default: {
         responses: [],
     },
 });
 
-export type MeetSoreTypes = UseZustandTypes.StoreTypes<typeof meetStore.use>;
-export default meetStore;
+export type CallSoreTypes = UseZustandTypes.StoreTypes<typeof callStore.use>;
+export default callStore;

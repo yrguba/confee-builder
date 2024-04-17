@@ -5,18 +5,18 @@ import { appService } from '../../app';
 import { chatService } from '../../chat';
 import { ChatProxy } from '../../chat/model/types';
 import { viewerStore } from '../../viewer';
-import { meetStore } from '../index';
+import { callStore } from '../index';
 import meetApi from '../model/api';
 import { CallResponse, Meet } from '../model/types';
 
-function useMeet() {
+function useCall() {
     const { params, navigate } = useRouter();
     const { mutate: handleCreateCall } = meetApi.handleCreateCall();
     const viewer = viewerStore.use.viewer();
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
     const { mutate: handleJoinCall } = meetApi.handleJoinCall();
 
-    const createCall = meetStore.use.createCall();
+    const createCall = callStore.use.createCall();
 
     const { useWebview, rustIsRunning, socket } = useRustServer();
 
@@ -117,4 +117,4 @@ function useMeet() {
     return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow, leftCall, createGroupCall };
 }
 
-export default useMeet;
+export default useCall;

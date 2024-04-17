@@ -4,7 +4,7 @@ import meetStore from './store';
 import { Socket } from './types';
 import { viewerStore } from '../../viewer';
 
-function meetGateway({ event, data }: Socket, queryClient: any) {
+function callGateway({ event, data }: Socket, queryClient: any) {
     const viewer = viewerStore.getState().viewer.value;
 
     switch (event) {
@@ -58,4 +58,4 @@ function meetGateway({ event, data }: Socket, queryClient: any) {
     }
 }
 
-export default meetGateway;
+export default callGateway;

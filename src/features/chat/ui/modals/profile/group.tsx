@@ -2,8 +2,8 @@ import React from 'react';
 import { useUpdateEffect } from 'react-use';
 import useFileUploader from 'react-use-file-uploader';
 
+import { useCall } from 'entities/call';
 import { chatApi, chatProxy, GroupChatProfileModalView, chatTypes, chatService } from 'entities/chat';
-import { meetStore, useMeet } from 'entities/meet';
 import { messageTypes } from 'entities/message';
 import { useRouter, useEasyState } from 'shared/hooks';
 import { Modal, ModalTypes } from 'shared/ui';
@@ -36,7 +36,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
 
-    const meet = useMeet();
+    const call = useCall();
 
     const addMembersModal = Modal.use();
     const privateChatProfileModal = Modal.use();
@@ -86,7 +86,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const actions = (action: chatTypes.GroupChatActions) => {
         switch (action) {
             case 'goMeet':
-                return meet.openCreateMeet(proxyChat);
+                return call.openCreateMeet(proxyChat);
             case 'leave':
                 return confirmLeaveChat.open(null, {
                     okText: proxyChat?.is_group ? 'Покинуть' : 'Удалить',

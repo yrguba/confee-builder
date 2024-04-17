@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 import styles from './styles.module.scss';
 
-function MeetPage() {
+function CallPage() {
     const calls_root = document.querySelector('#calls-root');
 
     return calls_root
@@ -17,4 +17,4 @@ function MeetPage() {
         : null;
 }
 
-export default MeetPage;
+export default CallPage;

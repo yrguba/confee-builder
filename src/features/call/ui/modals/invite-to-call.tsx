@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { InviteToMeetModalView, meetApi } from 'entities/meet';
+import { InviteToCallModalView, callApi } from 'entities/call';
 import { useArray, useRouter, useStorage } from 'shared/hooks';
 import { CardTypes, Modal, ModalTypes } from 'shared/ui';
 
@@ -16,7 +16,7 @@ function InviteToMeetModal(modal: ModalTypes.UseReturnedType) {
     const { data: chatData } = chatApi.handleGetChat({ chatId });
     const proxyChat = chatProxy(chatData?.data.data);
 
-    const { mutate: handleCreateCall } = meetApi.handleCreateCall();
+    const { mutate: handleCreateCall } = callApi.handleCreateCall();
     const selectedUsers = useArray<CardTypes.CardListItem>({ multiple: true });
 
     const sendInvites = () => {
@@ -28,7 +28,7 @@ function InviteToMeetModal(modal: ModalTypes.UseReturnedType) {
 
     const users = chatService.getMembersWithoutMe(proxyChat);
 
-    return <InviteToMeetModalView sendInvites={sendInvites} users={users?.filter((i) => !i.deleted_at)} selectedUsers={selectedUsers} />;
+    return <InviteToCallModalView sendInvites={sendInvites} users={users?.filter((i) => !i.deleted_at)} selectedUsers={selectedUsers} />;
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {

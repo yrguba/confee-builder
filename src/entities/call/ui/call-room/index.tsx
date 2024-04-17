@@ -20,7 +20,7 @@ type Props = {
     close: () => void;
 } & BaseTypes.Statuses;
 
-function MeetRoomView(props: Props) {
+function CallRoomView(props: Props) {
     const { close, chatId, viewer, meetId, invite } = props;
 
     const conferenceName = meetId;
@@ -63,4 +63,4 @@ function MeetRoomView(props: Props) {
     ) : null;
 }
 
-export default MeetRoomView;
+export default CallRoomView;
