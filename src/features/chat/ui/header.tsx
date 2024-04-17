@@ -32,7 +32,7 @@ function ChatHeader() {
     const forwardMessagesModal = Modal.use();
 
     const meet = useCall();
-
+    console.log(proxyChat);
     const clickDeleteMessages = async () => {
         if (chatData) {
             handleDeleteMessage({

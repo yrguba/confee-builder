@@ -73,9 +73,11 @@ function ChatHeaderView(props: Props) {
                             <div>
                                 <TabBar variant="icons" items={tabs} activeItemId={0} />
                             </div>
-                            {/* {chat. <div className={styles.calls}> */}
-                            {/*    <Icons.CallAnimated size={40} activeAnimate/> */}
-                            {/* </div>} */}
+                            {chat?.is_group && !!chat?.calls.length && (
+                                <div className={styles.calls}>
+                                    <Icons.CallAnimated size={40} activeAnimate />
+                                </div>
+                            )}
                         </div>
                     ),
                     visible: !highlightedMessages.value?.length,

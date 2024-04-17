@@ -33,9 +33,9 @@ function useCall() {
             if (!webview.view) {
                 const meetData = JSON.stringify({ ...data, avatar: data?.avatar?.split('/').join('|') });
                 if (appService.tauriIsRunning) {
-                    webview.open({ path: `/meet/${path}/${meetData}` });
+                    webview.open({ path: `/call/${path}/${meetData}` });
                 } else {
-                    window.open(`${appService.getUrls().clientBaseURL}/meet/${path}/${meetData}`, '_blank');
+                    window.open(`${appService.getUrls().clientBaseURL}/call/${path}/${meetData}`, '_blank');
                 }
             }
         }
@@ -53,7 +53,7 @@ function useCall() {
                     if (openWindows) {
                         createWindow(data.roomId, 'pre_join', { ...data, callId: res.data.data.id, type: 'out' });
                     } else {
-                        navigate(`/meet/pre_join/${JSON.stringify({ ...data, callId: res.data.data.id, type: 'out' })}`);
+                        navigate(`/call/pre_join/${JSON.stringify({ ...data, callId: res.data.data.id, type: 'out' })}`);
                     }
                 },
             }
@@ -110,7 +110,7 @@ function useCall() {
     const goToRoom = (data: Meet) => {
         if (data.callId) {
             handleJoinCall({ call_id: data.callId, chat_id: data.chatId });
-            navigate(`/meet/room/${JSON.stringify(data)}`);
+            navigate(`/call/room/${JSON.stringify(data)}`);
         }
     };
 

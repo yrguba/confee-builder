@@ -67,8 +67,7 @@ export function CallAnimated(props: CallAnimatedProps) {
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <motion.path
-                        initial={{ opacity: 0 }}
-                        animate={{ scale: [0, 1] }}
+                        animate={{ opacity: [0, 1] }}
                         transition={{
                             type: 'tween',
                             ease: 'easeInOut',
@@ -84,8 +83,7 @@ export function CallAnimated(props: CallAnimatedProps) {
                         fill="#29CC39"
                     />
                     <motion.path
-                        initial={{ opacity: 0 }}
-                        animate={{ scale: [0, 1] }}
+                        animate={{ opacity: [0, 1] }}
                         transition={{
                             type: 'tween',
                             ease: 'easeInOut',
