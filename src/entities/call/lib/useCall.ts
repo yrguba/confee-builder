@@ -114,7 +114,14 @@ function useCall() {
         }
     };
 
-    return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow, leftCall, createGroupCall };
+    const joinCall = (data: Meet) => {
+        if (data.callId) {
+            createWindow(data.roomId, `room`, data);
+            handleJoinCall({ call_id: data.callId, chat_id: data.chatId });
+        }
+    };
+
+    return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow, leftCall, createGroupCall, joinCall };
 }
 
 export default useCall;

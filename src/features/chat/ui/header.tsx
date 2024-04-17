@@ -73,7 +73,7 @@ function ChatHeader() {
     const clickActiveCallList = () => {
         activeCallListModal.open({ chatId: proxyChat?.id });
     };
-
+    console.log(proxyChat);
     return (
         <>
             <ActiveCallListModal {...activeCallListModal} />

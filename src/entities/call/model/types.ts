@@ -2,7 +2,7 @@ import { ChatProxy } from '../../chat/model/types';
 
 export type CallInActiveCallList = {
     id: number;
-    members_ids: number[];
+    member_ids: number[];
     room: string;
     members_count: number;
 };

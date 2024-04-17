@@ -10,12 +10,12 @@ class CallApi {
 
     pathPrefix = '/api/v2/chats';
 
-    handleGetCall = (data: { chatId?: number; meetId?: string | undefined }) => {
-        return useQuery(['get-meet', Number(data.meetId)], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/call/${data.meetId}/members`), {
+    handleGetCall = (data: { chatId?: number; callId?: number }) => {
+        return useQuery(['get-meet', Number(data.callId)], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/call/${data.callId}/members`), {
             staleTime: Infinity,
             enabled: !!Number(data.chatId),
             select: (res) => {
-                return res;
+                return res.data.data;
             },
         });
     };
