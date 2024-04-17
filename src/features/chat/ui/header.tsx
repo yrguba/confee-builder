@@ -12,6 +12,7 @@ import GroupChatProfileModal from './modals/profile/group';
 import PrivateChatProfileModal from './modals/profile/private';
 import { viewerStore } from '../../../entities/viewer';
 import { getRandomString } from '../../../shared/lib';
+import { ActiveCallListModal } from '../../call';
 import { ForwardMessagesModal } from '../../message';
 
 function ChatHeader() {
@@ -30,9 +31,10 @@ function ChatHeader() {
     const groupChatProfileModal = Modal.use();
     const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
+    const activeCallListModal = Modal.use();
 
     const meet = useCall();
-    console.log(proxyChat);
+
     const clickDeleteMessages = async () => {
         if (chatData) {
             handleDeleteMessage({
@@ -68,12 +70,18 @@ function ChatHeader() {
         }
     };
 
+    const clickActiveCallList = () => {
+        activeCallListModal.open(proxyChat);
+    };
+
     return (
         <>
+            <ActiveCallListModal {...activeCallListModal} />
             <GroupChatProfileModal {...groupChatProfileModal} />
             <PrivateChatProfileModal {...privateChatProfileModal} />
             <ForwardMessagesModal {...forwardMessagesModal} />
             <ChatHeaderView
+                clickActiveCallList={clickActiveCallList}
                 back={() => navigate(-1)}
                 chat={proxyChat}
                 tabsActions={tabsActions}

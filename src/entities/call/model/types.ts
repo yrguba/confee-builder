@@ -1,5 +1,12 @@
 import { ChatProxy } from '../../chat/model/types';
 
+export type CallInActiveCallList = {
+    id: number;
+    members_ids: number[];
+    room: string;
+    members_count: number;
+};
+
 export type Call = {
     avatar: string;
     id: string;

@@ -1,8 +1,7 @@
-import { WebviewWindow } from '@tauri-apps/api/window';
 import React, { useEffect } from 'react';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
-import { PreJoinView, useCall, callApi, callStore, meetTypes } from 'entities/call';
+import { PreJoinView, useCall, callApi, callStore, callTypes } from 'entities/call';
 import { useStorage, useRingtone, useEffectOnce, useRouter, useRustServer, useEasyState, useReverseTimer } from 'shared/hooks';
 
 import { appStore } from '../../../entities/app';
@@ -33,7 +32,7 @@ function PreJoin(props: Props) {
         autoPlay: !!enableNotifications.value,
     });
 
-    const response = useEasyState<meetTypes.Responses | null>(null);
+    const response = useEasyState<callTypes.Responses | null>(null);
 
     // console.log(meetData);
 

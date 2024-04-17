@@ -17,17 +17,17 @@ type Props = {
     clickDeleteMessages: () => void;
     clickForwardMessages: () => void;
     tabsActions: (action: ChatTabsActions) => void;
+    clickActiveCallList: () => void;
 } & BaseTypes.Statuses;
 
 function ChatHeaderView(props: Props) {
-    const { tabsActions, chat, back, clickCard, highlightedMessages, clickDeleteMessages, clickForwardMessages, loading } = props;
+    const { clickActiveCallList, tabsActions, chat, back, clickCard, highlightedMessages, clickDeleteMessages, clickForwardMessages, loading } = props;
 
     const tabs: TabBarTypes.TabBarItem[] = [
         { id: 0, icon: 'search', callback: () => tabsActions('search') },
-        // { id: 1, icon: 'phone', callback: clickChatAudioCall },
         { id: 2, icon: chat?.meetId ? 'videocam-pulse' : 'videocam-outlined', callback: () => tabsActions('goMeet'), hidden: chat?.isDeleted },
     ];
-    console.log(chat);
+
     return (
         <Box.Replace
             className={styles.wrapper}
@@ -74,7 +74,7 @@ function ChatHeaderView(props: Props) {
                                 <TabBar variant="icons" items={tabs} activeItemId={0} />
                             </div>
                             {chat?.is_group && !!chat?.calls.length && (
-                                <div className={styles.calls}>
+                                <div className={styles.calls} onClick={clickActiveCallList}>
                                     <Icons.CallAnimated size={40} activeAnimate />
                                 </div>
                             )}
