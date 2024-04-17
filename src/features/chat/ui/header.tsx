@@ -71,7 +71,7 @@ function ChatHeader() {
     };
 
     const clickActiveCallList = () => {
-        activeCallListModal.open(proxyChat);
+        activeCallListModal.open({ chatId: proxyChat?.id });
     };
 
     return (

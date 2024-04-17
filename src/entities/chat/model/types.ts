@@ -1,6 +1,6 @@
 import { BaseTypes } from '../../../shared/types';
 import { InputTypes, TabBarTypes } from '../../../shared/ui';
-import { Call } from '../../call/model/types';
+import { Call, CallInActiveCallList } from '../../call/model/types';
 import { companyTypes } from '../../company';
 import { Employee, EmployeeProxy } from '../../company/model/types';
 import { contactTypes } from '../../contact';
@@ -32,7 +32,7 @@ export type Chat = {
     is_muted: boolean;
     current_user_role: 'Chat member' | 'Owner';
     description?: string;
-    calls: Call[];
+    calls: CallInActiveCallList[];
 };
 
 export type ChatProxy = {
