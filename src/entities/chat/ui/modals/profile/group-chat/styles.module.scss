@@ -8,11 +8,28 @@
   background-color: var(--bg-primary);
   border-radius: 20px;
 
+  .chatName{
+    @include flex-column;
+    @include box-size(100%, auto);
+    padding: 4px 0;
+    gap: 4px;
+    background-color: var(--bg-primary);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    font-size: 30px;
+    color: white;
+    transform: translateX(-50%);
+    z-index: 20;
+
+  }
+
   .mainInfo {
     @include flex-column;
     width: calc(100% - 48px);
     margin: 24px 24px 0 24px;
     transition: all 0.1s;
+    transform-origin: bottom;
 
     .name {
       @include flex;

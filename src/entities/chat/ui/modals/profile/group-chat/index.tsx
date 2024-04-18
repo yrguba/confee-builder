@@ -7,6 +7,7 @@ import { BaseTypes } from 'shared/types';
 import { Title, Icons, Avatar, Button, IconsTypes, ContextMenu, ContextMenuTypes, Input, ModalTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { Box } from '../../../../../../shared/ui';
 import { CompanyTagView } from '../../../../../company';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import { UserProxy } from '../../../../../user/model/types';
@@ -76,15 +77,6 @@ function GroupChatProfileModalView(props: Props) {
         },
     ];
 
-    useEffect(() => {
-        if (scrollPosition?.top && mainInfoRef.current) {
-            // console.log(scrollPosition?.top);
-            // const { top } = scrollPosition;
-            // const currentHeight = mainInfoRef.current.clientHeight;
-            // mainInfoRef.current.style.transform = `scale(${(currentHeight - top) / 300}) translateY(${top > 120 ? top + 90 : top}px)`;
-        }
-    }, [scrollPosition?.top]);
-
     return (
         <div className={styles.wrapper}>
             <div className={styles.mainInfo} ref={mainInfoRef}>
@@ -115,6 +107,14 @@ function GroupChatProfileModalView(props: Props) {
                     {chat?.subtitle}
                 </Title>
             </div>
+            <Box.Animated className={styles.chatName} visible={!!scrollPosition?.top && scrollPosition.top > 250}>
+                <Title textAlign="center" variant="H2">
+                    {chat?.name}
+                </Title>
+                <Title textAlign="center" variant="H3R">
+                    {chat?.subtitle}
+                </Title>
+            </Box.Animated>
             <ContextMenu
                 onClick={() => visibleMenu.set(false)}
                 trigger="mouseup"

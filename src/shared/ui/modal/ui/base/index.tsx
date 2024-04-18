@@ -32,20 +32,21 @@ function Modal(props: BaseModalProps) {
     return modal_root
         ? ReactDOM.createPortal(
               <Box.Animated draggable={false} visible={isOpen} presence className={`${styles.mask} ${!centered ? styles.mask_top : ''}`}>
-                  <div
-                      className={classes}
-                      onScroll={(e) => {
-                          const pos = getScrollPosition({ current: e.currentTarget });
-                          pos && setScrollPosition && setScrollPosition(pos);
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                  >
+                  <div className={classes} onClick={(e) => e.stopPropagation()}>
                       {closeIcon && !full && (
                           <div className={styles.closeIcon} onClick={closeClick}>
                               <Icons variant="close" />
                           </div>
                       )}
-                      <div className={`${styles.content} ${full ? styles.content_full : ''}`}>{isOpen && children}</div>
+                      <div
+                          className={`${styles.content} ${full ? styles.content_full : ''}`}
+                          onScroll={(e) => {
+                              const pos = getScrollPosition({ current: e.currentTarget });
+                              pos && setScrollPosition && setScrollPosition(pos);
+                          }}
+                      >
+                          {isOpen && children}
+                      </div>
                   </div>
               </Box.Animated>,
               modal_root
