@@ -50,6 +50,8 @@ function chatGateway({ event, data }: Socket, queryClient: any, navigate: any) {
 
         case 'ChatMembersDeleted':
             return queryClient.invalidateQueries(['get-chat', data.chat_id]);
+        case 'ChatMembersCreated':
+            return queryClient.invalidateQueries(['get-chat', data.chat_id]);
     }
 }
 

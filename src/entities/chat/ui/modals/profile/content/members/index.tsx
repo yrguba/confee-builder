@@ -41,7 +41,7 @@ function Members(props: Props) {
         current?.map((i: any) => {
             const obj = {
                 id: i.id,
-                name: i.full_name || '',
+                name: i?.full_name || '',
                 avatar: i.avatar || '',
                 description: i?.networkStatus || i?.userProxy?.networkStatus || 'Не зарегистрирован',
             };

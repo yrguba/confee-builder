@@ -18,7 +18,11 @@ function userProxy(user: User | undefined): UserProxy | null {
                     return !!target?.deleted_at;
 
                 case 'full_name':
-                    return target.contact_name || `${target.first_name || ''} ${target.last_name || ''}`;
+                    return (
+                        target.contact_name ||
+                        ((target.first_name || target.last_name) && `${target.first_name || ''} ${target.last_name || ''}`) ||
+                        target.nickname
+                    );
 
                 case 'formatted_birth':
                     return target.birth ? moment(target.birth).format('LL') : null;

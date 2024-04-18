@@ -73,7 +73,7 @@ function ChatHeaderView(props: Props) {
                             <div>
                                 <TabBar variant="icons" items={tabs} activeItemId={0} />
                             </div>
-                            {chat?.is_group && !!chat?.calls.length && (
+                            {chat?.is_group && !!chat?.calls?.length && (
                                 <div className={styles.calls} onClick={clickActiveCallList}>
                                     <Icons.CallAnimated size={40} activeAnimate />
                                 </div>

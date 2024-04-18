@@ -29,7 +29,7 @@ function AddMembersInChatModal(modal: ModalTypes.UseReturnedType) {
         if (!selectedUsers.array.length) {
             return notifications.error({ title: `Выберите участников` });
         }
-        if (selectedUsers.array.length && !isGroup) {
+        if (selectedUsers.array.length && proxyChat?.is_group) {
             handleAddMembersPersonalChat(
                 { chatId, user_ids: selectedUsers.array.map((i) => Number(i.id)) },
                 {

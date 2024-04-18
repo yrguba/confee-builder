@@ -144,9 +144,7 @@ class ChatApi {
             {
                 onSuccess: async (res, data) => {
                     const updRes = httpHandlers.response<{ data: Chat }>(res);
-                    queryClient.setQueryData(['get-chat', updRes.data?.data.id], (cacheData: any) => {
-                        cacheData.data.data = updRes.data?.data;
-                    });
+                    queryClient.invalidateQueries(['get-chat', updRes.data?.data.id]);
                 },
             }
         );
