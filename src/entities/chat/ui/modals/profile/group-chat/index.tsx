@@ -111,9 +111,6 @@ function GroupChatProfileModalView(props: Props) {
                 <Title textAlign="center" variant="H2">
                     {chat?.name}
                 </Title>
-                <Title textAlign="center" variant="H3R">
-                    {chat?.subtitle}
-                </Title>
             </Box.Animated>
             <ContextMenu
                 onClick={() => visibleMenu.set(false)}

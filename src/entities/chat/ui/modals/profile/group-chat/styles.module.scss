@@ -9,10 +9,9 @@
   border-radius: 20px;
 
   .chatName{
-    @include flex-column;
+    @include flex;
     @include box-size(100%, auto);
-    padding: 4px 0;
-    gap: 4px;
+    padding: 8px 0;
     background-color: var(--bg-primary);
     position: absolute;
     top: 0;
@@ -21,7 +20,6 @@
     color: white;
     transform: translateX(-50%);
     z-index: 20;
-
   }
 
   .mainInfo {
