@@ -26,6 +26,7 @@ function useCall() {
             const webview = useWebview(roomId, {
                 events: {
                     onClose: () => {
+                        data.callId && handleLeftCall({ call_id: data.callId, chat_id: data.chatId });
                         webview?.close();
                     },
                 },
@@ -121,7 +122,17 @@ function useCall() {
         }
     };
 
-    return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow, leftCall, createGroupCall, joinCall };
+    const closeListener = (data: Meet) => {
+        const { view } = useWebview(data.roomId);
+        if (view) {
+            view.onCloseRequested(() => {
+                data.callId && handleLeftCall({ call_id: data.callId, chat_id: data.chatId });
+                view.close();
+            });
+        }
+    };
+
+    return { outgoingPrivateCall, openCreateMeet, goToRoom, incomingCall, closeWindow, leftCall, createGroupCall, joinCall, closeListener };
 }
 
 export default useCall;

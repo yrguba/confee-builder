@@ -22,13 +22,13 @@ function PreJoin(props: Props) {
     const viewer = viewerStore.use.viewer();
     const enableNotifications = appStore.use.enableNotifications();
 
-    const meetData = params.call_data ? JSON.parse(params.call_data) : null;
+    const callData = params.call_data ? JSON.parse(params.call_data) : null;
 
-    const meet = useCall();
+    const call = useCall();
     const timer = useReverseTimer({ hours: 0, minutes: 0, seconds: 30 });
 
     const [audio, state, controls, ref] = useAudio({
-        src: meetData.type === 'in' ? inCallAudio : '',
+        src: callData.type === 'in' ? inCallAudio : '',
         autoPlay: !!enableNotifications.value,
     });
 
@@ -47,11 +47,11 @@ function PreJoin(props: Props) {
 
     useUpdateEffect(() => {
         if (timer.time[2] === 0 && !response.value) {
-            [viewer.value.id, meetData.initiatorId].forEach((id) => {
+            [viewer.value.id, callData.initiatorId].forEach((id) => {
                 handleCallResponse({
-                    call_id: meetData.callId,
-                    chat_id: meetData.chatId,
-                    room_id: meetData.roomId,
+                    call_id: callData.callId,
+                    chat_id: callData.chatId,
+                    room_id: callData.roomId,
                     user_id: id,
                     response: 'timeout',
                 });
@@ -67,42 +67,46 @@ function PreJoin(props: Props) {
     useEffect(() => {
         window.onbeforeunload = confirmExit;
         function confirmExit() {
-            meet.leftCall({ call_id: meetData.callId, chat_id: meetData.chatId, room_id: meetData.roomId } as any);
+            call.leftCall({ call_id: callData.callId, chat_id: callData.chatId, room_id: callData.roomId } as any);
         }
     }, []);
+
+    useEffect(() => {
+        call.closeListener(callData);
+    }, [callData]);
 
     const createCall = () => {
         response.set(null);
         timer.start();
-        meet.leftCall({ call_id: meetData.callId, chat_id: meetData.chatId, room_id: meetData.roomId } as any);
-        meet.outgoingPrivateCall(meetData);
+        call.leftCall({ call_id: callData.callId, chat_id: callData.chatId, room_id: callData.roomId } as any);
+        call.outgoingPrivateCall(callData);
         responses.clear();
         response.set(null);
     };
 
     const joining = (value: boolean) => {
         handleCallResponse({
-            call_id: meetData.callId,
-            chat_id: meetData.chatId,
-            room_id: meetData.roomId,
-            user_id: meetData.initiatorId,
+            call_id: callData.callId,
+            chat_id: callData.chatId,
+            room_id: callData.roomId,
+            user_id: callData.initiatorId,
             response: value ? 'accepted' : 'reject',
         });
         if (!value) {
-            meet.closeWindow({ call_id: meetData.callId, roomId: meetData.roomId, chat_id: meetData.chatId });
+            call.closeWindow({ call_id: callData.callId, roomId: callData.roomId, chat_id: callData.chatId });
         } else {
-            meet.goToRoom(meetData);
+            call.goToRoom(callData);
         }
     };
 
     useUpdateEffect(() => {
         responses.value.forEach((r) => {
-            if (meetData.callId === r.callId) {
+            if (callData.callId === r.callId) {
                 response.set(r.response);
                 if (r.response === 'accepted') {
-                    meet.goToRoom(meetData);
+                    call.goToRoom(callData);
                 }
-                responses.set(responses.value.filter((i) => i.callId !== meetData.callId));
+                responses.set(responses.value.filter((i) => i.callId !== callData.callId));
             }
         });
     }, [responses.value]);
@@ -114,9 +118,9 @@ function PreJoin(props: Props) {
                 createCall={createCall}
                 response={response.value}
                 joining={joining}
-                type={meetData?.type}
-                name={meetData?.name}
-                avatar={meetData?.avatar?.split('|').join('/')}
+                type={callData?.type}
+                name={callData?.name}
+                avatar={callData?.avatar?.split('|').join('/')}
             />
         </>
     );

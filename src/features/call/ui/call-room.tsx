@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { CallRoomView, useCall } from 'entities/call';
 
@@ -18,15 +18,20 @@ function CallRoom() {
     const viewer = viewerProxy(viewerData?.user);
 
     const inviteToMeetModal = Modal.use();
+    const callData = params.call_data ? JSON.parse(params.call_data) : null;
 
-    const meet = useCall();
+    const call = useCall();
 
     const meetData = params.call_data ? JSON.parse(params.call_data) : null;
     const meetStr = clientFullURL.split('/').pop();
     const meetId = meetStr?.split(':')[0];
 
+    useEffect(() => {
+        call.closeListener(callData);
+    }, [callData]);
+
     const close = () => {
-        meet.closeWindow({ call_id: meetData.callId, roomId: meetData.roomId, chat_id: meetData.chatId });
+        call.closeWindow({ call_id: meetData.callId, roomId: meetData.roomId, chat_id: meetData.chatId });
     };
 
     return meetId ? (
