@@ -125,7 +125,7 @@ function useCall() {
     const closeListener = (data: Meet) => {
         const { view } = useWebview(data.roomId);
         if (view) {
-            view.onCloseRequested(() => {
+            view?.onCloseRequested(() => {
                 data.callId && handleLeftCall({ call_id: data.callId, chat_id: data.chatId });
                 view.close();
             });

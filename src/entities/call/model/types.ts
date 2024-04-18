@@ -38,7 +38,7 @@ export type CallResponse = {
     user_id: number;
 };
 
-export type SocketIn = 'CallCreated' | 'CallResponse' | 'JoinedCall';
+export type SocketIn = 'CallCreated' | 'CallResponse' | 'JoinedCall' | 'LeftCall';
 export type SocketOut = 'LeftCall' | 'CallResponse' | 'JoinedCall';
 
 export type Socket = {

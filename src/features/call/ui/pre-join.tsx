@@ -67,7 +67,8 @@ function PreJoin(props: Props) {
     useEffect(() => {
         window.onbeforeunload = confirmExit;
         function confirmExit() {
-            call.leftCall({ call_id: callData.callId, chat_id: callData.chatId, room_id: callData.roomId } as any);
+            call.closeWindow({ call_id: callData.callId, chat_id: callData.chatId, room_id: callData.roomId } as any);
+            return 'w';
         }
     }, []);
 

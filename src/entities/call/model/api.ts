@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useWebSocket } from 'shared/hooks';
 
@@ -11,8 +11,7 @@ class CallApi {
     pathPrefix = '/api/v2/chats';
 
     handleGetCall = (data: { chatId?: number; callId?: number }) => {
-        return useQuery(['get-meet', Number(data.callId)], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/call/${data.callId}/members`), {
-            staleTime: Infinity,
+        return useQuery(['get-call', data.chatId, data.callId], () => axiosClient.get(`${this.pathPrefix}/${data.chatId}/call/${data.callId}/members`), {
             enabled: !!Number(data.chatId),
             select: (res) => {
                 return res.data.data;
@@ -21,8 +20,16 @@ class CallApi {
     };
 
     handleCreateCall = () => {
-        return useMutation((data: { chatId: number | undefined; targets_user_id?: number[] | string[]; confee_video_room: string }) =>
-            axiosClient.post(`${this.pathPrefix}/${data.chatId}/call`, data)
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { chatId: number | undefined; targets_user_id?: number[] | string[]; confee_video_room: string }) =>
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/call`, data),
+            {
+                onSuccess: (res, variables) => {
+                    queryClient.invalidateQueries(['get-chat', variables.chatId]);
+                    return queryClient.invalidateQueries(['get-call', variables.chatId, res.data.data.id]);
+                },
+            }
         );
     };
 
