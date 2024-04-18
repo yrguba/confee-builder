@@ -137,6 +137,7 @@ function GroupChatProfileModalView(props: Props) {
                 ))}
             </div>
             <ChatDescriptionView description={chat?.description} setDescription={setDescription} />
+
             <ChatProfileContentView
                 removeMember={removeMember}
                 files={files}

@@ -32,14 +32,14 @@
     background-color: var(--bg-secondary);
     z-index: 1000;
     position: relative;
-    overflow-y: auto;
+
 
     .content {
       @include flex;
       align-items: flex-start;
       width: 100%;
       max-height: calc(100vh - 22px);
-
+      overflow-y: auto;
       @include height-from(sm){
         max-height: calc(100vh - 50px);
       }
