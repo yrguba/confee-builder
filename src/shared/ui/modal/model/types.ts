@@ -4,13 +4,15 @@ import { BaseTypes } from 'shared/types';
 
 import { use, useConfirm } from './use';
 
+export type ScrollPosition = { top: number; bottom: number; left: number; right: number };
+
 export type UseReturnedType<T = any> = {
     open: (data?: T) => void;
     close: () => void;
     isOpen: boolean;
     onClose?: () => void;
     payload: T;
-    scrollPosition?: { top: number; bottom: number; left: number; right: number };
+    scrollPosition?: ScrollPosition;
 };
 export type UseConfirmReturnedType = ReturnType<typeof useConfirm>;
 
@@ -20,7 +22,7 @@ export type BaseModalProps = {
     closeIcon?: boolean;
     centered?: boolean;
     full?: boolean;
-    setScrollPosition?: (data: { top: number; bottom: number; left: number; right: number }) => void;
+    setScrollPosition?: (data: ScrollPosition) => void;
 } & UseReturnedType &
     BaseTypes.Statuses;
 

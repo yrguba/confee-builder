@@ -1,9 +1,10 @@
-import React from 'react';
+import { motion } from 'framer-motion';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 import { messageTypes } from 'entities/message';
 import { useEasyState, UseEasyStateReturnType } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Title, Icons, Avatar, Button, IconsTypes, ContextMenu, ContextMenuTypes, Input } from 'shared/ui';
+import { Title, Icons, Avatar, Button, IconsTypes, ContextMenu, ContextMenuTypes, Input, ModalTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { CompanyTagView } from '../../../../../company';
@@ -25,13 +26,28 @@ type Props = {
     clickUser: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     removeMember: (id: number, name: string) => void;
     setDescription: (value: string) => void;
+    scrollPosition?: ModalTypes.ScrollPosition;
 } & BaseTypes.Statuses;
 
 function GroupChatProfileModalView(props: Props) {
-    const { setDescription, removeMember, clickUser, clickAvatar, chat, actions, mediaTypes, files, getScreenshot, selectFile, updateChatName } = props;
+    const {
+        scrollPosition,
+        setDescription,
+        removeMember,
+        clickUser,
+        clickAvatar,
+        chat,
+        actions,
+        mediaTypes,
+        files,
+        getScreenshot,
+        selectFile,
+        updateChatName,
+    } = props;
 
     const visibleMenu = useEasyState(false);
     const visibleDescriptionMenu = useEasyState(false);
+    const mainInfoRef = useRef<HTMLDivElement>(null);
 
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Конференция', icon: 'videocam', payload: '', callback: () => actions('goMeet') },
@@ -60,9 +76,18 @@ function GroupChatProfileModalView(props: Props) {
         },
     ];
 
+    useEffect(() => {
+        if (scrollPosition?.top && mainInfoRef.current) {
+            // console.log(scrollPosition?.top);
+            // const { top } = scrollPosition;
+            // const currentHeight = mainInfoRef.current.clientHeight;
+            // mainInfoRef.current.style.transform = `scale(${(currentHeight - top) / 300}) translateY(${top > 120 ? top + 90 : top}px)`;
+        }
+    }, [scrollPosition?.top]);
+
     return (
         <div className={styles.wrapper}>
-            <div className={styles.mainInfo}>
+            <div className={styles.mainInfo} ref={mainInfoRef}>
                 <Avatar.Change
                     disabled={!chat?.isOwner}
                     clickAvatar={clickAvatar}

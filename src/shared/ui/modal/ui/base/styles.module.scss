@@ -33,6 +33,7 @@
     z-index: 1000;
     position: relative;
     overflow-y: auto;
+
     .content {
       @include flex;
       align-items: flex-start;

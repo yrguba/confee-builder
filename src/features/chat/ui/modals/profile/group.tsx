@@ -112,6 +112,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
             <Modal.Confirm {...confirmRemoveMember} okText="Удалить" />
             <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
             <GroupChatProfileModalView
+                scrollPosition={modal.scrollPosition}
                 removeMember={removeMember}
                 clickAvatar={() => visibleSwiper.set(true)}
                 getScreenshot={getScreenshot}
