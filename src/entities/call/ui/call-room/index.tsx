@@ -33,13 +33,13 @@ function CallRoomView(props: Props) {
     };
     return conferenceName && userName && meetId ? (
         <div className={styles.wrapper}>
-            {meetId && chatId && (
-                <div className={styles.menu}>
-                    <Button width="90px" height="30px" onClick={invite}>
-                        Пригласить
-                    </Button>
-                </div>
-            )}
+            {/* {meetId && chatId && ( */}
+            {/*    <div className={styles.menu}> */}
+            {/*        <Button width="90px" height="30px" onClick={invite}> */}
+            {/*            Пригласить */}
+            {/*        </Button> */}
+            {/*    </div> */}
+            {/* )} */}
 
             <JitsiMeeting
                 domain={DOMAIN}
