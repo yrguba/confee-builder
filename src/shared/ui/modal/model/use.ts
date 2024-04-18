@@ -5,6 +5,7 @@ import { useEasyState } from '../../../hooks';
 function use<T = any>() {
     const openModal = useEasyState(false);
     const payload = useEasyState<T | null>(null);
+    const scrollPosition = useEasyState({ top: 0, bottom: 0, left: 0, right: 0 });
 
     const open = (data?: T) => {
         openModal.set(true);
@@ -17,7 +18,7 @@ function use<T = any>() {
 
     const isOpen = openModal.value;
 
-    return { isOpen, open, close, payload: payload.value };
+    return { isOpen, open, close, payload: payload.value, scrollPosition: scrollPosition.value, setScrollPosition: scrollPosition.set };
 }
 
 function useConfirm<T = null | undefined>(cl: (value: boolean, callbackData: T | null | undefined) => void) {

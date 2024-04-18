@@ -35,7 +35,7 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(null);
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId, filesType: mediaTypes.value });
-
+    console.log(modal.scrollPosition);
     const call = useCall();
 
     const addMembersModal = Modal.use();

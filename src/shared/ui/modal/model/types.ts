@@ -10,6 +10,7 @@ export type UseReturnedType<T = any> = {
     isOpen: boolean;
     onClose?: () => void;
     payload: T;
+    scrollPosition?: { top: number; bottom: number; left: number; right: number };
 };
 export type UseConfirmReturnedType = ReturnType<typeof useConfirm>;
 
@@ -19,6 +20,7 @@ export type BaseModalProps = {
     closeIcon?: boolean;
     centered?: boolean;
     full?: boolean;
+    setScrollPosition?: (data: { top: number; bottom: number; left: number; right: number }) => void;
 } & UseReturnedType &
     BaseTypes.Statuses;
 

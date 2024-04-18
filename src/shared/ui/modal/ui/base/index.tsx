@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { usePrevious } from 'react-use';
 
-import { useStyles, useUpdateEffect } from 'shared/hooks';
+import { useScroll, useStyles, useUpdateEffect } from 'shared/hooks';
 import { Box, Icons } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
 import { BaseModalProps } from '../../model/types';
 
 function Modal(props: BaseModalProps) {
-    const { full, centered = true, isOpen, close, children, onClose, closeIcon = true, open } = props;
+    const { setScrollPosition, full, centered = true, isOpen, close, children, onClose, closeIcon = true, open } = props;
     const modal_root = document.querySelector('#modal-root');
 
     const closeClick = () => {
@@ -27,10 +27,19 @@ function Modal(props: BaseModalProps) {
         full,
     });
 
+    const { getScrollPosition } = useScroll();
+
     return modal_root
         ? ReactDOM.createPortal(
               <Box.Animated draggable={false} visible={isOpen} presence className={`${styles.mask} ${!centered ? styles.mask_top : ''}`}>
-                  <div className={classes} onClick={(e) => e.stopPropagation()}>
+                  <div
+                      className={classes}
+                      onScroll={(e) => {
+                          const pos = getScrollPosition({ current: e.currentTarget });
+                          pos && setScrollPosition && setScrollPosition(pos);
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                  >
                       {closeIcon && !full && (
                           <div className={styles.closeIcon} onClick={closeClick}>
                               <Icons variant="close" />
