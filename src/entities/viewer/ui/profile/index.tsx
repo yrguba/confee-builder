@@ -47,7 +47,7 @@ function ViewerProfileView(props: Props) {
                 <UserInfoView user={viewer as any} />
                 {companies?.map((i) => (
                     <CompanyCardView
-                        mini={companies.length < 1}
+                        mini={companies.length > 1}
                         key={i.id}
                         cardClick={() => clickCompanyCard(companies[0])}
                         title={i.name || ''}

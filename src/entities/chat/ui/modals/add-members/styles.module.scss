@@ -5,8 +5,9 @@
   @include flex-column(flex-start, center);
   max-height: calc(100vh - 22px);
   overflow-y: auto;
+
   @include height-from(sm){
-    max-height: calc(100vh - 50px);
+    max-height: calc(100vh - 70px);
   }
 
   .header {
