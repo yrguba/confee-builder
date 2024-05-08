@@ -2,7 +2,6 @@ import { invoke } from '@tauri-apps/api';
 import { useNetworkState } from 'react-use';
 
 import pjson from '../../../../package.json';
-import { useRustServer } from '../../../shared/hooks';
 import { NetworkState } from '../model/types';
 
 class AppService {
@@ -12,10 +11,14 @@ class AppService {
     isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' || process.env.REACT_APP_DEBUG === 'true';
 
     getUrls(): { clientBaseURL: string; clientFullURL: string; socketUrl: string; backBaseURL: string; localSocketUrl: string } {
+        const backDev = 'https://api-develop.confee.ru';
+        const backProd = 'https://api.confee.ru';
+
         return {
             clientBaseURL: window.location.origin,
             clientFullURL: window.location.href,
-            backBaseURL: 'https://api-develop.confee.ru',
+            // backBaseURL: this.isDev ? (localStorage.getItem('prodApi') ? backProd : backDev) : backProd,
+            backBaseURL: backDev,
             socketUrl: 'wss://ws-develop.confee.ru:9003/ws',
             localSocketUrl: 'ws://localhost:3001',
         };

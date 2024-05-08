@@ -51,6 +51,21 @@ function AppSettingsView(props: Props) {
             ),
         },
         {
+            id: 666,
+            title: 'Prod Api',
+            subtitle: '',
+            element: (
+                <Switch
+                    onChange={(checked) => {
+                        checked ? localStorage.setItem('prodApi', 'true') : localStorage.removeItem('prodApi');
+                        window.location.reload();
+                    }}
+                    checked={!!localStorage.getItem('prodApi')}
+                />
+            ),
+            hidden: !appService.isDev,
+        },
+        {
             id: 1,
             title: 'Автостарт',
             subtitle: 'Открывать приложение при включении компьютера',

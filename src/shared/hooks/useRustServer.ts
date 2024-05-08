@@ -42,7 +42,7 @@ function useRustServer() {
             return !!WebviewWindow.getByLabel(label);
         };
 
-        const listen = (event: WebviewEvents, callback: () => void) => {
+        const listen = (event: WebviewEvents, callback: (arg: any) => void) => {
             if (!rustIsRunning) return null;
             const view = WebviewWindow.getByLabel(label);
             if (view) {

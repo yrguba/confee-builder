@@ -1,13 +1,5 @@
 const ls = window.localStorage;
-export type ValuesInStorage =
-    | 'theme'
-    | 'chat_list_width'
-    | 'max_cache_size'
-    | 'active_chats_tab'
-    // | 'join_meet_data'
-    // | 'by_meet'
-    // | 'meet_chat_id'
-    | 'last_message_with_chat_gpt';
+export type ValuesInStorage = 'theme' | 'chat_list_width' | 'max_cache_size' | 'active_chats_tab' | 'last_message_with_chat_gpt';
 
 function useStorage() {
     const set = (name: ValuesInStorage, value: any) => {
