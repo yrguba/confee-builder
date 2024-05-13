@@ -10,6 +10,8 @@ class AppService {
 
     isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' || process.env.REACT_APP_DEBUG === 'true';
 
+    prodApi = this.isDev ? localStorage.getItem('prodApi') : true;
+
     getUrls(): { clientBaseURL: string; clientFullURL: string; socketUrl: string; backBaseURL: string; localSocketUrl: string } {
         const backDev = 'https://api-develop.confee.ru';
         const backProd = 'https://api.confee.ru';
@@ -18,7 +20,7 @@ class AppService {
             clientBaseURL: window.location.origin,
             clientFullURL: window.location.href,
             // backBaseURL: this.isDev ? (localStorage.getItem('prodApi') ? backProd : backDev) : backProd,
-            backBaseURL: backDev,
+            backBaseURL: backProd,
             socketUrl: 'wss://ws-develop.confee.ru:9003/ws',
             localSocketUrl: 'ws://localhost:3001',
         };
@@ -49,8 +51,8 @@ class AppService {
     getSecret(): { auth: { client_secret: string; client_id: string }; crypto: string } {
         return {
             auth: {
-                client_secret: process.env.REACT_APP_DEV_CLIENT_SECRET || '',
-                client_id: process.env.REACT_APP_DEV_CLIENT_ID || '',
+                client_secret: this.prodApi ? process.env.REACT_APP_PROD_CLIENT_SECRET || '' : process.env.REACT_APP_DEV_CLIENT_SECRET || '',
+                client_id: this.prodApi ? process.env.REACT_APP_PROD_CLIENT_ID || '' : process.env.REACT_APP_DEV_CLIENT_ID || '',
             },
             crypto: process.env.REACT_APP_CRYPTO_SECRET || 'jj',
         };

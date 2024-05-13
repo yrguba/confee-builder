@@ -19,21 +19,26 @@ const webView = () => {
     const { clientBaseURL, backBaseURL } = appService.getUrls();
     const deviceId = appService.getDeviceId();
 
+    const { prodApi } = appService;
+
     const getClientId = () => {
         if (clientBaseURL.includes('https://messenger.confee.ru')) {
+            if (prodApi) return '9';
             return '15';
         }
         if (clientBaseURL.includes('localhost')) {
             if (clientBaseURL.includes('tauri')) {
-                if (clientBaseURL.includes('https')) {
-                    return '9';
-                }
+                // if (clientBaseURL.includes('https')) {
+                //     return '9';
+                // }
                 return '10';
             }
+            if (prodApi) return '8';
             return '7';
         }
-        if (clientBaseURL.includes('api.dev')) return '6';
+        // if (clientBaseURL.includes('api.dev')) return '6';
     };
+
     const redirectUri = `${clientBaseURL}/callback`;
     const clientId = getClientId();
     const hashed = SHA256(codeVerifier);
