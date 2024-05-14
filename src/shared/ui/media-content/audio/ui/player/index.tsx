@@ -75,12 +75,17 @@ function Player(props: PlayerProps) {
                 authorName: newTrack.value.name,
                 description: 'неисвестно',
             });
-            load(src, {
+        }
+    }, [src]);
+
+    useUpdateEffect(() => {
+        if (currentlyPlaying.value?.src) {
+            load(currentlyPlaying.value?.src, {
                 format: 'mp3',
                 autoplay: true,
             });
         }
-    }, [src]);
+    }, [currentlyPlaying.value?.src]);
 
     const leftControls = [
         {
@@ -167,7 +172,7 @@ function Player(props: PlayerProps) {
     }, []);
 
     useEffect(() => {
-        if (currentTime >= duration) {
+        if (currentTime >= duration && currentTime !== '00:00') {
             setTrack(+1);
         }
     }, [currentTime]);

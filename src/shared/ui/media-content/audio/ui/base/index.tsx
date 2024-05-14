@@ -46,10 +46,6 @@ function AudioBase(props: BaseAudioProps) {
                 authorName,
                 description,
             });
-            load(src, {
-                format: 'mp3',
-                autoplay: true,
-            });
         }
     };
 

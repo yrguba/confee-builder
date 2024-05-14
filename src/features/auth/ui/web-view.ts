@@ -62,12 +62,19 @@ const webView = () => {
         const { search } = window.location;
         const code = new URLSearchParams(search).get('code');
 
+        const getSecret = () => {
+            if (clientId === '8') return 'pywgm57UX3lhtWemksJdHKXPZbjMa59Tqyoiw40G';
+            if (clientId === '9') return 'qlkWrd3VFnV05fU2m3Mqp4u7Us6FP11z04svMuf2';
+            if (clientId === '10') return 'dHQ7O54KVBynKEFVo1F5OofUDJRosDY2gqapssFB';
+        };
+
         const body = {
             grant_type: 'authorization_code',
             client_id: clientId,
             code_verifier: codeVerifier,
             redirect_uri: redirectUri,
             code,
+            client_secret: getSecret(),
         };
 
         getTokens(async () => {

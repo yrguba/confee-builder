@@ -86,7 +86,7 @@
 
   .list {
     @include flex-column(flex-start);
-    margin-top: 20px;
+    margin-top: 8px;
     width: 100%;
     min-width: 100%;
     gap: 4px;

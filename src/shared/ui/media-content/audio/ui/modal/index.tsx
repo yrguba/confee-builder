@@ -24,7 +24,7 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
     const visibleMenu = useEasyState(false);
     const visibleList = useEasyState(true);
     const listRepeat = useEasyState(false);
-    console.log(duration);
+
     const {
         stop,
         play,
@@ -86,11 +86,15 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
         // if (!targetTrack && listRepeat.value) {
         //     return newTrack.set(audiosList[0]);
         // }
-        newTrack.set(targetTrack);
+
+        if (targetTrack) {
+            newTrack.set(targetTrack);
+        }
     };
 
     useEffect(() => {
-        if (src && newTrack.value) {
+        if (newTrack.value && src) {
+            stop();
             type.set('audios');
             currentlyPlaying.set({
                 chatId: newTrack.value.chat_id,
@@ -102,18 +106,8 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
                 authorName: newTrack.value.name,
                 description: 'неисвестно',
             });
-            load(src, {
-                format: 'mp3',
-                autoplay: true,
-            });
         }
     }, [src]);
-
-    useEffect(() => {
-        if (currentTime >= duration) {
-            setTrack(+1);
-        }
-    }, [currentTime]);
 
     const menuItems = [{ id: 0, icon: <Icons variant="upload" />, title: 'Сохранить аудио', callback: saveFile }];
 
