@@ -1,12 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useEasyState, useGlobalAudioPlayer, useRustServer, useThrottle, useUpdateEffect } from 'shared/hooks';
+import { useEasyState, useFetchMediaContent, useGlobalAudioPlayer, useRustServer, useThrottle, useUpdateEffect } from 'shared/hooks';
+import { Modal } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { messageApi } from '../../../../../../entities/message';
 import { timeConverter } from '../../../../../lib';
 import { Box, Dropdown, Icons, Slider, Title } from '../../../../index';
 import useAudioStore from '../../store';
 import { PlayerProps } from '../../types';
+import useAudioTime from '../../useAudioTime';
+import AudioPlayerModal from '../modal';
 import Volume from '../volume';
 
 function Player(props: PlayerProps) {
@@ -14,7 +18,14 @@ function Player(props: PlayerProps) {
 
     const wrapperRef = useRef<any>(null);
 
+    const audioPlayerModal = Modal.use();
+    const type = useAudioStore.use.type();
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
+
+    const { data: audioPosition } = messageApi.handleGetAudioPosition({ chatId: currentlyPlaying.value?.chatId, audioId: currentlyPlaying.value?.searchId });
+    const { data: audiosData } = messageApi.handleGetAudios({ chatId: currentlyPlaying.value?.chatId, initialPage: audioPosition });
+
+    const audiosList = audiosData?.pages.reduce((acc, i) => acc.concat(i.data.data), []) || [];
 
     const { rustIsRunning, useWebview } = useRustServer();
     const webview = useWebview('main');
@@ -22,8 +33,12 @@ function Player(props: PlayerProps) {
     const sliderValue = useEasyState<any>(null);
     const visibleVolume = useEasyState<any>(false);
     const visibleElements = useEasyState<any>([0, 1, 2, 3, 4]);
+    const newTrack = useEasyState<any>(null);
 
+    const { src } = useFetchMediaContent({ url: newTrack.value?.url, name: newTrack.value?.name, fileType: 'audio' });
+    console.log(audiosList);
     const {
+        load,
         stop,
         play,
         pause,
@@ -41,13 +56,56 @@ function Player(props: PlayerProps) {
 
     const { currentTime, duration, currentSec } = useAudioTime(true);
 
+    const setTrack = (num: number) => {
+        const currentIndex = audiosList.reverse().findIndex((i: any) => i.id === currentlyPlaying.value?.searchId);
+        const targetTrack = audiosList[currentIndex + num];
+        console.log(targetTrack);
+        newTrack.set(targetTrack);
+    };
+
+    useEffect(() => {
+        if (src && newTrack.value) {
+            type.set('audios');
+            currentlyPlaying.set({
+                chatId: newTrack.value.chat_id,
+                searchId: newTrack.value.id,
+                id: newTrack.value.url,
+                apiUrl: newTrack.value.url,
+                src,
+                name: newTrack.value.name,
+                authorName: newTrack.value.name,
+                description: 'неисвестно',
+            });
+            load(src, {
+                format: 'mp3',
+                autoplay: true,
+            });
+        }
+    }, [src]);
+
     const leftControls = [
         {
             id: 0,
+            icon: <Icons.Player variant="prev" />,
+            callback: () => {
+                setTrack(-1);
+            },
+            hidden: !audiosList?.length,
+        },
+        {
+            id: 1,
             icon: <Icons.Player variant={playing ? 'pause' : 'play'} />,
             callback: () => {
                 togglePlayPause();
             },
+        },
+        {
+            id: 2,
+            icon: <Icons.Player variant="next" />,
+            callback: () => {
+                setTrack(+1);
+            },
+            hidden: !audiosList?.length,
         },
     ];
 
@@ -110,89 +168,64 @@ function Player(props: PlayerProps) {
     }, []);
 
     return (
-        <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value?.src} className={styles.wrapper}>
-            <div className={styles.container} ref={wrapperRef}>
-                <div className={styles.left}>
-                    <div className={styles.controls}>
-                        {leftControls.map((i) => (
-                            <div key={i.id} onClick={i.callback} className={styles.item}>
-                                {i.icon}
-                            </div>
-                        ))}
+        <>
+            <AudioPlayerModal {...audioPlayerModal} />
+            <Box.Animated animationVariant={autoHeight ? 'autoHeight' : 'visibleHidden'} visible={!!currentlyPlaying.value?.src} className={styles.wrapper}>
+                <div className={styles.container} ref={wrapperRef}>
+                    <div className={styles.left}>
+                        <div className={styles.controls}>
+                            {leftControls.map(
+                                (i) =>
+                                    !i.hidden && (
+                                        <div key={i.id} onClick={i.callback} className={styles.item}>
+                                            {i.icon}
+                                        </div>
+                                    )
+                            )}
+                        </div>
+                        <div className={styles.descriptions} onClick={audioPlayerModal.open}>
+                            <Title variant="H3M">{currentlyPlaying.value?.authorName}</Title>
+                            <Title primary={false} variant="H4R">
+                                {currentlyPlaying.value?.description}
+                            </Title>
+                        </div>
                     </div>
-                    <div className={styles.descriptions}>
-                        <Title variant="H3M">{currentlyPlaying.value?.authorName}</Title>
-                        <Title primary={false} variant="H4R">
-                            {currentlyPlaying.value?.description}
-                        </Title>
+                    <div className={styles.right}>
+                        {rightControls
+                            .filter((i) => visibleElements.value.includes(i.id))
+                            .map((i) => (
+                                <div key={i.id} onClick={i.callback} className={styles.item} style={{ pointerEvents: i.id === 3 ? 'none' : 'auto' }}>
+                                    {i.element}
+                                </div>
+                            ))}
                     </div>
                 </div>
-                <div className={styles.right}>
-                    {rightControls
-                        .filter((i) => visibleElements.value.includes(i.id))
-                        .map((i) => (
-                            <div key={i.id} onClick={i.callback} className={styles.item} style={{ pointerEvents: i.id === 3 ? 'none' : 'auto' }}>
-                                {i.element}
-                            </div>
-                        ))}
+                <div className={styles.slider} style={{ [sliderPosition]: sliderPosition === 'top' ? -5 : 0 }}>
+                    <Slider
+                        borderRadius={0}
+                        max={durationNum}
+                        step={0.001}
+                        value={sliderValue.value || currentlyPlaying.value?.currentSec}
+                        onChange={(value) => {
+                            if (typeof value === 'number') {
+                                sliderValue.set(value);
+                                seek(sliderValue.value);
+                            }
+                        }}
+                        onAfterChange={(value) => {
+                            if (typeof value === 'number') {
+                                sliderValue.set(null);
+                                play();
+                            }
+                        }}
+                        onBeforeChange={() => {
+                            pause();
+                        }}
+                    />
                 </div>
-            </div>
-            <div className={styles.slider} style={{ [sliderPosition]: sliderPosition === 'top' ? -5 : 0 }}>
-                <Slider
-                    borderRadius={0}
-                    max={durationNum}
-                    step={0.001}
-                    value={sliderValue.value || currentlyPlaying.value?.currentSec}
-                    onChange={(value) => {
-                        if (typeof value === 'number') {
-                            sliderValue.set(value);
-                            seek(sliderValue.value);
-                        }
-                    }}
-                    onAfterChange={(value) => {
-                        if (typeof value === 'number') {
-                            sliderValue.set(null);
-                            play();
-                        }
-                    }}
-                    onBeforeChange={() => {
-                        pause();
-                    }}
-                />
-            </div>
-        </Box.Animated>
+            </Box.Animated>
+        </>
     );
 }
 
 export default Player;
-
-const [throttle] = useThrottle((cl) => cl(), 1000);
-
-function useAudioTime(enabled: boolean) {
-    const frameRef = useRef<number>();
-    const currentTime = useEasyState('');
-    const currentSec = useEasyState(0);
-    const { getPosition, duration, playing } = useGlobalAudioPlayer();
-
-    useEffect(() => {
-        if (playing) {
-            const animate = () => {
-                const pos = Math.ceil(getPosition());
-                currentTime.set(timeConverter(pos));
-                currentSec.set(pos);
-                frameRef.current = requestAnimationFrame(animate);
-                throttle(() => {});
-            };
-
-            frameRef.current = window.requestAnimationFrame(animate);
-
-            return () => {
-                if (frameRef.current) {
-                    cancelAnimationFrame(frameRef.current);
-                }
-            };
-        }
-    }, [getPosition(), playing]);
-
-    return { currentTime: currentTime.value, currentSec: currentSec.value, duration: timeConverter(duration) };
-}

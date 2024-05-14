@@ -39,10 +39,12 @@
       width: 0;
 
       .controls {
-
+        @include flex(flex-start);
+        gap: 14px;
       }
 
       .descriptions {
+        cursor: pointer;
         width: 0;
         flex: 1;
       }

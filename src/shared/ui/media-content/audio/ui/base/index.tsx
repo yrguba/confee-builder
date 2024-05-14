@@ -12,7 +12,7 @@ import useAudioStore from '../../store';
 import { BaseAudioProps } from '../../types';
 
 function AudioBase(props: BaseAudioProps) {
-    const { visibleDropdown = true, description, disabledDownloads, url, authorName, id, name } = props;
+    const { visibleDropdown = true, description, disabledDownloads, chatId, url, authorName, id, name } = props;
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
 
@@ -37,6 +37,8 @@ function AudioBase(props: BaseAudioProps) {
         } else {
             type.set('audios');
             currentlyPlaying.set({
+                chatId,
+                searchId: id,
                 id: url,
                 apiUrl: url,
                 src,

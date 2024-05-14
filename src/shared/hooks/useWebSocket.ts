@@ -21,7 +21,7 @@ function useWebSocket<In, Out>(): Returned<In, Out> {
                 JSON.stringify({
                     event: 'Auth',
                     data: {
-                        token: tokens?.access_token || '',
+                        token: tokens?.access_token,
                     },
                 })
             );

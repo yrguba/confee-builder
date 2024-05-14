@@ -77,6 +77,51 @@ class MessageApi {
         );
     }
 
+    handleGetAudioPosition(data: { audioId?: number; chatId?: number }) {
+        return useQuery(
+            ['get-audio-position', data.audioId, data.chatId],
+            () => axiosClient.get(`api/v2/chats/${data.chatId}/audios/${data.audioId}`, { params: { per_page: 10 } }),
+            {
+                enabled: !!data.audioId && !!data.chatId,
+                select: (data) => {
+                    return data.data.meta.current_page;
+                },
+            }
+        );
+    }
+
+    handleGetAudios(data: { initialPage?: number | undefined | null; chatId?: number }) {
+        return useInfiniteQuery(
+            ['get-audios', data.chatId],
+            ({ pageParam }) => {
+                return axiosClient.get(`api/v2/chats/${data.chatId}/audios`, {
+                    params: {
+                        page: pageParam || data.initialPage,
+                        per_page: 1000,
+                    },
+                });
+            },
+            {
+                getPreviousPageParam: (lastPage, pages) => {
+                    const { current_page } = lastPage?.data.meta;
+                    return current_page > 1 ? current_page - 1 : undefined;
+                },
+                getNextPageParam: (lastPage, pages) => {
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
+                },
+                select: (data) => {
+                    return {
+                        pages: data.pages,
+                        pageParams: [...data.pageParams].reverse(),
+                    };
+                },
+                enabled: !!data.chatId && !!data.initialPage,
+                staleTime: Infinity,
+            }
+        );
+    }
+
     handleSearchMessages({ chatId, text }: { text: string; chatId: number }) {
         return useInfiniteQuery(
             ['search-messages', chatId, text],

@@ -83,7 +83,19 @@ export type BaseIconsProps = {
     size?: 24 | 48 | number;
 };
 
-export type PlayerIconsVariants = 'stop' | 'pause' | 'play-outline' | 'pause-outline' | 'play' | 'mute' | 'unmute' | 'full' | 'no-full' | 'repeat';
+export type PlayerIconsVariants =
+    | 'stop'
+    | 'pause'
+    | 'play-outline'
+    | 'pause-outline'
+    | 'play'
+    | 'mute'
+    | 'unmute'
+    | 'full'
+    | 'no-full'
+    | 'repeat'
+    | 'next'
+    | 'prev';
 
 export type PlayerIconsProps = {
     variant: PlayerIconsVariants;
@@ -115,7 +127,7 @@ export type LogoIconsProps = {
     variant: 'confee' | 'confee-white' | 'softworks' | 'tfn' | 'premium';
 };
 export type PictureIconsProps = {
-    variant: 'auth-ad' | 'not-found';
+    variant: 'auth-ad' | 'not-found' | 'music';
     size?: number;
     text?: string;
 };

@@ -8,6 +8,22 @@ function Player(props: PlayerIconsProps) {
     const fill = active ? '#7B57C8' : '#A5ABD7';
 
     switch (variant) {
+        case 'prev': {
+            return (
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.75 12.9654C5.97222 12.5164 5.97222 11.3938 6.75 10.9447L19 3.87218C19.7778 3.42313 20.75 3.98444 20.75 4.88254V19.0276C20.75 19.9257 19.7778 20.487 19 20.038L6.75 12.9654Z" />
+                    <path d="M4 19.4551L4 4.45508" stroke="#7B57C8" strokeWidth="3" strokeLinecap="round" />
+                </svg>
+            );
+        }
+        case 'next': {
+            return (
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.25 11.0346C18.0278 11.4836 18.0278 12.6062 17.25 13.0553L5 20.1278C4.22222 20.5769 3.25 20.0156 3.25 19.1175L3.25 4.97238C3.25 4.07428 4.22222 3.51297 5 3.96202L17.25 11.0346Z" />
+                    <path d="M20 4.54492V19.5449" stroke="#7B57C8" strokeWidth="3" strokeLinecap="round" />
+                </svg>
+            );
+        }
         case 'repeat': {
             return (
                 <svg

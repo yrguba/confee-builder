@@ -1,13 +1,15 @@
 import { BaseTypes } from 'shared/types';
 
 type SharedProps = {
-    id?: number | string;
+    id?: number;
     url: string;
     name?: string;
     authorName?: string;
 } & BaseTypes.Statuses;
 
 export type AudioForPlayer = {
+    searchId?: number;
+    chatId?: number;
     id: number | string;
     apiUrl: string;
     name?: string;
@@ -26,6 +28,7 @@ export type PlayerProps = {
 };
 
 export type BaseAudioProps = {
+    chatId?: number;
     disabledDownloads?: boolean;
     description?: string;
     cover?: string;
