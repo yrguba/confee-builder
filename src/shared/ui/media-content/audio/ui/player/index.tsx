@@ -90,7 +90,7 @@ function Player(props: PlayerProps) {
             callback: () => {
                 setTrack(-1);
             },
-            hidden: !audiosList?.length,
+            hidden: audiosList.length < 2,
         },
         {
             id: 1,
@@ -105,7 +105,7 @@ function Player(props: PlayerProps) {
             callback: () => {
                 setTrack(+1);
             },
-            hidden: !audiosList?.length,
+            hidden: audiosList.length < 2,
         },
     ];
 

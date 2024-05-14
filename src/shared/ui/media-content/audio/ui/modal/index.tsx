@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import { createMemo } from 'react-use';
 
-import { useEasyState, useFetchMediaContent, useRouter } from 'shared/hooks';
-import { Audio, Icons, Modal, ModalTypes, Slider, Title } from 'shared/ui';
+import { useEasyState, useFetchMediaContent, useFs, useRouter } from 'shared/hooks';
+import { Audio, ContextMenu, Icons, Modal, ModalTypes, Slider, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appService } from '../../../../../../entities/app';
@@ -16,9 +16,12 @@ import AudioBase from '../base';
 function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
     const { navigate, pathname, params } = useRouter();
 
-    const sliderValue = useEasyState<any>(null);
-
+    const fs = useFs();
     const { currentTime, duration, currentSec } = useAudioTime(true);
+
+    const sliderValue = useEasyState<any>(null);
+    const newTrack = useEasyState<any>(null);
+    const visibleMenu = useEasyState(false);
 
     const {
         stop,
@@ -66,9 +69,14 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
         }
     }, [inViewNextPage]);
 
-    const newTrack = useEasyState<any>(null);
-
     const { src } = useFetchMediaContent({ url: newTrack.value?.url, name: newTrack.value?.name, fileType: 'audio' });
+
+    const saveFile = () => {
+        if (currentlyPlaying.value) {
+            visibleMenu.set(false);
+            fs.downLoadAndSave({ baseDir: 'download', url: currentlyPlaying.value.apiUrl, fileName: currentlyPlaying.value.name });
+        }
+    };
 
     const setTrack = (num: number) => {
         const currentIndex = audiosList.findIndex((i: any) => i.id === currentlyPlaying.value?.searchId);
@@ -96,10 +104,13 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
         }
     }, [src]);
 
+    const menuItems = [{ id: 0, icon: <Icons variant="upload" />, title: 'Сохранить аудио', callback: saveFile }];
+
     return (
         <div className={styles.wrapper}>
+            <ContextMenu trigger="mouseup" visible={visibleMenu.value} items={menuItems} />
             <div className={styles.header}>
-                <div className={styles.more}>
+                <div className={styles.more} onClick={visibleMenu.toggle}>
                     <Icons variant="more" />
                 </div>
                 <div onClick={modal.close}>
@@ -147,15 +158,19 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
                 </Title>
             </div>
             <div className={styles.controls}>
-                <div className={styles.prev} onClick={() => setTrack(-1)}>
-                    <Icons.Player variant="prev" />
-                </div>
+                {audiosList.length > 2 && (
+                    <div className={styles.prev} onClick={() => setTrack(-1)}>
+                        <Icons.Player variant="prev" />
+                    </div>
+                )}
                 <div className={styles.playPause} onClick={togglePlayPause}>
                     <Icons.Player variant={playing ? 'pause' : 'play'} size={45} />
                 </div>
-                <div className={styles.next} onClick={() => setTrack(+1)}>
-                    <Icons.Player variant="next" />
-                </div>
+                {audiosList.length > 2 && (
+                    <div className={styles.next} onClick={() => setTrack(+1)}>
+                        <Icons.Player variant="next" />
+                    </div>
+                )}
             </div>
             {audiosList.length > 1 ? (
                 <div className={styles.list}>

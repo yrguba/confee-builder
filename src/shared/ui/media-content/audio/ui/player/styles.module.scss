@@ -11,8 +11,8 @@
   .container {
     @include flex(space-between);
     gap: 12px;
-    @include box-size(calc(100% - 64px), 60px);
-    padding: 0 32px;
+    @include box-size(calc(100% - 28px), 60px);
+    padding: 0 14px;
     max-width: 1440px;
 
     .left, .right {

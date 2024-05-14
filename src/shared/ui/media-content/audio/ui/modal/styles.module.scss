@@ -64,8 +64,6 @@
 
   .list{
     @include flex-column(flex-start);
-    min-height: 200px;
-    overflow-y: auto;
     margin-top: 20px;
     width: 100%;
     min-width: 100%;
