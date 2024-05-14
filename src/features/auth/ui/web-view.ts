@@ -23,15 +23,18 @@ const webView = () => {
 
     const getClientId = () => {
         if (clientBaseURL.includes('https://messenger.confee.ru')) {
+            // web
             if (prodApi) return '9';
             return '15';
         }
         if (clientBaseURL.includes('localhost')) {
             if (clientBaseURL.includes('tauri')) {
+                // win
                 if (clientBaseURL.includes('https')) {
                     if (prodApi) return '10';
                     return '9';
                 }
+                // mac
                 return '10';
             }
             if (prodApi) return '8';
