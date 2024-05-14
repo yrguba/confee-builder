@@ -9,10 +9,11 @@
 
   .playPauseIcon {
     @include flex;
-    width: 37px;
-    height: 37px;
+    width: 47px;
+    height: 47px;
     border-radius: 8px;
     background-color: var(--control-primary);
+    min-width: 47px;
 
     svg {
       fill: white;
