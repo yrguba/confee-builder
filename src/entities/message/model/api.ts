@@ -7,6 +7,7 @@ import { useStorage, useWebSocket } from 'shared/hooks';
 
 import { File, Message, MessageProxy, MessageType, MessageWithChatGpt, SocketOut } from './types';
 import { getRandomString, httpHandlers } from '../../../shared/lib';
+import audioStore from '../../../shared/ui/media-content/audio/store';
 import { Chat } from '../../chat/model/types';
 import { viewerStore } from '../../viewer';
 import { messageService } from '../index';

@@ -23,7 +23,6 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
     const newTrack = useEasyState<any>(null);
     const visibleMenu = useEasyState(false);
     const visibleList = useEasyState(true);
-    const listRepeat = useEasyState(false);
 
     const {
         stop,
@@ -44,32 +43,11 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
 
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
     const type = useAudioStore.use.type();
-
-    const { data: audioPosition } = messageApi.handleGetAudioPosition({ chatId: currentlyPlaying.value?.chatId, audioId: currentlyPlaying.value?.searchId });
-    const {
-        data: audiosData,
-        hasNextPage,
-        hasPreviousPage,
-        fetchPreviousPage,
-        fetchNextPage,
-    } = messageApi.handleGetAudios({ chatId: currentlyPlaying.value?.chatId, initialPage: audioPosition });
+    const repeatList = useAudioStore.use.repeatList();
+    const audiosList = useAudioStore.use.list();
 
     const { ref: prevPageRef, inView: inViewPrevPage } = useInView();
     const { ref: nextPageRef, inView: inViewNextPage } = useInView();
-
-    const audiosList = audiosData?.pages.reduce((acc: any, i: any) => acc.concat(i.data.data), []) || [];
-
-    useEffect(() => {
-        if (inViewPrevPage && hasPreviousPage) {
-            fetchPreviousPage();
-        }
-    }, [inViewPrevPage]);
-
-    useEffect(() => {
-        if (inViewNextPage && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [inViewNextPage]);
 
     const { src } = useFetchMediaContent({ url: newTrack.value?.url, name: newTrack.value?.name, fileType: 'audio' });
 
@@ -81,14 +59,14 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
     };
 
     const setTrack = (num: number) => {
-        const currentIndex = audiosList.findIndex((i: any) => i.id === currentlyPlaying.value?.searchId);
-        const targetTrack = audiosList[currentIndex + num];
-        // if (!targetTrack && listRepeat.value) {
-        //     return newTrack.set(audiosList[0]);
-        // }
-
-        if (targetTrack) {
-            newTrack.set(targetTrack);
+        if (audiosList.value) {
+            const currentIndex = audiosList.value?.findIndex((i: any) => i.id === currentlyPlaying.value?.searchId);
+            const targetTrack = audiosList.value[currentIndex + num];
+            if (targetTrack) {
+                newTrack.set(targetTrack);
+            } else if (repeatList.value) {
+                newTrack.set(audiosList.value[0]);
+            }
         }
     };
 
@@ -170,7 +148,7 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
                 </Title>
             </div>
             <div className={styles.controls}>
-                {audiosList.length > 2 && (
+                {audiosList.value && audiosList.value.length > 2 && (
                     <div className={styles.prev} onClick={() => setTrack(-1)}>
                         <Icons.Player variant="prev" />
                     </div>
@@ -178,7 +156,7 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
                 <div className={styles.playPause} onClick={togglePlayPause}>
                     <Icons.Player variant={playing ? 'pause' : 'play'} size={45} />
                 </div>
-                {audiosList.length > 2 && (
+                {audiosList.value && audiosList.value.length > 2 && (
                     <div className={styles.next} onClick={() => setTrack(+1)}>
                         <Icons.Player variant="next" />
                     </div>
@@ -188,17 +166,23 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
                 <div onClick={visibleList.toggle}>
                     <Icons.Player variant="list-visible" active={visibleList.value} />
                 </div>
-                {/* <div onClick={listRepeat.toggle}> */}
-                {/*    <Icons.Player variant="list-repeat" active={listRepeat.value} /> */}
-                {/* </div> */}
-                {/* <div onClick={visibleList.toggle}> */}
-                {/*    <Icons.Player variant="random" /> */}
-                {/* </div> */}
+                <div onClick={() => repeatList.set(!repeatList.value)}>
+                    <Icons.Player variant="list-repeat" active={!!repeatList.value} />
+                </div>
+                <div
+                    onClick={() => {
+                        if (audiosList.value) {
+                            audiosList.set([...audiosList.value]?.sort((a, b) => 0.5 - Math.random()));
+                        }
+                    }}
+                >
+                    <Icons.Player variant="random" />
+                </div>
             </div>
-            {audiosList.length > 1 && visibleList.value ? (
+            {audiosList.value && audiosList.value.length > 1 && visibleList.value ? (
                 <div className={styles.list}>
                     <div ref={nextPageRef} />
-                    {audiosList.reverse().map((i: any) => (
+                    {audiosList.value.map((i: any) => (
                         <Audio
                             key={i.id}
                             visibleDropdown={false}

@@ -21,11 +21,11 @@ function Player(props: PlayerProps) {
     const audioPlayerModal = Modal.use();
     const type = useAudioStore.use.type();
     const currentlyPlaying = useAudioStore.use.currentlyPlaying();
+    const repeatList = useAudioStore.use.repeatList();
+    const audiosList = useAudioStore.use.list();
 
     const { data: audioPosition } = messageApi.handleGetAudioPosition({ chatId: currentlyPlaying.value?.chatId, audioId: currentlyPlaying.value?.searchId });
     const { data: audiosData } = messageApi.handleGetAudios({ chatId: currentlyPlaying.value?.chatId, initialPage: audioPosition });
-
-    const audiosList = audiosData?.pages.reduce((acc, i) => acc.concat(i.data.data), []) || [];
 
     const { rustIsRunning, useWebview } = useRustServer();
     const webview = useWebview('main');
@@ -57,9 +57,16 @@ function Player(props: PlayerProps) {
     const { currentTime, duration, currentSec } = useAudioTime(true);
 
     const setTrack = (num: number) => {
-        const currentIndex = audiosList.reverse().findIndex((i: any) => i.id === currentlyPlaying.value?.searchId);
-        const targetTrack = audiosList[currentIndex + num];
-        newTrack.set(targetTrack);
+        if (audiosList.value) {
+            const currentIndex = audiosList?.value?.findIndex((i: any) => i.id === currentlyPlaying.value?.searchId);
+            const targetTrack = audiosList.value[currentIndex + num];
+
+            if (targetTrack) {
+                newTrack.set(targetTrack);
+            } else if (repeatList.value) {
+                newTrack.set(audiosList.value[0]);
+            }
+        }
     };
 
     useEffect(() => {
@@ -94,7 +101,7 @@ function Player(props: PlayerProps) {
             callback: () => {
                 setTrack(-1);
             },
-            hidden: audiosList.length < 2,
+            hidden: audiosList.value && audiosList.value.length < 2,
         },
         {
             id: 1,
@@ -109,7 +116,7 @@ function Player(props: PlayerProps) {
             callback: () => {
                 setTrack(+1);
             },
-            hidden: audiosList.length < 2,
+            hidden: audiosList.value && audiosList.value.length < 2,
         },
     ];
 
@@ -176,6 +183,16 @@ function Player(props: PlayerProps) {
             setTrack(+1);
         }
     }, [currentTime]);
+
+    useEffect(() => {
+        const arr: any = [];
+        audiosData?.pages.forEach((i) => {
+            i.data.data.forEach((t: any) => {
+                arr.unshift(t);
+            });
+        });
+        audiosList.set(arr);
+    }, [audiosData]);
 
     return (
         <>
