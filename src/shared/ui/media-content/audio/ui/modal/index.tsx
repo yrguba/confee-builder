@@ -22,7 +22,9 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
     const sliderValue = useEasyState<any>(null);
     const newTrack = useEasyState<any>(null);
     const visibleMenu = useEasyState(false);
-
+    const visibleList = useEasyState(true);
+    const listRepeat = useEasyState(false);
+    console.log(duration);
     const {
         stop,
         play,
@@ -81,6 +83,9 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
     const setTrack = (num: number) => {
         const currentIndex = audiosList.findIndex((i: any) => i.id === currentlyPlaying.value?.searchId);
         const targetTrack = audiosList[currentIndex + num];
+        // if (!targetTrack && listRepeat.value) {
+        //     return newTrack.set(audiosList[0]);
+        // }
         newTrack.set(targetTrack);
     };
 
@@ -104,6 +109,12 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
         }
     }, [src]);
 
+    useEffect(() => {
+        if (currentTime >= duration) {
+            setTrack(+1);
+        }
+    }, [currentTime]);
+
     const menuItems = [{ id: 0, icon: <Icons variant="upload" />, title: 'Сохранить аудио', callback: saveFile }];
 
     return (
@@ -121,10 +132,17 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
                 <Icons.Picture variant="music" />
             </div>
             <div className={styles.description}>
-                <Title active variant="H3M">
-                    {currentlyPlaying.value?.authorName}
-                </Title>
-                <Title variant="H4R">{currentlyPlaying.value?.description}</Title>
+                <div className={styles.title}>
+                    <Title textAlign="left" active variant="H3M">
+                        {currentlyPlaying.value?.authorName}
+                    </Title>
+                    <Title textAlign="left" variant="H4R">
+                        {currentlyPlaying.value?.description}
+                    </Title>
+                </div>
+                <div className={styles.rep} onClick={() => loop(!looping)}>
+                    <Icons.Player active={looping} variant="repeat" />
+                </div>
             </div>
             <div className={styles.slider}>
                 <Slider
@@ -172,7 +190,18 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
                     </div>
                 )}
             </div>
-            {audiosList.length > 1 ? (
+            <div className={styles.actions}>
+                <div onClick={visibleList.toggle}>
+                    <Icons.Player variant="list-visible" active={visibleList.value} />
+                </div>
+                {/* <div onClick={listRepeat.toggle}> */}
+                {/*    <Icons.Player variant="list-repeat" active={listRepeat.value} /> */}
+                {/* </div> */}
+                {/* <div onClick={visibleList.toggle}> */}
+                {/*    <Icons.Player variant="random" /> */}
+                {/* </div> */}
+            </div>
+            {audiosList.length > 1 && visibleList.value ? (
                 <div className={styles.list}>
                     <div ref={nextPageRef} />
                     {audiosList.reverse().map((i: any) => (

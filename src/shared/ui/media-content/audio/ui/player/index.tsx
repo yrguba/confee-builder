@@ -36,7 +36,7 @@ function Player(props: PlayerProps) {
     const newTrack = useEasyState<any>(null);
 
     const { src } = useFetchMediaContent({ url: newTrack.value?.url, name: newTrack.value?.name, fileType: 'audio' });
-    console.log(audiosList);
+
     const {
         load,
         stop,
@@ -59,7 +59,6 @@ function Player(props: PlayerProps) {
     const setTrack = (num: number) => {
         const currentIndex = audiosList.reverse().findIndex((i: any) => i.id === currentlyPlaying.value?.searchId);
         const targetTrack = audiosList[currentIndex + num];
-        console.log(targetTrack);
         newTrack.set(targetTrack);
     };
 
@@ -166,6 +165,12 @@ function Player(props: PlayerProps) {
             currentlyPlaying.clear();
         });
     }, []);
+
+    useEffect(() => {
+        if (currentTime >= duration) {
+            setTrack(+1);
+        }
+    }, [currentTime]);
 
     return (
         <>

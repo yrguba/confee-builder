@@ -30,8 +30,19 @@
   }
 
   .description {
+    @include flex(space-between);
     width: 100%;
     margin-top: 32px;
+
+    .title {
+      width: 90%;
+      @include flex-column(flex-start, flex-start);
+    }
+
+    svg {
+      cursor: pointer;
+    }
+
   }
 
   .slider {
@@ -62,7 +73,18 @@
     }
   }
 
-  .list{
+  .actions {
+    @include flex(flex-start);
+    width: 100%;
+    gap: 20px;
+
+    svg {
+      cursor: pointer;
+      fill: var(--control-primary);
+    }
+  }
+
+  .list {
     @include flex-column(flex-start);
     margin-top: 20px;
     width: 100%;

@@ -95,7 +95,10 @@ export type PlayerIconsVariants =
     | 'no-full'
     | 'repeat'
     | 'next'
-    | 'prev';
+    | 'prev'
+    | 'random'
+    | 'list-repeat'
+    | 'list-visible';
 
 export type PlayerIconsProps = {
     variant: PlayerIconsVariants;
