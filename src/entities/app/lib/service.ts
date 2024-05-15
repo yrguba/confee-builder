@@ -10,7 +10,7 @@ class AppService {
 
     isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' || process.env.REACT_APP_DEBUG === 'true';
 
-    prodApi = this.isDev ? localStorage.getItem('prodApi') : true;
+    prodApi = this.isDev ? !!localStorage.getItem('prodApi') : true;
 
     getUrls(): { clientBaseURL: string; clientFullURL: string; socketUrl: string; backBaseURL: string; localSocketUrl: string } {
         const backDev = 'https://api-develop.confee.ru';
@@ -20,8 +20,8 @@ class AppService {
         return {
             clientBaseURL: window.location.origin,
             clientFullURL: window.location.href,
-            backBaseURL: this.isDev ? (localStorage.getItem('prodApi') ? backProd : backDev) : backProd,
-            socketUrl: this.isDev ? (localStorage.getItem('prodApi') ? socketProd : socketDev) : socketProd,
+            backBaseURL: this.prodApi ? backProd : backDev,
+            socketUrl: this.prodApi ? socketProd : socketDev,
             localSocketUrl: 'ws://localhost:3001',
         };
     }
