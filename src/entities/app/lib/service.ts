@@ -20,9 +20,8 @@ class AppService {
         return {
             clientBaseURL: window.location.origin,
             clientFullURL: window.location.href,
-            backBaseURL: this.getOs() === 'MacOS' ? backDev : this.isDev ? (localStorage.getItem('prodApi') ? backProd : backDev) : backProd,
-            // backBaseURL: backProd,
-            socketUrl: this.getOs() === 'MacOS' ? socketDev : this.isDev ? (localStorage.getItem('prodApi') ? socketProd : socketDev) : socketProd,
+            backBaseURL: this.isDev ? (localStorage.getItem('prodApi') ? backProd : backDev) : backProd,
+            socketUrl: this.isDev ? (localStorage.getItem('prodApi') ? socketProd : socketDev) : socketProd,
             localSocketUrl: 'ws://localhost:3001',
         };
     }
