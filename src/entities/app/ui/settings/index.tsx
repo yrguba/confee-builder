@@ -63,7 +63,7 @@ function AppSettingsView(props: Props) {
                     checked={!!localStorage.getItem('prodApi')}
                 />
             ),
-            hidden: !appService.isDev || appService.getOs() === 'MacOS',
+            hidden: !appService.isDev,
         },
         {
             id: 1,
