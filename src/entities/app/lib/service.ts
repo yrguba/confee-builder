@@ -15,13 +15,14 @@ class AppService {
     getUrls(): { clientBaseURL: string; clientFullURL: string; socketUrl: string; backBaseURL: string; localSocketUrl: string } {
         const backDev = 'https://api-develop.confee.ru';
         const backProd = 'https://api.confee.ru';
-
+        const socketDev = 'wss://ws-develop.confee.ru:9003/ws';
+        const socketProd = 'wss://ws.confee.ru:9001/ws';
         return {
             clientBaseURL: window.location.origin,
             clientFullURL: window.location.href,
-            backBaseURL: this.isDev ? (localStorage.getItem('prodApi') ? backProd : backDev) : backProd,
+            backBaseURL: this.getOs() === 'MacOS' ? backDev : this.isDev ? (localStorage.getItem('prodApi') ? backProd : backDev) : backProd,
             // backBaseURL: backProd,
-            socketUrl: 'wss://ws-develop.confee.ru:9003/ws',
+            socketUrl: this.getOs() === 'MacOS' ? socketDev : this.isDev ? (localStorage.getItem('prodApi') ? socketProd : socketDev) : socketProd,
             localSocketUrl: 'ws://localhost:3001',
         };
     }
