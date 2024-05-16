@@ -12,7 +12,7 @@ function callGateway({ event, data }: Socket, queryClient: QueryClient) {
         case 'CallCreated':
             const extraInfo = data.extra_info;
             if (extraInfo.for_user_id !== viewer.id) {
-                console.log(data);
+                // console.log(data);
                 meetStore.setStateOutsideComponent({
                     incomingCall: {
                         roomId: extraInfo.confee_video_room,

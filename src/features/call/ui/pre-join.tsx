@@ -67,8 +67,7 @@ function PreJoin(props: Props) {
     useEffect(() => {
         window.onbeforeunload = confirmExit;
         function confirmExit() {
-            call.closeWindow({ call_id: callData.callId, chat_id: callData.chatId, room_id: callData.roomId } as any);
-            return 'w';
+            call.closeWindow();
         }
     }, []);
 
@@ -94,7 +93,7 @@ function PreJoin(props: Props) {
             response: value ? 'accepted' : 'reject',
         });
         if (!value) {
-            call.closeWindow({ call_id: callData.callId, roomId: callData.roomId, chat_id: callData.chatId });
+            call.closeWindow();
         } else {
             call.goToRoom(callData);
         }

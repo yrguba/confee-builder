@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useRouter, useRustServer, useShell, useStorage } from '../../../shared/hooks';
 import { getRandomString } from '../../../shared/lib';
 import { Notification } from '../../../shared/ui';
@@ -5,7 +7,7 @@ import { appService } from '../../app';
 import { chatService } from '../../chat';
 import { ChatProxy } from '../../chat/model/types';
 import { viewerStore } from '../../viewer';
-import { callStore } from '../index';
+import { callApi, callStore } from '../index';
 import meetApi from '../model/api';
 import { CallResponse, Meet } from '../model/types';
 
@@ -15,20 +17,37 @@ function useCall() {
     const viewer = viewerStore.use.viewer();
     const { mutate: handleLeftCall } = meetApi.handleLeftCall();
     const { mutate: handleJoinCall } = meetApi.handleJoinCall();
+    const { mutate: handleCallResponse } = callApi.handleCallResponse();
+
+    const callData = params.call_data ? JSON.parse(params.call_data) : null;
 
     const createCall = callStore.use.createCall();
 
     const { useWebview, rustIsRunning, socket } = useRustServer();
+
+    useEffect(() => {
+        if (callData?.roomId) {
+            const { view } = useWebview(callData.roomId);
+            view?.onCloseRequested(() => {
+                handleLeftCall({ call_id: callData.callId, chat_id: callData.chatId });
+                handleCallResponse({
+                    call_id: callData.callId,
+                    chat_id: callData.chatId,
+                    room_id: callData.roomId,
+                    user_id: callData.initiatorId,
+                    response: 'reject',
+                });
+                view?.close();
+            });
+        }
+    }, [callData?.roomId]);
 
     const createWindow = (roomId: string, path: 'pre_join' | 'room', data: any) => {
         const { view } = useWebview(roomId);
         if (!view) {
             const webview = useWebview(roomId, {
                 events: {
-                    onClose: () => {
-                        data.callId && handleLeftCall({ call_id: data.callId, chat_id: data.chatId });
-                        webview?.close();
-                    },
+                    onClose: () => {},
                 },
             });
             if (!webview.view) {
@@ -98,18 +117,27 @@ function useCall() {
         handleLeftCall(data);
     };
 
-    const closeWindow = (data: { roomId: string; chat_id: number; call_id: number }) => {
-        handleLeftCall(data);
+    const closeWindow = () => {
+        handleLeftCall({ call_id: callData.callId, chat_id: callData.chatId });
         if (rustIsRunning) {
-            const { view } = useWebview(data.roomId);
+            const { view } = useWebview(callData.roomId);
             view && view.close();
         } else {
+            handleLeftCall({ call_id: callData.callId, chat_id: callData.chatId });
+            handleCallResponse({
+                call_id: callData.callId,
+                chat_id: callData.chatId,
+                room_id: callData.roomId,
+                user_id: callData.initiatorId,
+                response: 'reject',
+            });
             window.close();
         }
     };
 
     const goToRoom = (data: Meet) => {
         if (data.callId) {
+            console.log(data);
             handleJoinCall({ call_id: data.callId, chat_id: data.chatId });
             navigate(`/call/room/${JSON.stringify(data)}`);
         }

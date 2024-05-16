@@ -33,12 +33,12 @@ function CallRoom() {
     useEffect(() => {
         window.onbeforeunload = confirmExit;
         function confirmExit() {
-            call.closeWindow({ call_id: callData.callId, chat_id: callData.chatId, room_id: callData.roomId } as any);
+            call.closeWindow();
         }
     }, []);
 
     const close = () => {
-        call.closeWindow({ call_id: meetData.callId, roomId: meetData.roomId, chat_id: meetData.chatId });
+        call.closeWindow();
     };
 
     return meetId ? (
