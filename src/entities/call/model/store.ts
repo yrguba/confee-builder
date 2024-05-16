@@ -6,12 +6,13 @@ type Store = {
     createCall: Meet & { isGroup: boolean };
     incomingCall: Meet;
     responses: { callId: number; response: Responses }[];
+    socketReady: boolean;
 };
 
 type Methods = {};
 
 const callStore = useZustand<Store, Methods>({
-    keys: ['createCall', 'incomingCall', 'responses'],
+    keys: ['createCall', 'incomingCall', 'responses', 'socketReady'],
     default: {
         responses: [],
     },

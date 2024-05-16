@@ -137,7 +137,6 @@ function useCall() {
 
     const goToRoom = (data: Meet) => {
         if (data.callId) {
-            console.log(data);
             handleJoinCall({ call_id: data.callId, chat_id: data.chatId });
             navigate(`/call/room/${JSON.stringify(data)}`);
         }

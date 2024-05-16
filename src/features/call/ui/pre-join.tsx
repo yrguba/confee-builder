@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useLifecycles, useUpdateEffect } from 'react-use';
 
 import { PreJoinView, useCall, callApi, callStore, callTypes } from 'entities/call';
-import { useStorage, useRingtone, useEffectOnce, useRouter, useRustServer, useEasyState, useReverseTimer } from 'shared/hooks';
+import { useStorage, useRingtone, useEffectOnce, useRouter, useRustServer, useEasyState, useReverseTimer, useWebSocket } from 'shared/hooks';
 
 import { appStore } from '../../../entities/app';
 import { viewerStore } from '../../../entities/viewer';
@@ -18,6 +18,7 @@ function PreJoin(props: Props) {
 
     const { mutate: handleCallResponse } = callApi.handleCallResponse();
     const responses = callStore.use.responses();
+    const socketReady = callStore.use.socketReady();
 
     const viewer = viewerStore.use.viewer();
     const enableNotifications = appStore.use.enableNotifications();
@@ -45,7 +46,7 @@ function PreJoin(props: Props) {
         }
     );
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         if (timer.time[2] === 0 && !response.value) {
             [viewer.value.id, callData.initiatorId].forEach((id) => {
                 handleCallResponse({
@@ -84,22 +85,31 @@ function PreJoin(props: Props) {
         response.set(null);
     };
 
+    const joiningState = useEasyState<'accepted' | 'reject' | ''>('');
+
     const joining = (value: boolean) => {
-        handleCallResponse({
-            call_id: callData.callId,
-            chat_id: callData.chatId,
-            room_id: callData.roomId,
-            user_id: callData.initiatorId,
-            response: value ? 'accepted' : 'reject',
-        });
-        if (!value) {
-            call.closeWindow();
-        } else {
-            call.goToRoom(callData);
-        }
+        joiningState.set(value ? 'accepted' : 'reject');
     };
 
-    useUpdateEffect(() => {
+    useEffect(() => {
+        if (joiningState.value && socketReady.value) {
+            handleCallResponse({
+                call_id: callData.callId,
+                chat_id: callData.chatId,
+                room_id: callData.roomId,
+                user_id: callData.initiatorId,
+                response: joiningState.value,
+            });
+
+            if (joiningState.value === 'reject') {
+                call.closeWindow();
+            } else {
+                call.goToRoom(callData);
+            }
+        }
+    }, [joiningState.value, socketReady.value]);
+
+    useEffect(() => {
         responses.value.forEach((r) => {
             if (callData.callId === r.callId) {
                 response.set(r.response);
@@ -109,7 +119,7 @@ function PreJoin(props: Props) {
                 responses.set(responses.value.filter((i) => i.callId !== callData.callId));
             }
         });
-    }, [responses.value]);
+    }, [responses.value.length]);
 
     return (
         <>
@@ -121,6 +131,7 @@ function PreJoin(props: Props) {
                 type={callData?.type}
                 name={callData?.name}
                 avatar={callData?.avatar?.split('|').join('/')}
+                loading={!!joiningState.value && !socketReady.value}
             />
         </>
     );

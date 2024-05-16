@@ -69,7 +69,7 @@ function useRustServer() {
             // }
         };
 
-        const open = async (props: { path: string; title?: string }) => {
+        const open = async (props: { path: string; title?: string; closable?: boolean }) => {
             if (!rustIsRunning) return null;
             const view = new WebviewWindow(label, {
                 url: `${window.location.origin}${props.path}`,
@@ -82,6 +82,7 @@ function useRustServer() {
                     view?.once('tauri://close-requested', function () {
                         webviewProps?.events?.onClose && webviewProps?.events.onClose();
                     });
+                    view.setClosable(!!props.closable);
                 }, 500);
             }
         };

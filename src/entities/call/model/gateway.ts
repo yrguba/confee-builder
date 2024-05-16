@@ -5,14 +5,13 @@ import meetStore from './store';
 import { Socket } from './types';
 import { viewerStore } from '../../viewer';
 
-function callGateway({ event, data }: Socket, queryClient: QueryClient) {
+function callGateway({ event, data, success }: Socket, queryClient: QueryClient) {
     const viewer = viewerStore.getState().viewer.value;
 
     switch (event) {
         case 'CallCreated':
             const extraInfo = data.extra_info;
             if (extraInfo.for_user_id !== viewer.id) {
-                // console.log(data);
                 meetStore.setStateOutsideComponent({
                     incomingCall: {
                         roomId: extraInfo.confee_video_room,
@@ -36,6 +35,12 @@ function callGateway({ event, data }: Socket, queryClient: QueryClient) {
         case 'LeftCall':
             queryClient.invalidateQueries(['get-chat', data.extra_info.chat_id]);
             return queryClient.invalidateQueries(['get-call', data.extra_info.chat_id, data.extra_info.call.id]);
+        case 'Auth':
+            setTimeout(() => {
+                return meetStore.setStateOutsideComponent({
+                    socketReady: success,
+                });
+            }, 2000);
     }
 }
 

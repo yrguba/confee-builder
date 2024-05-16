@@ -43,6 +43,7 @@ function Provider({ children }: { children: any }) {
     useEffectOnce(() => {
         const { onMessage } = useWebSocket();
         onMessage((data) => {
+            console.log('data', data);
             messageGateway(data, queryClient);
             chatGateway(data, queryClient, navigate);
             userGateway(data, queryClient);

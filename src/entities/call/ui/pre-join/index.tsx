@@ -16,7 +16,7 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function PreJoinView(props: Props) {
-    const { createCall, response, type, joining, avatar, name } = props;
+    const { createCall, response, type, joining, avatar, name, loading } = props;
 
     const getTitle = () => {
         if (response === 'reject') return `${name} отклонил звонок`;
@@ -31,7 +31,7 @@ function PreJoinView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.user}>
-                <Avatar size={170} img={avatar} />
+                <Avatar loading={loading} size={170} img={avatar} />
                 <Title textAlign="center" variant="H2">
                     {name}
                 </Title>
