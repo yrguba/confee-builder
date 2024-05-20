@@ -16,7 +16,7 @@ def start():
 
     delete_dir(Path(tauri_dir, "target"))
 
-    os.system("npm run tauri build -- --debug")
+    os.system("cross-env REACT_APP_DEBUG=true npm run tauri build -- --debug")
 
     if platform == 'Windows':
         back_endpoint = back_domain + "api/v1/files/upload_debug_windows"
