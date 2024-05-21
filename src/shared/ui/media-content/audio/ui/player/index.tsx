@@ -179,7 +179,7 @@ function Player(props: PlayerProps) {
     }, []);
 
     useEffect(() => {
-        if (currentTime >= duration && currentTime !== '00:00') {
+        if (currentTime >= duration && currentTime !== '00:00' && !looping) {
             setTrack(+1);
         }
     }, [currentTime]);

@@ -117,8 +117,8 @@ class MessageApi {
                         pageParams: [...data.pageParams].reverse(),
                     };
                 },
+                refetchOnWindowFocus: true,
                 enabled: !!data.chatId && !!data.initialPage,
-                staleTime: Infinity,
             }
         );
     }

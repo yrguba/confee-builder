@@ -82,7 +82,7 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
                 src,
                 name: newTrack.value.name,
                 authorName: newTrack.value.name,
-                description: 'неисвестно',
+                description: 'неизвестно',
             });
         }
     }, [src]);
@@ -91,7 +91,7 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
 
     return (
         <div className={styles.wrapper}>
-            <ContextMenu trigger="mouseup" visible={visibleMenu.value} items={menuItems} />
+            <ContextMenu clickAway={() => visibleMenu.set(false)} trigger="mouseup" visible={visibleMenu.value} items={menuItems} />
             <div className={styles.header}>
                 <div className={styles.more} onClick={visibleMenu.toggle}>
                     <Icons variant="more" />
@@ -162,23 +162,25 @@ function AudioPlayerModal(modal: ModalTypes.UseReturnedType) {
                     </div>
                 )}
             </div>
-            <div className={styles.actions}>
-                <div onClick={visibleList.toggle}>
-                    <Icons.Player variant="list-visible" active={visibleList.value} />
+            {audiosList.value && audiosList.value.length > 1 && (
+                <div className={styles.actions}>
+                    <div onClick={visibleList.toggle}>
+                        <Icons.Player variant="list-visible" active={visibleList.value} />
+                    </div>
+                    <div onClick={() => repeatList.set(!repeatList.value)}>
+                        <Icons.Player variant="list-repeat" active={!!repeatList.value} />
+                    </div>
+                    <div
+                        onClick={() => {
+                            if (audiosList.value) {
+                                audiosList.set([...audiosList.value]?.sort((a, b) => 0.5 - Math.random()));
+                            }
+                        }}
+                    >
+                        <Icons.Player variant="random" />
+                    </div>
                 </div>
-                <div onClick={() => repeatList.set(!repeatList.value)}>
-                    <Icons.Player variant="list-repeat" active={!!repeatList.value} />
-                </div>
-                <div
-                    onClick={() => {
-                        if (audiosList.value) {
-                            audiosList.set([...audiosList.value]?.sort((a, b) => 0.5 - Math.random()));
-                        }
-                    }}
-                >
-                    <Icons.Player variant="random" />
-                </div>
-            </div>
+            )}
             {audiosList.value && audiosList.value.length > 1 && visibleList.value ? (
                 <div className={styles.list}>
                     <div ref={nextPageRef} />
