@@ -15,8 +15,8 @@ const axiosClient = axios.create(config);
 
 axiosClient.interceptors.request.use(async (config: any) => {
     const tokens = viewerStore.getState().tokens.value;
-    // const deviceName = await appService.getDeviceName();
-
+    const deviceName = await appService.getDeviceName();
+    console.log(deviceName);
     if (tokens?.access_token) {
         return {
             ...config,

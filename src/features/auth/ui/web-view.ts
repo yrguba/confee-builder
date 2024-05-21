@@ -81,19 +81,41 @@ const webView = () => {
 
         getTokens(async () => {
             const deviceName = (await appService.getDeviceName()) as any;
-            const encDeviceName = encodeURI(deviceName || 'unknown');
-            try {
-                axios.post(`${backBaseURL}/${tokenEndpoint}`, body).then((res: any) => {
-                    if (res.data.access_token) {
-                        viewerStore.setStateOutsideComponent({ tokens: { access_token: res.data.access_token, refresh_token: res.data.refresh_token } });
-                        // window.location.reload();
-                    } else {
-                        window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
-                    }
-                });
-            } catch (e) {
-                console.log(e);
-            }
+
+            const query = (headers?: any) => {
+                try {
+                    axios.post(`${backBaseURL}/${tokenEndpoint}`, body, { headers: appService.prodApi ? headers : {} }).then((res: any) => {
+                        if (res.data.access_token) {
+                            viewerStore.setStateOutsideComponent({ tokens: { access_token: res.data.access_token, refresh_token: res.data.refresh_token } });
+                            // window.location.reload();
+                        } else {
+                            window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
+                        }
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
+            };
+
+            navigator.geolocation.getCurrentPosition(
+                async ({ coords }) => {
+                    await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.latitude}&lon=${coords.longitude}`)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            const headers = {
+                                'x-device-name': encodeURI(deviceName || 'unknown'),
+                                'X-COORDS': encodeURI(data.address.city),
+                            };
+                            query(headers);
+                        });
+                },
+                () => {
+                    const headers = {
+                        'x-device-name': encodeURI(deviceName || 'unknown'),
+                    };
+                    query(headers);
+                }
+            );
         });
     } else {
         window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;

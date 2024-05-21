@@ -20,7 +20,7 @@ function SessionModal(modal: ModalTypes.UseReturnedType) {
             subtitle: ids?.length > 1 ? 'Вы действительно хотите завершить все сеансы кроме текущего?' : 'Вы действительно хотите завершить этот сеанс?',
         });
     };
-
+    console.log(sessions);
     return (
         <>
             <Modal.Confirm {...confirmDeleteSessions} okText="Да, завершить" />

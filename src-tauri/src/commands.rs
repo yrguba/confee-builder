@@ -33,7 +33,7 @@ pub fn write_data_to_file(path: &str, data: &[u8]) {
 
 #[tauri::command]
 pub async fn get_device_name() -> String {
-    return  whoami::realname().to_string() + " " + &whoami::platform().to_string()
+    return  whoami::devicename().to_string()
 }
 
 #[tauri::command]

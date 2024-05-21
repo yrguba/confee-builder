@@ -33,8 +33,9 @@ function SessionsModalView(props: Props) {
                     isCurrent
                     os={currentSession?.os_name}
                     browser={currentSession?.browser}
-                    location={currentSession?.location}
+                    location={decodeURI(currentSession?.location || '')}
                     updated_at={currentSession?.updated_at}
+                    deviceName={decodeURI(currentSession?.device_name || '')}
                 />
             </div>
             <div className={styles.clearOther}>
