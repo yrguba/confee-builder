@@ -40,7 +40,7 @@ function ContactProfileView(props: Props) {
             },
         },
         // { id: 1, title: 'Выключить уведомления', icon: <Icons.Player variant="mute" />, callback: () => actions?.mute() },
-        { id: 2, title: 'Удалить', icon: <Icons variant="delete" />, callback: () => actions?.delete && actions?.delete() },
+        // { id: 2, title: 'Удалить', icon: <Icons variant="delete" />, callback: () => actions?.delete && actions?.delete() },
     ];
 
     return (

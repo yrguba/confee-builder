@@ -19,6 +19,8 @@ function CreateCallModal(modal: ModalTypes.UseReturnedType) {
     const createCall = callStore.use.createCall();
     const selectedUsers = useArray<CardTypes.CardListItem>({ multiple: true });
 
+    const { data: chatData } = chatApi.handleGetChat({ chatId: createCall?.value?.chatId });
+    console.log(chatData);
     const tabsAndLists = useContacts();
 
     const call = useCall();
@@ -36,7 +38,14 @@ function CreateCallModal(modal: ModalTypes.UseReturnedType) {
         modal.close();
     };
 
-    return <CreateCallModalView tabsAndLists={tabsAndLists} selectedUsers={selectedUsers} createMeet={createMeet} />;
+    return (
+        <CreateCallModalView
+            chat={chatProxy(chatData?.data.data || null) || undefined}
+            tabsAndLists={tabsAndLists}
+            selectedUsers={selectedUsers}
+            createMeet={createMeet}
+        />
+    );
 }
 
 export default function (modal: ModalTypes.UseReturnedType) {
