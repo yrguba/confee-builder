@@ -28,13 +28,16 @@ function ChangeNameContactModal(modal: ModalTypes.UseReturnedType) {
         if (!firstName.value) {
             return firstName.setError('Введите имя контакта');
         }
+        if (!lastName.value) {
+            return lastName.setError('Введите фамилию контакта');
+        }
         proxyContact &&
             handleUpdateName(
                 {
                     id: proxyContact.id,
                     phone: proxyContact.phone,
                     first_name: firstName.value,
-                    last_name: lastName.value || 'ㅤ',
+                    last_name: lastName.value,
                 },
                 { onSuccess: () => modal.close() }
             );

@@ -26,7 +26,7 @@ function PreJoin(props: Props) {
     const callData = params.call_data ? JSON.parse(params.call_data) : null;
 
     const call = useCall();
-    const timer = useReverseTimer({ hours: 0, minutes: 0, seconds: 10 });
+    const timer = useReverseTimer({ hours: 0, minutes: 0, seconds: 30 });
 
     const [audio, state, controls, ref] = useAudio({
         src: callData.type === 'in' ? inCallAudio : '',
