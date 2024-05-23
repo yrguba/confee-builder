@@ -19,23 +19,28 @@ function CreateCallModal(modal: ModalTypes.UseReturnedType) {
     const createCall = callStore.use.createCall();
     const selectedUsers = useArray<CardTypes.CardListItem>({ multiple: true });
 
+    const disabledDtn = useEasyState(false);
+
     const { data: chatData } = chatApi.handleGetChat({ chatId: createCall?.value?.chatId });
-    console.log(chatData);
+
     const tabsAndLists = useContacts();
 
     const call = useCall();
 
     const createMeet = () => {
-        call.createGroupCall({
-            avatar: '',
-            name: '',
-            chatId: createCall.value.chatId,
-            initiatorId: viewer.value.id,
-            callId: 0,
-            roomId: getRandomString(30),
-            users_ids: selectedUsers.getIds(),
-        });
-        modal.close();
+        disabledDtn.set(true);
+        call.createGroupCall(
+            {
+                avatar: '',
+                name: '',
+                chatId: createCall.value.chatId,
+                initiatorId: viewer.value.id,
+                callId: 0,
+                roomId: getRandomString(30),
+                users_ids: selectedUsers.getIds(),
+            },
+            modal.close
+        );
     };
 
     return (
@@ -44,6 +49,7 @@ function CreateCallModal(modal: ModalTypes.UseReturnedType) {
             tabsAndLists={tabsAndLists}
             selectedUsers={selectedUsers}
             createMeet={createMeet}
+            disabledDtn={disabledDtn.value}
         />
     );
 }

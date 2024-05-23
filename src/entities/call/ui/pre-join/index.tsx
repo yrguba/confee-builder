@@ -13,10 +13,11 @@ type Props = {
     type: 'in' | 'out';
     response: Responses | null;
     createCall: () => void;
+    close: () => void;
 } & BaseTypes.Statuses;
 
 function PreJoinView(props: Props) {
-    const { createCall, response, type, joining, avatar, name, loading } = props;
+    const { close, createCall, response, type, joining, avatar, name, loading } = props;
 
     const getTitle = () => {
         if (response === 'reject') return `${name} отклонил звонок`;
@@ -39,6 +40,7 @@ function PreJoinView(props: Props) {
             <Title textAlign="center" variant="H3R">
                 {getTitle()}
             </Title>
+            {response === 'timeout' && type === 'in' && <Button onClick={close}>Закрыть</Button>}
             {type === 'in' ? (
                 response === 'timeout' ? null : (
                     <div className={styles.btns}>

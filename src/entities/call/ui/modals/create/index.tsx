@@ -22,10 +22,11 @@ type Props = {
     createMeet: () => void;
     tabsAndLists: UseContactsReturnType;
     chat?: ChatProxy;
+    disabledDtn: boolean;
 } & BaseTypes.Statuses;
 
 function CreateCallModalView(props: Props) {
-    const { selectedUsers, tabsAndLists, loading, createMeet, chat } = props;
+    const { disabledDtn, selectedUsers, tabsAndLists, loading, createMeet, chat } = props;
 
     const isSearching = !!tabsAndLists.searchInput.value;
     const activeTabIsCompany = !!tabsAndLists.activeTab?.payload?.companyId;
@@ -60,7 +61,7 @@ function CreateCallModalView(props: Props) {
             .map((i) => {
                 const proxy = employeeProxy(i) as any;
                 return {
-                    id: proxy.id,
+                    id: proxy.userProxy.id,
                     title: proxy.full_name,
                     subtitle: proxy?.userProxy?.networkStatus || 'Не зарегестрирован',
                     img: proxy.avatar,
@@ -128,7 +129,7 @@ function CreateCallModalView(props: Props) {
                 {/*    ))} */}
             </div>
             <div className={styles.footer}>
-                <Button variant="primary" onClick={createMeet} disabled={!selectedUsers.length}>
+                <Button variant="primary" onClick={createMeet} disabled={!selectedUsers.length || disabledDtn}>
                     Далее
                 </Button>
             </div>

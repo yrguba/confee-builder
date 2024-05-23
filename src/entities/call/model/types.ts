@@ -35,7 +35,8 @@ export type CallResponse = {
     chat_id: number | null;
     call_id: string;
     response: Responses;
-    user_id: number;
+    to_user_id: number;
+    from_user_id: number;
 };
 
 export type SocketIn = 'CallCreated' | 'CallResponse' | 'JoinedCall' | 'LeftCall' | 'Auth';

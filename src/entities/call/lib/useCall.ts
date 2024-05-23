@@ -34,7 +34,8 @@ function useCall() {
                     call_id: callData.callId,
                     chat_id: callData.chatId,
                     room_id: callData.roomId,
-                    user_id: callData.initiatorId,
+                    to_user_id: callData.initiatorId,
+                    from_user_id: viewer.value.id,
                     response: 'reject',
                 });
                 view?.close();
@@ -84,7 +85,7 @@ function useCall() {
         createWindow(data.roomId, 'pre_join', { ...data, type: 'in' });
     };
 
-    const createGroupCall = (data: Meet) => {
+    const createGroupCall = (data: Meet, close: () => void) => {
         handleCreateCall(
             {
                 confee_video_room: data.roomId,
@@ -94,6 +95,7 @@ function useCall() {
             {
                 onSuccess: (res) => {
                     createWindow(data.roomId, 'room', { ...data, callId: res.data.data.id, type: 'out' });
+                    close();
                 },
             }
         );
@@ -128,7 +130,8 @@ function useCall() {
                 call_id: callData.callId,
                 chat_id: callData.chatId,
                 room_id: callData.roomId,
-                user_id: callData.initiatorId,
+                to_user_id: callData.initiatorId,
+                from_user_id: viewer.value.id,
                 response: 'reject',
             });
             window.close();

@@ -23,13 +23,14 @@ class CallApi {
         const queryClient = useQueryClient();
         return useMutation(
             (data: { chatId: number | undefined; targets_user_id?: number[] | string[]; confee_video_room: string }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/call`, data),
-            {
-                onSuccess: (res, variables) => {
-                    queryClient.invalidateQueries(['get-chat', variables.chatId]);
-                    return queryClient.invalidateQueries(['get-call', variables.chatId, res.data.data.id]);
-                },
-            }
+                axiosClient.post(`${this.pathPrefix}/${data.chatId}/call`, data)
+            // {
+            //     onSuccess: (res, variables) => {
+            //         console.log('rerserrse', res);
+            //         queryClient.invalidateQueries(['get-chat', variables.chatId]);
+            //         return queryClient.invalidateQueries(['get-call', variables.chatId, res.data.data.id]);
+            //     },
+            // }
         );
     };
 

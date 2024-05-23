@@ -26,7 +26,7 @@ function PreJoin(props: Props) {
     const callData = params.call_data ? JSON.parse(params.call_data) : null;
 
     const call = useCall();
-    const timer = useReverseTimer({ hours: 0, minutes: 0, seconds: 30 });
+    const timer = useReverseTimer({ hours: 0, minutes: 0, seconds: 10 });
 
     const [audio, state, controls, ref] = useAudio({
         src: callData.type === 'in' ? inCallAudio : '',
@@ -48,15 +48,15 @@ function PreJoin(props: Props) {
 
     useEffect(() => {
         if (timer.time[2] === 0 && !response.value) {
-            [viewer.value.id, callData.initiatorId].forEach((id) => {
-                handleCallResponse({
-                    call_id: callData.callId,
-                    chat_id: callData.chatId,
-                    room_id: callData.roomId,
-                    user_id: id,
-                    response: 'timeout',
-                });
+            handleCallResponse({
+                call_id: callData.callId,
+                chat_id: callData.chatId,
+                room_id: callData.roomId,
+                to_user_id: callData.initiatorId,
+                from_user_id: viewer.value.id,
+                response: 'timeout',
             });
+
             timer.reset();
         }
     }, [timer.time]);
@@ -97,7 +97,8 @@ function PreJoin(props: Props) {
                 call_id: callData.callId,
                 chat_id: callData.chatId,
                 room_id: callData.roomId,
-                user_id: callData.initiatorId,
+                to_user_id: callData.initiatorId,
+                from_user_id: viewer.value.id,
                 response: joiningState.value,
             });
 
@@ -125,6 +126,7 @@ function PreJoin(props: Props) {
         <>
             {audio}
             <PreJoinView
+                close={call.closeWindow}
                 createCall={createCall}
                 response={response.value}
                 joining={joining}
