@@ -38,11 +38,15 @@ class ContactApi {
 
     handleUpdateName() {
         const queryClient = useQueryClient();
-        return useMutation((data: { phone: string; first_name: string; last_name: string }) => axiosClient.post(`/api/v2/contacts/change-name`, data), {
-            onSuccess: async (res) => {
-                queryClient.invalidateQueries(['get-contacts']);
-            },
-        });
+        return useMutation(
+            (data: { id: number; phone: string; first_name: string; last_name: string }) => axiosClient.post(`/api/v2/contacts/change-name`, data),
+            {
+                onSuccess: async (res) => {
+                    queryClient.invalidateQueries(['get-contacts']);
+                    queryClient.invalidateQueries(['get-contact']);
+                },
+            }
+        );
     }
 
     handleDeleteContact() {

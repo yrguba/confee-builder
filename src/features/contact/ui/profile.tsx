@@ -3,11 +3,14 @@ import React from 'react';
 import { contactApi, ContactProfileView, contactProxy } from 'entities/contact';
 import { useRouter } from 'shared/hooks';
 
+import ChangeNameContactModal from './modals/change-name';
 import { chatApi } from '../../../entities/chat';
-import { Notification } from '../../../shared/ui';
+import { Modal, Notification } from '../../../shared/ui';
 
 function ContactProfile() {
     const { params, navigate } = useRouter();
+
+    const changeNameModal = Modal.use();
 
     const notifications = Notification.use();
 
@@ -42,20 +45,24 @@ function ContactProfile() {
     const clickAvatar = () => {};
 
     return (
-        <ContactProfileView
-            actions={{
-                getChat,
-                delete: deleteContact,
-                audioCall: notifications.inDev,
-                videoCall: notifications.inDev,
-                mute: notifications.inDev,
-            }}
-            updName={updName}
-            clickAvatar={clickAvatar}
-            back={() => navigate('/contacts')}
-            contact={contactProxy(contactData)}
-            loading={isLoading}
-        />
+        <>
+            <ChangeNameContactModal {...changeNameModal} />
+            <ContactProfileView
+                actions={{
+                    getChat,
+                    delete: deleteContact,
+                    audioCall: notifications.inDev,
+                    videoCall: notifications.inDev,
+                    mute: notifications.inDev,
+                    openChangeNameModal: changeNameModal.open,
+                }}
+                updName={updName}
+                clickAvatar={clickAvatar}
+                back={() => navigate('/contacts')}
+                contact={contactProxy(contactData)}
+                loading={isLoading}
+            />
+        </>
     );
 }
 

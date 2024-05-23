@@ -7,6 +7,7 @@ import contactStore from './model/store';
 import * as contactTypes from './model/types';
 import ContactsListView from './ui/list';
 import AddContactModalView from './ui/modals/add-contact';
+import ChaneNameContactModalView from './ui/modals/change-name';
 import ContactProfileView from './ui/profile';
 
 export {
@@ -20,4 +21,5 @@ export {
     contactGateway,
     AddContactModalView,
     ContactProfileView,
+    ChaneNameContactModalView,
 };

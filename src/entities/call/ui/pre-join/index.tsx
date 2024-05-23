@@ -31,7 +31,7 @@ function PreJoinView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.user}>
-                <Avatar loading={loading} size={170} img={avatar} />
+                <Avatar loading={loading} size={170} img={avatar || ''} />
                 <Title textAlign="center" variant="H2">
                     {name}
                 </Title>

@@ -39,6 +39,7 @@ export type UserCardActions = {
     getChat: () => void;
     mute: () => void;
     delete?: () => void;
+    openChangeNameModal?: () => void;
 };
 
 export type SocketIn = 'UserUpdated';

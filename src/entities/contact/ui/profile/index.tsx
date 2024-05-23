@@ -19,18 +19,28 @@ type Props = {
 function ContactProfileView(props: Props) {
     const { updName, loading, clickAvatar, contact, back, actions } = props;
     const visibleMenu = useEasyState(false);
+
     const btns: BaseTypes.Item[] = [
         // { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: actions?.audioCall },
         // { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: actions?.videoCall },
         { id: 1, title: 'Чат', icon: 'chat', payload: '', callback: actions?.getChat },
-        // { id: 3, title: 'Ещё', icon: 'more', payload: '', callback: () => '' },
         { id: 2, title: 'Выключить уведомления', payload: '', icon: 'mute', callback: () => actions?.mute() },
         { id: 3, title: 'Удалить', icon: 'delete', payload: '', callback: () => actions?.delete && actions?.delete() },
+        { id: 4, title: 'Ещё', icon: 'more', payload: '', callback: visibleMenu.toggle },
     ];
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
-        { id: 0, title: 'Выключить уведомления', icon: <Icons.Player variant="mute" />, callback: () => actions?.mute() },
-        { id: 1, title: 'Удалить', icon: <Icons variant="delete" />, callback: () => actions?.delete && actions?.delete() },
+        {
+            id: 0,
+            title: 'Редактировать контакт',
+            icon: <Icons variant="edit" />,
+            callback: () => {
+                actions?.openChangeNameModal && actions?.openChangeNameModal();
+                visibleMenu.set(false);
+            },
+        },
+        // { id: 1, title: 'Выключить уведомления', icon: <Icons.Player variant="mute" />, callback: () => actions?.mute() },
+        { id: 2, title: 'Удалить', icon: <Icons variant="delete" />, callback: () => actions?.delete && actions?.delete() },
     ];
 
     return (
@@ -40,7 +50,7 @@ function ContactProfileView(props: Props) {
                 <div className={styles.name}>
                     <Title variant="H1">{contact?.full_name}</Title>
                 </div>
-                <ContextMenu items={menuItems} visible={visibleMenu.value} />
+                <ContextMenu clickAway={() => visibleMenu.set(false)} trigger="mouseup" items={menuItems} visible={visibleMenu.value} />
                 <div className={styles.btns}>
                     {btns.map((i) => (
                         <Button key={i.id} variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
