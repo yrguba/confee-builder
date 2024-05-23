@@ -28,8 +28,8 @@ function ChaneNameContactModalView(props: Props) {
                 <Avatar size={140} img={contact?.avatar || ''} />
             </div>
             <div className={styles.inputs}>
-                <Input maxLength={30} {...inputs.firstName} placeholder={contact?.first_name || 'имя'} />
-                <Input maxLength={30} {...inputs.lastName} placeholder={contact?.last_name || 'фамилия'} />
+                <Input maxLength={30} {...inputs.firstName} placeholder="имя" />
+                <Input maxLength={30} {...inputs.lastName} placeholder="фамилия" />
             </div>
             <div className={styles.btn}>
                 <Button onClick={save}>Сохранить</Button>
