@@ -1,5 +1,4 @@
 import React from 'react';
-import utf8 from 'utf8';
 
 import { momentLocalZone } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
@@ -34,9 +33,9 @@ function SessionsModalView(props: Props) {
                     isCurrent
                     os={currentSession?.os_name}
                     browser={currentSession?.browser}
-                    location={currentSession?.location || ''}
+                    location={decodeURI(currentSession?.location || '')}
                     updated_at={currentSession?.updated_at}
-                    deviceName={currentSession?.device_name || ''}
+                    deviceName={decodeURI(currentSession?.device_name || '')}
                 />
             </div>
             <div className={styles.clearOther}>
@@ -51,7 +50,13 @@ function SessionsModalView(props: Props) {
                     </Title>
                     {otherSessions?.map((i) => (
                         <div key={i.id} className={styles.item}>
-                            <SessionCard os={i?.os_name} browser={i?.browser} location={i?.location} updated_at={i?.updated_at} />
+                            <SessionCard
+                                os={i?.os_name}
+                                browser={i?.browser}
+                                location={decodeURI(i?.location || '')}
+                                updated_at={i?.updated_at}
+                                deviceName={decodeURI(i?.device_name || '')}
+                            />
                             <div onClick={() => deleteSessions([i.id])}>
                                 <Icons variant="close" />
                             </div>
@@ -75,6 +80,7 @@ type CardProps = {
 
 function SessionCard(props: CardProps) {
     const { isCurrent, os, location, browser, deviceName, deviceType = 'unknown', updated_at } = props;
+    console.log(deviceName);
     return (
         <div className={styles.card}>
             <div className={`${styles.icon} ${isCurrent ? styles.icon_current : ''}`}>

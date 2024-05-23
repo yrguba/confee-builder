@@ -49,6 +49,7 @@
           max-width: 86%;
 
           .authorName{
+            white-space: nowrap;
             color: var(--text-secondary);
           }
         }

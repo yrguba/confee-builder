@@ -9,18 +9,20 @@ import { Modal, Input, Notification, ModalTypes } from 'shared/ui';
 function ChangeNameContactModal(modal: ModalTypes.UseReturnedType) {
     const { params } = useRouter();
 
-    const yup = useYup();
-
-    const firstName = Input.use({
-        yupSchema: yup.required('Введите имя контакта'),
-    });
-
-    const lastName = Input.use({});
-
     const { data: contactData } = contactApi.handleGetContact({ contactId: Number(params.contact_id) });
     const { mutate: handleUpdateName } = contactApi.handleUpdateName();
 
     const proxyContact = contactProxy(contactData);
+    const yup = useYup();
+
+    const firstName = Input.use({
+        yupSchema: yup.required('Введите имя контакта'),
+        initialValue: contactData?.first_name || '',
+    });
+
+    const lastName = Input.use({
+        initialValue: contactData?.last_name || '',
+    });
 
     const save = () => {
         proxyContact &&

@@ -5,8 +5,9 @@ import moment from 'moment';
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
-
+import utf8 from 'utf8';
 import 'moment/locale/ru';
+
 import { appService, appStore } from 'entities/app';
 import Routing from 'pages';
 import './index.scss';
