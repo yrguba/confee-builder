@@ -12,12 +12,12 @@ type Props = {
 } & BaseTypes.Statuses;
 
 function ChatDescriptionView(props: Props) {
-    const { description, setDescription } = props;
+    const { description, setDescription, disabled } = props;
 
     const updDescription = useEasyState(description || '');
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} style={{ pointerEvents: disabled ? 'none' : 'auto' }}>
             <Input.Textarea
                 clickAway={() => {
                     if (updDescription.value || description) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import utf8 from 'utf8';
 
 import { momentLocalZone } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
@@ -33,9 +34,9 @@ function SessionsModalView(props: Props) {
                     isCurrent
                     os={currentSession?.os_name}
                     browser={currentSession?.browser}
-                    location={decodeURI(currentSession?.location || '')}
+                    location={currentSession?.location || ''}
                     updated_at={currentSession?.updated_at}
-                    deviceName={decodeURI(currentSession?.device_name || '')}
+                    deviceName={currentSession?.device_name || ''}
                 />
             </div>
             <div className={styles.clearOther}>

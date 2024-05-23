@@ -35,8 +35,8 @@ function SettingsProfileView(props: Props) {
                 <Title primary={false} textWrap variant="H3M">
                     Они будут отображаться другим пользователям приложения
                 </Title>
-                <Input placeholder="Имя" {...inputs.firstName} clearIcon />
-                <Input placeholder="Фамилия" {...inputs.lastName} clearIcon />
+                <Input maxLength={20} placeholder="Имя" {...inputs.firstName} clearIcon />
+                <Input maxLength={20} placeholder="Фамилия" {...inputs.lastName} clearIcon />
             </div>
             <div className={styles.item}>
                 <Title variant="H2">Расскажите немного о себе</Title>

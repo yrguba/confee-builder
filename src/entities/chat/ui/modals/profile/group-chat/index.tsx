@@ -133,7 +133,7 @@ function GroupChatProfileModalView(props: Props) {
                     </Button>
                 ))}
             </div>
-            <ChatDescriptionView description={chat?.description} setDescription={setDescription} />
+            <ChatDescriptionView disabled={!chat?.isOwner} description={chat?.description} setDescription={setDescription} />
 
             <ChatProfileContentView
                 removeMember={removeMember}

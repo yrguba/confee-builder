@@ -128,7 +128,6 @@ function messageGateway({ event, data }: Socket, queryClient: any) {
                     });
                 })
             );
-
         case 'Typing':
             const fn = (name: string | null) => {
                 const getText = (is_group: boolean) => {

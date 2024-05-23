@@ -7,18 +7,19 @@ import ChatService from '../lib/service';
 function chatGateway({ event, data }: Socket, queryClient: any, navigate: any) {
     switch (event) {
         case 'ChatUpdated':
-            ['all', 'personal', `for-company/18`].forEach((i) =>
-                queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
-                    if (!cacheData?.pages?.length) return cacheData;
-                    return produce(cacheData, (draft: any) => {
-                        draft?.pages.forEach((page: any) => {
-                            page.data.data = page?.data?.data.map((chat: Chat) => {
-                                if (data.chat_id === chat.id) return { ...chat, ...data.updated_values };
-                                return chat;
-                            });
-                        });
-                    });
-                })
+            ['all', 'personal', `for-company/18`].forEach(
+                (i) => queryClient.invalidateQueries(['get-chats', i])
+                // queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                //     if (!cacheData?.pages?.length) return cacheData;
+                //     return produce(cacheData, (draft: any) => {
+                //         draft?.pages.forEach((page: any) => {
+                //             page.data.data = page?.data?.data.map((chat: Chat) => {
+                //                 if (data.chat_id === chat.id) return { ...chat, ...data.updated_values };
+                //                 return chat;
+                //             });
+                //         });
+                //     });
+                // })
             );
             return queryClient.setQueryData(['get-chat', data.chat_id], (cacheData: any) => {
                 if (!cacheData?.data?.data) return cacheData;

@@ -38,7 +38,7 @@ function AvatarChange(props: AvatarChangeProps) {
             >
                 <Avatar photoIcon={photoIcon} clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
                 <Box.Animated
-                    visible={(visibleMenu.value || visibleDownload.value) && !photoIcon}
+                    visible={(visibleMenu.value || visibleDownload.value) && !photoIcon && !disabled}
                     onClick={visibleMenu.toggle}
                     className={`${styles.cover} ${visibleMenu.value ? styles.cover_active : ''}`}
                 >

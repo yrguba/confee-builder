@@ -94,7 +94,9 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.left}>
-                            {chat.is_group && chat?.last_message?.type !== 'system' && <div className={styles.authorName}>{chat.authorLastMessage}: </div>}
+                            {chat.is_group && chat?.last_message?.type !== 'system' && !chat.typing && (
+                                <div className={styles.authorName}>{chat.authorLastMessage}: </div>
+                            )}
                             <Title primary={false} variant="H3R" replaceEmoji>
                                 {description || chat?.lastMessageTitle}
                             </Title>

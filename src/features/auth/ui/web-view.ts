@@ -2,6 +2,7 @@ import axios from 'axios';
 import Base64url from 'crypto-js/enc-base64url';
 import SHA256 from 'crypto-js/sha256';
 import { useLocation } from 'react-router-dom';
+import utf8 from 'utf8';
 
 import { appService } from 'entities/app';
 
@@ -103,8 +104,8 @@ const webView = () => {
                         .then((response) => response.json())
                         .then((data) => {
                             const headers = {
-                                'x-device-name': encodeURI(deviceName || 'unknown'),
-                                'X-COORDS': encodeURI(data.address.city),
+                                'x-device-name': utf8.encode(deviceName || 'unknown'),
+                                'X-COORDS': utf8.encode(data.address.city),
                             };
                             query(headers);
                         });
