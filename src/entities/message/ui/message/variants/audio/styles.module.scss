@@ -10,9 +10,13 @@
   -moz-user-select: text;
   -webkit-user-select: text;
 
-  .audio{
-    @include flex;
-    max-width: 200px;
+  .audios{
+    @include flex-column;
+    gap: 2px;
+    .audio{
+      @include flex;
+      max-width: 200px;
+    }
   }
 }
 

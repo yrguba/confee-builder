@@ -17,20 +17,15 @@ function AudioMessage(props: Props) {
     const { message, chat } = props;
 
     const audios = message.files.length ? message.files : message.forwarded_from_message?.files || [];
-    const audio = audios[0];
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.audio}>
-                <Audio
-                    visibleDropdown={false}
-                    chatId={chat?.id}
-                    id={audio.id}
-                    url={audio?.url}
-                    name={audio?.name}
-                    authorName={audio?.name}
-                    description="неизвестно"
-                />
+            <div className={styles.audios}>
+                {audios.map((i) => (
+                    <div key={i.id} className={styles.audio}>
+                        <Audio visibleDropdown={false} chatId={chat?.id} id={i.id} url={i?.url} name={i?.name} authorName={i?.name} description="неизвестно" />
+                    </div>
+                ))}
             </div>
 
             <Info
