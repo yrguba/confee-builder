@@ -1,10 +1,11 @@
+import { QueryClient } from '@tanstack/react-query';
 import produce from 'immer';
 
 import { Chat, ChatProxy, Socket } from './types';
 import { chatService } from '../index';
 import ChatService from '../lib/service';
 
-function chatGateway({ event, data }: Socket, queryClient: any, navigate: any) {
+function chatGateway({ event, data }: Socket, queryClient: QueryClient, navigate: any) {
     switch (event) {
         case 'ChatUpdated':
             ['all', 'personal', `for-company/18`].forEach(

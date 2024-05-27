@@ -1,3 +1,4 @@
+import { QueryClient } from '@tanstack/react-query';
 import produce from 'immer';
 import { unstable_batchedUpdates } from 'react-dom';
 
@@ -17,7 +18,7 @@ const [throttleMessageTyping] = useThrottle((cl) => cl(), 1000);
 
 const debounceMessageTypingClose = debounce((cl) => cl(), 3000);
 
-function messageGateway({ event, data }: Socket, queryClient: any) {
+function messageGateway({ event, data }: Socket, queryClient: QueryClient) {
     const viewerId = viewerStore.getState().viewer.value.id;
     const session = viewerStore.getState().session.value;
 
@@ -128,6 +129,28 @@ function messageGateway({ event, data }: Socket, queryClient: any) {
                     });
                 })
             );
+        case 'MessageUpdated':
+            return queryClient.invalidateQueries(['get-messages', data.chat_id]);
+
+        case 'LastMessageUpdated':
+            return ['all', 'personal', `for-company/18`].forEach((i) =>
+                queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                    if (!cacheData?.pages?.length) return cacheData;
+                    return produce(cacheData, (draft: any) => {
+                        draft?.pages.forEach((page: any) => {
+                            if (page?.data?.data?.length) {
+                                page.data.data = page?.data?.data?.map((i: any) => {
+                                    if (i.id === data.chat_id) {
+                                        return { ...i, last_message: data.extra_info.last_message };
+                                    }
+                                    return i;
+                                });
+                            }
+                        });
+                    });
+                })
+            );
+
         case 'Typing':
             const fn = (name: string | null) => {
                 const getText = (is_group: boolean) => {
