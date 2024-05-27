@@ -21,6 +21,10 @@ type Props = {
     openSessionModal: () => void;
     deleteAccount: () => void;
     autostart: AppStoreTypes['autostart'];
+    globalNotifications: {
+        value: boolean;
+        toggle: () => void;
+    };
 };
 
 function AppSettingsView(props: Props) {
@@ -36,6 +40,7 @@ function AppSettingsView(props: Props) {
         openSessionModal,
         enableNotifications,
         autostart,
+        globalNotifications,
     } = props;
     const { version } = appService.getProjectInfo();
 
@@ -77,6 +82,12 @@ function AppSettingsView(props: Props) {
             title: 'Уведомления',
             subtitle: 'Push-уведомления',
             element: <Switch onChange={() => enableNotifications.set(!enableNotifications.value)} checked={enableNotifications.value} />,
+        },
+        {
+            id: 22,
+            title: 'Уведомления',
+            subtitle: 'На всех устройствах',
+            element: <Switch onChange={globalNotifications.toggle} checked={globalNotifications.value} />,
         },
         {
             id: 3,

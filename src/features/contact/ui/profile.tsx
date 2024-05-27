@@ -19,6 +19,7 @@ function ContactProfile() {
 
     const { mutate: handleDeleteContact } = contactApi.handleDeleteContact();
     const { mutate: handleUpdateName } = contactApi.handleUpdateName();
+    const { mutate: handleMuteContact } = contactApi.handleMuteContact();
     const { mutate: handleCreatePersonalChat } = chatApi.handleCreatePersonalChat();
 
     const getChat = () => {
@@ -40,6 +41,10 @@ function ContactProfile() {
         handleDeleteContact({ contactId: Number(params.contact_id) }, { onSuccess: () => navigate('/contacts/personal') });
     };
 
+    const muteContact = () => {
+        contactData?.id && handleMuteContact({ contactId: contactData?.id, mute: !contactData?.muted });
+    };
+
     const updName = (name: string) => {};
 
     const clickAvatar = () => {};
@@ -53,7 +58,7 @@ function ContactProfile() {
                     delete: deleteContact,
                     audioCall: notifications.inDev,
                     videoCall: notifications.inDev,
-                    mute: notifications.inDev,
+                    mute: muteContact,
                     openChangeNameModal: changeNameModal.open,
                 }}
                 updName={updName}

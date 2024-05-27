@@ -12,6 +12,7 @@ export type Contact = {
     contact_name: string | null;
     created_at: Date;
     updated_at: Date;
+    muted: boolean;
 };
 
 export type ContactProxy = {

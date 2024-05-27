@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { date } from 'yup';
 
 import { axiosClient } from 'shared/configs';
 
@@ -56,6 +57,23 @@ class ContactApi {
                 queryClient.invalidateQueries(['get-contacts']);
             },
         });
+    }
+
+    handleMuteContact() {
+        const queryClient = useQueryClient();
+        return useMutation(
+            (data: { contactId: number; mute: boolean }) =>
+                axiosClient.post(
+                    `/api/v2/contacts/${data.contactId}/mute`,
+                    { data: { contact_ids: [data.contactId] } },
+                    { params: { mute: data.mute ? 1 : 0 } }
+                ),
+            {
+                onSuccess: async (res, variables) => {
+                    queryClient.invalidateQueries(['get-contact', variables.contactId]);
+                },
+            }
+        );
     }
 }
 

@@ -24,7 +24,7 @@ function ContactProfileView(props: Props) {
         // { id: 0, title: 'Аудио', icon: 'phone', payload: '', callback: actions?.audioCall },
         // { id: 1, title: 'Видео', icon: 'videocam', payload: '', callback: actions?.videoCall },
         { id: 1, title: 'Чат', icon: 'chat', payload: '', callback: actions?.getChat },
-        { id: 2, title: 'Выключить уведомления', payload: '', icon: 'mute', callback: () => actions?.mute() },
+        { id: 2, title: 'Выключить уведомления', payload: '', icon: !contact?.muted ? 'unmute' : 'mute', callback: () => actions?.mute() },
         { id: 3, title: 'Удалить', icon: 'delete', payload: '', callback: () => actions?.delete && actions?.delete() },
         { id: 4, title: 'Ещё', icon: 'more', payload: '', callback: visibleMenu.toggle },
     ];

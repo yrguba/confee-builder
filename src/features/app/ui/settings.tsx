@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useUpdateEffect } from 'react-use';
 import { enable, isEnabled, disable } from 'tauri-plugin-autostart-api';
 
-import { appService, AppSettingsView, appStore } from 'entities/app';
+import { appApi, appService, AppSettingsView, appStore } from 'entities/app';
 import { viewerApi } from 'entities/viewer';
 import { useTheme, useStorage, useEasyState, useUnmount } from 'shared/hooks';
 import { Modal } from 'shared/ui';
@@ -25,6 +25,8 @@ function AppSettings() {
     const viewer = viewerStore.use.viewer();
     const session = viewerStore.use.session();
     const tokens = viewerStore.use.tokens();
+
+    const { mutate: handleGlobalMute } = appApi.handleGlobalMute();
 
     const visibleChatGpt = chatStore.use.visibleChatGpt();
     const autostart = appStore.use.autostart();
@@ -109,6 +111,10 @@ function AppSettings() {
                 deleteAccount={confirmDeleteAccount.open}
                 openSessionModal={sessionModal.open}
                 autostart={autostart}
+                globalNotifications={{
+                    value: viewer.value.muted,
+                    toggle: () => handleGlobalMute({ mute: !viewer.value.muted }),
+                }}
             />
         </>
     );
