@@ -10,7 +10,7 @@ function VideoList(props: VideoListProps) {
     return (
         <div className={styles.wrapper} style={style}>
             {items?.map((i, index) => (
-                <VideoPlayer visibleDropdown={visibleDropdown} key={i.id} {...i} onClick={() => videoClick && videoClick(index)} />
+                <VideoPlayer width="auto" visibleDropdown={visibleDropdown} key={i.id} {...i} onClick={() => videoClick && videoClick(index)} />
             ))}
         </div>
     );

@@ -9,6 +9,7 @@ import { Box, Icons, Button, TabBar, Card, Image, Document, Audio, Video } from 
 import Members from './members';
 import styles from './styles.module.scss';
 import momentLocalZone from '../../../../../../shared/lib/moment-local-zone';
+import { appStore } from '../../../../../app';
 import { EmployeeProxy } from '../../../../../company/model/types';
 import { userProxy } from '../../../../../user';
 import { UserProxy } from '../../../../../user/model/types';
@@ -27,6 +28,8 @@ type Props = {
 function ChatProfileContentView(props: Props) {
     const { removeMember, clickUser, chat, addMemberClick, mediaTypes, files } = props;
 
+    const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
+
     const tabs: { id: number; type: messageTypes.MediaContentType | null; title: string; hidden?: boolean }[] = [
         { id: 0, type: null, title: 'Участники', hidden: !chat?.is_group },
         { id: 1, type: 'images', title: 'Фото' },
@@ -35,6 +38,14 @@ function ChatProfileContentView(props: Props) {
         { id: 4, type: 'voices', title: 'Голосовые' },
         { id: 5, type: 'documents', title: 'Файлы' },
     ];
+
+    const openSwiper = (type: 'img' | 'video', index: number) => {
+        photoAndVideoFromSwiper.set({
+            type,
+            startIndex: index,
+            items: files as any,
+        });
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -72,6 +83,7 @@ function ChatProfileContentView(props: Props) {
                             visible: mediaTypes.value === 'images',
                             item: (
                                 <Image.List
+                                    imgClick={(index) => openSwiper('img', index)}
                                     items={files?.map((i, index) => ({
                                         id: index,
                                         name: i.name,
@@ -86,6 +98,7 @@ function ChatProfileContentView(props: Props) {
                             visible: mediaTypes.value === 'videos',
                             item: (
                                 <Video.List
+                                    videoClick={(index) => openSwiper('video', index)}
                                     items={files?.map((i, index) => ({
                                         id: index,
                                         name: i.name,

@@ -36,8 +36,9 @@ function VideoPlayer(props: BaseVideoProps) {
 
     const [video, state, controls, ref] = useVideo(
         <video
+            onClick={onClick}
             onContextMenu={(e) => e.preventDefault()}
-            style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0, objectFit: 'contain' }}
+            style={{ width: width || '100%', height, borderRadius: borderRadius ? 12 : 0, objectFit: 'contain', cursor: 'pointer', maxHeight: 400 }}
             src={src}
             autoPlay
             muted
@@ -80,7 +81,6 @@ function VideoPlayer(props: BaseVideoProps) {
             onMouseLeave={() => visibleMenu.set(false)}
             onContextMenu={clickContextMenu}
             className={styles.wrapper}
-            onClick={onClick}
             style={{ maxWidth: width || '100%', width: width || '100%', height }}
         >
             {progress.value > 0 && progress.value < 100 && (
