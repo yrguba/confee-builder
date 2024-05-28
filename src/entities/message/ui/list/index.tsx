@@ -147,7 +147,7 @@ function MessagesListView(props: Props) {
             executeScrollToElement({ ref: bottomMessageRef, enable: true });
         }
     }, [goDownList]);
-
+    console.log(messages);
     return (
         <div
             onWheel={onWheel}
@@ -167,6 +167,7 @@ function MessagesListView(props: Props) {
             <div ref={mergeRefs([bottomMessageRef, bottomMessageCheckVisibleRef])} />
             {messages?.map((message, index) => (
                 <Fragment key={message.id}>
+                    {index === 10 && <div ref={prevPageRef} />}
                     {message.type !== 'system' && (
                         <div
                             onClick={() => rowClick(message)}
@@ -180,7 +181,6 @@ function MessagesListView(props: Props) {
                             }}
                             ref={getMessageRefs(message, index)}
                         >
-                            {index === 10 && <div ref={prevPageRef} />}
                             <Message
                                 menuMessageId={menuMessageId}
                                 MessageMenu={MessageMenu}
@@ -192,7 +192,6 @@ function MessagesListView(props: Props) {
                                 voiceRecordingInProgress={voiceRecordingInProgress}
                                 clearDownloadFile={clearDownloadFile}
                             />
-                            {messages?.length - 10 === index && <div ref={nextPageRef} />}
                         </div>
                     )}
                     {message.systemMessages.length
@@ -202,6 +201,7 @@ function MessagesListView(props: Props) {
                               </div>
                           ))
                         : null}
+                    {messages?.length - 10 === index && <div ref={nextPageRef} />}
                 </Fragment>
             ))}
         </div>
