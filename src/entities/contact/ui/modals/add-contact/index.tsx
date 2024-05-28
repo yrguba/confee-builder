@@ -27,8 +27,8 @@ function AddContactModalView(props: Props) {
             </div>
             <div className={styles.body}>
                 <div className={styles.inputsName}>
-                    <Input maxLength={30} size="m" {...inputs.firstName} placeholder="Имя" />
-                    <Input maxLength={30} size="m" {...inputs.lastName} placeholder="Фамилия (необязательно)" />
+                    <Input maxLength={20} size="m" {...inputs.firstName} placeholder="Имя" />
+                    <Input maxLength={20} size="m" {...inputs.lastName} placeholder="Фамилия (необязательно)" />
                 </div>
                 <div className={styles.inputPhone}>
                     <Input.Phone {...inputs.phone} />

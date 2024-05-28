@@ -16,21 +16,23 @@ function ContextMenu(props: BaseContextMenuProps) {
             trigger={trigger}
             content={
                 <div onMouseLeave={mouseLeave} className={styles.wrapper}>
-                    {items.map((i) => (
-                        <div
-                            key={i.id}
-                            className={styles.item}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                i.callback();
-                            }}
-                        >
-                            <div className={`${styles.content} ${i.isRed && styles.content_red}`}>
-                                <div>{i.icon}</div>
-                                <div className={styles.title}>{i.title}</div>
+                    {items
+                        .filter((i) => !i.hidden)
+                        .map((i) => (
+                            <div
+                                key={i.id}
+                                className={styles.item}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    i.callback();
+                                }}
+                            >
+                                <div className={`${styles.content} ${i.isRed && styles.content_red}`}>
+                                    <div>{i.icon}</div>
+                                    <div className={styles.title}>{i.title}</div>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             }
         />

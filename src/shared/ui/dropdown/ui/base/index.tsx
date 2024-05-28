@@ -22,6 +22,7 @@ function Dropdown(props: BaseDropdownProps) {
         animationVariant = 'visibleHidden',
         disabled,
         clickAway,
+        width,
     } = props;
 
     const elementRef = useRef<HTMLDivElement>(null);
@@ -73,7 +74,7 @@ function Dropdown(props: BaseDropdownProps) {
                     }
                 }).observe(elementRef.current);
             }
-        }, 0);
+        }, 10);
     }, [elementRef.current]);
 
     useEffect(() => {
@@ -109,7 +110,7 @@ function Dropdown(props: BaseDropdownProps) {
             }
             return clickCoord.x;
         }
-        return clickCoord.x;
+        return reverseX && width ? clickCoord.x - width : clickCoord.x;
     };
 
     const item = () => (
