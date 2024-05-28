@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
+import { date } from 'yup';
 
 import { appService } from 'entities/app';
 import { useEasyState, useFetchMediaContent, useFs } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { messageStore } from '../../../../../../entities/message';
-import { sizeConverter } from '../../../../../lib';
+import { dateConverter, sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
 import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../../../index';
 import LoadingIndicator from '../../../../loading-indicator';
@@ -14,7 +15,7 @@ import Title from '../../../../title';
 import { BaseDocumentProps } from '../../types';
 
 function Document(props: BaseDocumentProps) {
-    const { id, disableDownload = true, url, size, name, extension } = props;
+    const { date, id, disableDownload = true, url, size, name, extension } = props;
     const visibleMenu = useEasyState(false);
 
     const downloadFile = messageStore.use.downloadFile();
@@ -78,7 +79,19 @@ function Document(props: BaseDocumentProps) {
                     <Title textAlign="left" variant="H3R">
                         {name}
                     </Title>
-                    {size && <Title variant="H3R">{sizeConverter(+size)}</Title>}
+                    <div className={styles.sizeAndDate}>
+                        {(size || size === 0) && (
+                            <Title primary={false} overflow="visible" width="auto" variant="caption2M">
+                                {+size === 0 ? '0kb' : sizeConverter(+size)}
+                            </Title>
+                        )}
+                        {date && <div className={styles.dot} />}
+                        {date && (
+                            <Title primary={false} variant="caption2M">
+                                {dateConverter(date)}
+                            </Title>
+                        )}
+                    </div>
                 </div>
             )}
             <ContextMenu visible={visibleMenu.value} items={menuItems} />

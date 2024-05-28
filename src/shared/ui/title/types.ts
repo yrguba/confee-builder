@@ -32,6 +32,8 @@ export type BaseTitleProps = {
     color?: 'red' | 'inactive' | 'green' | 'fixed' | '';
     replaceEmoji?: boolean;
     textSelect?: boolean;
+    width?: string;
+    overflow?: 'hidden' | 'visible';
 } & BaseTypes.Statuses;
 
 export type TitleReplaceEmoji = {

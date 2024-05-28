@@ -10,6 +10,7 @@ export type BaseDocumentProps = {
     size?: number;
     extension?: string;
     disableDownload?: boolean;
+    date?: Date;
 };
 
 export type DocumentsListItemProps = {

@@ -103,6 +103,7 @@ function ChatProfileContentView(props: Props) {
                                 <div className={styles.documents}>
                                     <Document.List
                                         items={files?.map((i, index) => ({
+                                            date: i.updated_at,
                                             id: index,
                                             url: i.url || '',
                                             name: i.name,

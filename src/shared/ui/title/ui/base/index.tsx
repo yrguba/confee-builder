@@ -27,6 +27,8 @@ function Title(props: BaseTitleProps) {
         replaceEmoji,
         wordBreak,
         textSelect,
+        width = '100%',
+        overflow = 'hidden',
     } = props;
 
     const cx = cnBind.bind(styles);
@@ -60,7 +62,7 @@ function Title(props: BaseTitleProps) {
         newValue.set(children);
     });
     const shared = {
-        style: { textAlign },
+        style: { textAlign, width, overflow },
         className: classes,
     };
 
