@@ -1,7 +1,7 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex(flex-end, flex-end);
+  @include flex-column(flex-start, flex-start, 6);
   color: var(--text-primary);
   max-width: 290px;
   background-color: var(--bg-secondary);
