@@ -41,20 +41,8 @@ function messageGateway({ event, data }: Socket, queryClient: QueryClient) {
                     }
                 });
             });
-            chatService.forEachChats(queryClient, 18, (chats) => {
-                const foundChatIndex = chats?.findIndex((i: Chat) => data.message.chat_id === i.id);
-                const lastPinnedChatIndex = chats?.findIndex((i: Chat) => i.chat_pinned);
-                if (foundChatIndex !== -1) {
-                    const chat = chats[foundChatIndex];
-                    chats.splice(foundChatIndex, 1);
-                    chats.splice(lastPinnedChatIndex + 1, 0, {
-                        ...chat,
-                        pending_messages_count: data.extra_info.is_read ? chat.pending_messages_count : data.extra_info.chat_pending_messages_count,
-                        last_message: data.message,
-                        typing: '',
-                    });
-                }
-            });
+            ['all', 'personal', `for-company/18`].forEach((i) => queryClient.invalidateQueries(['get-chats', i]));
+
             queryClient.setQueryData(['get-chat', data.message.chat_id], (cacheData: any) => {
                 if (!cacheData?.data?.data) return cacheData;
                 return produce(cacheData, (draft: any) => {

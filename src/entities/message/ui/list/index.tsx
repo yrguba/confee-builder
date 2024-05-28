@@ -147,7 +147,7 @@ function MessagesListView(props: Props) {
             executeScrollToElement({ ref: bottomMessageRef, enable: true });
         }
     }, [goDownList]);
-    console.log(messages);
+
     return (
         <div
             onWheel={onWheel}
