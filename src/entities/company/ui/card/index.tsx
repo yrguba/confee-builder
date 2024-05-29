@@ -18,10 +18,11 @@ type Props = {
     cardClick?: () => void;
     avatar?: string;
     mini?: boolean;
+    visibleArrow?: boolean;
 } & BaseTypes.Statuses;
 
 function CompanyCardView(props: Props) {
-    const { mini, avatar, cardClick, style, title, status, subtitle, position, width } = props;
+    const { visibleArrow = true, mini, avatar, cardClick, style, title, status, subtitle, position, width } = props;
     const sm = useWidthMediaQuery().to('sm');
 
     return mini ? (
@@ -40,11 +41,13 @@ function CompanyCardView(props: Props) {
         </div>
     ) : (
         <div className={styles.wrapper} style={{ ...style, cursor: cardClick ? 'pointer' : 'default' }} onClick={cardClick}>
-            <div className={styles.arrow}>
-                <Icons variant="arrow-drop-right" />
-            </div>
+            {visibleArrow && (
+                <div className={styles.arrow}>
+                    <Icons variant="arrow-drop-right" />
+                </div>
+            )}
             <div className={styles.body}>
-                <Card onClick={() => ''} img={avatar} title={title} subtitle={subtitle} />
+                <Card img={avatar} title={title} subtitle={subtitle} />
                 <div className={styles.position}>
                     <Title textWrap variant="caption1M">
                         {position || 'Нет данных'}

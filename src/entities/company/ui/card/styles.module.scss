@@ -10,6 +10,7 @@
   padding: 0 18px;
   position: relative;
   cursor: pointer;
+  min-height: 150px;
 
   @include width-to(sm) {
     width: auto;

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useWindowSize } from 'react-use';
 
 import { useEasyState, useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -21,6 +22,8 @@ function EmployeeProfileView(props: Props) {
 
     const visibleMenu = useEasyState(false);
 
+    const { width } = useWindowSize();
+
     const viewerId = viewerStore.getState().viewer.value.id;
 
     const sm = useWidthMediaQuery().to('sm');
@@ -39,33 +42,39 @@ function EmployeeProfileView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.avatarBlock}>
-                <Avatar loading={loading} circle={false} size={201} img={employee?.avatar} />
-                <div className={styles.center}>
+            <div className={styles.container}>
+                <ContextMenu x={-208} trigger="mouseup" clickAway={() => visibleMenu.set(false)} items={menuItems} visible={visibleMenu.value} />
+                <div className={styles.avatar}>
+                    <Avatar loading={loading} size={width > 564 ? 201 : 100} img={employee?.avatar} />
+                </div>
+                <div className={styles.btns}>
+                    {btns
+                        .filter((i) => !i.hidden)
+                        .map((i) => (
+                            <Button key={i.id} variant="shadow" width="60px" direction="vertical" onClick={i.callback}>
+                                {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
+                            </Button>
+                        ))}
+                </div>
+                <div className={styles.description}>
                     <div className={styles.name}>
                         <Title variant="H1">{employee?.full_name}</Title>
-                        {employee?.companies?.length ? <CompanyTagView name={employee?.companies[0]?.name || ''} /> : null}
                     </div>
-                    <ContextMenu items={menuItems} visible={visibleMenu.value} />
-                    <div className={styles.btns}>
-                        {viewerId === employee?.user?.id ? (
-                            ''
-                        ) : employee?.user ? (
-                            btns.map((i) => (
-                                <Button key={i.id} variant="shadow" width="61px" direction="vertical" onClick={i.callback}>
-                                    {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
-                                </Button>
-                            ))
-                        ) : (
-                            <Title variant="H2">Не зарегистрирован</Title>
-                        )}
+                    <div className={styles.networkStatus}>
+                        <Title primary={false} variant="Body16">{`был(а) ${employee?.userProxy?.networkStatus}`}</Title>
                     </div>
+
+                    {employee?.user && (
+                        <div className={styles.info}>
+                            <UserInfoView hiddenEmail user={employee?.userProxy || null} />
+                        </div>
+                    )}
                 </div>
             </div>
-
             {employee?.companies?.length
                 ? employee?.companies?.map((i) => (
                       <CompanyCardView
+                          visibleArrow={false}
                           avatar={i.avatar || ''}
                           style={{ backgroundColor: 'var(--bg-secondary)' }}
                           position={employee.position || ''}
@@ -76,12 +85,6 @@ function EmployeeProfileView(props: Props) {
                       />
                   ))
                 : null}
-
-            {employee?.user && (
-                <div className={styles.userInfo}>
-                    <UserInfoView hiddenEmail user={employee?.userProxy || null} />
-                </div>
-            )}
         </div>
     );
 }

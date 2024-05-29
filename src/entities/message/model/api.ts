@@ -242,7 +242,6 @@ class MessageApi {
                     forward_from_message_ids: data.messages.map((i) => i.id),
                     files: data.filesIds,
                 };
-                console.log(data);
                 if (!data.filesIds?.length) {
                     delete body.files;
                 }

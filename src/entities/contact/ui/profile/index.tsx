@@ -33,7 +33,7 @@ function ContactProfileView(props: Props) {
             payload: '',
             icon: !contact?.muted ? 'unmute' : 'mute',
             callback: () => actions?.mute(),
-            hidden: width <= 563,
+            hidden: width <= 284,
         },
         {
             id: 3,
@@ -41,7 +41,7 @@ function ContactProfileView(props: Props) {
             icon: 'delete',
             payload: '',
             callback: () => actions?.delete && actions?.delete(),
-            hidden: width <= 563,
+            hidden: width <= 280,
         },
         { id: 4, title: 'Ещё', icon: 'more', payload: '', callback: visibleMenu.toggle },
     ];
@@ -56,20 +56,6 @@ function ContactProfileView(props: Props) {
                 visibleMenu.set(false);
             },
         },
-        {
-            id: 1,
-            title: 'Выключить уведомления',
-            icon: <Icons.Player variant={!contact?.muted ? 'unmute' : 'mute'} />,
-            callback: () => actions?.mute(),
-            hidden: width >= 563,
-        },
-        {
-            id: 2,
-            title: 'Удалить',
-            icon: <Icons variant="delete" />,
-            callback: () => actions?.delete && actions?.delete(),
-            hidden: width >= 563,
-        },
     ];
 
     return (
@@ -77,13 +63,13 @@ function ContactProfileView(props: Props) {
             <div className={styles.container}>
                 <ContextMenu x={-208} trigger="mouseup" clickAway={() => visibleMenu.set(false)} items={menuItems} visible={visibleMenu.value} />
                 <div className={styles.avatar}>
-                    <Avatar loading={loading} clickAvatar={clickAvatar} size={width > 563 ? 201 : 100} img={contact?.avatar} />
+                    <Avatar loading={loading} clickAvatar={clickAvatar} size={width > 564 ? 201 : 100} img={contact?.avatar} />
                 </div>
                 <div className={styles.btns}>
                     {btns
                         .filter((i) => !i.hidden)
                         .map((i) => (
-                            <Button key={i.id} variant="shadow" width={width < 465 ? '80px' : '100px'} direction="vertical" onClick={i.callback}>
+                            <Button key={i.id} variant="shadow" width="60px" direction="vertical" onClick={i.callback}>
                                 {i.id === 2 ? <Icons.Player variant={i.icon} /> : <Icons variant={i.icon} />}
                             </Button>
                         ))}
