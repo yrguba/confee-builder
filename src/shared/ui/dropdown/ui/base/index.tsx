@@ -22,7 +22,8 @@ function Dropdown(props: BaseDropdownProps) {
         animationVariant = 'visibleHidden',
         disabled,
         clickAway,
-        width,
+        y,
+        x,
     } = props;
 
     const elementRef = useRef<HTMLDivElement>(null);
@@ -94,7 +95,7 @@ function Dropdown(props: BaseDropdownProps) {
             }
             return clickCoord.y;
         }
-        return clickCoord.y;
+        return y ? clickCoord.y + y : clickCoord.y;
     };
 
     const getLeft = () => {
@@ -110,7 +111,7 @@ function Dropdown(props: BaseDropdownProps) {
             }
             return clickCoord.x;
         }
-        return reverseX && width ? clickCoord.x - width : clickCoord.x;
+        return x ? clickCoord.x + x : clickCoord.x;
     };
 
     const item = () => (

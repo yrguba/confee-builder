@@ -235,9 +235,19 @@ class MessageApi {
     handleForwardMessages() {
         const queryClient = useQueryClient();
         const viewerData: any = queryClient.getQueryData(['get-viewer']);
+
         return useMutation(
-            (data: { messages: Message[]; chatId: number }) =>
-                axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages/forward`, { forward_from_message_ids: data.messages.map((i) => i.id) }),
+            (data: { messages: Message[]; chatId: number; filesIds?: number[] }) => {
+                const body = {
+                    forward_from_message_ids: data.messages.map((i) => i.id),
+                    files: data.filesIds,
+                };
+                console.log(data);
+                if (!data.filesIds?.length) {
+                    delete body.files;
+                }
+                return axiosClient.post(`${this.pathPrefix}/${data.chatId}/messages/forward`, body);
+            },
             {
                 onMutate: (data) => {
                     queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
@@ -245,7 +255,7 @@ class MessageApi {
                             return mockMessage({
                                 text: i.text,
                                 author: i.author,
-                                files: i.files,
+                                files: data.filesIds?.length ? i.files.filter((i: any) => data.filesIds?.includes(i.id)) : i.files,
                                 type: i.type,
                                 reply: i.reply_to_message,
                                 forward: i,

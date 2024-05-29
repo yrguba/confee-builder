@@ -23,13 +23,14 @@ function PhotoVideoSwiper(modal: ModalTypes.UseReturnedType) {
         );
     };
 
-    const forward = () => {
+    const forward = (items: any) => {
         if (photoAndVideoFromSwiper.value?.message?.chat_id) {
             forwardMessages.set({
                 fromChatName: 'fef',
                 toChatId: photoAndVideoFromSwiper.value?.message.chat_id,
                 messages: [photoAndVideoFromSwiper.value?.message],
                 redirect: true,
+                filesIds: items.length ? items.map((i: any) => i.id) : [],
             });
             openForwardMessageModal.set(true);
             photoAndVideoFromSwiper.clear();

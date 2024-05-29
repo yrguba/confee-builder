@@ -80,6 +80,7 @@ function MessageInput() {
                 handleForwardMessages({
                     chatId,
                     messages: forwardMessages.value?.messages as any,
+                    filesIds: forwardMessages.value?.filesIds,
                 });
             }, 1000);
             forwardMessages.clear();

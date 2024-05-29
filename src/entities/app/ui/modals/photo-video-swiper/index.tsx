@@ -5,7 +5,7 @@ import { useUpdateEffect } from 'react-use';
 
 import { useEasyState, useInView } from 'shared/hooks';
 import { fileConverter } from 'shared/lib';
-import { Box, Button, Canvas, Card, ContextMenu, Icons, Image, Video } from 'shared/ui';
+import { Box, Button, Canvas, Card, ContextMenu, ContextMenuTypes, Icons, Image, Video } from 'shared/ui';
 import VideoPlayerWithControls from 'shared/ui/media-content/video/ui/with-controls';
 
 import styles from './styles.module.scss';
@@ -19,7 +19,7 @@ type Props = {
     close: () => void;
     downloads: (items: any) => void;
     deleteMessage: () => void;
-    forward: () => void;
+    forward: (items: any) => void;
     deleteImage: (id: string | number) => void;
     replaceImage: (id: number | string, file: File, url: string) => void;
 };
@@ -40,7 +40,7 @@ function PhotoVideoSwiperView(props: Props) {
     const imgSize = useEasyState({ naturalWidth: 0, naturalHeight: 0, containedWidth: 0, containedHeight: 0 });
 
     const fullScreen = useEasyState(false);
-    const visibleContextMenu = useEasyState(false);
+    const visibleContextMenu = useEasyState<'forward' | 'upload' | null>(null);
 
     const activeCrop = useEasyState(false);
     const activeDraw = useEasyState(false);
@@ -94,21 +94,31 @@ function PhotoVideoSwiperView(props: Props) {
         }
     };
 
-    const downloadMenuItems = [
+    const downloadAndForwardMenuItems: ContextMenuTypes.ContextMenuItem[] = [
         {
             id: 0,
             title: data?.type === 'img' ? 'Все фото' : 'Все видео',
             callback: () => {
-                downloads(data?.items);
-                visibleContextMenu.set(false);
+                if (visibleContextMenu.value === 'upload') {
+                    downloads(data?.items);
+                } else {
+                    forward([]);
+                }
+
+                visibleContextMenu.set(null);
             },
         },
         {
             id: 1,
             title: 'Только это',
             callback: () => {
-                downloads([activeItem.value]);
-                visibleContextMenu.set(false);
+                if (visibleContextMenu.value === 'upload') {
+                    downloads([activeItem.value]);
+                } else {
+                    forward([activeItem.value]);
+                }
+
+                visibleContextMenu.set(null);
             },
         },
     ];
@@ -116,21 +126,14 @@ function PhotoVideoSwiperView(props: Props) {
     const actions = [
         {
             id: 0,
-            icon: (
-                <div className={styles.download}>
-                    <Box.Animated className={styles.menu} onMouseLeave={() => visibleContextMenu.set(false)} visible={visibleContextMenu.value}>
-                        {downloadMenuItems.map((i) => (
-                            <div key={i.id} onClick={i.callback}>
-                                {i.title}
-                            </div>
-                        ))}
-                    </Box.Animated>
-                    <Icons variant="upload" />
-                </div>
-            ),
-            onClick: () => (multiple ? visibleContextMenu.set(true) : downloads([activeItem.value])),
+            icon: <Icons variant="upload" />,
+            onClick: () => (multiple ? visibleContextMenu.set('upload') : downloads([activeItem.value])),
         },
-        { id: 1, icon: <Icons variant="redirect" />, onClick: forward },
+        {
+            id: 1,
+            icon: <Icons variant="redirect" />,
+            onClick: () => (multiple ? visibleContextMenu.set('forward') : forward([activeItem.value])),
+        },
         { id: 2, icon: <Icons variant="delete" />, onClick: deleteMessage },
     ];
 
@@ -190,6 +193,13 @@ function PhotoVideoSwiperView(props: Props) {
 
     return (
         <div className={styles.wrapper} onContextMenu={(e) => e.preventDefault()}>
+            <ContextMenu
+                y={-100}
+                trigger="mouseup"
+                clickAway={() => visibleContextMenu.set(null)}
+                items={downloadAndForwardMenuItems}
+                visible={!!visibleContextMenu.value}
+            />
             <div className={styles.closeIcon} onClick={close}>
                 <Icons variant="close" />
             </div>

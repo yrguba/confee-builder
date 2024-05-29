@@ -16,5 +16,6 @@ export type BaseDropdownProps = {
     clickAway?: () => void;
     trigger?: Trigger;
     destroyed?: boolean;
-    width?: number;
+    x?: number;
+    y?: number;
 } & BaseTypes.Statuses;

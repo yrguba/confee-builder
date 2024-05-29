@@ -6,7 +6,7 @@ type Store = {
     replyMessage: MessageProxy;
     editMessage: MessageProxy;
     messagesForDelete: MessageProxy[];
-    forwardMessages?: { fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean };
+    forwardMessages?: { fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean; filesIds?: number[] };
     highlightedMessages: MessageProxy[];
     voiceRecordingInProgress: boolean;
     visibleSearchMessages: boolean;

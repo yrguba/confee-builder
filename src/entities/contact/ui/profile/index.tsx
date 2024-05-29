@@ -75,7 +75,7 @@ function ContactProfileView(props: Props) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.container}>
-                <ContextMenu width={238} trigger="mouseup" reverseX clickAway={() => visibleMenu.set(false)} items={menuItems} visible={visibleMenu.value} />
+                <ContextMenu x={-208} trigger="mouseup" clickAway={() => visibleMenu.set(false)} items={menuItems} visible={visibleMenu.value} />
                 <div className={styles.avatar}>
                     <Avatar loading={loading} clickAvatar={clickAvatar} size={width > 563 ? 201 : 100} img={contact?.avatar} />
                 </div>
