@@ -172,6 +172,21 @@ class MessageApi {
                             draft.pages[0].data.data.unshift(message);
                         });
                     });
+                    ['all', 'personal', `for-company/18`].forEach((i) =>
+                        queryClient.setQueryData(['get-chats', i], (cacheData: any) => {
+                            if (!cacheData?.pages?.length) return cacheData;
+                            return produce(cacheData, (draft: any) => {
+                                draft.pages.forEach((page: any) => {
+                                    page.data.data.forEach((chat: any, index: number) => {
+                                        if (chat.id === data.chatId) {
+                                            const target = page.data.data.splice(index, 1);
+                                            draft.pages[0].data.data = [...target, ...draft.pages[0].data.data];
+                                        }
+                                    });
+                                });
+                            });
+                        })
+                    );
                 },
                 onSuccess: (data) => {
                     const message = data.data.data;
