@@ -46,7 +46,7 @@ function CardList(props: CardListProps) {
                     >
                         <div className={styles.container}>
                             <div className={styles.info}>
-                                <Card companyNames={companyNames} {...i} onClick={() => (i.onClick ? i.onClick() : '')} />
+                                <Card companyNames={companyNames} {...i} name={i.title} onClick={() => (i.onClick ? i.onClick() : '')} />
                             </div>
                             {i.remove && (
                                 <div onClick={() => i.remove && i.remove(Number(i.id), String(i.title))}>
