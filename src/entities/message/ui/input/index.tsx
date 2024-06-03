@@ -99,8 +99,8 @@ function MessageInputView(props: Props) {
     };
 
     const closeHeader = () => {
-        if (replyMessage.value.id) replyMessage.clear();
-        if (editMessage.value.id) editMessage.clear();
+        if (replyMessage.value?.id) replyMessage.clear();
+        if (editMessage.value?.id) editMessage.clear();
         if (forwardMessages?.value?.fromChatName) forwardMessages.clear();
         messageTextState.set('');
     };
