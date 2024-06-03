@@ -7,6 +7,7 @@ import { useCallbackRef, useClickAway, useEasyState, useReverseTimer, useSize, u
 import { Box } from 'shared/ui/index';
 
 import styles from './styles.module.scss';
+import { useDimensionsObserver } from '../../../../hooks';
 import { BaseDropdownProps } from '../../types';
 
 function Dropdown(props: BaseDropdownProps) {
@@ -34,6 +35,14 @@ function Dropdown(props: BaseDropdownProps) {
     const wrapperSize = useEasyState<any>({ width: 0, height: 0 });
     const outsideY = useEasyState(0);
     const outsideX = useEasyState(0);
+
+    useEffect(() => {
+        function handleResize() {
+            clickAway && clickAway();
+        }
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useClickAway(elementRef, () => {
         clickAway && clickAway();

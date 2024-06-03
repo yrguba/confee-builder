@@ -4,13 +4,16 @@ import { contactApi, ContactProfileView, contactProxy } from 'entities/contact';
 import { useRouter } from 'shared/hooks';
 
 import ChangeNameContactModal from './modals/change-name';
-import { chatApi } from '../../../entities/chat';
+import { useCall } from '../../../entities/call';
+import { chatApi, chatProxy } from '../../../entities/chat';
 import { Modal, Notification } from '../../../shared/ui';
 
 function ContactProfile() {
     const { params, navigate } = useRouter();
 
     const changeNameModal = Modal.use();
+
+    const meet = useCall();
 
     const notifications = Notification.use();
 
@@ -37,6 +40,21 @@ function ContactProfile() {
         }
     };
 
+    const getCall = () => {
+        if (chatData) {
+            meet.openCreateMeet(chatProxy(chatData));
+        } else if (contactData?.user.id) {
+            handleCreatePersonalChat(
+                { user_ids: [contactData?.user.id], is_group: false },
+                {
+                    onSuccess: (res) => {
+                        meet.openCreateMeet(chatProxy(res?.data.data));
+                    },
+                }
+            );
+        }
+    };
+
     const deleteContact = () => {
         handleDeleteContact({ contactId: Number(params.contact_id) }, { onSuccess: () => navigate('/contacts/personal') });
     };
@@ -56,7 +74,7 @@ function ContactProfile() {
                 actions={{
                     getChat,
                     delete: deleteContact,
-                    audioCall: notifications.inDev,
+                    audioCall: getCall,
                     videoCall: notifications.inDev,
                     mute: muteContact,
                     openChangeNameModal: changeNameModal.open,

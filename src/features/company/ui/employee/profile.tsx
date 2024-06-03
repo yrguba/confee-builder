@@ -3,10 +3,13 @@ import React from 'react';
 import { companyApi, employeeProxy, EmployeeProfileView } from 'entities/company';
 import { useRouter } from 'shared/hooks';
 
-import { chatApi } from '../../../../entities/chat';
+import { useCall } from '../../../../entities/call';
+import { chatApi, chatProxy } from '../../../../entities/chat';
 
 function EmployeeProfile() {
     const { params, navigate } = useRouter();
+
+    const meet = useCall();
 
     const { data: employeeData, isLoading } = companyApi.handleGetEmployee({ employeeId: params.employee_id });
     const { data: chatData } = chatApi.handleGetChatWithEmployee({ employeeId: employeeData?.id });
@@ -27,12 +30,27 @@ function EmployeeProfile() {
         }
     };
 
+    const getCall = () => {
+        if (chatData) {
+            meet.openCreateMeet(chatProxy(chatData));
+        } else if (employeeData?.id) {
+            handleCreateCompanyChat(
+                { body: { employee_ids: [employeeData.id], is_group: false }, companyId: params.company_id },
+                {
+                    onSuccess: (res) => {
+                        meet.openCreateMeet(chatProxy(res?.data.data));
+                    },
+                }
+            );
+        }
+    };
+
     return (
         <EmployeeProfileView
             actions={{
                 getChat,
                 delete: () => '',
-                audioCall: () => '',
+                audioCall: getCall,
                 videoCall: () => '',
                 mute: () => '',
             }}
