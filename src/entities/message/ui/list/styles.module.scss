@@ -26,6 +26,12 @@
     }
   }
 
+  .systemMsg{
+    @include box-size(0, auto);
+    display: flex;
+    min-width: 100%;
+  }
+
   .row {
     @include box-size(98%, auto);
     display: flex;

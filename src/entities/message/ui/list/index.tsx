@@ -196,7 +196,12 @@ function MessagesListView(props: Props) {
                     )}
                     {message.systemMessages.length
                         ? message.systemMessages.map((text, ind) => (
-                              <div key={ind} ref={getMessageRefs(message, index)} onMouseEnter={() => !message.is_read && readMessage(message.id)}>
+                              <div
+                                  className={styles.systemMsg}
+                                  key={ind}
+                                  ref={getMessageRefs(message, index)}
+                                  onMouseEnter={() => !message.is_read && readMessage(message.id)}
+                              >
                                   <SystemMessage text={text} />
                               </div>
                           ))
