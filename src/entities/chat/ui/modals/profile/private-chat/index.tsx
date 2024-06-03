@@ -102,8 +102,9 @@ function PrivateChatProfileModalView(props: Props) {
             {employee && (
                 <div className={styles.companyCard}>
                     <CompanyCardView
+                        visibleArrow={false}
                         avatar={employee?.companies[0]?.avatar || ''}
-                        style={{ width: '100%', maxWidth: 'none' }}
+                        style={{ width: '100%', maxWidth: 'none', backgroundColor: 'var(--bg-secondary)' }}
                         status={employee.status}
                         position={employee.position || ''}
                         title={employee.companies[0]?.name || ''}
