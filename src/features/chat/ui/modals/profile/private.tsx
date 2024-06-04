@@ -14,21 +14,24 @@ import { getRandomString } from '../../../../../shared/lib';
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
     const { navigate, pathname, params } = useRouter();
 
-    const chatId = Number(params.chat_id);
-
+    // const chatId = Number(params.chat_id);
+    console.log(modal.payload);
     const viewer = viewerStore.use.viewer();
     const { user, employee } = modal.payload;
 
-    const { data: chatData } = chatApi.handleGetChat({ chatId });
+    const { data: chatWithEmployee } = chatApi.handleGetChatWithEmployee({ employeeId: modal.payload?.employee?.id });
+    const { data: chatWithUser } = chatApi.handleGetChatWithUser({ userId: modal.payload?.user?.id });
 
-    const proxyChat = chatProxy(chatData?.data.data);
+    const chatData = chatWithUser || chatWithEmployee;
+
+    const proxyChat = chatProxy(chatData);
 
     const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
 
     const notification = Notification.use();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>('images');
-
+    console.log(proxyChat);
     const call = useCall();
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId: proxyChat?.id, filesType: mediaTypes.value });
@@ -60,13 +63,13 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 const redirect = (chatId?: number) => navigate(`/chats/${user ? 'personal' : `company/${params.company_id}`}/chat/${chatId}`);
                 if (!proxyChat) {
                     if (user) {
-                        handleCreatePersonalChat({ user_ids: [user.id], is_group: false }, { onSuccess: (data) => redirect(data.data.data.id) });
-                    } else {
-                        employee &&
-                            handleCreateCompanyChat(
-                                { companyId: params.company_id, body: { employee_ids: [employee?.id], is_group: false } },
-                                { onSuccess: (data) => redirect(data.data.data.id) }
-                            );
+                        return handleCreatePersonalChat({ user_ids: [user.id], is_group: false }, { onSuccess: (data) => redirect(data.data.data.id) });
+                    }
+                    if (employee) {
+                        return handleCreateCompanyChat(
+                            { companyId: params.company_id, body: { employee_ids: [employee?.id], is_group: false } },
+                            { onSuccess: (data) => redirect(data.data.data.id) }
+                        );
                     }
                 } else {
                     return redirect(proxyChat?.id);
@@ -94,7 +97,7 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 files={filesData}
                 visibleChatBtn={String(proxyChat?.id) !== params.chat_id}
                 visibleBtns={user?.id !== viewer.value.id}
-                setDescription={(value) => handleUpdateChatDescription({ chatId, description: value })}
+                setDescription={(value) => handleUpdateChatDescription({ chatId: proxyChat?.id, description: value })}
             />
         </>
     );

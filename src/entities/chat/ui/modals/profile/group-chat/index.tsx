@@ -24,7 +24,7 @@ type Props = {
     getScreenshot: (preview: string, file: File) => void;
     clickAvatar: () => void;
     updateChatName: (name: string) => void;
-    clickUser: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
+    clickUser?: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     removeMember: (id: number, name: string) => void;
     setDescription: (value: string) => void;
     scrollPosition?: ModalTypes.ScrollPosition;

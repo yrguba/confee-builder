@@ -25,6 +25,9 @@ type Member = {
     name: string;
     description: string;
     avatar: string;
+    employee?: EmployeeProxy;
+    user?: UserProxy;
+    chatId?: number;
 };
 
 function Members(props: Props) {
@@ -40,6 +43,8 @@ function Members(props: Props) {
 
         current?.map((i: any) => {
             const obj = {
+                employee: employeeMembers?.length ? i : null,
+                user: members?.length ? i : null,
                 id: i.id,
                 name: i?.full_name || '',
                 avatar: i.avatar || '',
@@ -73,7 +78,13 @@ function Members(props: Props) {
                     </Title>
                     {admins.value.map((i) => (
                         <div key={i.id} className={styles.item}>
-                            <Card name={i.name} title={i.name} img={i.avatar} subtitle={i.description} />
+                            <Card
+                                onClick={() => clickUser && clickUser({ employee: i.employee, user: i.user })}
+                                name={i.name}
+                                title={i.name}
+                                img={i.avatar}
+                                subtitle={i.description}
+                            />
                         </div>
                     ))}
                 </div>
@@ -84,7 +95,13 @@ function Members(props: Props) {
                 </Title>
                 {withoutRights.value.map((i) => (
                     <div key={i.id} className={styles.item}>
-                        <Card name={i.name} title={i.name} img={i.avatar} subtitle={i.description} />
+                        <Card
+                            onClick={() => clickUser && clickUser({ employee: i.employee, user: i.user })}
+                            name={i.name}
+                            title={i.name}
+                            img={i.avatar}
+                            subtitle={i.description}
+                        />
                         {isOwner && (
                             <Button.Circle variant="inherit" onClick={() => removeMember && removeMember(i.id, i.name)}>
                                 <Icons variant="delete" />

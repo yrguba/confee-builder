@@ -180,7 +180,7 @@ class ChatApi {
     handleUpdateChatDescription() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { chatId: number | string; description: string }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/description `, data),
+            (data: { chatId?: number | string; description: string }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/description `, data),
             {
                 onSuccess: async (res, data) => {
                     queryClient.setQueryData(['get-chat', data.chatId], (cacheData: any) => {

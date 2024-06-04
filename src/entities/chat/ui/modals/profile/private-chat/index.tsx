@@ -35,7 +35,7 @@ function PrivateChatProfileModalView(props: Props) {
     const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
         { id: 0, title: 'Конференция', icon: 'videocam', payload: '', callback: () => actions('goMeet') },
         { id: 1, title: 'Написать', icon: 'messages', payload: '', callback: () => actions('message'), hidden: !visibleChatBtn },
-        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
+        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true), hidden: !chat },
     ];
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
@@ -112,7 +112,7 @@ function PrivateChatProfileModalView(props: Props) {
                     />
                 </div>
             )}
-            <ChatProfileContentView files={files} chat={chat} mediaTypes={mediaTypes} />
+            {chat && <ChatProfileContentView files={files} chat={chat} mediaTypes={mediaTypes} />}
         </div>
     );
 }
