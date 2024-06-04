@@ -14,8 +14,6 @@ import { getRandomString } from '../../../../../shared/lib';
 function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: UserProxy; employee?: EmployeeProxy }>) {
     const { navigate, pathname, params } = useRouter();
 
-    // const chatId = Number(params.chat_id);
-    console.log(modal.payload);
     const viewer = viewerStore.use.viewer();
     const { user, employee } = modal.payload;
 
@@ -26,12 +24,8 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
 
     const proxyChat = chatProxy(chatData);
 
-    const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
-
-    const notification = Notification.use();
-
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>('images');
-    console.log(proxyChat);
+
     const call = useCall();
 
     const { data: filesData } = chatApi.handleGetChatFiles({ chatId: proxyChat?.id, filesType: mediaTypes.value });
