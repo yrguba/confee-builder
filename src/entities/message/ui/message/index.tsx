@@ -15,6 +15,7 @@ import VideoMessage from './variants/video';
 import VoiceMessage from './variants/voice';
 import { useDimensionsObserver, useEasyState, useStyles } from '../../../../shared/hooks';
 import { appTypes } from '../../../app';
+import { employeeProxy } from '../../../company';
 import { EmployeeProxy } from '../../../company/model/types';
 import { userProxy } from '../../../user';
 import { User, UserProxy } from '../../../user/model/types';
@@ -45,6 +46,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         isMy,
         isMock,
         author,
+        author_employee,
         forwarded_from_message,
         firstMessageInBlock,
         authorName,
@@ -92,7 +94,15 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         <Box className={styles.wrapper} onContextMenu={clickContextMenu}>
             {!isMy && chat?.is_group ? (
                 <div className={styles.avatar} style={{ width: avatarSize.value }}>
-                    <div className={styles.img}>
+                    <div
+                        className={styles.img}
+                        onClick={() =>
+                            openChatProfileModal({
+                                user: chat?.is_personal ? userProxy(author) || undefined : undefined,
+                                employee: chat?.is_personal ? null : employeeProxy(author_employee),
+                            })
+                        }
+                    >
                         <Avatar name={message.authorName} opacity={lastMessageInBlock ? 1 : 0} size={avatarSize.value} img={authorAvatar} />
                     </div>
                 </div>
