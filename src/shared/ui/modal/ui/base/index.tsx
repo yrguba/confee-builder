@@ -27,6 +27,20 @@ function Modal(props: BaseModalProps) {
         full,
     });
 
+    useEffect(() => {
+        const escFunction = (event: any) => {
+            if (event.key === 'Escape') {
+                close();
+            }
+        };
+
+        document.addEventListener('keydown', escFunction, false);
+
+        return () => {
+            document.removeEventListener('keydown', escFunction, false);
+        };
+    }, []);
+
     const { getScrollPosition } = useScroll();
 
     return modal_root

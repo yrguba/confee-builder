@@ -90,19 +90,18 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
         }
     };
 
+    const openProfile = () => {
+        openChatProfileModal({
+            user: chat?.is_personal ? userProxy(author) || undefined : undefined,
+            employee: chat?.is_personal ? null : employeeProxy(author_employee),
+        });
+    };
+
     return (
         <Box className={styles.wrapper} onContextMenu={clickContextMenu}>
             {!isMy && chat?.is_group ? (
                 <div className={styles.avatar} style={{ width: avatarSize.value }}>
-                    <div
-                        className={styles.img}
-                        onClick={() =>
-                            openChatProfileModal({
-                                user: chat?.is_personal ? userProxy(author) || undefined : undefined,
-                                employee: chat?.is_personal ? null : employeeProxy(author_employee),
-                            })
-                        }
-                    >
+                    <div className={styles.img} onClick={openProfile}>
                         <Avatar name={message.authorName} opacity={lastMessageInBlock ? 1 : 0} size={avatarSize.value} img={authorAvatar} />
                     </div>
                 </div>
@@ -120,7 +119,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 
             <div className={styles.content} style={{ marginTop: firstMessageInBlock && !isMy ? 30 : 0 }}>
                 {!isMy && chat?.is_group && firstMessageInBlock && (
-                    <div className={styles.authorName}>
+                    <div className={styles.authorName} onClick={openProfile}>
                         <Title variant={nameTitleVariant.value}>{authorName}</Title>
                     </div>
                 )}
