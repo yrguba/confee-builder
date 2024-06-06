@@ -1,16 +1,19 @@
 import axios from 'axios';
 import Base64url from 'crypto-js/enc-base64url';
 import SHA256 from 'crypto-js/sha256';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 
+import locationImg from 'assets/images/location.png';
 import { appService } from 'entities/app';
 
 import { viewerStore } from '../../../entities/viewer';
+import { useEasyState } from '../../../shared/hooks';
 import { debounce } from '../../../shared/lib';
 
 const authorizeEndpoint = 'oauth/authorize';
 const tokenEndpoint = 'oauth/token';
-
+let visibleLocationEmpty = false;
 const codeVerifier = 'mYCO3rcUzhc6RkTKbwurKhDHIIHuc0ojKj2bH9xnOK0fUeSRwki8fSmLDj9goRtRytKrP4W0UD7j4wIeYHHizRrGuEWvkHwHdSR35eTNCATg4EkC42U93cDO7j6NFTz6';
 const getTokens = debounce((cb) => cb(), 1000);
 const webView = () => {
@@ -59,6 +62,14 @@ const webView = () => {
     };
     const buildParams = Object.entries(params).reduce((acc, [key, val]) => `${acc}${acc && '&'}${key}=${val}`, '');
 
+    if (window.location.pathname === '/callback') {
+        navigator.permissions.query({ name: 'geolocation' }).then(function (PermissionStatus) {
+            if (PermissionStatus.state === 'prompt') {
+                visibleLocationEmpty = true;
+            }
+        });
+    }
+
     if (pathname === '/callback') {
         const { search } = window.location;
         const code = new URLSearchParams(search).get('code');
@@ -87,7 +98,7 @@ const webView = () => {
                     axios.post(`${backBaseURL}/${tokenEndpoint}`, body, { headers: appService.prodApi ? headers : {} }).then((res: any) => {
                         if (res.data.access_token) {
                             viewerStore.setStateOutsideComponent({ tokens: { access_token: res.data.access_token, refresh_token: res.data.refresh_token } });
-                            // window.location.reload();
+                            window.location.href = '/main';
                         } else {
                             window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
                         }
@@ -121,7 +132,7 @@ const webView = () => {
         window.location.href = `${backBaseURL}/${authorizeEndpoint}?${buildParams}`;
     }
 
-    return null;
+    return visibleLocationEmpty ? <img style={{ width: '100%', height: '100vh' }} src={locationImg} alt="" /> : null;
 };
 
 export default webView;
