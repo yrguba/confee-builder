@@ -35,11 +35,13 @@
     .isMy {
       background-color: var(--bg-primary);
       border-radius: 12px;
+      overflow: hidden;
     }
 
     .another{
       border-radius: 12px;
       background-color: var(--bg-secondary);
+      overflow: hidden;
     }
 
     .my_last {

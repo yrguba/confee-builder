@@ -21,13 +21,14 @@ function ImagesMessage(props: Props) {
     const highlightedMessages = messageStore.use.highlightedMessages();
     const images = message.files.length ? message.files : message.forwarded_from_message?.files;
 
-    const updItems = images?.map((i, index) => ({
-        id: i.id,
-        name: i.name,
-        url: i.url || '',
-        width: 'auto',
-        height: '220px',
-    }));
+    const updItems =
+        images?.map((i, index) => ({
+            id: i.id,
+            name: i.name,
+            url: i.url || '',
+            width: 'auto',
+            height: '220px',
+        })) || [];
 
     const imgClick = (index: number) => {
         !highlightedMessages.value.length &&
@@ -42,12 +43,17 @@ function ImagesMessage(props: Props) {
     return (
         <div className={styles.wrapper} onMouseEnter={() => visibleInfo.set(true)} onMouseLeave={() => visibleInfo.set(false)}>
             {highlightedMessages.value.find((i) => i.id === message.id) && <div className={styles.mask} />}
-            <Image.List
-                imgClick={imgClick}
-                visibleDropdown={false}
-                items={updItems}
-                style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }}
-            />
+            {updItems?.length > 1 ? (
+                <Image.List
+                    imgClick={imgClick}
+                    visibleDropdown={false}
+                    items={updItems}
+                    style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }}
+                />
+            ) : (
+                <Image onClick={() => imgClick(0)} url={updItems[0].url} />
+            )}
+
             <Box.Animated visible={visibleInfo.value} className={styles.info}>
                 <Info
                     date={message.date}
