@@ -74,7 +74,6 @@ function TextMessage(props: Props) {
                         onClick={() =>
                             user || employee ? openChatProfileModal({ user: userProxy(user) || undefined, employee: employeeProxy(employee) || undefined }) : ''
                         }
-                        style={{ color: 'red' }}
                         className={user || employee ? styles.tag : ''}
                         {...props}
                     >
@@ -90,7 +89,7 @@ function TextMessage(props: Props) {
     return (
         <Box className={styles.wrapper}>
             {textSplitWithUrl.map((i, indexUrl) => {
-                if (regex.urlHTTPS.test(i) || i.includes('@')) {
+                if (regex.urlHTTPS.test(i)) {
                     return (
                         <Linkify key={indexUrl} options={options}>
                             {i}
@@ -108,6 +107,13 @@ function TextMessage(props: Props) {
                                             <Emoji.Item key={index} emoji={w} size={18} />
                                         </span>
                                     </span>
+                                );
+                            }
+                            if (i.includes('@')) {
+                                return (
+                                    <Linkify key={indexUrl} options={options}>
+                                        {i}
+                                    </Linkify>
                                 );
                             }
                             return <span key={index}>{w}</span>;

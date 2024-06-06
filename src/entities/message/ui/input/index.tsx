@@ -126,7 +126,7 @@ function MessageInputView(props: Props) {
             onDrop={() => isFileDrag.set(false)}
             onMouseLeave={sendDraft}
         >
-            <Box.Animated visible={!!tagUsers.value.length} className={styles.tagUsers}>
+            <Box.Animated visible={!!tagUsers.value.length && !!chat?.is_group} className={styles.tagUsers}>
                 {tagUsers.value.map((i) => (
                     <Card key={i.id} onClick={() => clickUser(i)} size="m" img={i.avatar} title={i.full_name} subtitle={`@${i.nickname}`} />
                 ))}

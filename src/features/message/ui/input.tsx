@@ -163,9 +163,7 @@ function MessageInput() {
         const lasWord = text.split(' ').pop();
         if (lasWord && lasWord.includes('@')) {
             const arr: any = proxyChat?.is_personal ? proxyChat?.members : proxyChat?.employee_members;
-            const members = arr
-                ?.filter((i: any) => viewer.value.id !== i.id && i.nickname?.includes(lasWord.substring(1)))
-                .map((i: any) => userProxy(i)) as any;
+            const members = arr?.filter((i: any) => i.nickname?.includes(lasWord.substring(1))).map((i: any) => userProxy(i)) as any;
             tagUsers.set(members || []);
         } else {
             tagUsers.set([]);
