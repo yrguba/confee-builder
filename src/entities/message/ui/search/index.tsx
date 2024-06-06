@@ -28,7 +28,7 @@ function SearchMessagesView(props: Props) {
     useUpdateEffect(() => {
         inViewLastMessage && getNextPage();
     }, [inViewLastMessage]);
-
+    console.log(messages.length);
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -42,25 +42,37 @@ function SearchMessagesView(props: Props) {
                     <Input {...searchInput} clearIcon prefixIcon="search" />
                 </div>
             </div>
+            {searchInput.value && messages.length === 0 && (
+                <div className={styles.noFound}>
+                    <Icons.Picture size={338} text="Сообщений не найдено" variant="not-found" />
+                </div>
+            )}
+            {messages.length ? (
+                <div className={styles.messages}>
+                    {messages?.map((i, index) => (
+                        <div key={i.id} className={styles.item} onClick={() => clickMessage(i)}>
+                            <div className={styles.date}>
+                                <Title primary={false} variant="caption1M">
+                                    {moment(i.created_at).calendar().split(',')[0]}
+                                </Title>
+                            </div>
+                            <div className={styles.msg}>
+                                <Icons variant={i.users_have_read.length ? 'double-check' : 'check'} />
+                                <Highlighter
+                                    highlightClassName={styles.highlight}
+                                    className={styles.text}
+                                    searchWords={[searchInput.value]}
+                                    autoEscape
+                                    textToHighlight={i.text}
+                                />
+                            </div>
 
-            <div className={styles.messages}>
-                {messages?.map((i, index) => (
-                    <div key={i.id} className={styles.item} onClick={() => clickMessage(i)}>
-                        <Title primary={false} variant="caption1M">
-                            {moment(i.created_at).calendar().split(',')[0]}
-                        </Title>
-                        <Highlighter
-                            highlightClassName={styles.highlight}
-                            className={styles.text}
-                            searchWords={[searchInput.value]}
-                            autoEscape
-                            textToHighlight={i.text}
-                        />
-                        {/* <Title variant="H4M">{i.text}</Title> */}
-                    </div>
-                ))}
-                <div ref={lastMessage} />
-            </div>
+                            {/* <Title variant="H4M">{i.text}</Title> */}
+                        </div>
+                    ))}
+                    <div ref={lastMessage} />
+                </div>
+            ) : null}
         </div>
     );
 }

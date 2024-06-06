@@ -11,7 +11,7 @@ import { BaseCardProps } from '../../types';
 const memoAvatarSize = createMemo((visibleAvatar, size) => {
     if (!visibleAvatar) return 0;
     if (size === 's') return 36;
-    if (size === 'm') return 44;
+    if (size === 'm') return 40;
     if (size === 'l') return 52;
 });
 
