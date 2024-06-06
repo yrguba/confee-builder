@@ -8,6 +8,7 @@
   overflow: hidden;
   transition: background-color 0.5s;
   gap: 4px;
+  background: var(--bg-dialogue);
 
   &_dragOver {
     background-color: var(--bg-dialogue);

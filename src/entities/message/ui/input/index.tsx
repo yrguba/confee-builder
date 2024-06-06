@@ -128,7 +128,7 @@ function MessageInputView(props: Props) {
         >
             <Box.Animated visible={!!tagUsers.value.length} className={styles.tagUsers}>
                 {tagUsers.value.map((i) => (
-                    <Card key={i.id} onClick={() => clickUser(i)} size="s" img={i.avatar} title={i.full_name} />
+                    <Card key={i.id} onClick={() => clickUser(i)} size="s" img={i.avatar} title={i.full_name} subtitle={`@${i.nickname}`} />
                 ))}
             </Box.Animated>
             <Box.Animated
