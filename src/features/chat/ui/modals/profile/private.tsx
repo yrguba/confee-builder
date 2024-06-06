@@ -89,9 +89,8 @@ function PrivateChatProfileModal(modal: ModalTypes.UseReturnedType<{ user?: User
                 actions={actions}
                 mediaTypes={mediaTypes}
                 files={filesData}
-                visibleChatBtn={String(proxyChat?.id) !== params.chat_id}
-                visibleBtns={user?.id !== viewer.value.id}
-                setDescription={(value) => handleUpdateChatDescription({ chatId: proxyChat?.id, description: value })}
+                currentChat={String(proxyChat?.id) === params.chat_id}
+                isMy={user?.id === viewer.value.id}
             />
         </>
     );

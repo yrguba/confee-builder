@@ -21,20 +21,37 @@ type Props = {
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
     files: messageTypes.File[] | BaseTypes.Empty;
     clickAvatar: () => void;
-    visibleChatBtn: boolean;
-    visibleBtns?: boolean;
-    setDescription: (value: string) => void;
+    currentChat: boolean;
+    isMy: boolean;
 } & BaseTypes.Statuses;
 
 function PrivateChatProfileModalView(props: Props) {
-    const { setDescription, user, employee, chat, actions, mediaTypes, files, clickAvatar, visibleChatBtn, visibleBtns = true } = props;
+    const { isMy, currentChat, user, employee, chat, actions, mediaTypes, files, clickAvatar } = props;
 
     const visibleMenu = useEasyState(false);
 
-    const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
-        { id: 0, title: 'Конференция', icon: 'videocam', payload: '', callback: () => actions('goMeet') },
-        { id: 1, title: 'Написать', icon: 'messages', payload: '', callback: () => actions('message'), hidden: !visibleChatBtn },
-        { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true), hidden: !chat },
+    const btns = [
+        { id: 0, title: 'Конференция', icon: 'call', payload: '', callback: () => actions('goMeet') },
+        { id: 1, title: 'Написать', icon: 'messages', payload: '', callback: () => actions('message'), hidden: currentChat },
+        {
+            id: 0,
+            title: !chat?.is_muted ? 'Выключить уведомления' : 'Включить уведомления',
+            icon: chat?.is_muted ? 'unmute' : 'mute',
+            callback: async () => {
+                actions('mute');
+            },
+        },
+        {
+            id: 1,
+            title: 'Удалить',
+            icon: 'delete',
+            callback: () => {
+                actions('delete');
+                visibleMenu.set(false);
+            },
+            isRed: true,
+        },
+        // { id: 2, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true), hidden: !chat },
     ];
 
     const menuItems: ContextMenuTypes.ContextMenuItem[] = [
@@ -64,40 +81,54 @@ function PrivateChatProfileModalView(props: Props) {
 
     return (
         <div className={styles.wrapper}>
+            <div className={styles.header}>
+                <div className={styles.avatar}>
+                    <Avatar clickAvatar={clickAvatar} size={145} img={avatar} name={name} />
+                </div>
+
+                <div className={styles.btns}>
+                    {!isMy &&
+                        btns
+                            .filter((i) => !i.hidden)
+                            .map((i: any) => (
+                                <Button
+                                    variant="shadow"
+                                    width={`${100 / btns.filter((i) => !i.hidden).length}%`}
+                                    direction="vertical"
+                                    key={i.id}
+                                    onClick={i.callback}
+                                >
+                                    <Icons variant={i.icon} />
+                                </Button>
+                            ))}
+                </div>
+            </div>
             <div className={styles.mainInfo}>
-                <Avatar clickAvatar={clickAvatar} size={200} img={avatar} name={name} />
                 <div className={styles.name}>
-                    <Title textAlign="center" variant="H1">
-                        {name}
+                    <Title maxLength={22} textAlign="left" variant="H1">
+                        {isMy ? 'Вы' : chat?.name}
                     </Title>
                     {!chat?.is_personal && <CompanyTagView name="TFN" />}
                 </div>
-                <Title textAlign="center" variant="H3R">
-                    {status}
+                <Title textAlign="left" primary={false} variant="Body16">
+                    {chat?.subtitle}
                 </Title>
+                <div className={styles.border} />
+                {(user || employee?.user) && (
+                    <div className={styles.secondaryInfo}>
+                        <UserInfoView user={user || employee?.userProxy} />
+                    </div>
+                )}
             </div>
             <ContextMenu
+                x={-120}
+                y={20}
                 onClick={() => visibleMenu.set(false)}
                 trigger="mouseup"
                 items={menuItems}
                 visible={visibleMenu.value}
                 clickAway={() => visibleMenu.set(false)}
             />
-            <div className={styles.btns}>
-                {visibleBtns &&
-                    btns
-                        .filter((i) => !i.hidden)
-                        .map((i) => (
-                            <Button variant="bg-secondary" direction="vertical" prefixIcon={<Icons variant={i.icon} />} key={i.id} onClick={i.callback}>
-                                {i.title}
-                            </Button>
-                        ))}
-            </div>
-            {(user || employee?.user) && (
-                <div className={styles.secondaryInfo}>
-                    <UserInfoView user={user || employee?.userProxy} />
-                </div>
-            )}
             {employee && (
                 <div className={styles.companyCard}>
                     <CompanyCardView
@@ -111,7 +142,7 @@ function PrivateChatProfileModalView(props: Props) {
                     />
                 </div>
             )}
-            {chat && <ChatProfileContentView files={files} chat={chat} mediaTypes={mediaTypes} />}
+            {!isMy && <ChatProfileContentView files={files} chat={chat} mediaTypes={mediaTypes} />}
         </div>
     );
 }

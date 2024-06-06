@@ -94,7 +94,13 @@ function GroupChatProfileModalView(props: Props) {
                     {btns
                         .filter((i) => !i.hidden)
                         .map((i: any) => (
-                            <Button variant="shadow" width={`${100 / 4}%`} direction="vertical" key={i.id} onClick={i.callback}>
+                            <Button
+                                variant="shadow"
+                                width={`${100 / btns.filter((i) => !i.hidden).length}%`}
+                                direction="vertical"
+                                key={i.id}
+                                onClick={i.callback}
+                            >
                                 <Icons variant={i.icon} />
                             </Button>
                         ))}
