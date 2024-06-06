@@ -31,13 +31,18 @@
   }
 
   .highlightedMessages {
-    @include box-size(100%, 100%);
+    @include box-size(96%, 100%);
     @include flex(space-between);
 
     .btns {
       @include flex;
-      width: 200px;
-      gap: 12px;
+      gap: 24px;
+    }
+
+    .text{
+      margin: 0 12px;
+      width: 0;
+      flex: 1;
     }
 
     .cancel {

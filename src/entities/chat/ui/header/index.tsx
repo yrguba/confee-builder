@@ -6,6 +6,7 @@ import { BaseTypes } from 'shared/types';
 import { Icons, Card, Button, TabBarTypes, TabBar, Box, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { getEnding } from '../../../../shared/lib';
 import { MessageProxy } from '../../../message/model/types';
 import { ChatProxy, ChatTabsActions } from '../../model/types';
 
@@ -36,11 +37,28 @@ function ChatHeaderView(props: Props) {
                     item: (
                         <div className={styles.highlightedMessages}>
                             <div className={styles.btns}>
-                                <Button onClick={clickForwardMessages}>Переслать {highlightedMessages.value?.length}</Button>
-                                <Button onClick={clickDeleteMessages}>Удалить {highlightedMessages.value?.length}</Button>
+                                <div onClick={clickForwardMessages}>
+                                    <Title active variant="H3S">
+                                        Переслать
+                                    </Title>
+                                </div>
+                                <div onClick={clickDeleteMessages}>
+                                    <Title color="red" variant="H3S">
+                                        Удалить
+                                    </Title>
+                                </div>
+                            </div>
+                            <div className={styles.text}>
+                                <Title variant="H3S" textAlign="center">
+                                    {`Выбрано ${highlightedMessages.value.length} ${getEnding(highlightedMessages.value.length, [
+                                        'сообщение',
+                                        'сообщения',
+                                        'сообщений',
+                                    ])}`}
+                                </Title>
                             </div>
                             <div className={styles.cancel} onClick={highlightedMessages.clear}>
-                                <Title active variant="H2">
+                                <Title active variant="H3S">
                                     Отмена
                                 </Title>
                             </div>
