@@ -7,6 +7,7 @@ import chatStore, { ChatStoreTypes } from './model/store';
 import * as chatTypes from './model/types';
 import ChatGpt from './ui/chat-gpt';
 import ChatHeaderView from './ui/header';
+import HighlightedMessagesView from './ui/highlightedMessages';
 import ChatsListView from './ui/list';
 import AddMembersInChatModalView from './ui/modals/add-members';
 import CreateChatModalView from './ui/modals/create';
@@ -30,5 +31,6 @@ export {
     PrivateChatProfileModalView,
     ChatGpt,
     ChatGptProfileModalView,
+    HighlightedMessagesView,
 };
 export type { ChatStoreTypes };

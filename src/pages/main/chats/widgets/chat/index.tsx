@@ -3,12 +3,13 @@ import { Outlet } from 'react-router-dom';
 import { useUpdateEffect } from 'react-use';
 
 import { chatApi } from 'entities/chat';
-import { ChatHeader } from 'features/chat';
+import { ChatHeader, HighlightedMessages } from 'features/chat';
 import { MessageInput } from 'features/message';
 import { useRouter, useDimensionsObserver, useEasyState } from 'shared/hooks';
 import { Audio, Box, AudioTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { messageStore } from '../../../../../entities/message';
 
 function Chat() {
     const { params } = useRouter();
@@ -50,6 +51,7 @@ function Chat() {
                 <ChatHeader />
             </div>
             <Audio.Player autoHeight width={messagesListWidth.value} />
+            <HighlightedMessages />
             <Box.Animated key={params.chat_id} visible animate={{ opacity: 1, transition: { delay: 0.15 } }} className={styles.messageList}>
                 <Outlet />
             </Box.Animated>
