@@ -6,6 +6,7 @@ import { Box, Image } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { appStore } from '../../../../../app';
+import { messageStore } from '../../../../index';
 import { MessageProxy } from '../../../../model/types';
 import Info from '../../info';
 
@@ -17,7 +18,7 @@ function ImagesMessage(props: Props) {
     const { message } = props;
     const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
     const visibleInfo = useEasyState(false);
-
+    const highlightedMessages = messageStore.use.highlightedMessages();
     const images = message.files.length ? message.files : message.forwarded_from_message?.files;
 
     const updItems = images?.map((i, index) => ({
@@ -29,16 +30,18 @@ function ImagesMessage(props: Props) {
     }));
 
     const imgClick = (index: number) => {
-        photoAndVideoFromSwiper.set({
-            message,
-            type: 'img',
-            startIndex: index,
-            items: updItems as any,
-        });
+        !highlightedMessages.value.length &&
+            photoAndVideoFromSwiper.set({
+                message,
+                type: 'img',
+                startIndex: index,
+                items: updItems as any,
+            });
     };
 
     return (
         <div className={styles.wrapper} onMouseEnter={() => visibleInfo.set(true)} onMouseLeave={() => visibleInfo.set(false)}>
+            {highlightedMessages.value.find((i) => i.id === message.id) && <div className={styles.mask} />}
             <Image.List
                 imgClick={imgClick}
                 visibleDropdown={false}

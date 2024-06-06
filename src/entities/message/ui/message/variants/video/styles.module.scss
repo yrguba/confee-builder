@@ -10,6 +10,16 @@
   cursor: pointer;
   position: relative;
 
+  .mask{
+    position: absolute;
+    @include box-size(100%, 100%);
+    border-radius: 12px;
+    top: 0;
+    left: 0;
+    background: var(--bg-dimming);
+    z-index: 10;
+  }
+
   .info{
     position: absolute;
     bottom: 4px;
