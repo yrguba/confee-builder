@@ -51,7 +51,7 @@ function ImagesMessage(props: Props) {
                     style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }}
                 />
             ) : (
-                <Image onClick={() => imgClick(0)} url={updItems[0].url} />
+                <Image visibleDropdown={false} onClick={() => imgClick(0)} url={updItems[0].url} />
             )}
 
             <Box.Animated visible={visibleInfo.value} className={styles.info}>
