@@ -32,10 +32,11 @@ type Props = {
     clickMessageReply: (message: MessageProxy) => void;
     menuMessageId: MessageStoreTypes['menuMessageId'];
     clearDownloadFile: () => void;
+    active: boolean;
 } & BaseTypes.Statuses;
 
 const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
-    const { clearDownloadFile, menuMessageId, clickMessageReply, message, MessageMenu, chat, openChatProfileModal, voiceRecordingInProgress } = props;
+    const { active, clearDownloadFile, menuMessageId, clickMessageReply, message, MessageMenu, chat, openChatProfileModal, voiceRecordingInProgress } = props;
 
     const {
         text,
@@ -62,7 +63,9 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
     const messageWrapperWidth = useEasyState(0);
 
     const classes = useStyles(styles, 'bubble', {
+        active,
         isMy,
+        another: !isMy,
         my_last: lastMessageInBlock && isMy,
         another_last: lastMessageInBlock && !isMy,
     });
@@ -157,6 +160,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
 });
 
 export default memo(MessageView, (prevProps, nextProps): any => {
+    if (prevProps.active !== nextProps.active) return false;
     if (prevProps.menuMessageId !== nextProps.menuMessageId) return false;
     if (prevProps.message?.text !== nextProps.message?.text) return false;
     if (prevProps.message?.sending !== nextProps.message?.sending) return false;

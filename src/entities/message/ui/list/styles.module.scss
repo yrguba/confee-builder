@@ -38,9 +38,5 @@
     display: flex;
     transition: background-color .5s;
     border-radius: 12px;
-
-    &_active {
-      background-color: var(--bg-quaternary);
-    }
   }
 }

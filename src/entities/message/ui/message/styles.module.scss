@@ -25,9 +25,21 @@
     @include box-size(100%, auto);
     flex: 1;
     position: relative;
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+
+    .active{
+      background: #BDB1D7 !important;
+    }
 
     .isMy {
       background-color: var(--bg-primary);
+      border-radius: 12px;
+    }
+
+    .another{
+      border-radius: 12px;
+      background-color: var(--bg-secondary);
     }
 
     .my_last {

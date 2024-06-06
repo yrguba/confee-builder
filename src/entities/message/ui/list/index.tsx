@@ -172,9 +172,7 @@ function MessagesListView(props: Props) {
                         <div
                             onClick={() => rowClick(message)}
                             onMouseEnter={() => !message.is_read && readMessage(message.id)}
-                            className={`${styles.row} ${
-                                highlightedMessages.value?.find((i) => i.id === message.id) || message.id === foundMessage?.id ? styles.row_active : ''
-                            }`}
+                            className={styles.row}
                             style={{
                                 justifyContent: message.isMy ? 'flex-end' : 'flex-start',
                                 cursor: highlightedMessages.value?.length ? 'pointer' : 'default',
@@ -182,6 +180,7 @@ function MessagesListView(props: Props) {
                             ref={getMessageRefs(message, index)}
                         >
                             <Message
+                                active={!!(highlightedMessages.value?.find((i) => i.id === message.id) || message.id === foundMessage?.id)}
                                 menuMessageId={menuMessageId}
                                 MessageMenu={MessageMenu}
                                 clickMessageReply={clickMessageReply}
