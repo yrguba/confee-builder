@@ -22,6 +22,7 @@ function MessageInput() {
 
     const viewer = viewerStore.use.viewer();
 
+    const { mutate: handleCheckText } = messageApi.handleCheckText();
     const { mutate: handleSendTextMessage, isLoading } = messageApi.handleSendTextMessage();
     const { mutate: handleSendFileMessage } = messageApi.handleSendFileMessage();
     const { mutate: handleEditTextMessage } = messageApi.handleEditTextMessage();

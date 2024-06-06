@@ -17,8 +17,8 @@
   .btnDown {
     @include flex-column(flex-start);
     gap: 4px;
-    position: fixed;
-    bottom: 64px;
+    position: absolute;
+    bottom: 30px;
     right: 14px;
     z-index: 10;
 

@@ -9,6 +9,7 @@ import { Button, Icons, Input, Title, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { useInView } from '../../../../shared/hooks';
+import { viewerStore } from '../../../viewer';
 import messageProxy from '../../lib/proxy';
 import { Message, MessageProxy } from '../../model/types';
 
@@ -23,12 +24,14 @@ type Props = {
 function SearchMessagesView(props: Props) {
     const { clickMessage, getNextPage, close, searchInput, messages } = props;
 
+    const viewer = viewerStore.use.viewer();
+
     const { ref: lastMessage, inView: inViewLastMessage } = useInView({ delay: 200 });
 
     useUpdateEffect(() => {
         inViewLastMessage && getNextPage();
     }, [inViewLastMessage]);
-    console.log(messages.length);
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -57,7 +60,7 @@ function SearchMessagesView(props: Props) {
                                 </Title>
                             </div>
                             <div className={styles.msg}>
-                                <Icons variant={i.users_have_read.length ? 'double-check' : 'check'} />
+                                {viewer.value.id === i.author.id && <Icons variant={i.users_have_read.length ? 'double-check' : 'check'} />}
                                 <Highlighter
                                     highlightClassName={styles.highlight}
                                     className={styles.text}

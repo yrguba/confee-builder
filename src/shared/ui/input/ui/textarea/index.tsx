@@ -2,7 +2,7 @@ import cn from 'classnames';
 import cnBind from 'classnames/bind';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { RichTextarea } from 'rich-textarea';
-import { string } from 'yup';
+import { boolean, string } from 'yup';
 
 import styles from './styles.module.scss';
 import { useClickAway, useDimensionsObserver, useEasyState, useScroll, useThrottle } from '../../../../hooks';
@@ -137,6 +137,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                 onFocus={() => {
                     focused.set(true);
                 }}
+                spellCheck
                 maxLength={maxLength}
                 style={{ width: '100%', height: '100%' }}
                 className={classes}

@@ -30,6 +30,13 @@ class MessageApi {
         });
     }
 
+    handleCheckText() {
+        return useMutation((data: { text: string }) => {
+            const storage = useStorage();
+            return axios.post(`https://speller.yandex.net/services/spellservice/checkText`, data);
+        });
+    }
+
     handleSendTextMessageWithChatGpt() {
         return useMutation((data: { text: string }) => {
             const storage = useStorage();

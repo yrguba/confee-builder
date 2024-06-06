@@ -44,7 +44,7 @@ function SearchMessages() {
             !xl && visibleSearchMessages.set(false);
             setTimeout(() => {
                 queryClient.prefetchInfiniteQuery(['get-messages', chatId]);
-            }, 500);
+            }, 100);
         }
     }, [messageOrder?.id]);
 
