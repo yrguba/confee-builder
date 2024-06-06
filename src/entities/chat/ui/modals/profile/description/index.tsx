@@ -24,6 +24,7 @@ function ChatDescriptionView(props: Props) {
                         setDescription(updDescription.value);
                     }
                 }}
+                maxRows={5}
                 maxLength={500}
                 placeholder="Описание"
                 lineBreak="enterAndCtrl"

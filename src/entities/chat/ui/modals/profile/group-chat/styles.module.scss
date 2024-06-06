@@ -1,53 +1,67 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(auto, 100%);
+  @include box-size(calc(541px - 40px), 100%);
   @include flex-column(flex-start);
-  max-width: 549px;
-  gap: 12px;
+  max-width: 541px;
+  gap: 8px;
   background-color: var(--bg-primary);
   border-radius: 20px;
-  padding-bottom: 12px;
+  padding: 0 20px 24px 20px;
 
-  .chatName{
-    @include flex;
-    @include box-size(100%, auto);
-    padding: 8px 0;
-    background-color: var(--bg-primary);
-    position: absolute;
-    top: 0;
-    left: 50%;
-    font-size: 30px;
-    color: white;
-    transform: translateX(-50%);
-    z-index: 20;
+  @include width-to(sm){
+    @include box-size(calc(99vw - 40px) , 100%);
+    padding: 20px 20px 24px 20px;
+  }
+
+  .header {
+    width: 100%;
+    margin-top: 35px;
+    position: relative;
+    @include flex(flex-end);
+
+    .avatar {
+      position: absolute;
+      top: -24px;
+      left: -14px;
+      border: 14px solid var(--bg-primary);
+      border-radius: 10px 10px 50% 50%;
+    }
+
+    .btns {
+      @include box-size(calc(100% - 158px), 61px);
+      @include flex(flex-end);
+      gap: 8px;
+
+      svg {
+        fill: var(--text-action);
+      }
+    }
+
   }
 
   .mainInfo {
-    @include flex-column;
-    width: calc(100% - 48px);
-    margin: 24px 24px 0 24px;
-    transition: all 0.1s;
-    transform-origin: bottom;
+    @include flex-column(flex-start,flex-start);
+    padding: 74px 20px 20px 20px;
+    width: calc(100% - 40px);
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    margin-bottom: 12px;
 
     .name {
-      @include flex;
-      margin-top: 16px;
-      max-width: 90%;
+      @include flex(flex-start);
+      //width: 100%;
+      margin: 10px 0;
       gap: 8px;
     }
-  }
 
-  .btns {
-    @include box-size(370px, 61px);
-    @include flex;
-    gap: 16px;
-    margin: 0 90px;
-
-    svg {
-      fill: var(--text-action);
+    .border{
+      margin: 12px 0;
+      @include box-size(100%, 1px);
+      background-color: var(--border-secondary);
     }
   }
+
 
   .companyCard {
     @include flex;
@@ -56,12 +70,11 @@
 
   .secondaryInfo {
     @include flex-column();
-    @include box-size(calc(84% - 40px), auto);
+    @include box-size(100%, auto);
     gap: 4px;
     flex: 1;
     background-color: var(--bg-secondary);
     border-radius: 12px;
-    padding: 20px;
 
     .item {
       @include box-size(100%, 50px);

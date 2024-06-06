@@ -2,8 +2,7 @@
 
 .wrapper {
   @include flex;
-  @include box-size(calc(84% - 40px), auto);
-  padding: 12px 20px;
+  @include box-size(100%, auto);
   background-color: var(--bg-secondary);
   border-radius: 12px;
   max-height: 200px;

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import React, { useCallback, useEffect, useRef } from 'react';
+import { useWindowSize } from 'react-use';
 
 import { messageTypes } from 'entities/message';
 import { useEasyState, UseEasyStateReturnType } from 'shared/hooks';
@@ -47,27 +48,19 @@ function GroupChatProfileModalView(props: Props) {
     } = props;
 
     const visibleMenu = useEasyState(false);
-    const visibleDescriptionMenu = useEasyState(false);
-    const mainInfoRef = useRef<HTMLDivElement>(null);
 
-    const btns: BaseTypes.Item<IconsTypes.BaseIconsVariants, any>[] = [
-        { id: 0, title: 'Конференция', icon: 'videocam', payload: '', callback: () => actions('goMeet') },
-        { id: 1, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
-    ];
-
-    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
+    const btns = [
+        { id: 0, icon: 'call', callback: () => actions('goMeet') },
         {
-            id: 0,
-            title: !chat?.is_muted ? 'Выключить уведомления' : 'Включить уведомления',
-            icon: <Icons variant={chat?.is_muted ? 'unmute' : 'mute'} />,
+            id: 1,
+            icon: chat?.is_muted ? 'unmute' : 'mute',
             callback: async () => {
                 actions('mute');
             },
         },
         {
-            id: 1,
-            title: 'Покинуть чат',
-            icon: <Icons variant="delete" />,
+            id: 2,
+            icon: 'logout',
             hidden: !chat?.is_group,
             callback: () => {
                 actions('leave');
@@ -75,65 +68,71 @@ function GroupChatProfileModalView(props: Props) {
             },
             isRed: true,
         },
+        { id: 3, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
     ];
+
+    const menuItems = [{ id: 0, title: 'Редактировать', icon: <Icons variant="edit" />, callback: () => visibleMenu.set(true) }];
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.mainInfo} ref={mainInfoRef}>
-                <Avatar.Change
-                    disabled={!chat?.isOwner}
-                    clickAvatar={clickAvatar}
-                    dropdownLeft={90}
-                    size={200}
-                    img={chat?.avatar || ''}
-                    name={chat?.name || ''}
-                    deleteFile={() => ''}
-                    selectFile={selectFile}
-                    getScreenshot={getScreenshot}
-                />
+            <div className={styles.header}>
+                <div className={styles.avatar}>
+                    <Avatar.Change
+                        disabled={!chat?.isOwner}
+                        clickAvatar={clickAvatar}
+                        dropdownLeft={90}
+                        size={145}
+                        img={chat?.avatar || ''}
+                        name={chat?.name || ''}
+                        deleteFile={() => ''}
+                        selectFile={selectFile}
+                        getScreenshot={getScreenshot}
+                    />
+                </div>
+
+                <div className={styles.btns}>
+                    {btns
+                        .filter((i) => !i.hidden)
+                        .map((i: any) => (
+                            <Button variant="shadow" width={`${100 / 4}%`} direction="vertical" key={i.id} onClick={i.callback}>
+                                <Icons variant={i.icon} />
+                            </Button>
+                        ))}
+                </div>
+            </div>
+            <div className={styles.mainInfo}>
                 <div className={styles.name}>
                     <Title
                         maxLength={22}
                         animateTrigger={chat?.name}
                         updCallback={chat?.isOwner ? (name) => updateChatName(String(name)) : undefined}
-                        textAlign="center"
+                        textAlign="left"
                         variant="H1"
                     >
                         {chat?.name}
                     </Title>
                     {!chat?.is_personal && <CompanyTagView name="TFN" />}
                 </div>
-                <Title textAlign="center" variant="H3R">
+                <Title textAlign="left" primary={false} variant="Body16">
                     {chat?.subtitle}
                 </Title>
-            </div>
-            <Box.Animated className={styles.chatName} visible={!!scrollPosition?.top && scrollPosition.top > 250}>
-                <Title textAlign="center" variant="H2">
-                    {chat?.name}
+                <div className={styles.border} />
+                <Title variant="H4M" primary={false}>
+                    Описание
                 </Title>
-            </Box.Animated>
+                <Title variant="H3M" textWrap>
+                    {chat?.description}
+                </Title>
+            </div>
             <ContextMenu
+                x={-120}
+                y={20}
                 onClick={() => visibleMenu.set(false)}
                 trigger="mouseup"
                 items={menuItems}
                 visible={visibleMenu.value}
                 clickAway={() => visibleMenu.set(false)}
             />
-            <div className={styles.btns}>
-                {btns.map((i) => (
-                    <Button
-                        variant="bg-secondary"
-                        redText={i.isRed}
-                        direction="vertical"
-                        prefixIcon={<Icons variant={i.icon} />}
-                        key={i.id}
-                        onClick={i.callback}
-                    >
-                        {i.title}
-                    </Button>
-                ))}
-            </div>
-            <ChatDescriptionView disabled={!chat?.isOwner} description={chat?.description} setDescription={setDescription} />
 
             <ChatProfileContentView
                 removeMember={removeMember}

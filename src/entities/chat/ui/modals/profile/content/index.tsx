@@ -1,4 +1,5 @@
 import React from 'react';
+import { useWindowSize } from 'react-use';
 
 import { employeeProxy } from 'entities/company';
 import { messageTypes } from 'entities/message';
@@ -27,15 +28,15 @@ type Props = {
 
 function ChatProfileContentView(props: Props) {
     const { removeMember, clickUser, chat, addMemberClick, mediaTypes, files } = props;
-
+    const { width } = useWindowSize();
     const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
 
     const tabs: { id: number; type: messageTypes.MediaContentType | null; title: string; hidden?: boolean }[] = [
-        { id: 0, type: null, title: 'Участники', hidden: !chat?.is_group },
+        { id: 0, type: null, title: width > 500 ? 'Участники' : 'Участ...', hidden: !chat?.is_group },
         { id: 1, type: 'images', title: 'Фото' },
         { id: 2, type: 'videos', title: 'Видео' },
         { id: 3, type: 'audios', title: 'Аудио' },
-        { id: 4, type: 'voices', title: 'Голосовые' },
+        { id: 4, type: 'voices', title: width > 500 ? 'Голосовые' : 'Голос...' },
         { id: 5, type: 'documents', title: 'Файлы' },
     ];
 

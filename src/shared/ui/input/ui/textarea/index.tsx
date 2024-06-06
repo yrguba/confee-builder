@@ -34,6 +34,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         visibleEmoji,
         clickAway,
         maxLength,
+        maxRows = 200,
     } = props;
 
     const inputRef = useRef<any>(null);
@@ -77,7 +78,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
             event.preventDefault();
             if (event.shiftKey || event.ctrlKey) {
                 pressEnterAndCtrl && value && pressEnterAndCtrl(value as string, cursorPosition.value);
-                if (lineBreak && textChange && typeof value === 'string' && value) {
+                if (lineBreak && textChange && typeof value === 'string' && value && value.split('\n').length <= maxRows) {
                     textChange([value.slice(0, cursorPosition.value), '\n', value.slice(cursorPosition.value)].join(''));
                     setTimeout(() => {
                         scrollBottom({ ref: inputRef, enable: true });
