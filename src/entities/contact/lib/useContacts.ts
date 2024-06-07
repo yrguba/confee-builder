@@ -13,7 +13,11 @@ type TabPayload = {
     companyId: number | null;
 };
 
-function useContacts() {
+type Props = {
+    registeredEmployee?: boolean;
+};
+
+function useContacts(props?: Props) {
     const searchInput = Input.use({});
     const { pathname, navigate, params } = useRouter();
 
@@ -40,6 +44,7 @@ function useContacts() {
         companyId: companyId.value,
         departmentId: departmentId.value,
         initialPage: 0,
+        registered: props?.registeredEmployee,
     });
 
     const activeTab = useEasyState<TabBarTypes.TabBarItem<TabPayload> | null>(null);

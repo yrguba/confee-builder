@@ -63,13 +63,15 @@ class CompanyApi {
         initialPage?: number | undefined;
         companyId: number | string | undefined | null;
         departmentId: number | undefined | null;
+        registered?: boolean;
     }) {
         return useInfiniteQuery(
-            ['get-department-employees', data.companyId, data.departmentId],
+            ['get-department-employees', data.companyId, data.departmentId, data.registered],
 
             ({ pageParam }) => {
                 return axiosClient.get(`api/v2/companies/${data.companyId}/departments/${data.departmentId}/employees`, {
                     params: {
+                        registered: data.registered ? 1 : 0,
                         page: pageParam || data.initialPage || 0,
                         per_page: employee_limit,
                     },
