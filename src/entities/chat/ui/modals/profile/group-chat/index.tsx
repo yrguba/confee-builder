@@ -14,7 +14,6 @@ import { EmployeeProxy } from '../../../../../company/model/types';
 import { UserProxy } from '../../../../../user/model/types';
 import { ChatProxy, GroupChatActions } from '../../../../model/types';
 import ChatProfileContentView from '../content';
-import ChatDescriptionView from '../description';
 
 type Props = {
     chat: ChatProxy | BaseTypes.Empty;

@@ -42,7 +42,7 @@ function AvatarChange(props: AvatarChangeProps) {
                     onClick={visibleMenu.toggle}
                     className={`${styles.cover} ${visibleMenu.value ? styles.cover_active : ''}`}
                 >
-                    Загрузить
+                    Сменить
                 </Box.Animated>
             </div>
         </div>
