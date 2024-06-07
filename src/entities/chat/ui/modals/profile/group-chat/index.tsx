@@ -21,31 +21,13 @@ type Props = {
     actions: (actions: GroupChatActions) => void;
     mediaTypes: UseEasyStateReturnType<messageTypes.MediaContentType | null>;
     files: messageTypes.File[] | BaseTypes.Empty;
-    selectFile: () => void;
-    getScreenshot: (preview: string, file: File) => void;
     clickAvatar: () => void;
-    updateChatName: (name: string) => void;
     clickUser?: (data: { user?: UserProxy; employee?: EmployeeProxy }) => void;
     removeMember: (id: number, name: string) => void;
-    setDescription: (value: string) => void;
-    scrollPosition?: ModalTypes.ScrollPosition;
 } & BaseTypes.Statuses;
 
 function GroupChatProfileModalView(props: Props) {
-    const {
-        scrollPosition,
-        setDescription,
-        removeMember,
-        clickUser,
-        clickAvatar,
-        chat,
-        actions,
-        mediaTypes,
-        files,
-        getScreenshot,
-        selectFile,
-        updateChatName,
-    } = props;
+    const { removeMember, clickUser, clickAvatar, chat, actions, mediaTypes, files } = props;
 
     const visibleMenu = useEasyState(false);
 
@@ -68,26 +50,26 @@ function GroupChatProfileModalView(props: Props) {
             },
             isRed: true,
         },
-        { id: 3, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true) },
+        { id: 3, title: 'Ещё', icon: 'more', payload: '', callback: () => visibleMenu.set(true), hidden: !chat?.isOwner },
     ];
 
-    const menuItems = [{ id: 0, title: 'Редактировать', icon: <Icons variant="edit" />, callback: () => visibleMenu.set(true) }];
+    const menuItems = [
+        {
+            id: 0,
+            title: 'Редактировать',
+            icon: <Icons variant="edit" />,
+            callback: () => {
+                actions('open-edit');
+                visibleMenu.set(false);
+            },
+        },
+    ];
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <div className={styles.avatar}>
-                    <Avatar.Change
-                        disabled={!chat?.isOwner}
-                        clickAvatar={clickAvatar}
-                        dropdownLeft={90}
-                        size={145}
-                        img={chat?.avatar || ''}
-                        name={chat?.name || ''}
-                        deleteFile={() => ''}
-                        selectFile={selectFile}
-                        getScreenshot={getScreenshot}
-                    />
+                    <Avatar clickAvatar={clickAvatar} size={145} img={chat?.avatar || ''} name={chat?.name || ''} />
                 </div>
 
                 <div className={styles.btns}>
@@ -108,13 +90,7 @@ function GroupChatProfileModalView(props: Props) {
             </div>
             <div className={styles.mainInfo}>
                 <div className={styles.name}>
-                    <Title
-                        maxLength={22}
-                        animateTrigger={chat?.name}
-                        updCallback={chat?.isOwner ? (name) => updateChatName(String(name)) : undefined}
-                        textAlign="left"
-                        variant="H1"
-                    >
+                    <Title textAlign="left" variant="H1">
                         {chat?.name}
                     </Title>
                     {!chat?.is_personal && <CompanyTagView name="TFN" />}
@@ -126,7 +102,7 @@ function GroupChatProfileModalView(props: Props) {
                 <Title variant="H4M" primary={false}>
                     Описание
                 </Title>
-                <Title variant="H3M" textWrap>
+                <Title variant="H3M" textWrap wordBreak>
                     {chat?.description}
                 </Title>
             </div>

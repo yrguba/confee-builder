@@ -11,6 +11,7 @@ import { Modal, ModalTypes } from 'shared/ui';
 import PrivateChatProfileModal from './private';
 import { viewerStore } from '../../../../../entities/viewer';
 import { debounce, getRandomString } from '../../../../../shared/lib';
+import { EditChatModal } from '../../../index';
 import AddMembersInChatModal from '../add-members';
 
 function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
@@ -25,12 +26,10 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
     const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
 
     const { mutate: handleLeaveChat } = chatApi.handleLeaveChat();
-    const { mutate: handleAddAvatar } = chatApi.handleAddAvatar();
-    const { mutate: handleUpdateChatName } = chatApi.handleUpdateChatName();
+
     const { mutate: handleRemoveMemberFromCompany } = chatApi.handleRemoveMemberFromCompany();
     const { mutate: handleRemoveMemberFromPersonal } = chatApi.handleRemoveMemberFromPersonal();
     const { mutate: handleChatMute } = chatApi.handleChatMute();
-    const { mutate: handleUpdateChatDescription } = chatApi.handleUpdateChatDescription();
 
     const mediaTypes = useEasyState<messageTypes.MediaContentType | null>(null);
 
@@ -40,6 +39,8 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     const addMembersModal = Modal.use();
     const privateChatProfileModal = Modal.use();
+    const editChatModal = Modal.use();
+
     const confirmRemoveMember = Modal.useConfirm<number>((value, memberId) => {
         if (value && memberId) {
             if (proxyChat?.is_personal) {
@@ -59,26 +60,6 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
         }
     });
 
-    const confirmAddAvatar = Modal.useConfirm<{ img: string; file: File }>((value, callbackData) => {
-        value &&
-            callbackData?.img &&
-            handleAddAvatar({
-                chatId,
-                img: callbackData.file,
-            });
-    });
-
-    const { open: selectFile } = useFileUploader({
-        accept: 'image',
-        onAfterUploading: (data) => {
-            confirmAddAvatar.open({ img: data.files[0].fileUrl, file: data.files[0].file });
-        },
-    });
-
-    const getScreenshot = (preview: string, file: File) => handleAddAvatar({ chatId, img: file });
-    const updateChatName = (name: string) =>
-        handleUpdateChatName({ chatId, name, type: proxyChat?.is_personal ? 'personal' : 'company', companyId: params.company_id });
-
     const removeMember = (id: number, name: string) => {
         confirmRemoveMember.open(id, { title: `Удалить ${name} из чата` });
     };
@@ -96,6 +77,8 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
                 return addMembersModal.open();
             case 'mute':
                 return handleChatMute({ chatId, value: !proxyChat?.is_muted, companyId: proxyChat?.company_id || null });
+            case 'open-edit':
+                return editChatModal.open();
         }
     };
 
@@ -106,24 +89,19 @@ function GroupChatProfileModal(modal: ModalTypes.UseReturnedType) {
 
     return (
         <>
+            <EditChatModal {...editChatModal} />
             <PrivateChatProfileModal {...privateChatProfileModal} />
             <AddMembersInChatModal {...addMembersModal} />
             <Modal.Confirm {...confirmLeaveChat} />
             <Modal.Confirm {...confirmRemoveMember} okText="Удалить" />
-            <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
             <GroupChatProfileModalView
-                scrollPosition={modal.scrollPosition}
                 removeMember={removeMember}
                 clickAvatar={() => visibleSwiper.set(true)}
-                getScreenshot={getScreenshot}
-                selectFile={selectFile}
                 chat={proxyChat}
                 actions={actions}
                 mediaTypes={mediaTypes}
                 files={filesData}
-                updateChatName={updateChatName}
                 clickUser={privateChatProfileModal.open}
-                setDescription={(value) => handleUpdateChatDescription({ chatId, description: value })}
             />
         </>
     );

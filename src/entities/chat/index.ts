@@ -12,6 +12,7 @@ import ChatsListView from './ui/list';
 import AddMembersInChatModalView from './ui/modals/add-members';
 import CreateChatModalView from './ui/modals/create';
 import ChatGptProfileModalView from './ui/modals/profile/chat-gpt';
+import EditChatModalView from './ui/modals/profile/edit';
 import GroupChatProfileModalView from './ui/modals/profile/group-chat';
 import PrivateChatProfileModalView from './ui/modals/profile/private-chat';
 
@@ -32,5 +33,6 @@ export {
     ChatGpt,
     ChatGptProfileModalView,
     HighlightedMessagesView,
+    EditChatModalView,
 };
 export type { ChatStoreTypes };

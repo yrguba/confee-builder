@@ -74,7 +74,7 @@ export type UseChatsTabsAndListsReturnType = {
 };
 
 export type PrivateChatActions = 'pin' | 'delete' | 'goMeet' | 'message' | 'mute';
-export type GroupChatActions = 'pin' | 'leave' | 'goMeet' | 'add-members' | 'mute';
+export type GroupChatActions = 'pin' | 'leave' | 'goMeet' | 'add-members' | 'mute' | 'open-edit';
 export type SocketIn = 'ChatCreated' | 'ChatDeleted' | 'ChatMembersCreated' | 'ChatMembersDeleted' | 'ChatUpdated';
 export type SocketOut = 'ChatListenersUpdated';
 

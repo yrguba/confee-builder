@@ -2,7 +2,7 @@ import React, { forwardRef, useRef, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import { useUpdateEffect } from 'react-use';
 
-import { useStyles } from 'shared/hooks';
+import { useEasyState, useStyles } from 'shared/hooks';
 
 import styles from './styles.module.scss';
 import { useClickAway, useDebounce } from '../../../../hooks';
@@ -33,6 +33,7 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         callbackPhone,
         focus,
         rows = 1,
+        setValue,
         ...other
     } = props;
 
@@ -43,6 +44,7 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         debounceDelay || 2000,
         [other.value]
     );
+    const cursorPosition = useEasyState(0);
     const [focused, setFocused] = useState(false);
     const [focusedClearIcon, setFocusedClearIcon] = useState(false);
 
@@ -82,7 +84,7 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
     return (
         <div className={styles.wrapper} style={{ width, height }}>
             <div className={styles.title}>{title}</div>
-            <div className={classes} onFocus={onFocus} onBlur={onBlur} style={{ height: rows > 1 ? rows * 30 : '' }}>
+            <div className={classes} onFocus={onFocus} onBlur={onBlur} style={{ height: rows > 1 ? rows * 26 : '' }}>
                 {prefixIcon && (
                     <div className={styles.prefixIcon}>
                         <Icons variant={prefixIcon} />
@@ -92,8 +94,14 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
                 {rows > 1 ? (
                     <textarea
                         onKeyDown={(e) => {
-                            if (e.keyCode === 13 && typeof other.value === 'string' && other.value.split('\n').length >= rows) {
+                            if (e.keyCode === 13) {
                                 e.preventDefault();
+                                if (e.shiftKey || e.ctrlKey) {
+                                    const v = other?.value;
+                                    if (typeof v === 'string' && v.split('\n').length < rows && other.onChange) {
+                                        setValue([v.slice(0, cursorPosition.value), '\n', v.slice(cursorPosition.value)].join(''));
+                                    }
+                                }
                             }
                         }}
                         rows={rows}
@@ -103,6 +111,9 @@ const InputBase = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
                         className={styles.textArea}
                         ref={mergeRefs([inputRef, ref])}
                         placeholder={prefixIcon === 'search' ? 'Поиск' : other.placeholder}
+                        onSelect={(e) => {
+                            cursorPosition.set(e.currentTarget.selectionStart);
+                        }}
                     />
                 ) : (
                     <input

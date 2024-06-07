@@ -44,6 +44,7 @@ export type BaseInputProps = {
     callbackPhone?: (phone: string | number) => void;
     focus?: (value: boolean) => void;
     rows?: number;
+    setValue: (val: string) => void;
 } & Shared;
 
 export type PhoneInputProps = {
