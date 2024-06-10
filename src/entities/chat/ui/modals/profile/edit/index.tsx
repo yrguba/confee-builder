@@ -27,9 +27,9 @@ function EditChatModalView(props: Props) {
             <div className={styles.container}>
                 <div className={styles.avatar}>
                     <Avatar.Change
-                        disabled={!chat?.isOwner}
+                        menuFixed
                         clickAvatar={clickAvatar}
-                        dropdownLeft={90}
+                        // dropdownLeft={90}
                         size={145}
                         img={chat?.avatar || ''}
                         name={chat?.name || ''}

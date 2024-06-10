@@ -57,6 +57,7 @@ function EditChatModal(modal: ModalTypes.UseReturnedType) {
         }
         updateChatName(chatName.value);
         handleUpdateChatDescription({ chatId, description: description.value });
+        modal.close();
     };
 
     return (

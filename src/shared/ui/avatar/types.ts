@@ -22,6 +22,7 @@ export type AvatarChangeProps = {
     dropdownTop?: number;
     dropdownLeft?: number;
     photoIcon?: boolean;
+    menuFixed?: boolean;
 } & BaseAvatarProps;
 
 export type AvatarChangeActions = {

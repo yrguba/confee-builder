@@ -35,10 +35,7 @@ function AddContactModalView(props: Props) {
                 </div>
             </div>
             <div className={styles.footer}>
-                <Button width="50%" onClick={back} variant="secondary">
-                    Назад
-                </Button>
-                <Button disabled={disabledSendBtn} width="50%" onClick={addContact} variant="primary">
+                <Button disabled={disabledSendBtn} onClick={addContact} variant="primary">
                     Добавить
                 </Button>
             </div>

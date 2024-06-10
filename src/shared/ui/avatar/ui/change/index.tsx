@@ -7,7 +7,21 @@ import { useEasyState } from '../../../../hooks';
 import { AvatarChangeProps } from '../../types';
 
 function AvatarChange(props: AvatarChangeProps) {
-    const { photoIcon, img, name, clickAvatar, dropdownLeft, dropdownTop, selectFile, circle = true, size = 80, deleteFile, getScreenshot, disabled } = props;
+    const {
+        menuFixed,
+        photoIcon,
+        img,
+        name,
+        clickAvatar,
+        dropdownLeft,
+        dropdownTop,
+        selectFile,
+        circle = true,
+        size = 80,
+        deleteFile,
+        getScreenshot,
+        disabled,
+    } = props;
 
     const [visibleCamera, setVisibleCamera] = useState(false);
     const visibleDownload = useEasyState(false);
@@ -29,7 +43,7 @@ function AvatarChange(props: AvatarChangeProps) {
             <Box.Animated visible={visibleCamera} className={styles.webCamera}>
                 <WebCameraPhoto getScreenshot={action} />
             </Box.Animated>
-            <ContextMenu trigger="mouseup" visible={visibleMenu.value} items={items.filter((i) => !i.hidden)} />
+
             <div
                 onMouseEnter={() => visibleDownload.set(true)}
                 onMouseLeave={() => visibleDownload.set(false)}
@@ -38,13 +52,14 @@ function AvatarChange(props: AvatarChangeProps) {
             >
                 <Avatar photoIcon={photoIcon} clickAvatar={clickAvatar} circle={circle} img={img || ''} name={name} size={size} />
                 <Box.Animated
-                    visible={(visibleMenu.value || visibleDownload.value) && !photoIcon && !disabled}
+                    visible={(!!menuFixed || visibleMenu.value || visibleDownload.value) && !photoIcon && !disabled}
                     onClick={visibleMenu.toggle}
                     className={`${styles.cover} ${visibleMenu.value ? styles.cover_active : ''}`}
                 >
                     Сменить
                 </Box.Animated>
             </div>
+            <ContextMenu trigger="mouseup" visible={visibleMenu.value} items={items.filter((i) => !i.hidden)} />
         </div>
     );
 }
