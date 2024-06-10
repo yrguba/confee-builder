@@ -33,14 +33,14 @@
     }
 
     .isMy {
-      background-color: var(--bg-primary);
-      border-radius: 12px;
+      background-color: var(--bg-chat-primary);
+      border-radius: 12px 12px 0 12px !important;
       overflow: hidden;
     }
 
     .another{
-      border-radius: 12px;
-      background-color: var(--bg-secondary);
+      border-radius: 12px 12px 12px 0 !important;
+      background-color: var(--bg-chat-secondary);
       overflow: hidden;
     }
 
