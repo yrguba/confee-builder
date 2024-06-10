@@ -161,10 +161,13 @@ function MessageInput() {
 
     useUpdateEffect(() => {
         const text = messageTextState.value;
-        const lasWord = text.split(' ').pop();
+        const rows = text.split('\n').join(' ');
+        const lasWord = rows.split(' ').pop();
         if (lasWord && lasWord.includes('@')) {
             const arr: any = proxyChat?.is_personal ? proxyChat?.members : proxyChat?.employee_members;
-            const members = arr?.filter((i: any) => i.nickname?.includes(lasWord.substring(1))).map((i: any) => userProxy(i)) as any;
+            const members = arr
+                ?.filter((i: any) => i.nickname?.includes(lasWord.substring(1)) && i.nickname !== viewer.value.nickname)
+                .map((i: any) => userProxy(i)) as any;
             tagUsers.set(members || []);
         } else {
             tagUsers.set([]);

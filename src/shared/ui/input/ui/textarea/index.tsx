@@ -138,6 +138,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                     focused.set(true);
                 }}
                 spellCheck
+                lang="ru"
                 maxLength={maxLength}
                 style={{ width: '100%', height: '100%' }}
                 className={classes}
