@@ -4,6 +4,7 @@ import { messageStore } from 'entities/message';
 
 import styles from './styles.module.scss';
 import { useEasyState, useFs, useFetchMediaContent, useGlobalAudioPlayer } from '../../../../../hooks';
+import { dateConverter, sizeConverter } from '../../../../../lib';
 import Icons from '../../../../icons';
 import { Box, ContextMenu, ContextMenuTypes } from '../../../../index';
 import Notification from '../../../../notification';
@@ -12,7 +13,7 @@ import useAudioStore from '../../store';
 import { BaseAudioProps } from '../../types';
 
 function AudioBase(props: BaseAudioProps) {
-    const { visibleDropdown = true, description, disabledDownloads, chatId, url, authorName, id, name } = props;
+    const { visibleDropdown = true, description, description2, disabledDownloads, chatId, url, authorName, id, name } = props;
     const visibleMenu = useEasyState(false);
     const notification = Notification.use();
 
@@ -92,9 +93,7 @@ function AudioBase(props: BaseAudioProps) {
                 <Icons.Player variant={playing && isCurrent ? 'pause-outline' : 'play-outline'} />
             </div>
             <div className={styles.caption}>
-                <Title active variant="H3M">
-                    {authorName}
-                </Title>
+                <Title variant="H4M">{authorName}</Title>
                 <Box.Replace
                     className={styles.caption_bottom}
                     items={[
@@ -108,7 +107,21 @@ function AudioBase(props: BaseAudioProps) {
                         },
                         {
                             visible: !isCurrent ? true : !!(!playing && isCurrent),
-                            item: <Title variant="H4R">{description}</Title>,
+                            item: (
+                                <div className={styles.description}>
+                                    {description && (
+                                        <Title primary={false} overflow="visible" width="auto" variant="Body14">
+                                            {description}
+                                        </Title>
+                                    )}
+                                    {description2 && <div className={styles.dot} />}
+                                    {description2 && (
+                                        <Title primary={false} variant="Body14">
+                                            {description2}
+                                        </Title>
+                                    )}
+                                </div>
+                            ),
                         },
                     ]}
                 />

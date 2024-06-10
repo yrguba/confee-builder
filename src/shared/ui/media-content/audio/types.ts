@@ -31,6 +31,7 @@ export type BaseAudioProps = {
     chatId?: number;
     disabledDownloads?: boolean;
     description?: string;
+    description2?: string;
     cover?: string;
     visibleDropdown?: boolean;
 } & SharedProps;

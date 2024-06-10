@@ -21,18 +21,24 @@
   }
 
   .tabBar {
-    @include box-size(calc(100% - 40px), auto);
-    padding: 10px 20px 0 20px;
+    @include box-size(100% , auto);
+    padding-top: 16px;
+    padding-bottom: 6px;
     position: relative;
   }
 
   .mediaList {
     @include box-size(100%, auto);
-    margin-top: 10px;
+    //margin-top: 10px;
     min-height: 100px;
     //max-height: 40vh;
     overflow-y: auto;
     color: var(--text-action);
+
+    .audios{
+      @include flex-column();
+      gap: 8px;
+    }
 
     .members, .documents, .audios {
       padding: 10px 20px;

@@ -38,15 +38,16 @@ class ChatService {
 
     getMemberNameByUserId(chat?: ChatProxy | null, id?: number): string {
         if (!chat) return '';
-        const viewerId = this.viewer.id;
         if (chat.is_personal) {
             const found = chat.members.find((i) => i.id === id);
             if (found) {
+                if (found.id === this.viewer.id) return 'Вы';
                 return userProxy(found)?.full_name || '';
             }
         } else {
             const found = chat.employee_members.find((i) => i.user?.id === id);
             if (found) {
+                if (found.user.id === this.viewer.id) return 'Вы';
                 return employeeProxy(found)?.full_name || '';
             }
         }

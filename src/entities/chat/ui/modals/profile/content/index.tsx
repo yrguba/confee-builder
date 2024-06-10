@@ -36,8 +36,8 @@ function ChatProfileContentView(props: Props) {
         { id: 1, type: 'images', title: 'Фото' },
         { id: 2, type: 'videos', title: 'Видео' },
         { id: 3, type: 'audios', title: 'Аудио' },
-        { id: 4, type: 'voices', title: width > 500 ? 'Голосовые' : 'Голос...' },
-        { id: 5, type: 'documents', title: 'Файлы' },
+        { id: 4, type: 'documents', title: 'Файлы' },
+        { id: 5, type: 'voices', title: width > 500 ? 'Голосовые' : 'Голос...' },
     ];
 
     const openSwiper = (type: 'img' | 'video', index: number) => {
@@ -52,6 +52,7 @@ function ChatProfileContentView(props: Props) {
         <div className={styles.wrapper}>
             <div className={styles.tabBar}>
                 <TabBar.WithLine
+                    visibleBorder={false}
                     wrapperStyle={{ justifyContent: 'space-around' }}
                     items={tabs
                         .filter((i) => !i.hidden)
@@ -89,8 +90,8 @@ function ChatProfileContentView(props: Props) {
                                         id: index,
                                         name: i.name,
                                         url: i.url || '',
-                                        width: 'auto',
-                                        height: '120px',
+                                        width: '124px',
+                                        height: '124px',
                                     }))}
                                 />
                             ),
@@ -136,6 +137,7 @@ function ChatProfileContentView(props: Props) {
                                         <Audio
                                             id={i.id}
                                             description={momentLocalZone(i.created_at).format('Do MMMM, HH:mm')}
+                                            // description2={i.}
                                             key={i.id}
                                             url={i.url}
                                             name={i.name}

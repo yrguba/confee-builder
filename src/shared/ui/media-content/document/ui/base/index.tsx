@@ -7,6 +7,7 @@ import { useEasyState, useFetchMediaContent, useFs } from 'shared/hooks';
 import styles from './styles.module.scss';
 import { messageStore } from '../../../../../../entities/message';
 import { dateConverter, sizeConverter } from '../../../../../lib';
+import momentLocalZone from '../../../../../lib/moment-local-zone';
 import Icons from '../../../../icons';
 import { ContextMenu, ContextMenuTypes, Dropdown, DropdownTypes } from '../../../../index';
 import LoadingIndicator from '../../../../loading-indicator';
@@ -76,19 +77,19 @@ function Document(props: BaseDocumentProps) {
 
             {(size || name || extension) && (
                 <div className={styles.caption}>
-                    <Title textAlign="left" variant="H3R">
+                    <Title textAlign="left" variant="H4M">
                         {name}
                     </Title>
                     <div className={styles.sizeAndDate}>
                         {(size || size === 0) && (
-                            <Title primary={false} overflow="visible" width="auto" variant="caption2M">
+                            <Title primary={false} overflow="visible" width="auto" variant="Body14">
                                 {+size === 0 ? '0kb' : sizeConverter(+size)}
                             </Title>
                         )}
                         {date && <div className={styles.dot} />}
                         {date && (
-                            <Title primary={false} variant="caption2M">
-                                {dateConverter(date)}
+                            <Title primary={false} variant="Body14">
+                                {momentLocalZone(date).format('Do MMMM, HH:mm')}
                             </Title>
                         )}
                     </div>
