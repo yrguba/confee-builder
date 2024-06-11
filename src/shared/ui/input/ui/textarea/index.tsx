@@ -35,6 +35,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
         clickAway,
         maxLength,
         maxRows = 200,
+        setCursorPosition,
     } = props;
 
     const inputRef = useRef<any>(null);
@@ -148,6 +149,7 @@ const InputTextarea = forwardRef<HTMLInputElement, TextareaInputProps>((props, r
                 onChange={onInput}
                 value={value}
                 onSelect={(e) => {
+                    setCursorPosition && setCursorPosition(e.currentTarget.selectionStart);
                     cursorPosition.set(e.currentTarget.selectionStart);
                 }}
             >

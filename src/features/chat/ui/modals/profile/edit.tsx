@@ -55,8 +55,12 @@ function EditChatModal(modal: ModalTypes.UseReturnedType) {
         if (!chatName.value) {
             return chatName.setError('Введите название');
         }
-        updateChatName(chatName.value);
-        handleUpdateChatDescription({ chatId, description: description.value });
+        if (proxyChat?.name !== chatName.value) {
+            updateChatName(chatName.value);
+        }
+        if (proxyChat?.description !== description.value) {
+            handleUpdateChatDescription({ chatId, description: description.value });
+        }
         modal.close();
     };
 

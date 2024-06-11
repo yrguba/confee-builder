@@ -183,9 +183,7 @@ class ChatApi {
             (data: { chatId?: number | string; description: string }) => axiosClient.post(`${this.pathPrefix}/${data.chatId}/description `, data),
             {
                 onSuccess: async (res, data) => {
-                    queryClient.setQueryData(['get-chat', data.chatId], (cacheData: any) => {
-                        cacheData.data.data.description = data.description;
-                    });
+                    queryClient.invalidateQueries(['get-chat', data.chatId]);
                 },
             }
         );
@@ -281,6 +279,7 @@ class ChatApi {
             {
                 onSuccess: (data, variables, context) => {
                     queryClient.invalidateQueries(['get-chat', variables.chatId]);
+                    ['personal', 'all', `for-company/18`].forEach((path) => queryClient.invalidateQueries(['get-chats', path]));
                 },
             }
         );

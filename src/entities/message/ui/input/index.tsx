@@ -32,6 +32,7 @@ type Props = {
     dropContainerRef: RefObject<any>;
     isFileDrag: MessageStoreTypes['isFileDrag'];
     sendDraft: () => void;
+    cursorPosition: UseEasyStateReturnType<number>;
     voiceRecord: {
         recorderState: {
             audio: string;
@@ -44,6 +45,7 @@ type Props = {
 
 function MessageInputView(props: Props) {
     const {
+        cursorPosition,
         chat,
         messageTextState,
         sendMessage,
@@ -180,6 +182,7 @@ function MessageInputView(props: Props) {
                             // pressEnterAndCtrl={() => messageTextState.set((prev) => `${prev}\n`)}
                             lineBreak="enterAndCtrl"
                             visibleEmoji
+                            setCursorPosition={cursorPosition.set}
                         />
                     )}
                 </Box.Animated>

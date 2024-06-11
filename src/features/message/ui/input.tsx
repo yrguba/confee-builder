@@ -46,6 +46,7 @@ function MessageInput() {
     const messageTextState = useEasyState('');
     const voiceEvent = useEasyState<VoiceEvents | null>(null);
     const tagUsers = useEasyState<userTypes.UserProxy[]>([]);
+    const cursorPosition = useEasyState<number>(0);
 
     const recordForChatId = useEasyState<number | null>(null);
     const voiceRecord = useAudioRecorder({});
@@ -162,8 +163,8 @@ function MessageInput() {
     useUpdateEffect(() => {
         const text = messageTextState.value;
         const rows = text.split('\n').join(' ');
-        const lasWord = rows.split(' ').pop();
-        if (lasWord && lasWord.includes('@')) {
+        const lasWord = rows.split(/\s+/).pop();
+        if (lasWord && lasWord.includes('@') && cursorPosition.value === messageTextState.value.length) {
             const arr: any = proxyChat?.is_personal ? proxyChat?.members : proxyChat?.employee_members;
             const members = arr
                 ?.filter((i: any) => i.nickname?.includes(lasWord.substring(1)) && i.nickname !== viewer.value.nickname)
@@ -172,7 +173,7 @@ function MessageInput() {
         } else {
             tagUsers.set([]);
         }
-    }, [messageTextState.value]);
+    }, [messageTextState.value, cursorPosition.value]);
 
     useEffect(() => {
         if (voiceEvent.value === 'send') {
@@ -226,6 +227,7 @@ function MessageInput() {
                     dropContainerRef={dropContainerRef}
                     isFileDrag={isFileDrag}
                     sendDraft={sendDraft}
+                    cursorPosition={cursorPosition}
                 />
             )}
         </>

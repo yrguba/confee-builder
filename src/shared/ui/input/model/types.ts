@@ -63,6 +63,7 @@ export type TextareaInputProps = {
     visibleEmoji?: boolean;
     maxRows?: number;
     clickAway?: () => void;
+    setCursorPosition?: (pos: number) => void;
 } & Shared;
 
 export type UseReturnedType = ReturnType<typeof use>;
