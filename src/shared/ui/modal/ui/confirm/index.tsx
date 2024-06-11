@@ -26,9 +26,11 @@ function ConfirmModal(props: ConfirmModalProps) {
         <Modal payload={callbackData} closeIcon={false} isOpen={isOpen} open={() => ''} close={() => ''} onClose={() => click(false)}>
             <div className={styles.wrapper}>
                 <div className={styles.body}>
-                    <Title textAlign="center" textWrap variant="H2">
-                        {title}
-                    </Title>
+                    <div className={styles.header}>
+                        <Title textAlign="center" textWrap variant="H2">
+                            {title}
+                        </Title>
+                    </div>
                     {callbackData?.value?.img && <Image url={callbackData?.value?.img} />}
                     {subtitle && (
                         <Title textAlign="center" textWrap variant="H4M" primary={false}>
@@ -36,9 +38,13 @@ function ConfirmModal(props: ConfirmModalProps) {
                         </Title>
                     )}
                 </div>
-                <div className={styles.footer}>
-                    <Button onClick={() => click(false)}>{closeText || 'Отмена'}</Button>
-                    <Button onClick={() => click(true)}>{okText || 'Готово'}</Button>
+                <div className={styles.btns}>
+                    <Button height="44px" onClick={() => click(true)}>
+                        {okText || 'Готово'}
+                    </Button>
+                    <Button height="44px" variant="secondary" onClick={() => click(false)}>
+                        {closeText || 'Отмена'}
+                    </Button>
                 </div>
             </div>
         </Modal>

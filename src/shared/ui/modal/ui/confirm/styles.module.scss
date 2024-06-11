@@ -2,22 +2,20 @@
 
 
 .wrapper {
-  @include box-size(300px, auto);
-  @include flex-column();
-  min-height: 160px;
-  padding: 12px;
-  gap: 12px;
+  @include box-size(calc(343px - 32px), auto);
+  @include flex-column(flex-start);
+  overflow-y: auto;
+  padding: 30px 16px;
 
-  .body {
+  .header{
+    margin-bottom: 8px;
+  }
+
+  .btns {
     @include flex-column;
     width: 100%;
-    gap: 8px;
-    flex: 1;
+    gap: 16px;
+    margin-top: 28px;
   }
 
-  .footer {
-    @include flex;
-    gap: 12px;
-    width: 100%;
-  }
 }

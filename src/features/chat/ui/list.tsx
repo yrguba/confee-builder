@@ -55,8 +55,10 @@ function ChatsList() {
         switch (action) {
             case 'delete':
                 return confirmDeleteChat.open(chat, {
-                    okText: chat?.is_group ? 'Покинуть' : 'Удалить',
+                    okText: chat?.is_group ? 'Покинуть' : 'Да, удалить',
+                    closeText: 'Отмена',
                     title: chat?.is_group ? 'Покинуть чат' : 'Удалить чат',
+                    subtitle: 'Вы действительно хотите удалить всю переписку и сам чат из списка чатов?',
                 });
             case 'mute':
                 return handleChatMute({ chatId: chat.id, value: !chat.is_muted, companyId: chat.company_id });

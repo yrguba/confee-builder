@@ -59,7 +59,12 @@ function ChatGpt() {
     return (
         <>
             <ChatGptModal {...chatGptModal} />
-            <Modal.Confirm {...confirmClearHistory} title="Очистить историю" okText="очистить" />
+            <Modal.Confirm
+                {...confirmClearHistory}
+                title="Очистить историю"
+                subtitle="Вы действительно хотите удалить все сообщения в чате? При этом контекст сохранится"
+                okText="Да, очистить"
+            />
             <ChatGptView
                 sendMessage={sendMessage}
                 message={message}
