@@ -22,6 +22,8 @@ function ImagesMessage(props: Props) {
     const highlightedMessages = messageStore.use.highlightedMessages();
     const images = message.files.length ? message.files : message.forwarded_from_message?.files;
 
+    const { height } = useWindowSize();
+
     const updItems =
         images?.map((i, index) => ({
             id: i.id,
@@ -52,7 +54,7 @@ function ImagesMessage(props: Props) {
                     style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }}
                 />
             ) : (
-                <Image maxHeight="400px" visibleDropdown={false} maxWidth="400px" onClick={() => imgClick(0)} url={updItems[0]?.url || ''} />
+                <Image maxHeight={`${height / 2}px`} visibleDropdown={false} maxWidth="400px" onClick={() => imgClick(0)} url={updItems[0]?.url || ''} />
             )}
 
             <Box.Animated visible={visibleInfo.value} className={styles.info}>
