@@ -90,7 +90,7 @@ function ChatProfileContentView(props: Props) {
                                         id: index,
                                         name: i.name,
                                         url: i.url || '',
-                                        width: '124px',
+                                        width: '122px',
                                         height: '124px',
                                     }))}
                                 />

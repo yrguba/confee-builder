@@ -1,4 +1,5 @@
 import React from 'react';
+import { useWindowSize } from 'react-use';
 
 import { Button, Image, Title } from 'shared/ui/index';
 
@@ -9,6 +10,8 @@ import Modal from '../base';
 
 function ConfirmModal(props: ConfirmModalProps) {
     const { isOpen, close, title, onClose, closeText, okText, subtitle, callbackData, callback, open } = props;
+
+    const { height } = useWindowSize();
 
     const click = (value: boolean) => {
         callback(value);
@@ -31,7 +34,7 @@ function ConfirmModal(props: ConfirmModalProps) {
                             {title}
                         </Title>
                     </div>
-                    {callbackData?.value?.img && <Image url={callbackData?.value?.img} />}
+                    {callbackData?.value?.img && <Image borderRadius maxHeight={`${height / 2}px`} url={callbackData?.value?.img} />}
                     {subtitle && (
                         <Title textAlign="center" textWrap variant="H4M" primary={false}>
                             {subtitle}
