@@ -23,7 +23,11 @@ function useContacts(props?: Props) {
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const { data: searchData, isLoading: searchLoading, isFetching } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value });
+    const {
+        data: searchData,
+        isLoading: searchLoading,
+        isFetching,
+    } = companyApi.handleSearchEmployeesAndContacts({ name: searchInput.value, registered: !!props?.registeredEmployee });
 
     const companyId = useEasyState<number | null>(Number(params.company_id) || null);
     const departmentId = useEasyState<number | null>(null);
@@ -33,7 +37,7 @@ function useContacts(props?: Props) {
     const departmentsEmployees = useEasyState<Record<number, EmployeeProxy[]>>({});
 
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
-    const { data: departmentsData } = companyApi.handleGetDepartments({ companyId: companyId.value });
+    const { data: departmentsData } = companyApi.handleGetDepartments({ companyId: companyId.value, registered: !!props?.registeredEmployee });
 
     const {
         data: employeesData,

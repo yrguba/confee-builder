@@ -10,6 +10,7 @@ import { Image, Title } from 'shared/ui';
 import styles from './styles.module.scss';
 import { fileConverter } from '../../../../../../../../shared/lib';
 import { appService } from '../../../../../../../app';
+import images from '../../../images';
 
 type Props = {
     content: string;
@@ -25,8 +26,8 @@ function LinkInfo(props: Props) {
     const previewImg = useEasyState('');
 
     useUpdateEffect(() => {
-        if (preview?.images?.length && appService.tauriIsRunning) {
-            getClient().then((client) => {
+        if (preview?.images?.length && appService.tauriIsRunning && !preview?.images?.includes('https://onprem.confee.ru/logo.png')) {
+            getClient()?.then((client) => {
                 client
                     .get(preview.images[0], {
                         responseType: ResponseType.Binary,
@@ -58,11 +59,11 @@ function LinkInfo(props: Props) {
                         {preview?.title || 'Неопределенно'}
                     </Title>
                     <Title variant="Body14">{preview?.description || 'Неопределенно'}</Title>
-                    {isYoutube && <Image maxWidth="100%" height="auto" url={previewImg.value} />}
+                    {isYoutube && <Image maxWidth="100%" height="auto" url={previewImg?.value} />}
                 </div>
                 {!isYoutube && (
                     <div className={styles.img}>
-                        <Image width="70px" height="70px" url={previewImg.value} />
+                        <Image width="70px" height="70px" url={previewImg?.value} />
                     </div>
                 )}
             </div>

@@ -48,15 +48,19 @@ class CompanyApi {
         });
     }
 
-    handleSearchEmployeesAndContacts(data: { name: string }) {
-        return useQuery(['search-employees-and-contacts', data.name], () => axiosClient.get(`api/v2/search/employees-contacts/${data.name}`), {
-            enabled: !!data.name,
-            staleTime: Infinity,
-            select: (res) => {
-                const updRes = httpHandlers.response<{ data: { employees: Employee[]; contacts: Contact[] } }>(res);
-                return { ...updRes.data?.data, contacts: updRes.data?.data.contacts.filter((i) => i.user) };
-            },
-        });
+    handleSearchEmployeesAndContacts(data: { name: string; registered: boolean }) {
+        return useQuery(
+            ['search-employees-and-contacts', data.name],
+            () => axiosClient.get(`api/v2/search/employees-contacts/${data.name}`, { params: { registered: data.registered ? 1 : 0 } }),
+            {
+                enabled: !!data.name,
+                staleTime: Infinity,
+                select: (res) => {
+                    const updRes = httpHandlers.response<{ data: { employees: Employee[]; contacts: Contact[] } }>(res);
+                    return { ...updRes.data?.data, contacts: updRes.data?.data.contacts.filter((i) => i.user) };
+                },
+            }
+        );
     }
 
     handleGetDepartmentEmployees(data: {
@@ -98,15 +102,24 @@ class CompanyApi {
         );
     }
 
-    handleGetDepartments(data: { companyId: number | string | undefined | null }) {
-        return useQuery(['get-departments', data.companyId], () => axiosClient.get(`/api/v2/companies/${data.companyId}/departments/without-employees`), {
-            enabled: !!data.companyId,
-            staleTime: Infinity,
-            select: (res) => {
-                const updRes = httpHandlers.response<{ data: Department[] }>(res);
-                return updRes.data?.data;
-            },
-        });
+    handleGetDepartments(data: { companyId: number | string | undefined | null; registered: boolean }) {
+        return useQuery(
+            ['get-departments', data.companyId],
+            () =>
+                axiosClient.get(`/api/v2/companies/${data.companyId}/departments/without-employees`, {
+                    params: {
+                        registered: data.registered ? 1 : 0,
+                    },
+                }),
+            {
+                enabled: !!data.companyId,
+                staleTime: Infinity,
+                select: (res) => {
+                    const updRes = httpHandlers.response<{ data: Department[] }>(res);
+                    return updRes.data?.data;
+                },
+            }
+        );
     }
 
     handleGetEmployee(data: { employeeId: string | undefined }) {

@@ -31,6 +31,7 @@ function Image(props: BaseImageProps) {
         remove,
         visibleDropdown = true,
         getSize,
+        maxHeight,
         ...other
     } = props;
 
@@ -134,7 +135,15 @@ function Image(props: BaseImageProps) {
                 </div>
             ) : null}
             {!error && !isLoading && (
-                <img onLoad={getContainedSize} ref={getSize ? ref : null} onContextMenu={(e) => e.preventDefault()} className={classes} src={src} alt="" />
+                <img
+                    style={{ maxHeight }}
+                    onLoad={getContainedSize}
+                    ref={getSize ? ref : null}
+                    onContextMenu={(e) => e.preventDefault()}
+                    className={classes}
+                    src={src}
+                    alt=""
+                />
             )}
             {remove && (
                 <Button.Circle radius={30} className={styles.remove} onClick={id ? removeClick : () => ''} variant="inherit">

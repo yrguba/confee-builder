@@ -1,4 +1,5 @@
 import React from 'react';
+import { useWindowSize } from 'react-use';
 
 import { useEasyState, useRustServer } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
@@ -51,7 +52,7 @@ function ImagesMessage(props: Props) {
                     style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }}
                 />
             ) : (
-                <Image visibleDropdown={false} maxWidth="400px" onClick={() => imgClick(0)} url={updItems[0].url} />
+                <Image maxHeight="400px" visibleDropdown={false} maxWidth="400px" onClick={() => imgClick(0)} url={updItems[0]?.url || ''} />
             )}
 
             <Box.Animated visible={visibleInfo.value} className={styles.info}>
