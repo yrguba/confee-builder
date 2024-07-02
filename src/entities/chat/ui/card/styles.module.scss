@@ -50,7 +50,7 @@
 
           .authorName{
             white-space: nowrap;
-            color: var(--text-secondary);
+            color: var(--text-primary);
           }
         }
 
@@ -58,6 +58,10 @@
           @include flex(flex-end);
           min-width: 10%;
           width: auto;
+
+          .icon{
+            margin-right: 6px;
+          }
         }
 
         svg {

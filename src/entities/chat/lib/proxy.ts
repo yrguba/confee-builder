@@ -61,7 +61,7 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                     if (target.typing) return target.typing;
                     if (!target.last_message) return '';
                     const { type, text } = target.last_message;
-                    if (type === 'images') return 'Отправил фото';
+                    if (type === 'images') return 'Фотография';
                     if (type === 'audios') return 'Отправил аудио';
                     if (type === 'videos') return 'Отправил видео';
                     if (type === 'voices') return 'Отправил голосовое';

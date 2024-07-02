@@ -18,8 +18,8 @@ function dateConverter(updated_at: Date, onlyTime = false) {
     }
 
     if (unix > momentLocalZone().unix() - year) {
-        const s = momentLocalZone(updated_at).format('L').split('.');
-        return `${s[0]}.${s[1]}`;
+        const s = momentLocalZone(updated_at).format('LL').split(' ');
+        return `${s[0]} ${s[1]}`;
     }
 
     return momentLocalZone(updated_at).format('L')?.split(',')[0];

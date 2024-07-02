@@ -87,6 +87,7 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                             {!chat.is_personal && <CompanyTagView name="TFN" />}
                         </div>
                         <div className={styles.right}>
+                            <div className={styles.icon}>{chat.is_muted && <Icons size={14} variant="chat-mute" />}</div>
                             <Title textAlign="right" variant="caption1M" primary={false}>
                                 {chat?.date}
                             </Title>
@@ -97,12 +98,15 @@ const ChatCardView = forwardRef((props: Props, refs: any) => {
                             {chat.is_group && chat?.last_message?.type !== 'system' && !chat.typing && (
                                 <div className={styles.authorName}>{chat.authorLastMessage}: </div>
                             )}
-                            <Title primary={false} variant="H3R" replaceEmoji>
+                            <Title
+                                primary={false}
+                                active={!!chat.last_message && chat.last_message?.type !== 'text' && chat.last_message?.type !== 'system'}
+                                variant="H3R"
+                            >
                                 {description || chat?.lastMessageTitle}
                             </Title>
                         </div>
                         <div className={styles.right}>
-                            {chat.is_muted && <Icons.Player size={14} variant="mute" />}
                             {chat.chat_pinned && <Icons size={14} variant="pin" />}
                             {chat.pending_messages_count ? (
                                 <Counter variant="primary" height={18} maxVisibleNumber={99}>

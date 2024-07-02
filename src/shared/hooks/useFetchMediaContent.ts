@@ -43,6 +43,8 @@ function useFetchMediaContent(props: Props) {
         if (fileData) {
             const filePath = fileConverter.arrayBufferToBlobLocalPath(fileData as ArrayBuffer, fileType);
             src.set(filePath);
+            // @ts-ignore
+            if (fileType === 'img' && fileData.byteLength < 6291456) return;
             if (name) {
                 downLoadAndSave({
                     url,

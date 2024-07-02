@@ -41,6 +41,7 @@ export type BaseIconsVariants =
     | 'microphone-off'
     | 'call-end'
     | 'attach-file'
+    | 'chat-mute'
     | 'emoji'
     | 'send'
     | 'reply'
