@@ -108,7 +108,7 @@ function MessageInputView(props: Props) {
     };
 
     const clickUser = (user: UserProxy) => {
-        messageTextState.set((prev) => `${prev.slice(0, -1)}@${user.nickname}\u00A0`);
+        // messageTextState.set((prev) => prev.replace(targetWord, `@${user.nickname}\u00A0`));
         tagUsers.set([]);
     };
 
