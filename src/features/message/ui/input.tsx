@@ -161,13 +161,25 @@ function MessageInput() {
     const sendDraft = () => {};
 
     useUpdateEffect(() => {
+        function findWord(str: any, pos: any) {
+            const words = str.split(' ');
+            let offset = 0;
+            let i;
+            for (i = 0; i < words.length; i++) {
+                offset += words[i].length + 1;
+                if (offset > pos) break;
+            }
+            return words[i];
+        }
         const text = messageTextState.value;
         const rows = text.split('\n').join(' ');
         const lasWord = rows.split(/\s+/).pop();
-        if (lasWord && lasWord.includes('@') && cursorPosition.value === messageTextState.value.length) {
+        const targetWord = findWord(rows, cursorPosition.value).replace(/\s/g, '');
+        console.log(targetWord);
+        if (targetWord && targetWord.includes('@')) {
             const arr: any = proxyChat?.is_personal ? proxyChat?.members : proxyChat?.employee_members;
             const members = arr
-                ?.filter((i: any) => i.nickname?.includes(lasWord.substring(1)) && i.nickname !== viewer.value.nickname)
+                ?.filter((i: any) => i.nickname?.includes(targetWord.substring(1)) && i.nickname !== viewer.value.nickname)
                 .map((i: any) => userProxy(i)) as any;
             tagUsers.set(members || []);
         } else {

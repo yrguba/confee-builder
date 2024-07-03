@@ -63,17 +63,18 @@ const webView = () => {
     const buildParams = Object.entries(params).reduce((acc, [key, val]) => `${acc}${acc && '&'}${key}=${val}`, '');
 
     if (window.location.pathname === '/callback') {
-        navigator.permissions.query({ name: 'geolocation' }).then(function (PermissionStatus) {
-            if (PermissionStatus.state === 'prompt') {
-                visibleLocationEmpty = true;
-            }
-        });
+        if (navigator?.permissions && navigator?.permissions?.query) {
+            navigator.permissions.query({ name: 'geolocation' }).then(function (PermissionStatus) {
+                if (PermissionStatus.state === 'prompt') {
+                    visibleLocationEmpty = true;
+                }
+            });
+        }
     }
 
     if (pathname === '/callback') {
         const { search } = window.location;
         const code = new URLSearchParams(search).get('code');
-
         const getSecret = () => {
             if (clientId === '8') return 'pywgm57UX3lhtWemksJdHKXPZbjMa59Tqyoiw40G';
             if (clientId === '9') return 'qlkWrd3VFnV05fU2m3Mqp4u7Us6FP11z04svMuf2';
