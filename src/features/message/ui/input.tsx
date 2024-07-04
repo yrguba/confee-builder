@@ -173,7 +173,7 @@ function MessageInput() {
         }
         const text = messageTextState.value;
         const rows = text.split('\n').join(' ');
-        const targetWord = findWord(rows, cursorPosition.value).replace(/\s/g, '');
+        const targetWord = findWord(rows, cursorPosition.value)?.replace(/\s/g, '');
 
         if (targetWord && targetWord.includes('@')) {
             const arr: any = proxyChat?.is_personal ? proxyChat?.members : proxyChat?.employee_members;
