@@ -120,7 +120,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                 openCloseTrigger={(value) => !value && clearDownloadFile()}
             />
 
-            <div className={styles.content} style={{ marginTop: firstMessageInBlock && !isMy ? 30 : 0 }}>
+            <div className={styles.content}>
                 {!isMy && chat?.is_group && firstMessageInBlock && (
                     <div className={styles.authorName} onClick={openProfile}>
                         <Title active variant={nameTitleVariant.value}>
