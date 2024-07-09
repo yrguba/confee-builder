@@ -123,7 +123,9 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
             <div className={styles.content} style={{ marginTop: firstMessageInBlock && !isMy ? 30 : 0 }}>
                 {!isMy && chat?.is_group && firstMessageInBlock && (
                     <div className={styles.authorName} onClick={openProfile}>
-                        <Title variant={nameTitleVariant.value}>{authorName}</Title>
+                        <Title active variant={nameTitleVariant.value}>
+                            {authorName}
+                        </Title>
                     </div>
                 )}
                 <div className={classes}>

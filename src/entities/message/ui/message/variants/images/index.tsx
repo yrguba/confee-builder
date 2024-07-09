@@ -57,8 +57,9 @@ function ImagesMessage(props: Props) {
                 <Image maxHeight={`${height / 2}px`} visibleDropdown={false} maxWidth="400px" onClick={() => imgClick(0)} url={updItems[0]?.url || ''} />
             )}
 
-            <Box.Animated visible={visibleInfo.value} className={styles.info}>
+            <div className={styles.info}>
                 <Info
+                    bg
                     date={message.date}
                     is_edited={message.is_edited}
                     sendingError={message.sendingError}
@@ -66,7 +67,7 @@ function ImagesMessage(props: Props) {
                     isMy={message.isMy}
                     checked={!!message.users_have_read?.length}
                 />
-            </Box.Animated>
+            </div>
         </div>
     );
 }

@@ -48,8 +48,9 @@ function VideoMessage(props: Props) {
                 items={updItems}
                 style={{ maxWidth: updItems && updItems?.length < 2 ? '250px' : '360px' }}
             />
-            <Box.Animated visible={visibleInfo.value} className={styles.info}>
+            <div className={styles.info}>
                 <Info
+                    bg
                     date={message.date}
                     is_edited={message.is_edited}
                     sendingError={message.sendingError}
@@ -57,7 +58,7 @@ function VideoMessage(props: Props) {
                     isMy={message.isMy}
                     checked={!!message.users_have_read?.length}
                 />
-            </Box.Animated>
+            </div>
         </div>
     );
 }
