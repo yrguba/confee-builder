@@ -30,7 +30,7 @@ class ContactApi {
 
     handleCreateContact() {
         const queryClient = useQueryClient();
-        return useMutation((data: { first_name: string; last_name: string; phone: string }) => axiosClient.post(`/api/v2/contacts`, { contacts: [data] }), {
+        return useMutation((data: { first_name: string; last_name?: string; phone: string }) => axiosClient.post(`/api/v2/contacts/create`, data), {
             onSuccess: async (res) => {
                 queryClient.invalidateQueries(['get-contacts']);
             },
