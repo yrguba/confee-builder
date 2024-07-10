@@ -162,19 +162,23 @@ function MessageInput() {
 
     useUpdateEffect(() => {
         function findWord(str: any, pos: any) {
-            const words = str.split(' ');
-            let offset = 0;
-            let i;
-            for (i = 0; i < words.length; i++) {
-                offset += words[i].length + 1;
-                if (offset > pos) break;
+            let start = 0;
+            let i = pos;
+            while (i > 0) {
+                i--;
+                if (/\s/.test(str[i])) {
+                    start = i;
+                    break;
+                }
+                if (i === 0) {
+                    break;
+                }
             }
-            return words[i];
+            return str.slice(start, pos).trim();
         }
         const text = messageTextState.value;
         const rows = text.split('\n').join(' ');
-        const targetWord = findWord(rows, cursorPosition.value)?.replace(/\s/g, '');
-
+        const targetWord = findWord(rows, cursorPosition.value);
         if (targetWord && targetWord.includes('@')) {
             const arr: any = proxyChat?.is_personal ? proxyChat?.members : proxyChat?.employee_members;
             const members = arr
