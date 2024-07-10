@@ -1,20 +1,23 @@
 import React, { MouseEvent, useEffect, useRef } from 'react';
+import { useUpdateEffect } from 'react-use';
 
-import { useEasyState, useStyles, useTimeoutFn } from 'shared/hooks';
+import { useEasyState, useStyles, useTimeoutFn, useRecognizeSpeech } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Icons } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import Notification from '../../../../../../shared/ui/notification';
 
 type Recording = 'start' | 'send' | 'stop' | 'cancel';
 
 type Props = {
     getEvents: (value: Recording) => void;
     initRecord: boolean;
+    onClick?: () => void;
 } & BaseTypes.Statuses;
 
 function VoiceButton(props: Props) {
-    const { getEvents, initRecord } = props;
+    const { getEvents, initRecord, onClick: click } = props;
 
     const once = useRef(true);
     const lock = useEasyState(false);
@@ -26,14 +29,23 @@ function VoiceButton(props: Props) {
         !once.current && event.set('start');
     }, 400);
 
+    const notification = Notification.use();
+
     const readyState = isReady();
     const startRecording = event.value === 'start';
 
     const onMouseDown = (e: MouseEvent) => {
-        if (e.button === 0) {
-            once.current = false;
-            reset();
-        }
+        navigator.mediaDevices
+            .getUserMedia({ audio: true })
+            .then((stream) => {
+                if (e.button === 0) {
+                    once.current = false;
+                    reset();
+                }
+            })
+            .catch((err) => {
+                notification.success({ title: 'Доступ к микрофону запрещен', system: true });
+            });
     };
 
     const onMouseUpMicrophone = (e: any) => {
@@ -58,6 +70,7 @@ function VoiceButton(props: Props) {
         e.stopPropagation();
         cancel();
         lock.set(false);
+        click && click();
     };
 
     const onMouseMoveLock = (e: any) => {

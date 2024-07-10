@@ -9,15 +9,17 @@ function InitialFillingProfileStep2() {
     const navigate = useNavigate();
     const yup = useYup();
     const { data: viewerData } = viewerApi.handleGetViewer();
+    const user = viewerData?.user;
+
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
 
     const firstNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.first_name || '',
+        initialValue: user?.first_name || '',
     });
     const lastNameInput = Input.use({
         yupSchema: yup.checkName,
-        initialValue: viewerData?.last_name || '',
+        initialValue: user?.last_name || '',
     });
 
     const onsubmit = async () => {

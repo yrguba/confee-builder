@@ -1,71 +1,63 @@
 import React from 'react';
 
+import { UserInfoView } from 'entities/user';
 import { BaseTypes } from 'shared/types';
-import { Avatar, Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { Viewer } from '../../model/types';
+import { useWidthMediaQuery } from '../../../../shared/hooks';
+import { Avatar, AvatarTypes, Button, Icons, Image, Title } from '../../../../shared/ui';
+import { BindCompanyView, CompanyCardView } from '../../../company';
+import { Company } from '../../../company/model/types';
+import { ViewerProxy } from '../../model/types';
 
 type Props = {
-    user: Viewer | BaseTypes.Empty;
-    isViewer?: boolean;
-    selectFile: () => void;
-    deleteFile: () => void;
-    getScreenshot: (img: string) => void;
-    modals: {
-        openChangeNameModal: () => void;
-        openChangeAboutMeModal: () => void;
-        openChangeNickname: () => void;
-        openChangePhone: () => void;
-        openChangeEmail: () => void;
-        openChangeBirth: () => void;
-    };
+    viewer: ViewerProxy | BaseTypes.Empty;
+    companies: Company[];
+    clickSettings: () => void;
+    avatarActions?: AvatarTypes.AvatarChangeActions;
+    clickAvatar: () => void;
+    openAuthCompanyModal: () => void;
+    clickCompanyCard: (company: Company) => void;
 } & BaseTypes.Statuses;
 
 function ViewerProfileView(props: Props) {
-    const { user, isViewer, deleteFile, selectFile, getScreenshot, modals } = props;
-
-    const items = [
-        { id: 0, title: `${user?.first_name} ${user?.last_name}`, subtitle: 'Имя и фамилия', onClick: modals.openChangeNameModal },
-        // { id: 1, title: '', subtitle: 'О себе', onClick: () => '' },
-        { id: 2, title: user?.nickname, subtitle: 'Никнейм', onClick: modals.openChangeNickname },
-        { id: 3, title: user?.phone, subtitle: 'Номер телефона', onClick: modals.openChangePhone },
-        { id: 4, title: user?.email, subtitle: 'Почта', onClick: modals.openChangeEmail },
-        { id: 5, title: user?.birth?.split(' ')[0] || '', subtitle: 'Дата рождения', onClick: modals.openChangeBirth },
-    ];
+    const { clickCompanyCard, openAuthCompanyModal, companies, clickAvatar, avatarActions, clickSettings, viewer, loading } = props;
+    const sm = useWidthMediaQuery().to('sm');
 
     return (
         <div className={styles.wrapper}>
-            <Title variant="H2">Личная информация</Title>
-            <div className={styles.body}>
-                {items.map((item) => (
-                    <div key={item.id} className={styles.item} style={{ pointerEvents: isViewer ? 'visible' : 'none' }} onClick={item.onClick}>
-                        {item.id === 0 && (
-                            <Avatar.Change
-                                selectFile={selectFile}
-                                deleteFile={deleteFile}
-                                getScreenshot={getScreenshot}
-                                img={user?.avatar}
-                                name={user?.first_name}
-                            />
-                        )}
-                        <div className={styles.left}>
-                            <div className={styles.aboutMe}>
-                                <Title textWrap variant="H3M">
-                                    {item.title}
-                                </Title>
-                            </div>
-                            <Title primary={false} variant="H4M">
-                                {item.subtitle}
-                            </Title>
-                        </div>
-                        {isViewer && (
-                            <div>
-                                <Icons variant="arrow-drop-right" />
-                            </div>
-                        )}
-                    </div>
+            <div className={styles.avatarBlock}>
+                {avatarActions && (
+                    <Avatar.Change
+                        clickAvatar={clickAvatar}
+                        dropdownLeft={20}
+                        dropdownTop={180}
+                        {...avatarActions}
+                        circle={false}
+                        size={201}
+                        img={viewer?.avatar || ''}
+                    />
+                )}
+                <Button onClick={clickSettings}>Редактировать профиль</Button>
+            </div>
+            <div className={styles.description}>
+                <div className={styles.name}>
+                    <Title variant="H1">{viewer?.full_name}</Title>
+                </div>
+                <UserInfoView user={viewer as any} />
+                {companies?.map((i) => (
+                    <CompanyCardView
+                        mini={companies.length > 1}
+                        key={i.id}
+                        cardClick={() => clickCompanyCard(companies[0])}
+                        title={i.name || ''}
+                        subtitle={i.departments[0].name || ''}
+                        position={i.departments[0].employees[0].position || ''}
+                        status={i.departments[0].employees[0].status || ''}
+                        avatar={i.avatar || ''}
+                    />
                 ))}
+                {!companies?.length && <BindCompanyView onClick={openAuthCompanyModal} mini={!!companies?.length} />}
             </div>
         </div>
     );

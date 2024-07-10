@@ -3,12 +3,30 @@ import { useState, useCallback, ChangeEvent, useEffect, useRef } from 'react';
 import { UseProps } from './types';
 import { useDebounce } from '../../../hooks';
 
-const use = ({ initialValue = '', yupSchema, realtimeValidate, callback, debounceDelay, callbackPhone }: UseProps) => {
+const use = ({
+    initialValue = '',
+    yupSchema,
+    realtimeValidate,
+    callback,
+    debounceDelay,
+    callbackPhone,
+    onFocus,
+    onlyType,
+    resetFocusError = true,
+}: UseProps) => {
     const firstRender = useRef(true);
     const [value, setValue] = useState(initialValue || '');
     const [error, setError] = useState('');
+
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        if (!e.currentTarget.value.includes('ㅤ')) {
+        if (onlyType === 'number' || onlyType === 'letters') {
+            if (onlyType === 'number' && /^[0-9]+$|^$/.test(e.currentTarget.value)) {
+                setValue(e.currentTarget.value);
+            }
+            if (onlyType === 'letters' && /^[A-Za-z-А-Яа-я]*$/.test(e.currentTarget.value)) {
+                setValue(e.currentTarget.value);
+            }
+        } else if (!e.currentTarget.value.includes('ㅤ')) {
             setValue(e.currentTarget.value);
         }
     }, []);
@@ -45,7 +63,7 @@ const use = ({ initialValue = '', yupSchema, realtimeValidate, callback, debounc
     }, [realtimeValidate, value]);
 
     const onFocusClearError = () => {
-        setError('');
+        !onFocus && resetFocusError && setError('');
     };
 
     useDebounce(
@@ -71,6 +89,8 @@ const use = ({ initialValue = '', yupSchema, realtimeValidate, callback, debounc
         setError,
         reload,
         callbackPhone,
+        focus: onFocus,
+        setValue,
     };
 };
 

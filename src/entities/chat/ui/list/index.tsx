@@ -1,63 +1,89 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useEffectOnce } from 'react-use';
 
+import { MessageStoreTypes } from 'entities/message';
+import { useEasyState, useHeightMediaQuery, useInView, useStorage } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { Box, Title, Counter, Icons, Avatar, Button } from 'shared/ui';
+import { Box, Input, TabBar } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { ChatProxy } from '../../model/types';
+import { MessageWithChatGpt } from '../../../message/model/types';
+import { chatProxy } from '../../index';
+import { chat_gtp_id } from '../../lib/constants';
+import mockChat from '../../lib/mock';
+import { PrivateChatActions, GroupChatActions, ChatProxy, UseChatsTabsAndListsReturnType } from '../../model/types';
+import ChatCardView from '../card';
 
 type Props = {
-    chats: ChatProxy[];
     clickOnChat: (arg: ChatProxy) => void;
     activeChatId: number | null;
+    tabsAndLists: UseChatsTabsAndListsReturnType;
+    chatMenuAction: (action: PrivateChatActions | GroupChatActions, chat: ChatProxy) => void;
+    lastMessageWithChatGpt: MessageStoreTypes['lastMessageWithChatGpt'];
+    visibleChatGpt: boolean;
 } & BaseTypes.Statuses;
 
 function ChatsListView(props: Props) {
-    const { chats, clickOnChat, loading, activeChatId } = props;
+    const { visibleChatGpt, lastMessageWithChatGpt, clickOnChat, loading, activeChatId, tabsAndLists, chatMenuAction } = props;
+    const miniSearch = useHeightMediaQuery().to('sm');
+
+    const wrapperRef = useRef(null);
+    const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
+
+    const chats = tabsAndLists.searchInput.value ? tabsAndLists.foundChats : tabsAndLists.activeList;
+
+    useEffect(() => {
+        inViewLastItem && tabsAndLists.getNextPage();
+    }, [inViewLastItem]);
+
+    const chatGtpRole = {
+        user: 'Вы',
+        assistant: 'Бот',
+    };
 
     return (
-        <Box.Animated visible loading={loading} className={styles.wrapper}>
-            <div className={styles.list}>
-                {chats.map((chat, index: number) => (
-                    <div key={chat.id} className={`${styles.item} ${activeChatId === chat.id ? styles.item_active : ''}`} onClick={() => clickOnChat(chat)}>
-                        <div className={styles.body}>
-                            <div className={styles.avatar}>
-                                <Avatar status={chat.secondMemberStatus} size={52} img={chat.avatar} name={chat.name} />
-                            </div>
-                            <div className={styles.content}>
-                                <div className={styles.row}>
-                                    <div className={styles.left}>
-                                        <Title variant="H3S">{chat.name}</Title>
-                                        <Button tag>TFN</Button>
-                                    </div>
-                                    <div className={styles.right}>
-                                        <Title textAlign="right" variant="caption1M" primary={false}>
-                                            {chat.date}
-                                        </Title>
-                                    </div>
-                                </div>
-                                <div className={styles.row}>
-                                    <div className={styles.left}>
-                                        <Title primary={false} variant="H3R">
-                                            {chat.lastMessageTitle}
-                                        </Title>
-                                    </div>
-                                    <div className={styles.right}>
-                                        {chat.pending_messages_count ? (
-                                            <Counter variant="primary" height={18}>
-                                                {chat.pending_messages_count}
-                                            </Counter>
-                                        ) : (
-                                            chat.checkIsMyLastMessage && <Icons variant={chat.last_message.users_have_read.length ? 'double-check' : 'check'} />
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+        <Box loading={loading} className={styles.wrapper}>
+            <div className={styles.search}>
+                <Input {...tabsAndLists.searchInput} prefixIcon="search" clearIcon />
             </div>
-        </Box.Animated>
+            <div className={styles.tabs}>
+                <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
+            </div>
+            <Box.Animated visible trigger={tabsAndLists.activeTab?.title} className={styles.list} ref={wrapperRef}>
+                {visibleChatGpt && (
+                    <ChatCardView
+                        chatMenuAction={chatMenuAction}
+                        chat={chatProxy(mockChat({ name: 'ChatGPT', id: chat_gtp_id })) as any}
+                        clickOnChat={clickOnChat}
+                        active={window.location.pathname.split('/').pop() === 'chat_gpt'}
+                        description={
+                            lastMessageWithChatGpt.value?.id
+                                ? `${chatGtpRole[lastMessageWithChatGpt.value.role]}: ${lastMessageWithChatGpt.value.content}`
+                                : 'Чат с ботом'
+                        }
+                        ref={{
+                            // @ts-ignore
+                            lastChat: null,
+                            wrapper: wrapperRef,
+                        }}
+                    />
+                )}
+                {chats?.map((chat, index: number) => (
+                    <ChatCardView
+                        chatMenuAction={chatMenuAction}
+                        key={chat.id}
+                        chat={chat}
+                        clickOnChat={clickOnChat}
+                        active={activeChatId === chat?.id}
+                        ref={{
+                            // @ts-ignore
+                            lastChat: index + 1 === tabsAndLists.activeList?.length ? lastItem : null,
+                            wrapper: wrapperRef,
+                        }}
+                    />
+                ))}
+            </Box.Animated>
+        </Box>
     );
 }
 

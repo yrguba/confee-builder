@@ -6,8 +6,9 @@ enum ThemesNames {
     light = 'light',
     dark = 'dark',
 }
-type Themes = keyof typeof ThemesNames;
-function useTheme(): [theme: Themes, setTheme: (arg: Themes) => void] {
+export type Themes = keyof typeof ThemesNames;
+
+function useTheme(): { value: Themes; set: (arg: Themes) => void } {
     const storage = useStorage();
     const [activeTheme, setActiveTheme] = useState<Themes>(storage.get('theme') || 'light');
 
@@ -33,7 +34,9 @@ function useTheme(): [theme: Themes, setTheme: (arg: Themes) => void] {
         }
     }, []);
 
-    return [activeTheme, setTheme];
+    return { value: activeTheme, set: setTheme };
 }
+
+export type UseThemeReturned = ReturnType<typeof useTheme>;
 
 export default useTheme;

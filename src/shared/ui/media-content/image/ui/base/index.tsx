@@ -1,35 +1,160 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { appTypes } from 'entities/app';
-import { useFetchMediaContent, useStorage, useStyles } from 'shared/hooks';
+import { useEasyState, useFetchMediaContent, useFs, useStorage, useStyles, useWindowMouseClick } from 'shared/hooks';
 
 import styles from './styles.module.scss';
+import { messageStore } from '../../../../../../entities/message';
+import { useDimensionsObserver } from '../../../../../hooks';
+import { sizeConverter } from '../../../../../lib';
 import Box from '../../../../box';
+import Button from '../../../../button';
+import Icons from '../../../../icons';
+import { DropdownTypes, ContextMenu, ContextMenuTypes } from '../../../../index';
 import LoadingIndicator from '../../../../loading-indicator';
+import Notification from '../../../../notification';
+import Title from '../../../../title';
 import { BaseImageProps } from '../../types';
 
 function Image(props: BaseImageProps) {
-    const { url, width, height, horizontalImgWidth, onClick, borderRadius = true, ...other } = props;
-    const storage = useStorage<appTypes.ValuesInStorage>();
+    const {
+        name,
+        maxWidth,
+        objectFit = 'cover',
+        url,
+        width,
+        height,
+        horizontalImgWidth,
+        onClick,
+        borderRadius = true,
+        id,
+        remove,
+        visibleDropdown = true,
+        getSize,
+        maxHeight,
+        ...other
+    } = props;
 
-    const { src, error, isLoading, orientation } = useFetchMediaContent(url || '', storage.get('cache_size'));
+    const ref = useRef<HTMLImageElement>(null);
+
+    const { src, error, getFileBlob, isLoading } = useFetchMediaContent({ url, name, fileType: 'img' });
+    const downloadFile = messageStore.use.downloadFile();
+
+    const visibleMenu = useEasyState(false);
+    const progress = useEasyState(0);
+
+    const notification = Notification.use();
+
+    const fs = useFs();
+
+    const saveFile = () => {
+        if (name && url) {
+            fs.downLoadAndSave({ baseDir: 'download', url, fileName: name, progressCallback: (percent) => progress.set(percent) });
+        }
+    };
+
+    const clickContextMenu = (e: any) => {
+        e.preventDefault();
+        if (visibleDropdown) {
+            visibleMenu.toggle();
+        } else {
+            downloadFile.set({
+                fileType: 'images',
+                callback: saveFile,
+            });
+        }
+    };
+
+    const menuItems: ContextMenuTypes.ContextMenuItem[] = [
+        {
+            id: 0,
+            title: 'Скачать фото',
+            icon: <Icons variant="save" />,
+            callback: async () => {
+                visibleMenu.set(false);
+                saveFile();
+                downloadFile.clear();
+            },
+        },
+    ];
+
+    useEffect(() => {
+        if (progress.value === 100) {
+            notification.success({ title: 'Фото сохранено', system: true });
+        }
+    }, [progress.value]);
 
     const classes = useStyles(styles, 'img', {
+        [objectFit]: objectFit,
         error: error || !url,
     });
 
-    const getWidth = () => {
-        if (orientation === 'horizontal' && horizontalImgWidth) return horizontalImgWidth;
-        return width;
+    const removeClick = (e: any) => {
+        e.stopPropagation();
+        remove && id && remove(id);
     };
 
+    function getContainedSize(e?: any) {
+        const img = ref.current || e?.target;
+        if (getSize && img) {
+            const ratio = img.naturalWidth / img.naturalHeight;
+            let width = img.height * ratio;
+            let { height } = img;
+            width = img.width;
+            height = img.width / ratio;
+            getSize({ naturalWidth: img.naturalWidth, naturalHeight: img.naturalHeight, containedWidth: width, containedHeight: height });
+        }
+    }
+
+    useDimensionsObserver({
+        refs: { wrapper: ref },
+        onResize: {
+            wrapper: (size) => {
+                getContainedSize();
+            },
+        },
+    });
+
     return (
-        <div onClick={onClick} className={styles.wrapper} style={{ width: getWidth(), height, borderRadius: borderRadius ? 12 : 0 }}>
-            {!error && !isLoading && <img className={classes} src={src} alt="" />}
+        <div
+            onMouseLeave={() => visibleMenu.set(false)}
+            onContextMenu={clickContextMenu}
+            onClick={onClick}
+            className={styles.wrapper}
+            style={{
+                maxWidth,
+                width: isLoading ? 100 : width,
+                height,
+                borderRadius: borderRadius ? 12 : 0,
+                cursor: onClick ? 'pointer' : 'default',
+            }}
+        >
+            {progress.value > 0 && progress.value < 100 ? (
+                <div className={styles.savingFile}>
+                    <LoadingIndicator.Downloaded size={50} visible primary={false} />
+                </div>
+            ) : null}
+            {!error && !isLoading && (
+                <img
+                    style={{ maxHeight }}
+                    onLoad={getContainedSize}
+                    ref={getSize ? ref : null}
+                    onContextMenu={(e) => e.preventDefault()}
+                    className={classes}
+                    src={src}
+                    alt=""
+                />
+            )}
+            {remove && (
+                <Button.Circle radius={30} className={styles.remove} onClick={id ? removeClick : () => ''} variant="inherit">
+                    <Icons variant="delete" />
+                </Button.Circle>
+            )}
             <Box.Animated className={styles.loading} visible={isLoading} style={{ borderRadius: borderRadius ? 12 : 0 }}>
                 <LoadingIndicator visible />
             </Box.Animated>
             {(error || !url) && icon}
+            <ContextMenu visible={visibleMenu.value} items={menuItems} />
         </div>
     );
 }

@@ -15,3 +15,14 @@
   color: var(--error-color);
   overflow: hidden;
 }
+.wrapper{
+  position: relative;
+
+  .backBtn{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 20;
+    transform: translateY(-50%, -50%);
+  }
+}

@@ -1,49 +1,44 @@
-@import "src/app/styles";
+@import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(100%, auto);
-  @include flex-column(flex-start, flex-start);
-  max-height: 600px;
-  gap: 24px;
+  @include box-size(calc(100% - 80px), 100%);
+  @include flex(flex-start, flex-start);
+  gap: 30px;
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  padding: 40px;
 
-  @include height-to('sm'){
-    height: 80vh;
+  @include width-to(min){
+    padding: 40px 12px;
+    width: calc(100% - 24px);
   }
 
-  .body {
+  .avatarBlock {
     @include flex-column(flex-start, flex-start);
-    gap: 16px;
-    width: 100%;
-    flex: 1;
-    overflow-y: auto;
+    gap: 20px;
 
-    .item {
-      @include flex(space-between);
-      width: 100%;
-      gap: 20px;
-      cursor: pointer;
-      min-height: 60px;
+    .name {
+      @include flex(flex-start);
+      flex: 1;
+      gap: 6px;
+    }
 
-      &:first-child{
-        min-height: 80px;
-        align-items: center;
-      }
+    .btns {
+      @include flex(center, flex-start);
+      @include box-size(100%, auto);
+      gap: 12px;
 
-      .left {
-        width: 84%;
-        @include flex-column(center, flex-start);
-        gap: 2px;
-        height: 100%;
-        overflow-y: auto;
-        .aboutMe {
-          width: 100%;
-          @include flex(flex-start, flex-start);
-          max-height: 140px;
-
-        }
+      svg {
+        fill: var(--text-fixed);
       }
     }
   }
 
-
+  .description {
+    max-width: 400px;
+    width: 100%;
+    @include flex-column(flex-start, flex-start, 12);
+  }
 }

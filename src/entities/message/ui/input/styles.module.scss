@@ -3,13 +3,23 @@
 .wrapper {
   @include box-size(100%, auto);
 
+  .tagUsers {
+    @include flex-column(flex-start);
+    @include box-size(calc(100% - 32px), 100%);
+    padding: 8px 16px;
+    gap: 12px;
+    max-height: 300px;
+    min-height: 40px;
+    overflow-y: auto;
+    background-color: var(--bg-primary);
+  }
 
   .header {
     @include flex(flex-start);
-    @include box-size(calc(100% - 32px), 40px);
+    @include box-size(calc(100% - 32px), 70px);
     gap: 14px;
     padding: 8px 16px;
-    border-bottom: 1px solid var(--border-secondary);
+    background-color: var(--bg-secondary);
 
     .icon, .close {
       cursor: pointer;
@@ -30,6 +40,7 @@
     @include box-size(calc(100% - 32px), auto);
     gap: 14px;
     padding: 0 16px;
+    border-top: 2px solid var(--bg-primary);
 
     .openDownloads {
       svg {
@@ -51,7 +62,8 @@
       @include flex;
       flex: 1;
       z-index: 100;
-      margin: 8px 0;
+      margin-top: 4px;
+      margin-bottom: 12px;
 
       .timerRecording {
         @include flex(flex-start);
@@ -66,17 +78,21 @@
           animation: pulsateIndicator 1.6s ease-out;
           animation-iteration-count: infinite;
         }
-        .timer{
+
+        .timer {
           color: var(--text-primary);
         }
       }
-      .voicePreview{
+
+      .voicePreview {
         @include flex;
         @include box-size(100%, 100%);
         gap: 8px;
-        .deleteIcon{
+
+        .deleteIcon {
           cursor: pointer;
-          svg{
+
+          svg {
             fill: var(--text-negative);
           }
         }
@@ -86,6 +102,7 @@
 
 
 }
+
 @keyframes pulsateIndicator {
   0% {
     transform: scale(0.6, 0.6);

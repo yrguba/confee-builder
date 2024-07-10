@@ -6,56 +6,62 @@
   gap: 12px;
   max-width: 90%;
 
+
+  .avatar {
+    position: relative;
+  
+    .img {
+      position: absolute;
+      bottom: 0;
+      cursor: pointer;
+    }
+  }
+
+  .noAvatar {
+
+  }
+
   .content {
     @include box-size(100%, auto);
     flex: 1;
+    position: relative;
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
 
-    .isMy {
-      background-color: var(--bg-primary);
+
+    .active{
+      background: #BDB1D7 !important;
     }
 
-    .my_last{
+    .isMy {
+      background-color: var(--bg-chat-primary);
+      border-radius: 12px 12px 0 12px !important;
+      overflow: hidden;
+    }
+
+    .another{
+      border-radius: 12px 12px 12px 0 !important;
+      background-color: var(--bg-chat-secondary);
+      overflow: hidden;
+    }
+
+    .my_last {
       border-radius: 12px 12px 0 12px !important;
     }
 
-    .another_last{
-      border-radius: 12px 12px 12px 0!important;
+    .another_last {
+      border-radius: 12px 12px 12px 0 !important;
     }
 
-    .bubble {
-      @include flex(flex-start);
-      //min-width: 120px;
-      gap: 12px;
-      padding: 12px;
-      border-radius:12px;
-      background-color: var(--bg-secondary);
-
-      .body {
-        margin-bottom: 8px;
-      }
-
-      .info {
-        @include flex(flex-end);
-        align-self: flex-end;
-        gap: 4px;
-
-        .edited{
-          width: 70px;
-        }
-        .icon {
-          width: 24px;
-          max-height: 24px;
-
-          .checkIcon {
-            @include flex;
-          }
-
-          svg {
-            fill: var(--text-action);
-          }
-        }
-      }
+    .authorName {
+      cursor: pointer;
+      margin: 4px 8px 0 8px;
+      color: var(--text-action);
+      //position: absolute;
+      //top: -24px;
+      //left: 0;
     }
+
   }
 }
 

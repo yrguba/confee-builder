@@ -1,48 +1,45 @@
 import React from 'react';
 
-import { appService } from 'entities/app';
-import { callsTypes } from 'entities/calls';
-import { ChatHeaderView, chatApi } from 'entities/chat';
-import ChatProxy from 'entities/chat/model/proxy';
-import { useMessageStore, messageApi } from 'entities/message';
-import { useRouter, useWebView } from 'shared/hooks';
-import { getRandomString } from 'shared/lib';
-import { TabBarTypes, Notification, Modal } from 'shared/ui';
+import { callStore, useCall } from 'entities/call';
+import { ChatHeaderView, chatApi, chatService } from 'entities/chat';
+import chatProxy from 'entities/chat/lib/proxy';
+import { ChatTabsActions } from 'entities/chat/model/types';
+import { messageStore, messageApi } from 'entities/message';
+import { useRouter } from 'shared/hooks';
+import { Modal } from 'shared/ui';
 
-import ChatProfileModal from './modals/profile';
+import GroupChatProfileModal from './modals/profile/group';
+import PrivateChatProfileModal from './modals/profile/private';
+import { viewerStore } from '../../../entities/viewer';
+import { getRandomString } from '../../../shared/lib';
+import { ActiveCallListModal } from '../../call';
 import { ForwardMessagesModal } from '../../message';
 
 function ChatHeader() {
-    const { params, navigate } = useRouter();
+    const { params, navigate, pathname } = useRouter();
 
-    const { data: chatData } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
+    const { data: chatData, isLoading } = chatApi.handleGetChat({ chatId: Number(params.chat_id) });
     const { mutate: handleDeleteMessage } = messageApi.handleDeleteMessage();
+    const proxyChat = chatProxy(chatData?.data.data);
+    const getMembersIdsWithoutMe = chatService.getMembersIdsWithoutMe(proxyChat);
+    const highlightedMessages = messageStore.use.highlightedMessages();
+    const forwardMessages = messageStore.use.forwardMessages();
+    const visibleSearchMessages = messageStore.use.visibleSearchMessages();
 
-    const highlightedMessages = useMessageStore.use.highlightedMessages();
-    const forwardMessages = useMessageStore.use.forwardMessages();
+    const viewer = viewerStore.use.viewer();
 
-    const notification = Notification.use();
-
-    const callPath = `${chatData?.is_group ? callsTypes.Paths.GROUP : callsTypes.Paths.PRIVATE}/${getRandomString(20)}`;
-
-    const webView = useWebView(callPath, 'аудио звонок');
-
-    const chatProfileModal = Modal.use();
+    const groupChatProfileModal = Modal.use();
+    const privateChatProfileModal = Modal.use();
     const forwardMessagesModal = Modal.use();
+    const activeCallListModal = Modal.use();
 
-    const clickChatAudioCall = async () => {
-        if (appService.tauriIsRunning) {
-            webView?.open();
-        } else {
-            navigate(callPath);
-        }
-    };
+    const meet = useCall();
 
     const clickDeleteMessages = async () => {
         if (chatData) {
             handleDeleteMessage({
-                chatId: chatData?.id,
-                messageIds: highlightedMessages.value.map((i) => i.id),
+                chatId: chatData?.data.data.id,
+                messageIds: highlightedMessages.value?.map((i) => i.id),
                 fromAll: true,
             });
             highlightedMessages.clear();
@@ -50,26 +47,45 @@ function ChatHeader() {
     };
 
     const clickForwardMessages = async () => {
-        forwardMessages.set({ fromChatName: chatData?.name || '', toChatId: null, messages: highlightedMessages.value, redirect: false });
+        forwardMessages.set({ fromChatName: chatData?.data.data.name || '', toChatId: null, messages: highlightedMessages.value, redirect: false });
         highlightedMessages.clear();
         forwardMessagesModal.open();
     };
 
-    const tabs: TabBarTypes.TabBarItem[] = [
-        { id: 0, icon: 'search', callback: () => notification.inDev() },
-        { id: 1, icon: 'phone', callback: clickChatAudioCall },
-        { id: 2, icon: 'videocam-outlined', callback: () => notification.inDev() },
-    ];
+    const clickCard = () => {
+        if (proxyChat?.is_group) {
+            groupChatProfileModal.open({ chatId: proxyChat.id });
+        } else {
+            if (proxyChat?.is_personal) return privateChatProfileModal.open({ user: proxyChat.secondUser });
+            privateChatProfileModal.open({ employee: proxyChat?.secondEmployee });
+        }
+    };
+
+    const tabsActions = (action: ChatTabsActions) => {
+        switch (action) {
+            case 'search':
+                return visibleSearchMessages.set(!visibleSearchMessages.value);
+            case 'goMeet':
+                meet.openCreateMeet(proxyChat);
+        }
+    };
+
+    const clickActiveCallList = () => {
+        activeCallListModal.open({ chatId: proxyChat?.id });
+    };
 
     return (
         <>
-            <ChatProfileModal {...chatProfileModal} />
+            <ActiveCallListModal {...activeCallListModal} />
+            <GroupChatProfileModal {...groupChatProfileModal} />
+            <PrivateChatProfileModal {...privateChatProfileModal} />
             <ForwardMessagesModal {...forwardMessagesModal} />
             <ChatHeaderView
-                back={() => navigate('/chats')}
-                chat={ChatProxy(chatData)}
-                tabs={tabs}
-                clickCard={chatProfileModal.open}
+                clickActiveCallList={clickActiveCallList}
+                back={() => navigate(-1)}
+                chat={proxyChat}
+                tabsActions={tabsActions}
+                clickCard={clickCard}
                 highlightedMessages={highlightedMessages}
                 clickDeleteMessages={clickDeleteMessages}
                 clickForwardMessages={clickForwardMessages}
@@ -77,5 +93,5 @@ function ChatHeader() {
         </>
     );
 }
-
+//
 export default ChatHeader;

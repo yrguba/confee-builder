@@ -1,10 +1,10 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include flex;
-  width: 100%;
+  @include flex(flex-start);
   gap: 8px;
   cursor: pointer;
+  width: 100%;
 
   .icon {
     @include flex;
@@ -12,15 +12,30 @@
     height: 37px;
     background-color: var(--text-action);
     border-radius: 4px;
+    position: relative;
   }
 
   .caption {
+    //max-width: 290px;
     width: calc(100% - 45px);
     @include flex-column;
+    //flex: 1;
+
+    .sizeAndDate {
+      @include flex(flex-start);
+      width: 100%;
+
+      .dot{
+        margin: 0 6px;
+        background-color: #717394;
+        @include box-size(4px, 4px);
+        border-radius: 50%;
+      }
+    }
   }
 
   svg {
-    fill: var(--text-primary);
+    fill: var(--text-fixed);
   }
 
 }

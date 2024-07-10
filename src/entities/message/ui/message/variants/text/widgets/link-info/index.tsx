@@ -1,9 +1,16 @@
-import React, { ReactNode } from 'react';
+import { getClient, ResponseType } from '@tauri-apps/api/http';
+import React, { ReactNode, useEffect } from 'react';
+import { useUpdateEffect } from 'react-use';
 
+import { useEasyState, useShell } from 'shared/hooks';
+import { regex } from 'shared/lib';
 import { BaseTypes } from 'shared/types';
 import { Image, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { fileConverter } from '../../../../../../../../shared/lib';
+import { appService } from '../../../../../../../app';
+import images from '../../../images';
 
 type Props = {
     content: string;
@@ -14,26 +21,53 @@ type Props = {
 function LinkInfo(props: Props) {
     const { content, children, preview } = props;
 
+    const { openBrowser } = useShell();
+
+    const previewImg = useEasyState('');
+
+    useUpdateEffect(() => {
+        if (preview?.images?.length && appService.tauriIsRunning && !preview?.images?.includes('https://onprem.confee.ru/logo.png')) {
+            getClient()?.then((client) => {
+                client
+                    .get(preview.images[0], {
+                        responseType: ResponseType.Binary,
+                    })
+                    .then((res) => {
+                        previewImg.set(fileConverter.arrayBufferToBlobLocalPath(new Uint8Array(res.data as any), 'img'));
+                    });
+            });
+        }
+    }, [preview]);
+
+    const isYoutube = regex.youTubeUrl.test(preview?.fullUrl);
+
     return (
-        <div className={styles.wrapper}>
-            <div
-                className={styles.link}
-                onClick={() => {
-                    window.open(content, '_blank');
-                }}
-            >
-                {children}
-            </div>
+        <div
+            className={styles.wrapper}
+            onClick={() => {
+                openBrowser(content);
+            }}
+        >
+            <div className={styles.link}>{children}</div>
+            {/* {preview?.siteName && ( */}
             <div className={styles.info}>
                 <div className={styles.description}>
-                    <Title variant="H3M">{preview?.siteName || 'Неопределенно'}</Title>
-                    <Title variant="H4S">{preview?.title || 'Неопределенно'}</Title>
-                    <Title variant="Body14">{preview?.description || 'Небезопасный ресурс !'}</Title>
+                    <Title textWrap variant="H2">
+                        {preview?.siteName || 'Неопределенно'}
+                    </Title>
+                    <Title textWrap variant="H3S">
+                        {preview?.title || 'Неопределенно'}
+                    </Title>
+                    <Title variant="Body14">{preview?.description || 'Неопределенно'}</Title>
+                    {isYoutube && <Image maxWidth="100%" height="auto" url={previewImg?.value} />}
                 </div>
-                <div className={styles.img}>
-                    <Image width="70px" height="70px" url={preview?.images?.length ? preview?.images[0] : ''} />
-                </div>
+                {!isYoutube && (
+                    <div className={styles.img}>
+                        <Image width="70px" height="70px" url={previewImg?.value} />
+                    </div>
+                )}
             </div>
+            {/* )} */}
         </div>
     );
 }

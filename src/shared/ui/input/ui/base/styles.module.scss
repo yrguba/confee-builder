@@ -17,6 +17,7 @@
     padding-left: 12px;
     padding-right: 12px;
     border-radius: 12px;
+    //background-color: var(--bg-primary);
     border: 1px solid var(--border-secondary);
     transition: all var(--transition);
   }
@@ -25,9 +26,25 @@
     border: 1px solid var(--border-primary-pressed);
   }
 
+  .textArea{
+    color: var(--text-primary);
+    width: 100%;
+    //padding: 4px 0;
+    //height: calc(100% - 8px);
+    word-break: break-word;
+    white-space: pre-line;
+    resize: none;
+    outline: none;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: inherit;
+  }
+
   .input {
     display: flex;
-    align-items: center;
+    //align-items: center;
     width: 100%;
     height: 100%;
     font-size: 18px;
@@ -41,7 +58,7 @@
     cursor: pointer;
 
     svg {
-      fill: var(--text-primary);
+      fill: var(--text-primary) !important;
     }
   }
 
@@ -66,6 +83,11 @@
     border: none;
     padding-left: 0;
     padding-right: 0;
+    background-color: inherit;
+    min-width: 100%;
+    svg{
+      fill: var(--text-primary);
+    }
   }
 
   .error {
@@ -84,8 +106,9 @@
   }
 
   .errorTitle {
-    font-size: 14px;
+    font-size: 12px;
     text-align: left;
+    font-weight: 500;
     color: var(--text-negative);
   }
 }
@@ -109,7 +132,9 @@ input {
 
 ::placeholder {
   color: var(--text-inactive);
-  //font-size: 12px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
 }
 
 input[type=password]::-ms-reveal,

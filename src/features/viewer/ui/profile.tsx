@@ -1,51 +1,66 @@
 import React from 'react';
 import useFileUploader from 'react-use-file-uploader';
 
-import { viewerApi, ViewerProfileView } from 'entities/viewer';
-import { getFormData } from 'shared/lib';
-import { Modal } from 'shared/ui';
+import { viewerApi, viewerProxy, ViewerProfileView } from 'entities/viewer';
+import { useEasyState, useRouter } from 'shared/hooks';
 
-import ChangeBirthModal from './modals/change-birth';
-import ChangeNameModal from './modals/change-name';
-import ChangeNicknameModal from './modals/change-nickname';
+import { getFormData } from '../../../shared/lib';
+import { Modal } from '../../../shared/ui';
+import { AuthAdModal } from '../../auth';
+import { EmployeeProfile, EmployeeProfileModal } from '../../company';
 
 function ViewerProfile() {
-    const { data: viewerData } = viewerApi.handleGetViewer();
+    const { navigate } = useRouter();
+    const visibleSwiper = useEasyState(false);
+
+    const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
+    const user = viewerData?.user;
+
+    const viewer = viewerProxy(user);
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
 
-    const changeNameModal = Modal.use();
-    const changeAboutMeModal = Modal.use();
-    const changeNicknameModal = Modal.use();
-    const changePhoneModal = Modal.use();
-    const changeEmailModal = Modal.use();
-    const changeBirthModal = Modal.use();
+    const authCompanyModal = Modal.use();
+    const employeeProfileModal = Modal.use();
+
+    const confirmAddAvatar = Modal.useConfirm<{ img: string; file: File }>((value, callbackData) => {
+        value &&
+            callbackData?.img &&
+            handleAddAvatar({
+                file: getFormData('images', callbackData.file),
+            });
+    });
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',
         onAfterUploading: (data) => {
-            const fd = getFormData('images', data.files[0].file);
-            handleAddAvatar({ file: fd });
+            confirmAddAvatar.open({ img: data.files[0].fileUrl, file: data.files[0].file });
         },
     });
 
-    const getScreenshot = (data: string) => {
-        handleAddAvatar({ file: getFormData('images', data) });
-    };
+    const getScreenshot = (data: string) =>
+        handleAddAvatar({
+            file: getFormData('images', data),
+        });
 
-    const modals = {
-        openChangeNameModal: changeNameModal.open,
-        openChangeAboutMeModal: changeAboutMeModal.open,
-        openChangeNickname: changeNicknameModal.open,
-        openChangePhone: changePhoneModal.open,
-        openChangeEmail: changeEmailModal.open,
-        openChangeBirth: changeBirthModal.open,
-    };
     return (
         <>
-            <ChangeBirthModal {...changeBirthModal} />
-            <ChangeNameModal {...changeNameModal} />
-            <ChangeNicknameModal {...changeNicknameModal} />
-            <ViewerProfileView modals={modals} getScreenshot={getScreenshot} deleteFile={() => ''} selectFile={selectFile} isViewer user={viewerData} />
+            <AuthAdModal {...authCompanyModal} />
+            <EmployeeProfileModal {...employeeProfileModal} />
+            <Modal.Confirm {...confirmAddAvatar} okText="Установить" title="Установить аватар" />
+
+            <ViewerProfileView
+                clickCompanyCard={employeeProfileModal.open}
+                clickAvatar={() => visibleSwiper.set(true)}
+                avatarActions={{
+                    getScreenshot,
+                    selectFile,
+                    deleteFile: () => '',
+                }}
+                viewer={viewer}
+                clickSettings={() => navigate('info_settings')}
+                companies={viewerData?.companies || []}
+                openAuthCompanyModal={authCompanyModal.open}
+            />
         </>
     );
 }

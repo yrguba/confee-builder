@@ -1,16 +1,8 @@
-import { messageTypes } from 'entities/message';
+import { Contact } from '../../contact/model/types';
 
-import { File } from '../../message/model/types';
-
-export enum Statuses {
-    'IN_OFFICE' = '#29CC39',
-    'HOME_WORK' = '#8833FF',
-    'BUSINESS_TRIP' = '#33BFFF',
-    'VACATION' = '#2EE5C9',
-    'SICK_LEAVE' = '#EFF2F7',
-    'NOT_AVAILABLE' = '#E62E7B',
-    'ONLINE' = '#0000ff',
-    'OFFLINE' = '',
+export enum NetworkStatuses {
+    'online' = 'var(--status-inoffice)',
+    'offline' = '',
 }
 
 export type User = {
@@ -27,11 +19,34 @@ export type User = {
     nickname: string;
     phone: string;
     updated_at: Date;
+    about: string;
+    deleted_at: Date | null;
+    role: 'Chat member' | 'Owner';
+    muted: boolean;
 };
 
-export type Modals = {
-    personalInfo: User;
+export type UserProxy = {
+    full_name: string;
+    networkStatus: keyof typeof NetworkStatuses;
+    formatted_birth: string | null;
+    formatted_last_active: string;
+    viewer: boolean;
+    isDeleted: boolean;
+} & User;
+
+export type UserCardActions = {
+    audioCall: () => void;
+    videoCall: () => void;
+    getChat: () => void;
+    mute: () => void;
+    delete?: () => void;
+    openChangeNameModal?: () => void;
 };
 
 export type SocketIn = 'UserUpdated';
 export type SocketOut = '';
+
+export type Socket = {
+    event: SocketIn;
+    data: any;
+};

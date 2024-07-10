@@ -13,13 +13,17 @@
   transition: all .5s;
   font-weight: 600;
 
-  .animateContent{
+  .animateContent {
     @include flex;
     gap: 8px;
   }
 }
 
-.vertical{
+.redText{
+  color: var(--text-negative) !important;
+}
+
+.vertical {
   @include flex-column;
 }
 
@@ -32,12 +36,33 @@
   }
 }
 
+.bg-secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-action);
+  fill: var(--text-action);
+  border: 1px solid var(--bg-secondary);
+
+  &:hover {
+    border: 1px solid var(--border-primary-pressed);
+  }
+}
 
 .secondary {
   color: var(--text-action-pressed);
 
   &:hover {
     border: 1px solid var(--border-primary-pressed);
+  }
+}
+
+.shadow {
+  color: var(--text-action-pressed);
+  box-shadow: var(--box-shadow);
+  border: none;
+  background-color: var(--bg-secondary);
+
+  &:hover {
+    box-shadow: var(--box-shadow-active);
   }
 }
 
@@ -52,32 +77,23 @@
 
 .negative {
   background-color: var(--control-negative);
+
   &:hover {
     color: var(--text-negative-pressed);
   }
 }
 
-.chips{
-  width: auto!important;
+.chips {
+  //width: auto;
   border-radius: 20px;
   height: 40px !important;
   padding: 0 16px !important;
-  min-width: 26px;
+  min-width: fit-content;
 }
 
-.tag{
-  width: auto!important;
-  height: 18px!important;
-  border-radius: 20px;
-  padding: 0 16px;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 18px;
-  background-color: var(--bg-quaternary);
-}
 
 .disabled {
-  pointer-events: none;
+  pointer-events: none !important;
   cursor: default;
   opacity: 0.4;
 }
@@ -93,7 +109,7 @@
   background-color: inherit;
   color: var(--text-primary);
 
-  &_active{
+  &_active {
     color: var(--text-action);
   }
 
@@ -102,7 +118,7 @@
 }
 
 .size-s {
-  width: 86px;
+  //width: 86px;
   height: 48px;
   font-size: 14px;
   line-height: 20px;

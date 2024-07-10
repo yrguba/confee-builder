@@ -1,9 +1,8 @@
 @import "src/app/styles/index";
 
 .wrapper {
-  @include box-size(calc(416px - 48px), auto);
+  @include box-size(calc(416px - 48px), calc(100% - 48px));
   @include flex-column(flex-start, flex-start);
-  max-height: 90vh;
   gap: 16px;
   margin: 24px;
 
@@ -17,7 +16,8 @@
   .list {
     @include flex-column(flex-start, flex-start);
     width: 100%;
-    gap: 12px;
+    gap: 6px;
+    height: 100%;
     min-height: 60px;
     overflow-y: auto;
     max-height: 68vh;
@@ -28,7 +28,7 @@
 
       .children {
         width: 80%;
-        @include flex;
+        @include flex(flex-start);
       }
 
       .deleteIcon {

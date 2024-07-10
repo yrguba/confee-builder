@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
+import { companyTypes } from 'entities/company';
 import { userTypes } from 'entities/user';
 import { useFetchMediaContent } from 'shared/hooks';
 
@@ -9,9 +10,9 @@ import LoadingIndicator from '../../../loading-indicator';
 import { BaseAvatarProps } from '../../types';
 
 function Avatar(props: BaseAvatarProps) {
-    const { size = 80, name, img, circle = true, status, opacity = 1 } = props;
+    const { photoIcon, size = 80, name, clickAvatar, img, circle = true, employeeStatuses, networkStatus, opacity = 1, loading } = props;
 
-    const { src, error, isLoading } = useFetchMediaContent(img || '');
+    const { src, error, isLoading } = useFetchMediaContent({ url: img || '', name: `${img}.jpg`, fileType: 'img' });
 
     const colors = [
         { id: 0, triggers: ['а', 'б', 'a', 'b'], color1: '#FF8A65', color2: '#EA5A5A' },
@@ -30,13 +31,13 @@ function Avatar(props: BaseAvatarProps) {
         { id: 13, triggers: ['1', '2', '3', '4', '5', '6', 7, '8', '9', '10'], color1: '#E57373', color2: '#F06292' },
     ];
 
-    const getColor = () => {
+    const getColor = useCallback(() => {
         if (name) {
             const found = colors.find((i) => i.triggers.includes(name[0].toLowerCase()));
             if (found) return { color1: found.color1, color2: found.color2 };
         }
         return { color1: '#9575CD', color2: '#7986CB' };
-    };
+    }, [name]);
 
     const defaultIcon = (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
@@ -47,14 +48,28 @@ function Avatar(props: BaseAvatarProps) {
         </svg>
     );
 
-    const getPreview = () => {
+    const photoSvg = (
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="80" height="80" rx="40" fill="white" />
+            <path
+                d="M40 45.5C42.4853 45.5 44.5 43.4853 44.5 41C44.5 38.5147 42.4853 36.5 40 36.5C37.5147 36.5 35.5 38.5147 35.5 41C35.5 43.4853 37.5147 45.5 40 45.5Z"
+                fill="#7B57C8"
+            />
+            <path
+                d="M52 29H47.245L45.385 26.975C44.83 26.36 44.02 26 43.18 26H36.82C35.98 26 35.17 26.36 34.6 26.975L32.755 29H28C26.35 29 25 30.35 25 32V50C25 51.65 26.35 53 28 53H52C53.65 53 55 51.65 55 50V32C55 30.35 53.65 29 52 29ZM40 48.5C35.86 48.5 32.5 45.14 32.5 41C32.5 36.86 35.86 33.5 40 33.5C44.14 33.5 47.5 36.86 47.5 41C47.5 45.14 44.14 48.5 40 48.5Z"
+                fill="#7B57C8"
+            />
+        </svg>
+    );
+
+    const getPreview = useCallback(() => {
         if (name) {
             const splitName = name.split(' ').filter((i) => !!i);
             if (splitName.length > 1) return `${splitName[0][0]}${splitName[1][0]}`;
             return name[0];
         }
-        return defaultIcon;
-    };
+        return photoIcon ? photoSvg : defaultIcon;
+    }, [name]);
 
     const color = getColor();
     const preview = getPreview();
@@ -62,6 +77,7 @@ function Avatar(props: BaseAvatarProps) {
     return (
         <div
             className={styles.wrapper}
+            onClick={clickAvatar}
             style={{
                 opacity,
                 borderRadius: circle ? '50%' : 8,
@@ -70,16 +86,25 @@ function Avatar(props: BaseAvatarProps) {
                 height: size,
                 minHeight: size,
                 fontSize: size - size / 2,
-                background: !img || error ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
+                background: isLoading || loading ? '' : !img || error ? `linear-gradient(70.91deg, ${color.color1} 0%, ${color.color2} 100%)` : '',
             }}
         >
             <Box.Animated
-                visible={!!status}
+                visible={!!employeeStatuses || (!!networkStatus && networkStatus === 'online')}
                 className={styles.status}
-                style={{ backgroundColor: status ? userTypes.Statuses[status] : '', width: size / 4, height: size / 4 }}
+                style={{
+                    backgroundColor: employeeStatuses
+                        ? companyTypes.EmployeeStatuses[employeeStatuses]
+                        : networkStatus
+                        ? userTypes.NetworkStatuses[networkStatus]
+                        : '',
+                    width: size / 5,
+                    height: size / 5,
+                    right: size > 160 ? 29 : '',
+                }}
             />
 
-            {isLoading ? (
+            {isLoading || loading ? (
                 <div className={styles.loading}>
                     <LoadingIndicator visible />
                 </div>

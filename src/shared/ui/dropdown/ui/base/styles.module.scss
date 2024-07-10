@@ -1,65 +1,10 @@
 @import "../../../../../app/styles/index";
 
 .wrapper {
-  position: relative;
+  position: fixed;
+  z-index: 10000000;
 }
 
-.body {
-  border-radius: 20px;
-  color: var(--text-0);
-  background-color: var(--bg-0);
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
-  position: absolute;
-  z-index: 100;
-
-}
-
-.reverseY {
-  //transform: translateY(-100%) !important;
-}
-
-.reverseX {
-  transform: translate(-100%) !important;
-}
-
-@mixin position($top, $left, $transform) {
-  top: $top;
-  left: $left;
-  transform: $transform;
-}
-
-.position-top-center {
-  @include position(0, 50%, translate(-50%, -100%));
-}
-
-.position-right-top {
-  @include position(0, 100%, translate(8px, -100%));
-}
-
-.position-right-center {
-  @include position(50%, 110%, translate(8px, -50%));
-}
-
-.position-right-bottom {
-  @include position(100%, 100%, translate(8px, 0));
-}
-
-.position-bottom-center {
-  @include position(110%, 50%, translate(-50%, 0));
-}
-
-.position-left-bottom {
-  @include position(100%, 0, translate(-100%, 0));
-}
-
-.position-left-center {
-  @include position(50%, 0, translate(-100%, -50%));
-}
-
-.position-left-top {
-  @include position(0, 0, translate(-100%, -100%));
-}
 
 
 

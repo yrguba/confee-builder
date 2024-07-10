@@ -1,29 +1,54 @@
 @import "src/app/styles";
 
 .wrapper {
+  @include flex-column;
+  justify-content: flex-start;
+  align-items: flex-start;
   @include box-size(100%, 100%);
-  @include flex-column();
+  gap: 7px;
+
+  .delimiter {
+    @include box-size(calc(100% - 40px), 28px);
+    @include flex(flex-start);
+    background-color: var(--bg-primary);
+    padding-left: 16px;
+    border-radius: 12px;
+
+    margin: 8px 0;
+    color: var(--text-primary);
+  }
 
   .item {
-    @include box-size(calc(100% - 12px), 60px);
+    @include box-size(100%, auto);
     @include flex();
     cursor: pointer;
-    margin-right: 12px;
+    //margin-right: 24px;
 
-    .info {
-      @include flex(flex-start);
-      flex: 1;
+    &_active {
+      background-color: var(--bg-primary);
     }
 
-    .selectIndicator {
-      @include box-size(24px, 24px);
-      border: 2px solid var(--text-action);
-      border-radius: 50%;
+    .container {
+      @include box-size(calc(100% - 24px), auto);
+      @include flex();
+      padding: 4px 12px;
+      .info {
+        @include flex(flex-start);
+        flex: 1;
+        width: 0;
+      }
 
-      svg {
-        fill: var(--text-action);
+      .selectIndicator {
+        @include box-size(17px, 17px);
+        border: 2px solid var(--text-action);
+        border-radius: 50%;
+
+        &_selected{
+          background-color: var(--control-primary);
+        }
       }
     }
+
   }
 }
 

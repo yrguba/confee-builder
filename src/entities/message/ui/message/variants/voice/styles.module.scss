@@ -1,15 +1,18 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include box-size(250px, auto);
-  @include flex;
-  gap: 2px;
-  flex-wrap: wrap;
+  @include flex(flex-end, flex-end);
   color: var(--text-primary);
-  max-width: 600px;
+  max-width: 290px;
+  background-color: var(--bg-secondary);
+  padding: 0 8px;
+  border-radius: 12px;
+  -moz-user-select: text;
+  -webkit-user-select: text;
 
-  @media (min-width: 680px) and (max-width: 850px) {
-    width: 150px;
+  .audio{
+    @include flex;
+    width: 200px;
   }
 }
 

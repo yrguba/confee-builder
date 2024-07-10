@@ -1,4 +1,4 @@
-@import "./src/app/styles/index";
+@import "src/app/styles";
 
 
 .wrapper {
@@ -10,9 +10,15 @@
   }
 
   .caption{
-    @include flex-column;
+    @include flex-column(flex-start, flex-start);
     width: 100%;
-    gap: 4px;
+
+    .title{
+      @include flex(flex-start);
+      gap: 6px;
+      max-width: 100%;
+    }
+    //gap: 4px;
   }
 }
 

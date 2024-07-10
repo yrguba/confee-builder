@@ -1,31 +1,98 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
+import { useZustand, UseZustandTypes, UseFileUploaderTypes } from 'shared/hooks';
 
-import { useStore, UseStoreTypes } from 'shared/hooks';
-
-import { MessageProxy } from './types';
+import { MediaContentType, Message, MessageProxy, MessageWithChatGpt } from './types';
 
 type Store = {
-    replyMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
-    editMessage: UseStoreTypes.SelectorWithObj<MessageProxy>;
-    forwardMessages: UseStoreTypes.SelectorWithObj<{ fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean }>;
-    highlightedMessages: UseStoreTypes.SelectorWithArr<MessageProxy>;
-    voiceRecordingInProgress: UseStoreTypes.SelectorWithPrimitive<boolean>;
+    replyMessage: MessageProxy;
+    editMessage: MessageProxy;
+    messagesForDelete: MessageProxy[];
+    forwardMessages?: { fromChatName: string; toChatId: number | null; messages: MessageProxy[]; redirect: boolean; filesIds?: number[] };
+    highlightedMessages: MessageProxy[];
+    voiceRecordingInProgress: boolean;
+    visibleSearchMessages: boolean;
+    initialPage: number | null;
+    foundMessage: Message | null;
+    goDownList: boolean;
+    isFileDrag: boolean;
+    openForwardMessageModal: boolean;
+    menuMessageId: number | null;
+    lastMessageWithChatGpt: MessageWithChatGpt;
+    downloadFile: { fileType: MediaContentType; callback: () => void };
+    filesToSend: UseFileUploaderTypes.Types.SortByAcceptType;
 };
 
-const { createSelectors, generateSelectorWithObj, generateSelectorWithArr, generateSelectorWithPrimitive } = useStore<Store>();
+type FilesType = 'image' | 'video' | 'audio' | 'document';
 
-const messageStore = create<Store>()(
-    devtools(
-        immer((set) => ({
-            ...generateSelectorWithPrimitive(['voiceRecordingInProgress'], set),
-            ...generateSelectorWithObj(['replyMessage', 'editMessage', 'forwardMessages'], set),
-            ...generateSelectorWithArr(['highlightedMessages'], set),
-        }))
-    )
-);
+type Methods = {
+    highlightedMessages: {
+        pushOrDelete: (message: MessageProxy) => void;
+    };
+    filesToSend: {
+        deleteById: (data: { type: FilesType; id: string | number }) => void;
+        replaceById: (data: { type: FilesType; id: string | number; file: File; url: string }) => void;
+        add: (data: { type: FilesType; files: any[] }) => void;
+    };
+};
 
-const useMessageStore = createSelectors(messageStore);
+const messageStore = useZustand<Store, Methods>({
+    keys: [
+        'messagesForDelete',
+        'voiceRecordingInProgress',
+        'visibleSearchMessages',
+        'initialPage',
+        'goDownList',
+        'isFileDrag',
+        'menuMessageId',
+        'openForwardMessageModal',
+        'replyMessage',
+        'editMessage',
+        'forwardMessages',
+        'foundMessage',
+        'downloadFile',
+        'lastMessageWithChatGpt',
+        'highlightedMessages',
+        'filesToSend',
+    ],
+    default: {
+        highlightedMessages: [],
+        filesToSend: {} as any,
+    },
+    methods: {
+        highlightedMessages: (use) => ({
+            pushOrDelete: (message) => {
+                const { state, updater } = use();
+                if (!state.highlightedMessages.value.find((i) => i.id === message.id)) {
+                    updater({ highlightedMessages: [...state.highlightedMessages.value, message] });
+                } else {
+                    updater({ highlightedMessages: state.highlightedMessages.value.filter((i) => i.id !== message.id) });
+                }
+            },
+        }),
+        filesToSend: (use) => ({
+            deleteById: ({ type, id }) => {
+                const { state, updater } = use();
+                const upd = state.filesToSend.value[type].filter((i) => i.id !== id);
+                updater({ filesToSend: { ...state.filesToSend.value, [type]: upd } });
+            },
+            add: ({ type, files }) => {
+                const { state, updater } = use();
+                updater({ filesToSend: { ...state.filesToSend.value, [type]: [...files, ...state.filesToSend.value[type]] } });
+            },
+            replaceById: ({ type, id, file, url }) => {
+                const { state, updater } = use();
+                const upd = state.filesToSend.value[type].map((i) => {
+                    if (i.id === id) return { ...i, file, fileUrl: url };
+                    return i;
+                });
+                updater({ filesToSend: { ...state.filesToSend.value, [type]: upd } });
+            },
+        }),
+    },
+    forStorage: {
+        storageName: 'message_storage',
+        keys: ['lastMessageWithChatGpt'],
+    },
+});
 
-export default useMessageStore;
+export type MessageStoreTypes = UseZustandTypes.StoreTypes<typeof messageStore.use>;
+export default messageStore;

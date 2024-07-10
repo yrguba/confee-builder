@@ -1,4 +1,5 @@
 import React from 'react';
+import { useWindowSize } from 'react-use';
 
 import { Button, Image, Title } from 'shared/ui/index';
 
@@ -9,6 +10,8 @@ import Modal from '../base';
 
 function ConfirmModal(props: ConfirmModalProps) {
     const { isOpen, close, title, onClose, closeText, okText, subtitle, callbackData, callback, open } = props;
+
+    const { height } = useWindowSize();
 
     const click = (value: boolean) => {
         callback(value);
@@ -23,16 +26,28 @@ function ConfirmModal(props: ConfirmModalProps) {
     }, [isOpen]);
 
     return (
-        <Modal closeIcon={false} isOpen={isOpen} open={() => ''} close={() => ''} onClose={() => click(false)}>
+        <Modal payload={callbackData} closeIcon={false} isOpen={isOpen} open={() => ''} close={() => ''} onClose={() => click(false)}>
             <div className={styles.wrapper}>
                 <div className={styles.body}>
-                    <Title variant="H2">{title}</Title>
-                    {callbackData?.value?.img && <Image url={callbackData?.value?.img} />}
-                    {subtitle && <Title variant="H2">{subtitle}</Title>}
+                    <div className={styles.header}>
+                        <Title textAlign="center" textWrap variant="H2">
+                            {title}
+                        </Title>
+                    </div>
+                    {callbackData?.value?.img && <Image borderRadius maxHeight={`${height / 2}px`} url={callbackData?.value?.img} />}
+                    {subtitle && (
+                        <Title textAlign="center" textWrap variant="H4M" primary={false}>
+                            {subtitle}
+                        </Title>
+                    )}
                 </div>
-                <div className={styles.footer}>
-                    <Button onClick={() => click(false)}>{closeText || 'Отмена'}</Button>
-                    <Button onClick={() => click(true)}>{okText || 'Готово'}</Button>
+                <div className={styles.btns}>
+                    <Button height="44px" onClick={() => click(true)}>
+                        {okText || 'Готово'}
+                    </Button>
+                    <Button height="44px" variant="secondary" onClick={() => click(false)}>
+                        {closeText || 'Отмена'}
+                    </Button>
                 </div>
             </div>
         </Modal>

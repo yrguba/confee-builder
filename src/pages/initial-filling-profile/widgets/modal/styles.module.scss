@@ -19,6 +19,10 @@
     transform: translateX(-50%);
     cursor: pointer;
 
+    svg{
+      fill: var(--text-primary);
+    }
+
     @include flex;
     @include width-to('sm') {
       top: 0;

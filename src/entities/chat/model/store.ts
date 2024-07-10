@@ -1,34 +1,35 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
-
-import { useStore, UseStoreTypes } from 'shared/hooks';
+import { useZustand, UseZustandTypes } from 'shared/hooks';
 
 type Store = {
-    chatSubscription: UseStoreTypes.SelectorWithPrimitive<number | null>;
-    usersTyping: {
-        value: Record<number, string[]>;
-        set: (value: { chatId: number; users: string[] }) => void;
+    chatSubscription: number | null;
+    initialOpenChat: boolean;
+    visibleChatGpt: boolean;
+};
+
+type Methods = {
+    visibleChatGpt: {
+        toggle: (value: boolean) => void;
     };
 };
 
-const { createSelectors, generateSelectorWithObj } = useStore<Store>();
-
-const chatStore = create<Store>()(
-    devtools(
-        immer((set) => ({
-            ...generateSelectorWithObj(['chatSubscription'], set),
-            usersTyping: {
-                value: {},
-                set: async (data) =>
-                    set((state) => {
-                        state.usersTyping.value[data.chatId] = data.users;
-                    }),
+const chatStore = useZustand<Store, Methods>({
+    keys: ['chatSubscription', 'initialOpenChat', 'visibleChatGpt'],
+    default: {
+        visibleChatGpt: true,
+    },
+    methods: {
+        visibleChatGpt: (use) => ({
+            toggle: (value) => {
+                const { updater } = use();
+                updater({ visibleChatGpt: value });
             },
-        }))
-    )
-);
+        }),
+    },
+    forStorage: {
+        keys: ['visibleChatGpt'],
+        storageName: 'chats_storage',
+    },
+});
 
-const useChatStore = createSelectors(chatStore);
-
-export default useChatStore;
+export type ChatStoreTypes = UseZustandTypes.StoreTypes<typeof chatStore.use>;
+export default chatStore;

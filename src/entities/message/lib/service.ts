@@ -1,20 +1,22 @@
-import { appApi } from 'entities/app';
+import { sendNotification } from '@tauri-apps/api/notification';
+import produce from 'immer';
+
 import { getUniqueArr } from 'shared/lib';
 
 import { messages_limit } from './constants';
+import { appStore } from '../../app';
 import { Chat } from '../../chat/model/types';
-import { viewerService } from '../../viewer';
 import { messageProxy } from '../index';
-import { File, Message } from '../model/types';
+import { File, Message, MessageProxy, MessageType } from '../model/types';
 
 class MessageService {
     getUpdatedList(messageData: any) {
-        const uniq = getUniqueArr(messageData?.pages?.reduce((messages: any, page: any) => [...[...page.data.data].reverse(), ...messages], []) || [], 'id');
+        const uniq = getUniqueArr(messageData?.pages?.reduce((messages: any, page: any) => [...messages, ...[...page.data.data]], []) || [], 'id');
         return uniq.map((message: any, index: number) => {
             return messageProxy({
-                prevMessage: (uniq[index - 1] as Message) || null,
+                prevMessage: (uniq[index + 1] as Message) || null,
                 message,
-                nextMessage: (uniq[index + 1] as Message) || null,
+                nextMessage: (uniq[index - 1] as Message) || null,
             });
         });
     }
@@ -25,10 +27,33 @@ class MessageService {
         return Math.ceil(chat.pending_messages_count / messages_limit);
     }
 
-    getAuthorName(message: Message | null) {
-        if (!message) return '';
-        const viewerId = viewerService.getId();
-        return message?.author?.id === viewerId ? 'Вы' : message?.author?.first_name;
+    notification(title: string, body: string, isCompany: boolean) {
+        const { enableNotifications } = appStore.getState();
+        const { enableCompanyNotifications } = appStore.getState();
+        if (enableNotifications.value) {
+            if (isCompany && !enableCompanyNotifications.value) return;
+            return sendNotification({ title, body });
+        }
+    }
+
+    updateMockMessage(data: { users_have_read?: number[]; chatId: number; filesType: MessageType; id?: number }, queryClient: any, sendingError?: boolean) {
+        queryClient.setQueryData(['get-messages', data.chatId], (cacheData: any) => {
+            return produce(cacheData, (draft: any) => {
+                draft.pages[0].data.data.find((i: MessageProxy, index: number) => {
+                    if (i.isMock && i.sending && data.filesType === i.type) {
+                        draft.pages[0].data.data[index] = {
+                            ...i,
+                            id: data.id || i.id,
+                            sending: false,
+                            isRead: true,
+                            isMock: false,
+                            sendingError,
+                            users_have_read: data.users_have_read,
+                        };
+                    }
+                });
+            });
+        });
     }
 }
 

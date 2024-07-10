@@ -10,6 +10,7 @@ function InitialFillingProfileStep1() {
     const navigate = useNavigate();
 
     const { data: viewerData, isLoading } = viewerApi.handleGetViewer();
+    const user = viewerData?.user;
 
     const handleCheckNickname = userApi.handleCheckNickname();
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
@@ -18,14 +19,14 @@ function InitialFillingProfileStep1() {
 
     const nicknameInput = Input.use({
         yupSchema: yup.checkNickname,
-        initialValue: viewerData?.nickname,
+        initialValue: user?.nickname,
     });
 
     const onsubmit = async () => {
         const { error } = await nicknameInput.asyncValidate();
         if (error) return;
         const { exists } = await handleCheckNickname({ nickname: nicknameInput.value });
-        if (exists && viewerData?.nickname !== nicknameInput.value) {
+        if (exists && user?.nickname !== nicknameInput.value) {
             return nicknameInput.setError('Такой никнейм уже занят');
         }
         if (!error) {

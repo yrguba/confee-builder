@@ -22,10 +22,10 @@ function InitialFillingProfileStep2View(props: Props) {
                 <div className={styles.subtitle}>Они будут отображаться другим пользователям приложения</div>
             </div>
             <div className={styles.input}>
-                <Input placeholder="Имя" {...inputs.firstName} clearIcon size="m" width="100%" />
+                <Input maxLength={20} placeholder="Имя" {...inputs.firstName} clearIcon size="m" width="100%" />
             </div>
             <div className={styles.inputLastName}>
-                <Input placeholder="Фамилия" {...inputs.lastName} clearIcon size="m" width="100%" />
+                <Input maxLength={20} placeholder="Фамилия" {...inputs.lastName} clearIcon size="m" width="100%" />
             </div>
             <Button disabled={inputs.lastName.error || inputs.firstName.error} onClick={() => handleSubmit()} size="m" width="100%">
                 Далее

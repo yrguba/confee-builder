@@ -1,37 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { ChatProxy } from 'entities/chat/model/types';
+import { ChatProxy, UseChatsTabsAndListsReturnType } from 'entities/chat/model/types';
 import { BaseTypes } from 'shared/types';
 import { Button, Card, Input, TabBar, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
+import { useInView } from '../../../../../shared/hooks';
 
 type Props = {
-    chats: ChatProxy[] | BaseTypes.Empty;
-    clickChat: (chatId: number) => void;
+    tabsAndLists: UseChatsTabsAndListsReturnType;
+    clickOnChat: (arg: ChatProxy) => void;
     back: () => void;
 } & BaseTypes.Statuses;
 
 function ForwardMessagesModalView(props: Props) {
-    const { back, chats, clickChat } = props;
+    const { back, tabsAndLists, clickOnChat } = props;
 
-    const [activeTab, setActiveTab] = useState(0);
-    const btns = [{ id: 0, title: 'Все', callback: () => setActiveTab(0) }];
+    const { ref: lastItem, inView: inViewLastItem } = useInView({ delay: 200 });
+
+    const chats = tabsAndLists.searchInput.value ? tabsAndLists.foundChats : tabsAndLists.activeList;
+
+    useEffect(() => {
+        inViewLastItem && tabsAndLists.getNextPage();
+    }, [inViewLastItem]);
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <Title variant="H2">Переслать...</Title>
                 <div className={styles.search}>
-                    <Input width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
+                    <Input {...tabsAndLists.searchInput} width="100%" placeholder="Поиск" prefixIcon="search" clearIcon />
                 </div>
             </div>
-            <TabBar bodyStyle={{ padding: '0 22px' }} items={btns} activeItemId={activeTab} />
+            <div className={styles.tabs}>
+                {tabsAndLists.activeList?.length ? (
+                    <TabBar items={tabsAndLists.tabs} activeItemId={tabsAndLists.activeTab?.id} clickTab={(tab) => tabsAndLists.setActiveTab(tab)} />
+                ) : (
+                    <Title variant="H2">Нет чатов</Title>
+                )}
+            </div>
             <div className={styles.body}>
                 <div className={styles.list}>
-                    {chats?.map((chat) => (
-                        <Card onClick={() => clickChat(chat.id)} key={chat?.id} title={chat.name || ''} subtitle={chat.subtitle || ''} />
-                    ))}
+                    {tabsAndLists.activeList?.length &&
+                        chats?.map((chat) => (
+                            <Card
+                                onClick={() => clickOnChat(chat)}
+                                name={chat.name}
+                                img={chat.avatar}
+                                key={chat?.id}
+                                title={chat.name || ''}
+                                subtitle={chat.subtitle || ''}
+                            />
+                        ))}
                 </div>
             </div>
             <div className={styles.footer}>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 
 import { useEasyState } from './index';
 
@@ -20,11 +20,17 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
     deleteByIds: (id: number[] | string[]) => void;
     clear: () => void;
     pushOrDelete: (arr: T) => void;
+    unshiftOrDelete: (arr: T) => void;
     replace: (arr: T[]) => void;
     getIds: () => number[] | string[];
+    pushUnique: (item: T) => void;
     concat: (arr: T[]) => void;
 } {
     const array = useEasyState<T[]>(initialArr || []);
+
+    useUpdateEffect(() => {
+        initialArr && array.set(initialArr);
+    }, [initialArr?.length]);
 
     const getIds = () => {
         return array.value.map((i) => i.id) as number[] | string[];
@@ -79,11 +85,39 @@ function useArray<T extends { id: number | string; [key: string]: any }>({
         else array.set((prev) => prev.filter((i) => i.id !== found.id));
     };
 
+    const unshiftOrDelete = (item: T) => {
+        const found = array.value.find((el) => el.id === item.id);
+        if (!multiple) array.set([]);
+        if (!found) array.set((prev) => [item, ...prev]);
+        else array.set((prev) => prev.filter((i) => i.id !== found.id));
+    };
+
+    const pushUnique = (item: T) => {
+        if (!findById(item.id)) {
+            push(item);
+        }
+    };
+
     const clear = () => {
         array.set([]);
     };
 
-    return { length: array.value.length, array: array.value, push, concat, unshift, findById, replace, deleteById, deleteByIds, pushOrDelete, clear, getIds };
+    return {
+        length: array.value.length,
+        array: array.value,
+        push,
+        concat,
+        unshift,
+        findById,
+        replace,
+        deleteById,
+        deleteByIds,
+        pushOrDelete,
+        unshiftOrDelete,
+        clear,
+        getIds,
+        pushUnique,
+    };
 }
 
 export type UseArrayReturnType<T extends { [key: string]: any; id: string | number }> = ReturnType<typeof useArray<T>>;

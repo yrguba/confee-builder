@@ -1,23 +1,25 @@
 import { userTypes } from 'entities/user';
 
-import { Statuses } from '../../user/model/types';
+export type Viewer = {
+    onesignal: string;
+} & userTypes.User;
 
-export type Viewer = {} & userTypes.User;
-
-export type Contact = {
-    id: number;
-    first_name: string | null;
-    last_name: string | null;
-    avatar: string | null;
-    phone: string | null;
-    owner: number;
-    user_id: number;
-    contact_name: string | null;
-    status: Statuses | null;
+export type Session = {
+    browser: string;
     created_at: Date;
+    device_name: string;
+    device_type: string;
+    id: string;
+    is_current: boolean;
+    last_activity: Date;
+    location: string;
+    os_name: string;
+    user_id: number;
     updated_at: Date;
 };
 
-export type ContactProxy = {
+export type ViewerProxy = {
     full_name: string;
-} & Contact;
+    full_avatar_url: string;
+    formatted_birth: string | null;
+} & Viewer;

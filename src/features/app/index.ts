@@ -1,4 +1,5 @@
-import AppSettings from './ui/app-settings';
-import CheckUpdate from './ui/checkUpdate';
+import PhotoVideoSwiperModal from './ui/modals/photo-video-swiper';
+import Network from './ui/network';
+import AppSettings from './ui/settings';
 
-export { CheckUpdate, AppSettings };
+export { AppSettings, Network, PhotoVideoSwiperModal };

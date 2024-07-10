@@ -1,16 +1,32 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex;
+  @include flex(flex-start);
   width: 100%;
+  //min-width: 170px;
   max-width: 400px;
+  border-radius: 12px;
+  padding-top: 8px;
 
-  .description{
+  .content {
     @include flex-column;
-    flex: 1;
-    width: 0;
-    min-width: 200px;
+
+    .description {
+      margin: 0 8px;
+      width: calc(100% - 16px);
+    }
+
+    .body {
+      @include flex(flex-start);
+      width: 100%;
+
+      .deleted {
+        margin: 0 8px;
+        width: calc(100% - 16px);
+      }
+    }
   }
+
 }
 
 

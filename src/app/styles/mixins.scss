@@ -24,6 +24,13 @@
 
 @mixin scrollBarVertical() {
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 4px;
   }
 }
+@mixin textSelect() {
+  -moz-user-select: auto!important;
+  -khtml-user-select: auto!important;
+  -webkit-user-select: auto !important;
+}
+
+

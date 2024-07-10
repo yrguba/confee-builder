@@ -1,34 +1,35 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { appTypes } from 'entities/app';
 import { axiosClient } from 'shared/configs';
 import { useStorage } from 'shared/hooks';
-import { httpHandlers } from 'shared/lib';
 
-import { Viewer, Contact } from './types';
+import viewerStore from './store';
+import { Session, Viewer } from './types';
+import { Company } from '../../company/model/types';
 
 class ViewerApi {
     private pathPrefix = '/api/v2/profile';
 
-    handleGetViewer() {
-        const storage = useStorage<appTypes.ValuesInStorage>();
-        return useQuery(['get-viewer'], () => axiosClient.get(this.pathPrefix), {
+    viewer = viewerStore.getState().viewer.value;
+
+    handleGetAllSessions(enabled = true) {
+        const cacheId = ['get-sessions'];
+        return useQuery(cacheId, () => axiosClient.get('/api/v2/sessions/all'), {
             staleTime: Infinity,
-            select: (data) => {
-                const updRes = { ...data, data: { data: data.data.data.user } };
-                const res = httpHandlers.response<{ data: Viewer }>(updRes);
-                storage.set('viewer_id', res.data?.data.id);
-                return res.data?.data;
+            enabled,
+            select: (res) => {
+                return res.data.data as Session[];
             },
         });
     }
 
-    handleGetContacts() {
-        return useQuery(['get-contacts'], () => axiosClient.get('api/v2/contacts'), {
+    handleGetViewer() {
+        const cacheId = ['get-viewer'];
+        return useQuery(cacheId, () => axiosClient.get(this.pathPrefix), {
             staleTime: Infinity,
+            enabled: !!viewerStore.getState().tokens.value?.access_token,
             select: (res) => {
-                const updRes = httpHandlers.response<{ data: Contact[] }>(res);
-                return updRes.data?.data;
+                return res.data?.data as { user: Viewer; session: Session; companies: Company[] };
             },
         });
     }
@@ -36,8 +37,8 @@ class ViewerApi {
     handleEditProfile() {
         const queryClient = useQueryClient();
         return useMutation(
-            (data: { nickname?: string; avatar?: string; first_name?: string; last_name?: string; email?: string; birth?: Date }) =>
-                axiosClient.patch(`/api/v2/user`, Object.fromEntries(Object.entries(data).filter(([_, v]) => v))),
+            (data: { nickname?: string; avatar?: string; first_name?: string; last_name?: string; email?: string; birth?: Date; about?: string }) =>
+                axiosClient.patch(`/api/v2/user`, data),
             {
                 onSuccess: () => {
                     queryClient.invalidateQueries(['get-viewer']);
@@ -55,17 +56,26 @@ class ViewerApi {
         });
     }
 
-    handleCreateContact() {
+    handClearBirthday() {
         const queryClient = useQueryClient();
-        return useMutation((data: { first_name: string; phone: string }) => axiosClient.post(`/api/v2/contacts`, { contacts: [data] }), {
-            onSuccess: async (res) => {
-                queryClient.invalidateQueries(['get-contacts']);
+        return useMutation(() => axiosClient.post('/api/v2/user/birth'), {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['get-viewer']);
             },
         });
     }
 
     handleLogout() {
         return useMutation((data?: null) => axiosClient.post('/api/v2/logout'));
+    }
+
+    handleDeleteSessions() {
+        const queryClient = useQueryClient();
+        return useMutation((data?: { session_ids: string[] }) => axiosClient.delete('/api/v2/sessions/by-ids', { data }), {
+            onSuccess: (res) => {
+                queryClient.invalidateQueries(['get-sessions']);
+            },
+        });
     }
 
     handleDeleteAccount() {

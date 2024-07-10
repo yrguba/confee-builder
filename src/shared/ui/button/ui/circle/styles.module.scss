@@ -8,13 +8,25 @@
   position: relative;
   overflow: hidden;
   transition: all .5s;
+  svg{
+    fill: var(--text-primary);
+  }
 }
 
 .primary {
   background-color: var(--control-primary);
   color: var(--text-fixed);
+
+
   &:hover {
     background-color: var(--control-primary-pressed);
+  }
+}
+
+.inherit {
+  will-change: transform;
+  &:hover {
+    transform: scale(1.1);
   }
 }
 
@@ -22,6 +34,7 @@
   background-color: inherit;
   color: var(--text-action-pressed);
   transition: all .5s;
+
   &:hover {
     //background-color: var(--control-primary);
   }

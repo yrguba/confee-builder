@@ -3,6 +3,7 @@ import { mergeRefs } from 'react-merge-refs';
 
 import countries from './countries';
 import styles from './styles.module.scss';
+import { useEasyState } from '../../../../hooks';
 import Box from '../../../box';
 import { Dropdown, Icons } from '../../../index';
 import { PhoneInputProps } from '../../model/types';
@@ -11,7 +12,7 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
     const { value, onChange, callbackPhone, onFocus: inputFocus, errorTitle } = props;
 
     const [activeItem, setActiveItem] = useState(0);
-    const [openDropdown, setSetOpenDropdown] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState(false);
     const [focused, setFocused] = React.useState(false);
     const inputRef = useRef<any>(null);
 
@@ -34,13 +35,13 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
     return (
         <div className={styles.wrapper}>
             <div className={styles.row} onFocus={onFocus} onBlur={onBlur}>
-                <div className={styles.code}>
+                <div className={styles.code} onClick={() => setOpenDropdown(false)}>
                     <Dropdown
-                        openCloseTrigger={setSetOpenDropdown}
-                        top={70}
-                        left={186}
-                        closeAfterClick
-                        position="bottom-center"
+                        trigger="mouseup"
+                        visible={openDropdown}
+                        openCloseTrigger={setOpenDropdown}
+                        onClick={() => setOpenDropdown(false)}
+                        clickAway={() => setOpenDropdown(false)}
                         content={
                             <div className={styles.contentDropdown}>
                                 <div className={styles.body}>
@@ -58,34 +59,34 @@ const InputPhone = forwardRef<HTMLInputElement, PhoneInputProps>((props, ref) =>
                                 </div>
                             </div>
                         }
-                    >
-                        <div className={`${styles.input} ${focused ? styles.input_focused : ''}`}>
-                            {countries.map(
-                                (i) =>
-                                    i.id === activeItem && (
-                                        <div className={styles.input__body} key={i.id}>
-                                            <div className={styles.input__body_left}>
-                                                <Icons.Countries variant={i.icon} />
-                                                {i.payload.code}
-                                            </div>
-
-                                            <Icons.ArrowAnimated activeAnimate={openDropdown} initialDeg={0} animateDeg={90} variant="rotate" />
+                    />
+                    <div className={`${styles.inputCode} ${focused ? styles.input_focused : ''}`}>
+                        {countries.map(
+                            (i) =>
+                                i.id === activeItem && (
+                                    <div className={styles.inputCode__body} key={i.id}>
+                                        <div className={styles.inputCode__body_left}>
+                                            <Icons.Countries variant={i.icon} />
+                                            {i.payload.code}
                                         </div>
-                                    )
-                            )}
-                        </div>
-                    </Dropdown>
+
+                                        {/* <Icons.ArrowAnimated activeAnimate={openDropdown} initialDeg={0} animateDeg={90} variant="rotate" /> */}
+                                    </div>
+                                )
+                        )}
+                    </div>
                 </div>
                 <div className={`${styles.input} ${focused ? styles.input_focused : ''}`}>
                     <input
-                        type="number"
                         onFocus={inputFocus}
                         ref={mergeRefs([inputRef, ref])}
                         maxLength={10}
                         placeholder="(999) 000-00-00"
                         value={value}
                         onChange={(e) => {
-                            onChange && String(e.target.value).length < 11 ? onChange(e) : '';
+                            if (/^[0-9]+$|^$/.test(e.currentTarget.value) && onChange) {
+                                String(e.target.value).length < 11 ? onChange(e) : '';
+                            }
                         }}
                     />
                 </div>

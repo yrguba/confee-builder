@@ -1,62 +1,72 @@
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useUpdateEffect } from 'react-use';
 
-import { appApi } from 'entities/app';
+import { appApi, appService } from 'entities/app';
 
-import useFS from './useFS';
-import { fileConverter } from '../lib';
+import useEasyState from './useEasyState';
+import useFS, { FileTypes } from './useFS';
+import { fileConverter, getVideoCover } from '../lib';
 
-function useFetchMediaContent(url = '', saveInCache = false) {
-    const [src, setSrc] = useState<any>('');
-    const [fileBlob, setFileBlob] = useState<Blob | null>(null);
-    const [orientation, setOrientation] = useState<'vertical' | 'horizontal'>('vertical');
+type Props = {
+    url: string;
+    name?: string;
+    fileType: FileTypes;
+};
 
-    const { saveFile, getFile } = useFS();
+function useFetchMediaContent(props: Props) {
+    const { url, name, fileType } = props;
 
-    const checkFetch = () => {
-        if (!url || typeof url !== 'string') return false;
-        if (url?.split('/')?.length > 2) {
-            return url?.split('/')[1] === 'api';
-        }
-    };
+    const src = useEasyState('');
 
-    const isFetch = !!checkFetch();
+    const { downLoadAndSave, getFileUrl } = useFS();
 
-    const { data: imgData, isLoading, error } = appApi.handleGetFile(url, isFetch);
+    const fileName = `${url}${name}`;
+
+    const [enable, { data: fileData, isFetching, isLoading, error }] = appApi.handleLazyGetFile(url, 'arraybuffer');
 
     useEffect(() => {
-        const fn = async () => {
-            const fileInCache = await getFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop() });
-            if (fileInCache && typeof fileInCache === 'string' && !!window.__TAURI__) {
-                setSrc(fileInCache);
-                const img = new Image();
-                img.onload = function () {
-                    setOrientation(img.width > img.height ? 'horizontal' : 'vertical');
-                };
-                if (typeof fileInCache === 'string') img.src = fileInCache;
-                setFileBlob(fileConverter.fromBase64ToBlob(fileInCache));
-            } else if (imgData) {
-                setFileBlob(imgData);
-                saveInCache && (await saveFile({ baseDir: 'Document', folderDir: 'cache', fileName: url?.split('/')?.pop(), fileBlob: imgData }));
-                const base64 = await fileConverter.fromBlobToBase64(imgData);
-                const img = new Image();
-                img.onload = function () {
-                    setOrientation(img.width > img.height ? 'horizontal' : 'vertical');
-                };
-                if (typeof base64 === 'string') img.src = base64;
-                setSrc(base64);
-            } else {
-                setSrc(url);
+        if (url) {
+            if (url.includes('base64') || url.includes('blob') || url.includes('localhost')) {
+                return src.set(url);
             }
-        };
-        fn().then();
-    }, [url, imgData]);
+            getFileUrl({ fileName, baseDir: 'document', folder: 'cache', fileType }).then((res) => {
+                if (res) {
+                    return src.set(res);
+                }
+                enable();
+            });
+        }
+    }, [url]);
+
+    useEffect(() => {
+        if (fileData) {
+            const filePath = fileConverter.arrayBufferToBlobLocalPath(fileData as ArrayBuffer, fileType);
+            src.set(filePath);
+            // @ts-ignore
+            if (fileType === 'img' && fileData.byteLength < 6291456) return;
+            if (name) {
+                downLoadAndSave({
+                    url,
+                    fileName,
+                    baseDir: 'document',
+                    folder: 'cache',
+                    fileType,
+                });
+            }
+        }
+    }, [fileData]);
+
+    const getFileBlob = async () => {
+        const res = await fetch(src.value);
+        return res.blob();
+    };
 
     return {
-        src,
-        fileBlob,
-        orientation,
+        src: src.value,
+        getFileBlob,
         error,
-        isLoading: !url || !isFetch ? false : isLoading,
+        isLoading: isFetching,
     };
 }
 

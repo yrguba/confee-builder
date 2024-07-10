@@ -8,13 +8,15 @@ type Props = {
     text?: string;
     files?: any;
     type?: MessageType;
-    viewer: viewerTypes.Viewer | undefined;
+    author: viewerTypes.Viewer | undefined;
     reply?: Message | null;
+    forward?: Message | null;
+    sending?: boolean;
 };
 
 function mockMessage(data: Props): Message {
     return {
-        author: data.viewer || {},
+        author: data.author || {},
         id: new Date().valueOf(),
         text: data.text || '',
         files: data.files || null,
@@ -22,11 +24,12 @@ function mockMessage(data: Props): Message {
         created_at: new Date(),
         type: data.type || 'text',
         users_have_read: [],
-        forwarded_from_message: null,
+        forwarded_from_message: data.forward,
         reactions: {},
         reply_to_message: data.reply || null,
         isMock: true,
         isMy: true,
+        sending: true,
     } as MessageProxy;
 }
 export default mockMessage;

@@ -14,7 +14,6 @@
       @include flex-column;
       @include box-size(88px, 72px);
       gap: 4px;
-      transition: all .5s;
       cursor: pointer;
       position: relative;
 
@@ -24,6 +23,7 @@
 
       &_active{
         background-color: var(--bg-primary);
+
         svg{
           fill: var(--control-tertiary-active);
         }

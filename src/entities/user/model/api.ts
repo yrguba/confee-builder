@@ -1,22 +1,29 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { axiosClient } from 'shared/configs';
-import { httpHandlers } from 'shared/lib';
 
 import { User } from './types';
+import { httpHandlers } from '../../../shared/lib';
+import { messageTypes } from '../../message';
 
 class UserApi {
-    pathPrefix = '/api/v2/users';
+    handleGetUserByPhone(data: { phone: string }) {
+        return useQuery(['get-user-by-phone', data.phone], () => axiosClient.get(`/api/v2/user/phone`, { params: { phone: data.phone } }), {
+            staleTime: Infinity,
+            enabled: !!data.phone,
+            select: (res) => {
+                const updRes = httpHandlers.response<{ data: User[] }>(res);
+                return updRes.data?.data;
+            },
+        });
+    }
 
-    handleGetUser(data: { id: string }) {
-        const queryClient = useQueryClient();
-        const getViewerFn = () => axiosClient.get(`/auth/api/v1/user/${data.id}`);
-
-        return useQuery(['get-private-body', data.id], getViewerFn, {
-            enabled: false,
-            staleTime: 10000 * 30,
-            select: (data) => {
-                return httpHandlers.response<User>(data);
+    handleGetAvatars(data: { userId: number | undefined }) {
+        return useQuery(['get-user-avatars', data.userId], () => axiosClient.get(`/api/v2/users/${data.userId}/avatars`), {
+            enabled: !!data.userId,
+            select: (res) => {
+                const updRes = httpHandlers.response<{ avatars: string[] }>(res);
+                return updRes.data?.avatars;
             },
         });
     }

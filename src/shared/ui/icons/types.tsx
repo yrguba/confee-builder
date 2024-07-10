@@ -2,10 +2,12 @@ export type BaseIconsVariants =
     | 'arrow-drop-down'
     | 'arrow-drop-up'
     | 'arrow-drop-right'
+    | 'arrow-drop-left'
     | 'arrow-left'
     | 'search'
     | 'add-contact'
     | 'close'
+    | 'check-outlined'
     | 'check'
     | 'double-check'
     | 'add'
@@ -23,6 +25,7 @@ export type BaseIconsVariants =
     | 'phone'
     | 'videocam'
     | 'videocam-outlined'
+    | 'videocam-pulse'
     | 'block'
     | 'volume-off'
     | 'add-photo'
@@ -38,6 +41,7 @@ export type BaseIconsVariants =
     | 'microphone-off'
     | 'call-end'
     | 'attach-file'
+    | 'chat-mute'
     | 'emoji'
     | 'send'
     | 'reply'
@@ -50,23 +54,86 @@ export type BaseIconsVariants =
     | 'reply-black'
     | 'lock'
     | 'forward-black'
-    | 'group';
-
+    | 'group'
+    | 'portfolio'
+    | 'melody'
+    | 'keyboard'
+    | 'group-chat'
+    | 'not-authorized'
+    | 'privacy-policy'
+    | 'support'
+    | 'save'
+    | 'error'
+    | 'mute'
+    | 'unmute'
+    | 'reload'
+    | 'makePhoto'
+    | 'select-file'
+    | 'create-group'
+    | 'create-personal'
+    | 'full-screen'
+    | 'minimize'
+    | 'not-full-screen'
+    | 'upload'
+    | 'crop'
+    | 'rotate-img'
+    | 'add-company'
+    | 'call';
 export type BaseIconsProps = {
     variant: BaseIconsVariants | undefined;
     size?: 24 | 48 | number;
 };
 
+export type PlayerIconsVariants =
+    | 'stop'
+    | 'pause'
+    | 'play-outline'
+    | 'pause-outline'
+    | 'play'
+    | 'mute'
+    | 'unmute'
+    | 'full'
+    | 'no-full'
+    | 'repeat'
+    | 'next'
+    | 'prev'
+    | 'random'
+    | 'list-repeat'
+    | 'list-visible';
+
 export type PlayerIconsProps = {
-    variant: 'stop' | 'pause' | 'play' | 'mute' | 'unmute' | 'full';
+    variant: PlayerIconsVariants;
+    size?: number;
+    active?: boolean;
+};
+
+export type CanvasIconsProps = {
+    variant: 'color' | 'pencil' | 'arrow' | 'rect' | 'circle' | 'undo' | 'redo';
+    size?: number;
+    active?: boolean;
+};
+
+export type NetworkIndicatorProps = {
+    speed: number;
+    size: number;
+    online: boolean;
 };
 
 export type DocumentIconsProps = {
     variant: 'pptx' | 'doc' | 'xls';
 };
 
+export type DevicesIconsProps = {
+    variant: 'phone' | 'desktop' | 'unknown';
+};
+
 export type LogoIconsProps = {
-    variant: 'confee' | 'softworks' | 'tfn' | 'premium';
+    variant: 'confee' | 'confee-white' | 'softworks' | 'tfn' | 'premium';
+};
+export type PictureIconsProps = {
+    variant: 'auth-ad' | 'not-found' | 'music';
+    size?: number;
+    text?: string;
 };
 
 export type CountriesIconsProps = {
@@ -78,4 +145,12 @@ export type ArrowAnimatedProps = {
     initialDeg?: number;
     animateDeg?: number;
     activeAnimate?: boolean;
+};
+
+export type BroomAnimatedProps = {
+    activeAnimate?: boolean;
+};
+export type CallAnimatedProps = {
+    activeAnimate?: boolean;
+    size?: number;
 };

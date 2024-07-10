@@ -2,11 +2,12 @@ import { sendNotification } from '@tauri-apps/api/notification';
 import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { useUpdateEffect } from 'react-use';
 
 import { Icons, Title } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { usePrevious } from '../../../hooks';
+import { usePrevious, useAudio, useMountedState } from '../../../hooks';
 import useNotificationStore from '../model/store';
 import * as NotificationsTypes from '../model/types';
 
@@ -20,13 +21,15 @@ function Notification(props: NotificationsTypes.NotificationProps) {
     const deleteNotificationsById = useNotificationStore.use.deleteNotificationsById();
     const prev = usePrevious(notifications.length);
 
+    const isMounted = useMountedState();
+
     const timeout = options?.visionTime || 5000;
 
     const closeClick = (id: number) => {
         deleteNotificationsById(id);
     };
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         if (notifications.length && !prev) {
             setTimeout(() => deleteFirstNotifications(), timeout);
         }
@@ -38,16 +41,16 @@ function Notification(props: NotificationsTypes.NotificationProps) {
     useEffect(() => {
         if (!options?.disabledDesktop && !!window.__TAURI__) {
             notifications.forEach((i) => {
-                if ((!i.system && i.scope === 'desktop') || i.scope === 'all') {
-                    console.log('wwwwww');
-                    sendNotification({ title: i.body || '', body: i.title });
+                if (!i.system && (i.scope === 'desktop' || i.scope === 'all')) {
+                    sendNotification({ title: i.title || '', body: i.body });
                 }
             });
         }
     }, [notifications]);
 
     const isVisible = (i: NotificationsTypes.Notification) => {
-        if (!options?.disabledApp) return true;
+        if (i.scope === 'all') return true;
+        if (i.scope === 'desktop') return false;
         return !!i.system;
     };
 
@@ -59,8 +62,8 @@ function Notification(props: NotificationsTypes.NotificationProps) {
                           (i) =>
                               isVisible(i) && (
                                   <motion.div onClick={i.callback} key={i.id} initial={{ x: 100 }} animate={{ x: 0 }} exit={{ x: 700 }} className={styles.item}>
-                                      {i.body && <Title variant="H2">{i.body}</Title>}
-                                      <Title variant="H4M">{i.title}</Title>
+                                      {i.title && <Title variant="H3M">{i.title}</Title>}
+                                      {i.body && <Title variant="H4M">{i.body}</Title>}
                                       <div
                                           onClick={(e) => {
                                               e.stopPropagation();

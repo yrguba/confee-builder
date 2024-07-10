@@ -8,16 +8,19 @@
   white-space: nowrap;
   //overflow: hidden;
   position: relative;
+  box-shadow: var(--box-shadow);
+
 
   .status {
     @include flex;
     @include box-size(14px, 14px);
+    max-width: 24px;
+    max-height: 24px;
     border-radius: 50%;
-    background-color: #7B57C8;
     position: absolute;
     bottom: 0;
-    right: -6px;
-    z-index: 201;
+    right: -2px;
+    z-index: 100;
     border: 3px solid var(--bg-secondary);
   }
 
@@ -28,9 +31,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 100;
-    background-color: #7B57C8;
-
     border-radius: 50%;
   }
 
@@ -45,5 +45,6 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
+
 }
 

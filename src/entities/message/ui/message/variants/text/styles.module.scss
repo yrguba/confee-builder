@@ -1,23 +1,49 @@
 @import "src/app/styles";
 
 .wrapper {
-  @include flex-column;
-  width: auto;
-  max-width: 800px;
-  flex-wrap: wrap;
-  column-gap: 6px;
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  width: calc(100% - 16px);
+  max-width: 460px;
+  flex-wrap: wrap;
   word-wrap: break-word;
-  white-space: pre-line;
-  color: var(--text-primary);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
+  word-break: break-word;
+  white-space: pre-wrap;
+  padding: 4px 8px;
+  border-radius: 12px;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+
+  .text {
+    color: var(--text-primary) !important;
+    width: 100%;
+
+    a {
+      color: var(--text-action) !important;
+    }
+
+    .emojiWrapper {
+      color: transparent !important;
+      position: relative;
+      pointer-events: none;
+
+      .emoji {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+
+    .info {
+      float: right;
+      margin-top: 4px;
+      margin-left: 4px;
+    }
+  }
 
   .row {
-
-
     .longWord {
       word-break: break-all;
     }

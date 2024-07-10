@@ -1,4 +1,5 @@
 @import "src/app/styles";
+
 .wrapper {
   @include box-size(100%, 100%);
   @include flex(flex-start);
@@ -6,13 +7,20 @@
   .sidebar {
     height: 100%;
     width: 375px;
+    min-width: 375px;
+    position: relative;
 
     @include width-to('md') {
-      width: 300px;
+      width: 100%;
+      max-width: 100%;
     }
 
-    @include width-to('sm') {
-      width: 100%;
+    .border {
+      @include box-size(4px, 100%);
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: ew-resize;
     }
   }
 
@@ -20,5 +28,10 @@
     @include flex;
     height: 100%;
     flex: 1;
+    min-width: 324px;
+  }
+
+  .search{
+    @include box-size(450px, 100%);
   }
 }

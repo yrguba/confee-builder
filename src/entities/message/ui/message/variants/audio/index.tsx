@@ -1,21 +1,41 @@
 import React from 'react';
 
 import { BaseTypes } from 'shared/types';
-import { AudioPlayer, Image } from 'shared/ui';
+import { Audio } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { File } from '../../../../model/types';
+import { chatTypes } from '../../../../../chat';
+import { File, MessageProxy } from '../../../../model/types';
+import Info from '../../info';
 
 type Props = {
-    audios: File[];
+    chat: chatTypes.ChatProxy | BaseTypes.Empty;
+    message: MessageProxy;
 } & BaseTypes.Statuses;
 
 function AudioMessage(props: Props) {
-    const { audios } = props;
-    const voice = audios[0];
+    const { message, chat } = props;
+
+    const audios = message.files.length ? message.files : message.forwarded_from_message?.files || [];
+
     return (
         <div className={styles.wrapper}>
-            <AudioPlayer url={voice.link} isVisibleMeta />
+            <div className={styles.audios}>
+                {audios.map((i) => (
+                    <div key={i.id} className={styles.audio}>
+                        <Audio visibleDropdown={false} chatId={chat?.id} id={i.id} url={i?.url} name={i?.name} authorName={i?.name} description="неизвестно" />
+                    </div>
+                ))}
+            </div>
+
+            <Info
+                date={message.date}
+                is_edited={message.is_edited}
+                sendingError={message.sendingError}
+                sending={message.sending}
+                isMy={message.isMy}
+                checked={!!message.users_have_read?.length}
+            />
         </div>
     );
 }

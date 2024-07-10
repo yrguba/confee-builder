@@ -11,7 +11,7 @@ function DocumentList(props: DocumentsListProps) {
         <div className={styles.wrapper}>
             {items?.map((i) => (
                 <div key={i.id} className={styles.item}>
-                    <Document {...i} />
+                    <Document {...i} disableDownload={false} />
                 </div>
             ))}
         </div>

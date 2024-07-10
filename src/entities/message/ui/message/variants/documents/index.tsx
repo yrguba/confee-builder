@@ -4,20 +4,21 @@ import { BaseTypes } from 'shared/types';
 import { Document } from 'shared/ui';
 
 import styles from './styles.module.scss';
-import { File } from '../../../../model/types';
+import { UseEasyStateReturnType } from '../../../../../../shared/hooks';
+import { File, MediaContentType, MessageProxy } from '../../../../model/types';
 
 type Props = {
-    documents: File[];
+    message: MessageProxy;
 } & BaseTypes.Statuses;
 
 function DocumentsMessage(props: Props) {
-    const { documents } = props;
+    const { message } = props;
 
     return (
         <div className={styles.wrapper}>
-            {documents.map((i, index) => (
+            {message.files.map((i, index) => (
                 <div key={i.id} className={styles.item}>
-                    <Document url={i.link} name={i.name} extension={i.extension} />
+                    <Document id={i.id} url={i.url} name={i.name} extension={i.extension} />
                 </div>
             ))}
         </div>

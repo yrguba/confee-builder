@@ -2,10 +2,10 @@
 
 .wrapper {
   @include box-size(100%, auto);
-
   .header {
-    @include box-size(100%, 100%);
+
     @include flex(space-between);
+    @include box-size(100%, 40px);
     cursor: pointer;
     transition: background-color var(--transition);
 
@@ -17,19 +17,6 @@
 
       .caption{
         @include flex-column;
-      }
-
-
-      .plus {
-        @include flex;
-        cursor: pointer;
-        transition: all 0.5s;
-        border-radius: 50%;
-
-        &:hover {
-          background-color: var(--icon-inactive);
-          transform: scale(1.2);
-        }
       }
     }
 

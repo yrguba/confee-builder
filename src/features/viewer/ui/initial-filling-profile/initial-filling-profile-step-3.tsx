@@ -15,6 +15,8 @@ function InitialFillingProfileStep3() {
     const { mutate: handleEditProfile } = viewerApi.handleEditProfile();
     const { mutate: handleAddAvatar } = viewerApi.handleAddAvatar();
     const { data: viewerData } = viewerApi.handleGetViewer();
+    const user = viewerData?.user;
+
     const handleCheckEmail = userApi.handleCheckEmail();
     const yup = useYup();
     const emailInput = Input.use({
@@ -41,7 +43,7 @@ function InitialFillingProfileStep3() {
         const { error: birthError, value: birth } = await birthInput.asyncValidate();
         if (emailInput.value) {
             const checkEmail = await handleCheckEmail({ email: emailInput.value });
-            if (checkEmail?.exists && viewerData?.email !== checkEmail.identifier) {
+            if (checkEmail?.exists && user?.email !== checkEmail.identifier) {
                 return emailInput.setError('Такая почта уже занята');
             }
         }

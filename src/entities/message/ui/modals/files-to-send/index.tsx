@@ -1,57 +1,79 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, RefObject } from 'react';
 
 import { UseArrayReturnType, UseFileUploaderTypes } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
-import { AudioPlayer, Button, Document, Icons, Image, Title, VideoPlayer } from 'shared/ui';
+import { Audio, Box, Button, Document, Icons, Image, Title, Video } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { getEnding } from '../../../../../shared/lib';
+import { appStore } from '../../../../app';
+import { MessageStoreTypes } from '../../../model/store';
 
 type Props = {
-    images: UseArrayReturnType<UseFileUploaderTypes.Types.ImageFile>;
-    audios: UseArrayReturnType<UseFileUploaderTypes.Types.AudioFile>;
-    documents: UseArrayReturnType<UseFileUploaderTypes.Types.DocumentFile>;
-    videos: UseArrayReturnType<UseFileUploaderTypes.Types.VideoFile>;
+    files: MessageStoreTypes['filesToSend'];
     addFiles: () => void;
     sendFiles: () => void;
     close: () => void;
+    sendingError: boolean;
 } & BaseTypes.Statuses;
 
 function FilesToSendModalView(props: Props) {
-    const { images, documents, audios, videos, addFiles, sendFiles, close } = props;
+    const { sendingError, loading, files, addFiles, sendFiles, close } = props;
 
-    const fileLength = images.length + documents.length + audios.length + videos.length;
+    const { image, video, document, audio } = files.value;
+
+    const photoAndVideoFromSwiper = appStore.use.photoAndVideoFromSwiper();
+    const fileLength = image.length + document.length + audio.length + video.length;
+
+    const imgClick = (index: number) => {
+        photoAndVideoFromSwiper.set({
+            update: true,
+            type: 'img',
+            startIndex: index,
+            items: image.map((i) => ({ id: i.id, name: i.name, url: i.fileUrl })),
+        });
+    };
 
     return (
-        <div className={styles.wrapper}>
+        <Box loading={!sendingError && loading} className={styles.wrapper}>
+            {sendingError && (
+                <Title color="red" textAlign="center" variant="H2">
+                    Ошибка отправки
+                </Title>
+            )}
             <div className={styles.header}>
-                <Title variant="H2">{`Отправить ${fileLength} ${getEnding(fileLength, ['файл', 'файла', 'файлов'])}`}</Title>
+                <Title variant="H2">{!fileLength ? 'Выбирите файлы' : `Отправить ${fileLength} ${getEnding(fileLength, ['файл', 'файла', 'файлов'])}`}</Title>
             </div>
             <div className={styles.list}>
-                {images.array.length
-                    ? images.array.map((i) => (
-                          <Item key={i.id} remove={() => images.deleteById(i.id)}>
-                              <Image.Card url={i.fileUrl} name={i.name} size={+i.size} />
+                {image.length ? (
+                    <Image.List
+                        imgClick={imgClick}
+                        items={image.map((i) => ({
+                            remove: (id) => files.deleteById({ type: 'image', id }),
+                            id: i.id,
+                            url: i.fileUrl,
+                            height: image.length === 1 ? '100%' : '120px',
+                            width: image.length === 1 ? '100%' : 'auto',
+                        }))}
+                    />
+                ) : null}
+                {audio.length
+                    ? audio.map((i) => (
+                          <Item key={i.id} remove={() => files.deleteById({ type: 'audio', id: i.id })}>
+                              <Audio url={i.fileUrl} authorName={i.album?.artist} name={i.name} description={i.album?.title} cover={i.album?.coverUrl} />
                           </Item>
                       ))
                     : null}
-                {audios.array.length
-                    ? audios.array.map((i) => (
-                          <Item key={i.id} remove={() => audios.deleteById(i.id)}>
-                              <AudioPlayer.Card url={i.fileUrl} name={i.name} size={+i.size} />
+                {video.length
+                    ? video.map((i) => (
+                          <Item key={i.id} remove={() => files.deleteById({ type: 'video', id: i.id })}>
+                              <Video.Card previewUrl={i.previewUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
                     : null}
-                {videos.array.length
-                    ? videos.array.map((i) => (
-                          <Item key={i.id} remove={() => videos.deleteById(i.id)}>
-                              <VideoPlayer.Card url={i.fileUrl} name={i.name} size={+i.size} />
-                          </Item>
-                      ))
-                    : null}
-                {documents.array.length
-                    ? documents.array.map((i) => (
-                          <Item key={i.id} remove={() => documents.deleteById(i.id)}>
+                {document.length
+                    ? document.map((i) => (
+                          <Item key={i.id} remove={() => files.deleteById({ type: 'document', id: i.id })}>
                               <Document url={i.fileUrl} name={i.name} size={+i.size} />
                           </Item>
                       ))
@@ -61,16 +83,16 @@ function FilesToSendModalView(props: Props) {
                 <Button variant="inherit" active width="25%" onClick={addFiles}>
                     Добавить
                 </Button>
-                <div className={styles.confirm} onClick={close}>
-                    <Button variant="inherit" active>
+                <div className={styles.confirm}>
+                    <Button variant="inherit" active onClick={close}>
                         Отмена
                     </Button>
-                    <Button variant="inherit" active onClick={sendFiles}>
+                    <Button disabled={!fileLength} variant="inherit" active onClick={sendFiles}>
                         Отправить
                     </Button>
                 </div>
             </div>
-        </div>
+        </Box>
     );
 }
 

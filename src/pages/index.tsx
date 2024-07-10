@@ -1,42 +1,77 @@
+import { checkUpdate } from '@tauri-apps/api/updater';
+import { AnimatePresence } from 'framer-motion';
 import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import { viewerApi, tokensService } from 'entities/viewer';
+import { viewerStore } from 'entities/viewer';
+import { Network } from 'features/app';
 import { webView } from 'features/auth';
-import { SizeWarningPage } from 'pages/warning';
-import { useWindowSize } from 'shared/hooks';
 
-import callsPageRouters from './calls';
+import callPageRouters from './call';
 import initialFillingProfilePageRouters from './initial-filling-profile';
 import mainRoutes from './main';
+import updateAppPageRouters from './update-app';
+import warningPageRouters from './warning';
+import { appService } from '../entities/app';
+import { useWindowSize, useEffectOnce } from '../shared/hooks';
+import { Audio } from '../shared/ui';
 
 function Routing() {
-    const { width, height } = useWindowSize();
-
     const location = useLocation();
     const navigate = useNavigate();
-    const { data: viewerData, isLoading, error } = viewerApi.handleGetViewer();
+    const params = useParams();
+    const { width, height } = useWindowSize();
+
+    const networkState = appService.getNetworkState();
+
+    const checkAuth = !!viewerStore.use.tokens().value?.access_token;
+
+    const viewer = viewerStore.use.viewer();
 
     const routes = (
-        <Routes location={location}>
-            {mainRoutes}
-            {callsPageRouters}
-            {initialFillingProfilePageRouters}
-            <Route path="*" element={<Navigate to="/chats" replace />} />
-        </Routes>
+        <>
+            <AnimatePresence mode="wait">
+                <Network />
+                <Routes location={location} key={location.pathname.split('/')[1]}>
+                    {mainRoutes}
+                    {callPageRouters}
+                    {initialFillingProfilePageRouters}
+                    {warningPageRouters}
+                    {updateAppPageRouters}
+                    <Route path="*" element={<Navigate to="/chats" replace />} />
+                </Routes>
+            </AnimatePresence>
+            {!params.chat_id && <Audio.Player sliderPosition="top" width={window.innerWidth} />}
+        </>
     );
 
     useEffect(() => {
-        if (!isLoading) {
-            // if (error) return navigate('/login');
-            if (!viewerData?.nickname) return navigate('/filling_profile');
+        if (checkAuth) {
+            if (width < 450 || height < 470) return navigate('/warning/size');
+            location.pathname === '/warning/size' && navigate(-1);
         }
-    }, [isLoading]);
+    }, [width, height]);
+
+    useEffectOnce(() => {
+        if (appService.tauriIsRunning && networkState.online && checkAuth) {
+            checkUpdate().then(({ shouldUpdate, manifest }) => {
+                if (shouldUpdate) {
+                    navigate('/update');
+                }
+            });
+        }
+    });
+
+    useEffect(() => {
+        if (checkAuth && viewer.value) {
+            if (!viewer.value?.nickname) return navigate('/filling_profile');
+            ['/warning/server', '/filling_profile'].includes(location.pathname) && navigate('/chats');
+        }
+    }, [viewer.value]);
 
     const getRouting = () => {
-        if (width < 450) return <SizeWarningPage size={{ width, height }} error="width" />;
-        if (height < 470) return <SizeWarningPage size={{ width, height }} error="height" />;
-        if (tokensService.checkAuth()) {
+        if (checkAuth) {
             return routes;
         }
         return webView();

@@ -5,32 +5,40 @@
   gap: 12px;
   cursor: pointer;
 
-  .circle {
+  .avatar {
     position: relative;
     overflow: hidden;
     border-radius: 50%;
+    box-shadow: var(--box-shadow);
 
     &:hover {
       .cover {
+
         opacity: 1;
       }
     }
 
     .cover {
-      @include box-size(100%, 30px);
+      @include flex;
+      @include box-size(100%, 50px);
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
       font-style: normal;
-      font-weight: 600;
+      font-weight: 700;
       line-height: 18px;
       color: var(--text-fixed);
       background-color: var(--bg-dimming);
       text-align: center;
-      font-size: 12px;
+      font-size: 16px;
       opacity: 0;
-      transition: opacity .5s;
+      transition: all .5s;
+
+      &:hover, &_active{
+        color: var(--white);
+        background-color: var(--control-primary);
+      }
     }
   }
 

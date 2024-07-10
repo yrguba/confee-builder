@@ -1,18 +1,15 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
-
   "package": {
     "productName": "Confee",
     "version": "../package.json"
   },
-
   "build": {
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "cross-env BROWSER=none npm run start",
     "devPath": "http://localhost:3000",
     "distDir": "../build"
   },
-
   "tauri": {
     "bundle": {
       "active": true,
@@ -67,7 +64,9 @@
       },
       "fs": {
         "all": true,
-        "scope": ["**"],
+        "scope": [
+          "**"
+        ],
         "readFile": true,
         "writeFile": true,
         "readDir": true,
@@ -84,6 +83,8 @@
       "http": {
         "all": true,
         "scope": [
+          "http://*",
+          "https://*",
           "https://dev.chat.softworks.ru",
           "https://prod.chat.softworks.ru"
         ]
@@ -104,16 +105,22 @@
         "relaunchDangerousAllowSymlinkMacos": false
       },
       "protocol": {
-        "all": false,
-        "asset": false,
-        "assetScope": []
+        "all": true,
+        "asset": true,
+        "assetScope": ["**"]
       },
       "shell": {
-        "all": false,
-        "execute": false,
-        "open": ".*",
-        "scope": [],
-        "sidecar": false
+        "all": true,
+        "execute": true,
+        "sidecar": true,
+        "open": true,
+        "scope": [
+          {
+            "name": "",
+            "cmd": "",
+            "args": true
+          }
+        ]
       },
       "window": {
         "all": false,
@@ -157,21 +164,24 @@
         "fullscreen": false,
         "visible": true,
         "decorations": true,
-        "alwaysOnTop": false
+        "alwaysOnTop": false,
+        "fileDropEnabled": false
       }
     ],
     "updater": {
       "active": true,
       "endpoints": [
-               "https://dev.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}",
-               "https://prod.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}"
-
+        "https://dev.chat.softworks.ru/api/v1/files/get_latest_desktop_release_from_github/{{target}}/v{{current_version}}",
+        "https://prod.api.confee.ru/api/v2/release/{{target}}/v{{current_version}}",
+        "https://dev.api.confee.ru/api/v2/release/{{target}}/v{{current_version}}",
+        "https://dev.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}",
+        "https://prod.chat.softworks.ru/api/v2/files/get_latest_desktop_release/{{target}}/v{{current_version}}"
       ],
       "dialog": false,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEVBOTc0NDYyMjk5NjgxMkUKUldRdWdaWXBZa1NYNmhKakdadGdlSEZhRDEyNHh6SklJQlVqT0UrcEF6ZjhQOWFvUm1Pakl4TlcK"
     },
     "security": {
-      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+      "csp": null
     }
   }
 }

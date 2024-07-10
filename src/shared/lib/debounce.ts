@@ -1,9 +1,10 @@
 const debounce = (fn: (arg?: any) => void, timeout = 5000) => {
-    let time;
+    let timer: any;
     return (...args: any) => {
-        const fnCallback = () => fn.apply(this, args);
-        clearTimeout(timeout);
-        time = setTimeout(fnCallback, timeout);
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn.apply(this, args);
+        }, timeout);
     };
 };
 export default debounce;

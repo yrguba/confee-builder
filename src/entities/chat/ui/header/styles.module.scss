@@ -2,14 +2,18 @@
 
 
 .wrapper {
-  @include flex;
+  @include flex-column(flex-start, flex-start);
   @include box-size(calc(100% - 24px), 100%);
   padding: 0 12px;
+  position: relative;
 
   .main {
     @include flex(space-between);
     @include box-size(100%, 100%);
-    gap: 16px;
+
+    svg {
+      fill: var(--text-secondary);
+    }
 
     .left {
       @include flex(flex-start);
@@ -18,24 +22,12 @@
       width: 0;
     }
 
+    .calls {
+      cursor: pointer;
+    }
+
     .right {
     }
 
   }
-
-  .highlightedMessages {
-    @include box-size(100%, 100%);
-    @include flex(space-between);
-
-    .btns {
-      @include flex;
-      width: 200px;
-      gap: 12px;
-    }
-
-    .cancel {
-      cursor: pointer;
-    }
-  }
-
 }

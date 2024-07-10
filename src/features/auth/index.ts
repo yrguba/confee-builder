@@ -1,3 +1,4 @@
-import webView from './ui/web-view';
+import AuthAdModal from './ui/ad';
+import webView from './ui/Web-view';
 
-export { webView };
+export { webView, AuthAdModal };

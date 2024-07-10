@@ -2,31 +2,52 @@ import moment from 'moment';
 
 import { dateConverter } from '../../../shared/lib';
 import momentLocalZone from '../../../shared/lib/moment-local-zone';
-import { viewerService } from '../../viewer';
+import { employeeProxy } from '../../company';
+import { userProxy } from '../../user';
+import { viewerService, viewerStore } from '../../viewer';
 import { Message, MessageProxy } from '../model/types';
 
-function messageProxy(data: { prevMessage?: Message | null; message: Message; nextMessage?: Message | null }): any {
-    const viewerId = viewerService.getId();
-
+function messageProxy(data: { prevMessage?: Message | null; message: Message; nextMessage?: Message | null }): MessageProxy {
+    const viewerId = viewerStore.getState().viewer.value.id;
+    const employee = data.message?.author_employee ? employeeProxy(data.message.author_employee) : null;
+    const author = data.message.author ? userProxy(data.message?.author) : null;
     return new Proxy(data.message, {
-        get(target: MessageProxy, prop: keyof MessageProxy, receiver): MessageProxy[keyof MessageProxy] {
+        get(target: MessageProxy, prop: keyof MessageProxy, receiver) {
             switch (prop) {
                 case 'isMy':
                     if (target.isMock) return true;
                     return target?.author?.id === viewerId && target.type !== 'system';
 
+                case 'firstMessageInBlock':
+                    if (!data.prevMessage || data.prevMessage.type === 'system') return true;
+                    return target?.author?.id !== data.prevMessage?.author?.id;
+
+                case 'proxy_forwarded_from_message':
+                    if (!target.forwarded_from_message) return true;
+                    return messageProxy({ message: target.forwarded_from_message });
+
                 case 'lastMessageInBlock':
-                    if (data.nextMessage?.isMock) return false;
                     if (!data.nextMessage) return true;
                     if (target.isMock) return false;
                     return target?.author?.id !== data.nextMessage?.author?.id;
 
+                case 'replyProxy':
+                    if (target.reply_to_message) return messageProxy({ message: target.reply_to_message });
+                    return null;
+
+                case 'action':
+                    if (target.type === 'images') return 'Отправил фото';
+                    if (target.type === 'audios') return 'Отправил аудио';
+                    if (target.type === 'videos') return 'Отправил видео';
+                    if (target.type === 'voices') return 'Отправил голосовое';
+                    if (target.type === 'documents') return 'Отправил файл';
+                    return target.text;
+
                 case 'authorName':
-                    return target?.author
-                        ? target?.author?.id === viewerId
-                            ? 'Вы'
-                            : target?.author?.first_name || target?.author?.last_name || target?.author?.nickname
-                        : 'Неизвестный';
+                    return target?.author?.id === viewerId ? 'Вы' : employee?.full_name || author?.full_name || 'Неизвестный';
+
+                case 'authorAvatar':
+                    return employee ? employee?.avatar || '' : author?.avatar || '';
 
                 case 'date':
                     return dateConverter(target.created_at, true);
@@ -66,7 +87,7 @@ function messageProxy(data: { prevMessage?: Message | null; message: Message; ne
         set(target: Message, prop: keyof MessageProxy, value, receiver) {
             return Reflect.set(target, prop, value, receiver);
         },
-    });
+    }) as MessageProxy;
 }
 
 export default messageProxy;

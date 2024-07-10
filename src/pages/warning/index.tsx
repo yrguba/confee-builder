@@ -1,5 +1,16 @@
-import React from 'react';
+import React, { lazy } from 'react';
+import { Route } from 'react-router-dom';
 
-import SizeWarningPage from './ui/size';
+import ServerWarningPage from './widgets/server';
+import SizeWarningPage from './widgets/size';
 
-export { SizeWarningPage };
+const WarningPage = lazy(() => import('./ui'));
+
+const warningPageRouters = (
+    <Route path="/warning" element={<WarningPage />}>
+        <Route path="size" element={<SizeWarningPage />} />
+        <Route path="server" element={<ServerWarningPage />} />
+    </Route>
+);
+
+export default warningPageRouters;

@@ -1,11 +1,335 @@
 import React from 'react';
 
+import styles from './styles.module.scss';
 import { BaseIconsProps } from '../types';
 
 function BaseIcons(props: BaseIconsProps) {
     const { variant, size = 24 } = props;
 
     switch (variant) {
+        case 'create-group': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9" cy="7" r="4" stroke="#7B57C8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path
+                        d="M3 21V19C3 16.7909 4.79086 15 7 15H11C13.2091 15 15 16.7909 15 19V21"
+                        stroke="#7B57C8"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                    <path
+                        d="M16 3.12988C17.7699 3.58305 19.0078 5.17787 19.0078 7.00488C19.0078 8.83189 17.7699 10.4267 16 10.8799"
+                        stroke="#7B57C8"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                    <path
+                        d="M21 21.0004V19.0004C20.9896 17.185 19.7578 15.6042 18 15.1504"
+                        stroke="#7B57C8"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            );
+        }
+        case 'chat-mute': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M6.53266 7.33998C6.20299 7.03302 6.20299 6.53717 6.53266 6.23022C6.87077 5.92326 7.40331 5.92326 7.73297 6.23022L10.8235 9.10974L12.1623 7.86731C12.6948 7.37146 13.6078 7.71777 13.6078 8.41826V11.7039L17.7475 15.5628C18.0771 15.8697 18.0878 16.3755 17.7581 16.6824C17.4285 16.9894 16.8959 16.9894 16.5663 16.6824L13.6078 13.9277L9.62642 10.2206L6.53266 7.33998ZM8.536 10.4468L6.84541 10.4568C6.3805 10.4568 6.00012 10.8109 6.00012 11.2438V14.3921C6.00012 14.825 6.3805 15.1791 6.84541 15.1791H9.38129L12.1623 17.7686C12.6948 18.2644 13.6078 17.9103 13.6078 17.2098V15.1692L8.536 10.4468Z"
+                        fill="#A5ABD7"
+                    />
+                </svg>
+            );
+        }
+        case 'add-company': {
+            return (
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="16" fill="#7B57C8" />
+                    <path
+                        d="M16.8 19.1998H15.2C14.76 19.1998 14.4 18.8398 14.4 18.3998H8.808V21.5998C8.808 22.4798 9.528 23.1998 10.408 23.1998H21.6C22.48 23.1998 23.2 22.4798 23.2 21.5998V18.3998H17.6C17.6 18.8398 17.24 19.1998 16.8 19.1998ZM22.4 11.9998H19.2C19.2 10.2318 17.768 8.7998 16 8.7998C14.232 8.7998 12.8 10.2318 12.8 11.9998H9.6C8.72 11.9998 8 12.7198 8 13.5998V15.9998C8 16.8878 8.712 17.5998 9.6 17.5998H14.4V16.7998C14.4 16.3598 14.76 15.9998 15.2 15.9998H16.8C17.24 15.9998 17.6 16.3598 17.6 16.7998V17.5998H22.4C23.28 17.5998 24 16.8798 24 15.9998V13.5998C24 12.7198 23.28 11.9998 22.4 11.9998ZM14.4 11.9998C14.4 11.1198 15.12 10.3998 16 10.3998C16.88 10.3998 17.6 11.1198 17.6 11.9998H14.392H14.4Z"
+                        fill="white"
+                    />
+                </svg>
+            );
+        }
+        case 'rotate-img': {
+            return (
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <mask id="mask0_2211_115165" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                        <rect x="24.5" width="24" height="24" transform="rotate(90 24.5 0)" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_2211_115165)">
+                        <path d="M2.38943 22.0161C1.91348 22.0161 1.50603 21.8466 1.1671 21.5077C0.828159 21.1688 0.658691 20.7613 0.658691 20.2854V7.08387C0.658691 6.60792 0.828159 6.20048 1.1671 5.86154C1.50603 5.5226 1.91348 5.35314 2.38943 5.35314H15.5909C16.0669 5.35314 16.4743 5.5226 16.8132 5.86154C17.1522 6.20048 17.3216 6.60792 17.3216 7.08387V20.2854C17.3216 20.7613 17.1522 21.1688 16.8132 21.5077C16.4743 21.8466 16.0669 22.0161 15.5909 22.0161H2.38943ZM2.38943 20.2854H15.5909V7.08387H2.38943V20.2854Z" />
+                        <path d="M21.584 10.7349L24.2645 8.05436C24.5785 7.74033 24.5785 7.23119 24.2645 6.91716C23.9505 6.60314 23.4413 6.60314 23.1273 6.91716L22.3962 7.64822V7.50607C22.3962 5.69197 21.7599 4.15541 20.4874 2.89637C19.2148 1.63733 17.6715 1.00781 15.8574 1.00781H11.7925C11.3425 1.00781 10.9788 1.37259 10.9788 1.82257C10.9788 2.27255 11.3426 2.63713 11.7926 2.63669C13.137 2.63534 15.5849 2.63238 15.8574 2.63238C17.2247 2.63238 18.3856 3.10621 19.34 4.05387C20.2945 5.00153 20.7717 6.15226 20.7717 7.50607V7.64822L20.0406 6.91716C19.7266 6.60314 19.2175 6.60314 18.9034 6.91716C18.5894 7.23119 18.5894 7.74033 18.9034 8.05436L21.584 10.7349Z" />
+                    </g>
+                </svg>
+            );
+        }
+        case 'crop': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <mask id="mask0_2243_142624" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <rect width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_2243_142624)">
+                        <path d="M18 23C17.4477 23 17 22.5523 17 22V19H7C6.45 19 5.97917 18.8042 5.5875 18.4125C5.19583 18.0208 5 17.55 5 17V7H2C1.44772 7 1 6.55228 1 6C1 5.44772 1.44772 5 2 5H5V2C5 1.44772 5.44772 1 6 1C6.55228 1 7 1.44772 7 2V17H22C22.5523 17 23 17.4477 23 18C23 18.5523 22.5523 19 22 19H19V22C19 22.5523 18.5523 23 18 23ZM18 15C17.4477 15 17 14.5523 17 14V7H10C9.44771 7 9 6.55228 9 6C9 5.44772 9.44771 5 10 5H17C17.55 5 18.0208 5.19583 18.4125 5.5875C18.8042 5.97917 19 6.45 19 7V14C19 14.5523 18.5523 15 18 15Z" />
+                    </g>
+                </svg>
+            );
+        }
+        case 'upload': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 16L7 11L8.4 9.55L11 12.15V4H13V12.15L15.6 9.55L17 11L12 16ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V15H6V18H18V15H20V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z"
+                        fill="#2A313C"
+                    />
+                </svg>
+            );
+        }
+        case 'minimize': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.16679 17H17.8335C18.4751 17 19.0001 17.45 19.0001 18C19.0001 18.55 18.4751 19 17.8335 19H6.16679C5.52512 19 5.00012 18.55 5.00012 18C5.00012 17.45 5.52512 17 6.16679 17Z" />
+                </svg>
+            );
+        }
+        case 'not-full-screen': {
+            return (
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 18V9H2V18H14ZM16 13V11H18V2H6V7H4V2C4 1.45 4.19583 0.979167 4.5875 0.5875C4.97917 0.195833 5.45 0 6 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V11C20 11.55 19.8042 12.0208 19.4125 12.4125C19.0208 12.8042 18.55 13 18 13H16ZM2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V9C0 8.45 0.195833 7.97917 0.5875 7.5875C0.979167 7.19583 1.45 7 2 7H14C14.55 7 15.0208 7.19583 15.4125 7.5875C15.8042 7.97917 16 8.45 16 9V18C16 18.55 15.8042 19.0208 15.4125 19.4125C15.0208 19.8042 14.55 20 14 20H2Z" />
+                </svg>
+            );
+        }
+        case 'full-screen': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.25 5H6.75C5.7875 5 5 5.7875 5 6.75V17.25C5 18.2125 5.7875 19 6.75 19H17.25C18.2125 19 19 18.2125 19 17.25V6.75C19 5.7875 18.2125 5 17.25 5ZM16.375 17.25H7.625C7.14375 17.25 6.75 16.8562 6.75 16.375V7.625C6.75 7.14375 7.14375 6.75 7.625 6.75H16.375C16.8562 6.75 17.25 7.14375 17.25 7.625V16.375C17.25 16.8562 16.8562 17.25 16.375 17.25Z" />
+                </svg>
+            );
+        }
+        case 'create-personal': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V19C4 19.55 4.45 20 5 20H19C19.55 20 20 19.55 20 19V18C20 15.34 14.67 14 12 14Z"
+                        fill="#7B57C8"
+                    />
+                </svg>
+            );
+        }
+        case 'check-outlined': {
+            return (
+                <svg width={size} height={size} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M8.6 14.6L15.65 7.55L14.25 6.15L11.425 8.975L8.6 11.8L5.75 8.95L4.35 10.35L8.6 14.6ZM10 20C8.61667 20 7.31667 19.7375 6.1 19.2125C4.88333 18.6875 3.825 17.975 2.925 17.075C2.025 16.175 1.3125 15.1167 0.7875 13.9C0.2625 12.6833 0 11.3833 0 10C0 8.61667 0.2625 7.31667 0.7875 6.1C1.3125 4.88333 2.025 3.825 2.925 2.925C3.825 2.025 4.88333 1.3125 6.1 0.7875C7.31667 0.2625 8.61667 0 10 0C11.3833 0 12.6833 0.2625 13.9 0.7875C15.1167 1.3125 16.175 2.025 17.075 2.925C17.975 3.825 18.6875 4.88333 19.2125 6.1C19.7375 7.31667 20 8.61667 20 10C20 11.3833 19.7375 12.6833 19.2125 13.9C18.6875 15.1167 17.975 16.175 17.075 17.075C16.175 17.975 15.1167 18.6875 13.9 19.2125C12.6833 19.7375 11.3833 20 10 20Z"
+                        fill="#7B57C8"
+                    />
+                    <path d="M8.6 14.6L15.65 7.55L14.25 6.15L11.425 8.975L8.6 11.8L5.75 8.95L4.35 10.35L8.6 14.6Z" fill="white" />
+                </svg>
+            );
+        }
+        case 'arrow-drop-left': {
+            return (
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" />
+                </svg>
+            );
+        }
+        case 'call': {
+            return (
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.23 12.26L13.69 11.97C13.08 11.9 12.48 12.11 12.05 12.54L10.21 14.38C7.38004 12.94 5.06004 10.63 3.62004 7.79001L5.47004 5.94001C5.90004 5.51001 6.11004 4.91001 6.04004 4.30001L5.75004 1.78001C5.63004 0.77001 4.78004 0.0100098 3.76004 0.0100098H2.03004C0.900041 0.0100098 -0.0399593 0.95001 0.0300407 2.08001C0.560041 10.62 7.39004 17.44 15.92 17.97C17.05 18.04 17.99 17.1 17.99 15.97V14.24C18 13.23 17.24 12.38 16.23 12.26Z" />
+                </svg>
+            );
+        }
+        case 'select-file': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V5C3 4.45 3.19583 3.97917 3.5875 3.5875C3.97917 3.19583 4.45 3 5 3H14V5H5V19H19V10H21V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H5ZM17 9V7H15V5H17V3H19V5H21V7H19V9H17ZM6 17H18L14.25 12L11.25 16L9 13L6 17Z"
+                        fill="var(--text-primary)"
+                    />
+                </svg>
+            );
+        }
+        case 'makePhoto': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M19 8V6H17V4H19V2H21V4H23V6H21V8H19ZM3 22C2.45 22 1.97917 21.8042 1.5875 21.4125C1.19583 21.0208 1 20.55 1 20V8C1 7.45 1.19583 6.97917 1.5875 6.5875C1.97917 6.19583 2.45 6 3 6H6.15L8 4H14V6H8.875L7.05 8H3V20H19V11H21V20C21 20.55 20.8042 21.0208 20.4125 21.4125C20.0208 21.8042 19.55 22 19 22H3ZM11 18.5C12.25 18.5 13.3125 18.0625 14.1875 17.1875C15.0625 16.3125 15.5 15.25 15.5 14C15.5 12.75 15.0625 11.6875 14.1875 10.8125C13.3125 9.9375 12.25 9.5 11 9.5C9.75 9.5 8.6875 9.9375 7.8125 10.8125C6.9375 11.6875 6.5 12.75 6.5 14C6.5 15.25 6.9375 16.3125 7.8125 17.1875C8.6875 18.0625 9.75 18.5 11 18.5ZM11 16.5C10.3 16.5 9.70833 16.2583 9.225 15.775C8.74167 15.2917 8.5 14.7 8.5 14C8.5 13.3 8.74167 12.7083 9.225 12.225C9.70833 11.7417 10.3 11.5 11 11.5C11.7 11.5 12.2917 11.7417 12.775 12.225C13.2583 12.7083 13.5 13.3 13.5 14C13.5 14.7 13.2583 15.2917 12.775 15.775C12.2917 16.2583 11.7 16.5 11 16.5Z"
+                        fill="var(--text-primary)"
+                    />
+                </svg>
+            );
+        }
+        case 'reload': {
+            return (
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    enableBackground="new 0 0 16 16"
+                    version="1.1"
+                    viewBox="0 0 16 16"
+                    xmlSpace="preserve"
+                >
+                    <path d="M14 8c-.609 0-.898.43-1 .883C12.635 10.516 11.084 13 8 13a4.947 4.947 0 01-2.114-.474L6.414 12c.359-.344.586-.555.586-1 0-.523-.438-1-1-1H3c-.609 0-1 .492-1 1v3c0 .541.428 1 1 1 .484 0 .688-.273 1-.594l.408-.407A6.933 6.933 0 008 15c4.99 0 7-4.75 7-5.938C15 8.336 14.469 8 14 8zM3 7.117C3.365 5.485 4.916 3 8 3c.757 0 1.473.171 2.114.473L9.586 4C9.227 4.344 9 4.555 9 5c0 .523.438 1 1 1h3c.609 0 1-.492 1-1V2c0-.541-.428-1-1-1-.484 0-.688.273-1 .594l-.408.407A6.933 6.933 0 008 1C3.01 1 1 5.75 1 6.938 1 7.664 1.531 8 2 8c.609 0 .898-.43 1-.883z" />
+                </svg>
+            );
+        }
+        case 'mute': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.73598 3.32552C4.51727 3.10694 4.16279 3.10699 3.94414 3.32564L3.32598 3.9438C3.10729 4.16249 3.10729 4.51707 3.32598 4.73576L7.08388 8.49366C7.19828 8.60806 7.19985 8.79304 7.0874 8.90936C7.03154 8.96715 6.95461 8.99978 6.87424 8.99978H3.56C3.25072 8.99978 3 9.2505 3 9.55978V14.4398C3 14.7491 3.25072 14.9998 3.56 14.9998H6.76804C6.91656 14.9998 7.059 15.0588 7.16402 15.1638L11.044 19.0438C11.3968 19.3966 12 19.1467 12 18.6478V14.7617C12 14.2628 12.6032 14.013 12.956 14.3658L15.7246 17.1343C15.9651 17.3749 15.9381 17.7745 15.6498 17.9551C15.2578 18.2007 14.8409 18.4091 14.4009 18.5693C14.1663 18.6547 14 18.8718 14 19.1215V20.0605C14 20.4192 14.333 20.6859 14.6753 20.579C15.591 20.2931 16.4454 19.8578 17.2106 19.3115C17.4426 19.1458 17.7624 19.1622 17.964 19.3638L19.264 20.6638C19.4827 20.8825 19.8373 20.8825 20.056 20.6638L20.6739 20.0459C20.8926 19.8271 20.8926 19.4725 20.6738 19.2538L4.73598 3.32552ZM10 13.8178C10 14.3167 9.3968 14.5666 9.04402 14.2138L7.99402 13.1638C7.889 13.0588 7.74656 12.9998 7.59804 12.9998H5.56C5.25072 12.9998 5 12.7491 5 12.4398V11.5598C5 11.2505 5.25072 10.9998 5.56 10.9998H7.59804C7.74656 10.9998 7.889 10.9408 7.99402 10.8358L8.31402 10.5158C8.53271 10.2971 8.88729 10.2971 9.10598 10.5158L9.83598 11.2458C9.941 11.3508 10 11.4932 10 11.6417V13.8178ZM19 11.9998C19 12.6954 18.8921 13.3694 18.7006 14.0035C18.6381 14.2105 18.6874 14.4372 18.8403 14.5901L19.5605 15.3103C19.8337 15.5834 20.2943 15.5038 20.4301 15.1421C20.7965 14.1658 21 13.1082 21 11.9998C21 7.96445 18.3421 4.55138 14.6773 3.41165C14.3343 3.30495 14 3.57181 14 3.9311V4.87215C14 5.11992 14.1638 5.33609 14.3966 5.42093C17.081 6.39921 19 8.97668 19 11.9998ZM12 5.35174C12 4.85283 11.3968 4.60298 11.044 4.95576L10.516 5.4838C10.2973 5.70249 10.2973 6.05707 10.516 6.27576L11.044 6.8038C11.3968 7.15658 12 6.90673 12 6.40782V5.35174ZM16.5 11.9998C16.5 10.5546 15.82 9.27614 14.7649 8.45276C14.4367 8.19666 14 8.45958 14 8.87588V9.52782C14 9.67634 14.059 9.81878 14.164 9.9238L16.3096 12.0694C16.3789 12.1387 16.5 12.0979 16.5 11.9998Z" />
+                </svg>
+            );
+        }
+        case 'unmute': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 20.7251V18.6751C15.5 18.2418 16.7083 17.4084 17.625 16.1751C18.5417 14.9418 19 13.5418 19 11.9751C19 10.4084 18.5417 9.00843 17.625 7.7751C16.7083 6.54176 15.5 5.70843 14 5.2751V3.2251C16.0667 3.69176 17.75 4.7376 19.05 6.3626C20.35 7.9876 21 9.85843 21 11.9751C21 14.0918 20.35 15.9626 19.05 17.5876C17.75 19.2126 16.0667 20.2584 14 20.7251ZM3 15.0001V9.0001H7L12 4.0001V20.0001L7 15.0001H3ZM14 16.0001V7.9501C14.7833 8.31676 15.3958 8.86676 15.8375 9.6001C16.2792 10.3334 16.5 11.1334 16.5 12.0001C16.5 12.8501 16.2792 13.6376 15.8375 14.3626C15.3958 15.0876 14.7833 15.6334 14 16.0001ZM10 8.8501L7.85 11.0001H5V13.0001H7.85L10 15.1501V8.8501Z" />
+                </svg>
+            );
+        }
+        case 'error': {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                    <path
+                        fill="#c0392b"
+                        d="M22 1041.4c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10 10 4.477 10 10z"
+                        transform="translate(0 -1028.4)"
+                    />
+                    <path
+                        fill="#e74c3c"
+                        d="M22 1040.4c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10 10 4.477 10 10z"
+                        transform="translate(0 -1028.4)"
+                    />
+                    <path
+                        fill="#c0392b"
+                        d="M7.05 1037.8l3.536 3.6-3.536 3.5 1.415 1.4 3.535-3.5 3.536 3.5 1.414-1.4-3.536-3.5 3.536-3.6-1.414-1.4-3.536 3.5-3.535-3.5-1.415 1.4z"
+                        transform="translate(0 -1028.4)"
+                    />
+                    <path
+                        fill="#ecf0f1"
+                        d="M7.05 1036.8l3.536 3.6-3.536 3.5 1.415 1.4 3.535-3.5 3.536 3.5 1.414-1.4-3.536-3.5 3.536-3.6-1.414-1.4-3.536 3.5-3.535-3.5-1.415 1.4z"
+                        transform="translate(0 -1028.4)"
+                    />
+                </svg>
+            );
+        }
+        case 'save': {
+            return (
+                <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path d="M433.941 129.941l-83.882-83.882A48 48 0 00316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 00-14.059-33.941zM272 80v80H144V80h128zm122 352H54a6 6 0 01-6-6V86a6 6 0 016-6h42v104c0 13.255 10.745 24 24 24h176c13.255 0 24-10.745 24-24V83.882l78.243 78.243a6 6 0 011.757 4.243V426a6 6 0 01-6 6zM224 232c-48.523 0-88 39.477-88 88s39.477 88 88 88 88-39.477 88-88-39.477-88-88-88zm0 128c-22.056 0-40-17.944-40-40s17.944-40 40-40 40 17.944 40 40-17.944 40-40 40z" />
+                </svg>
+            );
+        }
+        case 'support': {
+            return (
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.168 2.02344H5.83464C3.33464 2.02344 1.66797 3.6901 1.66797 6.1901V11.1901C1.66797 13.6901 3.33464 15.3568 5.83464 15.3568V17.1318C5.83464 17.7984 6.5763 18.1984 7.1263 17.8234L10.8346 15.3568H14.168C16.668 15.3568 18.3346 13.6901 18.3346 11.1901V6.1901C18.3346 3.6901 16.668 2.02344 14.168 2.02344ZM10.0013 12.1651C9.6513 12.1651 9.3763 11.8818 9.3763 11.5401C9.3763 11.1984 9.6513 10.9151 10.0013 10.9151C10.3513 10.9151 10.6263 11.1984 10.6263 11.5401C10.6263 11.8818 10.3513 12.1651 10.0013 12.1651ZM11.0513 8.70677C10.7263 8.92344 10.6263 9.0651 10.6263 9.29844V9.47344C10.6263 9.8151 10.343 10.0984 10.0013 10.0984C9.65964 10.0984 9.3763 9.8151 9.3763 9.47344V9.29844C9.3763 8.33177 10.0846 7.85677 10.3513 7.67344C10.6596 7.4651 10.7596 7.32344 10.7596 7.10677C10.7596 6.6901 10.418 6.34844 10.0013 6.34844C9.58464 6.34844 9.24297 6.6901 9.24297 7.10677C9.24297 7.44844 8.95964 7.73177 8.61797 7.73177C8.2763 7.73177 7.99297 7.44844 7.99297 7.10677C7.99297 5.99844 8.89297 5.09844 10.0013 5.09844C11.1096 5.09844 12.0096 5.99844 12.0096 7.10677C12.0096 8.05677 11.3096 8.53177 11.0513 8.70677Z" />
+                </svg>
+            );
+        }
+        case 'privacy-policy': {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" fill="none" viewBox="0 0 14 18">
+                    <path
+                        fill="#A5ABD7"
+                        d="M7 17.333c-1.93-.486-3.524-1.593-4.781-3.323C.962 12.281.333 10.361.333 8.25V3.167L7 .667l6.667 2.5V8.25c0 2.111-.629 4.031-1.886 5.76-1.257 1.73-2.85 2.837-4.78 3.323zm0-1.75c1.445-.458 2.639-1.375 3.584-2.75A7.915 7.915 0 0012 8.25V4.313L7 2.438 2 4.313V8.25c0 1.68.472 3.208 1.417 4.583.944 1.375 2.139 2.292 3.583 2.75zm-1.667-3.25h3.334c.236 0 .434-.08.594-.24.16-.159.24-.357.24-.593V9a.806.806 0 00-.24-.594.806.806 0 00-.594-.24v-.833c0-.458-.163-.85-.49-1.177A1.605 1.605 0 007 5.666c-.458 0-.85.164-1.177.49-.326.327-.49.719-.49 1.177v.834a.806.806 0 00-.593.24A.806.806 0 004.5 9v2.5c0 .236.08.434.24.594.16.16.357.24.593.24zm.834-4.166v-.834c0-.236.08-.434.24-.593.16-.16.357-.24.593-.24s.434.08.594.24c.16.16.24.357.24.593v.834H6.167z"
+                    />
+                </svg>
+            );
+        }
+        case 'group-chat': {
+            return (
+                <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: 2, marginBottom: 2 }}>
+                    <path
+                        d="M4.04194 7.90232V6.87109H3.08327C2.65316 6.87109 2.30078 7.22347 2.30078 7.65358V10.4208C2.30078 10.4208 2.30078 10.426 2.30078 10.4312V12.4314L3.60665 11.1981H8.38967C8.82496 11.1981 9.17216 10.8457 9.17216 10.4156V9.18746H5.33227C4.61715 9.18746 4.03676 8.60707 4.03676 7.89714L4.04194 7.90232Z"
+                        fill="#7B57C8"
+                    />
+                    <path
+                        d="M10.6488 2.88086H5.33717C4.90707 2.88086 4.55469 3.22806 4.55469 3.66335V7.90225C4.55469 8.33236 4.90707 8.67956 5.33717 8.67956H10.1202L11.4312 9.91288V3.66335C11.4312 3.22806 11.084 2.88086 10.6488 2.88086Z"
+                        fill="#7B57C8"
+                    />
+                </svg>
+            );
+        }
+        case 'not-authorized': {
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="4" width="22" height="16" rx="8" fill="#A5ABD7" />
+                    <path
+                        d="M14.0146 6.66602H8.25522C6.68066 6.66602 5.40002 7.96666 5.40002 9.55712V12.6744C5.40002 14.1801 6.5477 15.403 8.00329 15.5373V17.3115C8.00329 17.5094 8.24822 17.6155 8.38819 17.467L10.2567 15.5655H12.3211C12.2791 15.3535 12.2581 15.1343 12.2581 14.9081C12.2581 14.6819 12.2791 14.4487 12.3211 14.2295H8.25522C7.40846 14.2295 6.71566 13.5297 6.71566 12.6744V9.55712C6.71566 8.70181 7.40846 8.002 8.25522 8.002H14.0146C14.8614 8.002 15.5542 8.70181 15.5542 9.55712V11.3455C15.6382 11.3314 15.7151 11.3314 15.7991 11.3314C16.177 11.3314 16.5339 11.3879 16.8768 11.501V9.55712C16.8768 7.96666 15.5962 6.66602 14.0146 6.66602Z"
+                        fill="white"
+                    />
+                    <path
+                        d="M9.04554 11.8901C9.47068 11.8901 9.81532 11.542 9.81532 11.1125C9.81532 10.6831 9.47068 10.335 9.04554 10.335C8.6204 10.335 8.27576 10.6831 8.27576 11.1125C8.27576 11.542 8.6204 11.8901 9.04554 11.8901Z"
+                        fill="white"
+                    />
+                    <path
+                        d="M11.1244 11.8901C11.5495 11.8901 11.8942 11.542 11.8942 11.1125C11.8942 10.6831 11.5495 10.335 11.1244 10.335C10.6993 10.335 10.3546 10.6831 10.3546 11.1125C10.3546 11.542 10.6993 11.8901 11.1244 11.8901Z"
+                        fill="white"
+                    />
+                    <path
+                        d="M13.2239 11.8901C13.649 11.8901 13.9937 11.542 13.9937 11.1125C13.9937 10.6831 13.649 10.335 13.2239 10.335C12.7987 10.335 12.4541 10.6831 12.4541 11.1125C12.4541 11.542 12.7987 11.8901 13.2239 11.8901Z"
+                        fill="white"
+                    />
+                    <path
+                        d="M16.8765 12.2433C16.5476 12.109 16.1837 12.0312 15.7988 12.0312C15.7148 12.0312 15.6378 12.0312 15.5538 12.0454C14.3222 12.1443 13.3145 13.0421 13.0345 14.2296C12.9786 14.4488 12.9506 14.675 12.9506 14.9082C12.9506 15.1415 12.9786 15.3535 13.0275 15.5656C13.3215 16.838 14.4481 17.7852 15.7988 17.7852C17.3733 17.7852 18.654 16.4987 18.654 14.9082C18.654 13.6995 17.9192 12.6674 16.8765 12.2433ZM17.0374 15.3394C17.2544 15.5656 17.2544 15.9261 17.0374 16.1523C16.8135 16.3785 16.4566 16.3785 16.2326 16.1523L15.7988 15.7211L15.3719 16.1523C15.1479 16.3785 14.791 16.3785 14.5671 16.1523C14.3502 15.9261 14.3502 15.5656 14.5671 15.3394L15.001 14.9082L14.5671 14.477C14.3502 14.2508 14.3502 13.8903 14.5671 13.6641C14.791 13.4379 15.1479 13.4379 15.3719 13.6641L15.7988 14.0953L16.2326 13.6641C16.4566 13.4379 16.8135 13.4379 17.0374 13.6641C17.2544 13.8903 17.2544 14.2508 17.0374 14.477L16.6035 14.9082L17.0374 15.3394Z"
+                        fill="white"
+                    />
+                </svg>
+            );
+        }
+        case 'keyboard': {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-keyboard" viewBox="0 0 16 16">
+                    <path d="M14 5a1 1 0 011 1v5a1 1 0 01-1 1H2a1 1 0 01-1-1V6a1 1 0 011-1h12zM2 4a2 2 0 00-2 2v5a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H2z" />
+                    <path d="M13 10.25a.25.25 0 01.25-.25h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5a.25.25 0 01-.25-.25v-.5zm0-2a.25.25 0 01.25-.25h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5a.25.25 0 01-.25-.25v-.5zm-5 0A.25.25 0 018.25 8h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5A.25.25 0 018 8.75v-.5zm2 0a.25.25 0 01.25-.25h1.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-1.5a.25.25 0 01-.25-.25v-.5zm1 2a.25.25 0 01.25-.25h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5a.25.25 0 01-.25-.25v-.5zm-5-2A.25.25 0 016.25 8h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5A.25.25 0 016 8.75v-.5zm-2 0A.25.25 0 014.25 8h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5A.25.25 0 014 8.75v-.5zm-2 0A.25.25 0 012.25 8h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5A.25.25 0 012 8.75v-.5zm11-2a.25.25 0 01.25-.25h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5a.25.25 0 01-.25-.25v-.5zm-2 0a.25.25 0 01.25-.25h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5a.25.25 0 01-.25-.25v-.5zm-2 0A.25.25 0 019.25 6h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5A.25.25 0 019 6.75v-.5zm-2 0A.25.25 0 017.25 6h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5A.25.25 0 017 6.75v-.5zm-2 0A.25.25 0 015.25 6h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5A.25.25 0 015 6.75v-.5zm-3 0A.25.25 0 012.25 6h1.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-1.5A.25.25 0 012 6.75v-.5zm0 4a.25.25 0 01.25-.25h.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-.5a.25.25 0 01-.25-.25v-.5zm2 0a.25.25 0 01.25-.25h5.5a.25.25 0 01.25.25v.5a.25.25 0 01-.25.25h-5.5a.25.25 0 01-.25-.25v-.5z" />
+                </svg>
+            );
+        }
+        case 'melody': {
+            return (
+                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                    <path
+                        d="M29.62 2.22a1 1 0 00-.85-.22l-17 4A1 1 0 0011 7v13.26A5.45 5.45 0 007.5 19a5.5 5.5 0 105.5 5.5V13.79l15-3.53v10A5.45 5.45 0 0024.5 19a5.5 5.5 0 105.5 5.5V3a1 1 0 00-.38-.78zM7.5 28a3.5 3.5 0 113.5-3.5A3.5 3.5 0 017.5 28zM13 11.74V7.79l15-3.53v4zM24.5 28a3.5 3.5 0 113.5-3.5 3.5 3.5 0 01-3.5 3.5z"
+                        data-name="music, audio, multimedia, note, song, sound, research"
+                    />
+                </svg>
+            );
+        }
+        case 'portfolio': {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="20" height="20" fill="none" viewBox="0 0 20 20">
+                    <mask id="mask0_12429_135177" style={{ maskType: 'alpha' }} width="20" height="20" x="0" y="0" maskUnits="userSpaceOnUse">
+                        <path fill="url(#pattern0)" d="M0.5 0.5H19.5V19.5H0.5z" />
+                    </mask>
+                    <g mask="url(#mask0_12429_135177)">
+                        <path fill="#717394" d="M0.5 0.5H19.5V19.5H0.5z" />
+                    </g>
+                    <defs>
+                        <pattern id="pattern0" width="1" height="1" patternContentUnits="objectBoundingBox">
+                            <use transform="scale(.00195)" xlinkHref="#image0_12429_135177" />
+                        </pattern>
+                        <image
+                            id="image0_12429_135177"
+                            width="512"
+                            height="512"
+                            xlinkHref="data:image/png;base64,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"
+                        />
+                    </defs>
+                </svg>
+            );
+        }
         case 'group': {
             return (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +401,7 @@ function BaseIcons(props: BaseIconsProps) {
         }
         case 'pin': {
             return (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12.3993 2.70696C12.7899 2.31643 13.423 2.31643 13.8136 2.70695L20.8846 9.77801C21.2752 10.1685 21.2752 10.8017 20.8846 11.1922L20.7668 11.3101C20.4414 11.6355 19.9137 11.6355 19.5883 11.3101C19.5232 11.245 19.4177 11.245 19.3526 11.3101L15.6559 15.0067C15.3767 15.2859 15.1864 15.6415 15.109 16.0287L14.6118 18.5146C14.5524 18.8118 14.4063 19.0848 14.192 19.2991C13.5924 19.8986 12.6204 19.8986 12.0209 19.2991L9.14664 16.4248C8.99043 16.2686 8.73717 16.2686 8.58096 16.4248L4.62116 20.3846C4.23064 20.7751 3.59748 20.7751 3.20696 20.3846C2.81643 19.9941 2.81643 19.3609 3.20696 18.9704L7.16675 15.0106C7.32296 14.8544 7.32296 14.6012 7.16675 14.445L4.29248 11.5706C3.69296 10.9711 3.69296 9.9991 4.29249 9.39958C4.5068 9.18528 4.77975 9.0392 5.07694 8.97976L7.56291 8.48256C7.95009 8.40513 8.30569 8.21482 8.58489 7.93562L12.2815 4.23902C12.3466 4.17393 12.3466 4.0684 12.2815 4.00332C11.9561 3.67788 11.9561 3.15025 12.2815 2.82481L12.3993 2.70696ZM14.5206 6.24248C14.1301 5.85196 13.497 5.85197 13.1064 6.24249L9.57091 9.77803C9.29171 10.0572 8.93611 10.2475 8.54893 10.325L6.68728 10.6973C6.53065 10.7286 6.47214 10.9219 6.58509 11.0349L12.5567 17.0065C12.6696 17.1194 12.8629 17.0609 12.8942 16.9043L13.2666 15.0426C13.344 14.6554 13.5343 14.2998 13.8135 14.0206L17.3491 10.4851C17.7396 10.0946 17.7396 9.46144 17.3491 9.07091L14.5206 6.24248Z" />
                 </svg>
             );
@@ -166,10 +490,7 @@ function BaseIcons(props: BaseIconsProps) {
         case 'arrow-drop-down': {
             return (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M16.9709 9.1697C16.7835 8.98345 16.5301 8.87891 16.2659 8.87891C16.0017 8.87891 15.7483 8.98345 15.5609 9.1697L11.9709 12.7097L8.4309 9.1697C8.24353 8.98345 7.99008 8.87891 7.7259 8.87891C7.46171 8.87891 7.20826 8.98345 7.0209 9.1697C6.92717 9.26266 6.85277 9.37326 6.802 9.49512C6.75124 9.61698 6.7251 9.74769 6.7251 9.8797C6.7251 10.0117 6.75124 10.1424 6.802 10.2643C6.85277 10.3861 6.92717 10.4967 7.0209 10.5897L11.2609 14.8297C11.3539 14.9234 11.4645 14.9978 11.5863 15.0486C11.7082 15.0994 11.8389 15.1255 11.9709 15.1255C12.1029 15.1255 12.2336 15.0994 12.3555 15.0486C12.4773 14.9978 12.5879 14.9234 12.6809 14.8297L16.9709 10.5897C17.0646 10.4967 17.139 10.3861 17.1898 10.2643C17.2406 10.1424 17.2667 10.0117 17.2667 9.8797C17.2667 9.74769 17.2406 9.61698 17.1898 9.49512C17.139 9.37326 17.0646 9.26266 16.9709 9.1697Z"
-                        fill="var(--text-primary)"
-                    />
+                    <path d="M16.9709 9.1697C16.7835 8.98345 16.5301 8.87891 16.2659 8.87891C16.0017 8.87891 15.7483 8.98345 15.5609 9.1697L11.9709 12.7097L8.4309 9.1697C8.24353 8.98345 7.99008 8.87891 7.7259 8.87891C7.46171 8.87891 7.20826 8.98345 7.0209 9.1697C6.92717 9.26266 6.85277 9.37326 6.802 9.49512C6.75124 9.61698 6.7251 9.74769 6.7251 9.8797C6.7251 10.0117 6.75124 10.1424 6.802 10.2643C6.85277 10.3861 6.92717 10.4967 7.0209 10.5897L11.2609 14.8297C11.3539 14.9234 11.4645 14.9978 11.5863 15.0486C11.7082 15.0994 11.8389 15.1255 11.9709 15.1255C12.1029 15.1255 12.2336 15.0994 12.3555 15.0486C12.4773 14.9978 12.5879 14.9234 12.6809 14.8297L16.9709 10.5897C17.0646 10.4967 17.139 10.3861 17.1898 10.2643C17.2406 10.1424 17.2667 10.0117 17.2667 9.8797C17.2667 9.74769 17.2406 9.61698 17.1898 9.49512C17.139 9.37326 17.0646 9.26266 16.9709 9.1697Z" />
                 </svg>
             );
         }
@@ -186,10 +507,7 @@ function BaseIcons(props: BaseIconsProps) {
         case 'arrow-left': {
             return (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M18.9999 11.0002H7.82992L12.7099 6.12016C13.0999 5.73016 13.0999 5.09016 12.7099 4.70016C12.6174 4.60746 12.5075 4.53391 12.3865 4.48373C12.2656 4.43354 12.1359 4.40771 12.0049 4.40771C11.874 4.40771 11.7443 4.43354 11.6233 4.48373C11.5023 4.53391 11.3924 4.60746 11.2999 4.70016L4.70992 11.2902C4.61722 11.3827 4.54367 11.4926 4.49349 11.6135C4.44331 11.7345 4.41748 11.8642 4.41748 11.9952C4.41748 12.1261 4.44331 12.2558 4.49349 12.3768C4.54367 12.4978 4.61722 12.6076 4.70992 12.7002L11.2999 19.2902C11.3925 19.3827 11.5024 19.4562 11.6234 19.5063C11.7443 19.5564 11.874 19.5822 12.0049 19.5822C12.1359 19.5822 12.2655 19.5564 12.3865 19.5063C12.5074 19.4562 12.6173 19.3827 12.7099 19.2902C12.8025 19.1976 12.8759 19.0877 12.9261 18.9667C12.9762 18.8457 13.0019 18.7161 13.0019 18.5852C13.0019 18.4542 12.9762 18.3246 12.9261 18.2036C12.8759 18.0827 12.8025 17.9727 12.7099 17.8802L7.82992 13.0002H18.9999C19.5499 13.0002 19.9999 12.5502 19.9999 12.0002C19.9999 11.4502 19.5499 11.0002 18.9999 11.0002Z"
-                        fill="var(--text-primary)"
-                    />
+                    <path d="M18.9999 11.0002H7.82992L12.7099 6.12016C13.0999 5.73016 13.0999 5.09016 12.7099 4.70016C12.6174 4.60746 12.5075 4.53391 12.3865 4.48373C12.2656 4.43354 12.1359 4.40771 12.0049 4.40771C11.874 4.40771 11.7443 4.43354 11.6233 4.48373C11.5023 4.53391 11.3924 4.60746 11.2999 4.70016L4.70992 11.2902C4.61722 11.3827 4.54367 11.4926 4.49349 11.6135C4.44331 11.7345 4.41748 11.8642 4.41748 11.9952C4.41748 12.1261 4.44331 12.2558 4.49349 12.3768C4.54367 12.4978 4.61722 12.6076 4.70992 12.7002L11.2999 19.2902C11.3925 19.3827 11.5024 19.4562 11.6234 19.5063C11.7443 19.5564 11.874 19.5822 12.0049 19.5822C12.1359 19.5822 12.2655 19.5564 12.3865 19.5063C12.5074 19.4562 12.6173 19.3827 12.7099 19.2902C12.8025 19.1976 12.8759 19.0877 12.9261 18.9667C12.9762 18.8457 13.0019 18.7161 13.0019 18.5852C13.0019 18.4542 12.9762 18.3246 12.9261 18.2036C12.8759 18.0827 12.8025 17.9727 12.7099 17.8802L7.82992 13.0002H18.9999C19.5499 13.0002 19.9999 12.5502 19.9999 12.0002C19.9999 11.4502 19.5499 11.0002 18.9999 11.0002Z" />
                 </svg>
             );
         }
@@ -202,10 +520,13 @@ function BaseIcons(props: BaseIconsProps) {
         }
         case 'add-contact': {
             return (
-                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 12C11.2091 12 13 10.2091 13 8C13 5.79086 11.2091 4 9 4C6.79086 4 5 5.79086 5 8C5 10.2091 6.79086 12 9 12Z" />
-                    <path d="M9 14C6.33 14 1 15.34 1 18V19C1 19.55 1.45 20 2 20H16C16.55 20 17 19.55 17 19V18C17 15.34 11.67 14 9 14Z" />
-                    <path d="M20 10V7H18V10H15V12H18V15H20V12H23V10H20Z" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M16.5346 16.7C16.4634 16.6057 16.385 16.5139 16.3 16.4245C14.7656 14.8113 11.0775 14 9 14C6.33 14 1 15.34 1 18V19C1 19.55 1.45 20 2 20H16C16.55 20 17 19.55 17 19V18C17 17.5244 16.8296 17.0911 16.5346 16.7ZM9 10.3C10.2703 10.3 11.3 9.27025 11.3 8C11.3 6.72975 10.2703 5.7 9 5.7C7.72974 5.7 6.7 6.72974 6.7 8C6.7 9.27025 7.72974 10.3 9 10.3ZM3.02752 17.5021C2.70685 17.798 2.7 17.9594 2.7 18V18.3H15.3V18C15.3 17.9594 15.2931 17.798 14.9725 17.5021C14.6403 17.1954 14.0984 16.8728 13.3691 16.5806C11.9076 15.9951 10.1225 15.7 9 15.7C7.87751 15.7 6.09241 15.9951 4.63093 16.5806C3.90156 16.8728 3.35973 17.1954 3.02752 17.5021ZM9 12C11.2091 12 13 10.2091 13 8C13 5.79086 11.2091 4 9 4C6.79086 4 5 5.79086 5 8C5 10.2091 6.79086 12 9 12ZM20 8.7V10H21.3H21.7H23V10.3V11.7V12H21.7H21.3H20V13.3V13.7V15H19.7H18.3H18V13.7V13.3V12H16.7H16.3H15V11.7V10.3V10H16.3H16.7H18V8.7V8.3V7H18.3H19.7H20V8.3V8.7Z"
+                        fill="#7B57C8"
+                    />
                 </svg>
             );
         }
@@ -260,22 +581,16 @@ function BaseIcons(props: BaseIconsProps) {
         }
         case 'more': {
             return (
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.6663 11.0013C14.6663 12.0096 15.4913 12.8346 16.4997 12.8346C17.508 12.8346 18.333 12.0096 18.333 11.0013C18.333 9.99297 17.508 9.16797 16.4997 9.16797C15.4913 9.16797 14.6663 9.99297 14.6663 11.0013ZM12.833 11.0013C12.833 9.99297 12.008 9.16797 10.9997 9.16797C9.99134 9.16797 9.16634 9.99297 9.16634 11.0013C9.16634 12.0096 9.99134 12.8346 10.9997 12.8346C12.008 12.8346 12.833 12.0096 12.833 11.0013ZM7.33301 11.0013C7.33301 9.99297 6.50801 9.16797 5.49967 9.16797C4.49134 9.16797 3.66634 9.99297 3.66634 11.0013C3.66634 12.0096 4.49134 12.8346 5.49967 12.8346C6.50801 12.8346 7.33301 12.0096 7.33301 11.0013Z" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 8C13.1 8 14 7.1 14 6C14 4.9 13.1 4 12 4C10.9 4 10 4.9 10 6C10 7.1 10.9 8 12 8ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10ZM12 16C10.9 16 10 16.9 10 18C10 19.1 10.9 20 12 20C13.1 20 14 19.1 14 18C14 16.9 13.1 16 12 16Z" />
                 </svg>
             );
         }
         case 'logout': {
             return (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M5.1499 5H11.1499C11.6999 5 12.1499 4.55 12.1499 4C12.1499 3.45 11.6999 3 11.1499 3H5.1499C4.0499 3 3.1499 3.9 3.1499 5V19C3.1499 20.1 4.0499 21 5.1499 21H11.1499C11.6999 21 12.1499 20.55 12.1499 20C12.1499 19.45 11.6999 19 11.1499 19H5.1499V5Z"
-                        fill="#2A313C"
-                    />
-                    <path
-                        d="M20.7999 11.65L18.0099 8.86C17.6899 8.54 17.1499 8.76 17.1499 9.21V11H10.1499C9.5999 11 9.1499 11.45 9.1499 12C9.1499 12.55 9.5999 13 10.1499 13H17.1499V14.79C17.1499 15.24 17.6899 15.46 17.9999 15.14L20.7899 12.35C20.9899 12.16 20.9899 11.84 20.7999 11.65Z"
-                        fill="#2A313C"
-                    />
+                    <path d="M5.1499 5H11.1499C11.6999 5 12.1499 4.55 12.1499 4C12.1499 3.45 11.6999 3 11.1499 3H5.1499C4.0499 3 3.1499 3.9 3.1499 5V19C3.1499 20.1 4.0499 21 5.1499 21H11.1499C11.6999 21 12.1499 20.55 12.1499 20C12.1499 19.45 11.6999 19 11.1499 19H5.1499V5Z" />
+                    <path d="M20.7999 11.65L18.0099 8.86C17.6899 8.54 17.1499 8.76 17.1499 9.21V11H10.1499C9.5999 11 9.1499 11.45 9.1499 12C9.1499 12.55 9.5999 13 10.1499 13H17.1499V14.79C17.1499 15.24 17.6899 15.46 17.9999 15.14L20.7899 12.35C20.9899 12.16 20.9899 11.84 20.7999 11.65Z" />
                 </svg>
             );
         }
@@ -289,20 +604,14 @@ function BaseIcons(props: BaseIconsProps) {
         case 'settings': {
             return (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M19.4999 12C19.4999 11.77 19.4899 11.55 19.4699 11.32L21.3299 9.91C21.7299 9.61 21.8399 9.05 21.5899 8.61L19.7199 5.38C19.4699 4.94 18.9299 4.76 18.4699 4.96L16.3199 5.87C15.9499 5.61 15.5599 5.38 15.1499 5.19L14.8599 2.88C14.7999 2.38 14.3699 2 13.8699 2H10.1399C9.62991 2 9.19991 2.38 9.13991 2.88L8.84991 5.19C8.43991 5.38 8.04991 5.61 7.67991 5.87L5.52991 4.96C5.06991 4.76 4.52991 4.94 4.27991 5.38L2.40991 8.62C2.15991 9.06 2.26991 9.61 2.66991 9.92L4.52991 11.33C4.50991 11.55 4.49991 11.77 4.49991 12C4.49991 12.23 4.50991 12.45 4.52991 12.68L2.66991 14.09C2.26991 14.39 2.15991 14.95 2.40991 15.39L4.27991 18.62C4.52991 19.06 5.06991 19.24 5.52991 19.04L7.67991 18.13C8.04991 18.39 8.43991 18.62 8.84991 18.81L9.13991 21.12C9.19991 21.62 9.62991 22 10.1299 22H13.8599C14.3599 22 14.7899 21.62 14.8499 21.12L15.1399 18.81C15.5499 18.62 15.9399 18.39 16.3099 18.13L18.4599 19.04C18.9199 19.24 19.4599 19.06 19.7099 18.62L21.5799 15.39C21.8299 14.95 21.7199 14.4 21.3199 14.09L19.4599 12.68C19.4899 12.45 19.4999 12.23 19.4999 12ZM12.0399 15.5C10.1099 15.5 8.53991 13.93 8.53991 12C8.53991 10.07 10.1099 8.5 12.0399 8.5C13.9699 8.5 15.5399 10.07 15.5399 12C15.5399 13.93 13.9699 15.5 12.0399 15.5Z"
-                        fill="#2A313C"
-                    />
+                    <path d="M19.4999 12C19.4999 11.77 19.4899 11.55 19.4699 11.32L21.3299 9.91C21.7299 9.61 21.8399 9.05 21.5899 8.61L19.7199 5.38C19.4699 4.94 18.9299 4.76 18.4699 4.96L16.3199 5.87C15.9499 5.61 15.5599 5.38 15.1499 5.19L14.8599 2.88C14.7999 2.38 14.3699 2 13.8699 2H10.1399C9.62991 2 9.19991 2.38 9.13991 2.88L8.84991 5.19C8.43991 5.38 8.04991 5.61 7.67991 5.87L5.52991 4.96C5.06991 4.76 4.52991 4.94 4.27991 5.38L2.40991 8.62C2.15991 9.06 2.26991 9.61 2.66991 9.92L4.52991 11.33C4.50991 11.55 4.49991 11.77 4.49991 12C4.49991 12.23 4.50991 12.45 4.52991 12.68L2.66991 14.09C2.26991 14.39 2.15991 14.95 2.40991 15.39L4.27991 18.62C4.52991 19.06 5.06991 19.24 5.52991 19.04L7.67991 18.13C8.04991 18.39 8.43991 18.62 8.84991 18.81L9.13991 21.12C9.19991 21.62 9.62991 22 10.1299 22H13.8599C14.3599 22 14.7899 21.62 14.8499 21.12L15.1399 18.81C15.5499 18.62 15.9399 18.39 16.3099 18.13L18.4599 19.04C18.9199 19.24 19.4599 19.06 19.7099 18.62L21.5799 15.39C21.8299 14.95 21.7199 14.4 21.3199 14.09L19.4599 12.68C19.4899 12.45 19.4999 12.23 19.4999 12ZM12.0399 15.5C10.1099 15.5 8.53991 13.93 8.53991 12C8.53991 10.07 10.1099 8.5 12.0399 8.5C13.9699 8.5 15.5399 10.07 15.5399 12C15.5399 13.93 13.9699 15.5 12.0399 15.5Z" />
                 </svg>
             );
         }
         case 'arrow-drop-right': {
             return (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M9.29006 6.71027C8.90006 7.10027 8.90006 7.73027 9.29006 8.12027L13.1701 12.0003L9.29006 15.8803C8.90006 16.2703 8.90006 16.9003 9.29006 17.2903C9.68006 17.6803 10.3101 17.6803 10.7001 17.2903L15.2901 12.7003C15.6801 12.3103 15.6801 11.6803 15.2901 11.2903L10.7001 6.70027C10.3201 6.32027 9.68006 6.32027 9.29006 6.71027Z"
-                        fill="#2A313C"
-                    />
+                    <path d="M8 22L18 12L8 2L6.225 3.775L14.45 12L6.225 20.225L8 22Z" />
                 </svg>
             );
         }
@@ -319,10 +628,7 @@ function BaseIcons(props: BaseIconsProps) {
         case 'personal-acc': {
             return (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V19C4 19.55 4.45 20 5 20H19C19.55 20 20 19.55 20 19V18C20 15.34 14.67 14 12 14Z"
-                        fill="#2A313C"
-                    />
+                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V19C4 19.55 4.45 20 5 20H19C19.55 20 20 19.55 20 19V18C20 15.34 14.67 14 12 14Z" />
                 </svg>
             );
         }
@@ -339,10 +645,7 @@ function BaseIcons(props: BaseIconsProps) {
         case 'chat': {
             return (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M20 3H4C2.9 3 2.01 3.9 2.01 5L2 23L6 19H20C21.1 19 22 18.1 22 17V5C22 3.9 21.1 3 20 3ZM7 10H17C17.55 10 18 10.45 18 11C18 11.55 17.55 12 17 12H7C6.45 12 6 11.55 6 11C6 10.45 6.45 10 7 10ZM13 15H7C6.45 15 6 14.55 6 14C6 13.45 6.45 13 7 13H13C13.55 13 14 13.45 14 14C14 14.55 13.55 15 13 15ZM17 9H7C6.45 9 6 8.55 6 8C6 7.45 6.45 7 7 7H17C17.55 7 18 7.45 18 8C18 8.55 17.55 9 17 9Z"
-                        fill="#2A313C"
-                    />
+                    <path d="M20 3H4C2.9 3 2.01 3.9 2.01 5L2 23L6 19H20C21.1 19 22 18.1 22 17V5C22 3.9 21.1 3 20 3ZM7 10H17C17.55 10 18 10.45 18 11C18 11.55 17.55 12 17 12H7C6.45 12 6 11.55 6 11C6 10.45 6.45 10 7 10ZM13 15H7C6.45 15 6 14.55 6 14C6 13.45 6.45 13 7 13H13C13.55 13 14 13.45 14 14C14 14.55 13.55 15 13 15ZM17 9H7C6.45 9 6 8.55 6 8C6 7.45 6.45 7 7 7H17C17.55 7 18 7.45 18 8C18 8.55 17.55 9 17 9Z" />
                 </svg>
             );
         }
@@ -358,6 +661,15 @@ function BaseIcons(props: BaseIconsProps) {
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14.5333 7.33333C14.9752 7.33333 15.3333 7.69151 15.3333 8.13333V15.8667C15.3333 16.3085 14.9752 16.6667 14.5333 16.6667H5.02222C4.58039 16.6667 4.22222 16.3085 4.22222 15.8667V8.13333C4.22222 7.6915 4.58039 7.33333 5.02222 7.33333H14.5333ZM16.4444 5H3.11111C2.5 5 2 5.525 2 6.16667V17.8333C2 18.475 2.5 19 3.11111 19H16.4444C17.0556 19 17.5556 18.475 17.5556 17.8333V15.75C17.5556 15.0278 18.4368 14.6753 18.9349 15.1983L20.6207 16.9684C21.1187 17.4913 22 17.1388 22 16.4167V7.58333C22 6.86116 21.1187 6.50866 20.6207 7.03161L18.9349 8.80172C18.4368 9.32467 17.5556 8.97217 17.5556 8.25V6.16667C17.5556 5.525 17.0556 5 16.4444 5Z" />
                 </svg>
+            );
+        }
+        case 'videocam-pulse': {
+            return (
+                <div className={styles.pulse}>
+                    <svg className={styles.pulse} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.5333 7.33333C14.9752 7.33333 15.3333 7.69151 15.3333 8.13333V15.8667C15.3333 16.3085 14.9752 16.6667 14.5333 16.6667H5.02222C4.58039 16.6667 4.22222 16.3085 4.22222 15.8667V8.13333C4.22222 7.6915 4.58039 7.33333 5.02222 7.33333H14.5333ZM16.4444 5H3.11111C2.5 5 2 5.525 2 6.16667V17.8333C2 18.475 2.5 19 3.11111 19H16.4444C17.0556 19 17.5556 18.475 17.5556 17.8333V15.75C17.5556 15.0278 18.4368 14.6753 18.9349 15.1983L20.6207 16.9684C21.1187 17.4913 22 17.1388 22 16.4167V7.58333C22 6.86116 21.1187 6.50866 20.6207 7.03161L18.9349 8.80172C18.4368 9.32467 17.5556 8.97217 17.5556 8.25V6.16667C17.5556 5.525 17.0556 5 16.4444 5Z" />
+                    </svg>
+                </div>
             );
         }
         case 'videocam': {

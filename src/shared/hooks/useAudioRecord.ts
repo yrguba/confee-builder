@@ -78,7 +78,7 @@ export default function useAudioRecorder({ onAfterSaving }: Props) {
 
                 // @ts-ignore
                 setRecorderState((prevState: any) => {
-                    if (prevState.mediaRecorder) {
+                    if (prevState.mediaRecorder && file.size > 0) {
                         const url = window.URL.createObjectURL(blob);
                         onAfterSaving && onAfterSaving(formData, url);
                         return {

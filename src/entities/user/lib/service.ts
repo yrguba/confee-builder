@@ -1,17 +1,10 @@
 import moment from 'moment';
 
-import { User } from '../model/types';
+import userProxy from './proxy';
+import contactProxy from '../../contact/lib/proxy';
+import { ContactProxy } from '../../contact/model/types';
+import { User, UserProxy } from '../model/types';
 
-class UserService {
-    getUserNetworkStatus(user: User | null) {
-        if (!user?.last_active) return 'Не в сети';
-        if (user.is_online) return 'В сети';
-        return moment(user.last_active).calendar();
-    }
+class ContactService {}
 
-    getFullName(user: User | null) {
-        return user?.contact_name || `${user?.first_name || ''} ${user?.last_name || ''}`;
-    }
-}
-
-export default new UserService();
+export default new ContactService();

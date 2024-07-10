@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { useStyles } from 'shared/hooks';
 
@@ -7,22 +7,22 @@ import Box from '../../../box';
 import Glare from '../../../loading-indicator/ui/glare';
 import { BaseButtonProps } from '../../types';
 
-function BaseButton(props: BaseButtonProps) {
+const BaseButton = forwardRef((props: BaseButtonProps, ref: any) => {
     const {
         children,
         disabled,
         loading,
         variant = 'primary',
-        tag,
         prefixIcon,
         chips,
         error,
         size = 's',
-        width = '100%',
+        width = !props.chips ? '100%' : '',
         animateTrigger,
         height,
         active,
         direction = 'horizontal',
+        redText,
         ...other
     } = props;
 
@@ -32,13 +32,13 @@ function BaseButton(props: BaseButtonProps) {
         [variant]: variant,
         [`${variant}_active`]: variant && active,
         chips,
-        tag,
         [direction]: direction,
         [`size-${size}`]: size,
+        redText,
     });
 
     return (
-        <button className={classes} {...other} style={{ width, height }}>
+        <button ref={ref} className={classes} {...other} style={{ width, height }}>
             {animateTrigger === undefined ? (
                 <>
                     {prefixIcon}
@@ -54,6 +54,6 @@ function BaseButton(props: BaseButtonProps) {
             )}
         </button>
     );
-}
+});
 
 export default BaseButton;

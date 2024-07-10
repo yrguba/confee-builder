@@ -1,12 +1,38 @@
+import chatProxy from './lib/proxy';
 import chatService from './lib/service';
+import useChatsTabsAndLists from './lib/useTabsAndLists';
 import chatApi from './model/api';
 import chatGateway from './model/gateway';
-import chatProxy from './model/proxy';
-import useChatStore from './model/store';
+import chatStore, { ChatStoreTypes } from './model/store';
 import * as chatTypes from './model/types';
+import ChatGpt from './ui/chat-gpt';
 import ChatHeaderView from './ui/header';
+import HighlightedMessagesView from './ui/highlightedMessages';
 import ChatsListView from './ui/list';
+import AddMembersInChatModalView from './ui/modals/add-members';
 import CreateChatModalView from './ui/modals/create';
-import ChatProfileModalView from './ui/modals/profile';
+import ChatGptProfileModalView from './ui/modals/profile/chat-gpt';
+import EditChatModalView from './ui/modals/profile/edit';
+import GroupChatProfileModalView from './ui/modals/profile/group-chat';
+import PrivateChatProfileModalView from './ui/modals/profile/private-chat';
 
-export { chatProxy, chatApi, useChatStore, chatTypes, chatService, chatGateway, ChatHeaderView, ChatsListView, ChatProfileModalView, CreateChatModalView };
+export {
+    chatApi,
+    chatStore,
+    chatTypes,
+    chatService,
+    chatProxy,
+    chatGateway,
+    ChatHeaderView,
+    ChatsListView,
+    GroupChatProfileModalView,
+    CreateChatModalView,
+    useChatsTabsAndLists,
+    AddMembersInChatModalView,
+    PrivateChatProfileModalView,
+    ChatGpt,
+    ChatGptProfileModalView,
+    HighlightedMessagesView,
+    EditChatModalView,
+};
+export type { ChatStoreTypes };

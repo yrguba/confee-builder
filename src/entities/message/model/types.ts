@@ -1,3 +1,4 @@
+import { companyTypes } from '../../company';
 import { userTypes } from '../../user';
 
 export type Content = {
@@ -8,6 +9,7 @@ export type Content = {
 };
 
 export type MediaContentType = 'images' | 'videos' | 'audios' | 'documents' | 'voices';
+
 export type MessageType = 'text' | 'system' | MediaContentType;
 
 export type File = {
@@ -17,7 +19,7 @@ export type File = {
     extension?: string;
     hash_id?: string;
     id: number;
-    link: string;
+    url: string;
     name?: string;
     path?: string;
     size?: number;
@@ -27,8 +29,15 @@ export type File = {
     user_id?: number;
 };
 
+export type MessageWithChatGpt = {
+    id?: string;
+    role: 'user' | 'assistant';
+    content: string;
+};
+
 export type Message = {
     author: userTypes.User;
+    author_employee: companyTypes.Employee | null;
     chat_id?: number;
     created_at: Date;
     files: File[];
@@ -42,6 +51,7 @@ export type Message = {
     reactions: Record<string, []>;
     users_have_read: number[] | [];
     isMock: boolean;
+    in_page?: number;
 };
 
 export type MessageProxy = {
@@ -51,17 +61,36 @@ export type MessageProxy = {
     firstOfDay: string;
     date: string;
     authorName: string;
+    authorAvatar: string;
     systemMessages: string[];
     lastMessageInBlock: boolean;
+    firstMessageInBlock: boolean;
+    action: string;
+    sending: boolean;
+    sendingError: boolean;
+    replyProxy: MessageProxy;
+    proxy_forwarded_from_message: MessageProxy | null;
 } & Message;
 
 export type VoiceEvents = 'start' | 'send' | 'stop' | 'cancel';
 
-export type MessageMenuActions = 'reply' | 'edit' | 'fixed' | 'copy' | 'forward' | 'delete' | 'highlight';
+export type MessageMenuActions = 'reply' | 'edit' | 'fixed' | 'copy' | 'copySelectedText' | 'forward' | 'delete' | 'highlight' | 'play' | 'save';
 
 export type Modals = {
     forwardMessages: null;
 };
 
-export type SocketIn = 'MessageCreated' | 'ChatPendingMessagesCountUpdated' | 'MessageUpdated' | 'MessageRead' | 'Typing';
+export type SocketIn =
+    | 'MessageCreated'
+    | 'MessagesDeleted'
+    | 'ChatPendingMessagesCountUpdated'
+    | 'LastMessageUpdated'
+    | 'MessageUpdated'
+    | 'MessageRead'
+    | 'Typing';
 export type SocketOut = 'ChatListenersUpdated' | 'Typing' | 'MessageRead';
+
+export type Socket = {
+    event: SocketIn;
+    data: any;
+};
