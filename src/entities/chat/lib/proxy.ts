@@ -62,10 +62,10 @@ function chatProxy(chat: Chat | undefined): ChatProxy | null {
                     if (!target.last_message) return '';
                     const { type, text } = target.last_message;
                     if (type === 'images') return 'Фотография';
-                    if (type === 'audios') return 'Отправил аудио';
-                    if (type === 'videos') return 'Отправил видео';
-                    if (type === 'voices') return 'Отправил голосовое';
-                    if (type === 'documents') return 'Отправил файл';
+                    if (type === 'audios') return 'Аудио';
+                    if (type === 'videos') return 'Видео';
+                    if (type === 'voices') return 'Голосовое';
+                    if (type === 'documents') return 'Файл';
                     return text;
 
                 case 'date':

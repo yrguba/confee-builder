@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useDeferredValue } from 'react';
 import useFileUploader from 'react-use-file-uploader';
 
 import { chatApi, chatProxy, EditChatModalView } from 'entities/chat';
@@ -30,12 +30,14 @@ function EditChatModal(modal: ModalTypes.UseReturnedType) {
         initialValue: proxyChat?.description || '',
     });
 
-    const { open: selectFile } = useFileUploader({
+    const { open: selectFile, files } = useFileUploader({
         accept: 'image',
         onAfterUploading: (data) => {
             confirmAddAvatar.open({ img: data.files[0].fileUrl, file: data.files[0].file });
         },
     });
+
+    const def = useDeferredValue(files);
 
     const getScreenshot = (preview: string, file: File) => handleAddAvatar({ chatId, img: file });
 

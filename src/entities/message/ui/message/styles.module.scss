@@ -28,6 +28,7 @@
     background-color: var(--bg-secondary);
     border-radius: 12px;
 
+
     .active{
       background: #BDB1D7 !important;
     }
@@ -54,9 +55,11 @@
 
     .authorName {
       cursor: pointer;
-      position: absolute;
-      top: -24px;
-      left: 0;
+      margin: 4px 8px 0 8px;
+      color: var(--text-action);
+      //position: absolute;
+      //top: -24px;
+      //left: 0;
     }
 
   }

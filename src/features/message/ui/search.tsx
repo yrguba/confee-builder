@@ -1,9 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useUpdateEffect } from 'react-use';
 import { number } from 'yup';
 
-import { messageApi, SearchMessagesView, messageStore } from 'entities/message';
+import { messageApi, SearchMessagesView, messageStore, messageService } from 'entities/message';
 import { Message } from 'entities/message/model/types';
 import { useRouter, createMemo, useWidthMediaQuery, useEasyState } from 'shared/hooks';
 import { Input } from 'shared/ui';
@@ -26,7 +26,14 @@ function SearchMessages() {
 
     const messageIdToSearchForPage = useEasyState<number | null>(null);
 
-    const { data: searchMessages, hasNextPage, fetchNextPage } = messageApi.handleSearchMessages({ chatId, text: searchInput.value });
+    const {
+        data: searchMessages,
+        hasNextPage,
+        fetchNextPage,
+    } = messageApi.handleSearchMessages({
+        chatId,
+        text: searchInput.value,
+    });
     const { data: messageOrder } = messageApi.handleGetMessageOrder({ chatId, messageId: messageIdToSearchForPage.value });
 
     const visibleSearchMessages = messageStore.use.visibleSearchMessages();
@@ -37,13 +44,19 @@ function SearchMessages() {
         hasNextPage && fetchNextPage();
     };
 
-    useUpdateEffect(() => {
+    const { refetch, remove } = messageApi.handleGetMessages({
+        chatId,
+        initialPage: messageOrder?.in_page,
+    });
+
+    useEffect(() => {
         if (messageOrder?.in_page) {
             initialPage.set(messageOrder?.in_page);
             foundMessage.set(messageOrder);
             !xl && visibleSearchMessages.set(false);
             setTimeout(() => {
                 queryClient.prefetchInfiniteQuery(['get-messages', chatId]);
+                refetch();
             }, 100);
         }
     }, [messageOrder?.id]);

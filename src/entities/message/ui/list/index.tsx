@@ -110,7 +110,7 @@ function MessagesListView(props: Props) {
     useEffect(() => {
         if (wrapperRef?.current && chat) {
             if (foundMessageRef.current) {
-                setTimeout(() => deleteFoundMessage(), 3000);
+                setTimeout(() => deleteFoundMessage(), 1000);
                 return executeScrollToElement({ ref: foundMessageRef, enable: true, block: 'center' });
             }
             if (initialOpenChat.value) {

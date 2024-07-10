@@ -108,7 +108,46 @@ function MessageInputView(props: Props) {
     };
 
     const clickUser = (user: UserProxy) => {
-        // messageTextState.set((prev) => prev.replace(targetWord, `@${user.nickname}\u00A0`));
+        function getPosition(str: any, pos: any) {
+            let start = 0;
+            let end = pos;
+            let i = pos;
+            let i2 = pos;
+            let stop1 = false;
+            let stop2 = false;
+            while (i > 0 && !stop1) {
+                i--;
+                if (/\s/.test(str[i])) {
+                    start = i + 1;
+                    stop1 = true;
+                    break;
+                }
+                if (i === 0) {
+                    break;
+                }
+            }
+
+            while (i2 < str.length && !stop2) {
+                i2++;
+                if (/\s/.test(str[i2])) {
+                    end = i2;
+                    stop2 = true;
+                    break;
+                }
+                if (i2 === str.length - 1) {
+                    break;
+                }
+            }
+            return { start, end };
+        }
+        function spliceSplit(str: string, index: number, count: number, add: string) {
+            const ar = str.split('');
+            ar.splice(index, count, add);
+            return ar.join('');
+        }
+        const rows = messageTextState.value.split('\n').join(' ');
+        const { start, end } = getPosition(rows, cursorPosition.value);
+        messageTextState.set((prev) => spliceSplit(rows, start, end - start, `@${user.nickname}${/\s/.test(messageTextState.value[end] + 1) ? '' : '\u00A0'}`));
         tagUsers.set([]);
     };
 

@@ -56,6 +56,7 @@ class MessageApi {
 
         return useInfiniteQuery(
             ['get-messages', chatId],
+
             ({ pageParam }) => {
                 return axiosClient.get(`${this.pathPrefix}/${chatId}/messages`, {
                     params: {
@@ -64,6 +65,7 @@ class MessageApi {
                     },
                 });
             },
+
             {
                 getPreviousPageParam: (lastPage, pages) => {
                     const { current_page } = lastPage?.data.meta;
