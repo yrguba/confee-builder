@@ -24,7 +24,7 @@
         "lint": "eslint .",
         "lint:fix": "npx eslint ./src --fix",
         "bundle-analyze": "webpack-bundle-analyzer build/bundle-stats.json",
-        "up-version": "npm version patch && git push origin main --ff && git push origin --tags",
+        "up-version": "npm version patch && git push origin main && git push origin --tags",
         "py-scripts-win": "python py-scripts/root.py",
         "py-scripts-mac": "python3 py-scripts/root.py"
     },
