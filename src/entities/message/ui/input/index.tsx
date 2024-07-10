@@ -113,10 +113,13 @@ function MessageInputView(props: Props) {
             let end = pos;
             let i = pos;
             let i2 = pos;
-            while (i > 0) {
+            let stop1 = false;
+            let stop2 = false;
+            while (i > 0 && !stop1) {
                 i--;
                 if (/\s/.test(str[i])) {
                     start = i + 1;
+                    stop1 = true;
                     break;
                 }
                 if (i === 0) {
@@ -124,10 +127,11 @@ function MessageInputView(props: Props) {
                 }
             }
 
-            while (i2 < str.length) {
+            while (i2 < str.length && !stop2) {
                 i2++;
                 if (/\s/.test(str[i2])) {
                     end = i2;
+                    stop2 = true;
                     break;
                 }
                 if (i2 === str.length - 1) {
