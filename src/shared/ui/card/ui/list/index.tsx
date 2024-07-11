@@ -6,7 +6,7 @@ import { Box, Card, Icons } from '../../../index';
 import { CardListProps } from '../../types';
 
 function CardList(props: CardListProps) {
-    const { companyNames, activeItem, items, selected, sortByName, visibleLastItem } = props;
+    const { style, companyNames, activeItem, items, selected, sortByName, visibleLastItem } = props;
 
     const getArray = () => {
         if (sortByName && items?.length) {
@@ -44,7 +44,7 @@ function CardList(props: CardListProps) {
                         onClick={() => !i.disabledSelect && selected && selected.unshiftOrDelete(i)}
                         ref={index + 1 === arr?.length ? lastCard : null}
                     >
-                        <div className={styles.container}>
+                        <div className={styles.container} style={style}>
                             <div className={styles.info}>
                                 <Card companyNames={companyNames} {...i} name={i.title} onClick={() => (i.onClick ? i.onClick() : '')} />
                             </div>

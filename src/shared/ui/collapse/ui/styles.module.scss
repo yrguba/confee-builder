@@ -10,13 +10,15 @@
     transition: background-color var(--transition);
 
     .title {
-      width: 80%;
+      width: 96%;
       display: flex;
       align-items: center;
       gap: 8px;
 
       .caption{
         @include flex-column;
+        width: 0;
+        min-width: 100%;
       }
     }
 

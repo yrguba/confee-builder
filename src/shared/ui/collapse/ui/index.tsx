@@ -7,7 +7,7 @@ import { Box, Title } from '../../index';
 import { CollapseProps } from '../types';
 
 function Collapse(props: CollapseProps) {
-    const { title, children, subtitle, headerStyle, isOpen, onTitleClick, openByClickingOnArrow, openClose, loading } = props;
+    const { childStyle, title, children, subtitle, headerStyle, isOpen, onTitleClick, openByClickingOnArrow, openClose, loading } = props;
 
     const visible = useEasyState(!!isOpen);
 
@@ -48,7 +48,12 @@ function Collapse(props: CollapseProps) {
                 </div>
             </div>
 
-            <Box.Animated style={{ overflow: 'hidden' }} animationVariant="autoHeight" onClick={(e) => e.stopPropagation()} visible={visible.value}>
+            <Box.Animated
+                style={{ overflow: 'hidden', ...childStyle }}
+                animationVariant="autoHeight"
+                onClick={(e) => e.stopPropagation()}
+                visible={visible.value}
+            >
                 {children}
             </Box.Animated>
         </div>

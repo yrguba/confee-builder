@@ -12,4 +12,5 @@ export type CollapseProps = {
     activeAnimate?: boolean;
     openClose?: (value: boolean) => void;
     headerStyle?: CSSProperties;
+    childStyle?: CSSProperties;
 } & BaseTypes.Statuses;
