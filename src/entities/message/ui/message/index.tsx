@@ -150,6 +150,7 @@ const MessageView = forwardRef<HTMLDivElement, Props>((props, ref: any) => {
                     {type === 'text' && !forwarded_from_message?.id && !reply_to_message?.id && (
                         <TextMessage message={message} openChatProfileModal={openChatProfileModal} chat={chat} />
                     )}
+                    {type === 'text-images' && !forwarded_from_message?.id && !reply_to_message?.id && <ImagesMessage message={message} />}
                     {type === 'images' && !forwarded_from_message?.id && !reply_to_message?.id && <ImagesMessage message={message} />}
                     {type === 'documents' && !forwarded_from_message?.id && !reply_to_message?.id && <DocumentsMessage message={message} />}
                     {type === 'voices' && !forwarded_from_message?.id && !reply_to_message?.id && <VoiceMessage message={message} chat={chat} />}

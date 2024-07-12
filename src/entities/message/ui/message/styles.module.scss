@@ -28,7 +28,6 @@
     background-color: var(--bg-secondary);
     border-radius: 12px;
 
-
     .active{
       background: #BDB1D7 !important;
     }
@@ -37,12 +36,14 @@
       background-color: var(--bg-chat-primary);
       border-radius: 12px 12px 0 12px !important;
       overflow: hidden;
+      border: 2px solid var(--bg-chat-primary);
     }
 
     .another{
       border-radius: 12px 12px 12px 0 !important;
       background-color: var(--bg-chat-secondary);
       overflow: hidden;
+      border: 2px solid var(--bg-chat-secondary);
     }
 
     .my_last {
