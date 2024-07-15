@@ -107,9 +107,9 @@ class CompanyApi {
             ['get-departments', data.companyId],
             () =>
                 axiosClient.get(`/api/v2/companies/${data.companyId}/departments/root`, {
-                    // params: {
-                    //     registered: data.registered ? 1 : 0,
-                    // },
+                    params: {
+                        registered: data.registered ? 1 : 0,
+                    },
                 }),
             {
                 enabled: !!data.companyId,

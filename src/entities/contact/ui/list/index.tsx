@@ -6,6 +6,7 @@ import { Box, Icons, Card, Collapse, TabBar, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { CardListItem } from '../../../../shared/ui/card/types';
+import { DepartmentsThreeView } from '../../../company';
 import { EmployeeProxy } from '../../../company/model/types';
 import { ContactProxy, Actions, UseContactsReturnType } from '../../model/types';
 
@@ -63,7 +64,7 @@ function ContactsListView(props: Props) {
                 {isSearching && activeTabIsCompany && <Card.List activeItem={activeUserId} items={updEmployee(tabsAndLists.employees)} />}
                 {!activeTabIsCompany && <Card.List activeItem={activeUserId} items={updContacts(tabsAndLists.contacts)} />}
                 {!isSearching && activeTabIsCompany && (
-                    <List
+                    <DepartmentsThreeView
                         departments={tabsAndLists.departments}
                         tabsAndLists={tabsAndLists}
                         params={params}
@@ -73,52 +74,6 @@ function ContactsListView(props: Props) {
                 )}
             </Box.Animated>
         </Box.Animated>
-    );
-}
-
-function List({ departments = [], tabsAndLists, activeUserId, updEmployee, padding = 12 }: any) {
-    const arr = useArray({ initialArr: [] });
-    return departments.map((dep: any) => {
-        return (
-            <Item key={dep.id} padding={padding} department={dep} tabsAndLists={tabsAndLists} arr={arr} activeUserId={activeUserId} updEmployee={updEmployee} />
-        );
-    });
-}
-
-function Item({ department, tabsAndLists, arr, activeUserId, updEmployee, padding }: any) {
-    const isOpen = useEasyState(false);
-    return (
-        <Collapse
-            headerStyle={{ padding: `0 ${padding}px`, width: `calc(100% - ${padding}px)` }}
-            childStyle={{ padding: `0 ${padding}px`, width: `calc(100% - ${padding}px)` }}
-            openClose={(value) => {
-                if (value) {
-                    // tabsAndLists.getEmployees(department.id);
-                    tabsAndLists.getDepartmentChildrens(department.id);
-                }
-                isOpen.set(value);
-            }}
-            isOpen={arr.findById(department.id)}
-            key={department.id}
-            title={department?.name || ''}
-        >
-            <Card.List
-                style={{ paddingLeft: 0, width: '100%' }}
-                activeItem={activeUserId}
-                visibleLastItem={() => tabsAndLists.getNextPage('employee')}
-                items={updEmployee(tabsAndLists.departmentsEmployees[department.id])}
-            />
-            {department.id in tabsAndLists.departmentChildrens && tabsAndLists.departmentChildrens[department.id].length && (
-                <List
-                    padding={(padding += 4)}
-                    departments={tabsAndLists.departmentChildrens[department.id]}
-                    tabsAndLists={tabsAndLists}
-                    arr={arr}
-                    activeUserId={activeUserId}
-                    updEmployee={updEmployee}
-                />
-            )}
-        </Collapse>
     );
 }
 
