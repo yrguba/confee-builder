@@ -35,7 +35,7 @@ function Collapse(props: CollapseProps) {
             <div className={styles.header} style={headerStyle} onClick={headerClick}>
                 <div className={styles.title} onClick={titleClick}>
                     <div className={styles.caption}>
-                        <Title primary variant="H4S">
+                        <Title textWrap primary variant="H4S">
                             {title}
                         </Title>
                         <Title primary={false} variant="H4M">
