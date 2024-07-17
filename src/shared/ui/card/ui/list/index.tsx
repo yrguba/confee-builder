@@ -33,7 +33,7 @@ function CardList(props: CardListProps) {
     useEffect(() => {
         visibleLastItem && visibleLastItem(inViewLastCard);
     }, [inViewLastCard]);
-    console.log(arr);
+
     return (
         <div className={styles.wrapper}>
             {arr?.map((i, index) => (
