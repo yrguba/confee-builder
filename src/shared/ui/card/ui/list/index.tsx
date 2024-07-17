@@ -33,7 +33,7 @@ function CardList(props: CardListProps) {
     useEffect(() => {
         visibleLastItem && visibleLastItem(inViewLastCard);
     }, [inViewLastCard]);
-
+    console.log(arr);
     return (
         <div className={styles.wrapper}>
             {arr?.map((i, index) => (
@@ -53,12 +53,8 @@ function CardList(props: CardListProps) {
                                     <Icons variant="delete" />
                                 </div>
                             )}
-                            {selected && (
-                                <div
-                                    className={`${styles.selectIndicator} ${
-                                        !!selected?.findById(i.id) || !!i?.disabledSelect ? styles.selectIndicator_selected : ''
-                                    }`}
-                                >
+                            {selected && !i.disabledSelect && (
+                                <div className={`${styles.selectIndicator} ${selected?.findById(i.id) ? styles.selectIndicator_selected : ''}`}>
                                     <Box.Animated visible={!!selected?.findById(i.id) || !!i?.disabledSelect}>
                                         <Icons variant="check-outlined" size={17} />
                                     </Box.Animated>

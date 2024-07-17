@@ -46,6 +46,7 @@ function CreateChatModalView(props: Props) {
 
     const updEmployee = (employees: EmployeeProxy[]): CardListItem[] => {
         return employees?.map((i) => ({
+            disabledSelect: !i.user,
             id: i.id,
             title: i.full_name,
             subtitle: i?.userProxy?.networkStatus || 'Не зарегестрирован',
