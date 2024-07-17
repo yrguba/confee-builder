@@ -131,8 +131,9 @@ function CreateChatModalView(props: Props) {
                         )}
                         {isSearching && activeTabIsCompany && <Card.List selected={selectedUsers} items={updEmployee(tabsAndLists.employees)} />}
                         {!activeTabIsCompany && <Card.List selected={selectedUsers} items={updContacts(tabsAndLists.contacts)} />}
-                        {!isSearching && (
+                        {!isSearching && activeTabIsCompany && (
                             <DepartmentsThreeView
+                                selectedUsers={selectedUsers}
                                 departments={tabsAndLists.departments}
                                 tabsAndLists={tabsAndLists}
                                 params={params}

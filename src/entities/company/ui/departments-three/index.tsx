@@ -4,16 +4,25 @@ import { useArray, useEasyState, useWidthMediaQuery } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Card, Collapse, Icons, Image, Title } from 'shared/ui';
 
-function DepartmentsThreeView({ departments = [], tabsAndLists, activeUserId, updEmployee, padding = 12 }: any) {
+function DepartmentsThreeView({ departments = [], tabsAndLists, activeUserId, updEmployee, padding = 12, selectedUsers }: any) {
     const arr = useArray({ initialArr: [] });
     return departments.map((dep: any) => {
         return (
-            <Item key={dep.id} padding={padding} department={dep} tabsAndLists={tabsAndLists} arr={arr} activeUserId={activeUserId} updEmployee={updEmployee} />
+            <Item
+                selectedUsers={selectedUsers}
+                key={dep.id}
+                padding={padding}
+                department={dep}
+                tabsAndLists={tabsAndLists}
+                arr={arr}
+                activeUserId={activeUserId}
+                updEmployee={updEmployee}
+            />
         );
     });
 }
 
-function Item({ department, tabsAndLists, arr, activeUserId, updEmployee, padding }: any) {
+function Item({ department, tabsAndLists, arr, activeUserId, updEmployee, padding, selectedUsers }: any) {
     const isOpen = useEasyState(false);
     return (
         <Collapse
@@ -31,6 +40,7 @@ function Item({ department, tabsAndLists, arr, activeUserId, updEmployee, paddin
             title={department?.name || ''}
         >
             <Card.List
+                selected={selectedUsers}
                 style={{ paddingLeft: 0, width: '100%' }}
                 activeItem={activeUserId}
                 visibleLastItem={() => tabsAndLists.getNextPage('employee')}
@@ -38,6 +48,7 @@ function Item({ department, tabsAndLists, arr, activeUserId, updEmployee, paddin
             />
             {department.id in tabsAndLists.departmentChildrens && tabsAndLists.departmentChildrens[department.id].length && (
                 <DepartmentsThreeView
+                    selectedUsers={selectedUsers}
                     padding={(padding += 4)}
                     departments={tabsAndLists.departmentChildrens[department.id]}
                     tabsAndLists={tabsAndLists}
