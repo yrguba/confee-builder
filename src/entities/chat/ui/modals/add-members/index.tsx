@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { UseEasyStateReturnType, UseArrayReturnType } from 'shared/hooks';
+import { UseEasyStateReturnType, UseArrayReturnType, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { CardListItem } from '../../../../../shared/ui/card/types';
-import { employeeProxy } from '../../../../company';
+import { DepartmentsThreeView, employeeProxy } from '../../../../company';
 import { EmployeeProxy } from '../../../../company/model/types';
 import contactProxy from '../../../../contact/lib/proxy';
 import { ContactProxy, UseContactsReturnType } from '../../../../contact/model/types';
@@ -21,7 +21,7 @@ type Props = {
 
 function AddMembersInChatModalView(props: Props) {
     const { chat, selectedUsers, add, tabsAndLists, loading } = props;
-
+    const { params, pathname } = useRouter();
     const isSearching = !!tabsAndLists.searchInput.value;
     const activeTabIsCompany = !!tabsAndLists.activeTab?.payload?.companyId;
 
@@ -36,6 +36,7 @@ function AddMembersInChatModalView(props: Props) {
 
     const updEmployee = (employees: EmployeeProxy[]): CardListItem[] => {
         return employees?.map((i) => ({
+            disabledSelect: !i.user,
             id: i.id,
             title: i.full_name,
             subtitle: i?.userProxy?.networkStatus || 'Не зарегестрирован',
@@ -64,18 +65,14 @@ function AddMembersInChatModalView(props: Props) {
                 {!isSearching &&
                     activeTabIsCompany &&
                     tabsAndLists.departments?.map((dep) => (
-                        <Collapse
-                            headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
-                            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
-                            key={dep.id}
-                            title={dep?.name || ''}
-                        >
-                            <Card.List
-                                selected={selectedUsers}
-                                visibleLastItem={() => tabsAndLists.getNextPage('employee')}
-                                items={updEmployee(tabsAndLists.departmentsEmployees[dep.id])}
-                            />
-                        </Collapse>
+                        <DepartmentsThreeView
+                            selectedUsers={selectedUsers}
+                            departments={tabsAndLists.departments}
+                            tabsAndLists={tabsAndLists}
+                            params={params}
+                            activeUserId={null}
+                            updEmployee={updEmployee}
+                        />
                     ))}
             </div>
             <div className={styles.footer}>

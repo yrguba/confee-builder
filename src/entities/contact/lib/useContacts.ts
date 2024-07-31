@@ -6,7 +6,7 @@ import { Input, TabBarTypes } from 'shared/ui';
 
 import { contactApi, contactProxy } from '..';
 import { companyApi } from '../../company';
-import { EmployeeProxy } from '../../company/model/types';
+import { Department, EmployeeProxy } from '../../company/model/types';
 import { viewerApi, viewerStore } from '../../viewer';
 
 type TabPayload = {
@@ -34,10 +34,21 @@ function useContacts(props?: Props) {
 
     const redirect = pathname.split('/')[1] === 'contacts';
 
+    const departmentChildrens = useEasyState<Record<number, Department[]>>({});
     const departmentsEmployees = useEasyState<Record<number, EmployeeProxy[]>>({});
+    const rootDepartments = useEasyState<any>({});
 
     const { data: contactsData } = contactApi.handleGetContacts({ type: 'registered' });
     const { data: departmentsData } = companyApi.handleGetDepartments({ companyId: companyId.value, registered: !!props?.registeredEmployee });
+    const {
+        data: departmentChildrensData,
+        hasNextPage: hasNextPageDepartmentChildrens,
+        fetchNextPage: fetchNextPageDepartmentChildrens,
+    } = companyApi.handleGetDepartmentChildrens({
+        companyId: companyId.value,
+        departmentId: departmentId.value,
+        registered: !!props?.registeredEmployee,
+    });
 
     const {
         data: employeesData,
@@ -108,6 +119,10 @@ function useContacts(props?: Props) {
         depId && departmentId.set(depId);
     };
 
+    const getDepartmentChildrens = (depId: number) => {
+        depId && departmentId.set(depId);
+    };
+
     const getEmployeesFromDepartment = () => {
         const arr: EmployeeProxy[] = [];
         employeesData?.pages.map((page) => {
@@ -130,16 +145,32 @@ function useContacts(props?: Props) {
         }
     }, [employeesData]);
 
+    useEffect(() => {
+        if (departmentId.value) {
+            const emp: any = [];
+            departmentChildrensData?.pages.forEach((p) => {
+                p.data.data.forEach((e: any) => {
+                    emp.push(e);
+                });
+            });
+            if (emp.length) {
+                departmentChildrens.set((prev) => ({ ...prev, [Number(departmentId.value)]: emp }));
+            }
+        }
+    }, [departmentChildrensData]);
+
     return {
         tabs: tabs.value,
         activeTab: activeTab.value,
         employees: searchInput.value ? searchData?.employees?.map((i) => employeeProxy(i)) || [] : getEmployeesFromDepartment() || [],
         contacts: searchInput.value ? searchData?.contacts?.map((i) => contactProxy(i)) || [] : contactsData?.map((i) => contactProxy(i)) || [],
         departmentsEmployees: departmentsEmployees.value,
+        departmentChildrens: departmentChildrens.value,
         getEmployees,
         getNextPage,
         searchInput,
         getDepartments,
+        getDepartmentChildrens,
         departments: departmentsData || [],
         loading: isLoading,
     };

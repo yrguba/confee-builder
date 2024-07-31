@@ -1,11 +1,12 @@
-import React, { forwardRef, memo, useEffect } from 'react';
+import React, { forwardRef, Fragment, memo, useEffect } from 'react';
 
-import { useRouter } from 'shared/hooks';
+import { useArray, useEasyState, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Box, Icons, Card, Collapse, TabBar, Input } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { CardListItem } from '../../../../shared/ui/card/types';
+import { DepartmentsThreeView } from '../../../company';
 import { EmployeeProxy } from '../../../company/model/types';
 import { ContactProxy, Actions, UseContactsReturnType } from '../../model/types';
 
@@ -38,7 +39,8 @@ function ContactsListView(props: Props) {
         return employees?.map((i) => ({
             id: i.id,
             title: i.full_name,
-            subtitle: i?.userProxy?.networkStatus || 'Не зарегестрирован',
+            // subtitle: i?.userProxy?.networkStatus || 'Не зарегестрирован',
+            subtitle: i.position || 'Не зарегестрирован',
             img: i.avatar,
             onClick: () => clickEmployee(i),
         }));
@@ -61,23 +63,15 @@ function ContactsListView(props: Props) {
                 )}
                 {isSearching && activeTabIsCompany && <Card.List activeItem={activeUserId} items={updEmployee(tabsAndLists.employees)} />}
                 {!activeTabIsCompany && <Card.List activeItem={activeUserId} items={updContacts(tabsAndLists.contacts)} />}
-                {!isSearching &&
-                    activeTabIsCompany &&
-                    tabsAndLists.departments?.map((dep) => (
-                        <Collapse
-                            headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
-                            openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
-                            isOpen={dep.id === Number(params.department_id)}
-                            key={dep.id}
-                            title={dep?.name || ''}
-                        >
-                            <Card.List
-                                activeItem={activeUserId}
-                                visibleLastItem={() => tabsAndLists.getNextPage('employee')}
-                                items={updEmployee(tabsAndLists.departmentsEmployees[dep.id])}
-                            />
-                        </Collapse>
-                    ))}
+                {!isSearching && activeTabIsCompany && (
+                    <DepartmentsThreeView
+                        departments={tabsAndLists.departments}
+                        tabsAndLists={tabsAndLists}
+                        params={params}
+                        activeUserId={activeUserId}
+                        updEmployee={updEmployee}
+                    />
+                )}
             </Box.Animated>
         </Box.Animated>
     );

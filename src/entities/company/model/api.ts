@@ -106,7 +106,7 @@ class CompanyApi {
         return useQuery(
             ['get-departments', data.companyId],
             () =>
-                axiosClient.get(`/api/v2/companies/${data.companyId}/departments/without-employees`, {
+                axiosClient.get(`/api/v2/companies/${data.companyId}/departments/root`, {
                     params: {
                         registered: data.registered ? 1 : 0,
                     },
@@ -117,6 +117,44 @@ class CompanyApi {
                 select: (res) => {
                     const updRes = httpHandlers.response<{ data: Department[] }>(res);
                     return updRes.data?.data;
+                },
+            }
+        );
+    }
+
+    handleGetDepartmentChildrens(data: {
+        initialPage?: number | undefined;
+        companyId: number | string | undefined | null;
+        departmentId: number | null;
+        registered: boolean;
+    }) {
+        return useInfiniteQuery(
+            ['get-department-childrens', data.departmentId],
+            ({ pageParam }) => {
+                return axiosClient.get(`/api/v2/companies/${data.companyId}/departments/${data.departmentId}/child`, {
+                    params: {
+                        registered: data.registered ? 1 : 0,
+                        page: pageParam || data.initialPage || 0,
+                        per_page: 20,
+                    },
+                });
+            },
+            {
+                enabled: !!data.departmentId && !!data.companyId,
+                staleTime: Infinity,
+                getPreviousPageParam: (lastPage, pages) => {
+                    const { current_page } = lastPage?.data.meta;
+                    return current_page > 1 ? current_page - 1 : undefined;
+                },
+                getNextPageParam: (lastPage, pages) => {
+                    const { current_page, last_page } = lastPage?.data.meta;
+                    return current_page < last_page ? current_page + 1 : undefined;
+                },
+                select: (data: any) => {
+                    return {
+                        pages: data.pages,
+                        pageParams: [...data.pageParams],
+                    };
                 },
             }
         );

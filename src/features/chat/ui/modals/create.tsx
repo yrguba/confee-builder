@@ -27,7 +27,7 @@ function CreateChatModal(modal: ModalTypes.UseReturnedType) {
 
     const { data: viewerData } = viewerApi.handleGetViewer();
 
-    const tabsAndLists = useContacts({ registeredEmployee: true });
+    const tabsAndLists = useContacts();
 
     const { open: selectFile } = useFileUploader({
         accept: 'image',

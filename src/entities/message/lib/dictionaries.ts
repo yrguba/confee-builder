@@ -6,4 +6,5 @@ export const mediaContent: Record<MediaContentType, string> = {
     audios: 'аудио',
     documents: 'файл',
     voices: 'аудио',
+    'text-images': 'фото',
 };

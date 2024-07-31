@@ -8,7 +8,7 @@ export type Content = {
     url: string;
 };
 
-export type MediaContentType = 'images' | 'videos' | 'audios' | 'documents' | 'voices';
+export type MediaContentType = 'images' | 'videos' | 'audios' | 'documents' | 'voices' | 'text-images';
 
 export type MessageType = 'text' | 'system' | MediaContentType;
 

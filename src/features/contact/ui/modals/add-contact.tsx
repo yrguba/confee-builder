@@ -45,19 +45,21 @@ function AddContactModal(modal: ModalTypes.UseReturnedType) {
         const phoneInput = await phone.asyncValidate();
         const firstNameInput = await firstName.asyncValidate();
         if (!phoneInput.error && !firstNameInput.error) {
-            handleCreateContact(
-                {
-                    first_name: firstNameInput.value,
-                    // last_name: lastName.value,
-                    phone: phoneState.value,
+            const obj = {
+                first_name: firstNameInput.value,
+                last_name: lastName.value,
+                phone: phoneState.value,
+            };
+            if (!lastName.value) {
+                // @ts-ignore
+                delete obj.last_name;
+            }
+            handleCreateContact(obj, {
+                onSuccess: () => {
+                    modal.close();
+                    notification.success({ title: `Контакт ${phoneInput.value} добавлен` });
                 },
-                {
-                    onSuccess: () => {
-                        modal.close();
-                        notification.success({ title: `Контакт ${phoneInput.value} добавлен` });
-                    },
-                }
-            );
+            });
         }
     };
 

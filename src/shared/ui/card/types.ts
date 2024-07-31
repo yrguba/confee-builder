@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
 import { companyTypes } from 'entities/company';
 import { userTypes } from 'entities/user';
@@ -34,4 +34,5 @@ export type CardListProps = {
     visibleLastItem?: (value: boolean) => void;
     activeItem?: number | string | null;
     companyNames?: string[];
+    style?: CSSProperties;
 };

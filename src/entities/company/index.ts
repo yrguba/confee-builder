@@ -6,6 +6,7 @@ import companyStore, { CompanySoreTypes } from './model/store';
 import * as companyTypes from './model/types';
 import BindCompanyView from './ui/bind';
 import CompanyCardView from './ui/card';
+import DepartmentsThreeView from './ui/departments-three';
 import EmployeeProfileModalView from './ui/employee/modals/profile';
 import EmployeeProfileView from './ui/employee/profile';
 import EmployeeStatusView from './ui/employee/status';
@@ -27,4 +28,5 @@ export {
     CompanyTagView,
     EmployeeProfileModalView,
     ConfirmDeleteCorpAccModalView,
+    DepartmentsThreeView,
 };

@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { UseEasyStateReturnType, UseArrayReturnType, useEasyState } from 'shared/hooks';
+import { UseEasyStateReturnType, UseArrayReturnType, useEasyState, useRouter } from 'shared/hooks';
 import { BaseTypes } from 'shared/types';
 import { Button, Icons, Input, Title, TabBar, Card, CardTypes, Collapse, Avatar, AvatarTypes, Box, InputTypes } from 'shared/ui';
 
 import styles from './styles.module.scss';
 import { getEnding } from '../../../../../shared/lib';
 import { CardListItem } from '../../../../../shared/ui/card/types';
+import { DepartmentsThreeView } from '../../../../company';
 import { EmployeeProxy } from '../../../../company/model/types';
 import { ContactProxy, UseContactsReturnType } from '../../../../contact/model/types';
 
@@ -25,7 +26,7 @@ function CreateChatModalView(props: Props) {
     const { selectedUsers, chatDescription, avatar, chatName, avatarActions, isGroup, createChat, tabsAndLists, loading } = props;
 
     const finalStep = useEasyState(false);
-
+    const { params, pathname } = useRouter();
     const toggle = () => {
         isGroup.toggle();
         selectedUsers.clear();
@@ -45,6 +46,7 @@ function CreateChatModalView(props: Props) {
 
     const updEmployee = (employees: EmployeeProxy[]): CardListItem[] => {
         return employees?.map((i) => ({
+            disabledSelect: !i.user,
             id: i.id,
             title: i.full_name,
             subtitle: i?.userProxy?.networkStatus || 'Не зарегестрирован',
@@ -130,24 +132,16 @@ function CreateChatModalView(props: Props) {
                         )}
                         {isSearching && activeTabIsCompany && <Card.List selected={selectedUsers} items={updEmployee(tabsAndLists.employees)} />}
                         {!activeTabIsCompany && <Card.List selected={selectedUsers} items={updContacts(tabsAndLists.contacts)} />}
-                        {!isSearching &&
-                            activeTabIsCompany &&
-                            tabsAndLists.departments?.map((dep) => (
-                                <Collapse
-                                    headerStyle={{ padding: '0 12px', width: 'calc(100% - 24px)' }}
-                                    openClose={(value) => value && tabsAndLists.getEmployees(dep.id)}
-                                    key={dep.id}
-                                    title={dep?.name || ''}
-                                    // subtitle={getEnding()}
-                                >
-                                    <Card.List
-                                        companyNames={[tabsAndLists.activeTab?.title || '']}
-                                        selected={selectedUsers}
-                                        visibleLastItem={() => tabsAndLists.getNextPage('employee')}
-                                        items={updEmployee(tabsAndLists.departmentsEmployees[dep.id])}
-                                    />
-                                </Collapse>
-                            ))}
+                        {!isSearching && activeTabIsCompany && (
+                            <DepartmentsThreeView
+                                selectedUsers={selectedUsers}
+                                departments={tabsAndLists.departments}
+                                tabsAndLists={tabsAndLists}
+                                params={params}
+                                activeUserId={null}
+                                updEmployee={updEmployee}
+                            />
+                        )}
                     </>
                 )}
             </div>
