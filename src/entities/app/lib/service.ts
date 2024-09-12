@@ -15,10 +15,10 @@ class AppService {
     getUrls(): { clientBaseURL: string; clientFullURL: string; socketUrl: string; backBaseURL: string; localSocketUrl: string } {
         const backDev = 'https://api-develop.confee.ru';
         // const backDev = 'https://api.confee.ru';
-        const backProd = 'https://api.confee.ru';
+        const backProd = 'https://api-develop.confee.ru';
         const socketDev = 'wss://ws-develop.confee.ru/ws';
         // const socketDev = 'wss://ws.confee.ru/ws';
-        const socketProd = 'wss://ws.confee.ru/ws';
+        const socketProd = 'wss://ws-develop.confee.ru/ws';
         return {
             clientBaseURL: window.location.origin,
             clientFullURL: window.location.href,
