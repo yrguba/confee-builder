@@ -10,6 +10,10 @@ import { messageProxy } from '../index';
 import { File, Message, MessageProxy, MessageType } from '../model/types';
 
 class MessageService {
+    lastMessageBody = '';
+
+    lastMessageTitle = '';
+
     getUpdatedList(messageData: any) {
         const uniq = getUniqueArr(messageData?.pages?.reduce((messages: any, page: any) => [...messages, ...[...page.data.data]], []) || [], 'id');
         return uniq.map((message: any, index: number) => {
@@ -32,6 +36,14 @@ class MessageService {
         const { enableCompanyNotifications } = appStore.getState();
         if (enableNotifications.value) {
             if (isCompany && !enableCompanyNotifications.value) return;
+
+            if (this.lastMessageBody === JSON.stringify(body) && this.lastMessageTitle === title) {
+                return;
+            }
+
+            this.lastMessageBody = JSON.stringify(body);
+            this.lastMessageTitle = JSON.stringify(title);
+
             return sendNotification({ title, body });
         }
     }
