@@ -169,7 +169,7 @@
       }
     ],
     "updater": {
-      "active": true,
+      "active": false,
       "endpoints": [
         "https://dev.chat.softworks.ru/api/v1/files/get_latest_desktop_release_from_github/{{target}}/v{{current_version}}",
         "https://prod.api.confee.ru/api/v2/release/{{target}}/v{{current_version}}",
