@@ -1,6 +1,6 @@
 {
     "name": "confee",
-    "version": "0.0.150",
+    "version": "0.0.160",
     "private": true,
     "browserslist": {
         "production": [
@@ -17,7 +17,7 @@
     "scripts": {
         "start": "react-scripts start",
         "tauri:start": "npm run tauri dev",
-        "build": "cross-env CI=false react-scripts build --stats",
+        "build": "npm cache clean --force && cross-env CI=false DISABLE_ESLINT_PLUGIN=true react-scripts build --stats",
         "tauri:local-build": "npm run tauri build",
         "tauri:local-build-debbuger": "cross-env REACT_APP_DEBUG=true npm run tauri build -- --debug",
         "tauri": "tauri",
@@ -66,7 +66,7 @@
         "react-router": "^6.8.1",
         "react-router-dom": "^6.8.1",
         "react-screen-hooks": "^0.0.5",
-        "react-scripts": "5.0.1",
+        "react-scripts": "^5.0.1",
         "react-switch": "^7.0.0",
         "react-use": "^17.4.0",
         "react-use-audio-player": "^2.2.0",
@@ -97,11 +97,11 @@
         "@types/react-router-dom": "^5.3.3",
         "@types/react-speech-recognition": "^3.9.2",
         "@types/wavesurfer.js": "^6.0.5",
-        "@typescript-eslint/eslint-plugin": "^5.42.1",
-        "@typescript-eslint/parser": "^5.42.1",
+        "@typescript-eslint/eslint-plugin": "^8.14.0",
+        "@typescript-eslint/parser": "^8.14.0",
         "eslint": "^8.27.0",
         "eslint-config-airbnb": "^19.0.4",
-        "eslint-config-airbnb-typescript": "^17.0.0",
+        "eslint-config-airbnb-typescript": "^18.0.0",
         "eslint-config-import-sort": "^1.0.1",
         "eslint-config-prettier": "^8.5.0",
         "eslint-import-resolver-typescript": "^3.5.3",
@@ -111,7 +111,7 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-simple-import-sort": "^10.0.0",
         "prettier": "^2.7.1",
-        "typescript": "^4.9.5",
+        "typescript": "^5.6.3",
         "webpack-bundle-analyzer": "^4.9.0"
     }
 }

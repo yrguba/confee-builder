@@ -20,6 +20,7 @@ const chatStore = useZustand<Store, Methods>({
     methods: {
         visibleChatGpt: (use) => ({
             toggle: (value) => {
+                // @ts-ignore
                 const { updater } = use();
                 updater({ visibleChatGpt: value });
             },

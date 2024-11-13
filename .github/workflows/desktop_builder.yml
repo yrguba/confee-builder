@@ -47,7 +47,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y
 
       - name: Install app dependencies from lockfile and build web
-        run: npm install --frozen-lockfile && npm run build
+        run: npm install --force --frozen-lockfile && npm run build
 
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
