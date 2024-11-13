@@ -60,27 +60,31 @@ const messageStore = useZustand<Store, Methods>({
     methods: {
         highlightedMessages: (use) => ({
             pushOrDelete: (message) => {
+                // @ts-ignore
                 const { state, updater } = use();
-                if (!state.highlightedMessages.value.find((i) => i.id === message.id)) {
+                if (!state.highlightedMessages.value.find((i: any) => i.id === message.id)) {
                     updater({ highlightedMessages: [...state.highlightedMessages.value, message] });
                 } else {
-                    updater({ highlightedMessages: state.highlightedMessages.value.filter((i) => i.id !== message.id) });
+                    updater({ highlightedMessages: state.highlightedMessages.value.filter((i: any) => i.id !== message.id) });
                 }
             },
         }),
         filesToSend: (use) => ({
             deleteById: ({ type, id }) => {
+                // @ts-ignore
                 const { state, updater } = use();
-                const upd = state.filesToSend.value[type].filter((i) => i.id !== id);
+                const upd = state.filesToSend.value[type].filter((i: any) => i.id !== id);
                 updater({ filesToSend: { ...state.filesToSend.value, [type]: upd } });
             },
             add: ({ type, files }) => {
+                // @ts-ignore
                 const { state, updater } = use();
                 updater({ filesToSend: { ...state.filesToSend.value, [type]: [...files, ...state.filesToSend.value[type]] } });
             },
             replaceById: ({ type, id, file, url }) => {
+                // @ts-ignore
                 const { state, updater } = use();
-                const upd = state.filesToSend.value[type].map((i) => {
+                const upd = state.filesToSend.value[type].map((i: any) => {
                     if (i.id === id) return { ...i, file, fileUrl: url };
                     return i;
                 });

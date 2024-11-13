@@ -17,7 +17,7 @@
     "scripts": {
         "start": "react-scripts start",
         "tauri:start": "npm run tauri dev",
-        "build": "cross-env CI=false react-scripts build --stats",
+        "build": "cross-env CI=false DISABLE_ESLINT_PLUGIN=true react-scripts build --stats",
         "tauri:local-build": "npm run tauri build",
         "tauri:local-build-debbuger": "cross-env REACT_APP_DEBUG=true npm run tauri build -- --debug",
         "tauri": "tauri",
