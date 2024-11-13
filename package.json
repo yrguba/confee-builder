@@ -1,6 +1,6 @@
 {
     "name": "confee",
-    "version": "0.0.158",
+    "version": "0.0.159",
     "private": true,
     "browserslist": {
         "production": [
